@@ -13,6 +13,7 @@ from typing import Any
 
 import pandas as pd
 
+from law_side.rulebase_logic_ir import build_logic_ir_record
 from law_side.rulebase_vocab_index import NormalizedVocab, VocabIndex, normalize_row_with_vocab
 
 # All columns expected in rulebase_seed (ground truth for export shape).
@@ -497,154 +498,6 @@ def build_rich_jsonl_object(row: pd.Series, norm: NormalizedVocab) -> dict[str, 
     }
 
 
-def row_to_logic_record_with_vocab(row: pd.Series, norm: NormalizedVocab) -> dict[str, Any]:
-    """Logic IR ưu tiên canonical; body có applies_to / applies_if / unless / raw_*."""
-    rule_id = _cell(row.get("rule_id")) or "UNKNOWN"
-    rule_type = _cell(row.get("rule_type")) or "unknown"
-    logic_form = RULE_TYPE_TO_LOGIC_FORM.get(str(rule_type), "generic_rule")
-
-    chu_raw = _cell(row.get("chu_the"))
-    hanh_raw = _cell(row.get("hanh_vi_phap_ly")) or _cell(row.get("canonical_predicate"))
-    doi_raw = _cell(row.get("doi_tuong_hanh_vi"))
-    dieu_kien = _cell(row.get("dieu_kien_ap_dung"))
-    bieu_thuc_dk = _cell(row.get("bieu_thuc_dieu_kien"))
-    he_qua = _cell(row.get("he_qua_phap_ly"))
-    ngoai_le = _cell(row.get("ngoai_le"))
-    pham_vi = _cell(row.get("pham_vi_ap_dung"))
-
-    subj = norm.subject_canonical or chu_raw
-    pred_c = norm.predicate_canonical or hanh_raw
-    obj_c = norm.object_canonical or doi_raw
-    eff_c = norm.effect_canonical or he_qua
-    auth_c = norm.authority_canonical or _cell(row.get("co_quan_xu_ly")) or _cell(
-        row.get("co_quan_tiep_nhan")
-    )
-    scope_c = norm.scope_canonical or pham_vi
-
-    head: dict[str, Any]
-    body: list[Any] = []
-
-    if norm.scope_canonical:
-        body.append(_term("applies_to", [norm.scope_canonical]))
-    elif pham_vi:
-        body.append(_term("raw_scope", [pham_vi]))
-    if dieu_kien:
-        if norm.normalization_status == "full":
-            body.append(_term("applies_if", [dieu_kien]))
-        else:
-            body.append(_term("raw_condition", [dieu_kien]))
-    if ngoai_le and logic_form != "exception":
-        body.append(_term("unless", [ngoai_le]))
-    if bieu_thuc_dk:
-        body.append(_raw_clause("expression_condition", bieu_thuc_dk))
-
-    if logic_form == "obligation":
-        head = _term("obligation", [subj, pred_c, obj_c])
-    elif logic_form == "permission":
-        head = _term("permission", [subj, pred_c, obj_c])
-    elif logic_form == "prohibition":
-        head = _term("prohibition", [subj, pred_c, obj_c])
-    elif logic_form == "deadline":
-        head = _term(
-            "deadline",
-            [
-                pred_c or "_event",
-                _numish(row.get("thoi_han_so")),
-                norm.unit_canonical or _cell(row.get("don_vi_thoi_han")),
-                _cell(row.get("moc_tinh_thoi_han")),
-            ],
-        )
-    elif logic_form == "dossier":
-        items = _split_dossier_items(_cell(row.get("thanh_phan_ho_so")))
-        head = _term("dossier", [pred_c or rule_id, items])
-    elif logic_form == "authority_action":
-        head = _term("authority_action", [auth_c, pred_c, obj_c])
-    elif logic_form == "exception":
-        head = _term(
-            "exception",
-            [pred_c or rule_id, ngoai_le or "_exception_content"],
-        )
-    elif logic_form == "threshold":
-        gt = _numish(row.get("gia_tri_tu"))
-        gd = _numish(row.get("gia_tri_den"))
-        kk = _cell(row.get("kieu_khoang"))
-        mc = norm.metric_canonical or _cell(row.get("ten_chi_so"))
-        uu = norm.unit_canonical or _cell(row.get("don_vi_nguong"))
-        if gt is not None and gd is not None:
-            head = _term("threshold_range", [mc, gt, gd, uu, kk or "unspecified"])
-        else:
-            head = _term(
-                "threshold",
-                [mc, _cell(row.get("toan_tu_so_sanh")) or "_op", _numish(row.get("gia_tri_nguong")), uu],
-            )
-    elif logic_form == "legal_effect":
-        ent = subj or auth_c or "_entity"
-        head = _term("legal_effect", [ent, eff_c])
-    elif logic_form == "applicability_condition":
-        head = _term(
-            "applicability_condition",
-            [norm.predicate_canonical or norm.scope_canonical or dieu_kien or "_condition", dieu_kien or bieu_thuc_dk],
-        )
-    elif logic_form == "procedure_step":
-        head = _term("procedure_step", [pred_c, doi_raw])
-    else:
-        head = _term("generic_rule", [rule_type, rule_id])
-
-    auxiliary: list[dict[str, Any]] = list()
-    # Giữ auxiliary từ phiên bản gốc (deadline phụ, dossier phụ, …)
-    legacy = row_to_logic_record(row)
-    auxiliary = legacy["auxiliary_clauses"]
-
-    metadata = {
-        "tinh_chat_phap_ly": _cell(row.get("tinh_chat_phap_ly")),
-        "canonical_predicate": _cell(row.get("canonical_predicate")),
-        "typed_predicate": _cell(row.get("typed_predicate")),
-        "predicate_family": _cell(row.get("predicate_family")),
-        "normalized": {
-            "predicate_canonical": norm.predicate_canonical,
-            "object_canonical": norm.object_canonical,
-            "effect_canonical": norm.effect_canonical,
-            "subject_canonical": norm.subject_canonical,
-            "authority_canonical": norm.authority_canonical,
-            "scope_canonical": norm.scope_canonical,
-            "metric_canonical": norm.metric_canonical,
-            "unit_canonical": norm.unit_canonical,
-        },
-        "normalization_status": norm.normalization_status,
-        "normalization_notes": norm.normalization_notes,
-        "extraction_pattern": _cell(row.get("extraction_pattern")),
-        "provenance": {
-            "doc_id": _cell(row.get("doc_id")),
-            "doc_code": _cell(row.get("doc_code")),
-            "source_ref": _cell(row.get("source_ref")),
-            "source_ref_full": _cell(row.get("source_ref_full")),
-            "source_text": _cell(row.get("source_text")),
-        },
-        "review": {
-            "do_tin_cay_trich_xuat": _cell(row.get("do_tin_cay_trich_xuat")),
-            "can_ra_soat": _cell(row.get("can_ra_soat")),
-            "muc_do_day_du": _cell(row.get("muc_do_day_du")),
-        },
-        "raw_fields_preserved": {
-            "dieu_kien_ap_dung": dieu_kien,
-            "ngoai_le": ngoai_le,
-            "bieu_thuc_thoi_han": _cell(row.get("bieu_thuc_thoi_han")),
-            "phuong_thuc_thuc_hien": _cell(row.get("phuong_thuc_thuc_hien")),
-        },
-    }
-
-    return {
-        "rule_id": rule_id,
-        "rule_group_id": _cell(row.get("rule_group_id")),
-        "rule_type": rule_type,
-        "logic_form": logic_form,
-        "head": head,
-        "body": body,
-        "auxiliary_clauses": auxiliary,
-        "metadata": metadata,
-    }
-
-
 _PROBLOG_SAFE = re.compile(r"^[a-z][a-z0-9_]*$")
 
 
@@ -664,7 +517,7 @@ def _pl_atom(v: Any) -> str:
 
 def row_to_problog_clause(row: pd.Series, norm: NormalizedVocab) -> str:
     """Một rule ProbLog: comment + clause hoặc fact."""
-    logic = row_to_logic_record_with_vocab(row, norm)
+    logic = build_logic_ir_record(row, norm)
     rule_id = _cell(row.get("rule_id")) or "UNKNOWN"
     lines: list[str] = [
         f"% rule_id: {rule_id}",
@@ -759,15 +612,13 @@ def export_rulebase_formats(
                 if norm.object_canonical:
                     stats["object_mapped"] += 1
                 obj = build_rich_jsonl_object(row, norm)
-                lr = row_to_logic_record_with_vocab(row, norm)
+                lr = build_logic_ir_record(row, norm)
                 if out_problog:
                     prob_lines.append(row_to_problog_clause(row, norm))
             else:
                 norm = NormalizedVocab(normalization_status="unmapped", normalization_notes=["no_vocabulary_file"])
                 obj = build_rich_jsonl_object(row, norm)
-                lr = row_to_logic_record(row)
-                lr["metadata"]["normalization_status"] = "unmapped"
-                lr["metadata"]["normalization_notes"] = ["no_vocabulary_file"]
+                lr = build_logic_ir_record(row, norm)
                 if out_problog:
                     prob_lines.append(row_to_problog_clause(row, norm))
 
@@ -803,7 +654,8 @@ def export_rulebase_formats(
             out_problog.write_text(header + "\n".join(prob_lines), encoding="utf-8")
 
     payload = {
-        "version": 2,
+        "version": 3,
+        "logic_ir_schema": "rulebase_logic_ir_v1",
         "source_file": str(xlsx_path.as_posix()),
         "vocabulary_file": str(Path(vpath).as_posix()) if vpath and Path(vpath).exists() else None,
         "rule_count": n,
@@ -824,7 +676,7 @@ __all__ = [
     "row_to_jsonl_object",
     "row_to_logic_record",
     "build_rich_jsonl_object",
-    "row_to_logic_record_with_vocab",
     "row_to_problog_clause",
     "export_rulebase_formats",
+    "build_logic_ir_record",
 ]

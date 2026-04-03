@@ -41,8 +41,8 @@ def main() -> None:
     p.add_argument(
         "--problog",
         type=Path,
-        default=root / "data" / "processed" / "rulebase" / "rulebase.problog",
-        help="Output ProbLog-style text",
+        default=None,
+        help="Optional ProbLog-style text (omit this step to only refresh JSONL + logic JSON)",
     )
     args = p.parse_args()
 
@@ -50,12 +50,15 @@ def main() -> None:
     out_j = args.jsonl if args.jsonl.is_absolute() else root / args.jsonl
     out_l = args.logic if args.logic.is_absolute() else root / args.logic
     vocab = args.vocab if args.vocab.is_absolute() else root / args.vocab
-    out_p = args.problog if args.problog.is_absolute() else root / args.problog
+    out_p = None
+    if args.problog is not None:
+        out_p = args.problog if args.problog.is_absolute() else root / args.problog
 
     n, m, stats = export_rulebase_formats(inp, out_j, out_l, vocab_path=vocab, out_problog=out_p)
     print(f"Wrote {n} lines -> {out_j}")
     print(f"Wrote {m} logic records -> {out_l}")
-    print(f"Wrote ProbLog -> {out_p}")
+    if out_p:
+        print(f"Wrote ProbLog -> {out_p}")
     print(
         "Stats:",
         f"predicate_mapped={stats.get('predicate_mapped')}",

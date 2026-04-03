@@ -3,7 +3,7 @@
 ## Mục đích
 
 - **`rulebase.jsonl`**: một dòng = một rule, cấu trúc phân khối (identity, provenance, classification, …), giữ **toàn bộ** cột Excel (ô trống → `null`) để retrieval, audit, sinh câu trả lời, ontology.
-- **`rulebase_logic.json`**: mảng các biểu diễn **có cấu trúc** (`head` / `body` / `auxiliary_clauses` / `metadata`) phục vụ suy luận symbolic, chuyển tiếp ProbLog/Datalog/engine tùy chỉnh, **không** cắt bỏ nội dung pháp lý: phần chưa atom hóa được nằm trong `metadata.raw_fields_preserved` và `body` dạng `raw_text`.
+- **`rulebase_logic.json`**: IR logic (phiên bản `version` ≥ 3, `logic_ir_schema`) với `rule_type_source`, `logic_form`, `logic_readiness`, `head`/`body`/`auxiliary_clauses`/`metadata`. `body` dùng các predicate có tên rõ (`applies_if`, `raw_condition`, `unless`, `raw_scope`, …), không còn bọc `raw_text` tự do; slug điều kiện biểu thức nằm ở `metadata.expression_condition_slug` khi cần.
 
 ## Cách sinh
 
@@ -18,7 +18,7 @@ Mặc định:
 - Đầu vào: `data/processed/rulebase/rulebase_seed.xlsx`
 - Đầu ra: `data/processed/rulebase/rulebase.jsonl`, `data/processed/rulebase/rulebase_logic.json`
 
-Script **không** sửa file Excel.
+Script **không** sửa file Excel. Đọc thêm `controlled_vocabulary.xlsx` để join canonical. ProbLog (`rulebase.problog`) là **tùy chọn**: truyền `--problog <path>` nếu cần; mặc định chỉ làm mới JSONL + logic JSON.
 
 ---
 
