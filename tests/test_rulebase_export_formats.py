@@ -22,7 +22,7 @@ def test_export_produces_matching_counts() -> None:
     out_j = REPO / "data/processed/rulebase/_test_rulebase.jsonl"
     out_l = REPO / "data/processed/rulebase/_test_rulebase_logic.json"
     try:
-        n, m = export_rulebase_formats(xlsx, out_j, out_l)
+        n, m, _stats = export_rulebase_formats(xlsx, out_j, out_l)
         df = pd.read_excel(xlsx)
         assert n == len(df) == m
         lines = out_j.read_text(encoding="utf-8").strip().splitlines()
@@ -42,3 +42,14 @@ def test_row_to_jsonl_has_all_blocks() -> None:
     row["rule_id"] = "R1"
     obj = row_to_jsonl_object(row)
     assert set(obj.keys()) == set(JSONL_BLOCKS.keys())
+
+
+def test_rich_jsonl_has_normalized_vocab_block() -> None:
+    from law_side.rulebase_export_formats import build_rich_jsonl_object
+    from law_side.rulebase_vocab_index import NormalizedVocab
+
+    row = pd.Series({"rule_id": "R1", "chu_the": "công ty"})
+    norm = NormalizedVocab(predicate_canonical="test_pred", normalization_status="full")
+    obj = build_rich_jsonl_object(row, norm)
+    assert "normalized_vocab" in obj
+    assert obj["normalized_vocab"]["predicate_canonical"] == "test_pred"

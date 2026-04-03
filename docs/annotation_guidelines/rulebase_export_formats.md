@@ -63,7 +63,7 @@ File bọc ngoài gồm `version`, `source_file`, `rule_count`, `rule_type_to_lo
 | `quy_tac_thoi_han` | `deadline` |
 | `quy_tac_ho_so` | `dossier` |
 | `quy_tac_hanh_dong_co_quan` | `authority_action` |
-| `quy_tac_ngoai_le` | `exception_rule` |
+| `quy_tac_ngoai_le` | `exception` |
 | `quy_tac_nguong_dinh_luong` | `threshold` |
 | `quy_tac_ket_qua_phap_ly` | `legal_effect` |
 | `quy_tac_dieu_kien` | `applicability_condition` |

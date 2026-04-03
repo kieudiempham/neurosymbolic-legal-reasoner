@@ -22,9 +22,12 @@ Sinh bằng:
 
 ```text
 python scripts/build_controlled_vocabulary.py
+python scripts/refine_controlled_vocabulary.py
 ```
 
-Tùy chọn: `--no-lexicon` để không gộp thêm hàng từ `predicate_lexicon.xlsx`.
+Bước `refine_controlled_vocabulary.py` ghi đè cùng file: tách điều kiện/ngoại lệ khỏi `effect_canonical`, lọc object “cue”, chuyển hành vi sang `predicate_vocabulary`, bổ sung metric/entity, thêm sheet `modifier_fragments`.
+
+Tùy chọn build: `--no-lexicon` để không gộp thêm hàng từ `predicate_lexicon.xlsx`.
 
 ---
 

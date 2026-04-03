@@ -17,6 +17,34 @@ import pandas as pd
 from law_side.controlled_vocabulary_builder import to_snake_id
 
 
+def refined_object_family(canon: str) -> str:
+    """Nhóm object cốt lõi cho normalization (không gộp điều kiện)."""
+    o = canon.lower()
+    if "tinh_trang_phap_ly" in o:
+        return "tinh_trang_phap_ly"
+    if "noi_dung_dang_ky" in o:
+        return "noi_dung_dang_ky"
+    if "danh_sach" in o or "so_dang_ky" in o:
+        return "danh_sach"
+    if any(x in o for x in ("giay_chung_nhan", "gcn")):
+        return "giay_chung_nhan"
+    if any(x in o for x in ("von", "gop", "phan_von")):
+        return "von"
+    if any(x in o for x in ("co_phan", "co_dong")):
+        return "co_phan"
+    if any(x in o for x in ("thanh_vien", "hop_danh")):
+        return "thanh_vien"
+    if any(x in o for x in ("ho_so", "tai_lieu", "ban", "mau", "bieu")):
+        return "ho_so"
+    if "thong_tin" in o:
+        return "thong_tin"
+    if any(x in o for x in ("hop_dong", "giao_dich")):
+        return "giao_dich"
+    if "nghia_vu" in o or "tai_san" in o:
+        return "nghia_vu_tai_san"
+    return "khac"
+
+
 def _cell(v: Any) -> str | None:
     if v is None or (isinstance(v, float) and pd.isna(v)):
         return None
@@ -25,10 +53,12 @@ def _cell(v: Any) -> str | None:
 
 
 # --- Tách phần điều kiện / ngoại lệ khỏi effect_canonical (slug) ---
+# Thứ tự: marker dài/khớp `_tru_truong_hop` trước; `tru_truong_hop` bắt cả chap_thuan_tru_truong_hop...
 _EFFECT_TRUNC_MARKERS: tuple[tuple[str, str], ...] = (
     ("_tru_truong_hop", "exception"),
     ("_ngoai_tru_", "exception"),
     ("_neu_", "condition"),
+    ("_neu_co_", "condition"),
     ("_khi_", "condition"),
     ("_doi_voi_", "scope"),
     ("_trong_thoi_han_", "condition"),
@@ -42,32 +72,37 @@ _EFFECT_TRUNC_MARKERS: tuple[tuple[str, str], ...] = (
 def split_effect_exception_condition(effect_canonical: str) -> tuple[str, list[tuple[str, str]]]:
     """
     Trả về (base_canonical, [(kind, tail_snippet), ...]).
-    tail_snippet là phần slug sau marker (để notes / sheet phụ).
+    `tru_truong_hop` không dùng nếu đã có `_tru_truong_hop` (tránh cắt sai trong `_tru_truong_hop`).
     """
     s = effect_canonical.strip()
-    fragments: list[tuple[str, str]] = []
     best_idx: int | None = None
     best_marker: str | None = None
     best_kind: str = "mixed"
 
+    def consider(marker: str, kind: str) -> None:
+        nonlocal best_idx, best_marker, best_kind
+        if marker not in s:
+            return
+        idx = s.index(marker)
+        base = s[:idx].rstrip("_")
+        if len(base) < 8:
+            return
+        if best_idx is None or idx < best_idx:
+            best_idx = idx
+            best_marker = marker
+            best_kind = kind
+
     for marker, kind in _EFFECT_TRUNC_MARKERS:
-        if marker in s:
-            idx = s.index(marker)
-            if idx >= 20 and (best_idx is None or idx < best_idx):
-                best_idx = idx
-                best_marker = marker
-                best_kind = kind
+        consider(marker, kind)
+    if "_tru_truong_hop" not in s and "tru_truong_hop" in s:
+        consider("tru_truong_hop", "exception")
 
     if best_idx is None or best_marker is None:
         return s, []
 
     base = s[:best_idx].rstrip("_")
     tail = s[best_idx:].lstrip("_")
-    if len(base) < 10:
-        return s, []
-
-    fragments.append((best_kind, tail))
-    return base, fragments
+    return base, [(best_kind, tail)]
 
 
 def refined_effect_family(canon: str) -> str:
@@ -122,9 +157,17 @@ def is_action_obligation_effect_slug(canon: str) -> bool:
         )
     ):
         return True
+    if canon.startswith("chap_thuan_thi_co_quan"):
+        return True
+    if "phai_thuc_hien" in c and len(canon) > 55:
+        return True
+    if "cho_co_quan_thue" in c or "cho_co_quan" in c and "va_ra_thong_bao" in c:
+        return True
     if canon.startswith("co_quan_") and len(canon) > 95:
         return True
     if "cap_nhat_kip_thoi" in c or "theo_yeu_cau_cua" in c:
+        return True
+    if "va_phai_nop_phi" in c or "phai_nop_phi" in c:
         return True
     return False
 
@@ -289,9 +332,26 @@ def refine_controlled_vocabulary_workbook(
     new_eff_rows: list[dict[str, Any]] = []
     for _, r in eff.iterrows():
         canon = str(r["effect_canonical"]).strip()
-        base, frags = split_effect_exception_condition(canon)
         raw_bieu = str(r.get("bieu_hien_goc_thuong_gap", ""))
         rid = str(r.get("vi_du_rule_id", ""))
+
+        if is_action_obligation_effect_slug(canon):
+            predicates_extra.append(
+                {
+                    "predicate_family": "hanh_vi",
+                    "predicate_canonical": canon,
+                    "predicate_typed": f"chuyen_tu_effect:{canon}",
+                    "mo_ta_ngan": f"Diễn đạt hành vi/thủ tục (đưa khỏi effect). `{canon}`."[:220],
+                    "khi_nao_dung": "mapping_hanh_vi_khong_phai_ket_qua",
+                    "vi_du_rule_id": rid,
+                    "can_ra_soat": "co",
+                    "do_tin_cay": "trung_binh",
+                    "notes": "chuyen_action_ra_khoi_effect",
+                }
+            )
+            continue
+
+        base, frags = split_effect_exception_condition(canon)
 
         for kind, tail in frags:
             fragments_rows.append(
@@ -307,22 +367,6 @@ def refine_controlled_vocabulary_workbook(
             )
 
         target = base if frags else canon
-
-        if is_action_obligation_effect_slug(target):
-            predicates_extra.append(
-                {
-                    "predicate_family": "hanh_vi",
-                    "predicate_canonical": target,
-                    "predicate_typed": f"chuyen_tu_effect:{target}",
-                    "mo_ta_ngan": f"Diễn đạt hành vi/thủ tục (đưa khỏi effect). Gốc: `{canon}`."[:220],
-                    "khi_nao_dung": "mapping_hanh_vi_khong_phai_ket_qua",
-                    "vi_du_rule_id": rid,
-                    "can_ra_soat": "co",
-                    "do_tin_cay": "trung_binh",
-                    "notes": "chuyen_action_ra_khoi_effect",
-                }
-            )
-            continue
 
         if frags:
             notes = "tach_exception_khoi_effect" if any(f[0] == "exception" for f in frags) else "tach_condition_khoi_effect"
@@ -365,6 +409,7 @@ def refine_controlled_vocabulary_workbook(
             continue
         row = r.to_dict()
         row["notes"] = str(row.get("notes", "") or "")
+        row["object_family"] = refined_object_family(cn)
         obj_kept.append(row)
     obj2 = pd.DataFrame(obj_kept)
 
