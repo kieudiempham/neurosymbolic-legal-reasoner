@@ -63,7 +63,7 @@ def split_effect_exception_condition(effect_canonical: str) -> tuple[str, list[t
 
     base = s[:best_idx].rstrip("_")
     tail = s[best_idx:].lstrip("_")
-    if len(base) < 12:
+    if len(base) < 10:
         return s, []
 
     fragments.append((best_kind, tail))
