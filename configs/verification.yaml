@@ -1,0 +1,6 @@
+# Verification stack (symbolic, NLI, module-specific)
+symbolic:
+  strict: true
+nli:
+  model_name: "placeholder"
+  batch_size: 8

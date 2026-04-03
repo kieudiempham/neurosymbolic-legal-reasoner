@@ -1,0 +1,5 @@
+# Forward chaining and proof construction
+forward:
+  max_iterations: 100
+proof:
+  include_trace: true

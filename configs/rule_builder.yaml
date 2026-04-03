@@ -1,0 +1,9 @@
+# Law-side rule construction
+preprocess:
+  encoding: "utf-8"
+segmentation:
+  min_unit_chars: 20
+normative_detection:
+  threshold: 0.5
+rule_building:
+  validate: true

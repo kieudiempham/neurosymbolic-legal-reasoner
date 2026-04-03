@@ -1,0 +1,12 @@
+name: "end2end_paper_run"
+seed: 42
+pipeline_order:
+  - question
+  - law
+  - retrieval
+  - reasoning
+  - verification
+  - generation
+outputs:
+  predictions: "experiments/predictions"
+  logs: "experiments/logs"

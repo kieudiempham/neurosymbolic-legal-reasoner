@@ -1,0 +1,7 @@
+# Retrieval and ranking
+rule_retrieval:
+  top_k: 20
+evidence_retrieval:
+  top_k: 10
+metadata_filter:
+  enabled: false

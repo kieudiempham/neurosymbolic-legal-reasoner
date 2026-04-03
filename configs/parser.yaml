@@ -1,0 +1,10 @@
+# Question-side LLM parser and slot extraction
+llm:
+  model_name: "placeholder"
+  temperature: 0.0
+layer1:
+  max_slots: 32
+layer2:
+  normalize_entities: true
+parse_repair:
+  max_attempts: 2

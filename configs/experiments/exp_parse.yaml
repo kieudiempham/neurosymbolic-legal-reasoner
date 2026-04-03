@@ -1,0 +1,6 @@
+name: "parse_ablation"
+seed: 42
+inputs:
+  questions: "data/raw/user_questions/raw_questions.jsonl"
+outputs:
+  interim: "data/interim/question_parsing"

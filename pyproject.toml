@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "legal-qa-nesy"
+version = "0.1.0"
+description = "Neuro-symbolic legal QA research codebase (paper-aligned modules)."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "pydantic>=2.0,<3",
+    "PyYAML>=6.0",
+    "pandas>=2.0,<3",
+    "openpyxl>=3.1,<4",
+    # Used for reading .doc/.docx via Word automation (Windows only).
+    "pywin32>=306",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+

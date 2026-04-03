@@ -1,0 +1,7 @@
+name: "rule_construction_baseline"
+seed: 42
+inputs:
+  corpus_manifest: "data/raw/legal_corpus/manifest/document_manifest.xlsx"
+outputs:
+  interim: "data/interim/law_parsing"
+  processed_rules: "data/processed/rulebase"

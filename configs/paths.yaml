@@ -1,0 +1,6 @@
+# Root paths for artifacts (relative to project root: legal-qa-nesy/)
+project_root: "."
+data_root: "data"
+interim_dir: "data/interim"
+processed_dir: "data/processed"
+experiments_dir: "experiments"

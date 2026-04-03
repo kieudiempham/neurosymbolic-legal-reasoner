@@ -1,0 +1,6 @@
+# Backward chaining and requirement sets
+backward:
+  max_depth: 16
+  beam_width: 1
+missing_facts:
+  emit_clarification: true

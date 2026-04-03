@@ -1,0 +1,8 @@
+name: "reasoning_eval"
+seed: 42
+inputs:
+  rule_index: "data/processed/rulebase/rule_index.json"
+  questions: "data/processed/qa/qa_dev.jsonl"
+outputs:
+  reasoning: "data/interim/reasoning"
+  verification: "data/interim/verification"
