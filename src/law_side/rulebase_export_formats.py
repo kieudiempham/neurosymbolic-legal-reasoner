@@ -15,6 +15,9 @@ import pandas as pd
 
 from law_side.rulebase_logic_ir import build_logic_ir_record
 from law_side.rulebase_vocab_index import NormalizedVocab, VocabIndex, normalize_row_with_vocab
+from law_side.controlled_vocabulary_builder import to_snake_id
+import hashlib
+from collections import defaultdict
 
 # All columns expected in rulebase_seed (ground truth for export shape).
 JSONL_BLOCKS = {
@@ -643,6 +646,123 @@ def export_rulebase_formats(
                     stats["body_used_raw_condition"] += 1
                 if isinstance(b, dict) and b.get("predicate") == "raw_scope":
                     stats["body_used_raw_scope"] += 1
+
+        def _core_arg(a: Any) -> str:
+            if a is None:
+                return "<null>"
+            if isinstance(a, (int, float)) and not isinstance(a, bool):
+                return str(a)
+            s = str(a).strip()
+            if not s:
+                return "<empty>"
+            sl = s.lower()
+            # Các placeholder/anchor unresolved làm seed cluster gần giống nhau.
+            if (
+                sl in ("unknown", "null")
+                or sl.startswith("unresolved_")
+                or sl.startswith("anchor_")
+                or sl.startswith("unspecified_")
+                or "_unresolved" in sl
+            ):
+                return "<unresolved>"
+            if len(s) > 60:
+                parts = [p for p in s.split("_") if p]
+                if len(parts) >= 3:
+                    return "_".join(parts[:4])
+                return s[:60]
+            return s
+
+        def _term_sig(term: Any, core: bool) -> str:
+            if isinstance(term, dict) and "predicate" in term:
+                p = str(term.get("predicate"))
+                args = term.get("args") or []
+                args2 = [_core_arg(x) if core else str(x) for x in args]
+                return f"{p}({','.join(args2)})"
+            return str(term)
+
+        def _head_sig(head: dict[str, Any], core: bool) -> str:
+            p = head.get("predicate") or "generic_rule"
+            args = head.get("args") or []
+            args2 = [_core_arg(x) if core else str(x) for x in args]
+            return f"{p}({','.join(args2)})"
+
+        def _body_sigs(body: list[Any], core: bool) -> str:
+            terms = []
+            for b in body or []:
+                terms.append(_term_sig(b, core=core))
+            terms.sort()
+            return "|".join(terms)
+
+        def _sha_tag(s: str, n: int) -> str:
+            h = hashlib.sha256(s.encode("utf-8")).hexdigest()
+            return h[:n]
+
+        # Semantic clustering: gắn nhãn nhóm trùng/gần trùng để dedup downstream.
+        # Không làm thay đổi head/body; chỉ thêm metadata.
+        READINESS_W = {"reasoning_ready": 3, "reasoning_partial": 2, "reasoning_fallback": 1}
+        exact_groups: dict[tuple[str, str, str, str], list[int]] = defaultdict(list)
+
+        # Precompute signatures once.
+        for i, lr in enumerate(logic_rows):
+            lf = lr.get("logic_form") or "generic_rule"
+            head = lr.get("head") or {}
+            body = lr.get("body") or []
+            prov = (lr.get("metadata") or {}).get("provenance") or {}
+            source_ref_full = prov.get("source_ref_full") or prov.get("source_ref") or ""
+            source_text = prov.get("source_text") or ""
+            source_slug = to_snake_id(source_text) if source_text else ""
+            source_key = source_ref_full or source_slug[:50] or lr.get("rule_id", "rule")
+
+            head_exact = _head_sig(head, core=False)
+            body_exact = _body_sigs(body, core=False)
+            head_core = _head_sig(head, core=True)
+            body_core = _body_sigs(body, core=True)
+
+            sig_exact = f"{lf}|{source_ref_full}|{head_exact}|{body_exact}"
+            sig_core = f"{lf}|{source_ref_full}|{head_core}|{body_core}"
+
+            lr.setdefault("metadata", {})
+            lr["metadata"]["normalized_signature"] = "sig_" + _sha_tag(sig_exact, 16)
+            lr["metadata"]["semantic_fingerprint"] = "fp_" + _sha_tag(sig_core, 16)
+
+            cluster_key = f"{lf}|{(head.get('predicate') or 'generic')}|{source_key}"
+            lr["metadata"]["semantic_cluster_id"] = "cluster_" + _sha_tag(cluster_key, 12)
+            lr["metadata"]["variant_source"] = (
+                "source_ref_full" if prov.get("source_ref_full") else ("source_ref" if prov.get("source_ref") else "source_text")
+            )
+
+            exact_key = (str(lf), str(source_ref_full), head_exact, body_exact)
+            exact_groups[exact_key].append(i)
+
+        # Assign primary / redundant for exact duplicates (same head+body+source_ref).
+        for _key, idxs in exact_groups.items():
+            if not idxs:
+                continue
+            def _readiness_score(rule_index: int) -> tuple[int, str]:
+                r = logic_rows[rule_index]
+                lrst = r.get("logic_readiness") or "reasoning_fallback"
+                w = READINESS_W.get(lrst, 1)
+                rid = r.get("rule_id") or str(rule_index)
+                return (w, rid)
+
+            idxs_sorted = sorted(idxs, key=lambda j: (-_readiness_score(j)[0], _readiness_score(j)[1], j))
+            if len(idxs_sorted) == 1:
+                j = idxs_sorted[0]
+                logic_rows[j]["metadata"]["duplicate_role"] = "unique_variant"
+                logic_rows[j]["metadata"]["is_primary_variant"] = True
+                logic_rows[j]["metadata"]["variant_source"] = logic_rows[j]["metadata"].get("variant_source")
+                logic_rows[j]["metadata"]["variant_source_detail"] = "unique_exact_signature"
+            else:
+                primary = idxs_sorted[0]
+                for k_pos, j in enumerate(idxs_sorted):
+                    if j == primary:
+                        logic_rows[j]["metadata"]["duplicate_role"] = "primary_variant"
+                        logic_rows[j]["metadata"]["is_primary_variant"] = True
+                        logic_rows[j]["metadata"]["variant_source_detail"] = "primary_by_exact_head_body_source_ref"
+                    else:
+                        logic_rows[j]["metadata"]["duplicate_role"] = "redundant_variant"
+                        logic_rows[j]["metadata"]["is_primary_variant"] = False
+                        logic_rows[j]["metadata"]["variant_source_detail"] = "redundant_duplicate_by_exact_head_body_source_ref"
 
         if out_problog and prob_lines:
             header = (

@@ -63,6 +63,31 @@ def _split_dossier_items(text: str | None) -> list[str]:
     parts = re.split(r"[;；]\s*", str(text))
     return [p.strip() for p in parts if p.strip()]
 
+
+_DOSSIER_CUE_MARKERS = (
+    "ho_so_gom",
+    "bao_gom",
+    "thanh_phan_ho_so",
+    "giay_to_sau_day",
+    "quy_dinh_tai",
+    "truong_hop",
+    "doi_voi",
+)
+
+
+def _clean_dossier_items(text: str | None) -> list[str]:
+    raw_items = _split_dossier_items(text)
+    out: list[str] = []
+    for it in raw_items:
+        slug = _short_anchor_slug(it, max_len=80)
+        # Bỏ cue phrase quá procedural, giữ các item có dạng noun legal ổn định.
+        if any(m in slug for m in _DOSSIER_CUE_MARKERS):
+            continue
+        if len(slug) < 4:
+            continue
+        out.append(slug)
+    return out
+
 GENERIC_PREDICATE_SLUGS = frozenset(
     {
         "dang_ky",
@@ -149,7 +174,14 @@ def _extract_deadline_value_unit_from_text(row: pd.Series) -> tuple[Any, str | N
     Khi Excel thiếu `thoi_han_so`/`don_vi_thoi_han`, cố trích từ `source_text`/`grounded_summary`.
     Trả về (value, unit_slug_or_none).
     """
-    text = _cell(row.get("grounded_summary")) or _cell(row.get("source_text"))
+    # Try multiple fields because some rows miss `thoi_han_so`/`don_vi_thoi_han` in Excel.
+    text = (
+        _cell(row.get("grounded_summary"))
+        or _cell(row.get("source_text"))
+        or _cell(row.get("bieu_thuc_thoi_han"))
+        or _cell(row.get("moc_tinh_thoi_han"))
+        or _cell(row.get("thoi_han_so"))
+    )
     if not text:
         return None, None
     slug = to_snake_id(text).lower()
@@ -270,7 +302,13 @@ def _effect_arg_clean(norm: NormalizedVocab, he_raw: str | None) -> tuple[str | 
     if frags:
         return base if len(base) >= 8 else None, frags[0][1] if frags else None
     if len(slug) > 80:
-        return None, slug
+        # Trường hợp không tìm thấy marker ngoại lệ nhưng chuỗi dài,
+        # vẫn cần tạo được head atom ngắn để tránh fallback `_effect_unresolved`.
+        truncated = _truncate_slug_before_markers(slug, _EFFECT_TRUNC_MARKERS)
+        if truncated and truncated != slug and len(truncated) >= 6:
+            tail = slug[len(truncated) :].lstrip("_")
+            return truncated, tail if tail else None
+        return _short_anchor_slug(slug, max_len=80), slug
     return slug, None
 
 
@@ -288,7 +326,8 @@ def _unit_slug(row: pd.Series, norm: NormalizedVocab) -> str | None:
         return norm.unit_canonical
     u = _cell(row.get("don_vi_nguong")) or _cell(row.get("don_vi_thoi_han"))
     if u:
-        return to_snake_id(u)
+        u_slug = to_snake_id(u)
+        return u_slug if u_slug and u_slug != "unknown" else "unspecified_unit"
     return None
 
 
@@ -304,14 +343,29 @@ def should_override_threshold_to_deadline(row: pd.Series) -> bool:
     rt = _cell(row.get("rule_type"))
     if rt != "quy_tac_nguong_dinh_luong":
         return False
-    # Nếu Excel đã trích `thoi_han_so` và đơn vị, coi như deadline procedural dù rule_type là ngưỡng.
+    # Chỉ override khi có bằng chứng thời hạn đủ rõ để tránh ép nhầm threshold -> deadline.
     if _cell(row.get("thoi_han_so")) is not None and _cell(row.get("don_vi_thoi_han")):
         return True
+    text_blob = " ".join(
+        str(x)
+        for x in (
+            _cell(row.get("bieu_thuc_thoi_han")),
+            _cell(row.get("moc_tinh_thoi_han")),
+            _cell(row.get("grounded_summary")),
+            _cell(row.get("source_text")),
+        )
+        if x
+    )
+    if text_blob:
+        val, unit = _extract_deadline_value_unit_from_text(row)
+        if val is not None and unit:
+            return True
     t = _cell(row.get("ten_chi_so"))
     if not t:
         return False
     s = to_snake_id(t)
-    return "thoi_han" in s or s.startswith("han_")
+    # Nếu chỉ thấy metric thời hạn nhưng chưa có value/unit rõ thì KHÔNG ép sang deadline.
+    return ("thoi_han" in s or s.startswith("han_")) and False
 
 
 def should_override_obligation_to_dossier(row: pd.Series) -> bool:
@@ -344,6 +398,14 @@ def infer_logic_form(
     if should_override_obligation_to_dossier(row):
         notes.append("override_obligation_to_dossier_core")
         return "dossier", notes
+
+    # Điều kiện nhưng biểu hiện thực chất là ngoại lệ.
+    if base == "applicability_condition":
+        dk = _cell(row.get("dieu_kien_ap_dung"))
+        nl = _cell(row.get("ngoai_le"))
+        if (not dk) and nl:
+            notes.append("override_condition_to_exception_when_only_exception_text")
+            return "exception", notes
 
     return base, notes
 
@@ -408,7 +470,12 @@ def resolve_logic_readiness(
     args = head.get("args") or []
     hard_null = any(a is None or a == "null" for a in args)
     unresolved_in_args = any(
-        isinstance(a, str) and a.startswith("unresolved_") for a in args
+        isinstance(a, str)
+        and (
+            a.startswith("unresolved_")
+            or a in {"_effect_unresolved", "object_or_result_unresolved", "entity_unresolved"}
+        )
+        for a in args
     )
 
     if threshold_fallback:
@@ -426,7 +493,7 @@ def resolve_logic_readiness(
 
     if hard_null or unresolved_in_args:
         return "reasoning_partial"
-    if canonical_status in ("fallback_family_level", "inferred_from_context"):
+    if canonical_status == "fallback_family_level":
         return "reasoning_partial"
     return "reasoning_ready"
 
@@ -474,6 +541,18 @@ def build_logic_ir_record(
 
     if logic_form == "obligation":
         obj = norm.object_canonical or (_short_anchor_slug(doi_raw, max_len=80) if doi_raw else None)
+        if not obj and norm.effect_canonical:
+            obj = _short_anchor_slug(norm.effect_canonical, max_len=80)
+            reasoning_notes.append("recovered_object_from_effect_canonical")
+        if not obj and kt_raw:
+            obj = _short_anchor_slug(kt_raw, max_len=80)
+            reasoning_notes.append("recovered_object_from_ket_qua_thu_tuc")
+        if not obj:
+            ho_so = _cell(row.get("thanh_phan_ho_so"))
+            items = _clean_dossier_items(ho_so)
+            if items:
+                obj = _short_anchor_slug(items[0], max_len=80)
+                reasoning_notes.append("recovered_object_from_thanh_phan_ho_so_first_item")
         if isinstance(obj, str) and len(obj) > 80:
             obj = _short_anchor_slug(obj, max_len=80)
         action = pred_anchor
@@ -484,11 +563,23 @@ def build_logic_ir_record(
             [
                 subj or "unresolved_subject",
                 action or "unresolved_predicate",
-                obj or "unresolved_object",
+                obj or "unresolved_object_atom",
             ],
         )
     elif logic_form == "permission":
         obj = norm.object_canonical or (_short_anchor_slug(doi_raw, max_len=80) if doi_raw else None)
+        if not obj and norm.effect_canonical:
+            obj = _short_anchor_slug(norm.effect_canonical, max_len=80)
+            reasoning_notes.append("recovered_object_from_effect_canonical")
+        if not obj and kt_raw:
+            obj = _short_anchor_slug(kt_raw, max_len=80)
+            reasoning_notes.append("recovered_object_from_ket_qua_thu_tuc")
+        if not obj:
+            ho_so = _cell(row.get("thanh_phan_ho_so"))
+            items = _clean_dossier_items(ho_so)
+            if items:
+                obj = _short_anchor_slug(items[0], max_len=80)
+                reasoning_notes.append("recovered_object_from_thanh_phan_ho_so_first_item")
         if isinstance(obj, str) and len(obj) > 80:
             obj = _short_anchor_slug(obj, max_len=80)
         action = pred_anchor
@@ -499,11 +590,23 @@ def build_logic_ir_record(
             [
                 subj or "unresolved_subject",
                 action or "unresolved_predicate",
-                obj or "unresolved_object",
+                obj or "unresolved_object_atom",
             ],
         )
     elif logic_form == "prohibition":
         obj = norm.object_canonical or (_short_anchor_slug(doi_raw, max_len=80) if doi_raw else None)
+        if not obj and norm.effect_canonical:
+            obj = _short_anchor_slug(norm.effect_canonical, max_len=80)
+            reasoning_notes.append("recovered_object_from_effect_canonical")
+        if not obj and kt_raw:
+            obj = _short_anchor_slug(kt_raw, max_len=80)
+            reasoning_notes.append("recovered_object_from_ket_qua_thu_tuc")
+        if not obj:
+            ho_so = _cell(row.get("thanh_phan_ho_so"))
+            items = _clean_dossier_items(ho_so)
+            if items:
+                obj = _short_anchor_slug(items[0], max_len=80)
+                reasoning_notes.append("recovered_object_from_thanh_phan_ho_so_first_item")
         if isinstance(obj, str) and len(obj) > 80:
             obj = _short_anchor_slug(obj, max_len=80)
         action = pred_anchor
@@ -514,10 +617,13 @@ def build_logic_ir_record(
             [
                 subj or "unresolved_subject",
                 action or "unresolved_predicate",
-                obj or "unresolved_object",
+                obj or "unresolved_object_atom",
             ],
         )
     elif logic_form == "deadline":
+        raw_thoi_han_so = _cell(row.get("thoi_han_so"))
+        raw_moc_tinh_thoi_han = _cell(row.get("moc_tinh_thoi_han"))
+
         ev = (
             pred_anchor
             or (to_snake_id(hanh_raw) if hanh_raw else None)
@@ -530,11 +636,15 @@ def build_logic_ir_record(
         unit = _unit_slug(row, norm)
         anchor = _cell(row.get("moc_tinh_thoi_han"))
 
+        restored_deadline_value = False
+        restored_deadline_unit = False
         if value is None:
             extracted_val, extracted_unit = _extract_deadline_value_unit_from_text(row)
             value = extracted_val
-            if not unit and extracted_unit:
+            restored_deadline_value = value is not None
+            if extracted_unit and not unit:
                 unit = extracted_unit
+                restored_deadline_unit = True
 
         if not unit:
             u_raw = _cell(row.get("don_vi_thoi_han")) or _cell(row.get("don_vi_nguong"))
@@ -544,20 +654,36 @@ def build_logic_ir_record(
             anchor = _cell(row.get("bieu_thuc_thoi_han")) or _cell(row.get("grounded_summary"))
             anchor = _short_anchor_slug(anchor, max_len=80)
 
-        if _cell(row.get("thoi_han_so")) is None or _cell(row.get("moc_tinh_thoi_han")) is None:
+        # Ensure `head.args` never contains `null` for deadline.
+        if value is None:
+            value = "unresolved_deadline_value_atom"
+
+        deadline_incomplete = (
+            value == "unresolved_deadline_value_atom"
+            or unit in (None, "", "unspecified_unit")
+            or not anchor
+            or anchor in ("anchor_unresolved", "anchor_unspecified")
+        )
+        if deadline_incomplete:
             fallback_kind = fallback_kind or "incomplete_deadline"
-            reasoning_notes.append("restored_deadline_value_or_anchor_via_fallback")
+            if raw_thoi_han_so is None and not restored_deadline_value:
+                reasoning_notes.append("deadline_value_still_unresolved")
+            if raw_moc_tinh_thoi_han is None:
+                reasoning_notes.append("deadline_anchor_missing_or_derived")
 
         head = _term_clean(
             "deadline",
             [ev, value, unit, anchor or "anchor_unspecified"],
         )
     elif logic_form == "dossier":
-        items = _split_dossier_items(_cell(row.get("thanh_phan_ho_so")))
+        items = _clean_dossier_items(_cell(row.get("thanh_phan_ho_so")))
         dossier_pred = pred_anchor
         if not dossier_pred or (hanh_raw and hanh_raw.strip().lower() in _PLACEHOLDER_HANH_VI):
             dossier_pred = pred_anchor or "dossier_predicate_missing"
             head_cleanup_notes.append("dossier_predicate_fallback_due_to_placeholder")
+        if not items:
+            items = ["unresolved_dossier_item_atom"]
+            fallback_kind = fallback_kind or "dossier_items_unresolved"
         head = _term_clean("dossier", [dossier_pred, items or []])
     elif logic_form == "authority_action":
         kq = norm.effect_canonical or (to_snake_id(kt_raw) if kt_raw and len(kt_raw) < 100 else None)
@@ -578,7 +704,11 @@ def build_logic_ir_record(
             ],
         )
     elif logic_form == "exception":
-        exc_anchor_short = _short_anchor_slug(ngoai_le, max_len=80) if ngoai_le else "unresolved_exception"
+        exc_anchor_short = (
+            _short_anchor_slug(ngoai_le, max_len=80)
+            if ngoai_le
+            else "unresolved_exception_atom"
+        )
         if ngoai_le and len(str(ngoai_le)) > 80:
             head_cleanup_notes.append("shortened_exception_anchor_for_head")
         head = _term_clean(
@@ -629,8 +759,8 @@ def build_logic_ir_record(
                 [mc, op or "unspecified_op", value, uu or "unspecified_unit"],
             )
     elif logic_form == "legal_effect":
-        ent = subj or auth or "entity_unresolved"
-        e_arg = eff_head or (norm.effect_canonical if norm.effect_canonical else "_effect_unresolved")
+        ent = subj or auth or "unresolved_entity_atom"
+        e_arg = eff_head or (norm.effect_canonical if norm.effect_canonical else "unresolved_effect_atom")
         if isinstance(e_arg, str) and len(e_arg) > 120:
             truncated = _truncate_slug_before_markers(e_arg, _EFFECT_TRUNC_MARKERS)
             if truncated and truncated != e_arg:
@@ -660,7 +790,7 @@ def build_logic_ir_record(
         step_pred = pred_anchor or "unresolved_procedure_step"
         step_obj = (
             norm.object_canonical
-            or (_short_anchor_slug(doi_raw, max_len=80) if doi_raw else "unresolved_object")
+            or (_short_anchor_slug(doi_raw, max_len=80) if doi_raw else "unresolved_object_atom")
         )
         if isinstance(step_pred, str):
             step_pred = _short_anchor_slug(step_pred, max_len=80)
@@ -669,6 +799,20 @@ def build_logic_ir_record(
         head = _term_clean("procedure_step", [step_pred, step_obj])
     else:
         head = _term_clean("generic_rule", [rule_type_source, rule_id])
+
+    # Fill fallback kinds for unresolved essential slots.
+    hpred = head.get("predicate")
+    hargs = head.get("args") or []
+    if hpred == "legal_effect" and len(hargs) >= 2 and hargs[1] == "unresolved_effect_atom":
+        fallback_kind = fallback_kind or "unresolved_effect"
+    if hpred in ("obligation", "permission", "prohibition", "authority_action") and len(hargs) >= 3:
+        if hargs[2] == "unresolved_object_atom":
+            fallback_kind = fallback_kind or "unresolved_object"
+    if hpred == "procedure_step" and len(hargs) >= 2:
+        if hargs[1] == "unresolved_object_atom":
+            fallback_kind = fallback_kind or "unresolved_object"
+    if hpred == "exception" and len(hargs) >= 2 and hargs[1] == "unresolved_exception_atom":
+        fallback_kind = fallback_kind or "unresolved_exception"
 
     expr_moved = bool(bieu_thuc_dk)
     body = build_body_clean(
@@ -688,22 +832,71 @@ def build_logic_ir_record(
 
     auxiliary = _build_auxiliary_clean(row, norm, logic_form, pred_anchor)
 
+    head_pred = head.get("predicate")
+    head_args = head.get("args") or []
+
+    inferred_subject_canonical = norm.subject_canonical or subj
+    inferred_authority_canonical = norm.authority_canonical or auth
+    inferred_object_canonical = norm.object_canonical
+    inferred_effect_canonical = norm.effect_canonical
+    inferred_metric_canonical = norm.metric_canonical
+    inferred_unit_canonical = norm.unit_canonical
+
+    if head_pred in ("obligation", "permission", "prohibition") and len(head_args) >= 3:
+        inferred_object_canonical = head_args[2]
+    elif head_pred == "authority_action" and len(head_args) >= 3:
+        inferred_object_canonical = head_args[2]
+    elif head_pred == "procedure_step" and len(head_args) >= 2:
+        inferred_object_canonical = head_args[1]
+    elif head_pred == "dossier" and len(head_args) >= 2:
+        # dossier head arg2 is list(items); we keep object_canonical as-is
+        pass
+    elif head_pred == "legal_effect" and len(head_args) >= 2:
+        inferred_effect_canonical = head_args[1]
+
+    if head_pred == "deadline" and len(head_args) >= 3:
+        inferred_unit_canonical = head_args[2]
+    if head_pred == "threshold" and len(head_args) >= 4:
+        inferred_metric_canonical = head_args[0]
+        inferred_unit_canonical = head_args[3]
+    if head_pred == "threshold_range" and len(head_args) >= 5:
+        inferred_metric_canonical = head_args[0]
+        inferred_unit_canonical = head_args[3]
+
+    # Canonical slug for conditional expression (used as an anchor/fingerprint).
+    expression_condition_slug = (
+        _short_anchor_slug(bieu_thuc_dk, max_len=120)
+        if bieu_thuc_dk
+        else (_short_anchor_slug(dieu_kien, max_len=120) if dieu_kien else None)
+    )
+
+    norm_notes: list[str] = list(norm.normalization_notes or [])
+    # Promote recovery traces into normalization_notes for transparency.
+    for rn in reasoning_notes:
+        if rn.startswith(("recovered_", "deadline_", "deadline_value_", "restored_")):
+            if rn not in norm_notes:
+                norm_notes.append(rn)
+
+    norm_status = norm.normalization_status
+    if fallback_kind in ("incomplete_deadline", "unresolved_object", "unresolved_effect", "unresolved_exception"):
+        norm_status = "partial"
+
     metadata: dict[str, Any] = {
         "tinh_chat_phap_ly": _cell(row.get("tinh_chat_phap_ly")),
         "extraction_pattern": _cell(row.get("extraction_pattern")),
         "canonical_predicate": pred_anchor,
         "predicate_family": norm.predicate_family or _cell(row.get("predicate_family")),
-        "effect_canonical": norm.effect_canonical,
-        "object_canonical": norm.object_canonical,
-        "subject_canonical": norm.subject_canonical,
-        "authority_canonical": norm.authority_canonical,
-        "metric_canonical": norm.metric_canonical,
-        "unit_canonical": norm.unit_canonical,
+        "effect_canonical": inferred_effect_canonical,
+        "object_canonical": inferred_object_canonical,
+        "subject_canonical": inferred_subject_canonical,
+        "authority_canonical": inferred_authority_canonical,
+        "metric_canonical": inferred_metric_canonical,
+        "unit_canonical": inferred_unit_canonical,
         "canonical_status": canonical_status,
         "logic_form_overrides": lf_notes,
-        "normalization_status": norm.normalization_status,
-        "normalization_notes": norm.normalization_notes,
-        "expression_condition_slug": bieu_thuc_dk,
+        "normalization_status": norm_status,
+        "normalization_notes": norm_notes,
+        "expression_condition_slug": expression_condition_slug,
         "fallback_kind": fallback_kind,
         "provenance": {
             "doc_id": _cell(row.get("doc_id")),
