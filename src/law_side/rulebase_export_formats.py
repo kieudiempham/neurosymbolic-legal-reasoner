@@ -7,6 +7,7 @@ Does not modify the Excel file. See docs/rulebase_export_formats.md.
 from __future__ import annotations
 
 import json
+import os
 import re
 from pathlib import Path
 from typing import Any
@@ -603,6 +604,15 @@ def export_rulebase_formats(
     if vpath and Path(vpath).exists():
         idx = VocabIndex(Path(vpath))
 
+    def _relative_display_path(p: Path | None) -> str | None:
+        if p is None:
+            return None
+        try:
+            return Path(os.path.relpath(str(p), start=str(Path.cwd()))).as_posix()
+        except ValueError:
+            # Fallback for different drives on Windows.
+            return p.as_posix()
+
     with out_jsonl.open("w", encoding="utf-8") as fj:
         prob_lines: list[str] = []
         for _, row in df.iterrows():
@@ -764,22 +774,137 @@ def export_rulebase_formats(
                         logic_rows[j]["metadata"]["is_primary_variant"] = False
                         logic_rows[j]["metadata"]["variant_source_detail"] = "redundant_duplicate_by_exact_head_body_source_ref"
 
+        def _iter_term_args(term: Any) -> list[Any]:
+            if isinstance(term, dict) and "args" in term:
+                args = term.get("args") or []
+                return args if isinstance(args, list) else [args]
+            return []
+
+        def _has_bad_atom(v: Any) -> bool:
+            if v is None:
+                return True
+            if isinstance(v, (int, float)) and not isinstance(v, bool):
+                return False
+            if isinstance(v, list):
+                return any(_has_bad_atom(x) for x in v)
+            s = str(v).strip()
+            if not s:
+                return True
+            sl = s.lower()
+            if sl in {"unknown", "null"}:
+                return True
+            if sl.startswith("unresolved_"):
+                return True
+            if sl.endswith("_"):
+                return True
+            if " " in s:
+                return True
+            return False
+
+        exportable_ids: list[str] = []
+        traceability_ids: list[str] = []
+        for lr in logic_rows:
+            meta = lr.setdefault("metadata", {})
+            blockers = list(meta.get("export_blockers") or [])
+            duplicate_role = meta.get("duplicate_role")
+            fallback_kind = lr.get("fallback_kind")
+            readiness = lr.get("logic_readiness")
+
+            head = lr.get("head") or {}
+            body = lr.get("body") or []
+            aux = lr.get("auxiliary_clauses") or []
+
+            # Hard blockers from structure quality.
+            if _has_bad_atom(head.get("args") or []):
+                blockers.append("head_has_unresolved_or_invalid_atom")
+            for b in body:
+                if isinstance(b, dict) and b.get("type") == "raw_text":
+                    blockers.append("body_contains_raw_text_clause")
+                if _has_bad_atom(_iter_term_args(b)):
+                    blockers.append("body_has_unresolved_or_invalid_atom")
+            for a in aux:
+                h = a.get("head") if isinstance(a, dict) else None
+                if _has_bad_atom(_iter_term_args(h)):
+                    blockers.append("aux_has_unresolved_or_invalid_atom")
+
+            # Semantic dedup for reasoning set.
+            if duplicate_role == "redundant_variant":
+                blockers.append("redundant_variant_not_selected_for_reasoning")
+
+            if fallback_kind:
+                blockers.append(f"fallback_kind:{fallback_kind}")
+
+            # de-dup blockers (stable)
+            if blockers:
+                seen: set[str] = set()
+                uniq: list[str] = []
+                for b in blockers:
+                    if b in seen:
+                        continue
+                    seen.add(b)
+                    uniq.append(b)
+                blockers = uniq
+
+            # partial but logic-safe marker:
+            hard_shape_block = any(
+                b in {
+                    "head_has_unresolved_or_invalid_atom",
+                    "body_contains_raw_text_clause",
+                    "body_has_unresolved_or_invalid_atom",
+                    "aux_has_unresolved_or_invalid_atom",
+                }
+                for b in blockers
+            )
+            reasoning_safe_partial = (
+                readiness == "reasoning_partial"
+                and not hard_shape_block
+                and fallback_kind is None
+                and duplicate_role in ("primary_variant", "unique_variant")
+            )
+
+            # Final partition criteria (strict by user request):
+            is_exportable_clean = (
+                readiness == "reasoning_ready"
+                and duplicate_role in ("primary_variant", "unique_variant")
+                and fallback_kind is None
+                and len(blockers) == 0
+            )
+
+            lr["reasoning_partition"] = "exportable_clean" if is_exportable_clean else "traceability_only"
+            lr["selected_for_reasoning"] = bool(is_exportable_clean)
+            meta["reasoning_safe_partial"] = bool(reasoning_safe_partial)
+            meta["export_blockers"] = blockers
+            meta["problog_exportable"] = bool(is_exportable_clean)
+
+            rid = lr.get("rule_id")
+            if isinstance(rid, str):
+                if is_exportable_clean:
+                    exportable_ids.append(rid)
+                else:
+                    traceability_ids.append(rid)
+
         if out_problog and prob_lines:
             header = (
                 "% Neuro-symbolic rulebase — ProbLog-style view\n"
-                f"% source_seed: {xlsx_path.as_posix()}\n"
+                f"% source_seed: {_relative_display_path(xlsx_path)}\n"
             )
             if vpath:
-                header += f"% vocabulary: {Path(vpath).as_posix()}\n"
+                header += f"% vocabulary: {_relative_display_path(Path(vpath))}\n"
             out_problog.write_text(header + "\n".join(prob_lines), encoding="utf-8")
 
     payload = {
         "version": 3,
         "logic_ir_schema": "rulebase_logic_ir_v1",
-        "source_file": str(xlsx_path.as_posix()),
-        "vocabulary_file": str(Path(vpath).as_posix()) if vpath and Path(vpath).exists() else None,
+        "source_file": _relative_display_path(xlsx_path),
+        "vocabulary_file": _relative_display_path(Path(vpath))
+        if vpath and Path(vpath).exists()
+        else None,
         "rule_count": n,
         "rule_type_to_logic_form": RULE_TYPE_TO_LOGIC_FORM,
+        "rules_exportable_clean_count": len(exportable_ids),
+        "rules_traceability_only_count": len(traceability_ids),
+        "rules_exportable_clean_ids": exportable_ids,
+        "rules_traceability_only_ids": traceability_ids,
         "rules": logic_rows,
     }
     out_logic_json.write_text(

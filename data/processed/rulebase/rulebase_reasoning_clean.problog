@@ -1,0 +1,1297 @@
+% Neuro-symbolic rulebase — ProbLog-style view
+% source_seed: data/processed/rulebase/rulebase_seed.xlsx
+% vocabulary: data/processed/ontology/controlled_vocabulary.xlsx
+% rule_id: RULE_LUATDN_D113_K1_E000082_H67FF516B0336__b18dfb4fdee692
+% rule_group_id: RG_LUATDN_D113_K1_CAP_GIAY_CHUNG_NHAN_DANG_KY
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D113_K1_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=V|section=|article=113|clause=1|point=|lines=1032-1032
+% predicate_canonical: cap_giay_chung_nhan_dang_ky_doanh_nghiep
+% normalization_status: partial
+% source_text: Các cổ đông phải thanh toán đủ số cổ phần đã đăng ký mua trong thời hạn 90 ngày kể từ ngày được cấp Giấy chứng nhận đăng ký doanh nghiệp, trừ trường hợp Điều lệ công ty hoặc hợp đồng đăng ký mua cổ phần quy định một thời hạn khác ngắn hơn. 
+% --- reasoning-clean produced by scripts/clean_rulebase_problog_reasoning_clean.py ---
+
+legal_effect(co_quan_dang_ky_kinh_doanh, duoc_cap_giay_chung_nhan_dang_ky_doanh_nghiep) :- unless(tru_truong_hop_dieu_le_cong_ty_hoac_hop_dong_dang_ky_mua_co_phan_quy_dinh_mot_thoi_han_khac_ngan_hon).
+
+% rule_id: RULE_LUATDN_D122_K5_E000113_H7EB788490A1F__677a939a82a955
+% rule_group_id: RG_LUATDN_D122_K5_CAP_NHAT_THONG_TIN
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D122_K5_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=V|section=|article=122|clause=5|point=|lines=1130-1130
+% predicate_canonical: cap_nhat_thong_tin
+% normalization_status: full
+% source_text: Công ty phải cập nhật kịp thời thay đổi cổ đông trong sổ đăng ký cổ đông theo yêu cầu của cổ đông có liên quan theo quy định tại Điều lệ công ty.
+dossier_item(cap_nhat_thong_tin, dieu_le_cong_ty).
+
+% rule_id: RULE_LUATDN_D149_K4_E000117_H791FDF195CF0__e9bb79707b2c9c
+% rule_group_id: RG_LUATDN_D149_K4_GUI_PHIEU_LAY_Y_KIEN
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D149_K4_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=V|section=|article=149|clause=4|point=|lines=1372-1372
+% predicate_canonical: gui_phieu_lay_y_kien
+% normalization_status: full
+% source_text: Cổ đông có thể gửi phiếu lấy ý kiến đã trả lời đến công ty bằng hình thức gửi thư, fax hoặc thư điện tử theo quy định sau đây:
+permission(cong_ty, gui_phieu_lay_y_kien, phieu_lay_y_kien).
+
+% rule_id: RULE_LUATDN_D164_K1_E000119_H31F469512E30__3700a5b1c3ae8f
+% rule_group_id: RG_LUATDN_D164_K1_CAP_NHAT_THONG_TIN
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D164_K1_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=V|section=|article=164|clause=1|point=|lines=1559-1559
+% predicate_canonical: cap_nhat_thong_tin
+% normalization_status: full
+% source_text: Công ty phải tập hợp và cập nhật danh sách những người có liên quan của công ty theo quy định tại khoản 23 Điều 4 của Luật này và các hợp đồng, giao dịch tương ứng của họ với công ty;
+dossier_item(cap_nhat_thong_tin, hop_dong_giao_dich_tuong_ung_cua_ho_voi_cong_ty).
+
+% rule_id: RULE_LUATDN_D164_K4_D_E000121_H395BEE0AC05A__930eb05e024f02
+% rule_group_id: RG_LUATDN_D164_K4_D_XEM_XET
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D164_K4_D_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=V|section=|article=164|clause=4|point=d|lines=1568-1568
+% predicate_canonical: xem_xet
+% normalization_status: full
+% source_text: Công ty phải tạo điều kiện để những người quy định tại điểm c khoản này tiếp cận, xem xét, trích lục, sao chép danh sách người có liên quan và lợi ích có liên quan một cách nhanh nhất, thuận lợi nhất; không được ngăn cản, gây khó khăn đối v
+dossier_item(chuan_bi_ho_so, dieu_le_cong_ty) :- applies_if(chuan_bi_ho_so, doi_voi_ho_trong_thuc_hien_quyen_nay).
+
+% rule_id: RULE_LUATDN_D164_K4_D_E000120_H395BEE0AC05A__ee9eafef40992e
+% rule_group_id: RG_LUATDN_D164_K4_D_XEM_XET
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D164_K4_D_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=V|section=|article=164|clause=4|point=d|lines=1568-1568
+% predicate_canonical: xem_xet
+% normalization_status: full
+% source_text: Công ty phải tạo điều kiện để những người quy định tại điểm c khoản này tiếp cận, xem xét, trích lục, sao chép danh sách người có liên quan và lợi ích có liên quan một cách nhanh nhất, thuận lợi nhất; không được ngăn cản, gây khó khăn đối v
+obligation(cong_ty, xem_xet, dieu_le_cong_ty) :- applies_if(xem_xet, doi_voi_ho_trong_thuc_hien_quyen_nay).
+
+% rule_id: RULE_LUATDN_D186_K1_E000124_HFF0DAB317E93__e594e48a541eab
+% rule_group_id: RG_LUATDN_D186_K1_TIEP_NHAN_THEM_THANH_VIEN_HO
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D186_K1_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=VI|section=|article=186|clause=1|point=|lines=1779-1779
+% predicate_canonical: tiep_nhan_them_thanh_vien_hop_danh
+% normalization_status: full
+% source_text: Công ty có thể tiếp nhận thêm thành viên hợp danh hoặc thành viên góp vốn; việc tiếp nhận thành viên mới của công ty phải được Hội đồng thành viên chấp thuận.
+permission(cong_ty, tiep_nhan_them_thanh_vien_hop_danh, chap_thuan).
+
+% rule_id: RULE_LUATDN_D186_K2_E000127_H2FC30FD46A92__b5a3d6663421fc
+% rule_group_id: RG_LUATDN_D186_K2_NOP_DU_SO_VON_CAM_KET_GOP
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D186_K2_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=VI|section=|article=186|clause=2|point=|lines=1780-1780
+% predicate_canonical: nop_du_so_von_cam_ket_gop
+% normalization_status: full
+% source_text: Thành viên hợp danh hoặc thành viên góp vốn phải nộp đủ số vốn cam kết góp vào công ty trong thời hạn 15 ngày kể từ ngày được chấp thuận, trừ trường hợp Hội đồng thành viên quyết định thời hạn khác.
+exception(nop_du_so_von_cam_ket_gop, tru_truong_hop_hoi_dong_thanh_vien_quyet_dinh_thoi_han_khac) :- applies_if(nop_du_so_von_cam_ket_gop, truong_hop_hoi_dong_thanh_vien_quyet_dinh_thoi_han_khac).
+
+% rule_id: RULE_LUATDN_D186_K2_E000129_H978952EE6FD4__63efc78e0dc0de
+% rule_group_id: RG_LUATDN_D186_K2_AP_DUNG_QUY_DINH_LOAI_TRU
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D186_K2_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=VI|section=|article=186|clause=2|point=|lines=1780-1780
+% predicate_canonical: ap_dung_quy_dinh_loai_tru
+% normalization_status: full
+% source_text: Thành viên hợp danh hoặc thành viên góp vốn phải nộp đủ số vốn cam kết góp vào công ty trong thời hạn 15 ngày kể từ ngày được chấp thuận, trừ trường hợp Hội đồng thành viên quyết định thời hạn khác.
+exception(ap_dung_quy_dinh_loai_tru, tru_truong_hop_hoi_dong_thanh_vien_quyet_dinh_thoi_han_khac).
+
+% rule_id: RULE_LUATDN_D186_K2_E000366_HC305BFE2E363__9701254ff45bee
+% rule_group_id: RG_LUATDN_D186_K2_NOP_DU_SO_VON_CAM_KET_GOP
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D186_K2_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=VI|section=|article=186|clause=2|point=|lines=1780-1780
+% predicate_canonical: nop_du_so_von_cam_ket_gop
+% normalization_status: full
+% source_text: Thành viên hợp danh hoặc thành viên góp vốn phải nộp đủ số vốn cam kết góp vào công ty trong thời hạn 15 ngày kể từ ngày được chấp thuận, trừ trường hợp Hội đồng thành viên quyết định thời hạn khác.
+exception(nop_du_so_von_cam_ket_gop, tru_truong_hop_hoi_dong_thanh_vien_quyet_dinh_thoi_han_khac).
+
+% rule_id: RULE_LUATDN_D186_K2_E000126_H2FC30FD46A92__76c781c922a7f2
+% rule_group_id: RG_LUATDN_D186_K2_NOP_DU_SO_VON_CAM_KET_GOP
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D186_K2_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=VI|section=|article=186|clause=2|point=|lines=1780-1780
+% predicate_canonical: nop_du_so_von_cam_ket_gop
+% normalization_status: full
+% source_text: Thành viên hợp danh hoặc thành viên góp vốn phải nộp đủ số vốn cam kết góp vào công ty trong thời hạn 15 ngày kể từ ngày được chấp thuận, trừ trường hợp Hội đồng thành viên quyết định thời hạn khác.
+deadline(nop_du_so_von_cam_ket_gop, 15.0, ngay, ke_tu_moc_tham_chieu) :- applies_if(nop_du_so_von_cam_ket_gop, truong_hop_hoi_dong_thanh_vien_quyet_dinh_thoi_han_khac),
+    unless(tru_truong_hop_hoi_dong_thanh_vien_quyet_dinh_thoi_han_khac).
+
+% rule_id: RULE_LUATDN_D186_K3_E000135_H99C505A90CE7__d0df9f4cb81406
+% rule_group_id: RG_LUATDN_D186_K3_CHIU_TRACH_NHIEM
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D186_K3_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=VI|section=|article=186|clause=3|point=|lines=1781-1781
+% predicate_canonical: chiu_trach_nhiem
+% normalization_status: full
+% source_text: Thành viên hợp danh mới phải cùng liên đới chịu trách nhiệm bằng toàn bộ tài sản của mình đối với các khoản nợ và nghĩa vụ tài sản khác của công ty, trừ trường hợp thành viên đó và các thành viên còn lại có thỏa thuận khác.
+applicability_condition(chiu_trach_nhiem, doi_voi_cac_khoan_no_va_nghia_vu_tai_san_khac_cua_cong_ty) :- applies_if(chiu_trach_nhiem, doi_voi_cac_khoan_no_va_nghia_vu_tai_san_khac_cua_cong_ty),
+    unless(tru_truong_hop_thanh_vien_do_va_cac_thanh_vien_con_lai_co_thoa_thuan_khac).
+
+% rule_id: RULE_LUATDN_D186_K3_E000136_H99C505A90CE7__b526ef473305bf
+% rule_group_id: RG_LUATDN_D186_K3_CHIU_TRACH_NHIEM
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D186_K3_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=VI|section=|article=186|clause=3|point=|lines=1781-1781
+% predicate_canonical: chiu_trach_nhiem
+% normalization_status: full
+% source_text: Thành viên hợp danh mới phải cùng liên đới chịu trách nhiệm bằng toàn bộ tài sản của mình đối với các khoản nợ và nghĩa vụ tài sản khác của công ty, trừ trường hợp thành viên đó và các thành viên còn lại có thỏa thuận khác.
+exception(chiu_trach_nhiem, tru_truong_hop_thanh_vien_do_va_cac_thanh_vien_con_lai_co_thoa_thuan_khac) :- applies_if(chiu_trach_nhiem, doi_voi_cac_khoan_no_va_nghia_vu_tai_san_khac_cua_cong_ty).
+
+% rule_id: RULE_LUATDN_D186_K3_E000137_H6C99B848D3B7__59de8775213454
+% rule_group_id: RG_LUATDN_D186_K3_AP_DUNG_QUY_DINH_LOAI_TRU
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D186_K3_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=VI|section=|article=186|clause=3|point=|lines=1781-1781
+% predicate_canonical: ap_dung_quy_dinh_loai_tru
+% normalization_status: full
+% source_text: Thành viên hợp danh mới phải cùng liên đới chịu trách nhiệm bằng toàn bộ tài sản của mình đối với các khoản nợ và nghĩa vụ tài sản khác của công ty, trừ trường hợp thành viên đó và các thành viên còn lại có thỏa thuận khác.
+exception(ap_dung_quy_dinh_loai_tru, tru_truong_hop_thanh_vien_do_va_cac_thanh_vien_con_lai_co_thoa_thuan_khac).
+
+% rule_id: RULE_LUATDN_D186_K3_E000367_HC410CD4176DF__af3e9bd2d20532
+% rule_group_id: RG_LUATDN_D186_K3_CHIU_TRACH_NHIEM
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D186_K3_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=VI|section=|article=186|clause=3|point=|lines=1781-1781
+% predicate_canonical: chiu_trach_nhiem
+% normalization_status: full
+% source_text: Thành viên hợp danh mới phải cùng liên đới chịu trách nhiệm bằng toàn bộ tài sản của mình đối với các khoản nợ và nghĩa vụ tài sản khác của công ty, trừ trường hợp thành viên đó và các thành viên còn lại có thỏa thuận khác.
+exception(chiu_trach_nhiem, tru_truong_hop_thanh_vien_do_va_cac_thanh_vien_con_lai_co_thoa_thuan_khac).
+
+% rule_id: RULE_LUATDN_D192_K4_E000143_HDD7294EC5093__a1844b762d174d
+% rule_group_id: RG_LUATDN_D192_K4_DANG_KY_DOANH_NGHIEP
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D192_K4_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=VII|section=|article=192|clause=4|point=|lines=1818-1818
+% predicate_canonical: dang_ky_doanh_nghiep
+% normalization_status: full
+% source_text: Người mua doanh nghiệp tư nhân phải đăng ký thay đổi chủ doanh nghiệp tư nhân theo quy định của Luật này.
+obligation(doanh_nghiep, dang_ky_doanh_nghiep, quy_dinh_cua_luat_nay) :- applies_to(ap_dung_doi_voi_doanh_nghiep_tu_nhan).
+
+% rule_id: RULE_LUATDN_D202_K3_E000147_HC5B230C30D53__61401c39a84a48
+% rule_group_id: RG_LUATDN_D202_K3_DANG_KY
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D202_K3_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=IX|section=|article=202|clause=3|point=|lines=1895-1895
+% predicate_canonical: dang_ky
+% normalization_status: full
+% source_text: Công ty phải đăng ký chuyển đổi công ty với Cơ quan đăng ký kinh doanh trong thời hạn 10 ngày kể từ ngày hoàn thành việc chuyển đổi. Trong thời hạn 03 ngày làm việc kể từ ngày nhận hồ sơ chuyển đổi, Cơ quan đăng ký kinh doanh cấp lại Giấy c
+deadline(dang_ky_chuyen_doi_cong_ty_voi_co_quan_dang_ky_kinh_doanh, 10.0, ngay, ke_tu_ngay_nhan_ho_so).
+
+% rule_id: RULE_LUATDN_D204_K2_E000370_HF3B481170397__722d40c56e453e
+% rule_group_id: RG_LUATDN_D204_K2_CAP_GIAY_CHUNG_NHAN_DANG_KY
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D204_K2_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=IX|section=|article=204|clause=2|point=|lines=1912-1912
+% predicate_canonical: cap_giay_chung_nhan_dang_ky_doanh_nghiep
+% normalization_status: full
+% source_text: Công ty phải đăng ký chuyển đổi công ty với Cơ quan đăng ký kinh doanh trong thời hạn 10 ngày kể từ ngày hoàn thành việc chuyển đổi. Trong thời hạn 03 ngày làm việc kể từ ngày nhận hồ sơ chuyển đổi, Cơ quan đăng ký kinh doanh cấp Giấy chứng
+deadline(cap_giay_chung_nhan_dang_ky_doanh_nghiep, 10.0, ngay, ke_tu_ngay_nhan_ho_so).
+
+% rule_id: RULE_LUATDN_D205_K2_E000162_HC103AB968CE3__81d9ed91e3ac79
+% rule_group_id: RG_LUATDN_D205_K2_XEM_XET
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D205_K2_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=IX|section=|article=205|clause=2|point=|lines=1920-1920
+% predicate_canonical: xem_xet
+% normalization_status: full
+% source_text: Trong thời hạn 03 ngày làm việc kể từ ngày nhận hồ sơ, Cơ quan đăng ký kinh doanh xem xét và cấp Giấy chứng nhận đăng ký doanh nghiệp nếu có đủ điều kiện quy định tại khoản 1 Điều này và cập nhật tình trạng pháp lý của doanh nghiệp trên Cơ 
+authority_action(co_quan_dang_ky_kinh_doanh, xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep, giay_chung_nhan_dang_ky_doanh_nghiep) :- applies_if(xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep, neu_co_du_dieu_kien_quy_dinh_tai_khoan_1_dieu_nay_va_cap_nhat_tinh_trang_phap_ly_cua_doanh_nghiep_tren_co_so_du_lieu_qu).
+
+% rule_id: RULE_LUATDN_D206_K3_E000183_HB3760B0CD551__fa214a6f1d0709
+% rule_group_id: RG_LUATDN_D206_K3_NOP_DU_SO_THUE
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D206_K3_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=IX|section=|article=206|clause=3|point=|lines=1928-1928
+% predicate_canonical: nop_du_so_thue
+% normalization_status: full
+% source_text: Trong thời gian tạm ngừng kinh doanh, doanh nghiệp phải nộp đủ số thuế, bảo hiểm xã hội, bảo hiểm y tế, bảo hiểm thất nghiệp còn nợ; tiếp tục thanh toán các khoản nợ, hoàn thành việc thực hiện hợp đồng đã ký với khách hàng và người lao động
+dossier_item(nop_du_so_thue, hop_dong_da_ky_voi_khach_hang_va_nguoi_lao_dong) :- applies_if(nop_du_so_thue, truong_hop_doanh_nghiep_chu_no_khach_hang_va_nguoi_lao_dong_co_thoa_thuan_khac),
+    unless(tru_truong_hop_doanh_nghiep_chu_no_khach_hang_va_nguoi_lao_dong_co_thoa_thuan_khac).
+
+% rule_id: RULE_LUATDN_D206_K3_E000184_HB3760B0CD551__d9cc7b2a45cf2a
+% rule_group_id: RG_LUATDN_D206_K3_NOP_DU_SO_THUE
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D206_K3_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=IX|section=|article=206|clause=3|point=|lines=1928-1928
+% predicate_canonical: nop_du_so_thue
+% normalization_status: full
+% source_text: Trong thời gian tạm ngừng kinh doanh, doanh nghiệp phải nộp đủ số thuế, bảo hiểm xã hội, bảo hiểm y tế, bảo hiểm thất nghiệp còn nợ; tiếp tục thanh toán các khoản nợ, hoàn thành việc thực hiện hợp đồng đã ký với khách hàng và người lao động
+dossier_item(nop_du_so_thue, so_thue) :- applies_if(nop_du_so_thue, truong_hop_doanh_nghiep_chu_no_khach_hang_va_nguoi_lao_dong_co_thoa_thuan_khac),
+    unless(tru_truong_hop_doanh_nghiep_chu_no_khach_hang_va_nguoi_lao_dong_co_thoa_thuan_khac).
+
+% rule_id: RULE_LUATDN_D206_K3_E000184_HB3760B0CD551__d9cc7b2a45cf2a
+% rule_group_id: RG_LUATDN_D206_K3_NOP_DU_SO_THUE
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D206_K3_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=IX|section=|article=206|clause=3|point=|lines=1928-1928
+% predicate_canonical: nop_du_so_thue
+% normalization_status: full
+% source_text: Trong thời gian tạm ngừng kinh doanh, doanh nghiệp phải nộp đủ số thuế, bảo hiểm xã hội, bảo hiểm y tế, bảo hiểm thất nghiệp còn nợ; tiếp tục thanh toán các khoản nợ, hoàn thành việc thực hiện hợp đồng đã ký với khách hàng và người lao động
+dossier_item(nop_du_so_thue, bao_hiem) :- applies_if(nop_du_so_thue, truong_hop_doanh_nghiep_chu_no_khach_hang_va_nguoi_lao_dong_co_thoa_thuan_khac),
+    unless(tru_truong_hop_doanh_nghiep_chu_no_khach_hang_va_nguoi_lao_dong_co_thoa_thuan_khac).
+
+% rule_id: RULE_LUATDN_D206_K3_E000185_HB3760B0CD551__5fdaf331a44621
+% rule_group_id: RG_LUATDN_D206_K3_NOP_DU_SO_THUE
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D206_K3_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=IX|section=|article=206|clause=3|point=|lines=1928-1928
+% predicate_canonical: nop_du_so_thue
+% normalization_status: full
+% source_text: Trong thời gian tạm ngừng kinh doanh, doanh nghiệp phải nộp đủ số thuế, bảo hiểm xã hội, bảo hiểm y tế, bảo hiểm thất nghiệp còn nợ; tiếp tục thanh toán các khoản nợ, hoàn thành việc thực hiện hợp đồng đã ký với khách hàng và người lao động
+dossier_item(nop_du_so_thue, khach_hang_va_nguoi) :- applies_if(nop_du_so_thue, truong_hop_doanh_nghiep_chu_no_khach_hang_va_nguoi_lao_dong_co_thoa_thuan_khac),
+    unless(tru_truong_hop_doanh_nghiep_chu_no_khach_hang_va_nguoi_lao_dong_co_thoa_thuan_khac).
+
+% rule_id: RULE_LUATDN_D206_K3_E000182_HB3760B0CD551__0c3013b06a8c7b
+% rule_group_id: RG_LUATDN_D206_K3_NOP_DU_SO_THUE
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D206_K3_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=IX|section=|article=206|clause=3|point=|lines=1928-1928
+% predicate_canonical: nop_du_so_thue
+% normalization_status: full
+% source_text: Trong thời gian tạm ngừng kinh doanh, doanh nghiệp phải nộp đủ số thuế, bảo hiểm xã hội, bảo hiểm y tế, bảo hiểm thất nghiệp còn nợ; tiếp tục thanh toán các khoản nợ, hoàn thành việc thực hiện hợp đồng đã ký với khách hàng và người lao động
+obligation(doanh_nghiep, nop_du_so_thue, doanh_nghiep_nop_du_so_thue) :- applies_if(nop_du_so_thue, truong_hop_doanh_nghiep_chu_no_khach_hang_va_nguoi_lao_dong_co_thoa_thuan_khac),
+    unless(tru_truong_hop_doanh_nghiep_chu_no_khach_hang_va_nguoi_lao_dong_co_thoa_thuan_khac).
+
+% rule_id: RULE_LUATDN_D206_K3_E000186_HB3760B0CD551__21127b93019d5a
+% rule_group_id: RG_LUATDN_D206_K3_NOP_DU_SO_THUE
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D206_K3_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=IX|section=|article=206|clause=3|point=|lines=1928-1928
+% predicate_canonical: nop_du_so_thue
+% normalization_status: full
+% source_text: Trong thời gian tạm ngừng kinh doanh, doanh nghiệp phải nộp đủ số thuế, bảo hiểm xã hội, bảo hiểm y tế, bảo hiểm thất nghiệp còn nợ; tiếp tục thanh toán các khoản nợ, hoàn thành việc thực hiện hợp đồng đã ký với khách hàng và người lao động
+exception(nop_du_so_thue, tru_truong_hop_doanh_nghiep_chu_no_khach_hang_va_nguoi_lao_dong_co_thoa_thuan) :- applies_if(nop_du_so_thue, truong_hop_doanh_nghiep_chu_no_khach_hang_va_nguoi_lao_dong_co_thoa_thuan_khac).
+
+% rule_id: RULE_LUATDN_D206_K3_E000187_HEB4B5BB25941__8f7d3c461062d1
+% rule_group_id: RG_LUATDN_D206_K3_AP_DUNG_QUY_DINH_LOAI_TRU
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D206_K3_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=IX|section=|article=206|clause=3|point=|lines=1928-1928
+% predicate_canonical: ap_dung_quy_dinh_loai_tru
+% normalization_status: full
+% source_text: Trong thời gian tạm ngừng kinh doanh, doanh nghiệp phải nộp đủ số thuế, bảo hiểm xã hội, bảo hiểm y tế, bảo hiểm thất nghiệp còn nợ; tiếp tục thanh toán các khoản nợ, hoàn thành việc thực hiện hợp đồng đã ký với khách hàng và người lao động
+exception(ap_dung_quy_dinh_loai_tru, tru_truong_hop_doanh_nghiep_chu_no_khach_hang_va_nguoi_lao_dong_co_thoa_thuan).
+
+% rule_id: RULE_LUATDN_D206_K3_E000377_H68783C53AA6E__251924beb37633
+% rule_group_id: RG_LUATDN_D206_K3_NOP_DU_SO_THUE
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D206_K3_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=IX|section=|article=206|clause=3|point=|lines=1928-1928
+% predicate_canonical: nop_du_so_thue
+% normalization_status: full
+% source_text: Trong thời gian tạm ngừng kinh doanh, doanh nghiệp phải nộp đủ số thuế, bảo hiểm xã hội, bảo hiểm y tế, bảo hiểm thất nghiệp còn nợ; tiếp tục thanh toán các khoản nợ, hoàn thành việc thực hiện hợp đồng đã ký với khách hàng và người lao động
+exception(nop_du_so_thue, tru_truong_hop_doanh_nghiep_chu_no_khach_hang_va_nguoi_lao_dong_co_thoa_thuan).
+
+% rule_id: RULE_LUATDN_D213_K3_E000190_HF074DD2CC305__13a4273398c48d
+% rule_group_id: RG_LUATDN_D213_K3_THUC_HIEN_CAC_HOP_DONG
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D213_K3_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=IX|section=|article=213|clause=3|point=|lines=1993-1993
+% predicate_canonical: thuc_hien_cac_hop_dong
+% normalization_status: full
+% source_text: Doanh nghiệp có chi nhánh đã chấm dứt hoạt động chịu trách nhiệm thực hiện các hợp đồng, thanh toán các khoản nợ, gồm cả nợ thuế của chi nhánh và tiếp tục sử dụng lao động hoặc giải quyết đủ quyền lợi hợp pháp cho người lao động đã làm việc
+dossier_item(thuc_hien_cac_hop_dong, hop_dong_thanh_toan_cac_khoan_no_gom_ca_no_thue_cua_chi_nhanh_va_tiep_tuc_su).
+
+% rule_id: RULE_LUATDN_D213_K3_E000191_HF074DD2CC305__cd4b8a1e04da78
+% rule_group_id: RG_LUATDN_D213_K3_THUC_HIEN_CAC_HOP_DONG
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D213_K3_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=IX|section=|article=213|clause=3|point=|lines=1993-1993
+% predicate_canonical: thuc_hien_cac_hop_dong
+% normalization_status: full
+% source_text: Doanh nghiệp có chi nhánh đã chấm dứt hoạt động chịu trách nhiệm thực hiện các hợp đồng, thanh toán các khoản nợ, gồm cả nợ thuế của chi nhánh và tiếp tục sử dụng lao động hoặc giải quyết đủ quyền lợi hợp pháp cho người lao động đã làm việc
+legal_effect(chi_nhanh, cham_dut_hoat_dong_chiu_trach_nhiem_thuc_hien_cac_hop_dong_thanh_toan_cac_khoan).
+
+% rule_id: RULE_LUATDN_D213_K3_E000189_HF074DD2CC305__1bbabbdbe86f35
+% rule_group_id: RG_LUATDN_D213_K3_THUC_HIEN_CAC_HOP_DONG
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D213_K3_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=IX|section=|article=213|clause=3|point=|lines=1993-1993
+% predicate_canonical: thuc_hien_cac_hop_dong
+% normalization_status: full
+% source_text: Doanh nghiệp có chi nhánh đã chấm dứt hoạt động chịu trách nhiệm thực hiện các hợp đồng, thanh toán các khoản nợ, gồm cả nợ thuế của chi nhánh và tiếp tục sử dụng lao động hoặc giải quyết đủ quyền lợi hợp pháp cho người lao động đã làm việc
+obligation(chi_nhanh, thuc_hien_cac_hop_dong, chi_nhanh).
+
+% rule_id: RULE_LUATDN_D215_K2_E000192_HA15EAD4E7536__4a0d8250bffec5
+% rule_group_id: RG_LUATDN_D215_K2_THUC_HIEN_QUAN_LY_NHA_NUOC
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D215_K2_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=X|section=|article=215|clause=2|point=|lines=2001-2002
+% predicate_canonical: thuc_hien_quan_ly_nha_nuoc
+% normalization_status: full
+% source_text: Bộ, cơ quan ngang Bộ chịu trách nhiệm trước Chính phủ về việc thực hiện nhiệm vụ được phân công trong quản lý nhà nước đối với doanh nghiệp. 3.[49] Ủy ban nhân dân cấp tỉnh thực hiện quản lý nhà nước đối với doanh nghiệp trong phạm vi địa p
+applicability_condition(thuc_hien_quan_ly_nha_nuoc, doi_voi_doanh_nghiep) :- applies_if(thuc_hien_quan_ly_nha_nuoc, doi_voi_doanh_nghiep).
+
+% rule_id: RULE_LUATDN_D215_K2_E000382_H145A62316C3B__0ae45d9d9ea429
+% rule_group_id: RG_LUATDN_D215_K2_THUC_HIEN_QUAN_LY_NHA_NUOC
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D215_K2_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=X|section=|article=215|clause=2|point=|lines=2001-2002
+% predicate_canonical: thuc_hien_quan_ly_nha_nuoc
+% normalization_status: full
+% source_text: Bộ, cơ quan ngang Bộ chịu trách nhiệm trước Chính phủ về việc thực hiện nhiệm vụ được phân công trong quản lý nhà nước đối với doanh nghiệp. 3.[49] Ủy ban nhân dân cấp tỉnh thực hiện quản lý nhà nước đối với doanh nghiệp trong phạm vi địa p
+obligation(co_quan_dang_ky_kinh_doanh, thuc_hien_quan_ly_nha_nuoc, doanh_nghiep_trong_pham_vi_dia_phuong) :- applies_if(thuc_hien_quan_ly_nha_nuoc, doi_voi_doanh_nghiep).
+
+% rule_id: RULE_LUATDN_D26_K5_E000011_H3FEBB093524B__f0e073146941eb
+% rule_group_id: RG_LUATDN_D26_K5_XEM_XET_TINH_HOP_LE_CUA_HO_S
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D26_K5_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=II|section=|article=26|clause=5|point=|lines=275-276
+% predicate_canonical: xem_xet_tinh_hop_le_cua_ho_so
+% normalization_status: full
+% source_text: Trong thời hạn 03 ngày làm việc kể từ ngày nhận hồ sơ, Cơ quan đăng ký kinh doanh có trách nhiệm xem xét tính hợp lệ của hồ sơ đăng ký doanh nghiệp và cấp đăng ký doanh nghiệp; trường hợp hồ sơ chưa hợp lệ, Cơ quan đăng ký kinh doanh phải t
+authority_action(co_quan_dang_ky_kinh_doanh, xem_xet_tinh_hop_le_cua_ho_so, ho_so_dang_ky_doanh_nghiep) :- applies_if(xem_xet_tinh_hop_le_cua_ho_so, truong_hop_ho_so_chua_hop_le_co_quan_dang_ky_kinh_doanh_phai).
+
+% rule_id: RULE_LUATDN_D26_K5_E000014_HF7C4958CAF31__8e1323be7b6f17
+% rule_group_id: RG_LUATDN_D26_K5_XEM_XET_TINH_HOP_LE_CUA_HO_S
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D26_K5_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=II|section=|article=26|clause=5|point=|lines=275-276
+% predicate_canonical: xem_xet_tinh_hop_le_cua_ho_so
+% normalization_status: full
+% source_text: Trong thời hạn 03 ngày làm việc kể từ ngày nhận hồ sơ, Cơ quan đăng ký kinh doanh có trách nhiệm xem xét tính hợp lệ của hồ sơ đăng ký doanh nghiệp và cấp đăng ký doanh nghiệp; trường hợp hồ sơ chưa hợp lệ, Cơ quan đăng ký kinh doanh phải t
+deadline(xem_xet_tinh_hop_le_cua_ho_so, 3.0, ngay_lam_viec, ke_tu_ngay_nhan_ho_so) :- applies_if(xem_xet_tinh_hop_le_cua_ho_so, truong_hop_ho_so_chua_hop_le_co_quan_dang_ky_kinh_doanh_phai).
+
+% rule_id: RULE_LUATDN_D30_K3_E000031_H683D2BEC0D69__9f7fb709427928
+% rule_group_id: RG_LUATDN_D30_K3_XEM_XET_TINH_HOP_LE_CUA_HO_S
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D30_K3_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=II|section=|article=30|clause=3|point=|lines=296-296
+% predicate_canonical: xem_xet_tinh_hop_le_cua_ho_so
+% normalization_status: full
+% source_text: Trong thời hạn 03 ngày làm việc kể từ ngày nhận hồ sơ, Cơ quan đăng ký kinh doanh có trách nhiệm xem xét tính hợp lệ của hồ sơ và cấp Giấy chứng nhận đăng ký doanh nghiệp mới; trường hợp hồ sơ chưa hợp lệ, Cơ quan đăng ký kinh doanh phải th
+authority_action(co_quan_dang_ky_kinh_doanh, xem_xet_tinh_hop_le_cua_ho_so, giay_chung_nhan_dang_ky_doanh_nghiep) :- applies_if(xem_xet_tinh_hop_le_cua_ho_so, truong_hop_ho_so_chua_hop_le_co_quan_dang_ky_kinh_doanh_phai).
+
+% rule_id: RULE_LUATDN_D30_K3_E000344_H4B0D7C21D58B__75c85f27079e2f
+% rule_group_id: RG_LUATDN_D30_K3_XEM_XET_TINH_HOP_LE_CUA_HO_S
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D30_K3_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=II|section=|article=30|clause=3|point=|lines=296-296
+% predicate_canonical: xem_xet_tinh_hop_le_cua_ho_so
+% normalization_status: full
+% source_text: Trong thời hạn 03 ngày làm việc kể từ ngày nhận hồ sơ, Cơ quan đăng ký kinh doanh có trách nhiệm xem xét tính hợp lệ của hồ sơ và cấp Giấy chứng nhận đăng ký doanh nghiệp mới; trường hợp hồ sơ chưa hợp lệ, Cơ quan đăng ký kinh doanh phải th
+legal_effect(co_quan_dang_ky_kinh_doanh, cap_giay_chung_nhan_dang_ky_doanh_nghiep_moi) :- applies_if(xem_xet_tinh_hop_le_cua_ho_so, truong_hop_ho_so_chua_hop_le_co_quan_dang_ky_kinh_doanh_phai).
+
+% rule_id: RULE_LUATDN_D45_K3_E000041_H54A3724FA902__05e1c142b45446
+% rule_group_id: RG_LUATDN_D45_K3_XEM_XET_TINH_HOP_LE_CUA_HO_S
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D45_K3_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=II|section=|article=45|clause=3|point=|lines=396-396
+% predicate_canonical: xem_xet_tinh_hop_le_cua_ho_so
+% normalization_status: full
+% source_text: Trong thời hạn 03 ngày làm việc kể từ ngày nhận hồ sơ, Cơ quan đăng ký kinh doanh có trách nhiệm xem xét tính hợp lệ của hồ sơ và cấp Giấy chứng nhận đăng ký hoạt động chi nhánh, văn phòng đại diện; trường hợp hồ sơ chưa hợp lệ, Cơ quan đăn
+authority_action(co_quan_dang_ky_kinh_doanh, xem_xet_tinh_hop_le_cua_ho_so, chi_nhanh_van_phong_dai_dien) :- applies_to(ap_dung_doi_voi_chi_nhanh_van_phong_dai_dien),
+    applies_if(xem_xet_tinh_hop_le_cua_ho_so, truong_hop_ho_so_chua_hop_le_co_quan_dang_ky_kinh_doanh_phai).
+
+% rule_id: RULE_LUATDN_D45_K3_E000349_H710387D53E26__0d80dd29395e20
+% rule_group_id: RG_LUATDN_D45_K3_XEM_XET_TINH_HOP_LE_CUA_HO_S
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D45_K3_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=II|section=|article=45|clause=3|point=|lines=396-396
+% predicate_canonical: xem_xet_tinh_hop_le_cua_ho_so
+% normalization_status: full
+% source_text: Trong thời hạn 03 ngày làm việc kể từ ngày nhận hồ sơ, Cơ quan đăng ký kinh doanh có trách nhiệm xem xét tính hợp lệ của hồ sơ và cấp Giấy chứng nhận đăng ký hoạt động chi nhánh, văn phòng đại diện; trường hợp hồ sơ chưa hợp lệ, Cơ quan đăn
+legal_effect(co_quan_dang_ky_kinh_doanh, cap_giay_chung_nhan_dang_ky_hoat_dong_chi_nhanh_van_phong_dai_dien) :- applies_to(ap_dung_doi_voi_chi_nhanh_van_phong_dai_dien),
+    applies_if(xem_xet_tinh_hop_le_cua_ho_so, truong_hop_ho_so_chua_hop_le_co_quan_dang_ky_kinh_doanh_phai).
+
+% rule_id: RULE_LUATDN_D48_K3_E000055_H7C5394B2A508__47e7c4e01a609f
+% rule_group_id: RG_LUATDN_D48_K3_CAP_NHAT_THAY_DOI_THANH_VIEN
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D48_K3_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=III|section=1|article=48|clause=3|point=|lines=433-433
+% predicate_canonical: cap_nhat_thay_doi_thanh_vien
+% normalization_status: full
+% source_text: Công ty phải cập nhật kịp thời thay đổi thành viên trong sổ đăng ký thành viên theo yêu cầu của thành viên có liên quan theo quy định tại Điều lệ công ty.
+dossier_item(cap_nhat_thay_doi_thanh_vien, dieu_le_cong_ty).
+
+% rule_id: RULE_LUATDN_D57_K5_E000350_HDDE6565FFB4E__104bc2c2676d9a
+% rule_group_id: RG_LUATDN_D57_K5_GUI_CHO_THANH_VIEN_CONG_TY_T
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D57_K5_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=III|section=1|article=57|clause=5|point=|lines=532-532
+% predicate_canonical: gui_cho_thanh_vien_cong_ty_truoc
+% normalization_status: full
+% source_text: Chương trình và tài liệu họp phải được gửi cho thành viên công ty trước khi họp. Tài liệu sử dụng trong cuộc họp liên quan đến quyết định về sửa đổi, bổ sung Điều lệ công ty, thông qua chiến lược phát triển công ty, thông qua báo cáo tài ch
+dossier_item(gui_cho_thanh_vien_cong_ty_truoc, chuong_trinh_va_tai_lieu_hop).
+
+% rule_id: RULE_LUATDN_D57_K5_E000350_HDDE6565FFB4E__104bc2c2676d9a
+% rule_group_id: RG_LUATDN_D57_K5_GUI_CHO_THANH_VIEN_CONG_TY_T
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D57_K5_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=III|section=1|article=57|clause=5|point=|lines=532-532
+% predicate_canonical: gui_cho_thanh_vien_cong_ty_truoc
+% normalization_status: full
+% source_text: Chương trình và tài liệu họp phải được gửi cho thành viên công ty trước khi họp. Tài liệu sử dụng trong cuộc họp liên quan đến quyết định về sửa đổi, bổ sung Điều lệ công ty, thông qua chiến lược phát triển công ty, thông qua báo cáo tài ch
+dossier_item(gui_cho_thanh_vien_cong_ty_truoc, tai_lieu_ve_sua_doi_bo_sung_dieu_le_cong_ty_thong_qua_chien_luoc_phat_trien).
+
+% rule_id: RULE_LUATDN_D57_K5_E000057_H5ABEA35DED6D__980decd5a0c82d
+% rule_group_id: RG_LUATDN_D57_K5_GUI_CHO_THANH_VIEN_CONG_TY_T
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D57_K5_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=III|section=1|article=57|clause=5|point=|lines=532-532
+% predicate_canonical: gui_cho_thanh_vien_cong_ty_truoc
+% normalization_status: full
+% source_text: Chương trình và tài liệu họp phải được gửi cho thành viên công ty trước khi họp. Tài liệu sử dụng trong cuộc họp liên quan đến quyết định về sửa đổi, bổ sung Điều lệ công ty, thông qua chiến lược phát triển công ty, thông qua báo cáo tài ch
+deadline(gui_cho_thanh_vien_cong_ty_truoc, 7.0, ngay_lam_viec, '7_0_ngay_lam_viec') :- applies_if(gui_cho_thanh_vien_cong_ty_truoc, khi_hop_tai_lieu_su_dung_trong_cuoc_hop_lien_quan_den_quyet_dinh_ve_sua_doi_bo_sung_dieu_le_cong_ty_thong_qua_chien).
+
+% rule_id: RULE_LUATDN_D57_K5_E000351_HDDE6565FFB4E__d391020b68d9b5
+% rule_group_id: RG_LUATDN_D57_K5_GUI_CHO_THANH_VIEN_CONG_TY_T
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D57_K5_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=III|section=1|article=57|clause=5|point=|lines=532-532
+% predicate_canonical: gui_cho_thanh_vien_cong_ty_truoc
+% normalization_status: full
+% source_text: Chương trình và tài liệu họp phải được gửi cho thành viên công ty trước khi họp. Tài liệu sử dụng trong cuộc họp liên quan đến quyết định về sửa đổi, bổ sung Điều lệ công ty, thông qua chiến lược phát triển công ty, thông qua báo cáo tài ch
+deadline(gui_cho_thanh_vien_cong_ty_truoc, 7.0, ngay_lam_viec, '7_0_ngay_lam_viec').
+
+% rule_id: RULE_LUATDN_D61_K4_E000354_H5E56D875467B__f094d8d2935235
+% rule_group_id: RG_LUATDN_D61_K4_THONG_BAO
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D61_K4_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=III|section=1|article=61|clause=4|point=|lines=592-592
+% predicate_canonical: thong_bao
+% normalization_status: full
+% source_text: Phiếu lấy ý kiến có nội dung đầy đủ, có chữ ký của thành viên Hội đồng thành viên và được gửi về công ty trong thời hạn quy định được coi là hợp lệ. Chủ tịch Hội đồng thành viên tổ chức việc kiểm phiếu, lập báo cáo và thông báo kết quả kiểm
+dossier_item(thong_bao_ket_qua_kiem_phieu, bao_cao_ket_qua_kiem_phieu).
+
+% rule_id: RULE_LUATDN_D61_K4_E000354_H5E56D875467B__f094d8d2935235
+% rule_group_id: RG_LUATDN_D61_K4_THONG_BAO
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D61_K4_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=III|section=1|article=61|clause=4|point=|lines=592-592
+% predicate_canonical: thong_bao
+% normalization_status: full
+% source_text: Phiếu lấy ý kiến có nội dung đầy đủ, có chữ ký của thành viên Hội đồng thành viên và được gửi về công ty trong thời hạn quy định được coi là hợp lệ. Chủ tịch Hội đồng thành viên tổ chức việc kiểm phiếu, lập báo cáo và thông báo kết quả kiểm
+dossier_item(thong_bao_ket_qua_kiem_phieu, nghi_quyet_va_quyet_dinh_duoc_thong_qua_thong_bao_cho_cac_thanh_vien).
+
+% rule_id: RULE_LUATDN_D61_K4_E000356_H5E56D875467B__1962d400824115
+% rule_group_id: RG_LUATDN_D61_K4_THONG_BAO
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D61_K4_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=III|section=1|article=61|clause=4|point=|lines=592-592
+% predicate_canonical: thong_bao
+% normalization_status: full
+% source_text: Phiếu lấy ý kiến có nội dung đầy đủ, có chữ ký của thành viên Hội đồng thành viên và được gửi về công ty trong thời hạn quy định được coi là hợp lệ. Chủ tịch Hội đồng thành viên tổ chức việc kiểm phiếu, lập báo cáo và thông báo kết quả kiểm
+dossier_item(chuan_bi_ho_so, bao_cao_ket_qua_kiem_phieu).
+
+% rule_id: RULE_LUATDN_D61_K4_E000357_H5E56D875467B__82950aef76718d
+% rule_group_id: RG_LUATDN_D61_K4_THONG_BAO
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D61_K4_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=III|section=1|article=61|clause=4|point=|lines=592-592
+% predicate_canonical: thong_bao
+% normalization_status: full
+% source_text: Phiếu lấy ý kiến có nội dung đầy đủ, có chữ ký của thành viên Hội đồng thành viên và được gửi về công ty trong thời hạn quy định được coi là hợp lệ. Chủ tịch Hội đồng thành viên tổ chức việc kiểm phiếu, lập báo cáo và thông báo kết quả kiểm
+dossier_item(chuan_bi_ho_so, nghi_quyet_va_quyet_dinh_duoc_thong_qua_thong_bao_cho_cac_thanh_vien).
+
+% rule_id: RULE_LUATDN_D61_K4_E000059_H477572BE8D69__5d3dd2cff54e54
+% rule_group_id: RG_LUATDN_D61_K4_THONG_BAO
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D61_K4_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=III|section=1|article=61|clause=4|point=|lines=592-592
+% predicate_canonical: thong_bao
+% normalization_status: full
+% source_text: Phiếu lấy ý kiến có nội dung đầy đủ, có chữ ký của thành viên Hội đồng thành viên và được gửi về công ty trong thời hạn quy định được coi là hợp lệ. Chủ tịch Hội đồng thành viên tổ chức việc kiểm phiếu, lập báo cáo và thông báo kết quả kiểm
+deadline(thong_bao_ket_qua_kiem_phieu, 7.0, ngay_lam_viec, ke_tu_moc_tham_chieu).
+
+% rule_id: RULE_LUATDN_D78_K6_E000360_H93B03FA53D89__9294a2a4c2490d
+% rule_group_id: RG_LUATDN_D78_K6_DANG_KY_THAY_DOI_NOI_DUNG_DA
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D78_K6_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=III|section=2|article=78|clause=6|point=|lines=713-713
+% predicate_canonical: dang_ky_thay_doi_noi_dung_dang_ky_doanh_nghiep
+% normalization_status: full
+% source_text: Trường hợp chủ sở hữu công ty là tổ chức mà bị giải thể hoặc phá sản thì người nhận chuyển nhượng phần vốn góp của chủ sở hữu trở thành chủ sở hữu hoặc thành viên công ty. Công ty phải tổ chức quản lý theo loại hình doanh nghiệp tương ứng v
+legal_effect(cong_ty, bi_giai_the_hoac_pha_san_thi_nguoi_nhan_chuyen_nhuong_phan_von_gop_cua_chu_so_h) :- applies_if(dang_ky_thay_doi_noi_dung_dang_ky_doanh_nghiep, truong_hop_chu_so_huu_cong_ty_la_to_chuc_ma_bi_giai_the_hoac_pha_san_thi_nguoi_nhan_chuyen_nhuong_phan_von_gop_cua_chu).
+
+% rule_id: RULE_LUATDN_D8_K3_E000002_H5745E238E6BA__6525145b64af3c
+% rule_group_id: RG_LUATDN_D8_K3_DANG_KY_DOANH_NGHIEP
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D8_K3_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=I|section=|article=8|clause=3|point=|lines=92-92
+% predicate_canonical: dang_ky_doanh_nghiep
+% normalization_status: full
+% source_text: Chịu trách nhiệm về tính trung thực, chính xác của thông tin kê khai trong hồ sơ đăng ký doanh nghiệp và các báo cáo; trường hợp phát hiện thông tin đã kê khai hoặc báo cáo thiếu chính xác, chưa đầy đủ thì phải kịp thời sửa đổi, bổ sung các
+dossier_item(dang_ky_doanh_nghiep, ho_so_dang_ky_doanh_nghiep_va_cac_bao_cao) :- applies_if(dang_ky_doanh_nghiep, truong_hop_phat_hien_thong_tin_da_ke_khai_hoac_bao_cao_thieu_chinh_xac_chua_day_du_thi_phai_kip_thoi_sua_doi_bo_sung).
+
+% rule_id: RULE_LUATDN_D8_K3_E000001_H5745E238E6BA__19b1296ca4aca4
+% rule_group_id: RG_LUATDN_D8_K3_DANG_KY_DOANH_NGHIEP
+% doc_code: 67/VBHN-VPQH
+% source_ref: unit=UNIT_LUATDN_D8_K3_S1_SS1|doc_id=DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025|chapter=I|section=|article=8|clause=3|point=|lines=92-92
+% predicate_canonical: dang_ky_doanh_nghiep
+% normalization_status: full
+% source_text: Chịu trách nhiệm về tính trung thực, chính xác của thông tin kê khai trong hồ sơ đăng ký doanh nghiệp và các báo cáo; trường hợp phát hiện thông tin đã kê khai hoặc báo cáo thiếu chính xác, chưa đầy đủ thì phải kịp thời sửa đổi, bổ sung các
+obligation(doanh_nghiep, dang_ky_doanh_nghiep, ho_so_dang_ky_doanh_nghiep) :- applies_if(dang_ky_doanh_nghiep, truong_hop_phat_hien_thong_tin_da_ke_khai_hoac_bao_cao_thieu_chinh_xac_chua_day_du_thi_phai_kip_thoi_sua_doi_bo_sung).
+
+% rule_id: RULE_ND168_D107_K8_E000504_HE6BBDAF42D70__3340ce83b0c5f4
+% rule_group_id: RG_ND168_D107_K8_CAP_NHAT_THONG_TIN
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D107_K8_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=VIII|section=|article=107|clause=8|point=|lines=1009-1009
+% predicate_canonical: cap_nhat_thong_tin
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh cấp xã ban hành quyết định thu hồi Giấy chứng nhận đăng ký hộ kinh doanh đồng thời ra thông báo về việc hộ kinh doanh đang làm thủ tục chấm dứt hoạt động, cập nhật tình trạng pháp lý của hộ kinh doanh sang tình tr
+authority_action(co_quan_dang_ky_kinh_doanh, cap_nhat_thong_tin, dang_ky_doanh_nghiep) :- unless(tru_truong_hop_ho_kinh_doanh_bi_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_de_thuc_hien_bien_phap_cuong_che_no_thue),
+    exception_applies(thong_bao_ve_viec_ho_kinh_doanh_dang_lam_thu_tuc_cham_dut_hoat_dong_tren_cong_thong_tin_quoc_gia_ve_dang_ky_doanh_nghiep).
+
+% rule_id: RULE_ND168_D107_K8_E000327_H9246BA7D11BB__dac16f19cbbcc1
+% rule_group_id: RG_ND168_D107_K8_CAP_NHAT_THONG_TIN
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D107_K8_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=VIII|section=|article=107|clause=8|point=|lines=1009-1009
+% predicate_canonical: cap_nhat_thong_tin
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh cấp xã ban hành quyết định thu hồi Giấy chứng nhận đăng ký hộ kinh doanh đồng thời ra thông báo về việc hộ kinh doanh đang làm thủ tục chấm dứt hoạt động, cập nhật tình trạng pháp lý của hộ kinh doanh sang tình tr
+legal_effect(co_quan_dang_ky_kinh_doanh, thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_dong_thoi_ra) :- unless(tru_truong_hop_ho_kinh_doanh_bi_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_de_thuc_hien_bien_phap_cuong_che_no_thue),
+    exception_applies(thong_bao_ve_viec_ho_kinh_doanh_dang_lam).
+
+% rule_id: RULE_ND168_D107_K8_E000328_H9246BA7D11BB__01bdb283d4efa8
+% rule_group_id: RG_ND168_D107_K8_CAP_NHAT_THONG_TIN
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D107_K8_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=VIII|section=|article=107|clause=8|point=|lines=1009-1009
+% predicate_canonical: cap_nhat_thong_tin
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh cấp xã ban hành quyết định thu hồi Giấy chứng nhận đăng ký hộ kinh doanh đồng thời ra thông báo về việc hộ kinh doanh đang làm thủ tục chấm dứt hoạt động, cập nhật tình trạng pháp lý của hộ kinh doanh sang tình tr
+legal_effect(co_quan_dang_ky_kinh_doanh, thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_dong_thoi_ra) :- unless(tru_truong_hop_ho_kinh_doanh_bi_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_de_thuc_hien_bien_phap_cuong_che_no_thue),
+    exception_applies(thong_bao_ve_viec_ho_kinh_doanh_dang_lam_thu_tuc_cham_dut_hoat_dong_cap_nhat_tinh_t).
+
+% rule_id: RULE_ND168_D107_K8_E000329_H9246BA7D11BB__149bd3691389fa
+% rule_group_id: RG_ND168_D107_K8_CAP_NHAT_THONG_TIN
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D107_K8_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=VIII|section=|article=107|clause=8|point=|lines=1009-1009
+% predicate_canonical: cap_nhat_thong_tin
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh cấp xã ban hành quyết định thu hồi Giấy chứng nhận đăng ký hộ kinh doanh đồng thời ra thông báo về việc hộ kinh doanh đang làm thủ tục chấm dứt hoạt động, cập nhật tình trạng pháp lý của hộ kinh doanh sang tình tr
+legal_effect(co_quan_dang_ky_kinh_doanh, thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_va) :- unless(tru_truong_hop_ho_kinh_doanh_bi_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_de_thuc_hien_bien_phap_cuong_che_no_thue),
+    exception_applies(thong_bao_ve_viec_ho_kinh_doanh_dang_lam_thu_tuc_cham_dut_hoat_dong_tren_cong_thong_tin_quoc_g).
+
+% rule_id: RULE_ND168_D107_K8_E000330_H9246BA7D11BB__dfe9a8d8c8f5ad
+% rule_group_id: RG_ND168_D107_K8_CAP_NHAT_THONG_TIN
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D107_K8_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=VIII|section=|article=107|clause=8|point=|lines=1009-1009
+% predicate_canonical: cap_nhat_thong_tin
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh cấp xã ban hành quyết định thu hồi Giấy chứng nhận đăng ký hộ kinh doanh đồng thời ra thông báo về việc hộ kinh doanh đang làm thủ tục chấm dứt hoạt động, cập nhật tình trạng pháp lý của hộ kinh doanh sang tình tr
+legal_effect(co_quan_dang_ky_kinh_doanh, bi_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_de_thuc_hien_bien_phap_cuong_c) :- unless(tru_truong_hop_ho_kinh_doanh_bi_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_de_thuc_hien_bien_phap_cuong_che_no_thue),
+    exception_applies(theo_de_nghi_cua_co_quan_quan_ly_thue).
+
+% rule_id: RULE_ND168_D107_K8_E000326_H9246BA7D11BB__5a1d3515ad7402
+% rule_group_id: RG_ND168_D107_K8_CAP_NHAT_THONG_TIN
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D107_K8_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=VIII|section=|article=107|clause=8|point=|lines=1009-1009
+% predicate_canonical: cap_nhat_thong_tin
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh cấp xã ban hành quyết định thu hồi Giấy chứng nhận đăng ký hộ kinh doanh đồng thời ra thông báo về việc hộ kinh doanh đang làm thủ tục chấm dứt hoạt động, cập nhật tình trạng pháp lý của hộ kinh doanh sang tình tr
+exception(cap_nhat_thong_tin, tru_truong_hop_ho_kinh_doanh_bi_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_d).
+
+% rule_id: RULE_ND168_D107_K8_E000331_H65C05EF0DADF__a81f4623de28c9
+% rule_group_id: RG_ND168_D107_K8_AP_DUNG_QUY_DINH_LOAI_TRU
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D107_K8_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=VIII|section=|article=107|clause=8|point=|lines=1009-1009
+% predicate_canonical: ap_dung_quy_dinh_loai_tru
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh cấp xã ban hành quyết định thu hồi Giấy chứng nhận đăng ký hộ kinh doanh đồng thời ra thông báo về việc hộ kinh doanh đang làm thủ tục chấm dứt hoạt động, cập nhật tình trạng pháp lý của hộ kinh doanh sang tình tr
+exception(ap_dung_quy_dinh_loai_tru, tru_truong_hop_ho_kinh_doanh_bi_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_d) :- exception_applies(thong_bao_ve_viec_ho_kinh_doanh_dang_lam_thu_tuc_cham_dut_hoat_dong_cap_nhat_tinh_t).
+
+% rule_id: RULE_ND168_D107_K8_E000332_H65C05EF0DADF__2fcd0020850ba3
+% rule_group_id: RG_ND168_D107_K8_AP_DUNG_QUY_DINH_LOAI_TRU
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D107_K8_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=VIII|section=|article=107|clause=8|point=|lines=1009-1009
+% predicate_canonical: ap_dung_quy_dinh_loai_tru
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh cấp xã ban hành quyết định thu hồi Giấy chứng nhận đăng ký hộ kinh doanh đồng thời ra thông báo về việc hộ kinh doanh đang làm thủ tục chấm dứt hoạt động, cập nhật tình trạng pháp lý của hộ kinh doanh sang tình tr
+exception(ap_dung_quy_dinh_loai_tru, tru_truong_hop_ho_kinh_doanh_bi_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_d).
+
+% rule_id: RULE_ND168_D107_K8_E000512_H2B8B3B660003__39d5da7ff8af7b
+% rule_group_id: RG_ND168_D107_K8_CAP_NHAT_THONG_TIN
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D107_K8_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=VIII|section=|article=107|clause=8|point=|lines=1009-1009
+% predicate_canonical: cap_nhat_thong_tin
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh cấp xã ban hành quyết định thu hồi Giấy chứng nhận đăng ký hộ kinh doanh đồng thời ra thông báo về việc hộ kinh doanh đang làm thủ tục chấm dứt hoạt động, cập nhật tình trạng pháp lý của hộ kinh doanh sang tình tr
+exception(cap_nhat_thong_tin, tru_truong_hop_ho_kinh_doanh_bi_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_d) :- exception_applies(theo_de_nghi_cua_co_quan_quan_ly_thue).
+
+% rule_id: RULE_ND168_D107_K8_E000506_HE6BBDAF42D70__96e13c8e4c0db3
+% rule_group_id: RG_ND168_D107_K8_CAP_NHAT_THONG_TIN
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D107_K8_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=VIII|section=|article=107|clause=8|point=|lines=1009-1009
+% predicate_canonical: cap_nhat_thong_tin
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh cấp xã ban hành quyết định thu hồi Giấy chứng nhận đăng ký hộ kinh doanh đồng thời ra thông báo về việc hộ kinh doanh đang làm thủ tục chấm dứt hoạt động, cập nhật tình trạng pháp lý của hộ kinh doanh sang tình tr
+obligation(co_quan_dang_ky_kinh_doanh, cap_nhat_thong_tin, dang_ky_doanh_nghiep) :- unless(tru_truong_hop_ho_kinh_doanh_bi_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_de_thuc_hien_bien_phap_cuong_che_no_thue).
+
+% rule_id: RULE_ND168_D107_K8_E000514_HF1DC4B5243E5__287d78470bad44
+% rule_group_id: RG_ND168_D107_K8_CAP_NHAT_THONG_TIN
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D107_K8_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=VIII|section=|article=107|clause=8|point=|lines=1009-1009
+% predicate_canonical: cap_nhat_thong_tin
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh cấp xã ban hành quyết định thu hồi Giấy chứng nhận đăng ký hộ kinh doanh đồng thời ra thông báo về việc hộ kinh doanh đang làm thủ tục chấm dứt hoạt động, cập nhật tình trạng pháp lý của hộ kinh doanh sang tình tr
+obligation(co_quan_dang_ky_kinh_doanh, cap_nhat_thong_tin, dang_ky_doanh_nghiep) :- unless(tru_truong_hop_ho_kinh_doanh_bi_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_de_thuc_hien_bien_phap_cuong_che_no_thue),
+    exception_applies(thong_bao_ve_viec_ho_kinh_doanh_dang_lam_thu_tuc_cham_dut_hoat_dong_cap_nhat_tinh_trang_phap_ly_cua_ho_kinh_doan).
+
+% rule_id: RULE_ND168_D116_E000520_H583AF8ABC606__95bea66ae9bb10
+% rule_group_id: RG_ND168_D116_TRA_CUU_THONG_TIN
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D116_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=VIII|section=|article=116|clause=|point=|lines=1053-1054
+% predicate_canonical: tra_cuu_thong_tin
+% normalization_status: full
+% source_text: Tổ chức, cá nhân có thể tra cứu thông tin đăng ký hộ kinh doanh miễn phí trên Cổng thông tin quốc gia về đăng ký doanh nghiệp tại địa chỉ www.dangkykinhdoanh.gov.vn, bao gồm: tên hộ kinh doanh; mã số hộ kinh doanh; địa chỉ trụ sở; ngành, ng
+obligation(doanh_nghiep, tra_cuu_thong_tin, dang_ky_doanh_nghiep).
+
+% rule_id: RULE_ND168_D119_K6_E000524_HFB48B4CA7B56__118c9ebd980a65
+% rule_group_id: RG_ND168_D119_K6_DANG_KY
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D119_K6_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=IX|section=|article=119|clause=6|point=|lines=1074-1074
+% predicate_canonical: dang_ky
+% normalization_status: full
+% source_text: Khi nhận được hồ sơ của doanh nghiệp, Cơ quan đăng ký kinh doanh cấp tỉnh trao giấy tiếp nhận hồ sơ và hẹn trả kết quả, xem xét tính hợp lệ của hồ sơ và cấp Giấy chứng nhận đăng ký doanh nghiệp, Giấy chứng nhận đăng ký hoạt động chi nhánh, 
+legal_effect(van_phong_dai_dien, cap_giay_chung_nhan_dang_ky_doanh_nghiep_giay_chung_nhan_dang_ky_hoat_dong_chi) :- applies_to(ap_dung_doi_voi_chi_nhanh_van_phong_dai_dien),
+    applies_if(dang_ky_kinh_doanh_cap_tinh_trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua, khi_nhan_duoc_ho_so_cua_doanh_nghiep_co_quan_dang_ky_kinh_doanh).
+
+% rule_id: RULE_ND168_D12_E000221_H428A72C345B9__c61ffb1500a1a6
+% rule_group_id: RG_ND168_D12_UY_QUYEN_BANG_VAN_BAN
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D12_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=I|section=|article=12|clause=|point=|lines=124-125
+% predicate_canonical: uy_quyen_bang_van_ban
+% normalization_status: full
+% source_text: Người có thẩm quyền ký văn bản đề nghị đăng ký doanh nghiệp có thể ủy quyền cho tổ chức, cá nhân khác thực hiện thủ tục đăng ký doanh nghiệp theo quy định sau đây:
+procedure_step(uy_quyen_bang_van_ban, dang_ky_doanh_nghiep).
+
+% rule_id: RULE_ND168_D12_K1_E000203_HA62AAF27CFBE__28d20cfdbb2c1c
+% rule_group_id: RG_ND168_D12_K1_KEM
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D12_K1_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=I|section=|article=12|clause=1|point=|lines=120-120
+% predicate_canonical: kem
+% normalization_status: full
+% source_text: Trường hợp ủy quyền cho cá nhân thực hiện thủ tục đăng ký doanh nghiệp, kèm theo hồ sơ đăng ký doanh nghiệp phải có văn bản ủy quyền cho cá nhân thực hiện thủ tục liên quan đến đăng ký doanh nghiệp. Văn bản ủy quyền này không bắt buộc phải 
+applicability_condition(anchor_bb2c1c, truong_hop_uy_quyen_cho_ca_nhan_thuc_hien_thu_tuc_dang_ky_doanh_nghiep) :- applies_if(kem, truong_hop_uy_quyen_cho_ca_nhan_thuc_hien_thu_tuc_dang_ky_doanh_nghiep).
+
+% rule_id: RULE_ND168_D12_K1_E000199_H52CB06E989AE__af462adb30aa5c
+% rule_group_id: RG_ND168_D12_K1_KEM
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D12_K1_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=I|section=|article=12|clause=1|point=|lines=120-120
+% predicate_canonical: kem
+% normalization_status: full
+% source_text: Trường hợp ủy quyền cho cá nhân thực hiện thủ tục đăng ký doanh nghiệp, kèm theo hồ sơ đăng ký doanh nghiệp phải có văn bản ủy quyền cho cá nhân thực hiện thủ tục liên quan đến đăng ký doanh nghiệp. Văn bản ủy quyền này không bắt buộc phải 
+dossier_item(kem, van_ban_uy_quyen) :- applies_if(kem, truong_hop_uy_quyen_cho_ca_nhan_thuc_hien_thu_tuc_dang_ky_doanh_nghiep).
+
+% rule_id: RULE_ND168_D12_K1_E000200_H52CB06E989AE__88d80426c68227
+% rule_group_id: RG_ND168_D12_K1_KEM
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D12_K1_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=I|section=|article=12|clause=1|point=|lines=120-120
+% predicate_canonical: kem
+% normalization_status: full
+% source_text: Trường hợp ủy quyền cho cá nhân thực hiện thủ tục đăng ký doanh nghiệp, kèm theo hồ sơ đăng ký doanh nghiệp phải có văn bản ủy quyền cho cá nhân thực hiện thủ tục liên quan đến đăng ký doanh nghiệp. Văn bản ủy quyền này không bắt buộc phải 
+dossier_item(kem, giay_de_nghi_dang_ky_doanh_nghiep) :- applies_if(kem, truong_hop_uy_quyen_cho_ca_nhan_thuc_hien_thu_tuc_dang_ky_doanh_nghiep).
+
+% rule_id: RULE_ND168_D12_K1_E000201_H8335B46E9A41__5d189a0a3d2527
+% rule_group_id: RG_ND168_D12_K1_KEM
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D12_K1_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=I|section=|article=12|clause=1|point=|lines=120-120
+% predicate_canonical: kem
+% normalization_status: full
+% source_text: Trường hợp ủy quyền cho cá nhân thực hiện thủ tục đăng ký doanh nghiệp, kèm theo hồ sơ đăng ký doanh nghiệp phải có văn bản ủy quyền cho cá nhân thực hiện thủ tục liên quan đến đăng ký doanh nghiệp. Văn bản ủy quyền này không bắt buộc phải 
+dossier_item(kem, van_ban_uy_quyen_cho_ca_nhan_thuc_hien_thu_tuc_dang_ky_doanh_nghiep) :- applies_if(kem, truong_hop_uy_quyen_cho_ca_nhan_thuc_hien_thu_tuc_dang_ky_doanh_nghiep).
+
+% rule_id: RULE_ND168_D12_K1_E000198_H52CB06E989AE__016d5338508617
+% rule_group_id: RG_ND168_D12_K1_KEM
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D12_K1_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=I|section=|article=12|clause=1|point=|lines=120-120
+% predicate_canonical: kem
+% normalization_status: full
+% source_text: Trường hợp ủy quyền cho cá nhân thực hiện thủ tục đăng ký doanh nghiệp, kèm theo hồ sơ đăng ký doanh nghiệp phải có văn bản ủy quyền cho cá nhân thực hiện thủ tục liên quan đến đăng ký doanh nghiệp. Văn bản ủy quyền này không bắt buộc phải 
+procedure_step(kem, dang_ky_doanh_nghiep_phai_co_van_ban_uy_quyen_cho_ca_nhan_thuc_hien_thu_tuc_lie) :- applies_if(kem, truong_hop_uy_quyen_cho_ca_nhan_thuc_hien_thu_tuc_dang_ky_doanh_nghiep).
+
+% rule_id: RULE_ND168_D12_K2_E000217_HB0B593BAAB28__195b36d52a336b
+% rule_group_id: RG_ND168_D12_K2_KEM
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D12_K2_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=I|section=|article=12|clause=2|point=|lines=121-121
+% predicate_canonical: kem
+% normalization_status: full
+% source_text: Trường hợp ủy quyền cho tổ chức thực hiện thủ tục đăng ký doanh nghiệp, kèm theo hồ sơ đăng ký doanh nghiệp phải có bản sao hợp đồng ủy quyền cho tổ chức thực hiện thủ tục liên quan đến đăng ký doanh nghiệp, giấy giới thiệu hoặc văn bản phâ
+applicability_condition(anchor_2a336b, truong_hop_uy_quyen_cho_to_chuc_thuc_hien_thu_tuc_dang_ky_doanh_nghiep) :- applies_if(kem, truong_hop_uy_quyen_cho_to_chuc_thuc_hien_thu_tuc_dang_ky_doanh_nghiep).
+
+% rule_id: RULE_ND168_D12_K2_E000213_H88F3CB190B77__e6d1e0237f7d83
+% rule_group_id: RG_ND168_D12_K2_KEM
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D12_K2_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=I|section=|article=12|clause=2|point=|lines=121-121
+% predicate_canonical: kem
+% normalization_status: full
+% source_text: Trường hợp ủy quyền cho tổ chức thực hiện thủ tục đăng ký doanh nghiệp, kèm theo hồ sơ đăng ký doanh nghiệp phải có bản sao hợp đồng ủy quyền cho tổ chức thực hiện thủ tục liên quan đến đăng ký doanh nghiệp, giấy giới thiệu hoặc văn bản phâ
+dossier_item(kem, ban_sao_hop_dong_uy_quyen_cho_to_chuc_thuc_hien) :- applies_if(kem, truong_hop_uy_quyen_cho_to_chuc_thuc_hien_thu_tuc_dang_ky_doanh_nghiep).
+
+% rule_id: RULE_ND168_D12_K2_E000214_HBCCAD15CC136__0c6fcb3297ed62
+% rule_group_id: RG_ND168_D12_K2_KEM
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D12_K2_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=I|section=|article=12|clause=2|point=|lines=121-121
+% predicate_canonical: kem
+% normalization_status: full
+% source_text: Trường hợp ủy quyền cho tổ chức thực hiện thủ tục đăng ký doanh nghiệp, kèm theo hồ sơ đăng ký doanh nghiệp phải có bản sao hợp đồng ủy quyền cho tổ chức thực hiện thủ tục liên quan đến đăng ký doanh nghiệp, giấy giới thiệu hoặc văn bản phâ
+dossier_item(kem, ban_sao_hop_dong_uy_quyen_cho_to_chuc_thuc_hien_thu_tuc_dang_ky_doanh_nghiep) :- applies_if(kem, truong_hop_uy_quyen_cho_to_chuc_thuc_hien_thu_tuc_dang_ky_doanh_nghiep).
+
+% rule_id: RULE_ND168_D12_K2_E000214_HBCCAD15CC136__0c6fcb3297ed62
+% rule_group_id: RG_ND168_D12_K2_KEM
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D12_K2_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=I|section=|article=12|clause=2|point=|lines=121-121
+% predicate_canonical: kem
+% normalization_status: full
+% source_text: Trường hợp ủy quyền cho tổ chức thực hiện thủ tục đăng ký doanh nghiệp, kèm theo hồ sơ đăng ký doanh nghiệp phải có bản sao hợp đồng ủy quyền cho tổ chức thực hiện thủ tục liên quan đến đăng ký doanh nghiệp, giấy giới thiệu hoặc văn bản phâ
+dossier_item(kem, giay_gioi_thieu_hoac_van_ban_phan_cong_nhiem_vu_cho_ca_nhan_truc_tiep_thuc_hien) :- applies_if(kem, truong_hop_uy_quyen_cho_to_chuc_thuc_hien_thu_tuc_dang_ky_doanh_nghiep).
+
+% rule_id: RULE_ND168_D12_K2_E000220_H88F3CB190B77__6a0e725cef0cdc
+% rule_group_id: RG_ND168_D12_K2_KEM
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D12_K2_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=I|section=|article=12|clause=2|point=|lines=121-121
+% predicate_canonical: kem
+% normalization_status: full
+% source_text: Trường hợp ủy quyền cho tổ chức thực hiện thủ tục đăng ký doanh nghiệp, kèm theo hồ sơ đăng ký doanh nghiệp phải có bản sao hợp đồng ủy quyền cho tổ chức thực hiện thủ tục liên quan đến đăng ký doanh nghiệp, giấy giới thiệu hoặc văn bản phâ
+dossier_item(kem, ban_sao_hop_dong_uy_quyen_cho_to_chuc_thuc_hien_thu_tuc_lien_quan_den_dang_ky_d) :- applies_if(kem, truong_hop_uy_quyen_cho_to_chuc_thuc_hien_thu_tuc_dang_ky_doanh_nghiep).
+
+% rule_id: RULE_ND168_D12_K2_E000212_H88F3CB190B77__3a222419e96197
+% rule_group_id: RG_ND168_D12_K2_KEM
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D12_K2_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=I|section=|article=12|clause=2|point=|lines=121-121
+% predicate_canonical: kem
+% normalization_status: full
+% source_text: Trường hợp ủy quyền cho tổ chức thực hiện thủ tục đăng ký doanh nghiệp, kèm theo hồ sơ đăng ký doanh nghiệp phải có bản sao hợp đồng ủy quyền cho tổ chức thực hiện thủ tục liên quan đến đăng ký doanh nghiệp, giấy giới thiệu hoặc văn bản phâ
+procedure_step(kem, dang_ky_doanh_nghiep_phai_co_ban_sao_hop_dong_uy_quyen_cho_to_chuc_thuc_hien_th) :- applies_if(kem, truong_hop_uy_quyen_cho_to_chuc_thuc_hien_thu_tuc_dang_ky_doanh_nghiep).
+
+% rule_id: RULE_ND168_D13_K4_E000222_H7575F6E0A298__e3b2e7405f1543
+% rule_group_id: RG_ND168_D13_K4_CAP_DANG_KY_DOANH_NGHIEP
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D13_K4_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=I|section=|article=13|clause=4|point=|lines=133-133
+% predicate_canonical: cap_dang_ky_doanh_nghiep
+% normalization_status: full
+% source_text: Trong thời hạn 30 ngày kể từ ngày kết thúc việc cấp đăng ký doanh nghiệp theo quy trình dự phòng, Cơ quan đăng ký kinh doanh phải cập nhật dữ liệu, thông tin mới đã cấp cho doanh nghiệp vào Cơ sở dữ liệu quốc gia về đăng ký doanh nghiệp.
+authority_action(co_quan_dang_ky_kinh_doanh, cap_dang_ky_doanh_nghiep, dang_ky_doanh_nghiep) :- exception_applies(theo_quy_trinh_du_phong).
+
+% rule_id: RULE_ND168_D13_K4_E000223_H7575F6E0A298__bd39d25fc68ffa
+% rule_group_id: RG_ND168_D13_K4_CAP_DANG_KY_DOANH_NGHIEP
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D13_K4_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=I|section=|article=13|clause=4|point=|lines=133-133
+% predicate_canonical: cap_dang_ky_doanh_nghiep
+% normalization_status: full
+% source_text: Trong thời hạn 30 ngày kể từ ngày kết thúc việc cấp đăng ký doanh nghiệp theo quy trình dự phòng, Cơ quan đăng ký kinh doanh phải cập nhật dữ liệu, thông tin mới đã cấp cho doanh nghiệp vào Cơ sở dữ liệu quốc gia về đăng ký doanh nghiệp.
+deadline(cap_dang_ky_doanh_nghiep, 30.0, ngay, ke_tu_moc_tham_chieu).
+
+% rule_id: RULE_ND168_D15_K3_E000225_H88375D5152CB__9f6d9cab882e53
+% rule_group_id: RG_ND168_D15_K3_THANH_PHAN_HO_SO
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D15_K3_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=I|section=|article=15|clause=3|point=|lines=145-145
+% predicate_canonical: thanh_phan_ho_so
+% normalization_status: full
+% source_text: Chủ thể quyền sở hữu công nghiệp có quyền gửi văn bản đề nghị đến Cơ quan đăng ký kinh doanh để yêu cầu doanh nghiệp có tên xâm phạm quyền sở hữu công nghiệp phải thay đổi tên doanh nghiệp. Trường hợp này, chủ thể quyền sở hữu công nghiệp c
+dossier_item(thanh_phan_ho_so, van_ban_de_nghi) :- applies_if(thanh_phan_ho_so, truong_hop_nay_chu_the_quyen_so_huu_cong_nghiep_co_trach_nhiem_cung).
+
+% rule_id: RULE_ND168_D15_K3_E000225_H88375D5152CB__9f6d9cab882e53
+% rule_group_id: RG_ND168_D15_K3_THANH_PHAN_HO_SO
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D15_K3_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=I|section=|article=15|clause=3|point=|lines=145-145
+% predicate_canonical: thanh_phan_ho_so
+% normalization_status: full
+% source_text: Chủ thể quyền sở hữu công nghiệp có quyền gửi văn bản đề nghị đến Cơ quan đăng ký kinh doanh để yêu cầu doanh nghiệp có tên xâm phạm quyền sở hữu công nghiệp phải thay đổi tên doanh nghiệp. Trường hợp này, chủ thể quyền sở hữu công nghiệp c
+dossier_item(thanh_phan_ho_so, giay_to) :- applies_if(thanh_phan_ho_so, truong_hop_nay_chu_the_quyen_so_huu_cong_nghiep_co_trach_nhiem_cung).
+
+% rule_id: RULE_ND168_D15_K3_E000384_H9E3BB0B15149__f425c9077c98c1
+% rule_group_id: RG_ND168_D15_K3_THANH_PHAN_HO_SO
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D15_K3_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=I|section=|article=15|clause=3|point=|lines=145-145
+% predicate_canonical: thanh_phan_ho_so
+% normalization_status: full
+% source_text: Chủ thể quyền sở hữu công nghiệp có quyền gửi văn bản đề nghị đến Cơ quan đăng ký kinh doanh để yêu cầu doanh nghiệp có tên xâm phạm quyền sở hữu công nghiệp phải thay đổi tên doanh nghiệp. Trường hợp này, chủ thể quyền sở hữu công nghiệp c
+dossier_item(thanh_phan_ho_so, ban_sao_van_ban_ket_luan_cua_co_quan_co_tham_quyen_ve_viec_ten_doanh_nghiep_xam) :- applies_if(thanh_phan_ho_so, truong_hop_nay_chu_the_quyen_so_huu_cong_nghiep_co_trach_nhiem_cung).
+
+% rule_id: RULE_ND168_D15_K3_E000384_H9E3BB0B15149__f425c9077c98c1
+% rule_group_id: RG_ND168_D15_K3_THANH_PHAN_HO_SO
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D15_K3_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=I|section=|article=15|clause=3|point=|lines=145-145
+% predicate_canonical: thanh_phan_ho_so
+% normalization_status: full
+% source_text: Chủ thể quyền sở hữu công nghiệp có quyền gửi văn bản đề nghị đến Cơ quan đăng ký kinh doanh để yêu cầu doanh nghiệp có tên xâm phạm quyền sở hữu công nghiệp phải thay đổi tên doanh nghiệp. Trường hợp này, chủ thể quyền sở hữu công nghiệp c
+dossier_item(thanh_phan_ho_so, ban_sao_hop_dong_su_dung_doi_tuong_so_huu_cong_nghiep_khi_nguoi_yeu_cau_la_ben) :- applies_if(thanh_phan_ho_so, truong_hop_nay_chu_the_quyen_so_huu_cong_nghiep_co_trach_nhiem_cung).
+
+% rule_id: RULE_ND168_D15_K3_E000224_H88375D5152CB__13bba3b4659260
+% rule_group_id: RG_ND168_D15_K3_THANH_PHAN_HO_SO
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D15_K3_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=I|section=|article=15|clause=3|point=|lines=145-145
+% predicate_canonical: thanh_phan_ho_so
+% normalization_status: full
+% source_text: Chủ thể quyền sở hữu công nghiệp có quyền gửi văn bản đề nghị đến Cơ quan đăng ký kinh doanh để yêu cầu doanh nghiệp có tên xâm phạm quyền sở hữu công nghiệp phải thay đổi tên doanh nghiệp. Trường hợp này, chủ thể quyền sở hữu công nghiệp c
+permission(doanh_nghiep, thanh_phan_ho_so, van_ban_de_nghi) :- applies_if(thanh_phan_ho_so, truong_hop_nay_chu_the_quyen_so_huu_cong_nghiep_co_trach_nhiem_cung).
+
+% rule_id: RULE_ND168_D15_K4_E000228_H77B8473A5144__238ed158c593e5
+% rule_group_id: RG_ND168_D15_K4_THANH_PHAN_HO_SO
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D15_K4_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=I|section=|article=15|clause=4|point=|lines=146-146
+% predicate_canonical: thanh_phan_ho_so
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh có trách nhiệm tiếp nhận, xử lý yêu cầu thay đổi tên doanh nghiệp theo đề nghị của chủ thể quyền sở hữu công nghiệp hoặc cơ quan có thẩm quyền xử lý vi phạm yêu cầu. Trong thời hạn 03 ngày làm việc kể từ ngày nhận
+dossier_item(thanh_phan_ho_so, giay_to).
+
+% rule_id: RULE_ND168_D15_K4_E000227_H77B8473A5144__4190cd0f45c6aa
+% rule_group_id: RG_ND168_D15_K4_THANH_PHAN_HO_SO
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D15_K4_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=I|section=|article=15|clause=4|point=|lines=146-146
+% predicate_canonical: thanh_phan_ho_so
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh có trách nhiệm tiếp nhận, xử lý yêu cầu thay đổi tên doanh nghiệp theo đề nghị của chủ thể quyền sở hữu công nghiệp hoặc cơ quan có thẩm quyền xử lý vi phạm yêu cầu. Trong thời hạn 03 ngày làm việc kể từ ngày nhận
+deadline(thanh_phan_ho_so, 3.0, ngay_lam_viec, ke_tu_moc_tham_chieu).
+
+% rule_id: RULE_ND168_D16_K2_E000229_H224A989FD8A7__c655516b9d1c1f
+% rule_group_id: RG_ND168_D16_K2_DANG_KY
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D16_K2_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=I|section=|article=16|clause=2|point=|lines=152-152
+% predicate_canonical: dang_ky
+% normalization_status: full
+% source_text: Ngoài tên bằng tiếng Việt, chi nhánh, văn phòng đại diện, địa điểm kinh doanh của doanh nghiệp có thể đăng ký tên bằng tiếng nước ngoài và tên viết tắt. Tên bằng tiếng nước ngoài là tên được dịch từ tên tiếng Việt sang một trong những tiếng
+permission(van_phong_dai_dien, dang_ky_ten_bang_tieng_nuoc_ngoai_va_ten_viet_tat, chi_nhanh_van_phong_dai_dien) :- applies_to(ap_dung_doi_voi_chi_nhanh_van_phong_dai_dien).
+
+% rule_id: RULE_ND168_D20_K1_A_E000230_HA78F4CA68C80__0e0c127de64957
+% rule_group_id: RG_ND168_D20_K1_A_DANG_KY_DOANH_NGHIEP
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D20_K1_A_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=II|section=|article=20|clause=1|point=a|lines=175-175
+% predicate_canonical: dang_ky_doanh_nghiep
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh thuộc Sở Tài chính tỉnh, thành phố trực thuộc trung ương cấp đăng ký doanh nghiệp đối với doanh nghiệp, chi nhánh, văn phòng đại diện, địa điểm kinh doanh có địa chỉ tại tỉnh, thành phố trực thuộc trung ương trong
+authority_action(co_quan_dang_ky_kinh_doanh, dang_ky_doanh_nghiep, chi_nhanh_van_phong_dai_dien) :- applies_to(ap_dung_doi_voi_chi_nhanh_van_phong_dai_dien),
+    applies_if(dang_ky_doanh_nghiep, doi_voi_doanh_nghiep_chi_nhanh_van_phong_dai_dien_dia_diem_kinh_doanh_co_dia_chi_tai_tinh_thanh_pho_truc_thuoc_trun),
+    unless(tru_truong_hop_quy_dinh_tai_diem_b_khoan_nay).
+
+% rule_id: RULE_ND168_D20_K1_A_E000231_HA78F4CA68C80__27ca9362818265
+% rule_group_id: RG_ND168_D20_K1_A_DANG_KY_DOANH_NGHIEP
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D20_K1_A_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=II|section=|article=20|clause=1|point=a|lines=175-175
+% predicate_canonical: dang_ky_doanh_nghiep
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh thuộc Sở Tài chính tỉnh, thành phố trực thuộc trung ương cấp đăng ký doanh nghiệp đối với doanh nghiệp, chi nhánh, văn phòng đại diện, địa điểm kinh doanh có địa chỉ tại tỉnh, thành phố trực thuộc trung ương trong
+exception(dang_ky_doanh_nghiep, tru_truong_hop_quy_dinh_tai_diem_b_khoan_nay) :- applies_to(ap_dung_doi_voi_chi_nhanh_van_phong_dai_dien),
+    applies_if(dang_ky_doanh_nghiep, doi_voi_doanh_nghiep_chi_nhanh_van_phong_dai_dien_dia_diem_kinh_doanh_co_dia_chi_tai_tinh_thanh_pho_truc_thuoc_trun).
+
+% rule_id: RULE_ND168_D20_K1_A_E000232_HEBA6CEE992E3__33783bcc8ca8c9
+% rule_group_id: RG_ND168_D20_K1_A_AP_DUNG_QUY_DINH_LOAI_TRU
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D20_K1_A_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=II|section=|article=20|clause=1|point=a|lines=175-175
+% predicate_canonical: ap_dung_quy_dinh_loai_tru
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh thuộc Sở Tài chính tỉnh, thành phố trực thuộc trung ương cấp đăng ký doanh nghiệp đối với doanh nghiệp, chi nhánh, văn phòng đại diện, địa điểm kinh doanh có địa chỉ tại tỉnh, thành phố trực thuộc trung ương trong
+exception(ap_dung_quy_dinh_loai_tru, tru_truong_hop_quy_dinh_tai_diem_b_khoan_nay) :- applies_to(ap_dung_doi_voi_chi_nhanh_van_phong_dai_dien).
+
+% rule_id: RULE_ND168_D20_K1_A_E000390_H1501908D169A__946030aff2fc7f
+% rule_group_id: RG_ND168_D20_K1_A_DANG_KY
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D20_K1_A_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=II|section=|article=20|clause=1|point=a|lines=175-175
+% predicate_canonical: dang_ky
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh thuộc Sở Tài chính tỉnh, thành phố trực thuộc trung ương cấp đăng ký doanh nghiệp đối với doanh nghiệp, chi nhánh, văn phòng đại diện, địa điểm kinh doanh có địa chỉ tại tỉnh, thành phố trực thuộc trung ương trong
+exception(dang_ky_kinh_doanh_tai_cac_dia_diem_khac_nhau_tren_dia_ban, tru_truong_hop_quy_dinh_tai_diem_b_khoan_nay) :- applies_to(ap_dung_doi_voi_chi_nhanh_van_phong_dai_dien).
+
+% rule_id: RULE_ND168_D20_K1_A_E000391_H1501908D169A__3944bce25fc017
+% rule_group_id: RG_ND168_D20_K1_A_DANG_KY
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D20_K1_A_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=II|section=|article=20|clause=1|point=a|lines=175-175
+% predicate_canonical: dang_ky
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh thuộc Sở Tài chính tỉnh, thành phố trực thuộc trung ương cấp đăng ký doanh nghiệp đối với doanh nghiệp, chi nhánh, văn phòng đại diện, địa điểm kinh doanh có địa chỉ tại tỉnh, thành phố trực thuộc trung ương trong
+exception(ap_dung_ngoai_le, tru_truong_hop_quy_dinh_tai_diem_b_khoan_nay) :- applies_to(ap_dung_doi_voi_chi_nhanh_van_phong_dai_dien).
+
+% rule_id: RULE_ND168_D20_K1_A_E000393_HB584220ABC2E__d47d3139fbb542
+% rule_group_id: RG_ND168_D20_K1_A_DANG_KY
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D20_K1_A_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=II|section=|article=20|clause=1|point=a|lines=175-175
+% predicate_canonical: dang_ky
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh thuộc Sở Tài chính tỉnh, thành phố trực thuộc trung ương cấp đăng ký doanh nghiệp đối với doanh nghiệp, chi nhánh, văn phòng đại diện, địa điểm kinh doanh có địa chỉ tại tỉnh, thành phố trực thuộc trung ương trong
+exception(ap_dung_ngoai_le, tru_truong_hop_quy_dinh_tai_diem_b_khoan_nay) :- applies_to(ap_dung_doi_voi_chi_nhanh_van_phong_dai_dien),
+    applies_if(ap_dung_ngoai_le, doi_voi_doanh_nghiep_chi_nhanh_van_phong_dai_dien_dia_diem_kinh_doanh_co_dia_chi_tai_tinh_thanh_pho_truc_thuoc_trun).
+
+% rule_id: RULE_ND168_D20_K1_A_E000392_HB584220ABC2E__e08aa259c66173
+% rule_group_id: RG_ND168_D20_K1_A_DANG_KY
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D20_K1_A_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=II|section=|article=20|clause=1|point=a|lines=175-175
+% predicate_canonical: dang_ky
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh thuộc Sở Tài chính tỉnh, thành phố trực thuộc trung ương cấp đăng ký doanh nghiệp đối với doanh nghiệp, chi nhánh, văn phòng đại diện, địa điểm kinh doanh có địa chỉ tại tỉnh, thành phố trực thuộc trung ương trong
+authority_action(co_quan_dang_ky_kinh_doanh, dang_ky_kinh_doanh_tai_cac_dia_diem_khac_nhau_tren_dia_ban, chi_nhanh_van_phong_dai_dien) :- applies_to(ap_dung_doi_voi_chi_nhanh_van_phong_dai_dien),
+    applies_if(dang_ky_kinh_doanh_tai_cac_dia_diem_khac_nhau_tren_dia_ban, doi_voi_doanh_nghiep_chi_nhanh_van_phong_dai_dien_dia_diem_kinh_doanh_co_dia_chi_tai_tinh_thanh_pho_truc_thuoc_trun),
+    unless(tru_truong_hop_quy_dinh_tai_diem_b_khoan_nay).
+
+% rule_id: RULE_ND168_D20_K1_A_E000394_HB584220ABC2E__27912f40616bf7
+% rule_group_id: RG_ND168_D20_K1_A_DANG_KY
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D20_K1_A_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=II|section=|article=20|clause=1|point=a|lines=175-175
+% predicate_canonical: dang_ky
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh thuộc Sở Tài chính tỉnh, thành phố trực thuộc trung ương cấp đăng ký doanh nghiệp đối với doanh nghiệp, chi nhánh, văn phòng đại diện, địa điểm kinh doanh có địa chỉ tại tỉnh, thành phố trực thuộc trung ương trong
+obligation(van_phong_dai_dien, dang_ky_kinh_doanh_tai_cac_dia_diem_khac_nhau_tren_dia_ban, chi_nhanh_van_phong_dai_dien) :- applies_to(ap_dung_doi_voi_chi_nhanh_van_phong_dai_dien),
+    applies_if(dang_ky_kinh_doanh_tai_cac_dia_diem_khac_nhau_tren_dia_ban, doi_voi_doanh_nghiep_chi_nhanh_van_phong_dai_dien_dia_diem_kinh_doanh_co_dia_chi_tai_tinh_thanh_pho_truc_thuoc_trun),
+    unless(tru_truong_hop_quy_dinh_tai_diem_b_khoan_nay).
+
+% rule_id: RULE_ND168_D23_K1_K_E000238_H9F0055EDAC32__8b171c4fe8e666
+% rule_group_id: RG_ND168_D23_K1_K_DANG_KY_DOANH_NGHIEP
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D23_K1_K_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=II|section=|article=23|clause=1|point=k|lines=215-215
+% predicate_canonical: dang_ky_doanh_nghiep
+% normalization_status: full
+% source_text: Trong phạm vi nhiệm vụ, quyền hạn của mình, có trách nhiệm thực hiện quản lý nhà nước về đăng ký doanh nghiệp, đăng ký hộ kinh doanh theo quy định của pháp luật.
+obligation(doanh_nghiep, dang_ky_doanh_nghiep, dang_ky_doanh_nghiep).
+
+% rule_id: RULE_ND168_D27_K3_A_E000239_H5450A2A89FCD__890e87d07ae157
+% rule_group_id: RG_ND168_D27_K3_A_CAP_GIAY_CHUNG_NHAN_DANG_KY
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D27_K3_A_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=III|section=|article=27|clause=3|point=a|lines=298-298
+% predicate_canonical: cap_giay_chung_nhan_dang_ky_doanh_nghiep
+% normalization_status: full
+% source_text: Trong thời hạn 02 ngày làm việc kể từ ngày cấp Giấy chứng nhận đăng ký doanh nghiệp, Cơ quan đăng ký kinh doanh cấp tỉnh gửi thông tin về việc thành lập doanh nghiệp trên cơ sở chuyển đổi từ hộ kinh doanh cho Cơ quan đăng ký kinh doanh cấp 
+authority_action(co_quan_dang_ky_kinh_doanh_cap_tinh, cap_giay_chung_nhan_dang_ky_doanh_nghiep, giay_chung_nhan_dang_ky_doanh_nghiep) :- exception_applies(co_quan_dang_ky_kinh_doanh_cap_tinh).
+
+% rule_id: RULE_ND168_D27_K3_A_E000400_H2136B1C81D84__c7859880ab84ac
+% rule_group_id: RG_ND168_D27_K3_A_CAP_GIAY_CHUNG_NHAN_DANG_KY
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D27_K3_A_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=III|section=|article=27|clause=3|point=a|lines=298-298
+% predicate_canonical: cap_giay_chung_nhan_dang_ky_doanh_nghiep
+% normalization_status: full
+% source_text: Trong thời hạn 02 ngày làm việc kể từ ngày cấp Giấy chứng nhận đăng ký doanh nghiệp, Cơ quan đăng ký kinh doanh cấp tỉnh gửi thông tin về việc thành lập doanh nghiệp trên cơ sở chuyển đổi từ hộ kinh doanh cho Cơ quan đăng ký kinh doanh cấp 
+legal_effect(co_quan_dang_ky_kinh_doanh_cap_tinh, cap_giay_chung_nhan_dang_ky_doanh_nghiep) :- exception_applies(co_quan_dang_ky_kinh_doanh_cap_tinh_gui_thong_tin_ve_viec_thanh_lap_doanh_nghiep_tren_co_so_chuyen_doi_tu_ho_kinh_doanh_cho_co_quan_dang_ky_kinh_do).
+
+% rule_id: RULE_ND168_D27_K3_A_E000242_HC8251AEB959B__641b3ae89f5eb4
+% rule_group_id: RG_ND168_D27_K3_A_CAP_GIAY_CHUNG_NHAN_DANG_KY
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D27_K3_A_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=III|section=|article=27|clause=3|point=a|lines=298-298
+% predicate_canonical: cap_giay_chung_nhan_dang_ky_doanh_nghiep
+% normalization_status: full
+% source_text: Trong thời hạn 02 ngày làm việc kể từ ngày cấp Giấy chứng nhận đăng ký doanh nghiệp, Cơ quan đăng ký kinh doanh cấp tỉnh gửi thông tin về việc thành lập doanh nghiệp trên cơ sở chuyển đổi từ hộ kinh doanh cho Cơ quan đăng ký kinh doanh cấp 
+deadline(cap_giay_chung_nhan_dang_ky_doanh_nghiep, 2.0, ngay_lam_viec, ke_tu_ngay_thanh_lap) :- exception_applies(co_quan_dang_ky_kinh_doanh_cap_tinh).
+
+% rule_id: RULE_ND168_D27_K3_A_E000240_H5450A2A89FCD__65b3e8b0627707
+% rule_group_id: RG_ND168_D27_K3_A_CAP_GIAY_CHUNG_NHAN_DANG_KY
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D27_K3_A_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=III|section=|article=27|clause=3|point=a|lines=298-298
+% predicate_canonical: cap_giay_chung_nhan_dang_ky_doanh_nghiep
+% normalization_status: full
+% source_text: Trong thời hạn 02 ngày làm việc kể từ ngày cấp Giấy chứng nhận đăng ký doanh nghiệp, Cơ quan đăng ký kinh doanh cấp tỉnh gửi thông tin về việc thành lập doanh nghiệp trên cơ sở chuyển đổi từ hộ kinh doanh cho Cơ quan đăng ký kinh doanh cấp 
+deadline(cap_giay_chung_nhan_dang_ky_doanh_nghiep, 2.0, ngay_lam_viec, ke_tu_ngay_thanh_lap).
+
+% rule_id: RULE_ND168_D27_K3_B_E000407_H645CC4278C14__48dee7f15d2346
+% rule_group_id: RG_ND168_D27_K3_B_NG_KET_QUA_PHAP_LY
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D27_K3_B_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=III|section=|article=27|clause=3|point=b|lines=299-300
+% predicate_canonical: cham_dut_hoat_dong_trong_co_so_du_lieu_ve_dang_ky_ho_kinh_doanh
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh cấp xã gửi thông tin về việc chấm dứt hoạt động của hộ kinh doanh cho Cơ quan thuế và ra thông báo về việc hộ kinh doanh đang làm thủ tục chấm dứt hoạt động trên Cổng thông tin quốc gia về đăng ký doanh nghiệp, ch
+legal_effect(co_quan_dang_ky_kinh_doanh, cham_dut_hoat_dong_trong_co_so_du_lieu_ve_dang_ky_ho_kinh_doanh) :- applies_if(cham_dut_hoat_dong_trong_co_so_du_lieu_ve_dang_ky_ho_kinh_doanh, khi_ho_kinh_doanh_da_hoan_thanh_nghia_vu_thue).
+
+% rule_id: RULE_ND168_D27_K3_B_E000408_H645CC4278C14__726aecd2fd98e0
+% rule_group_id: RG_ND168_D27_K3_B_NG_KET_QUA_PHAP_LY
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D27_K3_B_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=III|section=|article=27|clause=3|point=b|lines=299-300
+% predicate_canonical: cham_dut_hoat_dong
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh cấp xã gửi thông tin về việc chấm dứt hoạt động của hộ kinh doanh cho Cơ quan thuế và ra thông báo về việc hộ kinh doanh đang làm thủ tục chấm dứt hoạt động trên Cổng thông tin quốc gia về đăng ký doanh nghiệp, ch
+legal_effect(co_quan_dang_ky_kinh_doanh, cham_dut_hoat_dong) :- applies_if(cham_dut_hoat_dong, khi_ho_kinh_doanh_da_hoan_thanh_nghia_vu_thue).
+
+% rule_id: RULE_ND168_D28_K7_E000249_H189EC3F188B6__add5dd2fd5c301
+% rule_group_id: RG_ND168_D28_K7_KEM
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D28_K7_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=III|section=|article=28|clause=7|point=|lines=325-326
+% predicate_canonical: kem
+% normalization_status: full
+% source_text: Việc đăng ký thành lập doanh nghiệp xã hội trên cơ sở chuyển đổi từ cơ sở bảo trợ xã hội, quỹ xã hội, quỹ từ thiện thực hiện tại Cơ quan đăng ký kinh doanh cấp tỉnh nơi doanh nghiệp xã hội dự định đặt trụ sở chính. Hồ sơ đăng ký doanh nghiệ
+dossier_item(kem, quyet_dinh_cho_phep_chuyen_doi_thanh_doanh_nghiep_xa_hoi).
+
+% rule_id: RULE_ND168_D28_K7_E000250_H189EC3F188B6__7cd357e8ecec4f
+% rule_group_id: RG_ND168_D28_K7_KEM
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D28_K7_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=III|section=|article=28|clause=7|point=|lines=325-326
+% predicate_canonical: kem
+% normalization_status: full
+% source_text: Việc đăng ký thành lập doanh nghiệp xã hội trên cơ sở chuyển đổi từ cơ sở bảo trợ xã hội, quỹ xã hội, quỹ từ thiện thực hiện tại Cơ quan đăng ký kinh doanh cấp tỉnh nơi doanh nghiệp xã hội dự định đặt trụ sở chính. Hồ sơ đăng ký doanh nghiệ
+dossier_item(kem, giay_chung_nhan_dang_ky_thanh_lap_co_so_bao_tro_xa_hoi_hoac_giay_phep_thanh_lap).
+
+% rule_id: RULE_ND168_D28_K7_E000251_H189EC3F188B6__b44a803c74dfe6
+% rule_group_id: RG_ND168_D28_K7_KEM
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D28_K7_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=III|section=|article=28|clause=7|point=|lines=325-326
+% predicate_canonical: kem
+% normalization_status: full
+% source_text: Việc đăng ký thành lập doanh nghiệp xã hội trên cơ sở chuyển đổi từ cơ sở bảo trợ xã hội, quỹ xã hội, quỹ từ thiện thực hiện tại Cơ quan đăng ký kinh doanh cấp tỉnh nơi doanh nghiệp xã hội dự định đặt trụ sở chính. Hồ sơ đăng ký doanh nghiệ
+dossier_item(kem, ban_sao_giay_chung_nhan_dang_ky_thue).
+
+% rule_id: RULE_ND168_D28_K7_E000252_H189EC3F188B6__5e2d3140b45366
+% rule_group_id: RG_ND168_D28_K7_KEM
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D28_K7_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=III|section=|article=28|clause=7|point=|lines=325-326
+% predicate_canonical: kem
+% normalization_status: full
+% source_text: Việc đăng ký thành lập doanh nghiệp xã hội trên cơ sở chuyển đổi từ cơ sở bảo trợ xã hội, quỹ xã hội, quỹ từ thiện thực hiện tại Cơ quan đăng ký kinh doanh cấp tỉnh nơi doanh nghiệp xã hội dự định đặt trụ sở chính. Hồ sơ đăng ký doanh nghiệ
+dossier_item(kem, ban_sao_van_ban_co_quan_dang_ky_dau_tu_ve_gop_von_mua_co_phan_cua_nha_dau_tu_n).
+
+% rule_id: RULE_ND168_D28_K7_E000410_HAB891EF8FB58__9c53376c4e0d7b
+% rule_group_id: RG_ND168_D28_K7_KEM
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D28_K7_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=III|section=|article=28|clause=7|point=|lines=325-326
+% predicate_canonical: kem
+% normalization_status: full
+% source_text: Việc đăng ký thành lập doanh nghiệp xã hội trên cơ sở chuyển đổi từ cơ sở bảo trợ xã hội, quỹ xã hội, quỹ từ thiện thực hiện tại Cơ quan đăng ký kinh doanh cấp tỉnh nơi doanh nghiệp xã hội dự định đặt trụ sở chính. Hồ sơ đăng ký doanh nghiệ
+dossier_item(kem, giay_to).
+
+% rule_id: RULE_ND168_D30_K3_E000414_HFA7D1EFC1BC5__d29341031b2338
+% rule_group_id: RG_ND168_D30_K3_DANG_KY
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D30_K3_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=III|section=|article=30|clause=3|point=|lines=341-341
+% predicate_canonical: dang_ky
+% normalization_status: full
+% source_text: Trong thời hạn 03 ngày làm việc kể từ ngày nhận được hồ sơ hợp lệ, Cơ quan đăng ký kinh doanh cấp tỉnh cấp Giấy chứng nhận đăng ký hoạt động chi nhánh, văn phòng đại diện, cập nhật thông tin về địa điểm kinh doanh trong Cơ sở dữ liệu quốc g
+legal_effect(van_phong_dai_dien, cap_giay_chung_nhan_dang_ky_hoat_dong_chi_nhanh_van_phong_dai_dien_cap_nhat_tho) :- applies_to(ap_dung_doi_voi_chi_nhanh_van_phong_dai_dien),
+    applies_if(dang_ky_kinh_doanh_cap_tinh_cap_giay_chung_nhan_dang_ky_hoat_dong_chi_nhanh, truong_hop_doanh_nghiep_co_nhu_cau_co_quan_dang_ky_kinh_doanh).
+
+% rule_id: RULE_ND168_D31_K2_E000264_HF38C6E099782__dea802118ccb1c
+% rule_group_id: RG_ND168_D31_K2_DANG_KY_DOANH_NGHIEP
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D31_K2_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=III|section=|article=31|clause=2|point=|lines=349-349
+% predicate_canonical: dang_ky_doanh_nghiep
+% normalization_status: full
+% source_text: Hồ sơ đăng ký doanh nghiệp được tiếp nhận để nhập thông tin vào Hệ thống thông tin quốc gia về đăng ký doanh nghiệp khi có đủ các điều kiện sau đây:
+applicability_condition(dang_ky_doanh_nghiep, khi_co_du_cac_dieu_kien_sau_day) :- applies_if(dang_ky_doanh_nghiep, khi_co_du_cac_dieu_kien_sau_day).
+
+% rule_id: RULE_ND168_D31_K3_E000266_H1509A1A35C79__4bce78214f31d1
+% rule_group_id: RG_ND168_D31_K3_TRAO_GIAY_TIEP_NHAN_HO_SO
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D31_K3_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=III|section=|article=31|clause=3|point=|lines=350-350
+% predicate_canonical: trao_giay_tiep_nhan_ho_so
+% normalization_status: full
+% source_text: Sau khi tiếp nhận hồ sơ đăng ký doanh nghiệp, Cơ quan đăng ký kinh doanh cấp tỉnh trao giấy tiếp nhận hồ sơ và hẹn trả kết quả cho người nộp hồ sơ.
+authority_action(co_quan_dang_ky_kinh_doanh_cap_tinh, trao_giay_tiep_nhan_ho_so, ho_so_dang_ky_doanh_nghiep) :- applies_if(trao_giay_tiep_nhan_ho_so, khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh),
+    exception_applies(trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so).
+
+% rule_id: RULE_ND168_D31_K6_E000418_HF58B712D1CE4__3d7cbca64f66b4
+% rule_group_id: RG_ND168_D31_K6_DANG_KY_DOANH_NGHIEP
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D31_K6_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=III|section=|article=31|clause=6|point=|lines=353-353
+% predicate_canonical: dang_ky_doanh_nghiep
+% normalization_status: full
+% source_text: Người thành lập doanh nghiệp hoặc doanh nghiệp có thể dừng thực hiện thủ tục đăng ký doanh nghiệp khi hồ sơ đăng ký doanh nghiệp chưa được chấp thuận trên Hệ thống thông tin quốc gia về đăng ký doanh nghiệp. Trong trường hợp này, người có t
+dossier_item(dang_ky_doanh_nghiep, van_ban_de_nghi_dung_thuc_hien_thu_tuc_dang_ky_doanh_nghiep) :- applies_if(dang_ky_doanh_nghiep, khi_ho_so_dang_ky_doanh_nghiep_chua_duoc_chap_thuan_tren_he_thong_thong_tin_quoc_gia_ve_dang_ky_doanh_nghiep).
+
+% rule_id: RULE_ND168_D4_K5_E000195_H71B013782AB6__e1039946efa645
+% rule_group_id: RG_ND168_D4_K5_DANG_KY_DOANH_NGHIEP
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D4_K5_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=I|section=|article=4|clause=5|point=|lines=66-66
+% predicate_canonical: dang_ky_doanh_nghiep
+% normalization_status: full
+% source_text: Doanh nghiệp không bắt buộc phải đóng dấu trong văn bản đề nghị đăng ký doanh nghiệp, biên bản họp, nghị quyết hoặc quyết định trong hồ sơ đăng ký doanh nghiệp. Việc đóng dấu đối với các tài liệu khác trong hồ sơ đăng ký doanh nghiệp thực h
+dossier_item(dang_ky_doanh_nghiep, bien_ban_hop_nghi_quyet_hoac_quyet_dinh_trong_ho_so_dang_ky_doanh_nghiep) :- applies_if(dang_ky_doanh_nghiep, doi_voi_cac_tai_lieu_khac_trong_ho_so_dang_ky_doanh_nghiep_thuc_hien).
+
+% rule_id: RULE_ND168_D4_K5_E000196_H71B013782AB6__215264865af4e9
+% rule_group_id: RG_ND168_D4_K5_DANG_KY_DOANH_NGHIEP
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D4_K5_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=I|section=|article=4|clause=5|point=|lines=66-66
+% predicate_canonical: dang_ky_doanh_nghiep
+% normalization_status: full
+% source_text: Doanh nghiệp không bắt buộc phải đóng dấu trong văn bản đề nghị đăng ký doanh nghiệp, biên bản họp, nghị quyết hoặc quyết định trong hồ sơ đăng ký doanh nghiệp. Việc đóng dấu đối với các tài liệu khác trong hồ sơ đăng ký doanh nghiệp thực h
+dossier_item(dang_ky_doanh_nghiep, ho_so_dang_ky_doanh_nghiep_thuc_hien_theo_quy_dinh_cua_phap_luat_co_lien_quan) :- applies_if(dang_ky_doanh_nghiep, doi_voi_cac_tai_lieu_khac_trong_ho_so_dang_ky_doanh_nghiep_thuc_hien).
+
+% rule_id: RULE_ND168_D4_K5_E000194_H71B013782AB6__fe65a55a4c30bb
+% rule_group_id: RG_ND168_D4_K5_DANG_KY_DOANH_NGHIEP
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D4_K5_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=I|section=|article=4|clause=5|point=|lines=66-66
+% predicate_canonical: dang_ky_doanh_nghiep
+% normalization_status: full
+% source_text: Doanh nghiệp không bắt buộc phải đóng dấu trong văn bản đề nghị đăng ký doanh nghiệp, biên bản họp, nghị quyết hoặc quyết định trong hồ sơ đăng ký doanh nghiệp. Việc đóng dấu đối với các tài liệu khác trong hồ sơ đăng ký doanh nghiệp thực h
+obligation(doanh_nghiep, dang_ky_doanh_nghiep, thuc_hien_theo_quy_dinh_cua_phap_luat_co_lien_quan) :- applies_if(dang_ky_doanh_nghiep, doi_voi_cac_tai_lieu_khac_trong_ho_so_dang_ky_doanh_nghiep_thuc_hien).
+
+% rule_id: RULE_ND168_D40_K3_E000424_H0F6C3A426851__aa91bf4f3d9ca2
+% rule_group_id: RG_ND168_D40_K3_GUI_Y_KIEN_VE_VIEC_DOANH_NGH
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D40_K3_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=V|section=|article=40|clause=3|point=|lines=408-408
+% predicate_canonical: gui_y_kien_ve_viec_doanh_nghiep_hoan_thanh_thu_tuc
+% normalization_status: full
+% source_text: Sau khi tiếp nhận hồ sơ đăng ký doanh nghiệp, Cơ quan đăng ký kinh doanh cấp tỉnh trao giấy tiếp nhận hồ sơ và hẹn trả kết quả, xem xét tính hợp lệ của hồ sơ và gửi thông tin về việc chuyển địa chỉ trụ sở chính của doanh nghiệp cho Cơ quan 
+legal_effect(doanh_nghiep, cap_giay_chung_nhan_dang_ky_doanh_nghiep_cho_doanh_nghiep) :- applies_if(gui_y_kien_ve_viec_doanh_nghiep_hoan_thanh_thu_tuc, khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh),
+    exception_applies(theo_quy_dinh).
+
+% rule_id: RULE_ND168_D41_K2_E000273_H906A9A038A6C__f824edde05271e
+% rule_group_id: RG_ND168_D41_K2_TRAO_GIAY_TIEP_NHAN_HO_SO
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D41_K2_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=V|section=|article=41|clause=2|point=|lines=414-414
+% predicate_canonical: trao_giay_tiep_nhan_ho_so
+% normalization_status: full
+% source_text: Sau khi tiếp nhận hồ sơ đăng ký doanh nghiệp, Cơ quan đăng ký kinh doanh cấp tỉnh trao giấy tiếp nhận hồ sơ và hẹn trả kết quả cho người nộp hồ sơ. Trong thời hạn 03 ngày làm việc kể từ ngày nhận hồ sơ đăng ký doanh nghiệp, Cơ quan đăng ký 
+authority_action(co_quan_dang_ky_kinh_doanh_cap_tinh, trao_giay_tiep_nhan_ho_so, thoi_han_03_ngay_lam_viec_ke_tu_ngay_nhan_ho_so_dang_ky_doanh_nghiep) :- applies_if(trao_giay_tiep_nhan_ho_so, khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh),
+    exception_applies(trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so).
+
+% rule_id: RULE_ND168_D41_K2_E000429_HE175711FBB51__ae90fd419195de
+% rule_group_id: RG_ND168_D41_K2_TRAO_GIAY_TIEP_NHAN_HO_SO
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D41_K2_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=V|section=|article=41|clause=2|point=|lines=414-414
+% predicate_canonical: trao_giay_tiep_nhan_ho_so
+% normalization_status: full
+% source_text: Sau khi tiếp nhận hồ sơ đăng ký doanh nghiệp, Cơ quan đăng ký kinh doanh cấp tỉnh trao giấy tiếp nhận hồ sơ và hẹn trả kết quả cho người nộp hồ sơ. Trong thời hạn 03 ngày làm việc kể từ ngày nhận hồ sơ đăng ký doanh nghiệp, Cơ quan đăng ký 
+legal_effect(co_quan_dang_ky_kinh_doanh_cap_tinh, cap_giay_chung_nhan_dang_ky_doanh_nghiep_cho_doanh_nghiep) :- applies_if(trao_giay_tiep_nhan_ho_so, khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh),
+    exception_applies(theo_quy_dinh).
+
+% rule_id: RULE_ND168_D41_K2_E000274_H906A9A038A6C__469773c9b3ecbe
+% rule_group_id: RG_ND168_D41_K2_TRAO_GIAY_TIEP_NHAN_HO_SO
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D41_K2_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=V|section=|article=41|clause=2|point=|lines=414-414
+% predicate_canonical: trao_giay_tiep_nhan_ho_so
+% normalization_status: full
+% source_text: Sau khi tiếp nhận hồ sơ đăng ký doanh nghiệp, Cơ quan đăng ký kinh doanh cấp tỉnh trao giấy tiếp nhận hồ sơ và hẹn trả kết quả cho người nộp hồ sơ. Trong thời hạn 03 ngày làm việc kể từ ngày nhận hồ sơ đăng ký doanh nghiệp, Cơ quan đăng ký 
+deadline(trao_giay_tiep_nhan_ho_so, 3.0, ngay_lam_viec, ke_tu_ngay_nhan_ho_so) :- applies_if(trao_giay_tiep_nhan_ho_so, khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh).
+
+% rule_id: RULE_ND168_D48_K2_E000287_HABE470AE545B__fb7be86994ac02
+% rule_group_id: RG_ND168_D48_K2_TRAO_GIAY_TIEP_NHAN_HO_SO
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D48_K2_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=V|section=|article=48|clause=2|point=|lines=531-531
+% predicate_canonical: trao_giay_tiep_nhan_ho_so
+% normalization_status: full
+% source_text: Sau khi tiếp nhận hồ sơ đăng ký doanh nghiệp, Cơ quan đăng ký kinh doanh cấp tỉnh trao giấy tiếp nhận hồ sơ và hẹn trả kết quả cho người nộp hồ sơ. Trong thời hạn 01 ngày làm việc kể từ ngày nhận hồ sơ đăng ký doanh nghiệp, Cơ quan đăng ký 
+authority_action(co_quan_dang_ky_kinh_doanh_cap_tinh, trao_giay_tiep_nhan_ho_so, thoi_han_01_ngay_lam_viec_ke_tu_ngay_nhan_ho_so_dang_ky_doanh_nghiep) :- applies_if(trao_giay_tiep_nhan_ho_so, khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh),
+    exception_applies(trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so).
+
+% rule_id: RULE_ND168_D48_K2_E000288_HABE470AE545B__72a3c564de1677
+% rule_group_id: RG_ND168_D48_K2_TRAO_GIAY_TIEP_NHAN_HO_SO
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D48_K2_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=V|section=|article=48|clause=2|point=|lines=531-531
+% predicate_canonical: trao_giay_tiep_nhan_ho_so
+% normalization_status: full
+% source_text: Sau khi tiếp nhận hồ sơ đăng ký doanh nghiệp, Cơ quan đăng ký kinh doanh cấp tỉnh trao giấy tiếp nhận hồ sơ và hẹn trả kết quả cho người nộp hồ sơ. Trong thời hạn 01 ngày làm việc kể từ ngày nhận hồ sơ đăng ký doanh nghiệp, Cơ quan đăng ký 
+deadline(trao_giay_tiep_nhan_ho_so, 1.0, ngay_lam_viec, ke_tu_ngay_nhan_ho_so) :- applies_if(trao_giay_tiep_nhan_ho_so, khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh).
+
+% rule_id: RULE_ND168_D49_K2_E000289_HB4263929BFB1__c4bea6d6c32fa8
+% rule_group_id: RG_ND168_D49_K2_TRAO_GIAY_TIEP_NHAN_HO_SO
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D49_K2_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=V|section=|article=49|clause=2|point=|lines=536-536
+% predicate_canonical: trao_giay_tiep_nhan_ho_so
+% normalization_status: full
+% source_text: Sau khi tiếp nhận hồ sơ đăng ký doanh nghiệp, Cơ quan đăng ký kinh doanh cấp tỉnh trao giấy tiếp nhận hồ sơ và hẹn trả kết quả cho người nộp hồ sơ. Trong thời hạn 03 ngày làm việc kể từ ngày tiếp nhận hồ sơ, Cơ quan đăng ký kinh doanh cấp t
+authority_action(co_quan_dang_ky_kinh_doanh_cap_tinh, trao_giay_tiep_nhan_ho_so, thoi_han_03_ngay_lam_viec_ke_tu_ngay_tiep_nhan_ho_so) :- applies_if(trao_giay_tiep_nhan_ho_so, khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh),
+    exception_applies(trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so).
+
+% rule_id: RULE_ND168_D50_K4_E000291_H0EB1A6769D22__15ce8e074b47f0
+% rule_group_id: RG_ND168_D50_K4_TRAO_GIAY_TIEP_NHAN_HO_SO
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D50_K4_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=V|section=|article=50|clause=4|point=|lines=543-543
+% predicate_canonical: trao_giay_tiep_nhan_ho_so
+% normalization_status: full
+% source_text: Sau khi tiếp nhận hồ sơ đăng ký doanh nghiệp, Cơ quan đăng ký kinh doanh cấp tỉnh trao giấy tiếp nhận hồ sơ và hẹn trả kết quả cho người nộp hồ sơ. Trong thời hạn 03 ngày làm việc kể từ ngày tiếp nhận hồ sơ, Cơ quan đăng ký kinh doanh cấp t
+authority_action(co_quan_dang_ky_kinh_doanh_cap_tinh, trao_giay_tiep_nhan_ho_so, thoi_han_03_ngay_lam_viec_ke_tu_ngay_tiep_nhan_ho_so) :- applies_to(ap_dung_doi_voi_co_dong_sang_lap),
+    applies_if(trao_giay_tiep_nhan_ho_so, khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh),
+    exception_applies(trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so).
+
+% rule_id: RULE_ND168_D50_K4_E000292_H0EB1A6769D22__0f2cc470bd6564
+% rule_group_id: RG_ND168_D50_K4_TRAO_GIAY_TIEP_NHAN_HO_SO
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D50_K4_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=V|section=|article=50|clause=4|point=|lines=543-543
+% predicate_canonical: trao_giay_tiep_nhan_ho_so
+% normalization_status: full
+% source_text: Sau khi tiếp nhận hồ sơ đăng ký doanh nghiệp, Cơ quan đăng ký kinh doanh cấp tỉnh trao giấy tiếp nhận hồ sơ và hẹn trả kết quả cho người nộp hồ sơ. Trong thời hạn 03 ngày làm việc kể từ ngày tiếp nhận hồ sơ, Cơ quan đăng ký kinh doanh cấp t
+deadline(trao_giay_tiep_nhan_ho_so, 3.0, ngay_lam_viec, ke_tu_ngay_nhan_ho_so) :- applies_to(ap_dung_doi_voi_co_dong_sang_lap),
+    applies_if(trao_giay_tiep_nhan_ho_so, khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh).
+
+% rule_id: RULE_ND168_D54_K4_E000295_H7429EAE04EED__e4eca5313ad090
+% rule_group_id: RG_ND168_D54_K4_TRAO_GIAY_TIEP_NHAN_HO_SO
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D54_K4_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=V|section=|article=54|clause=4|point=|lines=569-569
+% predicate_canonical: trao_giay_tiep_nhan_ho_so
+% normalization_status: full
+% source_text: Sau khi tiếp nhận hồ sơ đăng ký doanh nghiệp quy định tại các khoản 1, 2 và 3 Điều này, Cơ quan đăng ký kinh doanh cấp tỉnh trao giấy tiếp nhận hồ sơ và hẹn trả kết quả cho người nộp hồ sơ. Trong thời hạn 03 ngày làm việc kể từ ngày nhận hồ
+authority_action(co_quan_dang_ky_kinh_doanh_cap_tinh, trao_giay_tiep_nhan_ho_so, thoi_han_03_ngay_lam_viec_ke_tu_ngay_nhan_ho_so) :- applies_if(trao_giay_tiep_nhan_ho_so, khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_quy_dinh_tai_cac_khoan_1_2_va_3_dieu_nay_co_quan_dang_ky_kinh_doanh),
+    exception_applies(trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so).
+
+% rule_id: RULE_ND168_D54_K4_E000471_HF8F32C033732__de5e5eb49912a4
+% rule_group_id: RG_ND168_D54_K4_TRAO_GIAY_TIEP_NHAN_HO_SO
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D54_K4_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=V|section=|article=54|clause=4|point=|lines=569-569
+% predicate_canonical: trao_giay_tiep_nhan_ho_so
+% normalization_status: full
+% source_text: Sau khi tiếp nhận hồ sơ đăng ký doanh nghiệp quy định tại các khoản 1, 2 và 3 Điều này, Cơ quan đăng ký kinh doanh cấp tỉnh trao giấy tiếp nhận hồ sơ và hẹn trả kết quả cho người nộp hồ sơ. Trong thời hạn 03 ngày làm việc kể từ ngày nhận hồ
+dossier_item(trao_giay_tiep_nhan_ho_so, ho_so_dang_ky_doanh_nghiep_theo_khoan_1_khoan_2_va_khoan_3_dieu_54) :- applies_if(trao_giay_tiep_nhan_ho_so, khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_quy_dinh_tai_cac_khoan_1_2_va_3_dieu_nay_co_quan_dang_ky_kinh_doanh).
+
+% rule_id: RULE_ND168_D54_K4_E000296_H7429EAE04EED__202426ccad437b
+% rule_group_id: RG_ND168_D54_K4_TRAO_GIAY_TIEP_NHAN_HO_SO
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D54_K4_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=V|section=|article=54|clause=4|point=|lines=569-569
+% predicate_canonical: trao_giay_tiep_nhan_ho_so
+% normalization_status: full
+% source_text: Sau khi tiếp nhận hồ sơ đăng ký doanh nghiệp quy định tại các khoản 1, 2 và 3 Điều này, Cơ quan đăng ký kinh doanh cấp tỉnh trao giấy tiếp nhận hồ sơ và hẹn trả kết quả cho người nộp hồ sơ. Trong thời hạn 03 ngày làm việc kể từ ngày nhận hồ
+deadline(trao_giay_tiep_nhan_ho_so, 3.0, ngay_lam_viec, ke_tu_ngay_nhan_ho_so) :- applies_if(trao_giay_tiep_nhan_ho_so, khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_quy_dinh_tai_cac_khoan_1_2_va_3_dieu_nay_co_quan_dang_ky_kinh_doanh).
+
+% rule_id: RULE_ND168_D55_K3_E000297_H1B18A16045A8__4680cacf255bf9
+% rule_group_id: RG_ND168_D55_K3_TRAO_GIAY_TIEP_NHAN_HO_SO
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D55_K3_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=V|section=|article=55|clause=3|point=|lines=576-576
+% predicate_canonical: trao_giay_tiep_nhan_ho_so
+% normalization_status: full
+% source_text: Sau khi tiếp nhận hồ sơ đăng ký doanh nghiệp, Cơ quan đăng ký kinh doanh cấp tỉnh trao giấy tiếp nhận hồ sơ và hẹn trả kết quả cho người nộp hồ sơ. Trong thời hạn 03 ngày làm việc kể từ ngày nhận hồ sơ, Cơ quan đăng ký kinh doanh cấp tỉnh x
+authority_action(co_quan_dang_ky_kinh_doanh_cap_tinh, trao_giay_tiep_nhan_ho_so, thoi_han_03_ngay_lam_viec_ke_tu_ngay_nhan_ho_so) :- applies_if(trao_giay_tiep_nhan_ho_so, khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh),
+    exception_applies(trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so).
+
+% rule_id: RULE_ND168_D55_K3_E000478_HBBCCFBA5DD3F__847b451bc1bfa5
+% rule_group_id: RG_ND168_D55_K3_TRAO_GIAY_TIEP_NHAN_HO_SO
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D55_K3_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=V|section=|article=55|clause=3|point=|lines=576-576
+% predicate_canonical: trao_giay_tiep_nhan_ho_so
+% normalization_status: full
+% source_text: Sau khi tiếp nhận hồ sơ đăng ký doanh nghiệp, Cơ quan đăng ký kinh doanh cấp tỉnh trao giấy tiếp nhận hồ sơ và hẹn trả kết quả cho người nộp hồ sơ. Trong thời hạn 03 ngày làm việc kể từ ngày nhận hồ sơ, Cơ quan đăng ký kinh doanh cấp tỉnh x
+legal_effect(co_quan_dang_ky_kinh_doanh_cap_tinh, cap_giay_chung_nhan_dang_ky_doanh_nghiep_giay_xac_nhan_ve_viec_thay_doi_noi_dun) :- applies_if(trao_giay_tiep_nhan_ho_so, khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh).
+
+% rule_id: RULE_ND168_D59_K2_B_E000302_HB765E274CC42__6147c335fffb5f
+% rule_group_id: RG_ND168_D59_K2_B_THANH_PHAN_HO_SO
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D59_K2_B_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=V|section=|article=59|clause=2|point=b|lines=602-602
+% predicate_canonical: thanh_phan_ho_so
+% normalization_status: full
+% source_text: Doanh nghiệp phải đăng ký thay đổi nội dung đăng ký doanh nghiệp để phục vụ việc giải thể của doanh nghiệp theo quy định. Trong trường hợp này, hồ sơ đăng ký thay đổi phải kèm theo văn bản giải trình của doanh nghiệp về lý do đăng ký thay đ
+dossier_item(thanh_phan_ho_so, kem_theo_van_ban_giai_trinh_cua_doanh_nghiep_ve_ly_do_dang_ky_thay_doi_va_duoc) :- applies_if(thanh_phan_ho_so, truong_hop_nay).
+
+% rule_id: RULE_ND168_D59_K2_B_E000479_H6CE5F7A93C8B__e80d74b1b90e68
+% rule_group_id: RG_ND168_D59_K2_B_THANH_PHAN_HO_SO
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D59_K2_B_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=V|section=|article=59|clause=2|point=b|lines=602-602
+% predicate_canonical: thanh_phan_ho_so
+% normalization_status: full
+% source_text: Doanh nghiệp phải đăng ký thay đổi nội dung đăng ký doanh nghiệp để phục vụ việc giải thể của doanh nghiệp theo quy định. Trong trường hợp này, hồ sơ đăng ký thay đổi phải kèm theo văn bản giải trình của doanh nghiệp về lý do đăng ký thay đ
+dossier_item(thanh_phan_ho_so, van_ban_giai_trinh_cua_doanh_nghiep_ve_ly_do_dang_ky_thay_doi_kem_ho_so_dang_k) :- applies_if(thanh_phan_ho_so, truong_hop_nay).
+
+% rule_id: RULE_ND168_D66_K5_E000303_HF34F2F907D78__8430406cf71e7d
+% rule_group_id: RG_ND168_D66_K5_DANG_KY
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D66_K5_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=VI|section=|article=66|clause=5|point=|lines=660-660
+% predicate_canonical: dang_ky
+% normalization_status: full
+% source_text: Trước khi chấm dứt hoạt động chi nhánh, doanh nghiệp phải thực hiện thủ tục chấm dứt hoạt động của tất cả địa điểm kinh doanh trực thuộc chi nhánh tại Cơ quan đăng ký kinh doanh cấp tỉnh nơi đặt địa điểm kinh doanh.
+procedure_step(dang_ky_kinh_doanh, cap_tinh_noi_dat_dia_diem_kinh_doanh) :- applies_if(dang_ky_kinh_doanh, khi_cham_dut_hoat_dong_chi_nhanh_doanh_nghiep_phai_thuc_hien_thu_tuc_cham_dut_hoat_dong_cua_tat_ca_dia_diem_kinh_doanh),
+    exception_applies(co_quan_dang_ky_kinh_doanh).
+
+% rule_id: RULE_ND168_D69_K8_E000484_H27C3716A7863__9d99e90d01c504
+% rule_group_id: RG_ND168_D69_K8_THONG_BAO_CHO_CO_QUAN_QUAN_L
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D69_K8_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=VI|section=|article=69|clause=8|point=|lines=693-693
+% predicate_canonical: thong_bao_cho_co_quan_quan_ly_thue
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh cấp tỉnh thông báo cho Cơ quan quản lý thuế, cơ quan nhà nước có thẩm quyền về việc vi phạm của doanh nghiệp để xem xét và xử lý theo quy định của pháp luật. Cơ quan đăng ký kinh doanh cấp tỉnh thực hiện đăng tải 
+authority_action(co_quan_dang_ky_kinh_doanh_cap_tinh, thong_bao_cho_co_quan_quan_ly_thue, giay_chung_nhan_dang_ky_doanh_nghiep) :- exception_applies(thong_bao_tam_ngung_kinh_doanh_giay_xac_nhan_thong_bao_t).
+
+% rule_id: RULE_ND168_D69_K8_E000307_H645CB00A88CB__1970f0cce8350d
+% rule_group_id: RG_ND168_D69_K8_THONG_BAO_CHO_CO_QUAN_QUAN_L
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D69_K8_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=VI|section=|article=69|clause=8|point=|lines=693-693
+% predicate_canonical: thong_bao_cho_co_quan_quan_ly_thue
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh cấp tỉnh thông báo cho Cơ quan quản lý thuế, cơ quan nhà nước có thẩm quyền về việc vi phạm của doanh nghiệp để xem xét và xử lý theo quy định của pháp luật. Cơ quan đăng ký kinh doanh cấp tỉnh thực hiện đăng tải 
+legal_effect(co_quan_dang_ky_kinh_doanh, thu_hoi_giay_chung_nhan_dang_ky_doanh_nghiep_giay_xac_nhan_ve_viec_thay_doi_noi).
+
+% rule_id: RULE_ND168_D69_K8_E000308_H645CB00A88CB__6cb2986879ea28
+% rule_group_id: RG_ND168_D69_K8_THONG_BAO_CHO_CO_QUAN_QUAN_L
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D69_K8_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=VI|section=|article=69|clause=8|point=|lines=693-693
+% predicate_canonical: thong_bao_cho_co_quan_quan_ly_thue
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh cấp tỉnh thông báo cho Cơ quan quản lý thuế, cơ quan nhà nước có thẩm quyền về việc vi phạm của doanh nghiệp để xem xét và xử lý theo quy định của pháp luật. Cơ quan đăng ký kinh doanh cấp tỉnh thực hiện đăng tải 
+legal_effect(co_quan_dang_ky_kinh_doanh, thu_hoi_giay_chung_nhan_dang_ky_doanh_nghiep_giay_xac_nhan_ve_viec_thay_doi_noi) :- exception_applies(thong_bao_tam_ngung_k).
+
+% rule_id: RULE_ND168_D69_K8_E000486_H27C3716A7863__43b7c194143b91
+% rule_group_id: RG_ND168_D69_K8_THONG_BAO_CHO_CO_QUAN_QUAN_L
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D69_K8_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=VI|section=|article=69|clause=8|point=|lines=693-693
+% predicate_canonical: thong_bao_cho_co_quan_quan_ly_thue
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh cấp tỉnh thông báo cho Cơ quan quản lý thuế, cơ quan nhà nước có thẩm quyền về việc vi phạm của doanh nghiệp để xem xét và xử lý theo quy định của pháp luật. Cơ quan đăng ký kinh doanh cấp tỉnh thực hiện đăng tải 
+legal_effect(co_quan_dang_ky_kinh_doanh_cap_tinh, thu_hoi_giay_chung_nhan_dang_ky_doanh_nghiep_giay_xac_nhan_ve_viec_thay_doi_noi) :- exception_applies(thong_bao_tam_ngung_k).
+
+% rule_id: RULE_ND168_D69_K8_E000306_H645CB00A88CB__bf60f1daa08851
+% rule_group_id: RG_ND168_D69_K8_THONG_BAO_CHO_CO_QUAN_QUAN_L
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D69_K8_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=VI|section=|article=69|clause=8|point=|lines=693-693
+% predicate_canonical: thong_bao_cho_co_quan_quan_ly_thue
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh cấp tỉnh thông báo cho Cơ quan quản lý thuế, cơ quan nhà nước có thẩm quyền về việc vi phạm của doanh nghiệp để xem xét và xử lý theo quy định của pháp luật. Cơ quan đăng ký kinh doanh cấp tỉnh thực hiện đăng tải 
+deadline(thong_bao_cho_co_quan_quan_ly_thue, 3.0, ngay_lam_viec, ke_tu_moc_tham_chieu).
+
+% rule_id: RULE_ND168_D70_K2_E000315_H76391FA4DF19__fd8923adabc565
+% rule_group_id: RG_ND168_D70_K2_HUY_BO_QUYET_DINH_THU_HOI
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D70_K2_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=VI|section=|article=70|clause=2|point=|lines=700-700
+% predicate_canonical: huy_bo_quyet_dinh_thu_hoi
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh cấp tỉnh ra quyết định hủy bỏ quyết định thu hồi và khôi phục Giấy chứng nhận đăng ký doanh nghiệp, đồng thời cập nhật tình trạng pháp lý của doanh nghiệp, chi nhánh, văn phòng đại diện, địa điểm kinh doanh trong 
+legal_effect(co_quan_dang_ky_kinh_doanh, khoi_phuc_giay_chung_nhan_dang_ky_doanh_nghiep_dong_thoi_cap_nhat_tinh_trang_ph) :- applies_to(ap_dung_doi_voi_chi_nhanh_van_phong_dai_dien),
+    applies_if(huy_bo_quyet_dinh_thu_hoi, truong_hop_bi_thu_hoi_giay_chung_nhan_dang_ky_doanh_nghiep_hoac_nhan_duoc_van_ban_de_nghi_cua_co_quan_quan_ly_thue).
+
+% rule_id: RULE_ND168_D70_K2_E000316_H76391FA4DF19__0b8d819f490a52
+% rule_group_id: RG_ND168_D70_K2_HUY_BO_QUYET_DINH_THU_HOI
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D70_K2_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=VI|section=|article=70|clause=2|point=|lines=700-700
+% predicate_canonical: huy_bo_quyet_dinh_thu_hoi
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh cấp tỉnh ra quyết định hủy bỏ quyết định thu hồi và khôi phục Giấy chứng nhận đăng ký doanh nghiệp, đồng thời cập nhật tình trạng pháp lý của doanh nghiệp, chi nhánh, văn phòng đại diện, địa điểm kinh doanh trong 
+legal_effect(co_quan_dang_ky_kinh_doanh, thu_hoi_giay_chung_nhan_dang_ky_doanh_nghiep_va_viec_khoi_phuc_giay_chung_nhan) :- applies_to(ap_dung_doi_voi_chi_nhanh_van_phong_dai_dien),
+    applies_if(huy_bo_quyet_dinh_thu_hoi, truong_hop_bi_thu_hoi_giay_chung_nhan_dang_ky_doanh_nghiep_hoac_nhan_duoc_van_ban_de_nghi_cua_co_quan_quan_ly_thue).
+
+% rule_id: RULE_ND168_D70_K2_E000317_H76391FA4DF19__9d5f5c23371cf0
+% rule_group_id: RG_ND168_D70_K2_HUY_BO_QUYET_DINH_THU_HOI
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D70_K2_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=VI|section=|article=70|clause=2|point=|lines=700-700
+% predicate_canonical: huy_bo_quyet_dinh_thu_hoi
+% normalization_status: full
+% source_text: Cơ quan đăng ký kinh doanh cấp tỉnh ra quyết định hủy bỏ quyết định thu hồi và khôi phục Giấy chứng nhận đăng ký doanh nghiệp, đồng thời cập nhật tình trạng pháp lý của doanh nghiệp, chi nhánh, văn phòng đại diện, địa điểm kinh doanh trong 
+legal_effect(co_quan_dang_ky_kinh_doanh, bi_thu_hoi_giay_chung_nhan_dang_ky_doanh_nghiep_hoac_nhan_duoc_van_ban_de_nghi) :- applies_to(ap_dung_doi_voi_chi_nhanh_van_phong_dai_dien),
+    applies_if(huy_bo_quyet_dinh_thu_hoi, truong_hop_bi_thu_hoi_giay_chung_nhan_dang_ky_doanh_nghiep_hoac_nhan_duoc_van_ban_de_nghi_cua_co_quan_quan_ly_thue),
+    exception_applies(co_quan_quan_ly_thue).
+
+% rule_id: RULE_ND168_D99_K3_E000499_H34D9424ABEA7__77d43a8289c1ef
+% rule_group_id: RG_ND168_D99_K3_NG_KET_QUA_PHAP_LY
+% doc_code: 168/2025/NĐ-CP
+% source_ref: unit=UNIT_168_2025_N_CP_D99_K3_S1_SS1|doc_id=DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025|chapter=VIII|section=|article=99|clause=3|point=|lines=933-933
+% predicate_canonical: cap_giay_chung_nhan_dang_ky_ho_kinh_doanh_theo_quy_dinh_tai_khoan_2_dieu_85_nghi_dinh_nay
+% normalization_status: full
+% source_text: Sau khi tiếp nhận hồ sơ đăng ký hộ kinh doanh, Cơ quan đăng ký kinh doanh cấp xã trao giấy tiếp nhận hồ sơ và hẹn trả kết quả, kiểm tra điều kiện cấp Giấy chứng nhận đăng ký hộ kinh doanh theo quy định tại khoản 2 Điều 85 Nghị định này. Trư
+legal_effect(co_quan_dang_ky_kinh_doanh, cap_giay_chung_nhan_dang_ky_ho_kinh_doanh) :- applies_if(cap_giay_chung_nhan_dang_ky_ho_kinh_doanh_theo_quy_dinh_tai_khoan_2_dieu_85_nghi_dinh_nay, khi_tiep_nhan_ho_so_dang_ky_ho_kinh_doanh_co_quan_dang_ky_kinh_doanh),
+    exception_applies(theo_quy_dinh_tai_khoan_2_dieu_85_nghi_dinh_nay).

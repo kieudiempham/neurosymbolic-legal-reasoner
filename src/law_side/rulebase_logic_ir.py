@@ -88,6 +88,48 @@ def _clean_dossier_items(text: str | None) -> list[str]:
         out.append(slug)
     return out
 
+
+def _infer_dossier_items_from_source_text(row: pd.Series) -> list[str]:
+    text = " ".join(
+        str(x)
+        for x in (
+            _cell(row.get("thanh_phan_ho_so")),
+            _cell(row.get("doi_tuong_hanh_vi")),
+            _cell(row.get("source_text")),
+            _cell(row.get("grounded_summary")),
+        )
+        if x
+    )
+    if not text:
+        return []
+    slug = to_snake_id(text)
+    out: list[str] = []
+    if "van_ban_de_nghi" in slug:
+        out.append("van_ban_de_nghi")
+    if "ho_so_kem_theo" in slug:
+        out.append("ho_so_kem_theo")
+    if "tai_lieu" in slug:
+        out.append("tai_lieu")
+    if "giay_to" in slug:
+        out.append("giay_to")
+    if "quyet_dinh" in slug:
+        out.append("quyet_dinh")
+    if "so_thue" in slug or "nop_du_so_thue" in slug:
+        out.append("so_thue")
+    if "bao_hiem" in slug:
+        out.append("bao_hiem")
+    if not out and "ho_so" in slug:
+        out.append("ho_so")
+    # unique preserve order
+    seen: set[str] = set()
+    uniq: list[str] = []
+    for x in out:
+        if x in seen:
+            continue
+        seen.add(x)
+        uniq.append(x)
+    return uniq
+
 GENERIC_PREDICATE_SLUGS = frozenset(
     {
         "dang_ky",
@@ -174,21 +216,24 @@ def _extract_deadline_value_unit_from_text(row: pd.Series) -> tuple[Any, str | N
     Khi Excel thiếu `thoi_han_so`/`don_vi_thoi_han`, cố trích từ `source_text`/`grounded_summary`.
     Trả về (value, unit_slug_or_none).
     """
-    # Try multiple fields because some rows miss `thoi_han_so`/`don_vi_thoi_han` in Excel.
-    text = (
-        _cell(row.get("grounded_summary"))
-        or _cell(row.get("source_text"))
-        or _cell(row.get("bieu_thuc_thoi_han"))
-        or _cell(row.get("moc_tinh_thoi_han"))
-        or _cell(row.get("thoi_han_so"))
-    )
-    if not text:
+    # Try across multiple fields (concatenated) because one field may miss numeric cues.
+    parts = [
+        _cell(row.get("thoi_han_so")),
+        _cell(row.get("bieu_thuc_thoi_han")),
+        _cell(row.get("moc_tinh_thoi_han")),
+        _cell(row.get("grounded_summary")),
+        _cell(row.get("source_text")),
+    ]
+    text = " ".join(str(x) for x in parts if x)
+    if not text.strip():
         return None, None
     slug = to_snake_id(text).lower()
 
     unit: str | None = None
     if "ngay_lam_viec" in slug:
         unit = "ngay_lam_viec"
+    elif "gio" in slug or "giờ" in str(text).lower():
+        unit = "gio"
     elif "ngay" in slug:
         unit = "ngay"
     elif "thang" in slug:
@@ -196,7 +241,8 @@ def _extract_deadline_value_unit_from_text(row: pd.Series) -> tuple[Any, str | N
     elif "nam" in slug:
         unit = "nam"
 
-    m = re.search(r"(\\d+(?:[\\.,]\\d+)?)", str(text))
+    # Must use \d (one backslash in raw string); \\d would match literal backslash+d.
+    m = re.search(r"(\d+(?:[.,]\d+)?)", str(text))
     if not m:
         return None, unit
     raw_num = m.group(1).replace(",", ".")
@@ -205,6 +251,36 @@ def _extract_deadline_value_unit_from_text(row: pd.Series) -> tuple[Any, str | N
     except ValueError:
         return None, unit
     return val, unit
+
+
+def _infer_object_from_action_or_text(
+    action_slug: str | None,
+    source_text: str | None,
+    method_text: str | None,
+) -> str | None:
+    if action_slug:
+        s = str(action_slug)
+        if s.startswith("gui_") and len(s) > 4:
+            tail = s[4:]
+            if tail:
+                return tail
+        if s.startswith("nop_") and len(s) > 4:
+            tail = s[4:]
+            if tail:
+                return tail
+    text = " ".join(x for x in (source_text, method_text) if x)
+    slug = to_snake_id(text) if text else ""
+    if not slug:
+        return None
+    if "van_ban_de_nghi" in slug:
+        return "van_ban_de_nghi"
+    if "phieu_lay_y_kien" in slug:
+        return "phieu_lay_y_kien"
+    if "ho_so_kem_theo" in slug or "ho_so" in slug:
+        return "ho_so"
+    if "quyen_va_nghia_vu" in slug:
+        return "quyen_va_nghia_vu"
+    return None
 
 
 def _term_clean(predicate: str, args: list[Any]) -> dict[str, Any]:
@@ -384,6 +460,50 @@ def should_override_obligation_to_dossier(row: pd.Series) -> bool:
     return False
 
 
+def infer_nonquant_logic_form_for_threshold(row: pd.Series) -> str | None:
+    """
+    Rule type nguồn là `quy_tac_nguong_dinh_luong` nhưng không có tín hiệu định lượng thật.
+    Chuyển về form semantic phù hợp hơn thay vì giữ threshold rỗng.
+    """
+    if _cell(row.get("rule_type")) != "quy_tac_nguong_dinh_luong":
+        return None
+    has_metric_bits = any(
+        _cell(row.get(k)) is not None
+        for k in (
+            "ten_chi_so",
+            "toan_tu_so_sanh",
+            "gia_tri_nguong",
+            "gia_tri_tu",
+            "gia_tri_den",
+            "kieu_khoang",
+            "thoi_han_so",
+            "don_vi_thoi_han",
+        )
+    )
+    if has_metric_bits:
+        return None
+
+    legal_nature = to_snake_id(_cell(row.get("tinh_chat_phap_ly")) or "")
+    if "cam" in legal_nature:
+        return "prohibition"
+    if any(x in legal_nature for x in ("co_the", "duoc_quyen", "quyen")):
+        return "permission"
+    if any(x in legal_nature for x in ("bat_buoc", "nghia_vu", "phai")):
+        return "obligation"
+
+    if _cell(row.get("co_quan_xu_ly")) or _cell(row.get("co_quan_tiep_nhan")):
+        return "authority_action"
+    if _cell(row.get("thanh_phan_ho_so")):
+        return "dossier"
+    if _cell(row.get("ngoai_le")) and not _cell(row.get("dieu_kien_ap_dung")):
+        return "exception"
+    if _cell(row.get("he_qua_phap_ly")) or _cell(row.get("ket_qua_thu_tuc")):
+        return "legal_effect"
+    if _cell(row.get("dieu_kien_ap_dung")) or _cell(row.get("bieu_thuc_dieu_kien")):
+        return "applicability_condition"
+    return "authority_action"
+
+
 def infer_logic_form(
     row: pd.Series, norm: NormalizedVocab, rule_type: str
 ) -> tuple[str, list[str]]:
@@ -394,6 +514,11 @@ def infer_logic_form(
     if should_override_threshold_to_deadline(row):
         notes.append("override_threshold_to_deadline_time_metric")
         return "deadline", notes
+
+    nqt = infer_nonquant_logic_form_for_threshold(row)
+    if nqt:
+        notes.append("override_threshold_to_nonquant_semantic_form")
+        return nqt, notes
 
     if should_override_obligation_to_dossier(row):
         notes.append("override_obligation_to_dossier_core")
@@ -558,6 +683,15 @@ def build_logic_ir_record(
         action = pred_anchor
         if isinstance(action, str) and len(action) > 80:
             action = _short_anchor_slug(action, max_len=80)
+        if not obj:
+            inferred = _infer_object_from_action_or_text(
+                action,
+                _cell(row.get("source_text")) or _cell(row.get("grounded_summary")),
+                _cell(row.get("phuong_thuc_thuc_hien")),
+            )
+            if inferred:
+                obj = inferred
+                reasoning_notes.append("recovered_object_from_action_or_source")
         head = _term_clean(
             "obligation",
             [
@@ -585,6 +719,15 @@ def build_logic_ir_record(
         action = pred_anchor
         if isinstance(action, str) and len(action) > 80:
             action = _short_anchor_slug(action, max_len=80)
+        if not obj:
+            inferred = _infer_object_from_action_or_text(
+                action,
+                _cell(row.get("source_text")) or _cell(row.get("grounded_summary")),
+                _cell(row.get("phuong_thuc_thuc_hien")),
+            )
+            if inferred:
+                obj = inferred
+                reasoning_notes.append("recovered_object_from_action_or_source")
         head = _term_clean(
             "permission",
             [
@@ -629,6 +772,16 @@ def build_logic_ir_record(
             or (to_snake_id(hanh_raw) if hanh_raw else None)
             or "deadline_event_unresolved"
         )
+        if ev == "deadline_event_unresolved":
+            ev = _short_anchor_slug(
+                _cell(row.get("hanh_vi_phap_ly"))
+                or _cell(row.get("canonical_predicate"))
+                or _cell(row.get("grounded_summary"))
+                or _cell(row.get("source_text")),
+                max_len=80,
+            )
+            if ev and ev != "anchor_unresolved":
+                canonical_status = "inferred_from_context"
         if isinstance(ev, str) and len(ev) > 80:
             ev = _short_anchor_slug(ev, max_len=80)
 
@@ -677,6 +830,10 @@ def build_logic_ir_record(
         )
     elif logic_form == "dossier":
         items = _clean_dossier_items(_cell(row.get("thanh_phan_ho_so")))
+        if not items:
+            items = _infer_dossier_items_from_source_text(row)
+            if items:
+                reasoning_notes.append("recovered_dossier_items_from_source_text")
         dossier_pred = pred_anchor
         if not dossier_pred or (hanh_raw and hanh_raw.strip().lower() in _PLACEHOLDER_HANH_VI):
             dossier_pred = pred_anchor or "dossier_predicate_missing"
@@ -689,7 +846,8 @@ def build_logic_ir_record(
         kq = norm.effect_canonical or (to_snake_id(kt_raw) if kt_raw and len(kt_raw) < 100 else None)
         if not kq and kt_raw:
             kq = to_snake_id(kt_raw[:200])
-        obj_e = norm.object_canonical or kq or "object_or_result_unresolved"
+        dossier_items = _clean_dossier_items(_cell(row.get("thanh_phan_ho_so")))
+        obj_e = norm.object_canonical or kq or (dossier_items[0] if dossier_items else None) or "unresolved_object_atom"
         if isinstance(obj_e, str):
             base = _truncate_slug_before_markers(obj_e, _EFFECT_TRUNC_MARKERS)
             if base and base != obj_e:
@@ -878,8 +1036,57 @@ def build_logic_ir_record(
                 norm_notes.append(rn)
 
     norm_status = norm.normalization_status
-    if fallback_kind in ("incomplete_deadline", "unresolved_object", "unresolved_effect", "unresolved_exception"):
+    if fallback_kind in (
+        "incomplete_deadline",
+        "unresolved_object",
+        "unresolved_effect",
+        "unresolved_exception",
+        "dossier_items_unresolved",
+        "unresolved_threshold",
+    ):
         norm_status = "partial"
+
+    export_blockers: list[str] = []
+    if logic_form == "generic_rule":
+        export_blockers.append("generic_rule_logic_form")
+    if fallback_kind:
+        export_blockers.append(f"fallback_kind:{fallback_kind}")
+    if readiness == "reasoning_fallback":
+        export_blockers.append("logic_readiness_reasoning_fallback")
+    if isinstance(head_args, list):
+        if any(isinstance(a, str) and a.startswith("unresolved_") for a in head_args):
+            export_blockers.append("unresolved_head_args")
+        if any(a is None for a in head_args):
+            export_blockers.append("null_head_args")
+    if head_pred == "deadline" and len(head_args) >= 4:
+        if head_args[1] == "unresolved_deadline_value_atom":
+            export_blockers.append("deadline_value_unresolved")
+        if head_args[2] in (None, "", "unspecified_unit"):
+            export_blockers.append("deadline_unit_unresolved")
+        if head_args[3] in (None, "", "anchor_unresolved", "anchor_unspecified"):
+            export_blockers.append("deadline_anchor_unresolved")
+    if head_pred == "dossier" and len(head_args) >= 2:
+        items = head_args[1]
+        if not items or (isinstance(items, list) and "unresolved_dossier_item_atom" in items):
+            export_blockers.append("dossier_items_unresolved")
+    if head_pred in ("threshold", "threshold_range"):
+        if "unspecified_metric" in str(head_args):
+            export_blockers.append("threshold_metric_unresolved")
+        if "unspecified_op" in str(head_args):
+            export_blockers.append("threshold_operator_unresolved")
+        if "threshold_value_unresolved" in str(head_args):
+            export_blockers.append("threshold_value_unresolved")
+    # Deduplicate blockers while preserving order.
+    if export_blockers:
+        seen_blockers: set[str] = set()
+        uniq_blockers: list[str] = []
+        for b in export_blockers:
+            if b in seen_blockers:
+                continue
+            seen_blockers.add(b)
+            uniq_blockers.append(b)
+        export_blockers = uniq_blockers
+    problog_exportable = len(export_blockers) == 0
 
     metadata: dict[str, Any] = {
         "tinh_chat_phap_ly": _cell(row.get("tinh_chat_phap_ly")),
@@ -897,6 +1104,8 @@ def build_logic_ir_record(
         "normalization_status": norm_status,
         "normalization_notes": norm_notes,
         "expression_condition_slug": expression_condition_slug,
+        "problog_exportable": problog_exportable,
+        "export_blockers": export_blockers,
         "fallback_kind": fallback_kind,
         "provenance": {
             "doc_id": _cell(row.get("doc_id")),
@@ -962,6 +1171,7 @@ def _build_auxiliary_clean(
     hanh_raw = _cell(row.get("hanh_vi_phap_ly")) or _cell(row.get("canonical_predicate"))
 
     if logic_form != "deadline" and _cell(row.get("thoi_han_so")):
+        aux_anchor = _short_anchor_slug(_cell(row.get("moc_tinh_thoi_han")) or _cell(row.get("bieu_thuc_thoi_han"),), max_len=80)
         aux.append(
             {
                 "kind": "deadline_fact",
@@ -970,27 +1180,32 @@ def _build_auxiliary_clean(
                     [
                         pred_anchor or to_snake_id(hanh_raw) if hanh_raw else rule_id,
                         _numish(row.get("thoi_han_so")),
-                        to_snake_id(_cell(row.get("don_vi_thoi_han")) or "") or "unspecified",
-                        _cell(row.get("moc_tinh_thoi_han")),
+                        to_snake_id(_cell(row.get("don_vi_thoi_han")) or "") or "unspecified_unit",
+                        aux_anchor or "unresolved_deadline_anchor",
                     ],
                 ),
                 "body": [],
             }
         )
     if logic_form != "dossier" and _cell(row.get("thanh_phan_ho_so")):
-        aux.append(
-            {
-                "kind": "dossier_fact",
-                "head": _term_clean(
-                    "dossier",
-                    [
-                        pred_anchor or rule_id,
-                        _split_dossier_items(_cell(row.get("thanh_phan_ho_so"))),
-                    ],
-                ),
-                "body": [],
-            }
-        )
+        aux_items = _clean_dossier_items(_cell(row.get("thanh_phan_ho_so")))
+        if not aux_items:
+            aux_items = _infer_dossier_items_from_source_text(row)
+        # Không emit dossier_fact phụ nếu chỉ còn placeholder — tránh blocker aux + trùng nghĩa với head.
+        if aux_items and aux_items != ["unresolved_dossier_item_atom"]:
+            aux.append(
+                {
+                    "kind": "dossier_fact",
+                    "head": _term_clean(
+                        "dossier",
+                        [
+                            pred_anchor or rule_id,
+                            aux_items,
+                        ],
+                    ),
+                    "body": [],
+                }
+            )
     if logic_form != "threshold" and (
         _cell(row.get("ten_chi_so")) or _numish(row.get("gia_tri_nguong")) is not None
     ):
@@ -1000,10 +1215,10 @@ def _build_auxiliary_clean(
                 "head": _term_clean(
                     "threshold_note",
                     [
-                        _metric_slug(row, norm),
-                        _op_clean(row),
-                        _numish(row.get("gia_tri_nguong")),
-                        _unit_slug(row, norm),
+                        _metric_slug(row, norm) or "unspecified_metric",
+                        _op_clean(row) or "unspecified_op",
+                        _numish(row.get("gia_tri_nguong")) if _numish(row.get("gia_tri_nguong")) is not None else "threshold_value_unresolved",
+                        _unit_slug(row, norm) or "unspecified_unit",
                     ],
                 ),
                 "body": [],
