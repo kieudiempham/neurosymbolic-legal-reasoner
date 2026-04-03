@@ -188,7 +188,7 @@
         "predicate": "exception",
         "args": [
           "cap_giay_chung_nhan_dang_ky_doanh_nghiep",
-          "trừ trường hợp Điều lệ công ty hoặc hợp đồng đăng ký mua cổ phần quy định một t"
+          "tru_truong_hop_dieu_le_cong_ty_hoac_hop_dong_dang_ky_mua_co_phan_quy_dinh_mot_t"
         ]
       },
       "body": [],
@@ -248,7 +248,7 @@
         "predicate": "exception",
         "args": [
           "ap_dung_quy_dinh_loai_tru",
-          "trừ trường hợp Điều lệ công ty hoặc hợp đồng đăng ký mua cổ phần quy định một t"
+          "tru_truong_hop_dieu_le_cong_ty_hoac_hop_dong_dang_ky_mua_co_phan_quy_dinh_mot_t"
         ]
       },
       "body": [],
@@ -310,7 +310,7 @@
         "predicate": "exception",
         "args": [
           "ap_dung_quy_dinh_loai_tru",
-          "trừ trường hợp Điều lệ công ty hoặc hợp đồng đăng ký mua cổ phần quy định một t"
+          "tru_truong_hop_dieu_le_cong_ty_hoac_hop_dong_dang_ky_mua_co_phan_quy_dinh_mot_t"
         ]
       },
       "body": [],
@@ -370,7 +370,7 @@
         "predicate": "exception",
         "args": [
           "cap_giay_chung_nhan_dang_ky_doanh_nghiep",
-          "trừ trường hợp Điều lệ công ty hoặc hợp đồng đăng ký mua cổ phần quy định một t"
+          "tru_truong_hop_dieu_le_cong_ty_hoac_hop_dong_dang_ky_mua_co_phan_quy_dinh_mot_t"
         ]
       },
       "body": [],
@@ -448,7 +448,7 @@
           "cap_giay_chung_nhan_dang_ky_doanh_nghiep",
           null,
           "ngay",
-          "Ngưỡng/điều kiện định lượng: thoi_han_thanh_toan; eq 90 ngay; trường hợp Điều l"
+          "nguong_dieu_kien_dinh_luong_thoi_han_thanh_toan_eq_90_ngay_truong_hop_dieu_l"
         ]
       },
       "body": [
@@ -814,7 +814,7 @@
       "head": {
         "predicate": "applicability_condition",
         "args": [
-          "dang_ky_level",
+          "dang_ky_mua_it_nhat_20_tong_so_co_phan_pho_thong_duoc_quyen_chao_ban",
           "khi_dang_ky_thanh_lap_doanh_nghiep"
         ]
       },
@@ -828,7 +828,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "dang_ky_level",
+            "dang_ky_mua_it_nhat_20_tong_so_co_phan_pho_thong_duoc_quyen_chao_ban",
             "khi_dang_ky_thanh_lap_doanh_nghiep"
           ]
         }
@@ -837,7 +837,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_dieu_kien_main",
-        "canonical_predicate": "dang_ky_level",
+        "canonical_predicate": "dang_ky_mua_it_nhat_20_tong_so_co_phan_pho_thong_duoc_quyen_chao_ban",
         "predicate_family": "dang_ky",
         "effect_canonical": null,
         "object_canonical": null,
@@ -845,7 +845,7 @@
         "authority_canonical": null,
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "partial",
         "normalization_notes": [
@@ -904,7 +904,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "dang_ky_level",
+            "dang_ky_mua_it_nhat_20_tong_so_co_phan_pho_thong_duoc_quyen_chao_ban",
             "khi_dang_ky_thanh_lap_doanh_nghiep"
           ]
         }
@@ -913,7 +913,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_nguong_dinh_luong_main",
-        "canonical_predicate": "dang_ky_level",
+        "canonical_predicate": "dang_ky_mua_it_nhat_20_tong_so_co_phan_pho_thong_duoc_quyen_chao_ban",
         "predicate_family": "dang_ky",
         "effect_canonical": null,
         "object_canonical": null,
@@ -921,7 +921,7 @@
         "authority_canonical": null,
         "metric_canonical": "ty_le_so_huu_co_phan_pho_thong",
         "unit_canonical": "phan_tram",
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "partial",
         "normalization_notes": [
@@ -1108,17 +1108,17 @@
       "head": {
         "predicate": "deadline",
         "args": [
-          "dang_ky_level",
+          "dang_ky_thay_doi_co_dong_trong_so_dang_ky_co_dong_theo_yeu_cau_cua_co_dong_co_l",
           null,
-          "unknown",
-          "Thời hạn:   kể từ ."
+          "unspecified_unit",
+          "thoi_han_ke_tu"
         ]
       },
       "body": [
         {
           "predicate": "applies_if",
           "args": [
-            "dang_ky_level",
+            "dang_ky_thay_doi_co_dong_trong_so_dang_ky_co_dong_theo_yeu_cau_cua_co_dong_co_lien_quan",
             "khi_nhan_duoc_yeu_cau"
           ]
         }
@@ -1127,7 +1127,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_thoi_han_main",
-        "canonical_predicate": "dang_ky_level",
+        "canonical_predicate": "dang_ky_thay_doi_co_dong_trong_so_dang_ky_co_dong_theo_yeu_cau_cua_co_dong_co_lien_quan",
         "predicate_family": "dang_ky",
         "effect_canonical": null,
         "object_canonical": "thoi_han_24_gio_ke_tu_khi_nhan_duoc_yeu_cau_theo_quy_dinh_tai_dieu_le_cong_ty",
@@ -1135,7 +1135,7 @@
         "authority_canonical": null,
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "full",
         "normalization_notes": [],
@@ -1235,13 +1235,13 @@
       "rule_group_id": "RG_LUATDN_D149_K4_GUI_PHIEU_LAY_Y_KIEN",
       "rule_type_source": "quy_tac_quyen",
       "logic_form": "permission",
-      "logic_readiness": "reasoning_ready",
+      "logic_readiness": "reasoning_partial",
       "head": {
         "predicate": "permission",
         "args": [
           "cong_ty",
           "gui_phieu_lay_y_kien",
-          "object_unresolved"
+          "unresolved_object"
         ]
       },
       "body": [],
@@ -1435,7 +1435,7 @@
       "head": {
         "predicate": "dossier",
         "args": [
-          "xem_xet_level",
+          "chuan_bi_ho_so",
           [
             "Điều lệ công ty"
           ]
@@ -1445,7 +1445,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "xem_xet_level",
+            "chuan_bi_ho_so",
             "doi_voi_ho_trong_thuc_hien_quyen_nay"
           ]
         }
@@ -1454,7 +1454,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_nghia_vu_fanout_ho_so",
-        "canonical_predicate": "xem_xet_level",
+        "canonical_predicate": "chuan_bi_ho_so",
         "predicate_family": "nguong_dinh_luong",
         "effect_canonical": null,
         "object_canonical": "ho_so",
@@ -1462,7 +1462,7 @@
         "authority_canonical": null,
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "full",
         "normalization_notes": [],
@@ -1506,7 +1506,7 @@
         "predicate": "obligation",
         "args": [
           "cong_ty",
-          "xem_xet_level",
+          "xem_xet",
           "dieu_le_cong_ty"
         ]
       },
@@ -1514,7 +1514,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "xem_xet_level",
+            "xem_xet",
             "doi_voi_ho_trong_thuc_hien_quyen_nay"
           ]
         }
@@ -1525,7 +1525,7 @@
           "head": {
             "predicate": "dossier",
             "args": [
-              "xem_xet_level",
+              "xem_xet",
               [
                 "Điều lệ công ty"
               ]
@@ -1537,7 +1537,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bi_cam",
         "extraction_pattern": "khung_nghia_vu_fanout_ho_so",
-        "canonical_predicate": "xem_xet_level",
+        "canonical_predicate": "xem_xet",
         "predicate_family": "nguong_dinh_luong",
         "effect_canonical": null,
         "object_canonical": "dieu_le_cong_ty",
@@ -1652,7 +1652,7 @@
         "predicate": "exception",
         "args": [
           "thuc_hien",
-          "trừ trường hợp được thực hiện theo quy định của pháp luật về khoa học, công ngh"
+          "tru_truong_hop_duoc_thuc_hien_theo_quy_dinh_cua_phap_luat_ve_khoa_hoc_cong_ngh"
         ]
       },
       "body": [],
@@ -1712,7 +1712,7 @@
         "predicate": "exception",
         "args": [
           "thuc_hien",
-          "trừ trường hợp được thực hiện theo quy định của pháp luật về khoa học, công ngh"
+          "tru_truong_hop_duoc_thuc_hien_theo_quy_dinh_cua_phap_luat_ve_khoa_hoc_cong_ngh"
         ]
       },
       "body": [],
@@ -1772,7 +1772,7 @@
         "predicate": "exception",
         "args": [
           "ap_dung_quy_dinh_loai_tru",
-          "trừ trường hợp được thực hiện theo quy định của pháp luật về khoa học, công ngh"
+          "tru_truong_hop_duoc_thuc_hien_theo_quy_dinh_cua_phap_luat_ve_khoa_hoc_cong_ngh"
         ]
       },
       "body": [],
@@ -1832,7 +1832,7 @@
         "predicate": "exception",
         "args": [
           "ap_dung_quy_dinh_loai_tru",
-          "trừ trường hợp được thực hiện theo quy định của pháp luật về khoa học, công ngh"
+          "tru_truong_hop_duoc_thuc_hien_theo_quy_dinh_cua_phap_luat_ve_khoa_hoc_cong_ngh"
         ]
       },
       "body": [],
@@ -1891,7 +1891,7 @@
       "head": {
         "predicate": "applicability_condition",
         "args": [
-          "kiem_toan_thi_bao_cao_tai_chinh_hang_nam_cua_cong_ty_co_phan_phai_duoc_kiem_toan_truoc",
+          "kiem_toan_thi_bao_cao_tai_chinh_hang_nam_cua_cong_ty_co_phan_phai_duoc_kiem_toa",
           "doi_voi_cong_ty_co_phan_ma_phap_luat_yeu_cau"
         ]
       },
@@ -1961,13 +1961,13 @@
       "rule_group_id": "RG_LUATDN_D186_K1_TIEP_NHAN_THEM_THANH_VIEN_HO",
       "rule_type_source": "quy_tac_quyen",
       "logic_form": "permission",
-      "logic_readiness": "reasoning_ready",
+      "logic_readiness": "reasoning_partial",
       "head": {
         "predicate": "permission",
         "args": [
           "cong_ty",
           "tiep_nhan_them_thanh_vien_hop_danh",
-          "object_unresolved"
+          "unresolved_object"
         ]
       },
       "body": [],
@@ -2025,7 +2025,7 @@
         "predicate": "exception",
         "args": [
           "nop_du_so_von_cam_ket_gop",
-          "trừ trường hợp Hội đồng thành viên quyết định thời hạn khác"
+          "tru_truong_hop_hoi_dong_thanh_vien_quyet_dinh_thoi_han_khac"
         ]
       },
       "body": [
@@ -2091,7 +2091,7 @@
         "predicate": "exception",
         "args": [
           "ap_dung_quy_dinh_loai_tru",
-          "trừ trường hợp Hội đồng thành viên quyết định thời hạn khác"
+          "tru_truong_hop_hoi_dong_thanh_vien_quyet_dinh_thoi_han_khac"
         ]
       },
       "body": [],
@@ -2151,7 +2151,7 @@
         "predicate": "exception",
         "args": [
           "ap_dung_quy_dinh_loai_tru",
-          "trừ trường hợp Hội đồng thành viên quyết định thời hạn khác"
+          "tru_truong_hop_hoi_dong_thanh_vien_quyet_dinh_thoi_han_khac"
         ]
       },
       "body": [],
@@ -2209,7 +2209,7 @@
         "predicate": "exception",
         "args": [
           "nop_du_so_von_cam_ket_gop",
-          "trừ trường hợp Hội đồng thành viên quyết định thời hạn khác"
+          "tru_truong_hop_hoi_dong_thanh_vien_quyet_dinh_thoi_han_khac"
         ]
       },
       "body": [],
@@ -2283,7 +2283,7 @@
         "predicate": "exception",
         "args": [
           "nop_du_so_von_cam_ket_gop",
-          "trừ trường hợp Hội đồng thành viên quyết định thời hạn khác"
+          "tru_truong_hop_hoi_dong_thanh_vien_quyet_dinh_thoi_han_khac"
         ]
       },
       "body": [],
@@ -2630,7 +2630,7 @@
         "predicate": "exception",
         "args": [
           "chiu_trach_nhiem",
-          "trừ trường hợp thành viên đó và các thành viên còn lại có thỏa thuận khác"
+          "tru_truong_hop_thanh_vien_do_va_cac_thanh_vien_con_lai_co_thoa_thuan_khac"
         ]
       },
       "body": [
@@ -2696,7 +2696,7 @@
         "predicate": "exception",
         "args": [
           "ap_dung_quy_dinh_loai_tru",
-          "trừ trường hợp thành viên đó và các thành viên còn lại có thỏa thuận khác"
+          "tru_truong_hop_thanh_vien_do_va_cac_thanh_vien_con_lai_co_thoa_thuan_khac"
         ]
       },
       "body": [],
@@ -2754,7 +2754,7 @@
         "predicate": "exception",
         "args": [
           "ap_dung_quy_dinh_loai_tru",
-          "trừ trường hợp thành viên đó và các thành viên còn lại có thỏa thuận khác"
+          "tru_truong_hop_thanh_vien_do_va_cac_thanh_vien_con_lai_co_thoa_thuan_khac"
         ]
       },
       "body": [],
@@ -2812,7 +2812,7 @@
         "predicate": "exception",
         "args": [
           "chiu_trach_nhiem",
-          "trừ trường hợp thành viên đó và các thành viên còn lại có thỏa thuận khác"
+          "tru_truong_hop_thanh_vien_do_va_cac_thanh_vien_con_lai_co_thoa_thuan_khac"
         ]
       },
       "body": [],
@@ -2870,7 +2870,7 @@
         "predicate": "exception",
         "args": [
           "chiu_trach_nhiem",
-          "trừ trường hợp thành viên đó và các thành viên còn lại có thỏa thuận khác"
+          "tru_truong_hop_thanh_vien_do_va_cac_thanh_vien_con_lai_co_thoa_thuan_khac"
         ]
       },
       "body": [],
@@ -2993,10 +2993,10 @@
       "head": {
         "predicate": "deadline",
         "args": [
-          "dang_ky_level",
+          "dang_ky_chuyen_doi_cong_ty_voi_co_quan_dang_ky_kinh_doanh",
           null,
           "ngay",
-          "Ngưỡng/điều kiện định lượng: thoi_han_dang_ky_chuyen_doi; eq 10 ngay."
+          "nguong_dieu_kien_dinh_luong_thoi_han_dang_ky_chuyen_doi_eq_10_ngay"
         ]
       },
       "body": [],
@@ -3018,7 +3018,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_thoi_han_fanout_thoi_han",
-        "canonical_predicate": "dang_ky_level",
+        "canonical_predicate": "dang_ky_chuyen_doi_cong_ty_voi_co_quan_dang_ky_kinh_doanh",
         "predicate_family": "dang_ky",
         "effect_canonical": null,
         "object_canonical": "thoi_han_10_ngay_ke_tu_ngay_hoan_thanh_viec_chuyen_doi",
@@ -3026,7 +3026,7 @@
         "authority_canonical": null,
         "metric_canonical": "thoi_han_dang_ky_chuyen_doi",
         "unit_canonical": "ngay",
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [
           "override_threshold_to_deadline_time_metric"
         ],
@@ -3071,7 +3071,7 @@
       "head": {
         "predicate": "deadline",
         "args": [
-          "dang_ky_level",
+          "dang_ky_chuyen_doi_cong_ty_voi_co_quan_dang_ky_kinh_doanh",
           10.0,
           "ngay",
           "ke_tu_ngay_nhan_ho_so"
@@ -3096,7 +3096,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_nguong_dinh_luong_fanout_thoi_han",
-        "canonical_predicate": "dang_ky_level",
+        "canonical_predicate": "dang_ky_chuyen_doi_cong_ty_voi_co_quan_dang_ky_kinh_doanh",
         "predicate_family": "dang_ky",
         "effect_canonical": null,
         "object_canonical": "thoi_han_10_ngay_ke_tu_ngay_hoan_thanh_viec_chuyen_doi",
@@ -3104,7 +3104,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh",
         "metric_canonical": "thoi_han_dang_ky_chuyen_doi",
         "unit_canonical": "ngay",
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [
           "override_threshold_to_deadline_time_metric"
         ],
@@ -3147,7 +3147,7 @@
       "head": {
         "predicate": "deadline",
         "args": [
-          "dang_ky_level",
+          "dang_ky_chuyen_doi_cong_ty_voi_co_quan_dang_ky_kinh_doanh",
           10.0,
           "ngay",
           "ke_tu_ngay_nhan_ho_so"
@@ -3158,7 +3158,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_thoi_han_fanout_thoi_han",
-        "canonical_predicate": "dang_ky_level",
+        "canonical_predicate": "dang_ky_chuyen_doi_cong_ty_voi_co_quan_dang_ky_kinh_doanh",
         "predicate_family": "dang_ky",
         "effect_canonical": null,
         "object_canonical": "thoi_han_10_ngay_ke_tu_ngay_hoan_thanh_viec_chuyen_doi",
@@ -3166,7 +3166,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "full",
         "normalization_notes": [],
@@ -3208,7 +3208,7 @@
         "predicate": "legal_effect",
         "args": [
           "co_quan_dang_ky_kinh_doanh",
-          "cap_giay_chung_nhan_dang_ky_doanh_nghiep_va_cap_nhat_tinh_trang_phap_ly_cua_cong_ty_tren_c"
+          "cap_giay_chung_nhan_dang_ky_doanh_nghiep_va_cap_nhat_tinh_trang_phap_ly_cua_con"
         ]
       },
       "body": [],
@@ -3265,9 +3265,7 @@
           "ket_qua_thu_tuc": "cấp Giấy chứng nhận đăng ký doanh nghiệp và cập nhật tình trạng pháp lý của công ty trên Cơ sở dữ liệu quốc gia về đăng ký doanh nghiệp"
         }
       },
-      "head_cleanup_notes": [
-        "hard_truncated_effect_in_head"
-      ],
+      "head_cleanup_notes": [],
       "body_cleanup_notes": [],
       "fallback_kind": null,
       "reasoning_notes": []
@@ -3281,10 +3279,10 @@
       "head": {
         "predicate": "deadline",
         "args": [
-          "dang_ky_level",
+          "dang_ky_chuyen_doi_cong_ty_voi_co_quan_dang_ky_kinh_doanh",
           null,
           "ngay",
-          "Ngưỡng/điều kiện định lượng: thoi_han_dang_ky_chuyen_doi; eq 10 ngay."
+          "nguong_dieu_kien_dinh_luong_thoi_han_dang_ky_chuyen_doi_eq_10_ngay"
         ]
       },
       "body": [],
@@ -3306,7 +3304,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_thoi_han_fanout_thoi_han",
-        "canonical_predicate": "dang_ky_level",
+        "canonical_predicate": "dang_ky_chuyen_doi_cong_ty_voi_co_quan_dang_ky_kinh_doanh",
         "predicate_family": "dang_ky",
         "effect_canonical": null,
         "object_canonical": "thoi_han_10_ngay_ke_tu_ngay_hoan_thanh_viec_chuyen_doi",
@@ -3314,7 +3312,7 @@
         "authority_canonical": null,
         "metric_canonical": "thoi_han_dang_ky_chuyen_doi",
         "unit_canonical": "ngay",
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [
           "override_threshold_to_deadline_time_metric"
         ],
@@ -3359,7 +3357,7 @@
       "head": {
         "predicate": "deadline",
         "args": [
-          "dang_ky_level",
+          "dang_ky_chuyen_doi_cong_ty_voi_co_quan_dang_ky_kinh_doanh",
           10.0,
           "ngay",
           "ke_tu_ngay_nhan_ho_so"
@@ -3384,7 +3382,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_nguong_dinh_luong_fanout_thoi_han",
-        "canonical_predicate": "dang_ky_level",
+        "canonical_predicate": "dang_ky_chuyen_doi_cong_ty_voi_co_quan_dang_ky_kinh_doanh",
         "predicate_family": "dang_ky",
         "effect_canonical": null,
         "object_canonical": "thoi_han_10_ngay_ke_tu_ngay_hoan_thanh_viec_chuyen_doi",
@@ -3392,7 +3390,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh",
         "metric_canonical": "thoi_han_dang_ky_chuyen_doi",
         "unit_canonical": "ngay",
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [
           "override_threshold_to_deadline_time_metric"
         ],
@@ -3438,7 +3436,7 @@
           "cap_giay_chung_nhan_dang_ky_doanh_nghiep",
           null,
           "ngay",
-          "Ngưỡng/điều kiện định lượng: thoi_han_dang_ky_chuyen_doi; eq 10 ngay."
+          "nguong_dieu_kien_dinh_luong_thoi_han_dang_ky_chuyen_doi_eq_10_ngay"
         ]
       },
       "body": [],
@@ -3513,7 +3511,7 @@
       "head": {
         "predicate": "deadline",
         "args": [
-          "dang_ky_level",
+          "dang_ky_chuyen_doi_cong_ty_voi_co_quan_dang_ky_kinh_doanh",
           10.0,
           "ngay",
           "ke_tu_ngay_nhan_ho_so"
@@ -3524,7 +3522,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_thoi_han_fanout_thoi_han",
-        "canonical_predicate": "dang_ky_level",
+        "canonical_predicate": "dang_ky_chuyen_doi_cong_ty_voi_co_quan_dang_ky_kinh_doanh",
         "predicate_family": "dang_ky",
         "effect_canonical": null,
         "object_canonical": "thoi_han_10_ngay_ke_tu_ngay_hoan_thanh_viec_chuyen_doi",
@@ -3532,7 +3530,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "full",
         "normalization_notes": [],
@@ -3633,7 +3631,7 @@
       "head": {
         "predicate": "applicability_condition",
         "args": [
-          "xem_xet_level",
+          "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
           "neu_co_du_dieu_kien_quy_dinh_tai_khoan_1_dieu_nay_va_cap_nhat_tinh_trang_phap_l"
         ]
       },
@@ -3641,7 +3639,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "xem_xet_level",
+            "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
             "neu_co_du_dieu_kien_quy_dinh_tai_khoan_1_dieu_nay_va_cap_nhat_tinh_trang_phap_ly_cua_doanh_nghiep_tren_co_so_du_lieu_qu"
           ]
         }
@@ -3652,7 +3650,7 @@
           "head": {
             "predicate": "deadline",
             "args": [
-              "xem_xet_level",
+              "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
               3.0,
               "ngay_lam_viec",
               "ke_tu_ngay_nhan_ho_so"
@@ -3664,7 +3662,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_dieu_kien_fanout_thoi_han",
-        "canonical_predicate": "xem_xet_level",
+        "canonical_predicate": "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
         "predicate_family": "nguong_dinh_luong",
         "effect_canonical": "duoc_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
         "object_canonical": "giay_chung_nhan_dang_ky_doanh_nghiep",
@@ -3672,7 +3670,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "full",
         "normalization_notes": [],
@@ -3716,7 +3714,7 @@
         "predicate": "authority_action",
         "args": [
           "co_quan_dang_ky_kinh_doanh",
-          "xem_xet_level",
+          "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
           "giay_chung_nhan_dang_ky_doanh_nghiep"
         ]
       },
@@ -3724,7 +3722,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "xem_xet_level",
+            "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
             "neu_co_du_dieu_kien_quy_dinh_tai_khoan_1_dieu_nay_va_cap_nhat_tinh_trang_phap_ly_cua_doanh_nghiep_tren_co_so_du_lieu_qu"
           ]
         }
@@ -3735,7 +3733,7 @@
           "head": {
             "predicate": "deadline",
             "args": [
-              "xem_xet_level",
+              "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
               3.0,
               "ngay_lam_viec",
               "ke_tu_ngay_nhan_ho_so"
@@ -3748,7 +3746,7 @@
           "head": {
             "predicate": "dossier",
             "args": [
-              "xem_xet_level",
+              "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
               [
                 "Giấy chứng nhận đăng ký doanh nghiệp nếu có đủ điều kiện quy định tại khoản"
               ]
@@ -3760,7 +3758,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "co_trach_nhiem",
         "extraction_pattern": "khung_hanh_dong_co_quan_fanout_thoi_han",
-        "canonical_predicate": "xem_xet_level",
+        "canonical_predicate": "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
         "predicate_family": "nguong_dinh_luong",
         "effect_canonical": "cap_giay_chung_nhan_dang_ky_doanh_nghiep",
         "object_canonical": "giay_chung_nhan_dang_ky_doanh_nghiep",
@@ -3768,7 +3766,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "full",
         "normalization_notes": [],
@@ -3810,7 +3808,7 @@
         "predicate": "authority_action",
         "args": [
           "co_quan_dang_ky_kinh_doanh",
-          "xem_xet_level",
+          "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
           "giay_chung_nhan_dang_ky_doanh_nghiep"
         ]
       },
@@ -3818,7 +3816,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "xem_xet_level",
+            "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
             "neu_co_du_dieu_kien_quy_dinh_tai_khoan_1_dieu_nay_va_cap_nhat_tinh_trang_phap_ly_cua_doanh_nghiep_tren_co_so_du_lieu_qu"
           ]
         }
@@ -3829,7 +3827,7 @@
           "head": {
             "predicate": "deadline",
             "args": [
-              "xem_xet_level",
+              "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
               3.0,
               "ngay_lam_viec",
               "ke_tu_ngay_nhan_ho_so"
@@ -3842,7 +3840,7 @@
           "head": {
             "predicate": "dossier",
             "args": [
-              "xem_xet_level",
+              "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
               [
                 "Giấy chứng nhận đăng ký doanh nghiệp nếu có đủ điều kiện quy định tại khoản"
               ]
@@ -3854,7 +3852,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "co_trach_nhiem",
         "extraction_pattern": "khung_hanh_dong_co_quan_fanout_thoi_han",
-        "canonical_predicate": "xem_xet_level",
+        "canonical_predicate": "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
         "predicate_family": "nguong_dinh_luong",
         "effect_canonical": "cap_giay_chung_nhan_dang_ky_doanh_nghiep",
         "object_canonical": "giay_chung_nhan_dang_ky_doanh_nghiep",
@@ -3862,7 +3860,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "partial",
         "normalization_notes": [
@@ -3913,7 +3911,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "xem_xet_level",
+            "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
             "neu_co_du_dieu_kien_quy_dinh_tai_khoan_1_dieu_nay_va_cap_nhat_tinh_trang_phap_ly_cua_doanh_nghiep_tren_co_so_du_lieu_qu"
           ]
         }
@@ -3924,7 +3922,7 @@
           "head": {
             "predicate": "deadline",
             "args": [
-              "xem_xet_level",
+              "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
               3.0,
               "ngay_lam_viec",
               "ke_tu_ngay_nhan_ho_so"
@@ -3936,7 +3934,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "co_the",
         "extraction_pattern": "khung_ket_qua_phap_ly_fanout_thoi_han",
-        "canonical_predicate": "xem_xet_level",
+        "canonical_predicate": "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
         "predicate_family": "nguong_dinh_luong",
         "effect_canonical": "cap_giay_chung_nhan_dang_ky_doanh_nghiep",
         "object_canonical": "giay_chung_nhan_dang_ky_doanh_nghiep",
@@ -3944,7 +3942,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "partial",
         "normalization_notes": [
@@ -3987,17 +3985,17 @@
       "head": {
         "predicate": "deadline",
         "args": [
-          "xem_xet_level",
+          "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
           null,
           "ngay_lam_viec",
-          "Ngưỡng/điều kiện định lượng: thoi_han_xu_ly_ho_so; eq 03 ngay_lam_viec."
+          "nguong_dieu_kien_dinh_luong_thoi_han_xu_ly_ho_so_eq_03_ngay_lam_viec"
         ]
       },
       "body": [
         {
           "predicate": "applies_if",
           "args": [
-            "xem_xet_level",
+            "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
             "neu_co_du_dieu_kien_quy_dinh_tai_khoan_1_dieu_nay_va_cap_nhat_tinh_trang_phap_ly_cua_doanh_nghiep_tren_co_so_du_lieu_qu"
           ]
         }
@@ -4020,7 +4018,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_hanh_dong_co_quan_fanout_thoi_han",
-        "canonical_predicate": "xem_xet_level",
+        "canonical_predicate": "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
         "predicate_family": "nguong_dinh_luong",
         "effect_canonical": null,
         "object_canonical": "giay_chung_nhan_dang_ky_doanh_nghiep",
@@ -4028,7 +4026,7 @@
         "authority_canonical": null,
         "metric_canonical": "thoi_han_xu_ly_ho_so",
         "unit_canonical": "ngay_lam_viec",
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [
           "override_threshold_to_deadline_time_metric"
         ],
@@ -4073,7 +4071,7 @@
       "head": {
         "predicate": "deadline",
         "args": [
-          "xem_xet_level",
+          "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
           3.0,
           "ngay_lam_viec",
           "ke_tu_ngay_nhan_ho_so"
@@ -4083,7 +4081,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "xem_xet_level",
+            "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
             "neu_co_du_dieu_kien_quy_dinh_tai_khoan_1_dieu_nay_va_cap_nhat_tinh_trang_phap_ly_cua_doanh_nghiep_tren_co_so_du_lieu_qu"
           ]
         }
@@ -4106,7 +4104,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_nguong_dinh_luong_fanout_thoi_han",
-        "canonical_predicate": "xem_xet_level",
+        "canonical_predicate": "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
         "predicate_family": "nguong_dinh_luong",
         "effect_canonical": "cap_giay_chung_nhan_dang_ky_doanh_nghiep",
         "object_canonical": "giay_chung_nhan_dang_ky_doanh_nghiep",
@@ -4114,7 +4112,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh",
         "metric_canonical": "thoi_han_xu_ly_ho_so",
         "unit_canonical": "ngay_lam_viec",
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [
           "override_threshold_to_deadline_time_metric"
         ],
@@ -4157,17 +4155,17 @@
       "head": {
         "predicate": "deadline",
         "args": [
-          "xem_xet_level",
+          "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
           null,
           "ngay_lam_viec",
-          "Ngưỡng/điều kiện định lượng: thoi_han_xu_ly_ho_so; eq 03 ngay_lam_viec."
+          "nguong_dieu_kien_dinh_luong_thoi_han_xu_ly_ho_so_eq_03_ngay_lam_viec"
         ]
       },
       "body": [
         {
           "predicate": "applies_if",
           "args": [
-            "xem_xet_level",
+            "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
             "neu_co_du_dieu_kien_quy_dinh_tai_khoan_1_dieu_nay_va_cap_nhat_tinh_trang_phap_ly_cua_doanh_nghiep_tren_co_so_du_lieu_qu"
           ]
         }
@@ -4190,7 +4188,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_hanh_dong_co_quan_fanout_thoi_han",
-        "canonical_predicate": "xem_xet_level",
+        "canonical_predicate": "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
         "predicate_family": "nguong_dinh_luong",
         "effect_canonical": null,
         "object_canonical": "giay_chung_nhan_dang_ky_doanh_nghiep",
@@ -4198,7 +4196,7 @@
         "authority_canonical": null,
         "metric_canonical": "thoi_han_xu_ly_ho_so",
         "unit_canonical": "ngay_lam_viec",
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [
           "override_threshold_to_deadline_time_metric"
         ],
@@ -4243,7 +4241,7 @@
       "head": {
         "predicate": "deadline",
         "args": [
-          "xem_xet_level",
+          "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
           3.0,
           "ngay_lam_viec",
           "ke_tu_ngay_nhan_ho_so"
@@ -4253,7 +4251,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "xem_xet_level",
+            "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
             "neu_co_du_dieu_kien_quy_dinh_tai_khoan_1_dieu_nay_va_cap_nhat_tinh_trang_phap_ly_cua_doanh_nghiep_tren_co_so_du_lieu_qu"
           ]
         }
@@ -4276,7 +4274,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_nguong_dinh_luong_fanout_thoi_han",
-        "canonical_predicate": "xem_xet_level",
+        "canonical_predicate": "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
         "predicate_family": "nguong_dinh_luong",
         "effect_canonical": "cap_giay_chung_nhan_dang_ky_doanh_nghiep",
         "object_canonical": "giay_chung_nhan_dang_ky_doanh_nghiep",
@@ -4284,7 +4282,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh",
         "metric_canonical": "thoi_han_xu_ly_ho_so",
         "unit_canonical": "ngay_lam_viec",
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [
           "override_threshold_to_deadline_time_metric"
         ],
@@ -4329,17 +4327,17 @@
       "head": {
         "predicate": "deadline",
         "args": [
-          "xem_xet_level",
+          "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
           null,
           "ngay_lam_viec",
-          "Ngưỡng/điều kiện định lượng: thoi_han_xu_ly_ho_so; eq 03 ngay_lam_viec."
+          "nguong_dieu_kien_dinh_luong_thoi_han_xu_ly_ho_so_eq_03_ngay_lam_viec"
         ]
       },
       "body": [
         {
           "predicate": "applies_if",
           "args": [
-            "xem_xet_level",
+            "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
             "neu_co_du_dieu_kien_quy_dinh_tai_khoan_1_dieu_nay_va_cap_nhat_tinh_trang_phap_ly_cua_doanh_nghiep_tren_co_so_du_lieu_qu"
           ]
         }
@@ -4362,7 +4360,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_ket_qua_phap_ly_fanout_thoi_han",
-        "canonical_predicate": "xem_xet_level",
+        "canonical_predicate": "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
         "predicate_family": "nguong_dinh_luong",
         "effect_canonical": null,
         "object_canonical": "giay_chung_nhan_dang_ky_doanh_nghiep",
@@ -4370,7 +4368,7 @@
         "authority_canonical": null,
         "metric_canonical": "thoi_han_xu_ly_ho_so",
         "unit_canonical": "ngay_lam_viec",
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [
           "override_threshold_to_deadline_time_metric"
         ],
@@ -4415,7 +4413,7 @@
       "head": {
         "predicate": "deadline",
         "args": [
-          "xem_xet_level",
+          "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
           3.0,
           "ngay_lam_viec",
           "ke_tu_ngay_nhan_ho_so"
@@ -4425,7 +4423,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "xem_xet_level",
+            "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
             "neu_co_du_dieu_kien_quy_dinh_tai_khoan_1_dieu_nay_va_cap_nhat_tinh_trang_phap_ly_cua_doanh_nghiep_tren_co_so_du_lieu_qu"
           ]
         }
@@ -4434,7 +4432,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_hanh_dong_co_quan_fanout_thoi_han",
-        "canonical_predicate": "xem_xet_level",
+        "canonical_predicate": "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
         "predicate_family": "nguong_dinh_luong",
         "effect_canonical": null,
         "object_canonical": "giay_chung_nhan_dang_ky_doanh_nghiep",
@@ -4442,7 +4440,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "full",
         "normalization_notes": [],
@@ -4483,7 +4481,7 @@
       "head": {
         "predicate": "deadline",
         "args": [
-          "xem_xet_level",
+          "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
           3.0,
           "ngay_lam_viec",
           "ke_tu_ngay_nhan_ho_so"
@@ -4493,7 +4491,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "xem_xet_level",
+            "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
             "neu_co_du_dieu_kien_quy_dinh_tai_khoan_1_dieu_nay_va_cap_nhat_tinh_trang_phap_ly_cua_doanh_nghiep_tren_co_so_du_lieu_qu"
           ]
         }
@@ -4502,7 +4500,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_thoi_han_fanout_thoi_han",
-        "canonical_predicate": "xem_xet_level",
+        "canonical_predicate": "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
         "predicate_family": "nguong_dinh_luong",
         "effect_canonical": "cap_giay_chung_nhan_dang_ky",
         "object_canonical": "giay_chung_nhan_dang_ky_doanh_nghiep",
@@ -4510,7 +4508,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "full",
         "normalization_notes": [],
@@ -4551,7 +4549,7 @@
       "head": {
         "predicate": "deadline",
         "args": [
-          "xem_xet_level",
+          "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
           3.0,
           "ngay_lam_viec",
           "ke_tu_ngay_nhan_ho_so"
@@ -4561,7 +4559,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "xem_xet_level",
+            "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
             "neu_co_du_dieu_kien_quy_dinh_tai_khoan_1_dieu_nay_va_cap_nhat_tinh_trang_phap_ly_cua_doanh_nghiep_tren_co_so_du_lieu_qu"
           ]
         }
@@ -4570,7 +4568,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_hanh_dong_co_quan_fanout_thoi_han",
-        "canonical_predicate": "xem_xet_level",
+        "canonical_predicate": "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
         "predicate_family": "nguong_dinh_luong",
         "effect_canonical": null,
         "object_canonical": "giay_chung_nhan_dang_ky_doanh_nghiep",
@@ -4578,7 +4576,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "full",
         "normalization_notes": [],
@@ -4619,7 +4617,7 @@
       "head": {
         "predicate": "deadline",
         "args": [
-          "xem_xet_level",
+          "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
           3.0,
           "ngay_lam_viec",
           "ke_tu_ngay_nhan_ho_so"
@@ -4629,7 +4627,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "xem_xet_level",
+            "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
             "neu_co_du_dieu_kien_quy_dinh_tai_khoan_1_dieu_nay_va_cap_nhat_tinh_trang_phap_ly_cua_doanh_nghiep_tren_co_so_du_lieu_qu"
           ]
         }
@@ -4638,7 +4636,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_thoi_han_fanout_thoi_han",
-        "canonical_predicate": "xem_xet_level",
+        "canonical_predicate": "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
         "predicate_family": "nguong_dinh_luong",
         "effect_canonical": "cap_giay_chung_nhan_dang_ky_doanh_nghie",
         "object_canonical": "giay_chung_nhan_dang_ky_doanh_nghiep",
@@ -4646,7 +4644,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "full",
         "normalization_notes": [],
@@ -4687,7 +4685,7 @@
       "head": {
         "predicate": "deadline",
         "args": [
-          "xem_xet_level",
+          "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
           3.0,
           "ngay_lam_viec",
           "ke_tu_ngay_nhan_ho_so"
@@ -4697,7 +4695,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "xem_xet_level",
+            "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
             "neu_co_du_dieu_kien_quy_dinh_tai_khoan_1_dieu_nay_va_cap_nhat_tinh_trang_phap_ly_cua_doanh_nghiep_tren_co_so_du_lieu_qu"
           ]
         }
@@ -4706,7 +4704,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_ket_qua_phap_ly_fanout_thoi_han",
-        "canonical_predicate": "xem_xet_level",
+        "canonical_predicate": "xem_xet_va_cap_giay_chung_nhan_dang_ky_doanh_nghiep",
         "predicate_family": "nguong_dinh_luong",
         "effect_canonical": null,
         "object_canonical": "giay_chung_nhan_dang_ky_doanh_nghiep",
@@ -4714,7 +4712,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "full",
         "normalization_notes": [],
@@ -4979,13 +4977,13 @@
       "rule_group_id": "RG_LUATDN_D206_K3_NOP_DU_SO_THUE",
       "rule_type_source": "quy_tac_nghia_vu",
       "logic_form": "obligation",
-      "logic_readiness": "reasoning_ready",
+      "logic_readiness": "reasoning_partial",
       "head": {
         "predicate": "obligation",
         "args": [
           "doanh_nghiep",
           "nop_du_so_thue",
-          "object_unresolved"
+          "unresolved_object"
         ]
       },
       "body": [
@@ -5071,7 +5069,7 @@
         "predicate": "exception",
         "args": [
           "nop_du_so_thue",
-          "trừ trường hợp doanh nghiệp, chủ nợ, khách hàng và người lao động có thỏa thuận"
+          "tru_truong_hop_doanh_nghiep_chu_no_khach_hang_va_nguoi_lao_dong_co_thoa_thuan"
         ]
       },
       "body": [
@@ -5139,7 +5137,7 @@
         "predicate": "exception",
         "args": [
           "ap_dung_quy_dinh_loai_tru",
-          "trừ trường hợp doanh nghiệp, chủ nợ, khách hàng và người lao động có thỏa thuận"
+          "tru_truong_hop_doanh_nghiep_chu_no_khach_hang_va_nguoi_lao_dong_co_thoa_thuan"
         ]
       },
       "body": [],
@@ -5199,7 +5197,7 @@
         "predicate": "exception",
         "args": [
           "ap_dung_quy_dinh_loai_tru",
-          "trừ trường hợp doanh nghiệp, chủ nợ, khách hàng và người lao động có thỏa thuận"
+          "tru_truong_hop_doanh_nghiep_chu_no_khach_hang_va_nguoi_lao_dong_co_thoa_thuan"
         ]
       },
       "body": [],
@@ -5259,7 +5257,7 @@
         "predicate": "exception",
         "args": [
           "nop_du_so_thue",
-          "trừ trường hợp doanh nghiệp, chủ nợ, khách hàng và người lao động có thỏa thuận"
+          "tru_truong_hop_doanh_nghiep_chu_no_khach_hang_va_nguoi_lao_dong_co_thoa_thuan"
         ]
       },
       "body": [],
@@ -5319,7 +5317,7 @@
         "predicate": "exception",
         "args": [
           "nop_du_so_thue",
-          "trừ trường hợp doanh nghiệp, chủ nợ, khách hàng và người lao động có thỏa thuận"
+          "tru_truong_hop_doanh_nghiep_chu_no_khach_hang_va_nguoi_lao_dong_co_thoa_thuan"
         ]
       },
       "body": [],
@@ -5441,7 +5439,7 @@
         "predicate": "legal_effect",
         "args": [
           "chi_nhanh",
-          "cham_dut_hoat_dong_chiu_trach_nhiem_thuc_hien_cac_hop_dong_thanh_toan_cac_khoan_no_gom_ca"
+          "cham_dut_hoat_dong_chiu_trach_nhiem_thuc_hien_cac_hop_dong_thanh_toan_cac_khoan"
         ]
       },
       "body": [],
@@ -5484,9 +5482,7 @@
           "ket_qua_thu_tuc": "chấm dứt hoạt động chịu trách nhiệm thực hiện các hợp đồng, thanh toán các khoản nợ, gồm cả nợ thuế của chi nhánh và t"
         }
       },
-      "head_cleanup_notes": [
-        "hard_truncated_effect_in_head"
-      ],
+      "head_cleanup_notes": [],
       "body_cleanup_notes": [],
       "fallback_kind": null,
       "reasoning_notes": []
@@ -5501,7 +5497,7 @@
         "predicate": "legal_effect",
         "args": [
           "chi_nhanh",
-          "cham_dut_hoat_dong_chiu_trach_nhiem_thuc_hien_cac_hop_dong_thanh_toan_cac_khoan_no_gom_ca"
+          "cham_dut_hoat_dong_chiu_trach_nhiem_thuc_hien_cac_hop_dong_thanh_toan_cac_khoan"
         ]
       },
       "body": [],
@@ -5544,9 +5540,7 @@
           "ket_qua_thu_tuc": "chấm dứt hoạt động chịu trách nhiệm thực hiện các hợp đồng, thanh toán các khoản nợ, gồm cả nợ thuế của chi nhánh và tiếp tục sử dụng lao động hoặc giải quyết đủ quyền lợi hợp pháp cho ngư"
         }
       },
-      "head_cleanup_notes": [
-        "hard_truncated_effect_in_head"
-      ],
+      "head_cleanup_notes": [],
       "body_cleanup_notes": [],
       "fallback_kind": null,
       "reasoning_notes": []
@@ -5699,9 +5693,9 @@
       "head": {
         "predicate": "threshold",
         "args": [
-          "unknown",
+          "unspecified_metric",
           "eq",
-          "Bộ, cơ quan ngang Bộ chịu trách nhiệm trước Chính phủ về việc thực hiện nhiệm v",
+          "threshold_value_unresolved",
           "unspecified_unit"
         ]
       },
@@ -5757,7 +5751,7 @@
       "body_cleanup_notes": [],
       "fallback_kind": "unresolved_threshold",
       "reasoning_notes": [
-        "restored_threshold_value_from_source_snippet"
+        "restored_threshold_value_failed_unresolved"
       ]
     },
     {
@@ -5769,9 +5763,9 @@
       "head": {
         "predicate": "threshold",
         "args": [
-          "unknown",
+          "unspecified_metric",
           "eq",
-          "Bộ, cơ quan ngang Bộ chịu trách nhiệm trước Chính phủ về việc thực hiện nhiệm v",
+          "threshold_value_unresolved",
           "unspecified_unit"
         ]
       },
@@ -5827,7 +5821,7 @@
       "body_cleanup_notes": [],
       "fallback_kind": "unresolved_threshold",
       "reasoning_notes": [
-        "restored_threshold_value_from_source_snippet"
+        "restored_threshold_value_failed_unresolved"
       ]
     },
     {
@@ -5936,7 +5930,7 @@
           "xem_xet_tinh_hop_le_cua_ho_so",
           null,
           "ngay_lam_viec",
-          "Ngưỡng/điều kiện định lượng: thoi_han_xu_ly_ho_so; eq 03 ngay_lam_viec; trường "
+          "nguong_dieu_kien_dinh_luong_thoi_han_xu_ly_ho_so_eq_03_ngay_lam_viec_truong"
         ]
       },
       "body": [
@@ -6171,7 +6165,7 @@
       "head": {
         "predicate": "applicability_condition",
         "args": [
-          "dang_ky_level",
+          "dang_ky_voi_co_quan_dang_ky_kinh_doanh",
           "khi_thay_doi_noi_dung_giay_chung_nhan_dang_ky_doanh_nghiep_quy_dinh_tai_dieu_28"
         ]
       },
@@ -6179,7 +6173,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "dang_ky_level",
+            "dang_ky_voi_co_quan_dang_ky_kinh_doanh",
             "khi_thay_doi_noi_dung_giay_chung_nhan_dang_ky_doanh_nghiep_quy_dinh_tai_dieu_28_cua_luat_nay"
           ]
         }
@@ -6188,7 +6182,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_dieu_kien_main",
-        "canonical_predicate": "dang_ky_level",
+        "canonical_predicate": "dang_ky_voi_co_quan_dang_ky_kinh_doanh",
         "predicate_family": "dang_ky",
         "effect_canonical": null,
         "object_canonical": null,
@@ -6196,7 +6190,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "partial",
         "normalization_notes": [
@@ -6244,7 +6238,7 @@
           "dang_ky_thay_doi_noi_dung_giay_chung_nhan_dang_ky_doanh_nghiep",
           null,
           "ngay",
-          "Ngưỡng/điều kiện định lượng: thoi_han_xu_ly; eq 10 ngay."
+          "nguong_dieu_kien_dinh_luong_thoi_han_xu_ly_eq_10_ngay"
         ]
       },
       "body": [],
@@ -6633,7 +6627,7 @@
           "xem_xet_tinh_hop_le_cua_ho_so",
           null,
           "ngay_lam_viec",
-          "Ngưỡng/điều kiện định lượng: thoi_han_xu_ly_ho_so; eq 03 ngay_lam_viec; trường "
+          "nguong_dieu_kien_dinh_luong_thoi_han_xu_ly_ho_so_eq_03_ngay_lam_viec_truong"
         ]
       },
       "body": [
@@ -6868,9 +6862,9 @@
       "head": {
         "predicate": "threshold",
         "args": [
-          "unknown",
+          "unspecified_metric",
           "eq",
-          "Tổ chức, cá nhân có quyền đề nghị Cơ quan quản lý nhà nước về đăng ký kinh doan",
+          "threshold_value_unresolved",
           "unspecified_unit"
         ]
       },
@@ -6918,7 +6912,7 @@
       "body_cleanup_notes": [],
       "fallback_kind": "unresolved_threshold",
       "reasoning_notes": [
-        "restored_threshold_value_from_source_snippet"
+        "restored_threshold_value_failed_unresolved"
       ]
     },
     {
@@ -6930,9 +6924,9 @@
       "head": {
         "predicate": "threshold",
         "args": [
-          "unknown",
+          "unspecified_metric",
           "eq",
-          "Tổ chức, cá nhân có quyền đề nghị Cơ quan quản lý nhà nước về đăng ký kinh doan",
+          "threshold_value_unresolved",
           "unspecified_unit"
         ]
       },
@@ -6980,7 +6974,7 @@
       "body_cleanup_notes": [],
       "fallback_kind": "unresolved_threshold",
       "reasoning_notes": [
-        "restored_threshold_value_from_source_snippet"
+        "restored_threshold_value_failed_unresolved"
       ]
     },
     {
@@ -6993,7 +6987,7 @@
         "predicate": "permission",
         "args": [
           "co_quan_dang_ky_kinh_doanh",
-          "cap_thong_tin_duoc_luu_giu_tren_he_thong_thong_tin_quoc_gia_ve_dang_ky_doanh_nghiep",
+          "cap_thong_tin_duoc_luu_giu_tren_he_thong_thong_tin_quoc_gia_ve_dang_ky_doanh_ng",
           "thong_tin_ve_chu_so_huu_huong_loi"
         ]
       },
@@ -7236,7 +7230,7 @@
           "xem_xet_tinh_hop_le_cua_ho_so",
           null,
           "ngay_lam_viec",
-          "Ngưỡng/điều kiện định lượng: thoi_han_xu_ly_ho_so; eq 03 ngay_lam_viec; trường "
+          "nguong_dieu_kien_dinh_luong_thoi_han_xu_ly_ho_so_eq_03_ngay_lam_viec_truong"
         ]
       },
       "body": [
@@ -7984,7 +7978,7 @@
           "gui_cho_thanh_vien_cong_ty_truoc",
           7.0,
           "ngay_lam_viec",
-          "7.0_ngay_lam_viec"
+          "7_0_ngay_lam_viec"
         ]
       },
       "body": [
@@ -8054,7 +8048,7 @@
           "gui_cho_thanh_vien_cong_ty_truoc",
           7.0,
           "ngay_lam_viec",
-          "7.0_ngay_lam_viec"
+          "7_0_ngay_lam_viec"
         ]
       },
       "body": [],
@@ -8174,7 +8168,7 @@
       "head": {
         "predicate": "dossier",
         "args": [
-          "thong_bao_level",
+          "thong_bao_ket_qua_kiem_phieu",
           [
             "báo cáo kết quả kiểm phiếu",
             "nghị quyết và quyết định được thông qua (thông báo cho các thành viên)"
@@ -8188,7 +8182,7 @@
           "head": {
             "predicate": "deadline",
             "args": [
-              "thong_bao_level",
+              "thong_bao_ket_qua_kiem_phieu",
               7.0,
               "ngay_lam_viec",
               "ke_tu_moc_tham_chieu"
@@ -8200,7 +8194,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_ho_so_fanout_ho_so_thoi_han",
-        "canonical_predicate": "thong_bao_level",
+        "canonical_predicate": "thong_bao_ket_qua_kiem_phieu",
         "predicate_family": "thong_bao",
         "effect_canonical": null,
         "object_canonical": null,
@@ -8208,7 +8202,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "full",
         "normalization_notes": [],
@@ -8249,7 +8243,7 @@
       "head": {
         "predicate": "dossier",
         "args": [
-          "thong_bao_level",
+          "chuan_bi_ho_so",
           [
             "báo cáo kết quả kiểm phiếu"
           ]
@@ -8260,7 +8254,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_ho_so_fanout_ho_so_thoi_han",
-        "canonical_predicate": "thong_bao_level",
+        "canonical_predicate": "chuan_bi_ho_so",
         "predicate_family": "thong_bao",
         "effect_canonical": null,
         "object_canonical": "ho_so",
@@ -8268,7 +8262,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "full",
         "normalization_notes": [],
@@ -8311,7 +8305,7 @@
       "head": {
         "predicate": "dossier",
         "args": [
-          "thong_bao_level",
+          "chuan_bi_ho_so",
           [
             "nghị quyết và quyết định được thông qua (thông báo cho các thành viên)"
           ]
@@ -8322,7 +8316,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_ho_so_fanout_ho_so_thoi_han",
-        "canonical_predicate": "thong_bao_level",
+        "canonical_predicate": "chuan_bi_ho_so",
         "predicate_family": "thong_bao",
         "effect_canonical": null,
         "object_canonical": "ho_so",
@@ -8330,7 +8324,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "full",
         "normalization_notes": [],
@@ -8373,7 +8367,7 @@
       "head": {
         "predicate": "deadline",
         "args": [
-          "thong_bao_level",
+          "thong_bao_ket_qua_kiem_phieu",
           7.0,
           "ngay_lam_viec",
           "ke_tu_moc_tham_chieu"
@@ -8384,7 +8378,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_thoi_han_fanout_thoi_han",
-        "canonical_predicate": "thong_bao_level",
+        "canonical_predicate": "thong_bao_ket_qua_kiem_phieu",
         "predicate_family": "thong_bao",
         "effect_canonical": null,
         "object_canonical": "thoi_han_quy_dinh",
@@ -8392,7 +8386,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "full",
         "normalization_notes": [],
@@ -8433,7 +8427,7 @@
       "head": {
         "predicate": "deadline",
         "args": [
-          "thong_bao_level",
+          "thong_bao_ket_qua_kiem_phieu",
           7.0,
           "ngay_lam_viec",
           "ke_tu_moc_tham_chieu"
@@ -8444,7 +8438,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_thoi_han_fanout_thoi_han",
-        "canonical_predicate": "thong_bao_level",
+        "canonical_predicate": "thong_bao_ket_qua_kiem_phieu",
         "predicate_family": "thong_bao",
         "effect_canonical": null,
         "object_canonical": null,
@@ -8452,7 +8446,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "full",
         "normalization_notes": [],
@@ -8489,13 +8483,13 @@
       "rule_group_id": "RG_LUATDN_D63_K1_TRUOC_HOI_DONG_THANH_VIEN_VE",
       "rule_type_source": "quy_tac_nghia_vu",
       "logic_form": "obligation",
-      "logic_readiness": "reasoning_ready",
+      "logic_readiness": "reasoning_partial",
       "head": {
         "predicate": "obligation",
         "args": [
           "cong_ty",
           "truoc_hoi_dong_thanh_vien_ve_viec_thuc_hien_quyen",
-          "object_unresolved"
+          "unresolved_object"
         ]
       },
       "body": [],
@@ -8554,17 +8548,17 @@
       "head": {
         "predicate": "deadline",
         "args": [
-          "nguong_dinh_luong_level",
+          "nguong_dinh_luong",
           null,
           "ngay",
-          "Ngưỡng/điều kiện định lượng: thoi_han_xu_ly; eq 30 ngay; Trường hợp không góp đ"
+          "nguong_dieu_kien_dinh_luong_thoi_han_xu_ly_eq_30_ngay_truong_hop_khong_gop_d"
         ]
       },
       "body": [
         {
           "predicate": "applies_if",
           "args": [
-            "nguong_dinh_luong_level",
+            "nguong_dinh_luong",
             "truong_hop_khong_gop_du_von_dieu_le"
           ]
         }
@@ -8587,7 +8581,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_thoi_han_fanout_thoi_han",
-        "canonical_predicate": "nguong_dinh_luong_level",
+        "canonical_predicate": "nguong_dinh_luong",
         "predicate_family": "nguong_dinh_luong",
         "effect_canonical": null,
         "object_canonical": "phan_von_gop",
@@ -8781,7 +8775,7 @@
         "predicate": "legal_effect",
         "args": [
           "cong_ty",
-          "bi_giai_the_hoac_pha_san_thi_nguoi_nhan_chuyen_nhuong_phan_von_gop_cua_chu_so_huu_tro_than"
+          "bi_giai_the_hoac_pha_san_thi_nguoi_nhan_chuyen_nhuong_phan_von_gop_cua_chu_so_h"
         ]
       },
       "body": [
@@ -8846,9 +8840,7 @@
           "ket_qua_thu_tuc": "bị giải thể hoặc phá sản thì người nhận chuyển nhượng phần vốn góp của chủ sở hữu trở thành chủ sở hữu hoặc thành viên công ty"
         }
       },
-      "head_cleanup_notes": [
-        "hard_truncated_effect_in_head"
-      ],
+      "head_cleanup_notes": [],
       "body_cleanup_notes": [],
       "fallback_kind": null,
       "reasoning_notes": []
@@ -9150,7 +9142,7 @@
         "predicate": "authority_action",
         "args": [
           "co_quan_dang_ky_kinh_doanh",
-          "thong_bao_level",
+          "thong_bao_voi_co_quan_dang_ky_kinh_doanh_cap_xa",
           "cap_xa"
         ]
       },
@@ -9158,7 +9150,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "thong_bao_level",
+            "thong_bao_voi_co_quan_dang_ky_kinh_doanh_cap_xa",
             "truong_hop_ho_kinh_doanh_ngung_hoat_dong_kinh_doanh_tai_dia_chi_dang_ky_qua_06_thang_ma_khong"
           ]
         },
@@ -9175,7 +9167,7 @@
           "head": {
             "predicate": "deadline",
             "args": [
-              "thong_bao_level",
+              "thong_bao_voi_co_quan_dang_ky_kinh_doanh_cap_xa",
               3.0,
               "ngay_lam_viec",
               "ke_tu_moc_tham_chieu"
@@ -9188,7 +9180,7 @@
           "head": {
             "predicate": "dossier",
             "args": [
-              "thong_bao_level",
+              "thong_bao_voi_co_quan_dang_ky_kinh_doanh_cap_xa",
               [
                 "quyết định thu hồi Giấy chứng nhận đăng ký hộ kinh doanh trong thời hạn 03 ngày làm việc kể từ ngày kết thúc"
               ]
@@ -9200,7 +9192,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bi_cam",
         "extraction_pattern": "khung_hanh_dong_co_quan_fanout_thoi_han",
-        "canonical_predicate": "thong_bao_level",
+        "canonical_predicate": "thong_bao_voi_co_quan_dang_ky_kinh_doanh_cap_xa",
         "predicate_family": "thong_bao",
         "effect_canonical": null,
         "object_canonical": "cap_xa",
@@ -9208,7 +9200,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "partial",
         "normalization_notes": [
@@ -9259,7 +9251,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "thong_bao_level",
+            "thong_bao_voi_co_quan_dang_ky_kinh_doanh_cap_xa",
             "truong_hop_ho_kinh_doanh_ngung_hoat_dong_kinh_doanh_tai_dia_chi_dang_ky_qua_06_thang_ma_khong"
           ]
         }
@@ -9270,7 +9262,7 @@
           "head": {
             "predicate": "deadline",
             "args": [
-              "thong_bao_level",
+              "thong_bao_voi_co_quan_dang_ky_kinh_doanh_cap_xa",
               3.0,
               "ngay_lam_viec",
               "ke_tu_moc_tham_chieu"
@@ -9282,7 +9274,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bi_cam",
         "extraction_pattern": "khung_ket_qua_phap_ly_fanout_thoi_han",
-        "canonical_predicate": "thong_bao_level",
+        "canonical_predicate": "thong_bao_voi_co_quan_dang_ky_kinh_doanh_cap_xa",
         "predicate_family": "thong_bao",
         "effect_canonical": "thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh",
         "object_canonical": null,
@@ -9290,7 +9282,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "partial",
         "normalization_notes": [
@@ -9334,14 +9326,14 @@
         "predicate": "legal_effect",
         "args": [
           "co_quan_dang_ky_kinh_doanh",
-          "chap_thuan_thi_co_quan_dang_ky_kinh_doanh_cap_xa_ra_quyet_dinh_thu_hoi_giay_chung_nhan_dan"
+          "chap_thuan_thi_co_quan_dang_ky_kinh_doanh_cap_xa_ra_quyet_dinh_thu_hoi_giay_chu"
         ]
       },
       "body": [
         {
           "predicate": "applies_if",
           "args": [
-            "thong_bao_level",
+            "chap_thuan_thi_co_quan_dang_ky_kinh_doanh_cap_xa_ra_quyet_dinh_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_trong_thoi_han_03_ngay_lam_viec_ke_tu_ngay_ket_thuc_thoi_han",
             "truong_hop_ho_kinh_doanh_ngung_hoat_dong_kinh_doanh_tai_dia_chi_dang_ky_qua_06_thang_ma_khong"
           ]
         },
@@ -9358,7 +9350,7 @@
           "head": {
             "predicate": "deadline",
             "args": [
-              "thong_bao_level",
+              "chap_thuan_thi_co_quan_dang_ky_kinh_doanh_cap_xa_ra_quyet_dinh_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_trong_thoi_han_03_ngay_lam_viec_ke_tu_ngay_ket_thuc_thoi_han",
               3.0,
               "ngay_lam_viec",
               "ke_tu_moc_tham_chieu"
@@ -9370,7 +9362,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bi_cam",
         "extraction_pattern": "khung_ket_qua_phap_ly_fanout_thoi_han",
-        "canonical_predicate": "thong_bao_level",
+        "canonical_predicate": "chap_thuan_thi_co_quan_dang_ky_kinh_doanh_cap_xa_ra_quyet_dinh_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_trong_thoi_han_03_ngay_lam_viec_ke_tu_ngay_ket_thuc_thoi_han",
         "predicate_family": "thong_bao",
         "effect_canonical": null,
         "object_canonical": null,
@@ -9378,7 +9370,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "partial",
         "normalization_notes": [
@@ -9408,7 +9400,7 @@
         }
       },
       "head_cleanup_notes": [
-        "hard_truncated_effect_in_head"
+        "capped_long_effect_in_head"
       ],
       "body_cleanup_notes": [],
       "fallback_kind": null,
@@ -9423,7 +9415,7 @@
       "head": {
         "predicate": "deadline",
         "args": [
-          "thong_bao_level",
+          "thong_bao_voi_co_quan_dang_ky_kinh_doanh_cap_xa",
           3.0,
           "ngay_lam_viec",
           "ke_tu_moc_tham_chieu"
@@ -9433,7 +9425,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "thong_bao_level",
+            "thong_bao_voi_co_quan_dang_ky_kinh_doanh_cap_xa",
             "truong_hop_ho_kinh_doanh_ngung_hoat_dong_kinh_doanh_tai_dia_chi_dang_ky_qua_06_thang_ma_khong"
           ]
         }
@@ -9442,7 +9434,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_hanh_dong_co_quan_fanout_thoi_han",
-        "canonical_predicate": "thong_bao_level",
+        "canonical_predicate": "thong_bao_voi_co_quan_dang_ky_kinh_doanh_cap_xa",
         "predicate_family": "thong_bao",
         "effect_canonical": null,
         "object_canonical": "cap_xa",
@@ -9450,7 +9442,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "full",
         "normalization_notes": [],
@@ -9491,7 +9483,7 @@
       "head": {
         "predicate": "deadline",
         "args": [
-          "thong_bao_level",
+          "thong_bao_voi_co_quan_dang_ky_kinh_doanh_cap_xa",
           3.0,
           "ngay_lam_viec",
           "ke_tu_moc_tham_chieu"
@@ -9501,7 +9493,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "thong_bao_level",
+            "thong_bao_voi_co_quan_dang_ky_kinh_doanh_cap_xa",
             "truong_hop_ho_kinh_doanh_ngung_hoat_dong_kinh_doanh_tai_dia_chi_dang_ky_qua_06_thang_ma_khong"
           ]
         }
@@ -9510,7 +9502,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_ket_qua_phap_ly_fanout_thoi_han",
-        "canonical_predicate": "thong_bao_level",
+        "canonical_predicate": "thong_bao_voi_co_quan_dang_ky_kinh_doanh_cap_xa",
         "predicate_family": "thong_bao",
         "effect_canonical": null,
         "object_canonical": null,
@@ -9518,7 +9510,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "full",
         "normalization_notes": [],
@@ -9569,6 +9561,12 @@
           "predicate": "unless",
           "args": [
             "tru_truong_hop_ho_kinh_doanh_bi_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_de_thuc_hien_bien_phap_cuong_che_no_thue"
+          ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "thong_bao_ve_viec_ho_kinh_doanh_dang_lam_thu_tuc_cham_dut_hoat_dong_tren_cong_thong_tin_quoc_gia_ve_dang_ky_doanh_nghiep"
           ]
         }
       ],
@@ -9650,6 +9648,12 @@
           "args": [
             "tru_truong_hop_ho_kinh_doanh_bi_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_de_thuc_hien_bien_phap_cuong_che_no_thue"
           ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "thong_bao_ve_viec_ho_kinh_doanh_dang_lam"
+          ]
         }
       ],
       "auxiliary_clauses": [],
@@ -9714,6 +9718,12 @@
           "predicate": "unless",
           "args": [
             "tru_truong_hop_ho_kinh_doanh_bi_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_de_thuc_hien_bien_phap_cuong_che_no_thue"
+          ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "thong_bao_ve_viec_ho_kinh_doanh_dang_lam_thu_tuc_cham_dut_hoat_dong_cap_nhat_tinh_t"
           ]
         }
       ],
@@ -9780,6 +9790,12 @@
           "args": [
             "tru_truong_hop_ho_kinh_doanh_bi_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_de_thuc_hien_bien_phap_cuong_che_no_thue"
           ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "thong_bao_ve_viec_ho_kinh_doanh_dang_lam_thu_tuc_cham_dut_hoat_dong_tren_cong_thong_tin_quoc_g"
+          ]
         }
       ],
       "auxiliary_clauses": [],
@@ -9836,7 +9852,7 @@
         "predicate": "legal_effect",
         "args": [
           "co_quan_dang_ky_kinh_doanh",
-          "bi_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_de_thuc_hien_bien_phap_cuong_che_no_thue"
+          "bi_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_de_thuc_hien_bien_phap_cuong_c"
         ]
       },
       "body": [
@@ -9844,6 +9860,12 @@
           "predicate": "unless",
           "args": [
             "tru_truong_hop_ho_kinh_doanh_bi_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_de_thuc_hien_bien_phap_cuong_che_no_thue"
+          ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "theo_de_nghi_cua_co_quan_quan_ly_thue"
           ]
         }
       ],
@@ -9886,7 +9908,9 @@
           "ket_qua_thu_tuc": "bị thu hồi Giấy chứng nhận đăng ký hộ kinh doanh để thực hiện biện pháp cưỡng chế nợ thuế theo đề nghị của Cơ quan quản lý thuế"
         }
       },
-      "head_cleanup_notes": [],
+      "head_cleanup_notes": [
+        "capped_long_effect_in_head"
+      ],
       "body_cleanup_notes": [],
       "fallback_kind": null,
       "reasoning_notes": []
@@ -9909,6 +9933,12 @@
           "predicate": "unless",
           "args": [
             "tru_truong_hop_ho_kinh_doanh_bi_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_de_thuc_hien_bien_phap_cuong_che_no_thue"
+          ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "thong_bao_ve_viec_ho_kinh_doanh_dang_lam"
           ]
         }
       ],
@@ -9975,6 +10005,12 @@
           "args": [
             "tru_truong_hop_ho_kinh_doanh_bi_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_de_thuc_hien_bien_phap_cuong_che_no_thue"
           ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "thong_bao_ve_viec_ho_kinh_doanh_dang_lam_thu_tuc_cham_dut_hoat_dong_cap_nhat_tinh_t"
+          ]
         }
       ],
       "auxiliary_clauses": [],
@@ -10040,6 +10076,12 @@
           "args": [
             "tru_truong_hop_ho_kinh_doanh_bi_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_de_thuc_hien_bien_phap_cuong_che_no_thue"
           ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "thong_bao_ve_viec_ho_kinh_doanh_dang_lam_thu_tuc_cham_dut_hoat_dong_tren_cong_thong_tin_quoc_g"
+          ]
         }
       ],
       "auxiliary_clauses": [],
@@ -10096,7 +10138,7 @@
         "predicate": "legal_effect",
         "args": [
           "co_quan_dang_ky_kinh_doanh",
-          "bi_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_de_thuc_hien_bien_phap_cuong_che_no_thue"
+          "bi_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_de_thuc_hien_bien_phap_cuong_c"
         ]
       },
       "body": [
@@ -10104,6 +10146,12 @@
           "predicate": "unless",
           "args": [
             "tru_truong_hop_ho_kinh_doanh_bi_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_de_thuc_hien_bien_phap_cuong_che_no_thue"
+          ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "theo_de_nghi_cua_co_quan_quan_ly_thue"
           ]
         }
       ],
@@ -10146,7 +10194,9 @@
           "ket_qua_thu_tuc": "bị thu hồi Giấy chứng nhận đăng ký hộ kinh doanh để thực hiện biện pháp cưỡng chế nợ thuế theo đề nghị của Cơ quan quản lý thuế"
         }
       },
-      "head_cleanup_notes": [],
+      "head_cleanup_notes": [
+        "capped_long_effect_in_head"
+      ],
       "body_cleanup_notes": [],
       "fallback_kind": null,
       "reasoning_notes": []
@@ -10161,7 +10211,7 @@
         "predicate": "exception",
         "args": [
           "cap_nhat_thong_tin",
-          "trừ trường hợp hộ kinh doanh bị thu hồi Giấy chứng nhận đăng ký hộ kinh doanh đ"
+          "tru_truong_hop_ho_kinh_doanh_bi_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_d"
         ]
       },
       "body": [],
@@ -10221,10 +10271,17 @@
         "predicate": "exception",
         "args": [
           "ap_dung_quy_dinh_loai_tru",
-          "trừ trường hợp hộ kinh doanh bị thu hồi Giấy chứng nhận đăng ký hộ kinh doanh đ"
+          "tru_truong_hop_ho_kinh_doanh_bi_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_d"
         ]
       },
-      "body": [],
+      "body": [
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "thong_bao_ve_viec_ho_kinh_doanh_dang_lam_thu_tuc_cham_dut_hoat_dong_cap_nhat_tinh_t"
+          ]
+        }
+      ],
       "auxiliary_clauses": [],
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
@@ -10281,7 +10338,7 @@
         "predicate": "exception",
         "args": [
           "ap_dung_quy_dinh_loai_tru",
-          "trừ trường hợp hộ kinh doanh bị thu hồi Giấy chứng nhận đăng ký hộ kinh doanh đ"
+          "tru_truong_hop_ho_kinh_doanh_bi_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_d"
         ]
       },
       "body": [],
@@ -10341,10 +10398,17 @@
         "predicate": "exception",
         "args": [
           "cap_nhat_thong_tin",
-          "trừ trường hợp hộ kinh doanh bị thu hồi Giấy chứng nhận đăng ký hộ kinh doanh đ"
+          "tru_truong_hop_ho_kinh_doanh_bi_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_d"
         ]
       },
-      "body": [],
+      "body": [
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "theo_de_nghi_cua_co_quan_quan_ly_thue"
+          ]
+        }
+      ],
       "auxiliary_clauses": [],
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
@@ -10400,9 +10464,9 @@
       "head": {
         "predicate": "threshold",
         "args": [
-          "unknown",
+          "unspecified_metric",
           "eq",
-          "Cơ quan đăng ký kinh doanh cấp xã ban hành quyết định thu hồi Giấy chứng nhận đ",
+          "threshold_value_unresolved",
           "unspecified_unit"
         ]
       },
@@ -10457,7 +10521,7 @@
       "body_cleanup_notes": [],
       "fallback_kind": "unresolved_threshold",
       "reasoning_notes": [
-        "restored_threshold_value_from_source_snippet"
+        "restored_threshold_value_failed_unresolved"
       ]
     },
     {
@@ -10469,9 +10533,9 @@
       "head": {
         "predicate": "threshold",
         "args": [
-          "unknown",
+          "unspecified_metric",
           "eq",
-          "Cơ quan đăng ký kinh doanh cấp xã ban hành quyết định thu hồi Giấy chứng nhận đ",
+          "threshold_value_unresolved",
           "unspecified_unit"
         ]
       },
@@ -10480,6 +10544,12 @@
           "predicate": "unless",
           "args": [
             "tru_truong_hop_ho_kinh_doanh_bi_thu_hoi_giay_chung_nhan_dang_ky_ho_kinh_doanh_de_thuc_hien_bien_phap_cuong_che_no_thue"
+          ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "thong_bao_ve_viec_ho_kinh_doanh_dang_lam_thu_tuc_cham_dut_hoat_dong_cap_nhat_tinh_trang_phap_ly_cua_ho_kinh_doan"
           ]
         }
       ],
@@ -10526,7 +10596,7 @@
       "body_cleanup_notes": [],
       "fallback_kind": "unresolved_threshold",
       "reasoning_notes": [
-        "restored_threshold_value_from_source_snippet"
+        "restored_threshold_value_failed_unresolved"
       ]
     },
     {
@@ -10538,9 +10608,9 @@
       "head": {
         "predicate": "threshold",
         "args": [
-          "unknown",
+          "unspecified_metric",
           "eq",
-          "Tổ chức, cá nhân có thể tra cứu thông tin đăng ký hộ kinh doanh miễn phí trên C",
+          "threshold_value_unresolved",
           "unspecified_unit"
         ]
       },
@@ -10588,7 +10658,7 @@
       "body_cleanup_notes": [],
       "fallback_kind": "unresolved_threshold",
       "reasoning_notes": [
-        "restored_threshold_value_from_source_snippet"
+        "restored_threshold_value_failed_unresolved"
       ]
     },
     {
@@ -10614,7 +10684,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "thong_bao_level",
+            "thong_bao_tam_ngung_kinh_doanh",
             "doi_voi_chi_nhanh_van_phong_dai_dien_dia_diem_kinh_doanh"
           ]
         }
@@ -10623,7 +10693,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "co_the",
         "extraction_pattern": "khung_ket_qua_phap_ly_main",
-        "canonical_predicate": "thong_bao_level",
+        "canonical_predicate": "thong_bao_tam_ngung_kinh_doanh",
         "predicate_family": "thong_bao",
         "effect_canonical": "cham_dut_hoat_dong",
         "object_canonical": "chi_nhanh_van_phong_dai_dien",
@@ -10631,7 +10701,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "partial",
         "normalization_notes": [
@@ -10675,7 +10745,7 @@
         "predicate": "procedure_step",
         "args": [
           "thuc_hien_thu_tuc",
-          "dang_ky_quy_dinh_tai_khoan_1_dieu_nay_truoc_khi_thuc_hien_thu_tuc_dang_ky_hoat_dong"
+          "dang_ky_quy_dinh_tai_khoan_1_dieu_nay_truoc_khi_thuc_hien_thu_tuc_dang_ky_hoat"
         ]
       },
       "body": [
@@ -10749,7 +10819,7 @@
         "predicate": "legal_effect",
         "args": [
           "van_phong_dai_dien",
-          "cap_giay_chung_nhan_dang_ky_doanh_nghiep_giay_chung_nhan_dang_ky_hoat_dong_chi_nhanh_van_p"
+          "cap_giay_chung_nhan_dang_ky_doanh_nghiep_giay_chung_nhan_dang_ky_hoat_dong_chi"
         ]
       },
       "body": [
@@ -10762,7 +10832,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "dang_ky_level",
+            "dang_ky_kinh_doanh_cap_tinh_trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua",
             "khi_nhan_duoc_ho_so_cua_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
           ]
         }
@@ -10771,7 +10841,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "duoc_phep",
         "extraction_pattern": "khung_ket_qua_phap_ly_main",
-        "canonical_predicate": "dang_ky_level",
+        "canonical_predicate": "dang_ky_kinh_doanh_cap_tinh_trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua",
         "predicate_family": "dang_ky",
         "effect_canonical": "cap_giay_chung_nhan_dang_ky_doanh_nghiep_giay_chung_nhan_dang_ky_hoat_dong_chi_nhanh_van_phong_dai_dien_giay_chung_nhan_dang_ky_dia_diem_kinh_doanh_giay_xac_nhan_ve_viec_thay_doi_noi_du",
         "object_canonical": "giay_chung_nhan_dang_ky_doanh_nghiep",
@@ -10779,7 +10849,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh_cap_tinh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "full",
         "normalization_notes": [],
@@ -10806,9 +10876,7 @@
           "ket_qua_thu_tuc": "cấp Giấy chứng nhận đăng ký doanh nghiệp, Giấy chứng nhận đăng ký hoạt động chi nhánh, văn phòng đại diện, Giấy chứng nhận đăng ký địa điểm kinh doanh, Giấy xác nhận về việc thay đổi nội du"
         }
       },
-      "head_cleanup_notes": [
-        "hard_truncated_effect_in_head"
-      ],
+      "head_cleanup_notes": [],
       "body_cleanup_notes": [],
       "fallback_kind": null,
       "reasoning_notes": []
@@ -11240,7 +11308,7 @@
         "predicate": "procedure_step",
         "args": [
           "kem",
-          "dang_ky_doanh_nghiep_phai_co_van_ban_uy_quyen_cho_ca_nhan_thuc_hien_thu_tuc_lien_quan_den_dang_ky_doanh_nghiep"
+          "dang_ky_doanh_nghiep_phai_co_van_ban_uy_quyen_cho_ca_nhan_thuc_hien_thu_tuc_lie"
         ]
       },
       "body": [
@@ -11750,7 +11818,7 @@
         "predicate": "procedure_step",
         "args": [
           "kem",
-          "dang_ky_doanh_nghiep_phai_co_ban_sao_hop_dong_uy_quyen_cho_to_chuc_thuc_hien_thu_tuc_lien_quan_den_dang_ky_doanh_nghiep"
+          "dang_ky_doanh_nghiep_phai_co_ban_sao_hop_dong_uy_quyen_cho_to_chuc_thuc_hien_th"
         ]
       },
       "body": [
@@ -11830,7 +11898,7 @@
         "predicate": "procedure_step",
         "args": [
           "kem",
-          "dang_ky_doanh_nghiep_phai_co_ban_sao_hop_dong_uy_quyen_cho_to_chuc_thuc_hien_thu_tuc_lien_quan_den_dang_ky_doanh_nghiep"
+          "dang_ky_doanh_nghiep_phai_co_ban_sao_hop_dong_uy_quyen_cho_to_chuc_thuc_hien_th"
         ]
       },
       "body": [
@@ -11914,7 +11982,14 @@
           "dang_ky_doanh_nghiep"
         ]
       },
-      "body": [],
+      "body": [
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "theo_quy_trinh_du_phong"
+          ]
+        }
+      ],
       "auxiliary_clauses": [
         {
           "kind": "deadline_fact",
@@ -12317,13 +12392,13 @@
       "rule_group_id": "RG_ND168_D15_K3_THANH_PHAN_HO_SO",
       "rule_type_source": "quy_tac_quyen",
       "logic_form": "permission",
-      "logic_readiness": "reasoning_ready",
+      "logic_readiness": "reasoning_partial",
       "head": {
         "predicate": "permission",
         "args": [
           "doanh_nghiep",
           "thanh_phan_ho_so",
-          "object_unresolved"
+          "unresolved_object"
         ]
       },
       "body": [
@@ -12797,7 +12872,7 @@
         "predicate": "permission",
         "args": [
           "van_phong_dai_dien",
-          "dang_ky_level",
+          "dang_ky_ten_bang_tieng_nuoc_ngoai_va_ten_viet_tat",
           "chi_nhanh_van_phong_dai_dien"
         ]
       },
@@ -12813,7 +12888,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "duoc_phep",
         "extraction_pattern": "khung_quyen_main",
-        "canonical_predicate": "dang_ky_level",
+        "canonical_predicate": "dang_ky_ten_bang_tieng_nuoc_ngoai_va_ten_viet_tat",
         "predicate_family": "dang_ky",
         "effect_canonical": null,
         "object_canonical": "chi_nhanh_van_phong_dai_dien",
@@ -12821,7 +12896,7 @@
         "authority_canonical": null,
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "full",
         "normalization_notes": [],
@@ -13022,7 +13097,7 @@
         "predicate": "exception",
         "args": [
           "dang_ky_doanh_nghiep",
-          "trừ trường hợp quy định tại điểm b khoản này"
+          "tru_truong_hop_quy_dinh_tai_diem_b_khoan_nay"
         ]
       },
       "body": [
@@ -13094,7 +13169,7 @@
         "predicate": "exception",
         "args": [
           "ap_dung_quy_dinh_loai_tru",
-          "trừ trường hợp quy định tại điểm b khoản này"
+          "tru_truong_hop_quy_dinh_tai_diem_b_khoan_nay"
         ]
       },
       "body": [
@@ -13159,7 +13234,7 @@
         "predicate": "exception",
         "args": [
           "ap_dung_quy_dinh_loai_tru",
-          "trừ trường hợp quy định tại điểm b khoản này"
+          "tru_truong_hop_quy_dinh_tai_diem_b_khoan_nay"
         ]
       },
       "body": [
@@ -13223,8 +13298,8 @@
       "head": {
         "predicate": "exception",
         "args": [
-          "dang_ky_level",
-          "trừ trường hợp quy định tại điểm b khoản này"
+          "dang_ky_kinh_doanh_tai_cac_dia_diem_khac_nhau_tren_dia_ban",
+          "tru_truong_hop_quy_dinh_tai_diem_b_khoan_nay"
         ]
       },
       "body": [
@@ -13239,7 +13314,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "duoc_phep",
         "extraction_pattern": "khung_ngoai_le_main",
-        "canonical_predicate": "dang_ky_level",
+        "canonical_predicate": "dang_ky_kinh_doanh_tai_cac_dia_diem_khac_nhau_tren_dia_ban",
         "predicate_family": "dang_ky",
         "effect_canonical": null,
         "object_canonical": "chi_nhanh_van_phong_dai_dien",
@@ -13247,7 +13322,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "full",
         "normalization_notes": [],
@@ -13288,8 +13363,8 @@
       "head": {
         "predicate": "exception",
         "args": [
-          "dang_ky_level",
-          "trừ trường hợp quy định tại điểm b khoản này"
+          "ap_dung_ngoai_le",
+          "tru_truong_hop_quy_dinh_tai_diem_b_khoan_nay"
         ]
       },
       "body": [
@@ -13304,7 +13379,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "co_the",
         "extraction_pattern": "khung_ngoai_le_main",
-        "canonical_predicate": "dang_ky_level",
+        "canonical_predicate": "ap_dung_ngoai_le",
         "predicate_family": "dang_ky",
         "effect_canonical": null,
         "object_canonical": null,
@@ -13312,7 +13387,7 @@
         "authority_canonical": null,
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "full",
         "normalization_notes": [],
@@ -13353,8 +13428,8 @@
       "head": {
         "predicate": "exception",
         "args": [
-          "dang_ky_level",
-          "trừ trường hợp quy định tại điểm b khoản này"
+          "ap_dung_ngoai_le",
+          "tru_truong_hop_quy_dinh_tai_diem_b_khoan_nay"
         ]
       },
       "body": [
@@ -13367,7 +13442,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "dang_ky_level",
+            "ap_dung_ngoai_le",
             "doi_voi_doanh_nghiep_chi_nhanh_van_phong_dai_dien_dia_diem_kinh_doanh_co_dia_chi_tai_tinh_thanh_pho_truc_thuoc_trun"
           ]
         }
@@ -13376,7 +13451,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "co_the",
         "extraction_pattern": "khung_nguong_dinh_luong_main",
-        "canonical_predicate": "dang_ky_level",
+        "canonical_predicate": "ap_dung_ngoai_le",
         "predicate_family": "dang_ky",
         "effect_canonical": null,
         "object_canonical": null,
@@ -13384,7 +13459,7 @@
         "authority_canonical": null,
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "full",
         "normalization_notes": [],
@@ -13426,7 +13501,7 @@
         "predicate": "exception",
         "args": [
           "ap_dung_quy_dinh_loai_tru",
-          "trừ trường hợp quy định tại điểm b khoản này"
+          "tru_truong_hop_quy_dinh_tai_diem_b_khoan_nay"
         ]
       },
       "body": [
@@ -13491,7 +13566,7 @@
         "predicate": "exception",
         "args": [
           "ap_dung_quy_dinh_loai_tru",
-          "trừ trường hợp quy định tại điểm b khoản này"
+          "tru_truong_hop_quy_dinh_tai_diem_b_khoan_nay"
         ]
       },
       "body": [
@@ -13555,9 +13630,9 @@
       "head": {
         "predicate": "threshold",
         "args": [
-          "unknown",
+          "unspecified_metric",
           "eq",
-          "Cơ quan đăng ký kinh doanh thuộc Sở Tài chính tỉnh, thành phố trực thuộc trung ",
+          "threshold_value_unresolved",
           "unspecified_unit"
         ]
       },
@@ -13571,7 +13646,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "dang_ky_level",
+            "dang_ky_kinh_doanh_tai_cac_dia_diem_khac_nhau_tren_dia_ban",
             "doi_voi_doanh_nghiep_chi_nhanh_van_phong_dai_dien_dia_diem_kinh_doanh_co_dia_chi_tai_tinh_thanh_pho_truc_thuoc_trun"
           ]
         },
@@ -13586,7 +13661,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "duoc_phep",
         "extraction_pattern": "khung_nguong_dinh_luong_main",
-        "canonical_predicate": "dang_ky_level",
+        "canonical_predicate": "dang_ky_kinh_doanh_tai_cac_dia_diem_khac_nhau_tren_dia_ban",
         "predicate_family": "dang_ky",
         "effect_canonical": null,
         "object_canonical": "chi_nhanh_van_phong_dai_dien",
@@ -13594,7 +13669,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "full",
         "normalization_notes": [],
@@ -13625,7 +13700,7 @@
       "body_cleanup_notes": [],
       "fallback_kind": "unresolved_threshold",
       "reasoning_notes": [
-        "restored_threshold_value_from_source_snippet"
+        "restored_threshold_value_failed_unresolved"
       ]
     },
     {
@@ -13637,9 +13712,9 @@
       "head": {
         "predicate": "threshold",
         "args": [
-          "unknown",
+          "unspecified_metric",
           "eq",
-          "Cơ quan đăng ký kinh doanh thuộc Sở Tài chính tỉnh, thành phố trực thuộc trung ",
+          "threshold_value_unresolved",
           "unspecified_unit"
         ]
       },
@@ -13653,7 +13728,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "dang_ky_level",
+            "dang_ky_kinh_doanh_tai_cac_dia_diem_khac_nhau_tren_dia_ban",
             "doi_voi_doanh_nghiep_chi_nhanh_van_phong_dai_dien_dia_diem_kinh_doanh_co_dia_chi_tai_tinh_thanh_pho_truc_thuoc_trun"
           ]
         },
@@ -13668,7 +13743,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_nguong_dinh_luong_main",
-        "canonical_predicate": "dang_ky_level",
+        "canonical_predicate": "dang_ky_kinh_doanh_tai_cac_dia_diem_khac_nhau_tren_dia_ban",
         "predicate_family": "dang_ky",
         "effect_canonical": null,
         "object_canonical": "chi_nhanh_van_phong_dai_dien",
@@ -13676,7 +13751,7 @@
         "authority_canonical": null,
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "full",
         "normalization_notes": [],
@@ -13707,7 +13782,7 @@
       "body_cleanup_notes": [],
       "fallback_kind": "unresolved_threshold",
       "reasoning_notes": [
-        "restored_threshold_value_from_source_snippet"
+        "restored_threshold_value_failed_unresolved"
       ]
     },
     {
@@ -13783,7 +13858,14 @@
           "giay_chung_nhan_dang_ky_doanh_nghiep"
         ]
       },
-      "body": [],
+      "body": [
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "co_quan_dang_ky_kinh_doanh_cap_tinh"
+          ]
+        }
+      ],
       "auxiliary_clauses": [
         {
           "kind": "deadline_fact",
@@ -13868,7 +13950,14 @@
           "cap_giay_chung_nhan_dang_ky_doanh_nghiep"
         ]
       },
-      "body": [],
+      "body": [
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "co_quan_dang_ky_kinh_doanh_cap_tinh_gui_thong_tin_ve_viec_thanh_lap_doanh_nghiep_tren_co_so_chuyen_doi_tu_ho_kinh_doanh_cho_co_quan_dang_ky_kinh_do"
+          ]
+        }
+      ],
       "auxiliary_clauses": [
         {
           "kind": "deadline_fact",
@@ -13939,7 +14028,7 @@
           "cap_giay_chung_nhan_dang_ky_doanh_nghiep",
           null,
           "ngay_lam_viec",
-          "Ngưỡng/điều kiện định lượng: thoi_han_xu_ly; eq 02 ngay_lam_viec."
+          "nguong_dieu_kien_dinh_luong_thoi_han_xu_ly_eq_02_ngay_lam_viec"
         ]
       },
       "body": [],
@@ -14020,7 +14109,14 @@
           "ke_tu_ngay_thanh_lap"
         ]
       },
-      "body": [],
+      "body": [
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "co_quan_dang_ky_kinh_doanh_cap_tinh"
+          ]
+        }
+      ],
       "auxiliary_clauses": [
         {
           "kind": "threshold_fact",
@@ -14093,7 +14189,7 @@
           "cap_giay_chung_nhan_dang_ky_doanh_nghiep",
           null,
           "ngay_lam_viec",
-          "Ngưỡng/điều kiện định lượng: thoi_han_xu_ly; eq 02 ngay_lam_viec."
+          "nguong_dieu_kien_dinh_luong_thoi_han_xu_ly_eq_02_ngay_lam_viec"
         ]
       },
       "body": [],
@@ -14234,7 +14330,14 @@
           "ke_tu_ngay_thanh_lap"
         ]
       },
-      "body": [],
+      "body": [
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "co_quan_dang_ky_kinh_doanh_cap_tinh"
+          ]
+        }
+      ],
       "auxiliary_clauses": [],
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
@@ -14684,17 +14787,17 @@
       "head": {
         "predicate": "deadline",
         "args": [
-          "nguong_dinh_luong_level",
+          "nguong_dinh_luong",
           null,
           "ngay_lam_viec",
-          "Ngưỡng/điều kiện định lượng: thoi_han_xu_ly; eq 03 ngay_lam_viec; khi hộ kinh d"
+          "nguong_dieu_kien_dinh_luong_thoi_han_xu_ly_eq_03_ngay_lam_viec_khi_ho_kinh_d"
         ]
       },
       "body": [
         {
           "predicate": "applies_if",
           "args": [
-            "nguong_dinh_luong_level",
+            "nguong_dinh_luong",
             "khi_ho_kinh_doanh_da_hoan_thanh_nghia_vu_thue"
           ]
         }
@@ -14717,7 +14820,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_nguong_dinh_luong_fanout_thoi_han",
-        "canonical_predicate": "nguong_dinh_luong_level",
+        "canonical_predicate": "nguong_dinh_luong",
         "predicate_family": "nguong_dinh_luong",
         "effect_canonical": null,
         "object_canonical": "dang_ky_doanh_nghiep",
@@ -15217,9 +15320,9 @@
       "head": {
         "predicate": "threshold",
         "args": [
-          "unknown",
+          "unspecified_metric",
           "eq",
-          "Việc đăng ký thành lập doanh nghiệp xã hội trên cơ sở chuyển đổi từ cơ sở bảo t",
+          "threshold_value_unresolved",
           "unspecified_unit"
         ]
       },
@@ -15283,7 +15386,7 @@
       "body_cleanup_notes": [],
       "fallback_kind": "unresolved_threshold",
       "reasoning_notes": [
-        "restored_threshold_value_from_source_snippet"
+        "restored_threshold_value_failed_unresolved"
       ]
     },
     {
@@ -15295,9 +15398,9 @@
       "head": {
         "predicate": "threshold",
         "args": [
-          "unknown",
+          "unspecified_metric",
           "eq",
-          "Việc đăng ký thành lập doanh nghiệp xã hội trên cơ sở chuyển đổi từ cơ sở bảo t",
+          "threshold_value_unresolved",
           "unspecified_unit"
         ]
       },
@@ -15347,7 +15450,7 @@
       "body_cleanup_notes": [],
       "fallback_kind": "unresolved_threshold",
       "reasoning_notes": [
-        "restored_threshold_value_from_source_snippet"
+        "restored_threshold_value_failed_unresolved"
       ]
     },
     {
@@ -15360,7 +15463,7 @@
         "predicate": "legal_effect",
         "args": [
           "van_phong_dai_dien",
-          "cap_giay_chung_nhan_dang_ky_hoat_dong_chi_nhanh_van_phong_dai_dien_cap_nhat_thong_tin_ve_d"
+          "cap_giay_chung_nhan_dang_ky_hoat_dong_chi_nhanh_van_phong_dai_dien_cap_nhat_tho"
         ]
       },
       "body": [
@@ -15373,7 +15476,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "dang_ky_level",
+            "dang_ky_kinh_doanh_cap_tinh_cap_giay_chung_nhan_dang_ky_hoat_dong_chi_nhanh",
             "truong_hop_doanh_nghiep_co_nhu_cau_co_quan_dang_ky_kinh_doanh"
           ]
         }
@@ -15384,7 +15487,7 @@
           "head": {
             "predicate": "deadline",
             "args": [
-              "dang_ky_level",
+              "dang_ky_kinh_doanh_cap_tinh_cap_giay_chung_nhan_dang_ky_hoat_dong_chi_nhanh",
               3.0,
               "ngay_lam_viec",
               "ke_tu_ngay_nhan_ho_so"
@@ -15396,7 +15499,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "duoc_phep",
         "extraction_pattern": "khung_ket_qua_phap_ly_fanout_thoi_han",
-        "canonical_predicate": "dang_ky_level",
+        "canonical_predicate": "dang_ky_kinh_doanh_cap_tinh_cap_giay_chung_nhan_dang_ky_hoat_dong_chi_nhanh",
         "predicate_family": "dang_ky",
         "effect_canonical": "cap_giay_chung_nhan_dang_ky_hoat_dong_chi_nhanh_van_phong_dai_dien_cap_nhat_thong_tin_ve_dia_diem_kinh_doanh_trong_co_so_du_lieu_quoc_gia_ve_dang_ky_doanh_nghiep",
         "object_canonical": "chi_nhanh_van_phong_dai_dien",
@@ -15404,7 +15507,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh_cap_tinh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "full",
         "normalization_notes": [],
@@ -15431,9 +15534,7 @@
           "ket_qua_thu_tuc": "cấp Giấy chứng nhận đăng ký hoạt động chi nhánh, văn phòng đại diện, cập nhật thông tin về địa điểm kinh doanh trong Cơ sở dữ liệu quốc gia về đăng ký doanh nghiệp"
         }
       },
-      "head_cleanup_notes": [
-        "hard_truncated_effect_in_head"
-      ],
+      "head_cleanup_notes": [],
       "body_cleanup_notes": [],
       "fallback_kind": null,
       "reasoning_notes": []
@@ -15447,7 +15548,7 @@
       "head": {
         "predicate": "deadline",
         "args": [
-          "dang_ky_level",
+          "dang_ky_kinh_doanh",
           3.0,
           "ngay_lam_viec",
           "ke_tu_ngay_nhan_ho_so"
@@ -15463,7 +15564,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "dang_ky_level",
+            "dang_ky_kinh_doanh",
             "truong_hop_doanh_nghiep_co_nhu_cau_co_quan_dang_ky_kinh_doanh"
           ]
         }
@@ -15486,7 +15587,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "duoc_phep",
         "extraction_pattern": "khung_nguong_dinh_luong_fanout_thoi_han",
-        "canonical_predicate": "dang_ky_level",
+        "canonical_predicate": "dang_ky_kinh_doanh",
         "predicate_family": "dang_ky",
         "effect_canonical": "cap_giay_chung_nhan",
         "object_canonical": "cap_tinh_cap_giay_chung_nhan_dang_ky_hoat_dong_chi_nhanh",
@@ -15494,7 +15595,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh_cap_tinh",
         "metric_canonical": "thoi_han_xu_ly",
         "unit_canonical": "ngay_lam_viec",
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [
           "override_threshold_to_deadline_time_metric"
         ],
@@ -15537,10 +15638,10 @@
       "head": {
         "predicate": "deadline",
         "args": [
-          "dang_ky_level",
+          "dang_ky_kinh_doanh",
           null,
           "ngay_lam_viec",
-          "Ngưỡng/điều kiện định lượng: thoi_han_xu_ly; eq 03 ngay_lam_viec; Trường hợp do"
+          "nguong_dieu_kien_dinh_luong_thoi_han_xu_ly_eq_03_ngay_lam_viec_truong_hop_do"
         ]
       },
       "body": [
@@ -15553,7 +15654,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "dang_ky_level",
+            "dang_ky_kinh_doanh",
             "truong_hop_doanh_nghiep_co_nhu_cau_co_quan_dang_ky_kinh_doanh"
           ]
         }
@@ -15576,7 +15677,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_nguong_dinh_luong_fanout_thoi_han",
-        "canonical_predicate": "dang_ky_level",
+        "canonical_predicate": "dang_ky_kinh_doanh",
         "predicate_family": "dang_ky",
         "effect_canonical": null,
         "object_canonical": "cap_tinh_cap_giay_chung_nhan_dang_ky_hoat_dong_chi_nhanh",
@@ -15584,7 +15685,7 @@
         "authority_canonical": null,
         "metric_canonical": "thoi_han_xu_ly",
         "unit_canonical": "ngay_lam_viec",
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [
           "override_threshold_to_deadline_time_metric"
         ],
@@ -15629,7 +15730,7 @@
       "head": {
         "predicate": "deadline",
         "args": [
-          "dang_ky_level",
+          "dang_ky_kinh_doanh",
           3.0,
           "ngay_lam_viec",
           "ke_tu_ngay_nhan_ho_so"
@@ -15645,7 +15746,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "dang_ky_level",
+            "dang_ky_kinh_doanh",
             "truong_hop_doanh_nghiep_co_nhu_cau_co_quan_dang_ky_kinh_doanh"
           ]
         }
@@ -15654,7 +15755,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_nguong_dinh_luong_fanout_thoi_han",
-        "canonical_predicate": "dang_ky_level",
+        "canonical_predicate": "dang_ky_kinh_doanh",
         "predicate_family": "dang_ky",
         "effect_canonical": null,
         "object_canonical": "cap_tinh_cap_giay_chung_nhan_dang_ky_hoat_dong_chi_nhanh",
@@ -15662,7 +15763,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh_cap_tinh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "full",
         "normalization_notes": [],
@@ -15703,7 +15804,7 @@
       "head": {
         "predicate": "deadline",
         "args": [
-          "dang_ky_level",
+          "dang_ky_kinh_doanh_cap_tinh_cap_giay_chung_nhan_dang_ky_hoat_dong_chi_nhanh",
           3.0,
           "ngay_lam_viec",
           "ke_tu_ngay_nhan_ho_so"
@@ -15719,7 +15820,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "dang_ky_level",
+            "dang_ky_kinh_doanh_cap_tinh_cap_giay_chung_nhan_dang_ky_hoat_dong_chi_nhanh",
             "truong_hop_doanh_nghiep_co_nhu_cau_co_quan_dang_ky_kinh_doanh"
           ]
         }
@@ -15728,7 +15829,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_ket_qua_phap_ly_fanout_thoi_han",
-        "canonical_predicate": "dang_ky_level",
+        "canonical_predicate": "dang_ky_kinh_doanh_cap_tinh_cap_giay_chung_nhan_dang_ky_hoat_dong_chi_nhanh",
         "predicate_family": "dang_ky",
         "effect_canonical": null,
         "object_canonical": "chi_nhanh_van_phong_dai_dien",
@@ -15736,7 +15837,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh_cap_tinh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "full",
         "normalization_notes": [],
@@ -15855,6 +15956,12 @@
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
           ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so"
+          ]
         }
       ],
       "auxiliary_clauses": [
@@ -15935,6 +16042,12 @@
           "args": [
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
+          ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so"
           ]
         }
       ],
@@ -16412,7 +16525,7 @@
           "dang_ky_doanh_nghiep",
           null,
           "ngay_lam_viec",
-          "Ngưỡng/điều kiện định lượng: thoi_han_xu_ly; eq 03 ngay_lam_viec; khi hồ sơ đăn"
+          "nguong_dieu_kien_dinh_luong_thoi_han_xu_ly_eq_03_ngay_lam_viec_khi_ho_so_dan"
         ]
       },
       "body": [
@@ -16930,7 +17043,7 @@
         "predicate": "legal_effect",
         "args": [
           "doanh_nghiep",
-          "cap_giay_chung_nhan_dang_ky_doanh_nghiep_cho_doanh_nghiep_theo_quy_dinh"
+          "cap_giay_chung_nhan_dang_ky_doanh_nghiep_cho_doanh_nghiep"
         ]
       },
       "body": [
@@ -16939,6 +17052,12 @@
           "args": [
             "gui_y_kien_ve_viec_doanh_nghiep_hoan_thanh_thu_tuc",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
+          ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "theo_quy_dinh"
           ]
         }
       ],
@@ -17089,6 +17208,12 @@
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
           ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so"
+          ]
         }
       ],
       "auxiliary_clauses": [
@@ -17184,6 +17309,12 @@
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
           ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so"
+          ]
         }
       ],
       "auxiliary_clauses": [
@@ -17268,7 +17399,7 @@
         "predicate": "legal_effect",
         "args": [
           "co_quan_dang_ky_kinh_doanh_cap_tinh",
-          "cap_giay_chung_nhan_dang_ky_doanh_nghiep_cho_doanh_nghiep_theo_quy_dinh"
+          "cap_giay_chung_nhan_dang_ky_doanh_nghiep_cho_doanh_nghiep"
         ]
       },
       "body": [
@@ -17277,6 +17408,12 @@
           "args": [
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
+          ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "theo_quy_dinh"
           ]
         }
       ],
@@ -17495,6 +17632,12 @@
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
           ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so"
+          ]
         }
       ],
       "auxiliary_clauses": [
@@ -17590,6 +17733,12 @@
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
           ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so"
+          ]
         }
       ],
       "auxiliary_clauses": [
@@ -17674,7 +17823,7 @@
         "predicate": "legal_effect",
         "args": [
           "co_quan_dang_ky_kinh_doanh_cap_tinh",
-          "cap_giay_chung_nhan_dang_ky_doanh_nghiep_cho_doanh_nghiep_theo_quy_dinh"
+          "cap_giay_chung_nhan_dang_ky_doanh_nghiep_cho_doanh_nghiep"
         ]
       },
       "body": [
@@ -17683,6 +17832,12 @@
           "args": [
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
+          ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "theo_quy_dinh"
           ]
         }
       ],
@@ -17901,6 +18056,12 @@
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
           ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so"
+          ]
         }
       ],
       "auxiliary_clauses": [
@@ -17996,6 +18157,12 @@
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
           ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so"
+          ]
         }
       ],
       "auxiliary_clauses": [
@@ -18080,7 +18247,7 @@
         "predicate": "legal_effect",
         "args": [
           "co_quan_dang_ky_kinh_doanh_cap_tinh",
-          "cap_giay_chung_nhan_dang_ky_doanh_nghiep_cho_doanh_nghiep_theo_quy_dinh"
+          "cap_giay_chung_nhan_dang_ky_doanh_nghiep_cho_doanh_nghiep"
         ]
       },
       "body": [
@@ -18089,6 +18256,12 @@
           "args": [
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
+          ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "theo_quy_dinh"
           ]
         }
       ],
@@ -18307,6 +18480,12 @@
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
           ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so"
+          ]
         }
       ],
       "auxiliary_clauses": [
@@ -18402,6 +18581,12 @@
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
           ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so"
+          ]
         }
       ],
       "auxiliary_clauses": [
@@ -18486,7 +18671,7 @@
         "predicate": "legal_effect",
         "args": [
           "co_quan_dang_ky_kinh_doanh_cap_tinh",
-          "cap_giay_chung_nhan_dang_ky_doanh_nghiep_cho_doanh_nghiep_theo_quy_dinh"
+          "cap_giay_chung_nhan_dang_ky_doanh_nghiep_cho_doanh_nghiep"
         ]
       },
       "body": [
@@ -18495,6 +18680,12 @@
           "args": [
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
+          ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "theo_quy_dinh"
           ]
         }
       ],
@@ -18713,6 +18904,12 @@
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
           ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so"
+          ]
         }
       ],
       "auxiliary_clauses": [
@@ -18808,6 +19005,12 @@
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
           ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so"
+          ]
         }
       ],
       "auxiliary_clauses": [
@@ -18892,7 +19095,7 @@
         "predicate": "legal_effect",
         "args": [
           "co_quan_dang_ky_kinh_doanh_cap_tinh",
-          "cap_giay_chung_nhan_dang_ky_doanh_nghiep_cho_doanh_nghiep_theo_quy_dinh"
+          "cap_giay_chung_nhan_dang_ky_doanh_nghiep_cho_doanh_nghiep"
         ]
       },
       "body": [
@@ -18901,6 +19104,12 @@
           "args": [
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
+          ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "theo_quy_dinh"
           ]
         }
       ],
@@ -19119,6 +19328,12 @@
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
           ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so"
+          ]
         }
       ],
       "auxiliary_clauses": [
@@ -19214,6 +19429,12 @@
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
           ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so"
+          ]
         }
       ],
       "auxiliary_clauses": [
@@ -19298,7 +19519,7 @@
         "predicate": "legal_effect",
         "args": [
           "co_quan_dang_ky_kinh_doanh_cap_tinh",
-          "cap_giay_chung_nhan_dang_ky_doanh_nghiep_cho_doanh_nghiep_theo_quy_dinh"
+          "cap_giay_chung_nhan_dang_ky_doanh_nghiep_cho_doanh_nghiep"
         ]
       },
       "body": [
@@ -19307,6 +19528,12 @@
           "args": [
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
+          ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "theo_quy_dinh"
           ]
         }
       ],
@@ -19525,6 +19752,12 @@
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
           ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so"
+          ]
         }
       ],
       "auxiliary_clauses": [
@@ -19620,6 +19853,12 @@
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
           ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so"
+          ]
         }
       ],
       "auxiliary_clauses": [
@@ -19704,7 +19943,7 @@
         "predicate": "legal_effect",
         "args": [
           "co_quan_dang_ky_kinh_doanh_cap_tinh",
-          "cap_giay_chung_nhan_dang_ky_doanh_nghiep_cho_doanh_nghiep_theo_quy_dinh"
+          "cap_giay_chung_nhan_dang_ky_doanh_nghiep_cho_doanh_nghiep"
         ]
       },
       "body": [
@@ -19713,6 +19952,12 @@
           "args": [
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
+          ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "theo_quy_dinh"
           ]
         }
       ],
@@ -19931,6 +20176,12 @@
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
           ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so"
+          ]
         }
       ],
       "auxiliary_clauses": [
@@ -20026,6 +20277,12 @@
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
           ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so"
+          ]
         }
       ],
       "auxiliary_clauses": [
@@ -20110,7 +20367,7 @@
         "predicate": "legal_effect",
         "args": [
           "co_quan_dang_ky_kinh_doanh_cap_tinh",
-          "cap_giay_chung_nhan_dang_ky_doanh_nghiep_cho_doanh_nghiep_theo_quy_dinh"
+          "cap_giay_chung_nhan_dang_ky_doanh_nghiep_cho_doanh_nghiep"
         ]
       },
       "body": [
@@ -20119,6 +20376,12 @@
           "args": [
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
+          ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "theo_quy_dinh"
           ]
         }
       ],
@@ -20337,6 +20600,12 @@
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
           ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so"
+          ]
         }
       ],
       "auxiliary_clauses": [
@@ -20430,6 +20699,12 @@
           "args": [
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
+          ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so"
           ]
         }
       ],
@@ -20728,6 +21003,12 @@
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
           ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so"
+          ]
         }
       ],
       "auxiliary_clauses": [
@@ -20827,6 +21108,12 @@
           "args": [
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
+          ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so"
           ]
         }
       ],
@@ -21070,6 +21357,12 @@
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
           ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so"
+          ]
         }
       ],
       "auxiliary_clauses": [
@@ -21163,6 +21456,12 @@
           "args": [
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
+          ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so"
           ]
         }
       ],
@@ -21393,6 +21692,12 @@
           "args": [
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_quy_dinh_tai_cac_khoan_1_2_va_3_dieu_nay_co_quan_dang_ky_kinh_doanh"
+          ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so"
           ]
         }
       ],
@@ -21776,6 +22081,12 @@
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
           ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so"
+          ]
         }
       ],
       "auxiliary_clauses": [
@@ -21871,6 +22182,12 @@
             "trao_giay_tiep_nhan_ho_so",
             "khi_tiep_nhan_ho_so_dang_ky_doanh_nghiep_co_quan_dang_ky_kinh_doanh"
           ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "trao_giay_tiep_nhan_ho_so_va_hen_tra_ket_qua_cho_nguoi_nop_ho_so"
+          ]
         }
       ],
       "auxiliary_clauses": [
@@ -21955,7 +22272,7 @@
         "predicate": "legal_effect",
         "args": [
           "co_quan_dang_ky_kinh_doanh_cap_tinh",
-          "cap_giay_chung_nhan_dang_ky_doanh_nghiep_giay_xac_nhan_ve_viec_thay_doi_noi_dung_dang_ky_d"
+          "cap_giay_chung_nhan_dang_ky_doanh_nghiep_giay_xac_nhan_ve_viec_thay_doi_noi_dun"
         ]
       },
       "body": [
@@ -22020,9 +22337,7 @@
           "ket_qua_thu_tuc": "cấp Giấy chứng nhận đăng ký doanh nghiệp, Giấy xác nhận về việc thay đổi nội dung đăng ký doanh nghiệp cho doanh nghiệp"
         }
       },
-      "head_cleanup_notes": [
-        "hard_truncated_effect_in_head"
-      ],
+      "head_cleanup_notes": [],
       "body_cleanup_notes": [],
       "fallback_kind": null,
       "reasoning_notes": []
@@ -22526,7 +22841,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "dang_ky_level",
+            "cham_dut_hoat_dong_chi_nhanh_doanh_nghiep_phai_thuc_hien_thu_tuc_cham_dut_hoat_dong_cua_tat_ca_dia_diem_kinh_doanh_truc_thuoc_c",
             "khi_cham_dut_hoat_dong_chi_nhanh_doanh_nghiep_phai_thuc_hien_thu_tuc_cham_dut_hoat_dong_cua_tat_ca_dia_diem_kinh_doanh"
           ]
         },
@@ -22541,7 +22856,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_thu_tuc_main",
-        "canonical_predicate": "dang_ky_level",
+        "canonical_predicate": "cham_dut_hoat_dong_chi_nhanh_doanh_nghiep_phai_thuc_hien_thu_tuc_cham_dut_hoat_dong_cua_tat_ca_dia_diem_kinh_doanh_truc_thuoc_c",
         "predicate_family": "dang_ky",
         "effect_canonical": null,
         "object_canonical": "cap_tinh_noi_dat_dia_diem_kinh_doanh",
@@ -22549,7 +22864,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh_cap_tinh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "partial",
         "normalization_notes": [
@@ -22740,7 +23055,7 @@
       "head": {
         "predicate": "procedure_step",
         "args": [
-          "dang_ky_level",
+          "dang_ky_kinh_doanh",
           "cap_tinh_noi_dat_dia_diem_kinh_doanh"
         ]
       },
@@ -22748,8 +23063,14 @@
         {
           "predicate": "applies_if",
           "args": [
-            "dang_ky_level",
+            "dang_ky_kinh_doanh",
             "khi_cham_dut_hoat_dong_chi_nhanh_doanh_nghiep_phai_thuc_hien_thu_tuc_cham_dut_hoat_dong_cua_tat_ca_dia_diem_kinh_doanh"
+          ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "co_quan_dang_ky_kinh_doanh"
           ]
         }
       ],
@@ -22757,7 +23078,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_thu_tuc_main",
-        "canonical_predicate": "dang_ky_level",
+        "canonical_predicate": "dang_ky_kinh_doanh",
         "predicate_family": "dang_ky",
         "effect_canonical": "cham_dut_hoat_dong_cua_tat_ca_dia_diem_kinh_doanh_truc_thuoc_chi_nhanh_tai_co_quan_dang_ky_kinh_doanh",
         "object_canonical": "cap_tinh_noi_dat_dia_diem_kinh_doanh",
@@ -22765,7 +23086,7 @@
         "authority_canonical": "co_quan_dang_ky_kinh_doanh_cap_tinh",
         "metric_canonical": null,
         "unit_canonical": null,
-        "canonical_status": "fallback_family_level",
+        "canonical_status": "inferred_from_context",
         "logic_form_overrides": [],
         "normalization_status": "full",
         "normalization_notes": [],
@@ -22811,7 +23132,14 @@
           "giay_chung_nhan_dang_ky_doanh_nghiep"
         ]
       },
-      "body": [],
+      "body": [
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "thong_bao_tam_ngung_kinh_doanh_giay_xac_nhan_thong_bao_t"
+          ]
+        }
+      ],
       "auxiliary_clauses": [
         {
           "kind": "deadline_fact",
@@ -22894,7 +23222,7 @@
         "predicate": "legal_effect",
         "args": [
           "co_quan_dang_ky_kinh_doanh",
-          "thu_hoi_giay_chung_nhan_dang_ky_doanh_nghiep_giay_xac_nhan_ve_viec_thay_doi_noi_dung"
+          "thu_hoi_giay_chung_nhan_dang_ky_doanh_nghiep_giay_xac_nhan_ve_viec_thay_doi_noi"
         ]
       },
       "body": [],
@@ -22966,10 +23294,17 @@
         "predicate": "legal_effect",
         "args": [
           "co_quan_dang_ky_kinh_doanh",
-          "thu_hoi_giay_chung_nhan_dang_ky_doanh_nghiep_giay_xac_nhan_ve_viec_thay_doi_noi_dung_dang"
+          "thu_hoi_giay_chung_nhan_dang_ky_doanh_nghiep_giay_xac_nhan_ve_viec_thay_doi_noi"
         ]
       },
-      "body": [],
+      "body": [
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "thong_bao_tam_ngung_k"
+          ]
+        }
+      ],
       "auxiliary_clauses": [
         {
           "kind": "deadline_fact",
@@ -23024,7 +23359,7 @@
         }
       },
       "head_cleanup_notes": [
-        "hard_truncated_effect_in_head"
+        "capped_long_effect_in_head"
       ],
       "body_cleanup_notes": [],
       "fallback_kind": null,
@@ -23040,10 +23375,17 @@
         "predicate": "legal_effect",
         "args": [
           "co_quan_dang_ky_kinh_doanh_cap_tinh",
-          "thu_hoi_giay_chung_nhan_dang_ky_doanh_nghiep_giay_xac_nhan_ve_viec_thay_doi_noi_dung_dang"
+          "thu_hoi_giay_chung_nhan_dang_ky_doanh_nghiep_giay_xac_nhan_ve_viec_thay_doi_noi"
         ]
       },
-      "body": [],
+      "body": [
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "thong_bao_tam_ngung_k"
+          ]
+        }
+      ],
       "auxiliary_clauses": [
         {
           "kind": "deadline_fact",
@@ -23098,7 +23440,7 @@
         }
       },
       "head_cleanup_notes": [
-        "hard_truncated_effect_in_head"
+        "capped_long_effect_in_head"
       ],
       "body_cleanup_notes": [],
       "fallback_kind": null,
@@ -23119,7 +23461,14 @@
           "ke_tu_moc_tham_chieu"
         ]
       },
-      "body": [],
+      "body": [
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "thong_bao_tam_ngung_kinh_doanh_giay_xac_nhan_thon"
+          ]
+        }
+      ],
       "auxiliary_clauses": [
         {
           "kind": "threshold_fact",
@@ -23192,7 +23541,7 @@
           "thong_bao_cho_co_quan_quan_ly_thue",
           null,
           "ngay_lam_viec",
-          "Ngưỡng/điều kiện định lượng: thoi_han_xu_ly; eq 03 ngay_lam_viec."
+          "nguong_dieu_kien_dinh_luong_thoi_han_xu_ly_eq_03_ngay_lam_viec"
         ]
       },
       "body": [],
@@ -23388,7 +23737,7 @@
         "predicate": "legal_effect",
         "args": [
           "co_quan_dang_ky_kinh_doanh",
-          "khoi_phuc_giay_chung_nhan_dang_ky_doanh_nghiep_dong_thoi_cap_nhat_tinh_trang_phap_ly_cua_d"
+          "khoi_phuc_giay_chung_nhan_dang_ky_doanh_nghiep_dong_thoi_cap_nhat_tinh_trang_ph"
         ]
       },
       "body": [
@@ -23459,9 +23808,7 @@
           "ket_qua_thu_tuc": "khôi phục Giấy chứng nhận đăng ký doanh nghiệp, đồng thời cập nhật tình trạng pháp lý của doanh nghiệp, chi nhánh, văn phòng đại"
         }
       },
-      "head_cleanup_notes": [
-        "hard_truncated_effect_in_head"
-      ],
+      "head_cleanup_notes": [],
       "body_cleanup_notes": [],
       "fallback_kind": null,
       "reasoning_notes": []
@@ -23476,7 +23823,7 @@
         "predicate": "legal_effect",
         "args": [
           "co_quan_dang_ky_kinh_doanh",
-          "thu_hoi_giay_chung_nhan_dang_ky_doanh_nghiep_va_viec_khoi_phuc_giay_chung_nhan_dang_ky_doa"
+          "thu_hoi_giay_chung_nhan_dang_ky_doanh_nghiep_va_viec_khoi_phuc_giay_chung_nhan"
         ]
       },
       "body": [
@@ -23547,9 +23894,7 @@
           "ket_qua_thu_tuc": "thu hồi Giấy chứng nhận đăng ký doanh nghiệp và việc khôi phục Giấy chứng nhận đăng ký doanh nghiệp trên Hệ thống thông tin quốc gia về đăng ký"
         }
       },
-      "head_cleanup_notes": [
-        "hard_truncated_effect_in_head"
-      ],
+      "head_cleanup_notes": [],
       "body_cleanup_notes": [],
       "fallback_kind": null,
       "reasoning_notes": []
@@ -23564,7 +23909,7 @@
         "predicate": "legal_effect",
         "args": [
           "co_quan_dang_ky_kinh_doanh",
-          "bi_thu_hoi_giay_chung_nhan_dang_ky_doanh_nghiep_hoac_nhan_duoc_van_ban_de_nghi_cua"
+          "bi_thu_hoi_giay_chung_nhan_dang_ky_doanh_nghiep_hoac_nhan_duoc_van_ban_de_nghi"
         ]
       },
       "body": [
@@ -23579,6 +23924,12 @@
           "args": [
             "huy_bo_quyet_dinh_thu_hoi",
             "truong_hop_bi_thu_hoi_giay_chung_nhan_dang_ky_doanh_nghiep_hoac_nhan_duoc_van_ban_de_nghi_cua_co_quan_quan_ly_thue"
+          ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "co_quan_quan_ly_thue"
           ]
         }
       ],
@@ -23635,7 +23986,9 @@
           "ket_qua_thu_tuc": "bị thu hồi Giấy chứng nhận đăng ký doanh nghiệp hoặc nhận được văn bản đề nghị của Cơ quan quản lý thuế"
         }
       },
-      "head_cleanup_notes": [],
+      "head_cleanup_notes": [
+        "capped_long_effect_in_head"
+      ],
       "body_cleanup_notes": [],
       "fallback_kind": null,
       "reasoning_notes": []
@@ -23742,7 +24095,7 @@
           "huy_bo_quyet_dinh_thu_hoi",
           null,
           "ngay_lam_viec",
-          "Ngưỡng/điều kiện định lượng: thoi_han_xu_ly; eq 03 ngay_lam_viec; trường hợp bị"
+          "nguong_dieu_kien_dinh_luong_thoi_han_xu_ly_eq_03_ngay_lam_viec_truong_hop_bi"
         ]
       },
       "body": [
@@ -24163,10 +24516,10 @@
       "head": {
         "predicate": "deadline",
         "args": [
-          "nguong_dinh_luong_level",
+          "nguong_dinh_luong",
           null,
           "ngay_lam_viec",
-          "Ngưỡng/điều kiện định lượng: thoi_han_xu_ly; eq 03 ngay_lam_viec; Trường hợp ch"
+          "nguong_dieu_kien_dinh_luong_thoi_han_xu_ly_eq_03_ngay_lam_viec_truong_hop_ch"
         ]
       },
       "body": [
@@ -24179,7 +24532,7 @@
         {
           "predicate": "applies_if",
           "args": [
-            "nguong_dinh_luong_level",
+            "nguong_dinh_luong",
             "truong_hop_chi_nhanh_van_phong_dai_dien_ngung_hoat_dong_tren_12_thang_ma_khong_bao_cho_co_quan_dang_ky_kinh_doanh"
           ]
         }
@@ -24202,7 +24555,7 @@
       "metadata": {
         "tinh_chat_phap_ly": "bat_buoc",
         "extraction_pattern": "khung_nguong_dinh_luong_fanout_thoi_han",
-        "canonical_predicate": "nguong_dinh_luong_level",
+        "canonical_predicate": "nguong_dinh_luong",
         "predicate_family": "nguong_dinh_luong",
         "effect_canonical": null,
         "object_canonical": "chi_nhanh_van_phong_dai_dien",
@@ -24343,6 +24696,12 @@
           "args": [
             "cap_giay_chung_nhan_dang_ky_ho_kinh_doanh_theo_quy_dinh_tai_khoan_2_dieu_85_nghi_dinh_nay",
             "khi_tiep_nhan_ho_so_dang_ky_ho_kinh_doanh_co_quan_dang_ky_kinh_doanh"
+          ]
+        },
+        {
+          "predicate": "exception_applies",
+          "args": [
+            "theo_quy_dinh_tai_khoan_2_dieu_85_nghi_dinh_nay"
           ]
         }
       ],

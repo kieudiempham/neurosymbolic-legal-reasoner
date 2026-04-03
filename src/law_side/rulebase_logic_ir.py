@@ -102,6 +102,7 @@ _EFFECT_TRUNC_MARKERS: tuple[str, ...] = (
     "_thong_bao",
     "_cong_bo",
     "_tuy_nhien_",
+    "ngoai_le",
     "trong_truong_hop",
     "_khoang_",
 )
@@ -204,12 +205,22 @@ def infer_predicate_anchor(
                 tail = to_snake_id(raw_tp.split(":", 1)[-1].strip())
                 if tail and len(tail) > len(pc) + 3:
                     return tail, "inferred_from_context"
-            return f"{pc}_level", "fallback_family_level"
+            # Tránh placeholder dạng `*_level`: nếu có `hanh_vi_phap_ly` cụ thể hơn thì dùng luôn.
+            if raw_hv:
+                hv_slug = to_snake_id(raw_hv)
+                if hv_slug and hv_slug != pc and len(hv_slug) > len(pc) + 3:
+                    return hv_slug, "inferred_from_context"
+            return pc, "fallback_family_level"
         return pc, "exact_vocab_match"
 
     if raw_cp:
         s = to_snake_id(raw_cp)
         if s:
+            # Tránh neo vào canonical predicate quá dài; ưu tiên dùng typed đuôi cụ thể hơn.
+            if len(s) > 80 and raw_tp and ":" in raw_tp:
+                tail = to_snake_id(raw_tp.split(":", 1)[-1].strip())
+                if tail:
+                    return tail, "inferred_from_context"
             return s, "inferred_from_context"
 
     if raw_tp and ":" in raw_tp:
@@ -220,10 +231,14 @@ def infer_predicate_anchor(
     if raw_hv:
         s = to_snake_id(raw_hv)
         if s and len(s) >= 8:
+            if len(s) > 80 and raw_tp and ":" in raw_tp:
+                tail = to_snake_id(raw_tp.split(":", 1)[-1].strip())
+                if tail:
+                    return tail, "inferred_from_context"
             return s, "inferred_from_context"
 
     if pf:
-        return f"{to_snake_id(pf)}_level", "fallback_family_level"
+        return to_snake_id(pf), "fallback_family_level"
 
     return None, "unresolved"
 
@@ -238,10 +253,15 @@ def _effect_arg_clean(norm: NormalizedVocab, he_raw: str | None) -> tuple[str | 
         base, frags = split_effect_exception_condition(s)
         if frags:
             return base, frags[0][1] if frags else None
+        # Nếu effect canonical vẫn chứa marker ngoại lệ/điều kiện chưa tách,
+        # cắt sạch phần đuôi để head không bị dính.
+        truncated = _truncate_slug_before_markers(s, _EFFECT_TRUNC_MARKERS)
+        if truncated and truncated != s:
+            tail = s[len(truncated) :].lstrip("_")
+            return truncated, tail if tail else None
         if len(s) > 80:
-            truncated = _truncate_slug_before_markers(s, _EFFECT_TRUNC_MARKERS)
-            if truncated and len(truncated) >= 6 and truncated != s:
-                return truncated, None
+            # Giữ lại fallback cho trường hợp effect dài nhưng không phát hiện marker cụ thể.
+            return _short_anchor_slug(s, max_len=80), None
         return s, None
     if not he_raw:
         return None, None
@@ -454,31 +474,46 @@ def build_logic_ir_record(
 
     if logic_form == "obligation":
         obj = norm.object_canonical or (_short_anchor_slug(doi_raw, max_len=80) if doi_raw else None)
+        if isinstance(obj, str) and len(obj) > 80:
+            obj = _short_anchor_slug(obj, max_len=80)
+        action = pred_anchor
+        if isinstance(action, str) and len(action) > 80:
+            action = _short_anchor_slug(action, max_len=80)
         head = _term_clean(
             "obligation",
             [
                 subj or "unresolved_subject",
-                pred_anchor or "unresolved_predicate",
+                action or "unresolved_predicate",
                 obj or "unresolved_object",
             ],
         )
     elif logic_form == "permission":
         obj = norm.object_canonical or (_short_anchor_slug(doi_raw, max_len=80) if doi_raw else None)
+        if isinstance(obj, str) and len(obj) > 80:
+            obj = _short_anchor_slug(obj, max_len=80)
+        action = pred_anchor
+        if isinstance(action, str) and len(action) > 80:
+            action = _short_anchor_slug(action, max_len=80)
         head = _term_clean(
             "permission",
             [
                 subj or "unresolved_subject",
-                pred_anchor or "unresolved_predicate",
+                action or "unresolved_predicate",
                 obj or "unresolved_object",
             ],
         )
     elif logic_form == "prohibition":
         obj = norm.object_canonical or (_short_anchor_slug(doi_raw, max_len=80) if doi_raw else None)
+        if isinstance(obj, str) and len(obj) > 80:
+            obj = _short_anchor_slug(obj, max_len=80)
+        action = pred_anchor
+        if isinstance(action, str) and len(action) > 80:
+            action = _short_anchor_slug(action, max_len=80)
         head = _term_clean(
             "prohibition",
             [
                 subj or "unresolved_subject",
-                pred_anchor or "unresolved_predicate",
+                action or "unresolved_predicate",
                 obj or "unresolved_object",
             ],
         )
@@ -488,6 +523,8 @@ def build_logic_ir_record(
             or (to_snake_id(hanh_raw) if hanh_raw else None)
             or "deadline_event_unresolved"
         )
+        if isinstance(ev, str) and len(ev) > 80:
+            ev = _short_anchor_slug(ev, max_len=80)
 
         value = _numish(row.get("thoi_han_so"))
         unit = _unit_slug(row, norm)
@@ -500,14 +537,12 @@ def build_logic_ir_record(
                 unit = extracted_unit
 
         if not unit:
-            unit = (
-                to_snake_id(_cell(row.get("don_vi_thoi_han")) or _cell(row.get("don_vi_nguong")) or "")
-                or "unspecified_unit"
-            )
+            u_raw = _cell(row.get("don_vi_thoi_han")) or _cell(row.get("don_vi_nguong"))
+            unit = to_snake_id(u_raw) if u_raw else "unspecified_unit"
 
         if not anchor:
             anchor = _cell(row.get("bieu_thuc_thoi_han")) or _cell(row.get("grounded_summary"))
-            anchor = _short_anchor_text(anchor, max_len=80)
+            anchor = _short_anchor_slug(anchor, max_len=80)
 
         if _cell(row.get("thoi_han_so")) is None or _cell(row.get("moc_tinh_thoi_han")) is None:
             fallback_kind = fallback_kind or "incomplete_deadline"
@@ -521,7 +556,7 @@ def build_logic_ir_record(
         items = _split_dossier_items(_cell(row.get("thanh_phan_ho_so")))
         dossier_pred = pred_anchor
         if not dossier_pred or (hanh_raw and hanh_raw.strip().lower() in _PLACEHOLDER_HANH_VI):
-            dossier_pred = pred_anchor or "dossier_predicate_unresolved"
+            dossier_pred = pred_anchor or "dossier_predicate_missing"
             head_cleanup_notes.append("dossier_predicate_fallback_due_to_placeholder")
         head = _term_clean("dossier", [dossier_pred, items or []])
     elif logic_form == "authority_action":
@@ -529,12 +564,21 @@ def build_logic_ir_record(
         if not kq and kt_raw:
             kq = to_snake_id(kt_raw[:200])
         obj_e = norm.object_canonical or kq or "object_or_result_unresolved"
+        if isinstance(obj_e, str):
+            base = _truncate_slug_before_markers(obj_e, _EFFECT_TRUNC_MARKERS)
+            if base and base != obj_e:
+                obj_e = base
+            obj_e = _short_anchor_slug(obj_e, max_len=80)
         head = _term_clean(
             "authority_action",
-            [auth or "authority_unresolved", pred_anchor or "predicate_unresolved", obj_e],
+            [
+                auth or "unresolved_authority",
+                pred_anchor or "unresolved_predicate",
+                obj_e,
+            ],
         )
     elif logic_form == "exception":
-        exc_anchor_short = _short_anchor_text(ngoai_le, max_len=80) if ngoai_le else "_exception_content"
+        exc_anchor_short = _short_anchor_slug(ngoai_le, max_len=80) if ngoai_le else "unresolved_exception"
         if ngoai_le and len(str(ngoai_le)) > 80:
             head_cleanup_notes.append("shortened_exception_anchor_for_head")
         head = _term_clean(
@@ -551,7 +595,8 @@ def build_logic_ir_record(
         kk = _cell(row.get("kieu_khoang"))
 
         if not mc or mc == "unknown_metric":
-            mc = to_snake_id(_cell(row.get("ten_chi_so")) or "") or None
+            t_raw = _cell(row.get("ten_chi_so"))
+            mc = to_snake_id(t_raw) if t_raw else None
         if not mc:
             mc = "unspecified_metric"
         value = gv
@@ -567,11 +612,8 @@ def build_logic_ir_record(
         if value is None and gv is None and gt is None and gd is None:
             threshold_fallback = True
             fallback_kind = "unresolved_threshold"
-            value = _short_anchor_text(
-                _cell(row.get("source_text")) or _cell(row.get("grounded_summary")),
-                max_len=80,
-            )
-            reasoning_notes.append("restored_threshold_value_from_source_snippet")
+            value = "threshold_value_unresolved"
+            reasoning_notes.append("restored_threshold_value_failed_unresolved")
 
         if not op and value is not None:
             op = "eq"
@@ -594,12 +636,10 @@ def build_logic_ir_record(
             if truncated and truncated != e_arg:
                 e_arg = truncated
                 head_cleanup_notes.append("truncated_long_effect_in_head")
-        if isinstance(e_arg, str) and len(e_arg) > 90:
-            # Fall-back: cắt ngắn theo độ dài để head sạch cho Prolog atom.
-            hard = e_arg[:90].rstrip("_")
-            if hard and hard != e_arg:
-                e_arg = hard
-                head_cleanup_notes.append("hard_truncated_effect_in_head")
+        if isinstance(e_arg, str) and len(e_arg) > 80:
+            # Capping độ dài để đảm bảo Prolog/ProbLog atom không quá dài.
+            e_arg = _short_anchor_slug(e_arg, max_len=80)
+            head_cleanup_notes.append("capped_long_effect_in_head")
         head = _term_clean("legal_effect", [ent, e_arg])
     elif logic_form == "applicability_condition":
         anchor = pred_anchor or norm.scope_canonical
@@ -611,18 +651,22 @@ def build_logic_ir_record(
             )
         cond_raw = dieu_kien or bieu_thuc_dk
         cond_anchor = _short_anchor_slug(cond_raw, max_len=80)
+        if isinstance(anchor, str) and len(anchor) > 80:
+            anchor = _short_anchor_slug(anchor, max_len=80)
         if cond_raw and len(str(cond_raw)) > 90:
             head_cleanup_notes.append("shortened_condition_anchor_in_head")
         head = _term_clean("applicability_condition", [anchor, cond_anchor])
     elif logic_form == "procedure_step":
-        head = _term_clean(
-            "procedure_step",
-            [
-                pred_anchor or "procedure_step_unresolved",
-                norm.object_canonical
-                or (to_snake_id(doi_raw) if doi_raw else "object_unresolved"),
-            ],
+        step_pred = pred_anchor or "unresolved_procedure_step"
+        step_obj = (
+            norm.object_canonical
+            or (_short_anchor_slug(doi_raw, max_len=80) if doi_raw else "unresolved_object")
         )
+        if isinstance(step_pred, str):
+            step_pred = _short_anchor_slug(step_pred, max_len=80)
+        if isinstance(step_obj, str):
+            step_obj = _short_anchor_slug(step_obj, max_len=80)
+        head = _term_clean("procedure_step", [step_pred, step_obj])
     else:
         head = _term_clean("generic_rule", [rule_type_source, rule_id])
 
