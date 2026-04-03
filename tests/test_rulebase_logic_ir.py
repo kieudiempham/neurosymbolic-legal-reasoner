@@ -39,6 +39,5 @@ def test_logic_record_has_rule_type_source_and_readiness() -> None:
     assert lr.get("logic_readiness") in (
         "reasoning_ready",
         "reasoning_partial",
-        "fallback_threshold",
-        "fallback_raw",
+        "reasoning_fallback",
     )
