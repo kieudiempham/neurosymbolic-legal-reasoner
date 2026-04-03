@@ -1,0 +1,16 @@
+[
+  {
+    "chunk_id": "ev_nd168_d149_k4_001",
+    "text": "Cổ đông có thể gửi phiếu lấy ý kiến đã trả lời đến công ty bằng hình thức gửi thư, fax hoặc thư điện tử theo quy định.",
+    "source_doc": "Nghị định 168/2025/NĐ-CP (demo stub)",
+    "article_clause": "Điều 149 khoản 4",
+    "rule_ids": ["RULE_LUATDN_D149_K4_E000117_H791FDF195CF0__e9bb79707b2c9c"]
+  },
+  {
+    "chunk_id": "ev_luatdn_demo_001",
+    "text": "Thời hạn thanh toán cổ phần và ngoại lệ theo điều lệ công ty hoặc hợp đồng đăng ký mua cổ phần (demo stub).",
+    "source_doc": "Luật Doanh nghiệp (demo stub)",
+    "article_clause": "Điều 113 khoản 1",
+    "rule_ids": []
+  }
+]

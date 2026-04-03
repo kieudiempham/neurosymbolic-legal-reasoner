@@ -1,0 +1,14 @@
+"""Evidence snippets from corpus (RAG support only, not rule generation)."""
+
+from __future__ import annotations
+
+from pydantic import BaseModel, Field
+
+
+class EvidenceSnippet(BaseModel):
+    chunk_id: str
+    text: str
+    source_doc: str | None = None
+    article_clause: str | None = None
+    rule_id: str | None = None
+    score: float = 0.0
