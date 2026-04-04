@@ -26,4 +26,7 @@ where = ["src"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
+markers = [
+    "llm_live: requires LEGAL_QA_LLM_API_KEY or LLM_API_KEY; real HTTP call to LLM",
+]
 

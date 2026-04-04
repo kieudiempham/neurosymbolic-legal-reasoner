@@ -1,9 +1,15 @@
-"""Generate clarification questions for missing symbolic requirements."""
+"""Generate clarification questions for missing symbolic requirements (v5 typed + prioritized)."""
 
 from __future__ import annotations
 
 from typing import Any
 
+from reasoning.clarification_types import (
+    clarification_question_for_kind,
+    expected_answer_type,
+    infer_target_kind,
+    priority_for_kind,
+)
 from reasoning.internal.codec import serialize_atom
 from reasoning.internal.models import Atom
 from reasoning.semantics.failed_path_hints import sort_clarification_keys_by_failed_paths
@@ -12,33 +18,9 @@ from schemas.reasoning import RequirementItem
 
 
 def clarification_for_missing_fact(fact_key: str, requirement_kind: str | None = None) -> str:
-    fk = fact_key.strip()
-    if requirement_kind == "constraint" or fk.startswith("constraint:"):
-        if "threshold" in fk:
-            return f"Vui lòng xác nhận hoặc bổ sung thông tin liên quan ngưỡng / định lượng sau: {fk}"
-        if "deadline" in fk:
-            return f"Vui lòng xác nhận thông tin liên quan thời hạn / mốc thời gian: {fk}"
-        if "dossier" in fk:
-            return f"Vui lòng xác nhận hồ sơ / tài liệu liên quan: {fk}"
-        return f"Vui lòng xác nhận ràng buộc kỹ thuật sau: {fk}"
-    if requirement_kind == "exception" or fk.startswith("exception_applies("):
-        inner = fk[len("exception_applies(") : -1] if fk.endswith(")") else fk
-        return f"Ngoại lệ sau có áp dụng với tình huống của bạn không: {inner} ?"
-    if requirement_kind == "negative" or fk.startswith("unless("):
-        inner = fk[len("unless(") : -1] if fk.endswith(")") else fk
-        return f"Ngoại lệ sau có áp dụng không: {inner} ?"
-    if "change_legal_representative" in fk:
-        return "Công ty của bạn có đang (hoặc sẽ) thay đổi người đại diện theo pháp luật không?"
-    if fk.startswith("applies_if("):
-        inner = fk[len("applies_if(") : -1]
-        return f"Điều kiện áp dụng sau có đúng với tình huống của bạn không: {inner} ?"
-    if fk.startswith("unless("):
-        inner = fk[len("unless(") : -1]
-        return f"Ngoại lệ sau có áp dụng không: {inner} ?"
-    if fk.startswith("applies_to("):
-        inner = fk[len("applies_to(") : -1]
-        return f"Phạm vi áp dụng sau có đúng không: {inner} ?"
-    return f"Vui lòng xác nhận thông tin liên quan tới: {fk}"
+    """Backward-compatible entry point — delegates to typed templates."""
+    kind = infer_target_kind(fact_key, requirement_kind)
+    return clarification_question_for_kind(kind, fact_key, requirement_kind=requirement_kind)
 
 
 def _questions_from_backward_plan(backward_plan: dict[str, Any]) -> dict[str, str]:
@@ -96,13 +78,64 @@ def build_clarification_prompts(missing_keys: list[str]) -> list[dict[str, str]]
     return out
 
 
+def build_parse_ambiguity_prompts(ambiguities: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Turn parse-time ambiguities into clarification rows (fact_key parse_amb:*)."""
+    out: list[dict[str, Any]] = []
+    for i, a in enumerate(ambiguities):
+        cands = a.get("candidates") or []
+        if not cands:
+            continue
+        kind = str(a.get("type") or "ambiguous_condition")
+        opts = [str(x) for x in cands[:8]]
+        qtext = (
+            f"Làm rõ điều kiện/chủ thể: chọn phương án gần đúng nhất với ý bạn "
+            f"(gửi value đúng một trong các chuỗi atom sau): {', '.join(opts)}"
+        )
+        pri = int(a.get("priority", 50))
+        out.append(
+            {
+                "fact_key": f"parse_amb:{kind}:{i}",
+                "question_text": qtext,
+                "reason_hint": str(a.get("blocking_reason") or a.get("type") or ""),
+                "target_kind": kind,
+                "expected_type": "choice",
+                "priority": pri,
+                "options": opts,
+                "blocking_reason": str(a.get("blocking_reason") or ""),
+            }
+        )
+    return out
+
+
+def merge_clarification_prompts_unified(
+    parse_prompts: list[dict[str, Any]],
+    backward_prompts: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Parse / ambiguity first (lower priority number), then backward missing facts."""
+    merged: list[dict[str, Any]] = []
+    for p in parse_prompts:
+        if "priority" not in p:
+            p["priority"] = 5
+        merged.append(dict(p))
+    for p in backward_prompts:
+        row = dict(p)
+        row.setdefault("priority", 50)
+        merged.append(row)
+    merged.sort(key=lambda x: int(x.get("priority", 99)))
+    return merged
+
+
 def build_clarification_prompts_from_requirements(
     missing_keys: list[str],
     requirement_set: list[RequirementItem],
     backward_plan: dict[str, Any] | None = None,
     forward_result: dict[str, Any] | None = None,
-) -> list[dict[str, str]]:
-    """Dùng `requirement_kind` / atom khi có; ưu tiên câu hỏi chi tiết từ `backward_plan`; sắp xếp key theo `failed_path_records` nếu có."""
+    *,
+    related_rule_id: str | None = None,
+) -> list[dict[str, Any]]:
+    """
+    Typed clarification: target_kind, expected_type, priority, optional related_rule_id trace.
+    """
     keys = list(missing_keys)
     if forward_result:
         raw = forward_result.get("failed_path_records") or []
@@ -111,19 +144,28 @@ def build_clarification_prompts_from_requirements(
     by_key = {r.key: r for r in requirement_set}
     plan_q = _questions_from_backward_plan(backward_plan) if backward_plan else {}
     hint = best_forward_failure_hint(forward_result)
-    out: list[dict[str, str]] = []
+    out: list[dict[str, Any]] = []
     for k in keys:
-        if k in plan_q and plan_q[k]:
-            row: dict[str, str] = {"fact_key": k, "question_text": plan_q[k]}
-            if hint:
-                row["reason_hint"] = hint
-            out.append(row)
-            continue
         ri = by_key.get(k)
-        kind = ri.requirement_kind if ri else None
-        text = clarification_for_missing_fact(k, kind)
-        row: dict[str, str] = {"fact_key": k, "question_text": text}
+        kind = infer_target_kind(k, ri.requirement_kind if ri else None)
+        exp_type = expected_answer_type(kind)
+        pri = priority_for_kind(kind)
+        row: dict[str, Any] = {
+            "fact_key": k,
+            "target_kind": kind,
+            "expected_type": exp_type,
+            "priority": pri,
+            "related_rule_id": related_rule_id or "",
+        }
+        if k in plan_q and plan_q[k]:
+            row["question_text"] = plan_q[k]
+        else:
+            row["question_text"] = clarification_question_for_kind(
+                kind, k, requirement_kind=ri.requirement_kind if ri else None
+            )
         if hint:
             row["reason_hint"] = hint
+        row["reason"] = row.get("reason_hint") or f"need_input:{kind}"
+        row.setdefault("reason_hint", row["reason"])
         out.append(row)
     return out

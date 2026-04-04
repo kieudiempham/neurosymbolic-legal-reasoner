@@ -17,6 +17,13 @@ class ClarificationPrompt(BaseModel):
     fact_key: str
     question_text: str
     reason_hint: str = ""
+    reason: str = ""
+    target_kind: str = ""
+    expected_type: str = ""
+    related_rule_id: str = ""
+    priority: int = 50
+    options: list[str] = Field(default_factory=list)
+    blocking_reason: str = ""
 
 
 class AskResponse(BaseModel):

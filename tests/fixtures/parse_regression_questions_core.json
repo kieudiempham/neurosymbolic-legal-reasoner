@@ -1,0 +1,838 @@
+[
+  {
+    "qid": "core-obl-01",
+    "question_text": "Công ty có phải nộp báo cáo tài chính đúng hạn không?",
+    "tags": [
+      "obligation",
+      "direct_question",
+      "company",
+      "asserted_ambiguous"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "obligation",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "core-obl-02",
+    "question_text": "Doanh nghiệp có bắt buộc đăng ký thay đổi nội dung đăng ký doanh nghiệp không?",
+    "tags": [
+      "obligation",
+      "company",
+      "registration_change"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "obligation",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "core-perm-01",
+    "question_text": "Cổ đông có được phép chuyển nhượng cổ phần cho nhà đầu tư nước ngoài không?",
+    "tags": [
+      "permission",
+      "shareholder",
+      "transfer"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "permission",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "shareholder",
+        "subject_normalized": "shareholder_x",
+        "goal_predicate": "permission"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "core-proh-01",
+    "question_text": "Công ty có bị cấm cạnh tranh không lành mạnh với đối thủ không?",
+    "tags": [
+      "prohibition",
+      "company"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "prohibition",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "prohibition"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "core-dl-01",
+    "question_text": "Trong thời hạn 30 ngày kể từ khi nhận được thông báo, doanh nghiệp phải làm gì?",
+    "tags": [
+      "deadline",
+      "company",
+      "procedure"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "obligation",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "stated_condition",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": [
+        "stated_condition"
+      ]
+    }
+  },
+  {
+    "qid": "core-proc-01",
+    "question_text": "Thủ tục đăng ký thay đổi người đại diện theo pháp luật gồm những bước nào?",
+    "tags": [
+      "procedure",
+      "legal_rep"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "procedure",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "legal_representative",
+        "subject_normalized": "legal_representative_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": [
+        "thay_doi_nguoi_dai_dien_theo_phap_luat"
+      ]
+    }
+  },
+  {
+    "qid": "core-lc-01",
+    "question_text": "Nếu vi phạm nghĩa vụ công bố thông tin, công ty chịu hậu quả pháp lý gì?",
+    "tags": [
+      "legal_consequence",
+      "conditional",
+      "company"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "legal_consequence",
+        "utterance_type": "conditional_legal_question",
+        "assertion_status": "hypothetical"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "stated_condition",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": [
+        "stated_condition"
+      ]
+    }
+  },
+  {
+    "qid": "core-exc-01",
+    "question_text": "Trừ trường hợp được miễn, cổ đông có được quyền ưu tiên mua cổ phần không?",
+    "tags": [
+      "exception",
+      "permission",
+      "shareholder"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "exception",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "shareholder",
+        "subject_normalized": "shareholder_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "truong_hop_ngoai_le",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": [
+        "truong_hop_ngoai_le"
+      ]
+    }
+  },
+  {
+    "qid": "core-cond-01",
+    "question_text": "Nếu chưa đăng ký thay đổi thì có phải bổ sung hồ sơ không?",
+    "tags": [
+      "conditional",
+      "obligation",
+      "dossier"
+    ],
+    "notes": "Heuristic: neu...thi → hypothetical_question.",
+    "expected": {
+      "layer1": {
+        "question_focus": "obligation",
+        "utterance_type": "hypothetical_question",
+        "assertion_status": "hypothetical"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "nop_ho_so",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": [
+        "nop_ho_so"
+      ]
+    }
+  },
+  {
+    "qid": "core-cond-02",
+    "question_text": "Nếu thay đổi người đại diện theo pháp luật thì công ty phải nộp hồ sơ gì?",
+    "tags": [
+      "conditional",
+      "obligation",
+      "legal_rep"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "obligation",
+        "utterance_type": "hypothetical_question",
+        "assertion_status": "hypothetical"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "thay_doi_nguoi_dai_dien_theo_phap_luat",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": [
+        "thay_doi_nguoi_dai_dien_theo_phap_luat"
+      ]
+    }
+  },
+  {
+    "qid": "core-hyp-01",
+    "question_text": "Giả sử công ty giải thể, cổ đông còn phải góp vốn thêm không?",
+    "tags": [
+      "hypothetical",
+      "shareholder",
+      "dissolution"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "obligation",
+        "utterance_type": "hypothetical_question",
+        "assertion_status": "hypothetical"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "giai_the_doanh_nghiep",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": [
+        "giai_the_doanh_nghiep"
+      ]
+    }
+  },
+  {
+    "qid": "core-amb-01",
+    "question_text": "Công ty hay nhà đầu tư: ai phải chịu trách nhiệm về khoản vay?",
+    "tags": [
+      "ambiguous_question",
+      "obligation"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "legal_consequence",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "core-name-01",
+    "question_text": "Thay đổi tên doanh nghiệp có cần thông báo không?",
+    "tags": [
+      "obligation",
+      "registration_change",
+      "name"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "unknown",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "core-addr-01",
+    "question_text": "Thay đổi địa chỉ trụ sở chính có phải đăng ký không?",
+    "tags": [
+      "obligation",
+      "address"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "obligation",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "core-sector-01",
+    "question_text": "Khi thay đổi ngành nghề kinh doanh, hồ sơ gồm những gì?",
+    "tags": [
+      "procedure",
+      "sector"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "unknown",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "thay_doi_nganh_nghe_kinh_doanh",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": [
+        "thay_doi_nganh_nghe_kinh_doanh"
+      ]
+    }
+  },
+  {
+    "qid": "core-capital-01",
+    "question_text": "Tăng vốn điều lệ có cần nghị quyết của cổ đông không?",
+    "tags": [
+      "obligation",
+      "capital",
+      "shareholder"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "unknown",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "shareholder",
+        "subject_normalized": "shareholder_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "core-member-01",
+    "question_text": "Thay đổi danh sách cổ đông phải thực hiện trong bao lâu?",
+    "tags": [
+      "deadline",
+      "shareholder"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "obligation",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "shareholder",
+        "subject_normalized": "shareholder_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "core-found-01",
+    "question_text": "Thành lập doanh nghiệp trách nhiệm hữu hạn cần điều kiện gì?",
+    "tags": [
+      "procedure",
+      "incorporation"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "unknown",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "core-reg-01",
+    "question_text": "Đăng ký doanh nghiệp lần đầu nộp ở đâu?",
+    "tags": [
+      "procedure",
+      "registration"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "unknown",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "core-suspend-01",
+    "question_text": "Tạm ngừng kinh doanh có phải thông báo không?",
+    "tags": [
+      "obligation",
+      "suspension"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "obligation",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "core-resume-01",
+    "question_text": "Tiếp tục kinh doanh trước thời hạn đã thông báo thì sao?",
+    "tags": [
+      "hypothetical",
+      "resume"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "deadline",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "deadline"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "tiep_tuc_kinh_doanh_truoc_thoi_han",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": [
+        "tiep_tuc_kinh_doanh_truoc_thoi_han"
+      ]
+    }
+  },
+  {
+    "qid": "core-diss-01",
+    "question_text": "Giải thể doanh nghiệp có phải họp đại hội đồng cổ đông không?",
+    "tags": [
+      "obligation",
+      "dissolution",
+      "governance"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "obligation",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "core-branch-01",
+    "question_text": "Chấm dứt hoạt động chi nhánh cần quyết định nào?",
+    "tags": [
+      "procedure",
+      "branch"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "unknown",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "core-hdv-01",
+    "question_text": "Họp hội đồng thành viên có thể lấy ý kiến bằng văn bản không?",
+    "tags": [
+      "permission",
+      "governance"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "permission",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "permission"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "core-dossier-01",
+    "question_text": "Nộp hồ sơ đăng ký thay đổi quá thời hạn thì bị xử lý thế nào?",
+    "tags": [
+      "legal_consequence",
+      "deadline"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "obligation",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "nop_ho_so",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": [
+        "nop_ho_so",
+        "qua_thoi_han"
+      ]
+    }
+  },
+  {
+    "qid": "core-except-01",
+    "question_text": "Ngoại lệ miễn giấy phép có áp dụng cho công ty con không?",
+    "tags": [
+      "exception",
+      "applicability"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "exception",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "core-assert-01",
+    "question_text": "Chúng tôi đã đăng ký thay đổi tên, có cần nộp lại hồ sơ không?",
+    "tags": [
+      "asserted",
+      "obligation"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "obligation",
+        "utterance_type": "direct_question",
+        "assertion_status": "asserted"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "nop_ho_so",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": [
+        "nop_ho_so"
+      ]
+    }
+  },
+  {
+    "qid": "core-vc-01",
+    "question_text": "Góp vốn khi thành lập công ty cổ phần có được bằng tài sản không?",
+    "tags": [
+      "permission",
+      "incorporation",
+      "capital"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "unknown",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "core-share-01",
+    "question_text": "Đăng ký mua cổ phần chào bán ra công chúng thực hiện thế nào?",
+    "tags": [
+      "procedure",
+      "shares"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "unknown",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "core-proc-02",
+    "question_text": "Quy trình thông báo thay đổi nội dung đăng ký doanh nghiệp ra sao?",
+    "tags": [
+      "procedure",
+      "registration_change"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "unknown",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "core-time-01",
+    "question_text": "Trong thời hạn 10 ngày phải nộp hồ sơ bổ sung đúng không?",
+    "tags": [
+      "deadline",
+      "dossier"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "obligation",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "core-threshold-01",
+    "question_text": "Tỷ lệ biểu quyết tối thiểu là bao nhiêu phần trăm?",
+    "tags": [
+      "threshold"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "threshold",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "threshold"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  }
+]

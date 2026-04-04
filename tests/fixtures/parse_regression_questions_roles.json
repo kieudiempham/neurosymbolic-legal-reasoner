@@ -1,0 +1,458 @@
+[
+  {
+    "qid": "role-co-01",
+    "question_text": "Công ty TNHH có phải công bố báo cáo tài chính hàng năm không?",
+    "tags": [
+      "company",
+      "obligation"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "obligation",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "role-sh-01",
+    "question_text": "Cổ đông sở hữu trên 51% có được bổ nhiệm giám đốc không?",
+    "tags": [
+      "shareholder",
+      "permission"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "threshold",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "shareholder",
+        "subject_normalized": "shareholder_x",
+        "goal_predicate": "threshold"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "role-lr-01",
+    "question_text": "Người đại diện theo pháp luật ký hợp đồng vượt quyền thì ai chịu trách nhiệm?",
+    "tags": [
+      "legal_representative",
+      "legal_consequence"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "legal_consequence",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "legal_representative",
+        "subject_normalized": "legal_representative_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "thay_doi_nguoi_dai_dien_theo_phap_luat",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": [
+        "thay_doi_nguoi_dai_dien_theo_phap_luat",
+        "shareholder_context"
+      ]
+    }
+  },
+  {
+    "qid": "role-founder-01",
+    "question_text": "Nhà sáng lập có phải góp đủ vốn cam kết trước khi cấp giấy chứng nhận không?",
+    "tags": [
+      "founder",
+      "obligation"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "prohibition",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "founder",
+        "subject_normalized": "founder_x",
+        "goal_predicate": "prohibition"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "role-hkd-01",
+    "question_text": "Hộ kinh doanh có phải lập sổ kế toán đầy đủ như công ty không?",
+    "tags": [
+      "business_household",
+      "obligation"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "obligation",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "role-auth-01",
+    "question_text": "Cơ quan đăng ký kinh doanh từ chối hồ sơ thì khiếu nại thế nào?",
+    "tags": [
+      "authority",
+      "procedure"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "unknown",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "authority",
+        "subject_normalized": "authority_body_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "authority_registration_body",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": [
+        "authority_registration_body"
+      ]
+    }
+  },
+  {
+    "qid": "role-sh-02",
+    "question_text": "Cổ đông phổ thông có quyền xem sổ biên bản họp không?",
+    "tags": [
+      "shareholder",
+      "permission"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "unknown",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "shareholder",
+        "subject_normalized": "shareholder_x",
+        "goal_predicate": "permission"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "role-co-02",
+    "question_text": "Doanh nghiệp có thể tự quyết định phát hành trái phiếu không?",
+    "tags": [
+      "company",
+      "permission"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "permission",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "permission"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "role-lr-02",
+    "question_text": "Đại diện pháp luật có được đồng thời làm giám đốc điều hành không?",
+    "tags": [
+      "legal_representative",
+      "permission"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "unknown",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "legal_representative",
+        "subject_normalized": "legal_representative_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "role-founder-02",
+    "question_text": "Sáng lập viên rút vốn trước thời hạn có vi phạm không?",
+    "tags": [
+      "founder",
+      "prohibition"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "deadline",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "founder",
+        "subject_normalized": "founder_x",
+        "goal_predicate": "deadline"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "role-hkd-02",
+    "question_text": "Chủ hộ kinh doanh có phải chịu trách nhiệm vô hạn như doanh nghiệp tư nhân không?",
+    "tags": [
+      "business_household",
+      "legal_consequence"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "legal_consequence",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "role-auth-02",
+    "question_text": "Sở Kế hoạch và Đầu tư có quyền yêu cầu bổ sung hồ sơ trong bao lâu?",
+    "tags": [
+      "authority",
+      "deadline"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "deadline",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "authority",
+        "subject_normalized": "authority_body_x",
+        "goal_predicate": "permission"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "role-sh-03",
+    "question_text": "Cổ đông tối thiểu phải góp bao nhiêu phần trăm vốn điều lệ?",
+    "tags": [
+      "shareholder",
+      "threshold"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "obligation",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "shareholder",
+        "subject_normalized": "shareholder_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "role-co-03",
+    "question_text": "Công ty mẹ có phải chịu trách nhiệm về nợ của công ty con không?",
+    "tags": [
+      "company",
+      "legal_consequence"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "legal_consequence",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "company",
+        "subject_normalized": "company_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "role-lr-03",
+    "question_text": "Người đại diện theo pháp luật có phải cư trú tại Việt Nam không?",
+    "tags": [
+      "legal_representative",
+      "obligation"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "obligation",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "legal_representative",
+        "subject_normalized": "legal_representative_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "role-founder-03",
+    "question_text": "Founder và cổ đông sáng lập: quyền biểu quyết khác nhau thế nào?",
+    "tags": [
+      "founder",
+      "ambiguous_subject"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "unknown",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "shareholder",
+        "subject_normalized": "shareholder_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "role-hkd-03",
+    "question_text": "Đăng ký hộ kinh doanh có cần vốn tối thiểu không?",
+    "tags": [
+      "business_household",
+      "registration"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "unknown",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "business_household",
+        "subject_normalized": "business_household_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  },
+  {
+    "qid": "role-mixed-01",
+    "question_text": "Cổ đông là người đại diện pháp luật: có được tự quyết định chuyển nhượng cổ phần không?",
+    "tags": [
+      "shareholder",
+      "legal_representative",
+      "permission"
+    ],
+    "notes": "",
+    "expected": {
+      "layer1": {
+        "question_focus": "unknown",
+        "utterance_type": "direct_question",
+        "assertion_status": "ambiguous"
+      },
+      "layer2_min": {
+        "subject_type_guess": "shareholder",
+        "subject_normalized": "shareholder_x",
+        "goal_predicate": "obligation"
+      },
+      "condition_atoms_substrings": [],
+      "canonical_snapshot": "",
+      "allow_stated_condition": true,
+      "condition_predicate_tokens": []
+    }
+  }
+]

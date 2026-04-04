@@ -8,9 +8,17 @@ from typing import Any
 
 from generation.answer_generator import generate_answer, safe_regenerate_answer
 from reasoning.backward_reasoner import run_backward
-from reasoning.clarification_manager import build_clarification_prompts_from_requirements
+from reasoning.clarification_manager import (
+    build_clarification_prompts_from_requirements,
+    build_parse_ambiguity_prompts,
+    merge_clarification_prompts_unified,
+)
 from reasoning.forward_reasoner import run_forward
 from reasoning.proof_builder import build_proof
+from question_side.parse_clarify_apply import (
+    extract_resolved_condition_atoms_from_known_facts,
+    known_facts_for_reasoning,
+)
 from question_side.question_normalizer import build_layer2
 from question_side.question_parser import parse_question_layer1
 from retrieval.evidence_retriever import (
@@ -39,6 +47,16 @@ def _rule_dump(r: RuleRecord) -> dict[str, Any]:
 
 def _merge_verification(sess: SessionState, rec: VerificationRecord) -> None:
     sess.verification_logs.append(rec)
+
+
+def _user_fact_keys(session: SessionState) -> list[str]:
+    return list(known_facts_for_reasoning(session).keys())
+
+
+def _proof_summary_for_evidence(proof: Any) -> str:
+    if not proof:
+        return ""
+    return " ".join((s.description or "") for s in (getattr(proof, "proof_steps", None) or [])[:8])
 
 
 class QAOrchestrator:
@@ -156,7 +174,7 @@ def run_ask(
     trace: dict[str, Any] = {"stage": []}
 
     layer1: Layer1Parse = parse_question_layer1(question)
-    layer2: Layer2Parse = build_layer2(layer1, user_facts=list(session.known_facts.keys()))
+    layer2: Layer2Parse = build_layer2(layer1, user_facts=_user_fact_keys(session))
     session.layer1 = layer1
     session.layer2 = layer2
     trace["stage"].append("parse_done")
@@ -166,13 +184,27 @@ def run_ask(
         layer1=layer1,
         layer2=layer2,
         question_text=question,
-        user_facts=list(session.known_facts.keys()),
+        user_facts=_user_fact_keys(session),
         max_repair_attempts_parse=max_repair_attempts_parse,
     )
     session.layer1 = layer1
     session.layer2 = layer2
     trace["parse_repair"] = parse_repair_trace
     _merge_verification(session, v_parse)
+    ambs = (layer2.diagnostics or {}).get("ambiguities") or []
+    if any(a.get("blocking") for a in ambs):
+        prompts = merge_clarification_prompts_unified(build_parse_ambiguity_prompts(ambs), [])
+        session.clarification_questions = prompts
+        svc.save(session)
+        return AskResponse(
+            session_id=session.session_id,
+            needs_clarification=True,
+            clarification_questions=[ClarificationPrompt.model_validate(p) for p in prompts],
+            layer1=layer1,
+            layer2=layer2,
+            verification_trace=session.verification_logs,
+            debug_trace=trace | {"stage": "parse_ambiguity_blocking"},
+        )
     if v_parse.final_decision == "REJECT":
         svc.save(session)
         return AskResponse(
@@ -187,9 +219,21 @@ def run_ask(
     ranked = retrieve_rules(layer1=layer1, layer2=layer2, top_k=top_k, index=rule_index)
     session.retrieved_rules = [r for r, _, _ in ranked]
     trace["stage"].append("retrieve_done")
+    trace["rule_retrieval"] = {
+        "backend": "hybrid_bm25_structured",
+        "top": [
+            {
+                "rule_id": r.rule_id,
+                "score_total": s,
+                "matched_features": (d.get("matched_features") or [])[:12],
+                "score_components": d.get("score_components") or {},
+            }
+            for r, s, d in ranked[: min(8, len(ranked))]
+        ],
+    }
 
     goal = layer2.goal
-    selected, bstate = run_backward(goal=goal, candidates=ranked, known_facts=session.known_facts)
+    selected, bstate = run_backward(goal=goal, candidates=ranked, known_facts=known_facts_for_reasoning(session))
     session.reasoning = bstate
     session.selected_rule = selected
 
@@ -225,18 +269,22 @@ def run_ask(
         )
 
     if bstate.missing_facts:
-        prompts = build_clarification_prompts_from_requirements(
+        parse_ambs = (layer2.diagnostics or {}).get("ambiguities") or []
+        parse_prompts = build_parse_ambiguity_prompts([a for a in parse_ambs if not a.get("blocking")])
+        backward_prompts = build_clarification_prompts_from_requirements(
             bstate.missing_facts,
             bstate.requirement_set,
             backward_plan=bstate.backward_plan,
+            related_rule_id=selected.rule_id if selected else None,
         )
+        prompts = merge_clarification_prompts_unified(parse_prompts, backward_prompts)
         session.missing_facts = bstate.missing_facts
         session.clarification_questions = prompts
         svc.save(session)
         return AskResponse(
             session_id=session.session_id,
             needs_clarification=True,
-            clarification_questions=[ClarificationPrompt(**p) for p in prompts],
+            clarification_questions=[ClarificationPrompt.model_validate(p) for p in prompts],
             layer1=layer1,
             layer2=layer2,
             verification_trace=session.verification_logs,
@@ -248,7 +296,7 @@ def run_ask(
 
     conclusion, goal_ok, fstate, _ = run_forward(
         rule=selected,
-        known_facts=session.known_facts,
+        known_facts=known_facts_for_reasoning(session),
         goal=goal,
         backward_plan=bstate.backward_plan,
         candidates=ranked,
@@ -263,7 +311,7 @@ def run_ask(
 
     proof = build_proof(
         rule=selected,
-        used_facts=list(session.known_facts.keys()),
+        used_facts=list(known_facts_for_reasoning(session).keys()),
         conclusion=conclusion,
         forward_result=fstate.forward_result,
     )
@@ -273,14 +321,20 @@ def run_ask(
         goal=goal,
         conclusion=conclusion,
         goal_achieved=goal_ok,
-        known_facts=session.known_facts,
+        known_facts=known_facts_for_reasoning(session),
         forward_result=fstate.forward_result,
         proof=proof.model_dump(mode="json"),
     )
     _merge_verification(session, v_fwd)
 
     ev = (evidence_retriever or get_evidence_retriever()).retrieve(
-        question=question, rule=selected, conclusion=conclusion, top_k=5
+        question=question,
+        rule=selected,
+        conclusion=conclusion,
+        top_k=5,
+        proof_summary=_proof_summary_for_evidence(proof),
+        goal=goal,
+        modality_text=layer1.modality_text or "",
     )
 
     ans = generate_answer(
@@ -306,7 +360,7 @@ def run_ask(
     trace["answer_repair"] = answer_repair_trace
     _merge_verification(session, v_ans)
     if v_ans.final_decision == "REJECT":
-        ans.answer_text = safe_regenerate_answer(conclusion)
+        ans.answer_text = safe_regenerate_answer(conclusion, proof=proof, evidence=ev)
         ans.verification_summary += ";answer_fallback_regenerate_on_reject"
 
     session.answer = ans
@@ -349,8 +403,13 @@ def run_clarify(
 
     svc.merge_fact_answers(session, answers)
     question = session.original_question
+    forced = extract_resolved_condition_atoms_from_known_facts(session.known_facts)
     layer1 = session.layer1 or parse_question_layer1(question)
-    layer2 = session.layer2 or build_layer2(layer1, user_facts=list(session.known_facts.keys()))
+    layer2 = build_layer2(
+        layer1,
+        user_facts=_user_fact_keys(session),
+        forced_condition_atoms=forced if forced else None,
+    )
     session.layer1 = layer1
     session.layer2 = layer2
 
@@ -361,7 +420,7 @@ def run_clarify(
         layer1=layer1,
         layer2=layer2,
         question_text=question,
-        user_facts=list(session.known_facts.keys()),
+        user_facts=_user_fact_keys(session),
         max_repair_attempts_parse=max_repair_attempts_parse,
     )
     session.layer1 = layer1
@@ -380,9 +439,21 @@ def run_clarify(
 
     ranked = retrieve_rules(layer1=layer1, layer2=layer2, top_k=top_k, index=rule_index)
     session.retrieved_rules = [r for r, _, _ in ranked]
+    trace["rule_retrieval"] = {
+        "backend": "hybrid_bm25_structured",
+        "top": [
+            {
+                "rule_id": r.rule_id,
+                "score_total": s,
+                "matched_features": (d.get("matched_features") or [])[:12],
+                "score_components": d.get("score_components") or {},
+            }
+            for r, s, d in ranked[: min(8, len(ranked))]
+        ],
+    }
 
     goal = layer2.goal
-    selected, bstate = run_backward(goal=goal, candidates=ranked, known_facts=session.known_facts)
+    selected, bstate = run_backward(goal=goal, candidates=ranked, known_facts=known_facts_for_reasoning(session))
     session.reasoning = bstate
     session.selected_rule = selected
 
@@ -414,18 +485,22 @@ def run_clarify(
         )
 
     if bstate.missing_facts:
-        prompts = build_clarification_prompts_from_requirements(
+        parse_ambs = (layer2.diagnostics or {}).get("ambiguities") or []
+        parse_prompts = build_parse_ambiguity_prompts([a for a in parse_ambs if not a.get("blocking")])
+        backward_prompts = build_clarification_prompts_from_requirements(
             bstate.missing_facts,
             bstate.requirement_set,
             backward_plan=bstate.backward_plan,
+            related_rule_id=selected.rule_id if selected else None,
         )
+        prompts = merge_clarification_prompts_unified(parse_prompts, backward_prompts)
         session.missing_facts = bstate.missing_facts
         session.clarification_questions = prompts
         svc.save(session)
         return ClarifyResponse(
             session_id=session.session_id,
             needs_clarification=True,
-            clarification_questions=[ClarificationPrompt(**p) for p in prompts],
+            clarification_questions=[ClarificationPrompt.model_validate(p) for p in prompts],
             verification_trace=session.verification_logs,
             selected_rule=_rule_dump(selected),
             reasoning=bstate,
@@ -434,7 +509,7 @@ def run_clarify(
 
     conclusion, goal_ok, fstate, _ = run_forward(
         rule=selected,
-        known_facts=session.known_facts,
+        known_facts=known_facts_for_reasoning(session),
         goal=goal,
         backward_plan=bstate.backward_plan,
         candidates=ranked,
@@ -447,7 +522,7 @@ def run_clarify(
 
     proof = build_proof(
         rule=selected,
-        used_facts=list(session.known_facts.keys()),
+        used_facts=list(known_facts_for_reasoning(session).keys()),
         conclusion=conclusion,
         forward_result=fstate.forward_result,
     )
@@ -457,14 +532,20 @@ def run_clarify(
         goal=goal,
         conclusion=conclusion,
         goal_achieved=goal_ok,
-        known_facts=session.known_facts,
+        known_facts=known_facts_for_reasoning(session),
         forward_result=fstate.forward_result,
         proof=proof.model_dump(mode="json"),
     )
     _merge_verification(session, v_fwd)
 
     ev = (evidence_retriever or get_evidence_retriever()).retrieve(
-        question=question, rule=selected, conclusion=conclusion, top_k=5
+        question=question,
+        rule=selected,
+        conclusion=conclusion,
+        top_k=5,
+        proof_summary=_proof_summary_for_evidence(proof),
+        goal=goal,
+        modality_text=layer1.modality_text or "",
     )
     ans = generate_answer(
         question=question,
@@ -488,7 +569,7 @@ def run_clarify(
     trace["answer_repair"] = answer_repair_trace
     _merge_verification(session, v_ans)
     if v_ans.final_decision == "REJECT":
-        ans.answer_text = safe_regenerate_answer(conclusion)
+        ans.answer_text = safe_regenerate_answer(conclusion, proof=proof, evidence=ev)
         ans.verification_summary += ";answer_fallback_regenerate_on_reject"
 
     session.answer = ans

@@ -12,3 +12,10 @@ class EvidenceSnippet(BaseModel):
     article_clause: str | None = None
     rule_id: str | None = None
     score: float = 0.0
+    retrieval_reason: str = ""
+    linked_rule_id: str | None = None
+    score_breakdown: dict[str, float] = Field(default_factory=dict)
+    doc_id: str | None = None
+    article: str | None = None
+    clause: str | None = None
+    point: str | None = None

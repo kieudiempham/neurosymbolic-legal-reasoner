@@ -1,32 +1,19 @@
-"""Layer 2 — normalized logical sketch from Layer 1 (v5 mapping)."""
+"""Layer 2 — normalized logical sketch from Layer 1 (v5 + condition + entity registry)."""
 
 from __future__ import annotations
 
 import re
 from typing import Any
 
+from question_side.ambiguity import make_ambiguity
+from question_side.condition_normalizer import normalize_condition_text
+from question_side.entity_registry import resolve_subject_entity
 from schemas.question_parse import AssertionStatus, Layer1Parse, Layer2Parse
 from utils.text import slug_token
 
 
 def _lower_blob(l1: Layer1Parse) -> str:
     return (l1.subject_text + " " + l1.action_text + " " + l1.condition_text).lower()
-
-
-def _infer_subject_type_and_slug(l1: Layer1Parse) -> tuple[str, str]:
-    """Returns (subject_normalized_slug, subject_type_guess)."""
-    blob = _lower_blob(l1)
-    if any(x in blob for x in ("hộ kinh doanh", "ho kinh doanh")):
-        return "business_household_x", "business_household"
-    if any(x in blob for x in ("cổ đông", "co dong", "cổ phần")):
-        return "shareholder_x", "shareholder"
-    if any(x in blob for x in ("người đại diện", "dai dien phap luat", "đại diện pháp luật")):
-        return "legal_representative_x", "legal_representative"
-    if any(x in blob for x in ("thành lập", "thanh lap", "sáng lập")):
-        return "founder_x", "founder"
-    if any(x in blob for x in ("doanh nghiệp", "doanh nghiep", "công ty", "cong ty")):
-        return "enterprise_x", "enterprise"
-    return "company_x", "company"
 
 
 def _detect_change_legal_rep(low: str) -> bool:
@@ -40,24 +27,6 @@ def _detect_change_legal_rep(low: str) -> bool:
 
 def _detect_register_change(low: str) -> bool:
     return "đăng ký" in low and ("thay đổi" in low or "đổi" in low)
-
-
-def _condition_text_to_atoms(condition_text: str, subj: str) -> list[str]:
-    if not (condition_text or "").strip():
-        return []
-    low = condition_text.lower()
-    atoms: list[str] = []
-    if _detect_change_legal_rep(low):
-        atoms.append(f"change_legal_representative({subj})")
-    if "đăng ký" in low and ("thay đổi" in low or "thay doi" in low):
-        atoms.append(f"registration_change({subj})")
-    if re.search(r"cổ đông|co dong|góp vốn", low):
-        atoms.append(f"shareholder_context({subj})")
-    if re.search(r"nếu|neu|khi|trường hợp", condition_text, re.IGNORECASE):
-        atoms.append(f"conditional_clause({slug_token(condition_text)[:40] or 'cond'})")
-    if not atoms:
-        atoms.append(f"stated_condition({slug_token(condition_text)[:56] or 'cond'})")
-    return atoms
 
 
 def _modality_to_goal_predicate(
@@ -85,16 +54,83 @@ def _assertion_status_normalized(st: AssertionStatus | str) -> str:
     return s
 
 
-def build_layer2(layer1: Layer1Parse, user_facts: list[str]) -> Layer2Parse:
-    """Build goal, atoms, facts (assertion-aware), query_rule_candidate."""
-    subj, subj_type = _infer_subject_type_and_slug(layer1)
+def build_layer2(
+    layer1: Layer1Parse,
+    user_facts: list[str],
+    *,
+    forced_condition_atoms: list[str] | None = None,
+) -> Layer2Parse:
+    """Build goal, atoms, facts; uses entity registry + condition normalization."""
+    full_blob = f"{layer1.subject_text} {layer1.action_text} {layer1.condition_text}"
+    subj, subj_type, registry, mentions = resolve_subject_entity(full_blob)
     low = _lower_blob(layer1).replace("’", "'")
 
+    ast = _assertion_status_normalized(layer1.assertion_status)
+    cn = normalize_condition_text(
+        layer1.condition_text,
+        actor_entity_id=subj,
+        actor_role=subj_type,
+        assertion_status=ast,
+    )
+
     condition_atoms: list[str] = []
-    condition_atoms.extend(_condition_text_to_atoms(layer1.condition_text, subj))
-    if _detect_change_legal_rep(low):
-        if not any("change_legal_representative" in a for a in condition_atoms):
-            condition_atoms.insert(0, f"change_legal_representative({subj})")
+    ambiguities: list[dict[str, Any]] = []
+
+    if forced_condition_atoms:
+        condition_atoms = list(forced_condition_atoms)
+    else:
+        if cn.primary_atom:
+            condition_atoms.append(cn.primary_atom)
+        for a in cn.alternative_atoms:
+            if a not in condition_atoms:
+                condition_atoms.append(a)
+        if _detect_change_legal_rep(low) and not any(
+            "thay_doi_nguoi_dai_dien" in a or "change_legal_representative" in a for a in condition_atoms
+        ):
+            condition_atoms.insert(0, f"thay_doi_nguoi_dai_dien_theo_phap_luat({subj})")
+
+        if cn.confidence < 0.72 or cn.ambiguity_reason:
+            gap = 0.1
+            ambiguities.append(
+                make_ambiguity(
+                    kind="ambiguous_condition",
+                    field="condition_text",
+                    source_text=layer1.condition_text or cn.frame.source_text,
+                    candidates=[cn.primary_atom] + cn.alternative_atoms,
+                    confidence_gap=gap,
+                    blocking=cn.confidence < 0.55,
+                    priority=1 if cn.confidence < 0.55 else 8,
+                    blocking_reason="condition_canonical_mapping_uncertain",
+                )
+            )
+
+    if ast == "ambiguous":
+        ambiguities.append(
+            make_ambiguity(
+                kind="ambiguous_goal",
+                field="assertion_status",
+                source_text=layer1.action_text or "",
+                candidates=["asserted", "hypothetical"],
+                confidence_gap=0.2,
+                blocking=False,
+                priority=10,
+                blocking_reason="assertion_not_fixed",
+            )
+        )
+
+    if len(mentions) > 1 and len({m.role_guess for m in mentions}) > 1:
+        ambiguities.append(
+            make_ambiguity(
+                kind="ambiguous_subject",
+                field="subject_text",
+                source_text=full_blob[:200],
+                candidates=[m.surface[:80] for m in mentions[:3]],
+                confidence_gap=0.15,
+                blocking=False,
+                priority=6,
+                blocking_reason="multiple_entity_mentions",
+            )
+        )
 
     focus = layer1.question_focus
     pred = _modality_to_goal_predicate(focus, layer1.modality_text)
@@ -139,7 +175,6 @@ def build_layer2(layer1: Layer1Parse, user_facts: list[str]) -> Layer2Parse:
     else:
         goal = {"predicate": pred, "args": [subj, act, "doi_tuong"]}
 
-    ast = _assertion_status_normalized(layer1.assertion_status)
     base_facts = list(user_facts)
     hypothetical_refs: list[str] = []
     if ast == "asserted" and layer1.condition_text.strip():
@@ -152,17 +187,30 @@ def build_layer2(layer1: Layer1Parse, user_facts: list[str]) -> Layer2Parse:
         facts = base_facts
 
     ut = layer1.utterance_type
-    atoms_sig = "|".join(condition_atoms[:6]) if condition_atoms else "_"
-    qrc = f"ut={ut}|focus={focus}|pred={goal.get('predicate')}|atoms={atoms_sig}|goal={goal.get('predicate')}:{','.join(str(a) for a in goal.get('args', []))}"
+    atoms_sig = "|".join(condition_atoms[:8]) if condition_atoms else "_"
+    qrc = (
+        f"ut={ut}|subj={subj}|role={subj_type}|focus={focus}|pred={goal.get('predicate')}"
+        f"|atoms={atoms_sig}|goal={goal.get('predicate')}:{','.join(str(a) for a in goal.get('args', []))}"
+    )
 
     diag: dict[str, Any] = {
-        "normalizer": "v2",
+        "normalizer": "v3_registry_condition",
         "focus": focus,
         "assertion_status_normalized": ast,
         "hypothetical_condition_refs": hypothetical_refs,
+        "condition_normalization": cn.model_dump(mode="json"),
+        "ambiguities": ambiguities,
+        "entity_registry": {
+            "primary_subject_id": registry.primary_subject_id,
+            "records": {k: v.model_dump(mode="json") for k, v in registry.records.items()},
+            "mentions": [m.model_dump(mode="json") for m in mentions],
+        },
     }
     if ast == "ambiguous":
         diag["assertion_ambiguous"] = True
+
+    if forced_condition_atoms:
+        diag["applied_forced_condition_atoms"] = True
 
     return Layer2Parse(
         subject_normalized=subj,
