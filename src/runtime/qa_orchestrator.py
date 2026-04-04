@@ -28,6 +28,7 @@ from schemas.verification import VerificationRecord
 from session.session_service import SessionService, get_session_service
 from verification.engine import NeSyEngine
 from verification.nli_verifier import NLIVerifier
+from verification.repair_loop import run_answer_repair_loop, run_parse_repair_loop
 
 logger = logging.getLogger(__name__)
 
@@ -53,6 +54,8 @@ class QAOrchestrator:
         nli_verifier: NLIVerifier | None = None,
         entailment_threshold: float = 0.70,
         contradiction_threshold: float = 0.70,
+        max_repair_attempts_parse: int = 2,
+        max_repair_attempts_answer: int = 2,
         session_svc: SessionService | None = None,
     ) -> None:
         self._rulebase_core_path = rulebase_core_path
@@ -62,6 +65,8 @@ class QAOrchestrator:
         self._nli_verifier = nli_verifier
         self._entailment_threshold = entailment_threshold
         self._contradiction_threshold = contradiction_threshold
+        self._max_repair_attempts_parse = max_repair_attempts_parse
+        self._max_repair_attempts_answer = max_repair_attempts_answer
         self._session_svc = session_svc
         self._rule_index: RulebaseIndex | None = None
         self._evidence: EvidenceRetriever | None = None
@@ -106,6 +111,8 @@ class QAOrchestrator:
             rule_index=self._index(),
             evidence_retriever=self._evidence_retriever(),
             top_k=self._top_k,
+            max_repair_attempts_parse=self._max_repair_attempts_parse,
+            max_repair_attempts_answer=self._max_repair_attempts_answer,
         )
 
     def clarify(self, session_id: str, answers: list[dict[str, Any]]) -> ClarifyResponse:
@@ -117,6 +124,8 @@ class QAOrchestrator:
             rule_index=self._index(),
             evidence_retriever=self._evidence_retriever(),
             top_k=self._top_k,
+            max_repair_attempts_parse=self._max_repair_attempts_parse,
+            max_repair_attempts_answer=self._max_repair_attempts_answer,
         )
 
 
@@ -130,6 +139,8 @@ def run_ask(
     rule_index: RulebaseIndex | None = None,
     evidence_retriever: EvidenceRetriever | None = None,
     top_k: int = 8,
+    max_repair_attempts_parse: int = 2,
+    max_repair_attempts_answer: int = 2,
 ) -> AskResponse:
     svc = session_svc or get_session_service()
     engine = nesy or NeSyEngine()
@@ -150,7 +161,16 @@ def run_ask(
     session.layer2 = layer2
     trace["stage"].append("parse_done")
 
-    v_parse = engine.verify_parse(layer1, layer2, question_text=question)
+    layer2, v_parse, parse_repair_trace = run_parse_repair_loop(
+        engine,
+        layer1=layer1,
+        layer2=layer2,
+        question_text=question,
+        user_facts=list(session.known_facts.keys()),
+        max_repair_attempts_parse=max_repair_attempts_parse,
+    )
+    session.layer2 = layer2
+    trace["parse_repair"] = parse_repair_trace
     _merge_verification(session, v_parse)
     if v_parse.final_decision == "REJECT":
         svc.save(session)
@@ -186,6 +206,7 @@ def run_ask(
         requirements_ok=bstate.can_continue_forward,
         backward_plan=bstate.backward_plan,
         missing_facts=bstate.missing_facts,
+        requirement_keys=[r.key for r in bstate.requirement_set],
     )
     _merge_verification(session, v_back)
 
@@ -269,18 +290,23 @@ def run_ask(
         goal_achieved=goal_ok,
     )
 
-    v_ans = engine.verify_answer(
+    ans_text, v_ans, answer_repair_trace = run_answer_repair_loop(
+        engine,
         answer_text=ans.answer_text,
         conclusion=conclusion,
         proof=proof.model_dump(mode="json"),
         modality_expected=layer1.modality_text or "",
         goal_action=str(goal.get("args", ["", "", ""])[1] if len(goal.get("args", [])) > 1 else ""),
         action_token_in_answer=ans.answer_text,
+        max_repair_attempts_answer=max_repair_attempts_answer,
     )
+    ans.answer_text = ans_text
+    ans.verification_summary += f";answer_repair_attempts={answer_repair_trace[-1].get('attempts_used', 0)}"
+    trace["answer_repair"] = answer_repair_trace
     _merge_verification(session, v_ans)
-    if v_ans.final_decision in ("REJECT", "REPAIR"):
+    if v_ans.final_decision == "REJECT":
         ans.answer_text = safe_regenerate_answer(conclusion)
-        ans.verification_summary += ";answer_regenerated_once"
+        ans.verification_summary += ";answer_fallback_regenerate_on_reject"
 
     session.answer = ans
     trace["stage"].append("complete")
@@ -311,6 +337,8 @@ def run_clarify(
     rule_index: RulebaseIndex | None = None,
     evidence_retriever: EvidenceRetriever | None = None,
     top_k: int = 8,
+    max_repair_attempts_parse: int = 2,
+    max_repair_attempts_answer: int = 2,
 ) -> ClarifyResponse:
     svc = session_svc or get_session_service()
     engine = nesy or NeSyEngine()
@@ -326,6 +354,27 @@ def run_clarify(
     session.layer2 = layer2
 
     trace: dict[str, Any] = {"stage": ["clarify_resume"]}
+
+    layer2, _v_parse_cl, parse_repair_trace = run_parse_repair_loop(
+        engine,
+        layer1=layer1,
+        layer2=layer2,
+        question_text=question,
+        user_facts=list(session.known_facts.keys()),
+        max_repair_attempts_parse=max_repair_attempts_parse,
+    )
+    session.layer2 = layer2
+    trace["parse_repair"] = parse_repair_trace
+    _merge_verification(session, _v_parse_cl)
+    if _v_parse_cl.final_decision == "REJECT":
+        svc.save(session)
+        return ClarifyResponse(
+            session_id=session.session_id,
+            verification_trace=session.verification_logs,
+            layer1=layer1,
+            layer2=layer2,
+            debug_trace=trace | {"error": "parse_rejected"},
+        )
 
     ranked = retrieve_rules(layer1=layer1, layer2=layer2, top_k=top_k, index=rule_index)
     session.retrieved_rules = [r for r, _, _ in ranked]
@@ -349,6 +398,7 @@ def run_clarify(
         requirements_ok=bstate.can_continue_forward,
         backward_plan=bstate.backward_plan,
         missing_facts=bstate.missing_facts,
+        requirement_keys=[r.key for r in bstate.requirement_set],
     )
     _merge_verification(session, v_back)
 
@@ -421,19 +471,26 @@ def run_clarify(
         evidence=ev,
         goal_achieved=goal_ok,
     )
-    v_ans = engine.verify_answer(
+    ans_text, v_ans, answer_repair_trace = run_answer_repair_loop(
+        engine,
         answer_text=ans.answer_text,
         conclusion=conclusion,
         proof=proof.model_dump(mode="json"),
         modality_expected=layer1.modality_text or "",
         goal_action=str(goal.get("args", ["", "", ""])[1] if len(goal.get("args", [])) > 1 else ""),
         action_token_in_answer=ans.answer_text,
+        max_repair_attempts_answer=max_repair_attempts_answer,
     )
+    ans.answer_text = ans_text
+    ans.verification_summary += f";answer_repair_attempts={answer_repair_trace[-1].get('attempts_used', 0)}"
+    trace["answer_repair"] = answer_repair_trace
     _merge_verification(session, v_ans)
-    if v_ans.final_decision in ("REJECT", "REPAIR"):
+    if v_ans.final_decision == "REJECT":
         ans.answer_text = safe_regenerate_answer(conclusion)
+        ans.verification_summary += ";answer_fallback_regenerate_on_reject"
 
     session.answer = ans
+    session.pipeline_trace = trace
     svc.save(session)
 
     return ClarifyResponse(

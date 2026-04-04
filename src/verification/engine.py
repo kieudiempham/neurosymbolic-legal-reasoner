@@ -8,14 +8,14 @@ from schemas.question_parse import Layer1Parse, Layer2Parse
 from schemas.rule import RuleRecord
 from schemas.verification import FusionDecision, NLIResult, VerificationMode, VerificationRecord
 from verification.controlled_verbalizer import (
-    verbalize_backward_plan,
-    verbalize_forward_failure,
+    verbalization_guardrails,
+    verbalize_answer_mode,
+    verbalize_backward_mode,
+    verbalize_forward_mode,
     verbalize_goal,
-    verbalize_law_span,
     verbalize_layer1_subject,
-    verbalize_proof_brief,
-    verbalize_question_text,
-    verbalize_rule_candidate,
+    verbalize_parse_mode,
+    verbalize_rule_mode,
 )
 from verification.decision_fusion import fuse_ne_sy_v5
 from verification.mode_selector import use_nli_for
@@ -28,18 +28,23 @@ from verification.object_normalizer import (
     normalize_rule_bundle,
 )
 from verification.repair_routing import build_repair_payload, repair_hint_for, repair_target_for_code
+from verification.symbolic_check_types import SymbolicCheckResult
 from verification.symbolic_modes import (
+    symbolic_answer_checks,
     symbolic_backward,
     symbolic_forward,
     symbolic_parse,
     symbolic_rule,
-    symbolic_answer_checks,
 )
 from verification.symbolic_validator import check_answer_vs_goal
 
 
 def _first_code(codes: list[str]) -> str | None:
     return codes[0] if codes else None
+
+
+def _sym_dict(sym: SymbolicCheckResult) -> dict[str, Any]:
+    return {"ok": sym.ok, "issues": sym.issues, "codes": sym.error_codes, "checks": sym.checks}
 
 
 def _repair_fields(mode: str, codes: list[str]) -> tuple[str | None, str, dict[str, Any]]:
@@ -64,6 +69,8 @@ def _finalize_record(
     trace: list[str],
     symbolic_checks: dict[str, Any],
     semantic_scores: dict[str, float] | None = None,
+    verbalization_meta: dict[str, Any] | None = None,
+    record_extra: dict[str, Any] | None = None,
 ) -> VerificationRecord:
     rt_mod, hint, payload = _repair_fields(mode, error_codes)
     diag = list(sym_issues) + list(fusion_diag)
@@ -75,6 +82,9 @@ def _finalize_record(
         nli_scores = dict(nli.scores)
     elif nli:
         nli_scores = {nli.label: float(nli.score)}
+    extra = dict(record_extra or {})
+    if verbalization_meta:
+        extra["verbalization_meta"] = verbalization_meta
     return VerificationRecord(
         mode=mode,
         symbolic_result="ok" if symbolic_ok else "failed",
@@ -92,6 +102,7 @@ def _finalize_record(
         normalized_inputs=normalized,
         verbalized_texts=verbalized,
         trace=trace,
+        extra=extra,
     )
 
 
@@ -120,14 +131,25 @@ class NeSyEngine:
     ) -> VerificationRecord:
         sym = symbolic_parse(question_text, layer1, layer2)
         trace = ["symbolic_parse_done"]
+        prem, hyp, tmpl = verbalize_parse_mode(question_text, layer1, layer2)
         verbalized: dict[str, str] = {
-            "premise_alignment": verbalize_question_text(question_text),
-            "hypothesis_goal": verbalize_goal(layer2.goal),
+            "premise": prem,
+            "hypothesis": hyp,
+            "premise_alignment": prem,
+            "hypothesis_goal": hyp,
             "layer1_subject": verbalize_layer1_subject(layer1.subject_text or "chủ_thể"),
         }
+        gr = verbalization_guardrails(
+            mode="parse_verification",
+            layer1=layer1,
+            layer2=layer2,
+            premise=prem,
+            hypothesis=hyp,
+        )
+        meta = {"template": tmpl, "guardrails": gr, "premise": prem, "hypothesis": hyp}
         nli: NLIResult | None = None
         if use_nli_for("parse_verification", nesy_nli_mock=self._nesy_nli_mock):
-            nli = self._nli.verify(verbalized["premise_alignment"], verbalized["hypothesis_goal"])
+            nli = self._nli.verify(prem, hyp)
             trace.append("nli_parse")
         dec, fusion_diag = fuse_ne_sy_v5(
             symbolic_ok=sym.ok,
@@ -146,7 +168,8 @@ class NeSyEngine:
             verbalized=verbalized,
             normalized=normalize_parse_bundle(question_text=question_text, layer1=layer1, layer2=layer2),
             trace=trace,
-            symbolic_checks={"issues": sym.issues, "codes": sym.error_codes},
+            symbolic_checks=_sym_dict(sym),
+            verbalization_meta=meta,
         )
 
     def verify_rule(
@@ -159,17 +182,23 @@ class NeSyEngine:
     ) -> VerificationRecord:
         sym = symbolic_rule(layer2_goal, rule_candidate, _legal_frame=legal_frame)
         trace = ["symbolic_rule_done"]
-        verbalized: dict[str, str] = {}
-        if rule_candidate:
-            verbalized["hypothesis_rule"] = verbalize_rule_candidate(
-                rule_candidate.rule_id, rule_candidate.logic_form, rule_candidate.head.predicate
-            )
-        else:
-            verbalized["hypothesis_rule"] = "Không có luật ứng viên."
-        verbalized["premise_law"] = verbalize_law_span(law_span) if law_span else "Không có đoạn văn bản luật đính kèm."
+        prem, hyp, tmpl = verbalize_rule_mode(law_span, legal_frame, rule_candidate)
+        verbalized: dict[str, str] = {
+            "premise": prem,
+            "hypothesis": hyp,
+            "premise_law": prem,
+            "hypothesis_rule": hyp,
+        }
+        gr = verbalization_guardrails(
+            mode="rule_verification",
+            goal=layer2_goal,
+            premise=prem,
+            hypothesis=hyp,
+        )
+        meta = {"template": tmpl, "guardrails": gr, "premise": prem, "hypothesis": hyp}
         nli: NLIResult | None = None
         if use_nli_for("rule_verification", nesy_nli_mock=self._nesy_nli_mock):
-            nli = self._nli.verify(verbalized["premise_law"], verbalized["hypothesis_rule"])
+            nli = self._nli.verify(prem, hyp)
             trace.append("nli_rule")
         dec, fusion_diag = fuse_ne_sy_v5(
             symbolic_ok=sym.ok,
@@ -193,7 +222,8 @@ class NeSyEngine:
                 legal_frame=legal_frame,
             ),
             trace=trace,
-            symbolic_checks={"issues": sym.issues, "codes": sym.error_codes},
+            symbolic_checks=_sym_dict(sym),
+            verbalization_meta=meta,
         )
 
     def verify_backward(
@@ -204,6 +234,7 @@ class NeSyEngine:
         requirements_ok: bool,
         backward_plan: dict[str, Any] | None = None,
         missing_facts: list[str] | None = None,
+        requirement_keys: list[str] | None = None,
     ) -> VerificationRecord:
         sym = symbolic_backward(
             goal,
@@ -211,15 +242,16 @@ class NeSyEngine:
             backward_plan,
             requirements_ok=requirements_ok,
             missing_facts=missing_facts,
+            requirement_keys=requirement_keys,
         )
         trace = ["symbolic_backward_done"]
-        verbalized = {
-            "premise": verbalize_backward_plan(goal, selected_rule_id),
-            "hypothesis": verbalize_goal(goal),
-        }
+        prem, hyp, tmpl = verbalize_backward_mode(goal, selected_rule_id, backward_plan, missing_facts)
+        verbalized = {"premise": prem, "hypothesis": hyp}
+        gr = verbalization_guardrails(mode="backward_verification", goal=goal, premise=prem, hypothesis=hyp)
+        meta = {"template": tmpl, "guardrails": gr, "premise": prem, "hypothesis": hyp}
         nli: NLIResult | None = None
         if use_nli_for("backward_verification", nesy_nli_mock=self._nesy_nli_mock):
-            nli = self._nli.verify(verbalized["premise"], verbalized["hypothesis"])
+            nli = self._nli.verify(prem, hyp)
             trace.append("nli_backward")
         dec, fusion_diag = fuse_ne_sy_v5(
             symbolic_ok=sym.ok,
@@ -244,7 +276,8 @@ class NeSyEngine:
                 requirements_ok=requirements_ok,
             ),
             trace=trace,
-            symbolic_checks={"issues": sym.issues, "codes": sym.error_codes},
+            symbolic_checks=_sym_dict(sym),
+            verbalization_meta=meta,
         )
 
     def verify_forward(
@@ -262,18 +295,21 @@ class NeSyEngine:
             forward_result=forward_result,
             proof=proof,
             conclusion=conclusion,
+            goal=goal,
         )
         trace = ["symbolic_forward_done"]
+        prem, hyp, tmpl = verbalize_forward_mode(goal, known_facts, proof, forward_result, conclusion)
         verbalized = {
+            "premise": prem,
+            "hypothesis": hyp,
             "premise_goal": verbalize_goal(goal),
             "hypothesis_conclusion": conclusion,
-            "forward_status": verbalize_forward_failure(forward_result or {}),
-            "proof": verbalize_proof_brief(proof or {}),
         }
-        premise = f"{verbalized['premise_goal']} {verbalized['forward_status']} {verbalized['proof']}"
+        gr = verbalization_guardrails(mode="forward_verification", goal=goal, premise=prem, hypothesis=hyp)
+        meta = {"template": tmpl, "guardrails": gr, "premise": prem, "hypothesis": hyp}
         nli: NLIResult | None = None
         if use_nli_for("forward_verification", nesy_nli_mock=self._nesy_nli_mock):
-            nli = self._nli.verify(premise, verbalized["hypothesis_conclusion"])
+            nli = self._nli.verify(prem, hyp)
             trace.append("nli_forward")
         dec, fusion_diag = fuse_ne_sy_v5(
             symbolic_ok=sym.ok,
@@ -299,7 +335,8 @@ class NeSyEngine:
                 proof=proof,
             ),
             trace=trace,
-            symbolic_checks={"issues": sym.issues, "codes": sym.error_codes},
+            symbolic_checks=_sym_dict(sym),
+            verbalization_meta=meta,
         )
 
     def verify_answer(
@@ -317,13 +354,27 @@ class NeSyEngine:
             action_token_in_answer=action_token_in_answer or answer_text,
             goal_action=goal_action,
         )
-        sym_sa = symbolic_answer_checks(symbolic_ok=sym_extra, diag_from_validator=diag_sym)
+        sym_sa = symbolic_answer_checks(
+            symbolic_ok=sym_extra,
+            diag_from_validator=diag_sym,
+            answer_text=answer_text,
+            conclusion=conclusion,
+            proof=proof,
+        )
         sym_ok = sym_sa.ok
         trace = ["symbolic_answer_done"]
-        verbalized = {"premise": conclusion, "hypothesis": answer_text}
+        prem, hyp, tmpl = verbalize_answer_mode(answer_text, conclusion, proof)
+        verbalized = {"premise": prem, "hypothesis": hyp}
+        gr = verbalization_guardrails(
+            mode="answer_verification",
+            premise=prem,
+            hypothesis=hyp,
+            conclusion=conclusion,
+        )
+        meta = {"template": tmpl, "guardrails": gr, "premise": prem, "hypothesis": hyp}
         nli: NLIResult | None = None
         if use_nli_for("answer_verification", nesy_nli_mock=self._nesy_nli_mock):
-            nli = self._nli.verify(conclusion, answer_text)
+            nli = self._nli.verify(prem, hyp)
             trace.append("nli_answer")
         dec, fusion_diag = fuse_ne_sy_v5(
             symbolic_ok=sym_ok,
@@ -348,7 +399,8 @@ class NeSyEngine:
                 symbolic_ok=sym_ok,
             ),
             trace=trace,
-            symbolic_checks={"issues": issues, "codes": sym_sa.error_codes, "check_answer_vs_goal": diag_sym},
+            symbolic_checks={**_sym_dict(sym_sa), "check_answer_vs_goal": diag_sym},
+            verbalization_meta=meta,
         )
 
 
