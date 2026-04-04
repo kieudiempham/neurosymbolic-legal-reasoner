@@ -15,7 +15,7 @@ from app.api.routes_health import router as health_router
 from app.api.routes_session import router as session_router
 from app.config import settings
 from app.utils.logging_utils import setup_logging
-from pipeline.qa_runtime import configure_qa_orchestrator
+from runtime.qa_runtime import configure_qa_orchestrator
 
 setup_logging(settings.debug)
 

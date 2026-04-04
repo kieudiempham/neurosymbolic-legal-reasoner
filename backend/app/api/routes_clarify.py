@@ -10,7 +10,7 @@ from app.path_setup import ensure_src_paths
 
 ensure_src_paths()
 
-from pipeline.qa_runtime import get_qa_orchestrator
+from runtime.qa_runtime import get_qa_orchestrator
 from schemas.http_response import ClarifyResponse
 from schemas.request import ClarifyRequest
 
