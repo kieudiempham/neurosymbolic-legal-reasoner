@@ -1,74 +1,59 @@
-"""Layer 1 parse — heuristic / rule-based (research demo, not black-box)."""
+"""Layer 1 parse — LLM structured JSON with heuristic fallback (v5-oriented)."""
 
 from __future__ import annotations
 
-import re
+import logging
+import os
 
-from schemas.question_parse import Layer1Parse, QuestionFocus, UtteranceType
-from utils.text import lower_fold, normalize_ws
+from schemas.question_parse import Layer1Parse
+from question_side.heuristic_layer1 import parse_question_layer1_heuristic
+from question_side.llm_layer1_parser import parse_layer1_llm
+
+logger = logging.getLogger(__name__)
 
 
-def parse_question_layer1(question: str) -> Layer1Parse:
-    q = normalize_ws(question)
-    low = lower_fold(q)
+def _env_flag(name: str, default: bool) -> bool:
+    v = os.environ.get(name, "").strip().lower()
+    if not v:
+        return default
+    return v in ("1", "true", "yes", "on")
 
-    utterance_type: UtteranceType = "question"
-    modality_text = ""
-    # `low` is accent-stripped (see lower_fold); match folded keywords only.
-    if "co phai" in low or "phai " in low or "phai khong" in low:
-        modality_text = "phải"
-    if "duoc" in low and ("khong" in low or "hay khong" in low):
-        modality_text = modality_text or "được_phải"
 
-    question_focus: QuestionFocus = "unknown"
-    if "co the" in low or "duoc phep" in low:
-        question_focus = "permission"
-    elif any(x in low for x in ("co phai dang ky", "phai dang ky", "dang ky thay doi")):
-        question_focus = "obligation"
-    elif "thoi han" in low or "trong vong" in low or " ngay " in low:
-        question_focus = "deadline"
-    elif "it nhat" in low or "%" in q or "phan tram" in low:
-        question_focus = "threshold"
-    elif "tru truong hop" in low or "ngoai le" in low:
-        question_focus = "exception"
+def parse_question_layer1(
+    question: str,
+    *,
+    prefer_llm: bool | None = None,
+    llm_api_key: str | None = None,
+    llm_base_url: str | None = None,
+    llm_model: str | None = None,
+) -> Layer1Parse:
+    """
+    Primary entry: try LLM structured Layer-1 when API key exists and prefer_llm is True.
+    Fallback: heuristic (`heuristic_layer1_v2`). Metadata in `parse_metadata`.
+    Env: LEGAL_QA_LAYER1_USE_LLM (default true if key present), LEGAL_QA_LLM_* .
+    """
+    use_llm = _env_flag("LEGAL_QA_LAYER1_USE_LLM", True) if prefer_llm is None else prefer_llm
+    has_key = bool((llm_api_key or os.environ.get("LEGAL_QA_LLM_API_KEY") or os.environ.get("LLM_API_KEY") or "").strip())
 
-    subject_text = ""
-    condition_text = ""
-    action_text = ""
-    exception_text = ""
+    if use_llm and has_key:
+        try:
+            l1, _trace = parse_layer1_llm(
+                question,
+                api_key=llm_api_key,
+                base_url=llm_base_url,
+                model=llm_model,
+            )
+            return l1
+        except Exception as e:
+            logger.warning("layer1_llm_failed_fallback_heuristic: %s", e)
 
-    m = re.search(r"^(.*?)(?:thì|,)\s*(.+)$", q)
-    if m:
-        left = m.group(1).strip()
-        right = m.group(2).strip()
-        if "cong ty" in lower_fold(left) or "doanh nghiep" in lower_fold(left):
-            subject_text = left
-        condition_text = left
-        action_text = right
+    h = parse_question_layer1_heuristic(question)
+    meta = dict(h.parse_metadata)
+    meta["parser_backend"] = "heuristic"
+    if use_llm and has_key:
+        meta["fallback_used"] = True
+        meta["fallback_reason"] = "llm_error"
     else:
-        subject_text = q[: min(80, len(q))]
-        action_text = q
-
-    if "tru truong hop" in low or "ngoai le" in low:
-        parts = re.split(r"(trừ|ngoại lệ)", q, maxsplit=1, flags=re.IGNORECASE)
-        if len(parts) >= 2:
-            exception_text = normalize_ws(parts[-1])
-
-    assertion_status = "hypothetical"
-    if any(x in low for x in ("toi da", "chung toi da", "da dang ky")):
-        assertion_status = "factual"
-
-    notes: list[str] = ["heuristic_layer1_v1"]
-
-    return Layer1Parse(
-        utterance_type=utterance_type,
-        subject_text=subject_text or q[:120],
-        condition_text=condition_text,
-        action_text=action_text,
-        modality_text=modality_text,
-        time_text="",
-        exception_text=exception_text,
-        question_focus=question_focus,
-        assertion_status=assertion_status,
-        raw_notes=notes,
-    )
+        meta["fallback_used"] = False
+        meta["fallback_reason"] = "no_llm_api_key" if use_llm and not has_key else "prefer_heuristic"
+    return h.model_copy(update={"parse_metadata": meta})

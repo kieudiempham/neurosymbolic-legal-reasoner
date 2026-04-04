@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from typing import Any
 
 from question_side.question_normalizer import build_layer2
@@ -19,6 +20,8 @@ _FOCUS_TO_PRED: dict[str, str] = {
     "dossier": "dossier",
     "legal_effect": "obligation",
     "authority": "obligation",
+    "procedure": "obligation",
+    "legal_consequence": "obligation",
     "unknown": "unknown",
 }
 
@@ -47,6 +50,53 @@ def repair_layer2_from_payload(
 
     qrc = f"{g.get('predicate', 'unknown')}:{','.join(str(a) for a in g.get('args', []))}"
     return base.model_copy(update={"goal": g, "query_rule_candidate": qrc})
+
+
+def repair_parse_bundle(
+    question_text: str,
+    layer1: Layer1Parse,
+    layer2: Layer2Parse,
+    user_facts: list[str],
+    payload: dict[str, Any],
+    *,
+    repair_hint: str = "",
+) -> tuple[Layer1Parse, Layer2Parse, dict[str, Any]]:
+    """
+    Slot-aware repair: try LLM slot fix when API key exists and codes warrant Layer-1 touch;
+    otherwise goal-only Layer-2 repair.
+    """
+    codes = list(payload.get("diagnostic_errors") or [])
+    code_set = set(codes)
+    has_key = bool((os.environ.get("LEGAL_QA_LLM_API_KEY") or os.environ.get("LLM_API_KEY") or "").strip())
+    llm_touch = code_set & {"parse_slot_error", "layer1_layer2_misalignment", "fact_extraction_error"}
+
+    if has_key and llm_touch:
+        try:
+            from question_side.llm_layer1_parser import repair_layer1_slots_llm
+
+            l1_new, meta = repair_layer1_slots_llm(
+                question_text,
+                layer1,
+                hint=repair_hint or "",
+                diagnostic_codes=codes,
+            )
+            l2_new = build_layer2(l1_new, list(user_facts))
+            trace = {
+                "repair_kind": "llm_layer1_slots",
+                "fields_touched": ["layer1"],
+                "repair_backend": "llm",
+                **{k: v for k, v in meta.items() if k in ("parser_model", "raw_llm_output")},
+            }
+            return l1_new, l2_new, trace
+        except Exception:
+            pass
+
+    if code_set & {"goal_construction_error"} and not llm_touch:
+        l2 = repair_layer2_from_payload(layer1, user_facts, payload)
+        return layer1, l2, {"repair_kind": "layer2_goal", "fields_touched": ["layer2.goal"], "repair_backend": "heuristic"}
+
+    l2 = repair_layer2_from_payload(layer1, user_facts, payload)
+    return layer1, l2, {"repair_kind": "layer2_fallback", "fields_touched": ["layer2.goal"], "repair_backend": "heuristic"}
 
 
 def default_answer_regenerate(conclusion: str, attempt: int, hint: str, payload: dict[str, Any]) -> str:

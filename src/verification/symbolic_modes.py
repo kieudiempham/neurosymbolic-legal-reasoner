@@ -34,6 +34,8 @@ _FOCUS_TO_PRED = {
     "dossier": "dossier",
     "legal_effect": "unknown",
     "authority": "unknown",
+    "procedure": "obligation",
+    "legal_consequence": "obligation",
     "unknown": "unknown",
 }
 

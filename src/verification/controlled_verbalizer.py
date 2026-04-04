@@ -112,9 +112,10 @@ def verbalize_parse_mode(
 ) -> tuple[str, str, str]:
     """Premise = question + layer1 summary; hypothesis = layer2 goal + facts summary."""
     l1 = (
-        f"Layer1: subject=[{layer1.subject_text}], action=[{layer1.action_text}], "
-        f"modality=[{layer1.modality_text}], focus=[{layer1.question_focus}], "
-        f"assertion_status=[{layer1.assertion_status}]."
+        f"Layer1: utterance=[{layer1.utterance_type}], subject=[{layer1.subject_text}], "
+        f"condition=[{layer1.condition_text}], action=[{layer1.action_text}], "
+        f"modality=[{layer1.modality_text}], time=[{layer1.time_text}], deadline=[{layer1.deadline_text}], "
+        f"focus=[{layer1.question_focus}], assertion=[{layer1.assertion_status}]."
     )
     premise = f"{verbalize_question_text(question_text)} | {l1}"
     hyp = f"{verbalize_goal(layer2.goal)} | {_facts_summary(layer2)}"

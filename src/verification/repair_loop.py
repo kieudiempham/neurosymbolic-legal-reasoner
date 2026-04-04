@@ -1,4 +1,4 @@
-"""Auto repair loops — re-run parser/layer2 or answer generator until ACCEPT/REJECT or max attempts."""
+"""Auto repair loops — re-parse / re-layer2 or answer generator until ACCEPT/REJECT or max attempts."""
 
 from __future__ import annotations
 
@@ -7,7 +7,7 @@ from typing import Any, Callable
 from schemas.question_parse import Layer1Parse, Layer2Parse
 from schemas.verification import VerificationRecord
 from verification.engine import NeSyEngine
-from verification.repair_handlers import default_answer_regenerate, repair_layer2_from_payload
+from verification.repair_handlers import default_answer_regenerate, repair_parse_bundle
 from verification.repair_routing import repair_target_for_code
 
 PARSE_HANDLER_MODULE = "question_parser_or_layer2_builder"
@@ -26,21 +26,35 @@ def run_parse_repair_loop(
     question_text: str,
     user_facts: list[str],
     max_repair_attempts_parse: int,
-) -> tuple[Layer2Parse, VerificationRecord, list[dict[str, Any]]]:
+    repair_parse_fn: Callable[..., tuple[Layer1Parse, Layer2Parse, dict[str, Any]]] | None = None,
+) -> tuple[Layer1Parse, Layer2Parse, VerificationRecord, list[dict[str, Any]]]:
     """
-    Re-verify parse after REPAIR. Only auto-loops when decision is REPAIR,
-    target module matches layer2 handler, and attempts remain.
+    Re-verify parse after REPAIR. Updates Layer1 when slot-aware LLM repair succeeds.
     """
+
+    def _default_rp(
+        q: str,
+        l1: Layer1Parse,
+        l2: Layer2Parse,
+        uf: list[str],
+        pl: dict[str, Any],
+        *,
+        repair_hint: str,
+    ) -> tuple[Layer1Parse, Layer2Parse, dict[str, Any]]:
+        return repair_parse_bundle(q, l1, l2, uf, pl, repair_hint=repair_hint)
+
+    rp = repair_parse_fn or _default_rp
     trace: list[dict[str, Any]] = []
+    l1 = layer1
     current = layer2
-    last_rec = engine.verify_parse(layer1, current, question_text=question_text)
+    last_rec = engine.verify_parse(l1, current, question_text=question_text)
     trace.append(
         {
             "phase": "parse",
             "attempt": 0,
             "decision": last_rec.final_decision,
             "repair_target_module": last_rec.repair_target_module,
-            "input_snapshot": {"goal": dict(current.goal or {})},
+            "input_snapshot": {"goal": dict(current.goal or {}), "layer1_focus": l1.question_focus},
             "diagnostic_errors": list(last_rec.diagnostic_errors),
             "auto_repair_eligible": False,
         }
@@ -60,10 +74,19 @@ def run_parse_repair_loop(
             break
 
         attempt += 1
-        before = {"goal": dict(current.goal or {})}
-        current = repair_layer2_from_payload(layer1, user_facts, last_rec.repair_payload or {})
-        after = {"goal": dict(current.goal or {})}
-        last_rec = engine.verify_parse(layer1, current, question_text=question_text)
+        before = {"goal": dict(current.goal or {}), "layer1": l1.model_dump(mode="json")}
+        hint = last_rec.repair_hint or ""
+        l1_new, current, rt = rp(
+            question_text,
+            l1,
+            current,
+            list(user_facts),
+            last_rec.repair_payload or {},
+            repair_hint=hint,
+        )
+        l1 = l1_new
+        after = {"goal": dict(current.goal or {}), "layer1": l1.model_dump(mode="json")}
+        last_rec = engine.verify_parse(l1, current, question_text=question_text)
         trace.append(
             {
                 "phase": "parse",
@@ -73,14 +96,15 @@ def run_parse_repair_loop(
                 "input_snapshot": before,
                 "output_snapshot": after,
                 "diagnostic_errors": list(last_rec.diagnostic_errors),
-                "repair_hint": last_rec.repair_hint,
+                "repair_hint": hint,
+                "repair_trace": rt,
             }
         )
         if last_rec.final_decision in ("ACCEPT", "REJECT"):
             break
 
     trace.append({"phase": "parse", "final_decision": last_rec.final_decision, "attempts_used": attempt})
-    return current, last_rec, trace
+    return l1, current, last_rec, trace
 
 
 def run_answer_repair_loop(

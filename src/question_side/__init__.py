@@ -1,1 +1,1 @@
-"""Question-side parsing: LLM parser, two layers, repair, verbalization."""
+"""Question-side parsing: Layer-1 (LLM JSON + heuristic fallback), Layer-2 normalizer, repair hooks."""

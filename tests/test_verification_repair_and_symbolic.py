@@ -103,7 +103,7 @@ def test_parse_repair_loop_round2_accept() -> None:
     )
     l2 = Layer2Parse(goal={"predicate": "unknown", "args": []})
     eng = NeSyEngine(nli=AlwaysEntailNLI(), nesy_nli_mock=False)
-    layer2_out, rec, trace = run_parse_repair_loop(
+    _l1_out, layer2_out, rec, trace = run_parse_repair_loop(
         eng,
         layer1=l1,
         layer2=l2,
@@ -133,8 +133,8 @@ def test_parse_repair_stops_at_max_without_fix() -> None:
     ) -> Layer2Parse:
         return bad
 
-    with patch("verification.repair_loop.repair_layer2_from_payload", side_effect=noop_repair):
-        _, rec, trace = run_parse_repair_loop(
+    with patch("verification.repair_handlers.repair_layer2_from_payload", side_effect=noop_repair):
+        _, _, rec, trace = run_parse_repair_loop(
             eng,
             layer1=l1,
             layer2=bad,

@@ -161,7 +161,7 @@ def run_ask(
     session.layer2 = layer2
     trace["stage"].append("parse_done")
 
-    layer2, v_parse, parse_repair_trace = run_parse_repair_loop(
+    layer1, layer2, v_parse, parse_repair_trace = run_parse_repair_loop(
         engine,
         layer1=layer1,
         layer2=layer2,
@@ -169,6 +169,7 @@ def run_ask(
         user_facts=list(session.known_facts.keys()),
         max_repair_attempts_parse=max_repair_attempts_parse,
     )
+    session.layer1 = layer1
     session.layer2 = layer2
     trace["parse_repair"] = parse_repair_trace
     _merge_verification(session, v_parse)
@@ -355,7 +356,7 @@ def run_clarify(
 
     trace: dict[str, Any] = {"stage": ["clarify_resume"]}
 
-    layer2, _v_parse_cl, parse_repair_trace = run_parse_repair_loop(
+    layer1, layer2, _v_parse_cl, parse_repair_trace = run_parse_repair_loop(
         engine,
         layer1=layer1,
         layer2=layer2,
@@ -363,6 +364,7 @@ def run_clarify(
         user_facts=list(session.known_facts.keys()),
         max_repair_attempts_parse=max_repair_attempts_parse,
     )
+    session.layer1 = layer1
     session.layer2 = layer2
     trace["parse_repair"] = parse_repair_trace
     _merge_verification(session, _v_parse_cl)
