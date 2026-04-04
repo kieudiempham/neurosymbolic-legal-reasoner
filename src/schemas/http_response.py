@@ -16,6 +16,7 @@ from schemas.verification import VerificationRecord
 class ClarificationPrompt(BaseModel):
     fact_key: str
     question_text: str
+    reason_hint: str = ""
 
 
 class AskResponse(BaseModel):

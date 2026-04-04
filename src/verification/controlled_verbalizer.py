@@ -36,3 +36,37 @@ def verbalize_layer1_subject(subject_text: str) -> str:
 
 def verbalize_answer_conclusion(answer_text: str, conclusion: str) -> str:
     return f"Kết luận hình thức: {conclusion}. Câu trả lời: {answer_text}"
+
+
+def verbalize_question_text(question_text: str) -> str:
+    return f"Câu hỏi gốc: {question_text.strip()}"
+
+
+def verbalize_layer2_sketch(layer2_summary: str) -> str:
+    return f"Bản phân tích Layer-2: {layer2_summary}"
+
+
+def verbalize_rule_candidate(rule_id: str, logic_form: str, head_pred: str) -> str:
+    return f"Luật ứng viên {rule_id} dạng {logic_form} với đầu {head_pred}."
+
+
+def verbalize_law_span(law_span: str) -> str:
+    return f"Đoạn căn cứ pháp lý: {law_span.strip()}"
+
+
+def verbalize_backward_plan(goal: dict[str, Any], selected_rule_id: str | None) -> str:
+    g = verbalize_goal(goal)
+    return f"Mục tiêu suy luận: {g} Luật chọn: {selected_rule_id}."
+
+
+def verbalize_forward_failure(forward_result: dict[str, Any]) -> str:
+    fr = str(forward_result.get("failure_reason") or "")
+    gr = forward_result.get("goal_reached")
+    return f"Forward: goal_reached={gr}, failure_reason={fr}."
+
+
+def verbalize_proof_brief(proof: dict[str, Any]) -> str:
+    steps = proof.get("proof_steps") or []
+    n = len(steps) if isinstance(steps, list) else 0
+    dc = proof.get("derived_conclusion") or ""
+    return f"Chứng minh có {n} bước; kết luận hình thức trong proof: {dc}."

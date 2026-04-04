@@ -14,6 +14,7 @@ from app.api.routes_clarify import router as clarify_router
 from app.api.routes_health import router as health_router
 from app.api.routes_session import router as session_router
 from app.config import settings
+from app.llm import build_nli_verifier
 from app.utils.logging_utils import setup_logging
 from runtime.qa_runtime import configure_qa_orchestrator
 
@@ -29,6 +30,9 @@ def _configure_qa() -> None:
         evidence_chunks_path=settings.resolved_evidence_chunks(),
         rule_retrieval_top_k=settings.rule_retrieval_top_k,
         nesy_nli_mock=settings.nesy_nli_mock,
+        nli_verifier=build_nli_verifier(settings),
+        entailment_threshold=settings.nli_entailment_threshold,
+        contradiction_threshold=settings.nli_contradiction_threshold,
     )
 
 

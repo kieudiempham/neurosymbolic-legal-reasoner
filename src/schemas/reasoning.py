@@ -16,6 +16,9 @@ class RequirementItem(BaseModel):
     description: str = ""
     predicate: str | None = None
     args: list[Any] = Field(default_factory=list)
+    # Internal reasoning layer (optional; backward compatible when absent)
+    requirement_kind: str | None = None
+    atom_payload: dict[str, Any] | None = None
 
 
 class ReasoningState(BaseModel):
@@ -27,3 +30,8 @@ class ReasoningState(BaseModel):
     covered_requirements: list[str] = Field(default_factory=list)
     can_continue_forward: bool = False
     trace: list[str] = Field(default_factory=list)
+    # Runtime semantic layer (optional; backward-compatible when absent)
+    backward_plan: dict[str, Any] | None = None
+    forward_result: dict[str, Any] | None = None
+    failure_reason: str | None = None
+    evaluation_hooks: dict[str, Any] | None = None

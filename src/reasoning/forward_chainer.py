@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from schemas.rule_schema import Rule
+from schemas.rule import RuleRecord
 
 
 class ForwardChainer:
@@ -13,6 +13,6 @@ class ForwardChainer:
     def __init__(self, config: dict[str, Any]) -> None:
         self._config = config
 
-    def chain(self, facts: dict[str, Any], rules: list[Rule]) -> dict[str, Any]:
+    def chain(self, facts: dict[str, Any], rules: list[RuleRecord]) -> dict[str, Any]:
         """Run forward chaining and return a trace usable for proofs."""
         raise NotImplementedError

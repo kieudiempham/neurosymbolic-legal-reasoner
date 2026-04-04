@@ -1,10 +1,11 @@
 """Shared data schemas (Pydantic) aligned with paper terminology."""
 
-from schemas.question_schema import Layer1SemanticSlots, Layer2LogicObjects
 from schemas.legal_frame_schema import LegalFrame
-from schemas.rule_schema import Rule
-from schemas.proof_schema import Proof, ProofStep
-from schemas.verification_schema import VerificationResult
+from schemas.proof import ProofObject as Proof, ProofStep
+from schemas.question_parse import Layer1Parse as Layer1SemanticSlots
+from schemas.question_parse import Layer2Parse as Layer2LogicObjects
+from schemas.rule import RuleRecord as Rule
+from schemas.verification import VerificationResult
 
 __all__ = [
     "Layer1SemanticSlots",

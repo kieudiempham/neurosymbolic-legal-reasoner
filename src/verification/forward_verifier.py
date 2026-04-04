@@ -1,10 +1,10 @@
-"""Verify forward chaining traces."""
+"""Deprecated stub — use `NeSyEngine.verify_forward` (`forward_verification` mode)."""
 
 from __future__ import annotations
 
 from typing import Any
 
-from schemas.verification_schema import VerificationResult
+from schemas.verification import VerificationResult
 
 
 class ForwardVerifier:

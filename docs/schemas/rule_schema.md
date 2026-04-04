@@ -2,7 +2,7 @@
 
 **Nguồn sự thật:** `data/processed/rulebase/rulebase_seed.xlsx`  
 **Mã:** `RuleBuilder`, `RuleSeed`, thứ tự cột `RULEBASE_SEED_COLUMNS` / `_RULEBASE_COLUMNS` trong `law_side/export_to_excel.py` và `run_rulebase_seed_only.py`.  
-**Lưu ý:** `src/schemas/rule_schema.py` (Pydantic `Rule` cho suy luận symbolic) là **mô hình runtime khác** — không phải bản sao cột Excel; Excel là ground truth cho pipeline xây dựng rulebase.
+**Lưu ý:** `src/schemas/rule.py` (Pydantic `RuleRecord` cho suy luận symbolic) là **mô hình runtime khác** — không phải bản sao cột Excel; Excel là ground truth cho pipeline xây dựng rulebase.
 
 ---
 

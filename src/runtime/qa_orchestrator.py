@@ -8,7 +8,7 @@ from typing import Any
 
 from generation.answer_generator import generate_answer, safe_regenerate_answer
 from reasoning.backward_reasoner import run_backward
-from reasoning.clarification_manager import build_clarification_prompts
+from reasoning.clarification_manager import build_clarification_prompts_from_requirements
 from reasoning.forward_reasoner import run_forward
 from reasoning.proof_builder import build_proof
 from question_side.question_normalizer import build_layer2
@@ -27,7 +27,7 @@ from schemas.session import SessionState
 from schemas.verification import VerificationRecord
 from session.session_service import SessionService, get_session_service
 from verification.engine import NeSyEngine
-from verification.symbolic_validator import check_answer_vs_goal
+from verification.nli_verifier import NLIVerifier
 
 logger = logging.getLogger(__name__)
 
@@ -50,12 +50,18 @@ class QAOrchestrator:
         evidence_chunks_path: Path,
         rule_retrieval_top_k: int = 8,
         nesy_nli_mock: bool = True,
+        nli_verifier: NLIVerifier | None = None,
+        entailment_threshold: float = 0.70,
+        contradiction_threshold: float = 0.70,
         session_svc: SessionService | None = None,
     ) -> None:
         self._rulebase_core_path = rulebase_core_path
         self._evidence_chunks_path = evidence_chunks_path
         self._top_k = rule_retrieval_top_k
         self._nesy_nli_mock = nesy_nli_mock
+        self._nli_verifier = nli_verifier
+        self._entailment_threshold = entailment_threshold
+        self._contradiction_threshold = contradiction_threshold
         self._session_svc = session_svc
         self._rule_index: RulebaseIndex | None = None
         self._evidence: EvidenceRetriever | None = None
@@ -76,7 +82,14 @@ class QAOrchestrator:
         return self._evidence
 
     def _nesy(self) -> NeSyEngine:
-        return NeSyEngine(nesy_nli_mock=self._nesy_nli_mock)
+        kw = dict(
+            nesy_nli_mock=self._nesy_nli_mock,
+            entailment_threshold=self._entailment_threshold,
+            contradiction_threshold=self._contradiction_threshold,
+        )
+        if self._nli_verifier is not None:
+            return NeSyEngine(nli=self._nli_verifier, **kw)
+        return NeSyEngine(**kw)
 
     def ask(
         self,
@@ -137,7 +150,7 @@ def run_ask(
     session.layer2 = layer2
     trace["stage"].append("parse_done")
 
-    v_parse = engine.verify_parse(layer1, layer2)
+    v_parse = engine.verify_parse(layer1, layer2, question_text=question)
     _merge_verification(session, v_parse)
     if v_parse.final_decision == "REJECT":
         svc.save(session)
@@ -159,10 +172,20 @@ def run_ask(
     session.reasoning = bstate
     session.selected_rule = selected
 
+    v_rule = engine.verify_rule(
+        layer2_goal=goal,
+        rule_candidate=selected,
+        law_span=(selected.source_ref_full or selected.source_ref) if selected else None,
+        legal_frame=layer2.query_rule_candidate or "",
+    )
+    _merge_verification(session, v_rule)
+
     v_back = engine.verify_backward(
         goal=goal,
         selected_rule_id=selected.rule_id if selected else None,
         requirements_ok=bstate.can_continue_forward,
+        backward_plan=bstate.backward_plan,
+        missing_facts=bstate.missing_facts,
     )
     _merge_verification(session, v_back)
 
@@ -180,7 +203,11 @@ def run_ask(
         )
 
     if bstate.missing_facts:
-        prompts = build_clarification_prompts(bstate.missing_facts)
+        prompts = build_clarification_prompts_from_requirements(
+            bstate.missing_facts,
+            bstate.requirement_set,
+            backward_plan=bstate.backward_plan,
+        )
         session.missing_facts = bstate.missing_facts
         session.clarification_questions = prompts
         svc.save(session)
@@ -198,15 +225,37 @@ def run_ask(
         )
 
     conclusion, goal_ok, fstate, _ = run_forward(
-        rule=selected, known_facts=session.known_facts, goal=goal
+        rule=selected,
+        known_facts=session.known_facts,
+        goal=goal,
+        backward_plan=bstate.backward_plan,
+        candidates=ranked,
     )
     session.reasoning = fstate
+    win_rule = selected
+    if fstate.forward_result and fstate.forward_result.get("rule_id"):
+        _by_id = {r.rule_id: r for r, _, _ in ranked}
+        win_rule = _by_id.get(fstate.forward_result["rule_id"], selected)
+    session.selected_rule = win_rule
+    selected = win_rule
 
-    v_fwd = engine.verify_forward(goal=goal, conclusion=conclusion, goal_achieved=goal_ok)
-    _merge_verification(session, v_fwd)
-
-    proof = build_proof(rule=selected, used_facts=list(session.known_facts.keys()), conclusion=conclusion)
+    proof = build_proof(
+        rule=selected,
+        used_facts=list(session.known_facts.keys()),
+        conclusion=conclusion,
+        forward_result=fstate.forward_result,
+    )
     session.proof = proof
+
+    v_fwd = engine.verify_forward(
+        goal=goal,
+        conclusion=conclusion,
+        goal_achieved=goal_ok,
+        known_facts=session.known_facts,
+        forward_result=fstate.forward_result,
+        proof=proof.model_dump(mode="json"),
+    )
+    _merge_verification(session, v_fwd)
 
     ev = (evidence_retriever or get_evidence_retriever()).retrieve(
         question=question, rule=selected, conclusion=conclusion, top_k=5
@@ -220,12 +269,14 @@ def run_ask(
         goal_achieved=goal_ok,
     )
 
-    sym_ok, _diag = check_answer_vs_goal(
+    v_ans = engine.verify_answer(
+        answer_text=ans.answer_text,
+        conclusion=conclusion,
+        proof=proof.model_dump(mode="json"),
         modality_expected=layer1.modality_text or "",
-        action_token_in_answer=ans.answer_text,
         goal_action=str(goal.get("args", ["", "", ""])[1] if len(goal.get("args", [])) > 1 else ""),
+        action_token_in_answer=ans.answer_text,
     )
-    v_ans = engine.verify_answer(answer_text=ans.answer_text, conclusion=conclusion, symbolic_ok=sym_ok)
     _merge_verification(session, v_ans)
     if v_ans.final_decision in ("REJECT", "REPAIR"):
         ans.answer_text = safe_regenerate_answer(conclusion)
@@ -284,10 +335,20 @@ def run_clarify(
     session.reasoning = bstate
     session.selected_rule = selected
 
+    v_rule = engine.verify_rule(
+        layer2_goal=goal,
+        rule_candidate=selected,
+        law_span=(selected.source_ref_full or selected.source_ref) if selected else None,
+        legal_frame=layer2.query_rule_candidate or "",
+    )
+    _merge_verification(session, v_rule)
+
     v_back = engine.verify_backward(
         goal=goal,
         selected_rule_id=selected.rule_id if selected else None,
         requirements_ok=bstate.can_continue_forward,
+        backward_plan=bstate.backward_plan,
+        missing_facts=bstate.missing_facts,
     )
     _merge_verification(session, v_back)
 
@@ -301,7 +362,11 @@ def run_clarify(
         )
 
     if bstate.missing_facts:
-        prompts = build_clarification_prompts(bstate.missing_facts)
+        prompts = build_clarification_prompts_from_requirements(
+            bstate.missing_facts,
+            bstate.requirement_set,
+            backward_plan=bstate.backward_plan,
+        )
         session.missing_facts = bstate.missing_facts
         session.clarification_questions = prompts
         svc.save(session)
@@ -316,14 +381,35 @@ def run_clarify(
         )
 
     conclusion, goal_ok, fstate, _ = run_forward(
-        rule=selected, known_facts=session.known_facts, goal=goal
+        rule=selected,
+        known_facts=session.known_facts,
+        goal=goal,
+        backward_plan=bstate.backward_plan,
+        candidates=ranked,
     )
     session.reasoning = fstate
-    v_fwd = engine.verify_forward(goal=goal, conclusion=conclusion, goal_achieved=goal_ok)
-    _merge_verification(session, v_fwd)
+    if fstate.forward_result and fstate.forward_result.get("rule_id"):
+        _by_id = {r.rule_id: r for r, _, _ in ranked}
+        selected = _by_id.get(fstate.forward_result["rule_id"], selected)
+    session.selected_rule = selected
 
-    proof = build_proof(rule=selected, used_facts=list(session.known_facts.keys()), conclusion=conclusion)
+    proof = build_proof(
+        rule=selected,
+        used_facts=list(session.known_facts.keys()),
+        conclusion=conclusion,
+        forward_result=fstate.forward_result,
+    )
     session.proof = proof
+
+    v_fwd = engine.verify_forward(
+        goal=goal,
+        conclusion=conclusion,
+        goal_achieved=goal_ok,
+        known_facts=session.known_facts,
+        forward_result=fstate.forward_result,
+        proof=proof.model_dump(mode="json"),
+    )
+    _merge_verification(session, v_fwd)
 
     ev = (evidence_retriever or get_evidence_retriever()).retrieve(
         question=question, rule=selected, conclusion=conclusion, top_k=5
@@ -335,12 +421,14 @@ def run_clarify(
         evidence=ev,
         goal_achieved=goal_ok,
     )
-    sym_ok, _ = check_answer_vs_goal(
+    v_ans = engine.verify_answer(
+        answer_text=ans.answer_text,
+        conclusion=conclusion,
+        proof=proof.model_dump(mode="json"),
         modality_expected=layer1.modality_text or "",
-        action_token_in_answer=ans.answer_text,
         goal_action=str(goal.get("args", ["", "", ""])[1] if len(goal.get("args", [])) > 1 else ""),
+        action_token_in_answer=ans.answer_text,
     )
-    v_ans = engine.verify_answer(answer_text=ans.answer_text, conclusion=conclusion, symbolic_ok=sym_ok)
     _merge_verification(session, v_ans)
     if v_ans.final_decision in ("REJECT", "REPAIR"):
         ans.answer_text = safe_regenerate_answer(conclusion)

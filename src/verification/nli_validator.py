@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from schemas.verification_schema import VerificationResult
+from schemas.verification import VerificationResult
 
 
 class NLIValidator:

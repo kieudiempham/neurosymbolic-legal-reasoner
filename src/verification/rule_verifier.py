@@ -1,19 +1,18 @@
-"""Verify rule correctness w.r.t. schema and source text."""
+"""Deprecated stub — use `verification.engine.NeSyEngine.verify_rule` (v5 `rule_verification`)."""
 
 from __future__ import annotations
 
 from typing import Any
 
-from schemas.rule_schema import Rule
-from schemas.verification_schema import VerificationResult
+from schemas.rule import RuleRecord
+from schemas.verification import VerificationResult
 
 
 class RuleVerifier:
-    """Cross-checks rules against frames and legal text."""
+    """Deprecated: NeSyEngine + `rule_verification` mode is the source of truth."""
 
     def __init__(self, config: dict[str, Any]) -> None:
         self._config = config
 
-    def verify(self, rule: Rule, evidence: dict[str, Any]) -> VerificationResult:
-        """Check that rule heads and bodies align with the retrieved text."""
-        raise NotImplementedError
+    def verify(self, rule: RuleRecord, evidence: dict[str, Any]) -> VerificationResult:
+        raise NotImplementedError("Use NeSyEngine.verify_rule")

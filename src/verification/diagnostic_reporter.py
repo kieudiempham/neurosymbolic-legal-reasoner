@@ -1,18 +1,17 @@
-"""Aggregate verification failures for error analysis (paper tables)."""
+"""Deprecated stub — diagnostics live on `VerificationRecord` from `NeSyEngine` (v5)."""
 
 from __future__ import annotations
 
 from typing import Any
 
-from schemas.verification_schema import VerificationResult
+from schemas.verification import VerificationResult
 
 
 class DiagnosticReporter:
-    """Collects and categorizes verification outcomes."""
+    """Deprecated: use session `verification_logs` + `VerificationRecord.diagnostic_errors`."""
 
     def __init__(self, config: dict[str, Any]) -> None:
         self._config = config
 
     def report(self, results: list[VerificationResult]) -> dict[str, Any]:
-        """Aggregate errors by category and write data/processed/reports/error_summary.json."""
-        raise NotImplementedError
+        raise NotImplementedError("Aggregate VerificationRecord list from session.verification_logs")

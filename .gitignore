@@ -17,3 +17,5 @@ experiments/predictions/
 # OS
 .DS_Store
 Thumbs.db
+
+.env

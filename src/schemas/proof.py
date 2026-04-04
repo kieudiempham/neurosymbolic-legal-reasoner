@@ -12,6 +12,12 @@ class ProofStep(BaseModel):
     description: str
     rule_id: str | None = None
     fact_keys: list[str] = Field(default_factory=list)
+    derived_atom: list[Any] | None = None
+    supporting_atoms: list[list[Any]] | None = None
+    substitution: dict[str, Any] | None = None
+    applied_constraints: list[dict[str, Any]] | None = None
+    status: str | None = None
+    failure_reason: str | None = None
 
 
 class ProofObject(BaseModel):

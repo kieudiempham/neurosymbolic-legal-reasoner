@@ -1,21 +1,42 @@
-"""Forward chaining — apply selected rule when requirements are satisfied."""
+"""Forward chaining — layered evaluation via `run_forward_path` / `run_forward_best_path`."""
 
 from __future__ import annotations
 
 from typing import Any
 
-from schemas.reasoning import ReasoningState
+from schemas.reasoning import ReasoningState, RequirementItem
 from schemas.rule import RuleRecord
-from reasoning.backward_reasoner import (
-    body_to_requirements,
-    fact_satisfies_requirement,
-    goal_unifies_with_head,
-)
+from reasoning.backward_reasoner import body_to_requirements
+from reasoning.internal.mapper import map_rule_record_to_reasoning_rule
+from reasoning.semantics.forward_engine import run_forward_best_path, run_forward_path
+from reasoning.semantics.plan_models import BackwardPlan, ForwardPathResult
 
 
-def _head_string(rule: RuleRecord) -> str:
-    args = ",".join(str(a) for a in rule.head.args)
-    return f"{rule.head.predicate}({args})"
+def _state_from_forward(
+    rule: RuleRecord,
+    reqs: list[RequirementItem],
+    fwd: ForwardPathResult,
+    trace: list[str],
+) -> ReasoningState:
+    derived = [f"derived:{fwd.conclusion}"] if fwd.conclusion else []
+    return ReasoningState(
+        requirement_set=reqs,
+        missing_facts=[],
+        selected_rule_ids=[rule.rule_id],
+        derived_facts=derived,
+        goal_status="satisfied" if fwd.goal_reached else "failed",
+        covered_requirements=[r.key for r in reqs],
+        can_continue_forward=fwd.goal_reached,
+        trace=trace,
+        forward_result=fwd.model_dump(mode="json"),
+        failure_reason=None if fwd.goal_reached else fwd.failure_reason,
+        evaluation_hooks={
+            "goal_achievement_trace": {"goal_reached": fwd.goal_reached, "rule_id": fwd.rule_id},
+            "constraint_evaluation_trace": [x.model_dump(mode="json") for x in fwd.constraint_traces],
+            "failure_trace": [r.model_dump(mode="json") for r in fwd.failed_path_records],
+            "failed_rule_ids": list(fwd.failed_paths),
+        },
+    )
 
 
 def run_forward(
@@ -23,40 +44,44 @@ def run_forward(
     rule: RuleRecord,
     known_facts: dict[str, Any],
     goal: dict[str, Any],
+    backward_plan: dict[str, Any] | None = None,
+    candidates: list[tuple[RuleRecord, float, dict[str, Any]]] | None = None,
+    substitution: dict[str, Any] | None = None,
 ) -> tuple[str, bool, ReasoningState, list[str]]:
-    reqs = body_to_requirements(rule)
-    missing: list[str] = []
-    covered: list[str] = []
-    for r in reqs:
-        if fact_satisfies_requirement(r.key, known_facts):
-            covered.append(r.key)
-        else:
-            missing.append(r.key)
-
+    """
+    If `backward_plan` + `candidates` are set, try candidate paths in order.
+    Otherwise evaluate a single `rule` (tests / simple calls).
+    """
     trace: list[str] = []
-    if missing:
-        st = ReasoningState(
-            requirement_set=reqs,
-            missing_facts=missing,
-            selected_rule_ids=[rule.rule_id],
-            goal_status="open",
-            covered_requirements=covered,
-            can_continue_forward=False,
-            trace=trace + ["forward_blocked_missing"],
-        )
-        return "", False, st, trace
 
-    conclusion = _head_string(rule)
-    derived = [f"derived:{conclusion}"]
-    goal_ok = goal_unifies_with_head(goal, rule)
-    st = ReasoningState(
-        requirement_set=reqs,
-        missing_facts=[],
-        selected_rule_ids=[rule.rule_id],
-        derived_facts=derived,
-        goal_status="satisfied" if goal_ok else "failed",
-        covered_requirements=covered,
-        can_continue_forward=True,
-        trace=trace + ["forward_ok", f"conclusion={conclusion}"],
-    )
-    return conclusion, goal_ok, st, trace
+    if backward_plan is not None and candidates is not None:
+        bp = BackwardPlan.model_validate(backward_plan)
+        fwd = run_forward_best_path(plan=bp, candidates=candidates, goal=goal, known_facts=known_facts)
+        win_rule = next((r for r, _, _ in candidates if r.rule_id == fwd.rule_id), rule)
+        reqs = body_to_requirements(win_rule)
+        st = _state_from_forward(win_rule, reqs, fwd, trace + ["forward_multi_path"])
+        return fwd.conclusion, fwd.goal_reached, st, trace
+
+    reqs = body_to_requirements(rule)
+    rr = map_rule_record_to_reasoning_rule(rule)
+    cand_sub = substitution
+    if cand_sub is None:
+        from reasoning.semantics.unification import unify_goal_dict_with_goal_atom
+
+        s, _ = unify_goal_dict_with_goal_atom(goal, rr.goal_atom)
+        cand_sub = dict(s.mapping) if s is not None else {}
+
+    fwd = run_forward_path(rule=rule, goal=goal, known_facts=known_facts, substitution=cand_sub)
+    st = _state_from_forward(rule, reqs, fwd, trace + ["forward_single_path"])
+    return fwd.conclusion, fwd.goal_reached, st, trace
+
+
+def run_forward_path_only(
+    *,
+    rule: RuleRecord,
+    known_facts: dict[str, Any],
+    goal: dict[str, Any],
+    substitution: dict[str, Any] | None = None,
+) -> ForwardPathResult:
+    """Direct access for tests."""
+    return run_forward_path(rule=rule, goal=goal, known_facts=known_facts, substitution=substitution)
