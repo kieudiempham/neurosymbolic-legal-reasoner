@@ -47,6 +47,8 @@ def run_backward(
     candidates: list[tuple[RuleRecord, float, dict[str, Any]]],
     known_facts: dict[str, Any],
     max_paths: int = 3,
+    excluded_rule_ids: frozenset[str] | None = None,
+    preferred_rule_id: str | None = None,
 ) -> tuple[RuleRecord | None, ReasoningState]:
     plan = build_backward_plan(
         goal=goal, candidates=candidates, known_facts=known_facts, max_paths=max_paths
@@ -54,7 +56,12 @@ def run_backward(
     plan_dict = plan.model_dump(mode="json")
     trace: list[str] = [f"backward_plan:{len(plan.candidates)}_candidates"]
 
-    selected = pick_best_rule_record(plan, candidates)
+    selected = pick_best_rule_record(
+        plan,
+        candidates,
+        excluded_rule_ids=excluded_rule_ids,
+        preferred_rule_id=preferred_rule_id,
+    )
     if not selected:
         return None, ReasoningState(
             requirement_set=[],

@@ -78,7 +78,13 @@ class Settings(BaseSettings):
         validation_alias=AliasChoices("NLI_CONTRADICTION_THRESHOLD", "LEGAL_QA_NLI_CONTRADICTION_THRESHOLD"),
     )
 
-    nesy_nli_mock: bool = True
+    #: When False (default), all five NeSy modes may invoke NLI (unless degraded — see ``nli_policy``).
+    #: Set True for fast tests / dev without an NLI backend.
+    nesy_nli_mock: bool = False
+    #: ``strict``: startup fails if NLI is required but unavailable. ``degraded``: symbolic-only with explicit trace.
+    nli_policy: Literal["strict", "degraded"] = "degraded"
+    #: If True, on answer REJECT still emit a short fallback answer (not default for research runs).
+    answer_reject_allow_fallback: bool = False
     session_ttl_seconds: int = 3600 * 24
     rule_retrieval_top_k: int = 8
 

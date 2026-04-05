@@ -11,14 +11,11 @@ from generation.answer_generator import (
     generate_answer,
     safe_regenerate_final_answer,
 )
-from reasoning.backward_reasoner import run_backward
 from reasoning.clarification_manager import (
     build_clarification_prompts_from_requirements,
     build_parse_ambiguity_prompts,
     merge_clarification_prompts_unified,
 )
-from reasoning.forward_reasoner import run_forward
-from reasoning.proof_builder import build_proof
 from question_side.parse_clarify_apply import (
     extract_resolved_condition_atoms_from_known_facts,
     known_facts_for_reasoning,
@@ -31,7 +28,7 @@ from retrieval.evidence_retriever import (
     get_evidence_retriever,
 )
 from retrieval.rule_retriever import retrieve_rules
-from retrieval.rulebase_loader import RulebaseIndex, configure_rulebase_path, load_rulebase
+from retrieval.rulebase_loader import RulebaseIndex, configure_rulebase_path, get_rulebase_index, load_rulebase
 from schemas.http_response import AskResponse, ClarificationPrompt, ClarifyResponse
 from schemas.question_parse import Layer1Parse, Layer2Parse
 from schemas.rule import RuleRecord
@@ -41,6 +38,7 @@ from session.session_service import SessionService, get_session_service
 from verification.engine import NeSyEngine
 from verification.nli_verifier import NLIVerifier
 from verification.repair_loop import run_answer_repair_loop, run_parse_repair_loop
+from runtime.verification_gates import gate_forward_reasoning, gate_rule_and_backward
 from runtime.pipeline_tracing import (
     TraceCollector,
     summarize_answer_trace,
@@ -85,12 +83,18 @@ class QAOrchestrator:
         rulebase_core_path: Path,
         evidence_chunks_path: Path,
         rule_retrieval_top_k: int = 8,
-        nesy_nli_mock: bool = True,
+        nesy_nli_mock: bool = False,
         nli_verifier: NLIVerifier | None = None,
+        nli_degraded: bool = False,
+        nli_meta: dict[str, Any] | None = None,
         entailment_threshold: float = 0.70,
         contradiction_threshold: float = 0.70,
         max_repair_attempts_parse: int = 2,
         max_repair_attempts_answer: int = 2,
+        max_repair_attempts_rule: int = 2,
+        max_repair_attempts_backward: int = 1,
+        max_repair_attempts_forward: int = 1,
+        answer_reject_allow_fallback: bool = False,
         session_svc: SessionService | None = None,
     ) -> None:
         self._rulebase_core_path = rulebase_core_path
@@ -98,10 +102,16 @@ class QAOrchestrator:
         self._top_k = rule_retrieval_top_k
         self._nesy_nli_mock = nesy_nli_mock
         self._nli_verifier = nli_verifier
+        self._nli_degraded = nli_degraded
+        self._nli_meta = dict(nli_meta or {})
         self._entailment_threshold = entailment_threshold
         self._contradiction_threshold = contradiction_threshold
         self._max_repair_attempts_parse = max_repair_attempts_parse
         self._max_repair_attempts_answer = max_repair_attempts_answer
+        self._max_repair_attempts_rule = max_repair_attempts_rule
+        self._max_repair_attempts_backward = max_repair_attempts_backward
+        self._max_repair_attempts_forward = max_repair_attempts_forward
+        self._answer_reject_allow_fallback = answer_reject_allow_fallback
         self._session_svc = session_svc
         self._rule_index: RulebaseIndex | None = None
         self._evidence: EvidenceRetriever | None = None
@@ -124,12 +134,12 @@ class QAOrchestrator:
     def _nesy(self) -> NeSyEngine:
         kw = dict(
             nesy_nli_mock=self._nesy_nli_mock,
+            nli_degraded=self._nli_degraded,
+            nli_meta=self._nli_meta,
             entailment_threshold=self._entailment_threshold,
             contradiction_threshold=self._contradiction_threshold,
         )
-        if self._nli_verifier is not None:
-            return NeSyEngine(nli=self._nli_verifier, **kw)
-        return NeSyEngine(**kw)
+        return NeSyEngine(nli=self._nli_verifier, **kw)
 
     def ask(
         self,
@@ -149,6 +159,10 @@ class QAOrchestrator:
             top_k=self._top_k,
             max_repair_attempts_parse=self._max_repair_attempts_parse,
             max_repair_attempts_answer=self._max_repair_attempts_answer,
+            max_repair_attempts_rule=self._max_repair_attempts_rule,
+            max_repair_attempts_backward=self._max_repair_attempts_backward,
+            max_repair_attempts_forward=self._max_repair_attempts_forward,
+            answer_reject_allow_fallback=self._answer_reject_allow_fallback,
             trace_collector=trace_collector,
         )
 
@@ -163,6 +177,10 @@ class QAOrchestrator:
             top_k=self._top_k,
             max_repair_attempts_parse=self._max_repair_attempts_parse,
             max_repair_attempts_answer=self._max_repair_attempts_answer,
+            max_repair_attempts_rule=self._max_repair_attempts_rule,
+            max_repair_attempts_backward=self._max_repair_attempts_backward,
+            max_repair_attempts_forward=self._max_repair_attempts_forward,
+            answer_reject_allow_fallback=self._answer_reject_allow_fallback,
             trace_collector=trace_collector,
         )
 
@@ -179,10 +197,14 @@ def run_ask(
     top_k: int = 8,
     max_repair_attempts_parse: int = 2,
     max_repair_attempts_answer: int = 2,
+    max_repair_attempts_rule: int = 2,
+    max_repair_attempts_backward: int = 1,
+    max_repair_attempts_forward: int = 1,
+    answer_reject_allow_fallback: bool = False,
     trace_collector: TraceCollector | None = None,
 ) -> AskResponse:
     svc = session_svc or get_session_service()
-    engine = nesy or NeSyEngine()
+    engine = nesy or NeSyEngine(nesy_nli_mock=True)
     tc = trace_collector or TraceCollector.noop()
 
     if session_id and (st := svc.get(session_id)):
@@ -284,42 +306,37 @@ def run_ask(
     }
 
     goal = layer2.goal
-    with tc.span("backward") as sp_b:
-        selected, bstate = run_backward(goal=goal, candidates=ranked, known_facts=known_facts_for_reasoning(session))
-        session.reasoning = bstate
-        session.selected_rule = selected
+    ri = rule_index or get_rulebase_index()
 
-        v_rule = engine.verify_rule(
-            layer2_goal=goal,
-            rule_candidate=selected,
-            law_span=(selected.source_ref_full or selected.source_ref) if selected else None,
-            legal_frame=layer2.query_rule_candidate or "",
-        )
-        _merge_verification(session, v_rule)
-
-        v_back = engine.verify_backward(
+    with tc.span("rule_backward_gate") as sp_b:
+        rg = gate_rule_and_backward(
+            engine,
             goal=goal,
-            selected_rule_id=selected.rule_id if selected else None,
-            requirements_ok=bstate.can_continue_forward,
-            backward_plan=bstate.backward_plan,
-            missing_facts=bstate.missing_facts,
-            requirement_keys=[r.key for r in bstate.requirement_set],
+            layer2=layer2,
+            ranked=ranked,
+            known_facts=known_facts_for_reasoning(session),
+            rule_index=ri,
+            max_rule_repair=max_repair_attempts_rule,
+            max_backward_repair=max_repair_attempts_backward,
         )
-        _merge_verification(session, v_back)
+        trace["rule_backward_gate"] = rg.trace
+        if rg.v_rule:
+            _merge_verification(session, rg.v_rule)
+        if rg.v_back:
+            _merge_verification(session, rg.v_back)
         sp_b.output_summary = {
-            "selected_rule_id": selected.rule_id if selected else None,
-            "can_continue_forward": bstate.can_continue_forward,
-            "missing_facts": bstate.missing_facts,
-            "requirement_keys": [r.key for r in bstate.requirement_set][:16],
-            "backward_plan_excerpt": str(bstate.backward_plan)[:500],
-            "verify_rule": summarize_verification_trace(v_rule),
-            "verify_backward": summarize_verification_trace(v_back),
+            "gate_ok": rg.ok,
+            "clarification_needed": rg.clarification_needed,
+            "tried_rule_ids": rg.tried_rule_ids,
+            "error": rg.error,
+            "verify_rule": summarize_verification_trace(rg.v_rule) if rg.v_rule else {},
+            "verify_backward": summarize_verification_trace(rg.v_back) if rg.v_back else {},
         }
-        sp_b.decision = v_back.final_decision
+        sp_b.decision = rg.v_back.final_decision if rg.v_back else "none"
 
-    if not selected:
+    if not rg.ok:
         with tc.span("pipeline_exit") as spx:
-            spx.output_summary = {"reason": "no_unifying_rule"}
+            spx.output_summary = {"reason": rg.error or "rule_backward_gate_failed"}
         svc.save(session)
         _merge_pipeline_trace_dict(trace, tc)
         return AskResponse(
@@ -328,12 +345,20 @@ def run_ask(
             verification_trace=session.verification_logs,
             layer1=layer1,
             layer2=layer2,
-            retrieved_rules=[_rule_dump(r) for r, s, d in ranked[:5]],
-            reasoning=bstate,
-            debug_trace=trace | {"note": "no_unifying_rule"},
+            retrieved_rules=[_rule_dump(r) for r, s, d in ranked[:8]],
+            debug_trace=trace
+            | {
+                "error": rg.error or "reasoning_blocked_by_rule_verification",
+                "tried_rule_ids": rg.tried_rule_ids,
+            },
         )
 
-    if bstate.missing_facts:
+    selected = rg.selected
+    bstate = rg.bstate
+    session.reasoning = bstate
+    session.selected_rule = selected
+
+    if rg.clarification_needed and bstate:
         with tc.span("clarification") as sp_cl:
             parse_ambs = (layer2.diagnostics or {}).get("ambiguities") or []
             parse_prompts = build_parse_ambiguity_prompts([a for a in parse_ambs if not a.get("blocking")])
@@ -361,52 +386,61 @@ def run_ask(
             layer2=layer2,
             verification_trace=session.verification_logs,
             retrieved_rules=[_rule_dump(r) for r, s, d in ranked[:8]],
-            selected_rule=_rule_dump(selected),
+            selected_rule=_rule_dump(selected) if selected else None,
             reasoning=bstate,
             debug_trace=trace | {"stage": "needs_clarification"},
         )
 
-    with tc.span("forward") as sp_f:
-        conclusion, goal_ok, fstate, _ = run_forward(
-            rule=selected,
-            known_facts=known_facts_for_reasoning(session),
+    assert selected is not None and bstate is not None
+
+    with tc.span("forward_gate") as sp_f:
+        fg = gate_forward_reasoning(
+            engine,
             goal=goal,
-            backward_plan=bstate.backward_plan,
-            candidates=ranked,
+            selected=selected,
+            ranked=ranked,
+            session=session,
+            known_facts=known_facts_for_reasoning(session),
+            backward_plan_dict=bstate.backward_plan,
+            max_forward_repair=max_repair_attempts_forward,
         )
-        session.reasoning = fstate
-        win_rule = selected
-        if fstate.forward_result and fstate.forward_result.get("rule_id"):
-            _by_id = {r.rule_id: r for r, _, _ in ranked}
-            win_rule = _by_id.get(fstate.forward_result["rule_id"], selected)
-        session.selected_rule = win_rule
-        selected = win_rule
+        trace["forward_gate"] = fg.trace
+        if fg.v_fwd:
+            _merge_verification(session, fg.v_fwd)
         sp_f.output_summary = {
-            "goal_achieved": goal_ok,
-            "conclusion_excerpt": (conclusion or "")[:400],
-            "forward_result": fstate.forward_result,
+            "gate_ok": fg.ok,
+            "verify_forward": summarize_verification_trace(fg.v_fwd) if fg.v_fwd else {},
+            "error": fg.error,
         }
+        sp_f.decision = fg.v_fwd.final_decision if fg.v_fwd else "none"
 
-    with tc.span("verify_forward") as sp_vf:
-        proof = build_proof(
-            rule=selected,
-            used_facts=list(known_facts_for_reasoning(session).keys()),
-            conclusion=conclusion,
-            forward_result=fstate.forward_result,
+    if not fg.ok:
+        with tc.span("pipeline_exit") as spx:
+            spx.output_summary = {"reason": fg.error or "forward_verification_failed"}
+        svc.save(session)
+        _merge_pipeline_trace_dict(trace, tc)
+        return AskResponse(
+            session_id=session.session_id,
+            needs_clarification=False,
+            verification_trace=session.verification_logs,
+            layer1=layer1,
+            layer2=layer2,
+            retrieved_rules=[_rule_dump(r) for r, s, d in ranked[:8]],
+            selected_rule=_rule_dump(selected),
+            reasoning=bstate,
+            debug_trace=trace | {"error": fg.error or "forward_verification_failed"},
         )
-        session.proof = proof
 
-        v_fwd = engine.verify_forward(
-            goal=goal,
-            conclusion=conclusion,
-            goal_achieved=goal_ok,
-            known_facts=known_facts_for_reasoning(session),
-            forward_result=fstate.forward_result,
-            proof=proof.model_dump(mode="json"),
-        )
-        _merge_verification(session, v_fwd)
-        sp_vf.output_summary = summarize_verification_trace(v_fwd)
-        sp_vf.decision = v_fwd.final_decision
+    conclusion = fg.conclusion
+    goal_ok = fg.goal_achieved
+    fstate = fg.fstate
+    proof = fg.proof_obj
+    session.reasoning = fstate
+    session.proof = proof
+    if fstate and fstate.forward_result and fstate.forward_result.get("rule_id"):
+        _by_id = {r.rule_id: r for r, _, _ in ranked}
+        selected = _by_id.get(fstate.forward_result["rule_id"], selected)
+    session.selected_rule = selected
 
     with tc.span("proof") as sp_p:
         sp_p.output_summary = {
@@ -462,7 +496,7 @@ def run_ask(
         }
         sp_ar.decision = v_ans.final_decision
 
-    if v_ans.final_decision == "REJECT":
+    if v_ans.final_decision == "REJECT" and answer_reject_allow_fallback:
         reg = safe_regenerate_final_answer(
             conclusion,
             proof=proof,
@@ -472,6 +506,9 @@ def run_ask(
         )
         reg.verification_summary = ans.verification_summary + ";answer_fallback_regenerate_on_reject"
         ans = reg
+    elif v_ans.final_decision == "REJECT":
+        ans.verification_summary += ";answer_verification_rejected_no_fallback"
+        trace["answer_verification"] = {"final_decision": "REJECT", "note": "no_fallback_per_policy"}
 
     session.answer = ans
     trace["stage"].append("complete")
@@ -505,10 +542,14 @@ def run_clarify(
     top_k: int = 8,
     max_repair_attempts_parse: int = 2,
     max_repair_attempts_answer: int = 2,
+    max_repair_attempts_rule: int = 2,
+    max_repair_attempts_backward: int = 1,
+    max_repair_attempts_forward: int = 1,
+    answer_reject_allow_fallback: bool = False,
     trace_collector: TraceCollector | None = None,
 ) -> ClarifyResponse:
     svc = session_svc or get_session_service()
-    engine = nesy or NeSyEngine()
+    engine = nesy or NeSyEngine(nesy_nli_mock=True)
     tc = trace_collector or TraceCollector.noop()
     session = svc.get(session_id)
     if not session:
@@ -590,49 +631,56 @@ def run_clarify(
     }
 
     goal = layer2.goal
-    with tc.span("backward") as sp_b:
-        selected, bstate = run_backward(goal=goal, candidates=ranked, known_facts=known_facts_for_reasoning(session))
-        session.reasoning = bstate
-        session.selected_rule = selected
+    ri = rule_index or get_rulebase_index()
 
-        v_rule = engine.verify_rule(
-            layer2_goal=goal,
-            rule_candidate=selected,
-            law_span=(selected.source_ref_full or selected.source_ref) if selected else None,
-            legal_frame=layer2.query_rule_candidate or "",
-        )
-        _merge_verification(session, v_rule)
-
-        v_back = engine.verify_backward(
+    with tc.span("rule_backward_gate") as sp_b:
+        rg = gate_rule_and_backward(
+            engine,
             goal=goal,
-            selected_rule_id=selected.rule_id if selected else None,
-            requirements_ok=bstate.can_continue_forward,
-            backward_plan=bstate.backward_plan,
-            missing_facts=bstate.missing_facts,
-            requirement_keys=[r.key for r in bstate.requirement_set],
+            layer2=layer2,
+            ranked=ranked,
+            known_facts=known_facts_for_reasoning(session),
+            rule_index=ri,
+            max_rule_repair=max_repair_attempts_rule,
+            max_backward_repair=max_repair_attempts_backward,
         )
-        _merge_verification(session, v_back)
+        trace["rule_backward_gate"] = rg.trace
+        if rg.v_rule:
+            _merge_verification(session, rg.v_rule)
+        if rg.v_back:
+            _merge_verification(session, rg.v_back)
         sp_b.output_summary = {
-            "selected_rule_id": selected.rule_id if selected else None,
-            "missing_facts": bstate.missing_facts,
-            "verify_rule": summarize_verification_trace(v_rule),
-            "verify_backward": summarize_verification_trace(v_back),
+            "gate_ok": rg.ok,
+            "clarification_needed": rg.clarification_needed,
+            "tried_rule_ids": rg.tried_rule_ids,
+            "error": rg.error,
+            "verify_rule": summarize_verification_trace(rg.v_rule) if rg.v_rule else {},
+            "verify_backward": summarize_verification_trace(rg.v_back) if rg.v_back else {},
         }
-        sp_b.decision = v_back.final_decision
+        sp_b.decision = rg.v_back.final_decision if rg.v_back else "none"
 
-    if not selected:
+    if not rg.ok:
         with tc.span("pipeline_exit") as spx:
-            spx.output_summary = {"reason": "no_unifying_rule"}
+            spx.output_summary = {"reason": rg.error or "rule_backward_gate_failed"}
         svc.save(session)
         _merge_pipeline_trace_dict(trace, tc)
         return ClarifyResponse(
             session_id=session.session_id,
             verification_trace=session.verification_logs,
-            reasoning=bstate,
-            debug_trace=trace,
+            reasoning=rg.bstate,
+            debug_trace=trace
+            | {
+                "error": rg.error or "reasoning_blocked_by_rule_verification",
+                "tried_rule_ids": rg.tried_rule_ids,
+            },
         )
 
-    if bstate.missing_facts:
+    selected = rg.selected
+    bstate = rg.bstate
+    session.reasoning = bstate
+    session.selected_rule = selected
+
+    if rg.clarification_needed and bstate:
         with tc.span("clarification") as sp_cl:
             parse_ambs = (layer2.diagnostics or {}).get("ambiguities") or []
             parse_prompts = build_parse_ambiguity_prompts([a for a in parse_ambs if not a.get("blocking")])
@@ -653,46 +701,61 @@ def run_clarify(
             needs_clarification=True,
             clarification_questions=[ClarificationPrompt.model_validate(p) for p in prompts],
             verification_trace=session.verification_logs,
-            selected_rule=_rule_dump(selected),
+            layer1=layer1,
+            layer2=layer2,
+            selected_rule=_rule_dump(selected) if selected else None,
             reasoning=bstate,
             debug_trace=trace,
         )
 
-    with tc.span("forward") as sp_f:
-        conclusion, goal_ok, fstate, _ = run_forward(
-            rule=selected,
-            known_facts=known_facts_for_reasoning(session),
-            goal=goal,
-            backward_plan=bstate.backward_plan,
-            candidates=ranked,
-        )
-        session.reasoning = fstate
-        if fstate.forward_result and fstate.forward_result.get("rule_id"):
-            _by_id = {r.rule_id: r for r, _, _ in ranked}
-            selected = _by_id.get(fstate.forward_result["rule_id"], selected)
-        session.selected_rule = selected
-        sp_f.output_summary = {"goal_achieved": goal_ok, "forward_result": fstate.forward_result}
+    assert selected is not None and bstate is not None
 
-    with tc.span("verify_forward") as sp_vf:
-        proof = build_proof(
-            rule=selected,
-            used_facts=list(known_facts_for_reasoning(session).keys()),
-            conclusion=conclusion,
-            forward_result=fstate.forward_result,
-        )
-        session.proof = proof
-
-        v_fwd = engine.verify_forward(
+    with tc.span("forward_gate") as sp_f:
+        fg = gate_forward_reasoning(
+            engine,
             goal=goal,
-            conclusion=conclusion,
-            goal_achieved=goal_ok,
+            selected=selected,
+            ranked=ranked,
+            session=session,
             known_facts=known_facts_for_reasoning(session),
-            forward_result=fstate.forward_result,
-            proof=proof.model_dump(mode="json"),
+            backward_plan_dict=bstate.backward_plan,
+            max_forward_repair=max_repair_attempts_forward,
         )
-        _merge_verification(session, v_fwd)
-        sp_vf.output_summary = summarize_verification_trace(v_fwd)
-        sp_vf.decision = v_fwd.final_decision
+        trace["forward_gate"] = fg.trace
+        if fg.v_fwd:
+            _merge_verification(session, fg.v_fwd)
+        sp_f.output_summary = {
+            "gate_ok": fg.ok,
+            "verify_forward": summarize_verification_trace(fg.v_fwd) if fg.v_fwd else {},
+            "error": fg.error,
+        }
+        sp_f.decision = fg.v_fwd.final_decision if fg.v_fwd else "none"
+
+    if not fg.ok:
+        with tc.span("pipeline_exit") as spx:
+            spx.output_summary = {"reason": fg.error or "forward_verification_failed"}
+        svc.save(session)
+        _merge_pipeline_trace_dict(trace, tc)
+        return ClarifyResponse(
+            session_id=session.session_id,
+            verification_trace=session.verification_logs,
+            layer1=layer1,
+            layer2=layer2,
+            selected_rule=_rule_dump(selected),
+            reasoning=bstate,
+            debug_trace=trace | {"error": fg.error or "forward_verification_failed"},
+        )
+
+    conclusion = fg.conclusion
+    goal_ok = fg.goal_achieved
+    fstate = fg.fstate
+    proof = fg.proof_obj
+    session.reasoning = fstate
+    session.proof = proof
+    if fstate and fstate.forward_result and fstate.forward_result.get("rule_id"):
+        _by_id = {r.rule_id: r for r, _, _ in ranked}
+        selected = _by_id.get(fstate.forward_result["rule_id"], selected)
+    session.selected_rule = selected
 
     with tc.span("proof") as sp_p:
         sp_p.output_summary = {
@@ -746,7 +809,7 @@ def run_clarify(
         }
         sp_ar.decision = v_ans.final_decision
 
-    if v_ans.final_decision == "REJECT":
+    if v_ans.final_decision == "REJECT" and answer_reject_allow_fallback:
         reg = safe_regenerate_final_answer(
             conclusion,
             proof=proof,
@@ -756,6 +819,9 @@ def run_clarify(
         )
         reg.verification_summary = ans.verification_summary + ";answer_fallback_regenerate_on_reject"
         ans = reg
+    elif v_ans.final_decision == "REJECT":
+        ans.verification_summary += ";answer_verification_rejected_no_fallback"
+        trace["answer_verification"] = {"final_decision": "REJECT", "note": "no_fallback_per_policy"}
 
     session.answer = ans
     session.pipeline_trace = trace

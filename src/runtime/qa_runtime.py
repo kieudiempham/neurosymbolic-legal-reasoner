@@ -17,10 +17,16 @@ def configure_qa_orchestrator(
     rulebase_core_path: Path,
     evidence_chunks_path: Path,
     rule_retrieval_top_k: int = 8,
-    nesy_nli_mock: bool = True,
+    nesy_nli_mock: bool = False,
     nli_verifier: NLIVerifier | None = None,
+    nli_degraded: bool = False,
+    nli_meta: dict | None = None,
     entailment_threshold: float = 0.70,
     contradiction_threshold: float = 0.70,
+    max_repair_attempts_rule: int = 2,
+    max_repair_attempts_backward: int = 1,
+    max_repair_attempts_forward: int = 1,
+    answer_reject_allow_fallback: bool = False,
 ) -> QAOrchestrator:
     """Idempotent configuration: sets paths for loaders + stores orchestrator singleton."""
     global _orchestrator
@@ -32,8 +38,14 @@ def configure_qa_orchestrator(
         rule_retrieval_top_k=rule_retrieval_top_k,
         nesy_nli_mock=nesy_nli_mock,
         nli_verifier=nli_verifier,
+        nli_degraded=nli_degraded,
+        nli_meta=nli_meta,
         entailment_threshold=entailment_threshold,
         contradiction_threshold=contradiction_threshold,
+        max_repair_attempts_rule=max_repair_attempts_rule,
+        max_repair_attempts_backward=max_repair_attempts_backward,
+        max_repair_attempts_forward=max_repair_attempts_forward,
+        answer_reject_allow_fallback=answer_reject_allow_fallback,
     )
     return _orchestrator
 

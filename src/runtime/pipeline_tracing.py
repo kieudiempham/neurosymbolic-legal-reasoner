@@ -55,6 +55,7 @@ def summarize_layer2_trace(layer2: Layer2Parse) -> dict[str, Any]:
 
 
 def summarize_verification_trace(rec: VerificationRecord) -> dict[str, Any]:
+    nli_trace = (rec.extra or {}).get("nli_trace") if getattr(rec, "extra", None) is not None else None
     return {
         "mode": rec.mode,
         "final_decision": rec.final_decision,
@@ -62,6 +63,7 @@ def summarize_verification_trace(rec: VerificationRecord) -> dict[str, Any]:
         "repair_target_module": rec.repair_target_module,
         "diagnostic_errors": rec.diagnostic_errors[:8],
         "semantic_scores": dict(list(rec.semantic_scores.items())[:8]) if rec.semantic_scores else {},
+        "nli_trace": nli_trace,
     }
 
 

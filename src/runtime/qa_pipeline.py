@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 from pathlib import Path
 from typing import Any
 
@@ -20,6 +21,14 @@ from retrieval.evidence_retriever import EvidenceRetriever
 from retrieval.rulebase_loader import RulebaseIndex
 from session.session_service import SessionService
 from verification.engine import NeSyEngine
+from verification.nli_verifier import NLIVerifier
+
+from runtime.nli_bootstrap import resolve_pipeline_nesy_engine
+
+if TYPE_CHECKING:
+    from app.config import Settings
+
+logger = logging.getLogger(__name__)
 
 
 def _final_answer_summary(ans: Any) -> FinalAnswerSummary | None:
@@ -173,18 +182,79 @@ def run_qa_pipeline(
     trace_dir: Path | None = None,
     session_svc: SessionService | None = None,
     nesy: NeSyEngine | None = None,
+    nli_verifier: NLIVerifier | None = None,
+    settings: Any | None = None,
     rule_index: RulebaseIndex | None = None,
     evidence_retriever: EvidenceRetriever | None = None,
-    top_k: int = 8,
-    max_repair_attempts_parse: int = 2,
-    max_repair_attempts_answer: int = 2,
+    top_k: int | None = None,
+    max_repair_attempts_parse: int | None = None,
+    max_repair_attempts_answer: int | None = None,
+    max_repair_attempts_rule: int | None = None,
+    max_repair_attempts_backward: int | None = None,
+    max_repair_attempts_forward: int | None = None,
+    answer_reject_allow_fallback: bool | None = None,
 ) -> QAResponse:
     """
     Single entrypoint: full ``run_ask`` with structured tracing.
 
     * ``debug``: build ``PipelineTrace`` (step timings + summaries).
     * ``save_trace``: write JSON under ``artifacts/traces/`` (or ``trace_dir``).
+
+    When ``nesy`` is not passed, resolves ``NeSyEngine`` via ``runtime.nli_bootstrap`` using the same
+    ``app.config.Settings`` / ``resolve_nli_stack_bundle`` path as FastAPI (``.env`` / ``LEGAL_QA_*``).
+    Pass ``nesy`` or ``nli_verifier`` to override without bootstrap.
     """
+    cfg = settings
+    if cfg is None:
+        try:
+            from runtime.nli_bootstrap import load_app_settings
+
+            cfg = load_app_settings()
+        except Exception as e:
+            logger.warning("Could not load app settings (%s); using NeSyEngine mock fallback.", e)
+            cfg = None
+
+    resolved_nesy = nesy
+    nli_runtime: dict[str, Any]
+    if resolved_nesy is None:
+        try:
+            resolved_nesy, nli_runtime = resolve_pipeline_nesy_engine(
+                nesy=None,
+                nli_verifier=nli_verifier,
+                settings=cfg,
+            )
+        except Exception as e:
+            logger.warning("NLI bootstrap failed (%s); using NeSyEngine(nesy_nli_mock=True).", e)
+            resolved_nesy = NeSyEngine(nesy_nli_mock=True)
+            nli_runtime = {
+                "verifier_class": "NeSyEngine",
+                "source": "fallback_mock",
+                "bootstrap_error": str(e),
+                "nesy_nli_mock": True,
+            }
+    else:
+        if nli_verifier is not None:
+            logger.warning("Both ``nesy`` and ``nli_verifier`` set; using ``nesy`` only.")
+        try:
+            from runtime.nli_bootstrap import load_app_settings, nli_runtime_descriptor
+
+            s = cfg or load_app_settings()
+            nli_runtime = nli_runtime_descriptor(resolved_nesy, s)
+        except Exception:
+            nli_runtime = {"verifier_class": type(getattr(resolved_nesy, "_nli", object())).__name__, "source": "caller_nesy"}
+
+    top_k_r = top_k if top_k is not None else (cfg.rule_retrieval_top_k if cfg is not None else 8)
+    m_parse = max_repair_attempts_parse if max_repair_attempts_parse is not None else 2
+    m_ans = max_repair_attempts_answer if max_repair_attempts_answer is not None else 2
+    m_rule = max_repair_attempts_rule if max_repair_attempts_rule is not None else 2
+    m_bwd = max_repair_attempts_backward if max_repair_attempts_backward is not None else 1
+    m_fwd = max_repair_attempts_forward if max_repair_attempts_forward is not None else 1
+    ans_fb = (
+        answer_reject_allow_fallback
+        if answer_reject_allow_fallback is not None
+        else (cfg.answer_reject_allow_fallback if cfg is not None else False)
+    )
+
     want_trace = debug or save_trace
     tid = new_trace_id() if want_trace else None
     tc: TraceCollector | None = (
@@ -198,12 +268,16 @@ def run_qa_pipeline(
         session_id=session_id,
         user_facts=user_facts or [],
         session_svc=session_svc,
-        nesy=nesy,
+        nesy=resolved_nesy,
         rule_index=rule_index,
         evidence_retriever=evidence_retriever,
-        top_k=top_k,
-        max_repair_attempts_parse=max_repair_attempts_parse,
-        max_repair_attempts_answer=max_repair_attempts_answer,
+        top_k=top_k_r,
+        max_repair_attempts_parse=m_parse,
+        max_repair_attempts_answer=m_ans,
+        max_repair_attempts_rule=m_rule,
+        max_repair_attempts_backward=m_bwd,
+        max_repair_attempts_forward=m_fwd,
+        answer_reject_allow_fallback=ans_fb,
         trace_collector=tc,
     )
 
@@ -225,6 +299,7 @@ def run_qa_pipeline(
     meta = dict(qa.meta or {})
     meta["verification_decisions"] = vmap
     meta["qid"] = qid
+    meta["nli_runtime"] = nli_runtime
     if ask.selected_rule:
         meta["selected_rule_ids"] = [ask.selected_rule.get("rule_id", "")]
     qa = qa.model_copy(update={"meta": meta})
@@ -241,13 +316,65 @@ def run_clarification_pipeline(
     trace_dir: Path | None = None,
     session_svc: SessionService | None = None,
     nesy: NeSyEngine | None = None,
+    nli_verifier: NLIVerifier | None = None,
+    settings: Any | None = None,
     rule_index: RulebaseIndex | None = None,
     evidence_retriever: EvidenceRetriever | None = None,
-    top_k: int = 8,
-    max_repair_attempts_parse: int = 2,
-    max_repair_attempts_answer: int = 2,
+    top_k: int | None = None,
+    max_repair_attempts_parse: int | None = None,
+    max_repair_attempts_answer: int | None = None,
+    max_repair_attempts_rule: int | None = None,
+    max_repair_attempts_backward: int | None = None,
+    max_repair_attempts_forward: int | None = None,
+    answer_reject_allow_fallback: bool | None = None,
 ) -> QAResponse:
     """Resume session after clarification; same tracing contract as ``run_qa_pipeline``."""
+    cfg = settings
+    if cfg is None:
+        try:
+            from runtime.nli_bootstrap import load_app_settings
+
+            cfg = load_app_settings()
+        except Exception as e:
+            logger.warning("Could not load app settings (%s); using NeSyEngine mock fallback.", e)
+            cfg = None
+
+    resolved_nesy = nesy
+    nli_runtime: dict[str, Any]
+    if resolved_nesy is None:
+        try:
+            resolved_nesy, nli_runtime = resolve_pipeline_nesy_engine(
+                nesy=None,
+                nli_verifier=nli_verifier,
+                settings=cfg,
+            )
+        except Exception as e:
+            logger.warning("NLI bootstrap failed (%s); using NeSyEngine(nesy_nli_mock=True).", e)
+            resolved_nesy = NeSyEngine(nesy_nli_mock=True)
+            nli_runtime = {"source": "fallback_mock", "bootstrap_error": str(e), "nesy_nli_mock": True}
+    else:
+        if nli_verifier is not None:
+            logger.warning("Both ``nesy`` and ``nli_verifier`` set; using ``nesy`` only.")
+        try:
+            from runtime.nli_bootstrap import load_app_settings, nli_runtime_descriptor
+
+            s = cfg or load_app_settings()
+            nli_runtime = nli_runtime_descriptor(resolved_nesy, s)
+        except Exception:
+            nli_runtime = {"verifier_class": type(getattr(resolved_nesy, "_nli", object())).__name__, "source": "caller_nesy"}
+
+    top_k_r = top_k if top_k is not None else (cfg.rule_retrieval_top_k if cfg is not None else 8)
+    m_parse = max_repair_attempts_parse if max_repair_attempts_parse is not None else 2
+    m_ans = max_repair_attempts_answer if max_repair_attempts_answer is not None else 2
+    m_rule = max_repair_attempts_rule if max_repair_attempts_rule is not None else 2
+    m_bwd = max_repair_attempts_backward if max_repair_attempts_backward is not None else 1
+    m_fwd = max_repair_attempts_forward if max_repair_attempts_forward is not None else 1
+    ans_fb = (
+        answer_reject_allow_fallback
+        if answer_reject_allow_fallback is not None
+        else (cfg.answer_reject_allow_fallback if cfg is not None else False)
+    )
+
     want_trace = debug or save_trace
     tid = new_trace_id() if want_trace else None
     tc: TraceCollector | None = (
@@ -265,12 +392,16 @@ def run_clarification_pipeline(
         session_id=session_id,
         answers=answers,
         session_svc=session_svc,
-        nesy=nesy,
+        nesy=resolved_nesy,
         rule_index=rule_index,
         evidence_retriever=evidence_retriever,
-        top_k=top_k,
-        max_repair_attempts_parse=max_repair_attempts_parse,
-        max_repair_attempts_answer=max_repair_attempts_answer,
+        top_k=top_k_r,
+        max_repair_attempts_parse=m_parse,
+        max_repair_attempts_answer=m_ans,
+        max_repair_attempts_rule=m_rule,
+        max_repair_attempts_backward=m_bwd,
+        max_repair_attempts_forward=m_fwd,
+        answer_reject_allow_fallback=ans_fb,
         trace_collector=tc,
     )
 
@@ -298,6 +429,7 @@ def run_clarification_pipeline(
     meta = dict(qa.meta or {})
     meta["verification_decisions"] = vmap
     meta["qid"] = qid
+    meta["nli_runtime"] = nli_runtime
     if resp.selected_rule:
         meta["selected_rule_ids"] = [resp.selected_rule.get("rule_id", "")]
     qa = qa.model_copy(update={"meta": meta})

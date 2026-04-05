@@ -240,10 +240,22 @@ def build_backward_plan(
 
 
 def pick_best_rule_record(
-    plan: BackwardPlan, candidates: list[tuple[RuleRecord, float, dict[str, Any]]]
+    plan: BackwardPlan,
+    candidates: list[tuple[RuleRecord, float, dict[str, Any]]],
+    *,
+    excluded_rule_ids: frozenset[str] | None = None,
+    preferred_rule_id: str | None = None,
 ) -> RuleRecord | None:
+    """Pick a rule from the unified plan. Prefer ``preferred_rule_id`` if it appears in the plan."""
+    excluded = excluded_rule_ids or frozenset()
     by_id = {r.rule_id: r for r, _, _ in candidates}
+    if preferred_rule_id and preferred_rule_id not in excluded:
+        c = next((x for x in plan.candidates if x.rule_id == preferred_rule_id), None)
+        if c and by_id.get(preferred_rule_id):
+            return by_id[preferred_rule_id]
     for c in plan.candidates:
+        if c.rule_id in excluded:
+            continue
         r = by_id.get(c.rule_id)
         if r:
             return r

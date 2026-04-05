@@ -71,6 +71,7 @@ def _finalize_record(
     semantic_scores: dict[str, float] | None = None,
     verbalization_meta: dict[str, Any] | None = None,
     record_extra: dict[str, Any] | None = None,
+    nli_trace: dict[str, Any] | None = None,
 ) -> VerificationRecord:
     rt_mod, hint, payload = _repair_fields(mode, error_codes)
     diag = list(sym_issues) + list(fusion_diag)
@@ -85,6 +86,8 @@ def _finalize_record(
     extra = dict(record_extra or {})
     if verbalization_meta:
         extra["verbalization_meta"] = verbalization_meta
+    if nli_trace:
+        extra["nli_trace"] = nli_trace
     return VerificationRecord(
         mode=mode,
         symbolic_result="ok" if symbolic_ok else "failed",
@@ -113,14 +116,46 @@ class NeSyEngine:
         self,
         nli: NLIVerifier | None = None,
         *,
-        nesy_nli_mock: bool = True,
+        nesy_nli_mock: bool = False,
+        nli_degraded: bool = False,
+        nli_meta: dict[str, Any] | None = None,
         entailment_threshold: float = 0.70,
         contradiction_threshold: float = 0.70,
     ) -> None:
-        self._nli = nli or MockNLIVerifier()
+        self._nli = nli if nli is not None else MockNLIVerifier()
         self._nesy_nli_mock = nesy_nli_mock
+        self._nli_degraded = nli_degraded
+        self._nli_meta = dict(nli_meta or {})
         self._entailment_threshold = entailment_threshold
         self._contradiction_threshold = contradiction_threshold
+
+    def _nli_trace_bundle(self, mode: VerificationMode, nli: NLIResult | None) -> dict[str, Any]:
+        will_run = use_nli_for(mode, nesy_nli_mock=self._nesy_nli_mock, nli_degraded=self._nli_degraded)
+        meta = dict(self._nli_meta)
+        status = "ok"
+        if self._nli_degraded:
+            status = "degraded_symbolic_only"
+        elif not will_run and self._nesy_nli_mock:
+            status = "skipped_by_policy"
+        elif not will_run:
+            status = "skipped"
+        if will_run and nli is not None:
+            status = "ok"
+        out: dict[str, Any] = {
+            "mode": mode,
+            "nli_enabled": will_run,
+            "nli_status": status,
+            "nli_provider": meta.get("nli_provider", "unknown"),
+            "nli_model_name": meta.get("nli_model_name"),
+        }
+        if nli and nli.scores:
+            out["entailment"] = float(nli.scores.get("entailment", 0.0))
+            out["contradiction"] = float(nli.scores.get("contradiction", 0.0))
+            out["neutral"] = float(nli.scores.get("neutral", 0.0))
+        elif nli:
+            out["nli_label"] = nli.label
+            out["nli_score"] = float(nli.score)
+        return out
 
     def verify_parse(
         self,
@@ -148,7 +183,7 @@ class NeSyEngine:
         )
         meta = {"template": tmpl, "guardrails": gr, "premise": prem, "hypothesis": hyp}
         nli: NLIResult | None = None
-        if use_nli_for("parse_verification", nesy_nli_mock=self._nesy_nli_mock):
+        if use_nli_for("parse_verification", nesy_nli_mock=self._nesy_nli_mock, nli_degraded=self._nli_degraded):
             nli = self._nli.verify(prem, hyp)
             trace.append("nli_parse")
         dec, fusion_diag = fuse_ne_sy_v5(
@@ -170,6 +205,7 @@ class NeSyEngine:
             trace=trace,
             symbolic_checks=_sym_dict(sym),
             verbalization_meta=meta,
+            nli_trace=self._nli_trace_bundle("parse_verification", nli),
         )
 
     def verify_rule(
@@ -197,7 +233,7 @@ class NeSyEngine:
         )
         meta = {"template": tmpl, "guardrails": gr, "premise": prem, "hypothesis": hyp}
         nli: NLIResult | None = None
-        if use_nli_for("rule_verification", nesy_nli_mock=self._nesy_nli_mock):
+        if use_nli_for("rule_verification", nesy_nli_mock=self._nesy_nli_mock, nli_degraded=self._nli_degraded):
             nli = self._nli.verify(prem, hyp)
             trace.append("nli_rule")
         dec, fusion_diag = fuse_ne_sy_v5(
@@ -224,6 +260,7 @@ class NeSyEngine:
             trace=trace,
             symbolic_checks=_sym_dict(sym),
             verbalization_meta=meta,
+            nli_trace=self._nli_trace_bundle("rule_verification", nli),
         )
 
     def verify_backward(
@@ -250,7 +287,7 @@ class NeSyEngine:
         gr = verbalization_guardrails(mode="backward_verification", goal=goal, premise=prem, hypothesis=hyp)
         meta = {"template": tmpl, "guardrails": gr, "premise": prem, "hypothesis": hyp}
         nli: NLIResult | None = None
-        if use_nli_for("backward_verification", nesy_nli_mock=self._nesy_nli_mock):
+        if use_nli_for("backward_verification", nesy_nli_mock=self._nesy_nli_mock, nli_degraded=self._nli_degraded):
             nli = self._nli.verify(prem, hyp)
             trace.append("nli_backward")
         dec, fusion_diag = fuse_ne_sy_v5(
@@ -278,6 +315,7 @@ class NeSyEngine:
             trace=trace,
             symbolic_checks=_sym_dict(sym),
             verbalization_meta=meta,
+            nli_trace=self._nli_trace_bundle("backward_verification", nli),
         )
 
     def verify_forward(
@@ -308,7 +346,7 @@ class NeSyEngine:
         gr = verbalization_guardrails(mode="forward_verification", goal=goal, premise=prem, hypothesis=hyp)
         meta = {"template": tmpl, "guardrails": gr, "premise": prem, "hypothesis": hyp}
         nli: NLIResult | None = None
-        if use_nli_for("forward_verification", nesy_nli_mock=self._nesy_nli_mock):
+        if use_nli_for("forward_verification", nesy_nli_mock=self._nesy_nli_mock, nli_degraded=self._nli_degraded):
             nli = self._nli.verify(prem, hyp)
             trace.append("nli_forward")
         dec, fusion_diag = fuse_ne_sy_v5(
@@ -337,6 +375,7 @@ class NeSyEngine:
             trace=trace,
             symbolic_checks=_sym_dict(sym),
             verbalization_meta=meta,
+            nli_trace=self._nli_trace_bundle("forward_verification", nli),
         )
 
     def verify_answer(
@@ -373,7 +412,7 @@ class NeSyEngine:
         )
         meta = {"template": tmpl, "guardrails": gr, "premise": prem, "hypothesis": hyp}
         nli: NLIResult | None = None
-        if use_nli_for("answer_verification", nesy_nli_mock=self._nesy_nli_mock):
+        if use_nli_for("answer_verification", nesy_nli_mock=self._nesy_nli_mock, nli_degraded=self._nli_degraded):
             nli = self._nli.verify(prem, hyp)
             trace.append("nli_answer")
         dec, fusion_diag = fuse_ne_sy_v5(
@@ -401,8 +440,9 @@ class NeSyEngine:
             trace=trace,
             symbolic_checks={**_sym_dict(sym_sa), "check_answer_vs_goal": diag_sym},
             verbalization_meta=meta,
+            nli_trace=self._nli_trace_bundle("answer_verification", nli),
         )
 
 
 def nesy_engine_singleton() -> NeSyEngine:
-    return NeSyEngine()
+    return NeSyEngine(nesy_nli_mock=True)

@@ -48,7 +48,14 @@ def test_run_qa_pipeline_happy_path_trace_steps(configured_pipeline, tmp_path: P
     assert qa.final_answer and qa.final_answer.answer_text
     assert qa.pipeline_trace and len(qa.pipeline_trace.steps) >= 8
     names = [s.step_name for s in qa.pipeline_trace.steps]
-    for need in ("parse_layer1", "retrieve_rules", "backward", "forward", "retrieve_evidence", "generate_answer"):
+    for need in (
+        "parse_layer1",
+        "retrieve_rules",
+        "rule_backward_gate",
+        "forward_gate",
+        "retrieve_evidence",
+        "generate_answer",
+    ):
         assert need in names
     assert qa.meta.get("trace_file")
     p = Path(str(qa.meta["trace_file"]))
