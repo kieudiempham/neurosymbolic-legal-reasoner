@@ -6,7 +6,11 @@ import logging
 from pathlib import Path
 from typing import Any
 
-from generation.answer_generator import generate_answer, safe_regenerate_answer
+from generation.answer_generator import (
+    apply_answer_text_and_refresh_citations,
+    generate_answer,
+    safe_regenerate_final_answer,
+)
 from reasoning.backward_reasoner import run_backward
 from reasoning.clarification_manager import (
     build_clarification_prompts_from_requirements,
@@ -345,6 +349,7 @@ def run_ask(
         proof=proof,
         evidence=ev,
         goal_achieved=goal_ok,
+        rule=selected,
     )
 
     ans_text, v_ans, answer_repair_trace = run_answer_repair_loop(
@@ -357,13 +362,20 @@ def run_ask(
         action_token_in_answer=ans.answer_text,
         max_repair_attempts_answer=max_repair_attempts_answer,
     )
-    ans.answer_text = ans_text
+    apply_answer_text_and_refresh_citations(ans, ans_text)
     ans.verification_summary += f";answer_repair_attempts={answer_repair_trace[-1].get('attempts_used', 0)}"
     trace["answer_repair"] = answer_repair_trace
     _merge_verification(session, v_ans)
     if v_ans.final_decision == "REJECT":
-        ans.answer_text = safe_regenerate_answer(conclusion, proof=proof, evidence=ev)
-        ans.verification_summary += ";answer_fallback_regenerate_on_reject"
+        reg = safe_regenerate_final_answer(
+            conclusion,
+            proof=proof,
+            evidence=ev,
+            rule=selected,
+            goal_achieved=goal_ok,
+        )
+        reg.verification_summary = ans.verification_summary + ";answer_fallback_regenerate_on_reject"
+        ans = reg
 
     session.answer = ans
     trace["stage"].append("complete")
@@ -557,6 +569,7 @@ def run_clarify(
         proof=proof,
         evidence=ev,
         goal_achieved=goal_ok,
+        rule=selected,
     )
     ans_text, v_ans, answer_repair_trace = run_answer_repair_loop(
         engine,
@@ -568,13 +581,20 @@ def run_clarify(
         action_token_in_answer=ans.answer_text,
         max_repair_attempts_answer=max_repair_attempts_answer,
     )
-    ans.answer_text = ans_text
+    apply_answer_text_and_refresh_citations(ans, ans_text)
     ans.verification_summary += f";answer_repair_attempts={answer_repair_trace[-1].get('attempts_used', 0)}"
     trace["answer_repair"] = answer_repair_trace
     _merge_verification(session, v_ans)
     if v_ans.final_decision == "REJECT":
-        ans.answer_text = safe_regenerate_answer(conclusion, proof=proof, evidence=ev)
-        ans.verification_summary += ";answer_fallback_regenerate_on_reject"
+        reg = safe_regenerate_final_answer(
+            conclusion,
+            proof=proof,
+            evidence=ev,
+            rule=selected,
+            goal_achieved=goal_ok,
+        )
+        reg.verification_summary = ans.verification_summary + ";answer_fallback_regenerate_on_reject"
+        ans = reg
 
     session.answer = ans
     session.pipeline_trace = trace

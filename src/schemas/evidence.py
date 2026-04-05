@@ -21,3 +21,5 @@ class EvidenceSnippet(BaseModel):
     article: str | None = None
     clause: str | None = None
     point: str | None = None
+    source_ref: str | None = None
+    page: int | None = None

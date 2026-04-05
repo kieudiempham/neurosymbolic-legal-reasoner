@@ -14,7 +14,7 @@ from retrieval.retrieval_query import build_evidence_query_variants
 from schemas.evidence import EvidenceSnippet
 from schemas.question_parse import Layer1Parse, Layer2Parse
 from schemas.rule import RuleRecord
-from utils.text import lower_fold
+from utils.text import lower_fold, slug_token
 
 logger = logging.getLogger(__name__)
 
@@ -185,8 +185,16 @@ class EvidenceRetriever:
             cid = str(ch.get("chunk_id") or ch.get("id") or "chunk")
             text = str(ch.get("text") or "")
             doc = ch.get("source_doc") or ch.get("doc") or ""
+            doc_id = ch.get("doc_id")
+            if not doc_id and doc:
+                doc_id = slug_token(str(doc))[:96] or None
+            pg = ch.get("page")
+            if pg is None:
+                pg = ch.get("pdf_page")
+            page_i: int | None = int(pg) if isinstance(pg, (int, float)) and not isinstance(pg, bool) else None
             ac = ch.get("article_clause") or ch.get("clause") or ""
             art, cl, pt = _split_article_clause(str(ac) if ac else None)
+            src_ref_raw = ch.get("source_ref") or (str(ac) if ac else None)
             bd = struct_scores[i]
             bd["hybrid"] = hybrid[i]
             bd["bm25_variant_used"] = variant_hits[i]
@@ -207,10 +215,12 @@ class EvidenceRetriever:
                         retrieval_reason=rr,
                         linked_rule_id=rid,
                         score_breakdown=bd,
-                        doc_id=str(doc) if doc else None,
+                        doc_id=str(doc_id) if doc_id else None,
                         article=art,
                         clause=cl,
                         point=pt,
+                        source_ref=str(src_ref_raw) if src_ref_raw else None,
+                        page=page_i,
                     ),
                 )
             )

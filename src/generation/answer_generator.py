@@ -4,9 +4,15 @@ from __future__ import annotations
 
 from typing import Any, Callable
 
+from generation.legal_citations import (
+    build_legal_citations_from_evidence,
+    finalize_answer_citations,
+    link_answer_text_to_citations,
+)
 from schemas.answer import FinalAnswer
 from schemas.evidence import EvidenceSnippet
 from schemas.proof import ProofObject
+from schemas.rule import RuleRecord
 
 
 def _proof_lines(proof: ProofObject | None, *, max_steps: int = 6) -> list[str]:
@@ -20,21 +26,12 @@ def _proof_lines(proof: ProofObject | None, *, max_steps: int = 6) -> list[str]:
     return lines
 
 
-def _evidence_citations(evidence: list[EvidenceSnippet], *, max_snippets: int = 3) -> list[str]:
-    out: list[str] = []
-    for e in evidence[:max_snippets]:
-        cite = []
-        if e.article_clause:
-            cite.append(e.article_clause)
-        elif e.article or e.clause:
-            cite.append(" ".join(x for x in (e.article, e.clause) if x))
-        if e.source_doc:
-            cite.append(f"({e.source_doc[:120]})")
-        if cite:
-            out.append(" ".join(cite).strip() + (f" — {e.text[:180]}..." if e.text else ""))
-        elif e.text:
-            out.append(e.text[:280])
-    return out
+def _proof_sketch(proof: ProofObject | None, *, max_chars: int = 420) -> str:
+    plines = _proof_lines(proof, max_steps=5)
+    if not plines:
+        return (proof.derived_conclusion or "")[:max_chars] if proof else ""
+    s = " → ".join(plines[:4])
+    return s if len(s) <= max_chars else s[: max_chars - 1] + "…"
 
 
 def _build_template_grounded(
@@ -44,34 +41,72 @@ def _build_template_grounded(
     proof: ProofObject | None,
     evidence: list[EvidenceSnippet],
     goal_achieved: bool,
-) -> tuple[str, str, float]:
-    """Returns (answer_text, proof_summary, confidence)."""
-    plines = _proof_lines(proof)
-    proof_summary = " ".join(plines) if plines else (proof.derived_conclusion if proof else "")
+    rule: RuleRecord | None,
+) -> tuple[str, str, float, dict[str, str], list]:
+    """Returns answer_text, proof_summary, confidence, sections, legal_citations list."""
+    pl = _proof_lines(proof)
+    proof_summary = " ".join(pl) if pl else (proof.derived_conclusion if proof else "")
+    citations = build_legal_citations_from_evidence(evidence, rule=rule, max_citations=6)
 
-    head = (
-        f"Có — phù hợp với kết luận logic đã suy ra: {conclusion}"
-        if goal_achieved
-        else f"Chưa đủ cơ sở để khẳng định tuyệt đối. Kết luận tượng trưng: {conclusion or 'chưa suy ra'}."
+    opening = (
+        "Kính gửi Quý khách hàng,\n\n"
+        "Cảm ơn anh/chị đã gửi câu hỏi. Căn cứ thông tin đã trao đổi và quy định pháp luật hiện hành, "
+        "chúng tôi xin trao đổi ngắn gọn như sau:\n\n"
     )
-    proof_block = ""
-    if plines:
-        proof_block = " Luồng chứng minh rút gọn: " + " → ".join(plines[:4]) + "."
-    elif proof_summary:
-        proof_block = f" Cơ sở suy luận: {proof_summary[:400]}"
 
-    ev_lines = _evidence_citations(evidence)
-    ev_block = ""
-    if ev_lines:
-        ev_block = " Căn cứ đoạn văn bản tham chiếu: " + " | ".join(ev_lines[:2])
+    if goal_achieved:
+        conclusion_lead = (
+            f"Về nguyên tắc, kết luận pháp lý tượng trưng là: {conclusion}. "
+            "Theo kết quả suy luận đã kiểm chứng, hướng xử lý phù hợp với kết luận nêu trên."
+        )
     else:
-        ev_block = " (Chưa có đoạn corpus khớp; căn cứ chủ yếu từ rulebase đã chọn trong suy luận.)"
+        conclusion_lead = (
+            f"Về nguyên tắc, chưa đủ cơ sở để khẳng định tuyệt đối. "
+            f"Kết luận tượng trưng: {conclusion or 'chưa suy ra'}. "
+            "Cần làm rõ thêm điều kiện thực tế hoặc chứng cứ liên quan."
+        )
 
-    answer_text = head + proof_block + ev_block
+    sketch = _proof_sketch(proof)
+    analysis_parts: list[str] = []
+    analysis_parts.append("Phần phân tích rút gọn dựa trên chứng minh logic: " + (sketch or "—"))
+    if citations:
+        refs = []
+        for c in citations[:3]:
+            dl = c.display_label.strip()
+            if dl:
+                refs.append(f"[{dl}]")
+        if refs:
+            analysis_parts.append(
+                "Các tham chiếu văn bản (đoạn trích chi tiết có thể mở tại liên kết tương ứng): "
+                + ", ".join(refs)
+                + "."
+            )
+    else:
+        analysis_parts.append(
+            "(Chưa có đoạn corpus khớp; căn cứ chủ yếu từ quy tắc đã chọn trong suy luận và "
+            "thông tin đã cung cấp.)"
+        )
+
+    closing = (
+        "\n\nTuy nhiên, áp dụng cụ thể còn phụ thuộc hồ sơ và bối cảnh thực tế; "
+        "anh/chị nên đối chiếu văn bản pháp luật và cân nhắc tư vấn chuyên sâu khi cần.\n\n"
+        "Trân trọng."
+    )
+
+    analysis = "\n\n".join(analysis_parts)
+    answer_text = opening + conclusion_lead + "\n\n" + analysis + closing
+
     conf = 0.82 if goal_achieved else 0.38
     if not evidence:
         conf *= 0.92
-    return answer_text, proof_summary, conf
+
+    sections = {
+        "opening": opening.strip(),
+        "conclusion_lead": conclusion_lead.strip(),
+        "analysis": analysis.strip(),
+        "closing": closing.strip(),
+    }
+    return answer_text, proof_summary, conf, sections, citations
 
 
 def _llm_grounded_answer(
@@ -104,18 +139,22 @@ def generate_answer(
     goal_achieved: bool,
     mode: str = "template_grounded",
     llm_generate: Callable[..., str] | None = None,
+    rule: RuleRecord | None = None,
 ) -> FinalAnswer:
     """
-    Grounded answer: conclusion + proof steps + evidence snippets appear in ``answer_text``.
+    Grounded answer: conclusion + proof + evidence; citations chỉ từ evidence/provenance rule.
 
     Modes:
-    - ``template_grounded``: deterministic Vietnamese template (default).
-    - ``llm_grounded``: requires ``llm_generate``; must not invent rules beyond context.
+    - ``template_grounded``: deterministic Vietnamese layout (default).
+    - ``llm_grounded``: narrative từ LLM nhưng tham chiếu bracket chỉ từ evidence đã build.
     """
+    citations = build_legal_citations_from_evidence(evidence, rule=rule, max_citations=6)
+
     if mode == "llm_grounded" and llm_generate is not None:
+        citations = build_legal_citations_from_evidence(evidence, rule=rule, max_citations=6)
         plines = _proof_lines(proof)
         proof_summary = " ".join(plines) if plines else (proof.derived_conclusion if proof else "")
-        txt = _llm_grounded_answer(
+        llm_body = _llm_grounded_answer(
             question=question,
             conclusion=conclusion,
             proof_summary=proof_summary,
@@ -123,23 +162,55 @@ def generate_answer(
             goal_achieved=goal_achieved,
             llm_generate=llm_generate,
         )
+        llm_body = (llm_body or "").strip()[:4000]
+        opening = (
+            "Kính gửi Quý khách hàng,\n\n"
+            "Phần trình bày sau đây được tóm tắt từ kết luận suy luận và tài liệu tham chiếu đã cung cấp "
+            "(không tự thêm điều khoản ngoài danh sách tham chiếu).\n\n"
+        )
+        mid = f"Về nguyên tắc: {conclusion}.\n\n"
+        cite_line = ""
+        if citations:
+            cite_line = "Tham chiếu văn bản: " + ", ".join(
+                f"[{c.display_label.strip()}]" for c in citations[:5] if c.display_label.strip()
+            )
+            if cite_line.endswith(" "):
+                cite_line = cite_line.strip()
+            cite_line = cite_line + ".\n\n" if cite_line else ""
+        analysis = f"{llm_body}\n\n{cite_line}".strip() + "\n\n"
+        closing = (
+            "Tuy nhiên, cần đối chiếu văn bản gốc và ngữ cảnh cụ thể. Trân trọng."
+        )
+        answer_text = opening + mid + analysis + closing
+        sections = {
+            "opening": opening.strip(),
+            "conclusion_lead": f"Về nguyên tắc: {conclusion}.",
+            "analysis": (mid + llm_body + "\n\n" + cite_line).strip(),
+            "closing": closing,
+        }
+        spans = link_answer_text_to_citations(answer_text, citations)
         return FinalAnswer(
-            answer_text=txt,
+            answer_text=answer_text,
             conclusion=conclusion,
             proof_summary=proof_summary,
             evidence_snippets=evidence,
             confidence=0.75 if goal_achieved else 0.4,
             verification_summary=f"goal_achieved={goal_achieved};mode=llm_grounded;evidence_hits={len(evidence)}",
             generation_mode="llm_grounded",
+            legal_citations=citations,
+            citation_spans=spans,
+            answer_sections=sections,
         )
 
-    answer_text, proof_summary, conf = _build_template_grounded(
+    answer_text, proof_summary, conf, sections, citations = _build_template_grounded(
         question=question,
         conclusion=conclusion,
         proof=proof,
         evidence=evidence,
         goal_achieved=goal_achieved,
+        rule=rule,
     )
+    spans = link_answer_text_to_citations(answer_text, citations)
     return FinalAnswer(
         answer_text=answer_text,
         conclusion=conclusion,
@@ -148,6 +219,54 @@ def generate_answer(
         confidence=conf,
         verification_summary=f"goal_achieved={goal_achieved};mode=template_grounded;evidence_hits={len(evidence)}",
         generation_mode="template_grounded",
+        legal_citations=citations,
+        citation_spans=spans,
+        answer_sections=sections,
+    )
+
+
+def safe_regenerate_final_answer(
+    conclusion: str,
+    *,
+    proof: ProofObject | None = None,
+    evidence: list[EvidenceSnippet] | None = None,
+    rule: RuleRecord | None = None,
+    goal_achieved: bool = True,
+) -> FinalAnswer:
+    """Shorter template when verification rejects — vẫn grounded, giữ citation package."""
+    ev = evidence or []
+    citations = build_legal_citations_from_evidence(ev, rule=rule, max_citations=5)
+    ps = " ".join(_proof_lines(proof, max_steps=3)) if proof else ""
+    opening = "Kính gửi,\n\nTheo kết luận logic đã rà soát lại, chúng tôi tóm tắt như sau:\n\n"
+    core = f"Về nguyên tắc: {conclusion}."
+    tail = ""
+    if ps:
+        tail += f" Cơ sở luận giải rút gọn: {ps[:280]}"
+    cite_bits = []
+    for c in citations[:2]:
+        if c.display_label.strip():
+            cite_bits.append(f"[{c.display_label.strip()}]")
+    if cite_bits:
+        tail += " Tham chiếu: " + ", ".join(cite_bits) + "."
+    answer_text = opening + core + tail + "\n\nTrân trọng."
+    sections = {
+        "opening": opening.strip(),
+        "conclusion_lead": core,
+        "analysis": (tail.strip()),
+        "closing": "Trân trọng.",
+    }
+    spans = link_answer_text_to_citations(answer_text, citations)
+    return FinalAnswer(
+        answer_text=answer_text,
+        conclusion=conclusion,
+        proof_summary=ps,
+        evidence_snippets=ev,
+        confidence=0.55 if goal_achieved else 0.35,
+        verification_summary="mode=safe_regenerate_final",
+        generation_mode="template_grounded",
+        legal_citations=citations,
+        citation_spans=spans,
+        answer_sections=sections,
     )
 
 
@@ -156,17 +275,23 @@ def safe_regenerate_answer(
     *,
     proof: ProofObject | None = None,
     evidence: list[EvidenceSnippet] | None = None,
+    rule: RuleRecord | None = None,
+    goal_achieved: bool = True,
 ) -> str:
-    """One-shot safer template if verification rejects — vẫn grounded."""
-    ev = evidence or []
-    ps = " ".join(_proof_lines(proof, max_steps=3)) if proof else ""
-    evs = _evidence_citations(ev, max_snippets=1)
-    tail = ""
-    if ps:
-        tail += f" Cơ sở: {ps[:300]}"
-    if evs:
-        tail += f" Tham chiếu: {evs[0][:200]}"
-    return f"Theo kết luận logic đã kiểm chứng: {conclusion}.{tail}"
+    """One-shot safer template if verification rejects — string API for repair handlers."""
+    return safe_regenerate_final_answer(
+        conclusion,
+        proof=proof,
+        evidence=evidence,
+        rule=rule,
+        goal_achieved=goal_achieved,
+    ).answer_text
+
+
+def apply_answer_text_and_refresh_citations(ans: FinalAnswer, new_text: str) -> None:
+    """After answer repair loop: update text và map lại spans (metadata citation giữ nguyên)."""
+    ans.answer_text = new_text
+    ans.citation_spans = finalize_answer_citations(ans.answer_text, ans.legal_citations)
 
 
 class AnswerGenerator:

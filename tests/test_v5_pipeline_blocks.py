@@ -157,6 +157,8 @@ def test_template_answer_contains_conclusion_proof_evidence() -> None:
     assert "Điều" in fa.answer_text or "minh họa" in fa.answer_text
     assert fa.generation_mode == "template_grounded"
     assert fa.proof_summary
+    assert fa.legal_citations and fa.citation_spans
+    assert "opening" in fa.answer_sections and "analysis" in fa.answer_sections
 
 
 def test_safe_regenerate_uses_proof_evidence() -> None:
