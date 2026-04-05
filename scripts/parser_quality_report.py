@@ -50,6 +50,24 @@ def main() -> None:
     failed = [r for r in results if r.failed_fields]
     print(f"failed_cases={len(failed)}")
 
+    tag_counts: dict[str, int] = {}
+    stated_snap = 0
+    amb_cases = 0
+    for r, c in zip(results, cases, strict=True):
+        exp = c.get("expected") or {}
+        if (exp.get("canonical_snapshot") or "") == "stated_condition" or (
+            exp.get("canonical_snapshot") == "" and not (exp.get("condition_predicate_tokens") or [])
+        ):
+            stated_snap += 1
+        ambs = (r.layer2.get("diagnostics") or {}).get("ambiguities") or []
+        if ambs:
+            amb_cases += 1
+        for t in c.get("tags") or []:
+            tag_counts[t] = tag_counts.get(t, 0) + 1
+    print(f"tag_counts={dict(sorted(tag_counts.items(), key=lambda x: -x[1])[:25])}")
+    print(f"cases_with_stated_or_empty_canonical_snapshot~={stated_snap}")
+    print(f"cases_with_layer2_ambiguities_non_empty={amb_cases}")
+
     if args.json_summary:
         args.json_summary.write_text(json.dumps(stats, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         print(f"wrote {args.json_summary}")

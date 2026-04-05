@@ -150,7 +150,8 @@
       "canonical_snapshot": "authority_registration_body",
       "allow_stated_condition": true,
       "condition_predicate_tokens": [
-        "authority_registration_body"
+        "authority_registration_body",
+        "tu_choi_ho_so"
       ]
     }
   },

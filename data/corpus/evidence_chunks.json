@@ -12,5 +12,61 @@
     "source_doc": "Luật Doanh nghiệp (demo stub)",
     "article_clause": "Điều 113 khoản 1",
     "rule_ids": []
+  },
+  {
+    "chunk_id": "ev_luatdn_d120_k2_demo",
+    "text": "Các cổ đông sáng lập phải cùng nhau đăng ký mua ít nhất 20% tổng số cổ phần phổ thông được quyền chào bán khi đăng ký thành lập doanh nghiệp.",
+    "source_doc": "Luật Doanh nghiệp (demo stub)",
+    "article_clause": "Điều 120 khoản 2",
+    "rule_ids": ["RULE_LUATDN_D120_K2_E000110_H2F74D053E9ED__e3455c07586f9b"]
+  },
+  {
+    "chunk_id": "ev_nd168_xuphat_demo",
+    "text": "Vi phạm hành chính trong lĩnh vực đăng ký doanh nghiệp có thể bị xử phạt theo quy định về xử lý vi phạm hành chính (demo stub).",
+    "source_doc": "Nghị định 168/2025/NĐ-CP (demo stub)",
+    "article_clause": "Điều 99 khoản 3",
+    "rule_ids": []
+  },
+  {
+    "chunk_id": "ev_tuchoi_hoso_demo",
+    "text": "Cơ quan đăng ký kinh doanh từ chối hồ sơ khi hồ sơ không hợp lệ hoặc không đầy đủ theo quy định; doanh nghiệp được bổ sung trong thời hạn (demo stub).",
+    "source_doc": "Luật Doanh nghiệp (demo stub)",
+    "article_clause": "Điều 37 khoản 2",
+    "rule_ids": []
+  },
+  {
+    "chunk_id": "ev_nop_hoso_thaydoi_demo",
+    "text": "Hồ sơ đăng ký thay đổi nội dung đăng ký doanh nghiệp gồm giấy đề nghị, quyết định của chủ sở hữu hoặc hội đồng thành viên và tài liệu chứng minh (demo stub).",
+    "source_doc": "Nghị định hướng dẫn (demo stub)",
+    "article_clause": "Điều 51 khoản 1",
+    "rule_ids": []
+  },
+  {
+    "chunk_id": "ev_thongbao_demo",
+    "text": "Doanh nghiệp phải thông báo thay đổi nội dung đăng ký với cơ quan đăng ký kinh doanh trong thời hạn theo quy định (demo stub).",
+    "source_doc": "Luật Doanh nghiệp (demo stub)",
+    "article_clause": "Điều 48 khoản 1",
+    "rule_ids": []
+  },
+  {
+    "chunk_id": "ev_thoihan_10_ngay_demo",
+    "text": "Trong thời hạn mười ngày làm việc kể từ ngày nhận được hồ sơ hợp lệ, cơ quan đăng ký phải cấp hoặc từ chối cấp giấy chứng nhận (demo stub).",
+    "source_doc": "Luật Doanh nghiệp (demo stub)",
+    "article_clause": "Điều 33 khoản 4",
+    "rule_ids": []
+  },
+  {
+    "chunk_id": "ev_hkd_doi_dc_demo",
+    "text": "Hộ kinh doanh khi thay đổi địa điểm kinh doanh phải đăng ký thay đổi với cơ quan đăng ký (demo stub).",
+    "source_doc": "Luật Doanh nghiệp (demo stub)",
+    "article_clause": "Điều 195 khoản 2",
+    "rule_ids": []
+  },
+  {
+    "chunk_id": "ev_thanhvien_TNHH_demo",
+    "text": "Thành viên công ty trách nhiệm hữu hạn hai thành viên trở lên thực hiện quyền và nghĩa vụ theo điều lệ công ty và Luật Doanh nghiệp (demo stub).",
+    "source_doc": "Luật Doanh nghiệp (demo stub)",
+    "article_clause": "Điều 79 khoản 1",
+    "rule_ids": []
   }
 ]

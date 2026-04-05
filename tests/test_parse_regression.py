@@ -8,7 +8,7 @@ from question_side.parse_regression_fixtures import load_parse_regression_cases
 
 def test_parse_regression_fixtures_load() -> None:
     cases = load_parse_regression_cases()
-    assert len(cases) >= 30
+    assert len(cases) >= 85
     for c in cases:
         assert c.get("qid")
         assert c.get("question_text")

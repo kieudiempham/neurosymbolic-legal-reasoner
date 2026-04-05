@@ -215,6 +215,102 @@ CASES_CORE = [
         "Tỷ lệ biểu quyết tối thiểu là bao nhiêu phần trăm?",
         ["threshold"],
     ),
+    # --- Extended enterprise coverage (registration / dossier / deadline / effect / subject)
+    _case(
+        "core-cov-reg-01",
+        "Khi thay đổi tên doanh nghiệp, thời hạn thông báo là bao lâu?",
+        ["registration_change", "name", "deadline"],
+    ),
+    _case(
+        "core-cov-reg-02",
+        "Thay đổi địa chỉ trụ sở chính sang tỉnh khác có cần quyết định nội bộ không?",
+        ["registration_change", "address", "obligation"],
+    ),
+    _case(
+        "core-cov-reg-03",
+        "Tăng vốn điều lệ phải đăng ký thay đổi trong bao nhiêu ngày?",
+        ["capital", "deadline", "registration_change"],
+    ),
+    _case(
+        "core-cov-reg-04",
+        "Thay đổi thành viên hợp danh có phải thông báo không?",
+        ["members", "obligation", "registration_change"],
+    ),
+    _case(
+        "core-cov-reg-05",
+        "Bổ sung ngành nghề kinh doanh có phải nộp hồ sơ đăng ký thay đổi không?",
+        ["sector", "dossier", "obligation"],
+    ),
+    _case(
+        "core-cov-ddpl-01",
+        "Miễn nhiệm người đại diện theo pháp luật có cần nghị quyết không?",
+        ["legal_rep", "governance", "obligation"],
+    ),
+    _case(
+        "core-cov-doc-01",
+        "Hồ sơ đăng ký thay đổi cần có những tài liệu bắt buộc nào?",
+        ["dossier", "procedure"],
+    ),
+    _case(
+        "core-cov-doc-02",
+        "Nộp hồ sơ trực tuyến có cần bản cứng không?",
+        ["dossier", "procedure", "permission"],
+    ),
+    _case(
+        "core-cov-doc-03",
+        "Thông báo thay đổi nội dung đăng ký phải gửi cho ai?",
+        ["procedure", "notification"],
+    ),
+    _case(
+        "core-cov-dl-01",
+        "Trong vòng 10 ngày làm việc phải hoàn tất thủ tục đúng không?",
+        ["deadline", "procedure"],
+    ),
+    _case(
+        "core-cov-dl-02",
+        "Quá thời hạn đăng ký thay đổi thì bị xử lý thế nào?",
+        ["deadline", "legal_consequence"],
+    ),
+    _case(
+        "core-cov-dl-03",
+        "Khi nào phải thông báo thay đổi người đại diện theo pháp luật?",
+        ["deadline", "legal_rep"],
+    ),
+    _case(
+        "core-cov-fx-01",
+        "Vi phạm nghĩa vụ công bố có bị xử phạt hành chính không?",
+        ["legal_consequence", "sanction"],
+    ),
+    _case(
+        "core-cov-fx-02",
+        "Cơ quan đăng ký kinh doanh từ chối hồ sơ thì doanh nghiệp khiếu nại ra sao?",
+        ["legal_consequence", "procedure", "authority"],
+    ),
+    _case(
+        "core-cov-fx-03",
+        "Không nộp đủ tài liệu có phát sinh nghĩa vụ bổ sung không?",
+        ["obligation", "dossier"],
+    ),
+    _case(
+        "core-cov-subj-01",
+        "Thành viên công ty TNHH hai thành viên có quyền phủ quyết không?",
+        ["member", "permission", "shareholder"],
+    ),
+    _case(
+        "core-cov-subj-02",
+        "Doanh nghiệp tư nhân có phải họp thành viên không?",
+        ["company", "procedure", "governance"],
+    ),
+    _case(
+        "core-cov-hkd-01",
+        "Hộ kinh doanh đổi địa chỉ có phải đăng ký lại không?",
+        ["business_household", "registration_change"],
+    ),
+    _case(
+        "core-cov-exc-01",
+        "Trừ trường hợp được miễn lệ phí, có phải nộp phí đăng ký không?",
+        ["exception", "obligation"],
+    ),
 ]
 
 CASES_AMBIGUITY = [

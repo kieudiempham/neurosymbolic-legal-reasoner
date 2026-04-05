@@ -39,6 +39,7 @@ class EntityRegistry(BaseModel):
         mentions: list[EntityMention] = []
         patterns: list[tuple[str, str]] = [
             (r"(?i)(công ty|cong ty|doanh nghiệp|doanh nghiep)[^?.]{0,40}", "company"),
+            (r"(?i)(thành viên|thanh vien)(?:\s+công ty|\s+cong ty)?[^?.]{0,40}", "member"),
             (r"(?i)(cổ đông|co dong)[^?.]{0,30}", "shareholder"),
             (r"(?i)(người đại diện|dai dien|đại diện pháp luật)[^?.]{0,40}", "legal_representative"),
             (r"(?i)(hộ kinh doanh|ho kinh doanh)[^?.]{0,30}", "business_household"),
@@ -56,6 +57,7 @@ class EntityRegistry(BaseModel):
 _ROLE_TO_ID = {
     "company": "company_x",
     "enterprise": "enterprise_x",
+    "member": "member_x",
     "shareholder": "shareholder_x",
     "legal_representative": "legal_representative_x",
     "founder": "founder_x",

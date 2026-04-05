@@ -307,6 +307,46 @@ ENTRIES: list[PredicateEntry] = [
         "domain": "procedure",
         "priority": 10,
     },
+    {
+        "trigger_patterns": [
+            "tài liệu phải nộp",
+            "tai lieu phai nop",
+            "hồ sơ cần có",
+            "ho so can co",
+            "giấy tờ kèm theo",
+        ],
+        "canonical_predicate": "tai_lieu_ho_so_bat_buoc",
+        "arg_schema": ["subject"],
+        "domain": "procedure",
+        "priority": 12,
+    },
+    {
+        "trigger_patterns": [
+            "xử phạt hành chính",
+            "xu phat hanh chinh",
+            "bị phạt tiền",
+            "bi phat tien",
+            "chịu xử phạt",
+        ],
+        "canonical_predicate": "xu_phat_hanh_chinh",
+        "arg_schema": ["subject"],
+        "domain": "legal_effect",
+        "priority": 11,
+    },
+    {
+        "trigger_patterns": ["từ chối hồ sơ", "tu choi ho so", "bị từ chối đăng ký"],
+        "canonical_predicate": "tu_choi_ho_so",
+        "arg_schema": ["subject"],
+        "domain": "procedure",
+        "priority": 11,
+    },
+    {
+        "trigger_patterns": ["phát sinh nghĩa vụ", "phat sinh nghia vu", "nghĩa vụ pháp lý phát sinh"],
+        "canonical_predicate": "phat_sinh_nghia_vu",
+        "arg_schema": ["subject"],
+        "domain": "legal_effect",
+        "priority": 9,
+    },
     # --- Generic context (low tie-break priority; specific entries should win)
     {
         "trigger_patterns": ["cổ đông", "co dong", "góp vốn", "gop von", "tỷ lệ vốn", "co phan"],

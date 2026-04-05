@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 from pydantic import BaseModel, Field
 
 
@@ -14,7 +16,7 @@ class EvidenceSnippet(BaseModel):
     score: float = 0.0
     retrieval_reason: str = ""
     linked_rule_id: str | None = None
-    score_breakdown: dict[str, float] = Field(default_factory=dict)
+    score_breakdown: dict[str, Any] = Field(default_factory=dict)
     doc_id: str | None = None
     article: str | None = None
     clause: str | None = None

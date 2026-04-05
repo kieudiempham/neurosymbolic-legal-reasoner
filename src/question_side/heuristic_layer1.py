@@ -7,6 +7,9 @@ import re
 from schemas.question_parse import AssertionStatus, Layer1Parse, QuestionFocus, UtteranceType
 from utils.text import lower_fold, normalize_ws
 
+# Permission-style "được" without overlapping "có được quyền / bằng / bổ nhiệm" regression cases.
+_RE_CO_DUOC_GUI = re.compile(r"\bcó được\s+gửi\b", re.IGNORECASE)
+
 
 def parse_question_layer1_heuristic(question: str) -> Layer1Parse:
     q = normalize_ws(question)
@@ -28,6 +31,8 @@ def parse_question_layer1_heuristic(question: str) -> Layer1Parse:
         modality_text = "không được"
     elif "co quyen" in low or "có quyền" in q.lower():
         modality_text = "có quyền"
+    elif _RE_CO_DUOC_GUI.search(q) or "co duoc gui" in low:
+        modality_text = "được"
     elif "duoc phep" in low or "được phép" in q.lower() or ("co the" in low and "duoc" in low):
         modality_text = "được"
     elif any(x in low for x in ("co phai", "phai khong", "bat buoc", "nghia vu")):
@@ -38,7 +43,7 @@ def parse_question_layer1_heuristic(question: str) -> Layer1Parse:
     question_focus: QuestionFocus = "unknown"
     if modality_text in ("không được",) or "cấm" in q.lower():
         question_focus = "prohibition"
-    elif "co the" in low or "duoc phep" in low or "được phép" in q.lower():
+    elif _RE_CO_DUOC_GUI.search(q) or "co duoc gui" in low or "co the" in low or "duoc phep" in low or "được phép" in q.lower():
         question_focus = "permission"
     elif "thu tuc" in low or "thủ tục" in q.lower():
         question_focus = "procedure"

@@ -335,6 +335,8 @@ def run_ask(
         proof_summary=_proof_summary_for_evidence(proof),
         goal=goal,
         modality_text=layer1.modality_text or "",
+        layer1=layer1,
+        layer2=layer2,
     )
 
     ans = generate_answer(
@@ -546,6 +548,8 @@ def run_clarify(
         proof_summary=_proof_summary_for_evidence(proof),
         goal=goal,
         modality_text=layer1.modality_text or "",
+        layer1=layer1,
+        layer2=layer2,
     )
     ans = generate_answer(
         question=question,
