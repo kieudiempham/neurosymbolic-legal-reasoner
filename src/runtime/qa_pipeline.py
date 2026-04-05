@@ -25,9 +25,6 @@ from verification.nli_verifier import NLIVerifier
 
 from runtime.nli_bootstrap import resolve_pipeline_nesy_engine
 
-if TYPE_CHECKING:
-    from app.config import Settings
-
 logger = logging.getLogger(__name__)
 
 
