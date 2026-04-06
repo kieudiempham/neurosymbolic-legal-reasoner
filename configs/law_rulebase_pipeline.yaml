@@ -3,6 +3,7 @@ doc_files:
   - "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh.doc"
   - "02_nghi_dinh_dang_ky_doanh_nghiep_168_2025_nd_cp.doc"
 
+domain: "enterprise"
 autosize: false
 
 segmentation:

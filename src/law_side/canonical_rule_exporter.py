@@ -74,7 +74,7 @@ def rule_seed_to_canonical(
         source_unit_id=seed.source_unit_id,
         source_ref=seed.source_ref,
         source_ref_full=seed.source_ref_full,
-        surface_text=seed.surface_text,
+        surface_text=seed.source_text,
         
         # Logic content
         logic_form=logic_form,
@@ -97,7 +97,7 @@ def rule_seed_to_canonical(
         
         # Status
         review_status="seed",
-        review_notes=seed.ghi_chu_giai_thich or "",
+        review_notes=seed.notes or "",
         confidence_score=None,
         
         # Provenance
@@ -141,7 +141,7 @@ def _rule_type_to_logic_form(rule_type: str, tinh_chat: str) -> str:
 def export_canonical_rules_jsonl(
     rule_seeds: list[RuleSeed],
     output_path: Path,
-    doc_id: str,
+    doc_id: str = "",
     domain: str = "enterprise",
     rulebase_id: str = "",
 ) -> int:
@@ -150,7 +150,7 @@ def export_canonical_rules_jsonl(
     Args:
         rule_seeds: List of RuleSeed objects from pipeline
         output_path: Output JSONL file path
-        doc_id: Document identifier
+        doc_id: Optional document identifier
         domain: Domain scope
         rulebase_id: Rulebase package ID
     
@@ -162,9 +162,29 @@ def export_canonical_rules_jsonl(
     count = 0
     with open(output_path, "w", encoding="utf-8") as f:
         for seed in rule_seeds:
-            artifact = rule_seed_to_canonical(seed, doc_id, domain, rulebase_id)
+            artifact = rule_seed_to_canonical(seed, domain=domain, rulebase_id=rulebase_id)
             f.write(artifact.model_dump_json(ensure_ascii=False) + "\n")
             count += 1
     
-    logger.info(f"Exported {count} canonical rules to {output_path}")
     return count
+
+
+def export_statute_rule_packs(
+    rule_seeds: list[RuleSeed],
+    output_dir: Path,
+    domain: str,
+) -> dict[str, int]:
+    """Export RuleSeeds grouped by statute (source_doc) into separate packs."""
+    packs: dict[str, list[RuleSeed]] = {}
+    for seed in rule_seeds:
+        doc_key = seed.doc_code or "unknown_doc"
+        packs.setdefault(doc_key, []).append(seed)
+    
+    results: dict[str, int] = {}
+    for doc_key, seeds in packs.items():
+        pack_path = output_dir / f"statute_pack_{doc_key.lower().replace('/', '_')}.jsonl"
+        count = export_canonical_rules_jsonl(seeds, pack_path, doc_key, domain)
+        results[doc_key] = count
+        logger.info(f"Exported statute pack {doc_key}: {count} rules to {pack_path}")
+    
+    return results

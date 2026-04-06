@@ -26,6 +26,9 @@ from law_side.rule_patterns import (
     PROHIBITION_TRIGGERS,
     classify_modality,
 )
+from law_side.frame_validator import frame_to_dict, validate_generic_frame
+from pipelines.domain_config import DomainConfig
+from schemas.legal_frame_v2 import GenericLegalFrame
 from utils.ids import stable_hash
 from utils.logger import get_logger
 
@@ -261,8 +264,9 @@ def _clean_text(s: str | None, *, max_chars: int) -> str | None:
 class LegalFrameExtractor:
     """Extracts `LegalFrame` objects from `NormativeSentence` candidates."""
 
-    def __init__(self, config: dict[str, Any] | None = None) -> None:
+    def __init__(self, config: dict[str, Any] | None = None, domain_config: DomainConfig | None = None) -> None:
         self._config = config or {}
+        self._domain_config = domain_config
         self._log = get_logger(self.__class__.__name__)
 
         self._max_condition_chars = int(self._config.get("max_condition_chars", 220))
@@ -273,6 +277,9 @@ class LegalFrameExtractor:
         self._deadline_triggers = [t.regex for t in DEADLINE_TRIGGERS]
         self._dossier_triggers = [t.regex for t in DOSSIER_TRIGGERS]
         self._authority_triggers = [t.regex for t in AUTHORITY_TRIGGERS]
+
+        # Optional override for frame type mapping, via domain-specific config.
+        self._frame_type_mapping: dict[str, str] = self._config.get("frame_type_mapping", {}) or {}
 
         # Action extraction stops (precision-first): avoid swallowing deadlines/conditions/docs
         # and avoid lead-in phrases that rubric marks as wrong_action.
@@ -322,6 +329,21 @@ class LegalFrameExtractor:
             re.compile(r"\blưu\s+giữ\b", re.I | re.U),
             re.compile(r"\bxem\s*xét\s+tính\s+hợp\s*lệ\b", re.I | re.U),
         ]
+
+    def _compile_pattern_list(self, raw_patterns: list[str] | None) -> list[re.Pattern[str]]:
+        patterns: list[re.Pattern[str]] = []
+        if not raw_patterns:
+            return patterns
+        for item in raw_patterns:
+            try:
+                patterns.append(re.compile(item, re.I | re.U))
+            except re.error:
+                self._log.warning("Invalid frame extraction regex: %s", item)
+        return patterns
+
+    def _map_frame_type(self, frame_type: str) -> str:
+        normalized = frame_type or ""
+        return self._frame_type_mapping.get(normalized, normalized)
 
     def _grounded_extraction_text(self, ns: NormativeSentence) -> str:
         s = (getattr(ns, "source_text", None) or "").strip()
@@ -451,6 +473,7 @@ class LegalFrameExtractor:
 
             subject_type, subject_role = self._extract_subject(ns, sentence_text, frame_type)
             frame_type = self._normalize_frame_type_by_subject(frame_type, subject_type, sentence_text)
+            frame_type = self._map_frame_type(frame_type)
             modality = self._infer_modality(frame_type, sentence_text)
 
             trigger_event = self._extract_trigger_event(ns, frame_type)

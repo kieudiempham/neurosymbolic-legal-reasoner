@@ -21,7 +21,13 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from law_side.canonical_rule_exporter import export_canonical_rules_jsonl
+from law_side.canonical_rule_exporter import export_canonical_rules_jsonl, export_statute_rule_packs
+from law_side.domain_rule_deriver import derive_domain_rulebase
+from law_side.shared_registry_builder import (
+    build_shared_entities_registry,
+    build_shared_predicates_registry,
+    build_shared_rule_pack,
+)
 from law_side.doc_loader import DocLoader
 from law_side.export_to_excel import export_all_to_excel
 from law_side.legal_frame_extractor import LegalFrameExtractor
@@ -155,7 +161,7 @@ class LawRulebasePipeline:
             u.normative_signal = ns.normative_pattern
 
         # Stage 3: Legal frame extraction.
-        frame_extractor = LegalFrameExtractor(config=self._config.frame_extractor or {})
+        frame_extractor = LegalFrameExtractor(config=self._config.frame_extractor or {}, domain_config=self._domain_config)
         legal_frames: list[LegalFrame] = frame_extractor.extract(normative_sentences)
 
         # Stage 4: Predicate normalization.
@@ -187,7 +193,15 @@ class LawRulebasePipeline:
         )
 
         # NEW: Export canonical rule artifacts for backend
+        statute_packs_dir = None
+        domain_rb_path = None
+        shared_entities_path = None
+        shared_predicates_path = None
+        shared_pack_path = None
+        runtime_core_path = None
+
         if self._config.emit_canonical_artifacts and rule_seeds:
+            # Legacy flat format
             count = export_canonical_rules_jsonl(
                 rule_seeds=rule_seeds,
                 output_path=out_canonical_rules,
@@ -197,6 +211,58 @@ class LawRulebasePipeline:
                 f"Exported {count} canonical rules to {out_canonical_rules} "
                 f"(domain={self._config.domain})"
             )
+            
+            # Phase 3: Multi-layer artifacts
+            domain_ns = self._config.domain
+            canonical_dir = output_root / f"processed/rulebase/{domain_ns}/canonical"
+            canonical_dir.mkdir(parents=True, exist_ok=True)
+            
+            # Statute-specific packs
+            statute_packs_dir = canonical_dir / "statute_packs"
+            statute_packs_dir.mkdir(exist_ok=True)
+            pack_results = export_statute_rule_packs(
+                rule_seeds=rule_seeds,
+                output_dir=statute_packs_dir,
+                domain=self._config.domain,
+            )
+            self._log.info(f"Exported {len(pack_results)} statute packs")
+            
+            # Domain rulebase (derived from statute packs)
+            domain_rb_path = canonical_dir / f"{domain_ns}_core.jsonl"
+            domain_summary = derive_domain_rulebase(
+                statute_packs_dir=statute_packs_dir,
+                domain=self._config.domain,
+                output_path=domain_rb_path,
+            )
+            self._log.info(f"Derived domain rulebase: {domain_summary['total_rules']} rules")
+            
+            # Shared layer (placeholder for multi-domain)
+            shared_dir = canonical_dir / "shared"
+            shared_dir.mkdir(exist_ok=True)
+            shared_entities_path = shared_dir / "shared_entities.json"
+            shared_predicates_path = shared_dir / "shared_predicates.json"
+            shared_pack_path = shared_dir / "shared_rule_pack.jsonl"
+            
+            # For now, build from single domain (will expand in Phase 4)
+            domain_rb_paths = [domain_rb_path]
+            build_shared_entities_registry(domain_rb_paths, shared_entities_path)
+            build_shared_predicates_registry(domain_rb_paths, shared_predicates_path)
+            build_shared_rule_pack(domain_rb_paths, {}, {}, shared_pack_path)
+            
+            # Runtime artifacts: compile domain rulebase to reasoning core
+            runtime_dir = output_root / f"processed/rulebase/{domain_ns}/runtime"
+            runtime_dir.mkdir(parents=True, exist_ok=True)
+            runtime_core_path = runtime_dir / "rulebase_reasoning_core.json"
+            
+            # Use existing compiler
+            from law_side.rulebase_reasoning_core import build_reasoning_core_package_from_canonical, load_canonical_jsonl, write_reasoning_core_json
+            canonical_rules = load_canonical_jsonl(domain_rb_path)
+            pkg = build_reasoning_core_package_from_canonical(
+                canonical_rules=canonical_rules,
+                source_path=domain_rb_path,
+            )
+            write_reasoning_core_json(pkg, runtime_core_path)
+            self._log.info(f"Compiled runtime core: {pkg['core_rule_count']} rules to {runtime_core_path}")
 
         self._log.info("Pipeline done.")
         results = {
@@ -208,9 +274,14 @@ class LawRulebasePipeline:
             "rulebase_seed": out_rulebase_seed,
         }
         
-        # NEW: Include canonical artifacts in results
-        if self._config.emit_canonical_artifacts:
+        if self._config.emit_canonical_artifacts and rule_seeds:
             results["canonical_rules"] = out_canonical_rules
+            results["statute_packs_dir"] = statute_packs_dir
+            results["domain_rulebase"] = domain_rb_path
+            results["shared_entities"] = shared_entities_path
+            results["shared_predicates"] = shared_predicates_path
+            results["shared_rule_pack"] = shared_pack_path
+            results["runtime_core"] = runtime_core_path
         
         return results
 

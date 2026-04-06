@@ -191,6 +191,7 @@ class LegalFrame:
     heading: str = ""
     parent_context: str = ""
     notes: str = ""
+    generic_frame: dict[str, Any] | None = None
 
 
 @dataclass(slots=True)

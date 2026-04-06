@@ -1,8 +1,7 @@
-"""Domain configuration for enterprise law parsing (Phase 1 externalization).
+# Domain configuration for enterprise law parsing (Phase 1 externalization).
 
-This config externalizes enterprise-specific patterns from pipeline code.
-Future: labor.yaml, tax.yaml with similar structure.
-"""
+# This config externalizes enterprise-specific patterns from pipeline code.
+# Future: labor.yaml, tax.yaml with similar structure.
 
 # Document metadata mapping
 doc_metadata:
@@ -46,33 +45,33 @@ doc_metadata:
 # Normative sentence detection: subject & authority keywords
 normative_detection:
   subject_keywords:
-    - "doanh\s+nghiệp"
-    - "công\s+ty\s+cổ\s+phần"
-    - "công\s+ty\s+trách\s+nhiệm\s+hữu\s+hạn"
-    - "công\s+ty"
-    - "người\s+thành\s+lập\s+doanh\s+nghiệp"
-    - "người\s+nộp"
-    - "cơ\s+quan\s+đăng\s+ký\s+kinh\s+doanh"
+    - "doanh\\s+nghiệp"
+    - "công\\s+ty\\s+cổ\\s+phần"
+    - "công\\s+ty\\s+trách\\s+nhiệm\\s+hữu\\s+hạn"
+    - "công\\s+ty"
+    - "người\\s+thành\\s+lập\\s+doanh\\s+nghiệp"
+    - "người\\s+nộp"
+    - "cơ\\s+quan\\s+đăng\\s+ký\\s+kinh\\s+doanh"
 
   authority_keywords:
-    - "cơ\s+quan\s+đăng\s+ký\s+kinh\s+doanh\s+cấp\s+tỉnh"
-    - "phòng\s+đăng\s+ký\s+kinh\s+doanh"
-    - "cơ\s+quan\s+nhà\s+nước\s+có\s+thẩm\s+quyền"
+    - "cơ\\s+quan\\s+đăng\\s+ký\\s+kinh\\s+doanh\\s+cấp\\s+tỉnh"
+    - "phòng\\s+đăng\\s+ký\\s+kinh\\s+doanh"
+    - "cơ\\s+quan\\s+nhà\\s+nước\\s+có\\s+thẩm\\s+quyền"
 
   action_verbs:
-    - "đăng\s*ký"
-    - "thông\s*báo"
+    - "đăng\\s*ký"
+    - "thông\\s*báo"
     - "gửi"
     - "nộp"
     - "cấp"
-    - "xem\s*xét"
-    - "từ\s*chối"
-    - "cập\s*nhật"
-    - "thực\s*hiện"
-    - "tiếp\s*nhận"
-    - "chịu\s*trách\s*nhiệm"
+    - "xem\\s*xét"
+    - "từ\\s*chối"
+    - "cập\\s*nhật"
+    - "thực\\s*hiện"
+    - "tiếp\\s*nhận"
+    - "chịu\\s*trách\\s*nhiệm"
     - "phải"
-    - "không\s+được"
+    - "không\\s+được"
 
 # Legal frame extraction: enterprise patterns
 legal_frame_extraction:

@@ -1,8 +1,7 @@
-"""Domain configuration for labor law parsing (Phase 2 placeholder).
+# Domain configuration for labor law parsing (Phase 2 placeholder).
 
-To be implemented in Phase 2 when labor law corpus is added.
-Structure mirrors enterprise.yaml for consistency.
-"""
+# To be implemented in Phase 2 when labor law corpus is added.
+# Structure mirrors enterprise.yaml for consistency.
 
 # Placeholder structure - to be filled in Phase 2
 doc_metadata:
