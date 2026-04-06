@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
 from schemas.rule import RuleRecord
 from schemas.rule_metadata import normalize_rule_record
 from retrieval.rulebase_loader import RulebaseIndex
+from rulebase.shared_rule_pack import get_shared_rules
 
 if TYPE_CHECKING:
     pass
@@ -64,11 +65,13 @@ class RulebaseRegistry:
         rid = rulebase_id or f"{domain}_core"
         self.domain_rulebases[domain] = _normalize_index_rules(rulebase, rulebase_id=rid, layer="domain", domain=domain)
 
-    def register_statute(self, statute_id: str, rulepack: RulebaseIndex, *, rulebase_id: str | None = None) -> None:
-        rid = rulebase_id or f"statute_{statute_id}"
-        self.statute_packs[statute_id] = _normalize_index_rules(
-            rulepack, rulebase_id=rid, layer="statute", domain=statute_id
-        )
+    def register_shared_from_pack(self) -> None:
+        """Register shared rules from shared_rule_pack.py for Part C."""
+        shared_rules = get_shared_rules()
+        if shared_rules:
+            shared_index = RulebaseIndex(shared_rules)
+            self.register_shared(shared_index, rulebase_id="shared_pack_v1")
+            logger.info("[registry] registered %d shared rules from pack", len(shared_rules))
 
     def get_shared(self) -> RulebaseIndex | None:
         return self.shared

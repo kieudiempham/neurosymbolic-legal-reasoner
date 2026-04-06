@@ -106,6 +106,46 @@ def build_proof_with_reasoning(
                 )
             )
 
+    # Add legal policy steps for Part B
+    if phase3_context and phase3_context.get("legal_policy_applied"):
+        policy_data = phase3_context["legal_policy_applied"]
+        if policy_data.get("temporal_recheck_applied"):
+            sid += 1
+            steps.append(
+                ProofStep(
+                    step_id=sid,
+                    description="Re-check temporal validity at apply point (Part B)",
+                    step_type="temporal_recheck_apply",
+                    temporal_check=policy_data.get("temporal_recheck_result"),
+                    conclusion={"kind": "temporal_recheck", "passed": policy_data.get("temporal_recheck_passed", True)},
+                )
+            )
+        if policy_data.get("conflict_resolution_applied"):
+            sid += 1
+            steps.append(
+                ProofStep(
+                    step_id=sid,
+                    description="Conflict resolution at apply point (Part B)",
+                    step_type="conflict_resolution_apply",
+                    conflict_resolution=policy_data.get("conflict_resolution_result"),
+                    conclusion={"kind": "conflict_resolution", "resolved": policy_data.get("conflict_resolved", True)},
+                )
+            )
+        if policy_data.get("override_applied") or policy_data.get("exception_applied"):
+            sid += 1
+            steps.append(
+                ProofStep(
+                    step_id=sid,
+                    description="Override/exception applied (Part B)",
+                    step_type="override_exception_apply",
+                    conclusion={
+                        "kind": "override_exception",
+                        "override_applied": policy_data.get("override_applied", False),
+                        "exception_applied": policy_data.get("exception_applied", False),
+                    },
+                )
+            )
+
     base_id = len(steps)
     n0 = base_id
     steps.extend([

@@ -14,8 +14,9 @@ from reasoning.forward_reasoner import run_forward
 from reasoning.proof_builder import build_proof
 from retrieval.rulebase_loader import RulebaseIndex
 from rulebase.rule_identity import global_rule_key
-from runtime.cross_domain_policy import CrossDomainPolicy
-from runtime.reasoning_context import ReasoningContext
+from runtime.rule_selection_policy import select_best_candidates_with_policy
+from runtime.temporal_policy import rule_temporally_valid
+from runtime.conflict_resolution_policy import prune_conflicting_candidates
 from schemas.question_parse import Layer2Parse
 from schemas.reasoning import ReasoningState
 from schemas.rule import RuleRecord
@@ -121,6 +122,18 @@ def gate_rule_and_backward(
         if v_rule.final_decision != "ACCEPT":
             continue
 
+        # ← TEMPORAL RE-CHECK BEFORE APPLY
+        if reasoning_context and reasoning_context.question_time:
+            ok, reason = rule_temporally_valid(rule, reasoning_context.question_time)
+            if not ok:
+                out.trace.append({
+                    "stage": "temporal_recheck_before_apply",
+                    "rule_id": rid,
+                    "rejected": True,
+                    "reason": reason,
+                })
+                continue
+
         selected, bstate = run_backward(
             goal=goal,
             candidates=ranked,
@@ -153,6 +166,18 @@ def gate_rule_and_backward(
         )
 
         if sel and sel.rule_id != rid:
+            # ← RE-CHECK TEMPORAL/CONFLICT IF RULE CHANGED BY REPAIR
+            if reasoning_context and reasoning_context.question_time:
+                ok, reason = rule_temporally_valid(sel, reasoning_context.question_time)
+                if not ok:
+                    out.trace.append({
+                        "stage": "temporal_recheck_after_repair_switch",
+                        "rule_id": sel.rule_id,
+                        "rejected": True,
+                        "reason": reason,
+                    })
+                    continue
+            
             law2 = str((sel.source_ref_full or sel.source_ref) or "")
             _, v_rule2, rtrace2 = run_rule_repair_loop(
                 engine,
@@ -214,6 +239,18 @@ def gate_forward_reasoning(
         candidate_rules[global_rule_key(r)] = r
 
     def _do_forward() -> tuple[str, bool, ReasoningState, Any]:
+        # ← TEMPORAL RE-CHECK BEFORE FORWARD APPLY
+        if reasoning_context and reasoning_context.question_time:
+            ok, reason = rule_temporally_valid(selected, reasoning_context.question_time)
+            if not ok:
+                out.trace.append({
+                    "stage": "temporal_recheck_before_forward",
+                    "rule_id": selected.rule_id,
+                    "rejected": True,
+                    "reason": reason,
+                })
+                raise ValueError(f"Temporal rejection: {reason}")  # Force retry or fail
+        
         conclusion, goal_ok, fstate, _ = run_forward(
             rule=selected,
             known_facts=known_facts,

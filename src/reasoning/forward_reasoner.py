@@ -12,6 +12,7 @@ from reasoning.internal.mapper import map_rule_record_to_reasoning_rule
 from reasoning.semantics.forward_engine import run_forward_best_path, run_forward_path
 from runtime.domain_reasoning_policy import policy_from_context
 from reasoning.semantics.plan_models import BackwardPlan, ForwardPathResult
+from runtime.temporal_policy import rule_temporally_valid
 
 
 def _state_from_forward(
@@ -69,6 +70,22 @@ def run_forward(
                 primary_domains=list(reasoning_context.primary_domains),
                 include_shared=reasoning_context.include_shared,
             )
+
+        # Part B: Temporal re-check before forward apply
+        question_time = getattr(reasoning_context, 'question_time', None) if reasoning_context else None
+        if question_time:
+            temporal_valid_candidates = []
+            for r, score, meta in cand_use:
+                if rule_temporally_valid(r, question_time):
+                    temporal_valid_candidates.append((r, score, meta))
+                else:
+                    trace.append(f"temporal_reject_forward: {r.rule_id} at {question_time}")
+            if temporal_valid_candidates:
+                cand_use = temporal_valid_candidates
+            else:
+                # If all candidates rejected, keep original but log
+                trace.append("temporal_reject_forward: all candidates rejected, proceeding with original")
+
         bp = BackwardPlan.model_validate(backward_plan)
         fwd = run_forward_best_path(
             plan=bp,
@@ -106,6 +123,12 @@ def run_forward(
             domain_policy=pol,
         )
         cand_sub = dict(s.mapping) if s is not None else {}
+
+    # Part B: Temporal re-check before forward apply (single path)
+    question_time = getattr(reasoning_context, 'question_time', None) if reasoning_context else None
+    if question_time and not rule_temporally_valid(rule, question_time):
+        trace.append(f"temporal_reject_forward_single: {rule.rule_id} at {question_time}")
+        # Still proceed but log rejection
 
     fwd = run_forward_path(
         rule=rule,

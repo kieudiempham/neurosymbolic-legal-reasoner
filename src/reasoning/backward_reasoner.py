@@ -7,12 +7,7 @@ from typing import Any
 from rulebase.rule_identity import global_rule_key
 from schemas.reasoning import ReasoningState, RequirementItem
 from schemas.rule import RuleRecord
-from reasoning.internal.mapper import map_rule_record_to_reasoning_rule
-from reasoning.requirements_bridge import reasoning_rule_to_requirement_items
-from reasoning.semantics.backward_plan import build_backward_plan, pick_best_rule_record
-from reasoning.semantics.plan_models import BackwardPlan
-from reasoning.fact_matching import fact_satisfies_requirement_ctx
-from reasoning.semantics.unification import unify_goal_dict_with_goal_atom
+from runtime.rule_selection_policy import select_best_candidates_with_policy
 
 
 def body_to_requirements(rule: RuleRecord) -> list[RequirementItem]:
@@ -154,6 +149,14 @@ def build_backward_plan_only(
             primary_domains=list(reasoning_context.primary_domains),
             include_shared=reasoning_context.include_shared,
         )
+    
+    # ← METADATA-AWARE SELECTION WITH POLICY
+    if reasoning_context and reasoning_context.question_time:
+        cand_in = select_best_candidates_with_policy(
+            candidates=cand_in,
+            question_time=reasoning_context.question_time,
+        )
+    
     return build_backward_plan(
         goal=goal,
         candidates=cand_in,

@@ -34,3 +34,9 @@ class ReasoningResult(BaseModel):
     logic_layer_policy_decisions: list[dict[str, Any]] = Field(default_factory=list)
     cross_domain_jumps_attempted: int = 0
     cross_domain_jumps_blocked: int = 0
+    winning_rule_reason: str | None = None
+    override_applied: bool = False
+    exception_applied: bool = False
+    shared_layer_rules_used: list[str] = Field(default_factory=list)
+    shared_bridge_facts_generated: list[str] = Field(default_factory=list)
+    cross_layer_reasoning_steps: list[dict[str, Any]] = Field(default_factory=list)
