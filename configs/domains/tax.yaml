@@ -1,0 +1,42 @@
+"""Domain configuration for tax law parsing (Phase 2 placeholder).
+
+To be implemented in Phase 2 when tax law corpus is added.
+Structure mirrors enterprise.yaml for consistency.
+"""
+
+# Placeholder structure - to be filled in Phase 2
+doc_metadata:
+  defaults:
+    domain_scope: "tax"
+    doc_type: "regulation"
+    priority: "medium"
+
+normative_detection:
+  subject_keywords:
+    # To be filled: tax entities
+    - "co_quan_thue"
+    - "nha_kinh_doanh"
+
+  authority_keywords:
+    # To be filled: tax authorities
+    - "tong_cuc_thue"
+
+  action_verbs:
+    # To be filled: tax-specific verbs
+    - "nop_thue"
+    - "khai_thue"
+
+legal_frame_extraction:
+  enterprise_entity_patterns:
+    # To be filled
+
+  authority_patterns:
+    # To be filled
+
+predicate_normalization:
+  action_surface_to_normalized:
+    # To be filled
+
+output:
+  namespace: "tax"
+  excel_autosize: false

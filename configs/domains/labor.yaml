@@ -1,0 +1,43 @@
+"""Domain configuration for labor law parsing (Phase 2 placeholder).
+
+To be implemented in Phase 2 when labor law corpus is added.
+Structure mirrors enterprise.yaml for consistency.
+"""
+
+# Placeholder structure - to be filled in Phase 2
+doc_metadata:
+  defaults:
+    domain_scope: "labor"
+    doc_type: "law"
+    priority: "medium"
+
+normative_detection:
+  subject_keywords:
+    # To be filled: labor law entities
+    - "lao_dong_vien"
+    - "nha_tuyendung"
+    - "cong_doan"
+
+  authority_keywords:
+    # To be filled: labor authorities
+    - "co_quan_lao_dong"
+
+  action_verbs:
+    # To be filled: labor-specific verbs
+    - "ky_hop_dong"
+    - "tham_gia_bao_hiem"
+
+legal_frame_extraction:
+  enterprise_entity_patterns:
+    # To be filled
+
+  authority_patterns:
+    # To be filled
+
+predicate_normalization:
+  action_surface_to_normalized:
+    # To be filled
+
+output:
+  namespace: "labor"
+  excel_autosize: false

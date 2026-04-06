@@ -1,0 +1,157 @@
+"""Domain configuration for enterprise law parsing (Phase 1 externalization).
+
+This config externalizes enterprise-specific patterns from pipeline code.
+Future: labor.yaml, tax.yaml with similar structure.
+"""
+
+# Document metadata mapping
+doc_metadata:
+  filename_patterns:
+    - pattern: "luat_doanh_nghiep|01_luat"
+      doc_type: "law"
+      domain_scope: "doanh_nghiep"
+      domain_subscope: "quyen_nghia_vu_quan_tri_dang_ky"
+      priority: "rat_cao"
+    - pattern: "nghi_dinh.*dang_ky|02_nghi_dinh"
+      doc_type: "decree"
+      domain_scope: "doanh_nghiep"
+      domain_subscope: "thu_tuc_ho_so_dang_ky"
+      priority: "rat_cao"
+
+  hardcoded_files:
+    "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh.doc":
+      doc_id: "DOC_LUAT_DOANH_NGHIEP_67_VBHN_2025"
+      doc_title: "Luật Doanh nghiệp"
+      doc_code: "67/VBHN-VPQH"
+      doc_type: "law"
+      issuing_body: "Văn phòng Quốc hội"
+      domain_scope: "doanh_nghiep"
+      domain_subscope: "quyen_nghia_vu_quan_tri_dang_ky"
+      
+    "02_nghi_dinh_dang_ky_doanh_nghiep_168_2025_nd_cp.doc":
+      doc_id: "DOC_ND_DANG_KY_DOANH_NGHIEP_168_2025"
+      doc_title: "Nghị định về đăng ký doanh nghiệp"
+      doc_code: "168/2025/NĐ-CP"
+      doc_type: "decree"
+      issuing_body: "Chính phủ"
+      domain_scope: "doanh_nghiep"
+      domain_subscope: "thu_tuc_ho_so_dang_ky"
+
+  defaults:
+    when_unknown:
+      domain_scope: "doanh_nghiep"
+      doc_type: "unknown"
+      priority: "trung_binh"
+
+# Normative sentence detection: subject & authority keywords
+normative_detection:
+  subject_keywords:
+    - "doanh\s+nghiệp"
+    - "công\s+ty\s+cổ\s+phần"
+    - "công\s+ty\s+trách\s+nhiệm\s+hữu\s+hạn"
+    - "công\s+ty"
+    - "người\s+thành\s+lập\s+doanh\s+nghiệp"
+    - "người\s+nộp"
+    - "cơ\s+quan\s+đăng\s+ký\s+kinh\s+doanh"
+
+  authority_keywords:
+    - "cơ\s+quan\s+đăng\s+ký\s+kinh\s+doanh\s+cấp\s+tỉnh"
+    - "phòng\s+đăng\s+ký\s+kinh\s+doanh"
+    - "cơ\s+quan\s+nhà\s+nước\s+có\s+thẩm\s+quyền"
+
+  action_verbs:
+    - "đăng\s*ký"
+    - "thông\s*báo"
+    - "gửi"
+    - "nộp"
+    - "cấp"
+    - "xem\s*xét"
+    - "từ\s*chối"
+    - "cập\s*nhật"
+    - "thực\s*hiện"
+    - "tiếp\s*nhận"
+    - "chịu\s*trách\s*nhiệm"
+    - "phải"
+    - "không\s+được"
+
+# Legal frame extraction: enterprise patterns
+legal_frame_extraction:
+  enterprise_entity_patterns:
+    - "công ty cổ phần"
+    - "công ty trách nhiệm hữu hạn"
+    - "người thành lập doanh nghiệp"
+    - "văn phòng đại diện"
+    - "chi nhánh"
+    - "công ty"
+    - "doanh nghiệp"
+    - "người nộp"
+
+  authority_patterns:
+    - "cơ quan đăng ký kinh doanh cấp tỉnh"
+    - "cơ quan đăng ký kinh doanh"
+    - "cơ quan thuế"
+
+  frame_type_mapping:
+    "thoi_han": "khung_thoi_han"
+    "thanh_phan_ho_so": "khung_ho_so"
+    "hanh_dong_co_quan": "khung_hanh_dong_co_quan"
+    "ngoai_le": "khung_ngoai_le"
+    "nguong_so_luong": "khung_nguong_dinh_luong"
+    "ket_qua_phap_ly": "khung_ket_qua_phap_ly"
+    "nghia_vu": "khung_nghia_vu"
+    "quyen": "khung_quyen"
+    "cam_doan": "khung_cam_doan"
+    "thu_tuc": "khung_thu_tuc"
+    "dieu_kien_ap_dung": "khung_dieu_kien"
+
+# Predicate normalization: enterprise verb mappings
+predicate_normalization:
+  action_surface_to_normalized:
+    # Doanh nghiệp obligations
+    "đăng ký doanh nghiệp": "dang_ky_doanh_nghiep"
+    "đăng ký thay đổi": "dang_ky_thay_doi_noi_dung_dang_ky_doanh_nghiep"
+    "thay đổi tên": "thay_doi_ten_doanh_nghiep"
+    "thành lập doanh nghiệp": "thanh_lap_doanh_nghiep"
+    "giải thể doanh nghiệp": "giai_the_doanh_nghiep"
+    
+    # Ho so obligations
+    "nộp hồ sơ": "nop_ho_so"
+    "chuẩn bị hồ sơ": "chuan_bi_ho_so"
+    "kèm theo hồ sơ": "kem_theo_ho_so"
+    "gửi hồ sơ": "gui_ho_so"
+    
+    # Authority actions
+    "tiếp nhận": "tiep_nhan"
+    "xem xét": "xem_xet"
+    "cấp": "cap"
+    "thông báo": "thong_bao"
+    "từ chối": "tu_choi"
+    "cập nhật": "cap_nhat"
+    "lưu giữ": "luu_giu"
+    "công bố": "cong_bo"
+
+# Segmentation: Vietnamese legal structure (generic but tuned for enterprise)
+segmentation:
+  min_unit_chars: 20
+  strong_markers:
+    "phai": "\\bphải\\b"
+    "chiu_trach_nhiem": "\\bchịu\\s+trách\\s+nhiệm\\b"
+    "co_trach_nhiem": "\\bcó\\s+trách\\s+nhiệm\\b"
+    "co_nghia_vu": "\\bcó\\s+nghĩa\\s+vụ\\b"
+    "khong_duoc": "\\bkhông\\s+được\\b"
+    "dang_ky": "\\bđăng\\s+ký\\b"
+    "cap": "\\bcấp\\b"
+
+# Output & paths
+output:
+  namespace: "enterprise"
+  excel_autosize: false
+  include_review_artifacts:
+    - document_manifest
+    - legal_units
+    - candidate_normative_sentences
+    - legal_frames
+    - predicate_lexicon
+    - rulebase_seed
+  include_canonical_artifacts:
+    - canonical_rules  # NEW: canonical_rules.jsonl
