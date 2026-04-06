@@ -37,6 +37,7 @@ def _configure_qa() -> None:
         entailment_threshold=settings.nli_entailment_threshold,
         contradiction_threshold=settings.nli_contradiction_threshold,
         answer_reject_allow_fallback=settings.answer_reject_allow_fallback,
+        settings=settings,
     )
 
 

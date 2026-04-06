@@ -27,13 +27,20 @@ from retrieval.evidence_retriever import (
     configure_evidence_path,
     get_evidence_retriever,
 )
+from retrieval.advanced_domain_retriever import AdvancedDomainRetriever
 from retrieval.domain_scoped_retriever import DomainScopedRuleRetriever, enrich_ranked_with_retrieval_meta
 from retrieval.rule_retriever import retrieve_rules
 from retrieval.rulebase_loader import RulebaseIndex, configure_rulebase_path, get_rulebase_index
 from rulebase.rulebase_registry import RulebaseRegistry
+from runtime.cross_domain_policy import (
+    default_policy_for_routing,
+    filter_ranked_for_primary_phase,
+    merge_secondary_with_policy,
+)
 from runtime.domain_selector import SimpleDomainSelector
 from runtime.qa_runtime_bundle import QARuntimeBundle
 from runtime.reasoning_context import ReasoningContext
+from schemas.domain_routing import DomainRoutingPlan
 from schemas.rule_metadata import collect_rulebase_ids_from_index
 from schemas.http_response import AskResponse, ClarificationPrompt, ClarifyResponse
 from schemas.question_parse import Layer1Parse, Layer2Parse
@@ -165,6 +172,7 @@ class QAOrchestrator:
         max_repair_attempts_forward: int = 1,
         answer_reject_allow_fallback: bool = False,
         session_svc: SessionService | None = None,
+        qa_runtime_bundle: QARuntimeBundle | None = None,
     ) -> None:
         self._rulebase_core_path = rulebase_core_path
         self._evidence_chunks_path = evidence_chunks_path
@@ -183,10 +191,14 @@ class QAOrchestrator:
         self._answer_reject_allow_fallback = answer_reject_allow_fallback
         self._session_svc = session_svc
         self._evidence: EvidenceRetriever | None = None
-        self._bundle: QARuntimeBundle = QARuntimeBundle.from_legacy_rulebase_path(
+        self._bundle: QARuntimeBundle = qa_runtime_bundle or QARuntimeBundle.from_legacy_rulebase_path(
             str(self._rulebase_core_path),
             domain="enterprise",
         )
+
+    @property
+    def runtime_bundle(self) -> QARuntimeBundle:
+        return self._bundle
 
     def _session(self) -> SessionService:
         return self._session_svc or get_session_service()
@@ -223,6 +235,7 @@ class QAOrchestrator:
             rulebase_registry=self._bundle.rulebase_registry,
             domain_retriever=self._bundle.domain_retriever,
             domain_selector=self._bundle.domain_selector,
+            retriever_advanced=self._bundle.retriever_advanced,
             evidence_retriever=self._evidence_retriever(),
             top_k=self._top_k,
             max_repair_attempts_parse=self._max_repair_attempts_parse,
@@ -243,6 +256,7 @@ class QAOrchestrator:
             rulebase_registry=self._bundle.rulebase_registry,
             domain_retriever=self._bundle.domain_retriever,
             domain_selector=self._bundle.domain_selector,
+            retriever_advanced=self._bundle.retriever_advanced,
             evidence_retriever=self._evidence_retriever(),
             top_k=self._top_k,
             max_repair_attempts_parse=self._max_repair_attempts_parse,
@@ -265,6 +279,7 @@ def run_ask(
     rule_index: RulebaseIndex | None = None,
     rulebase_registry: RulebaseRegistry | None = None,
     domain_retriever: DomainScopedRuleRetriever | None = None,
+    retriever_advanced: AdvancedDomainRetriever | None = None,
     domain_selector: SimpleDomainSelector | None = None,
     evidence_retriever: EvidenceRetriever | None = None,
     top_k: int = 8,
@@ -358,28 +373,85 @@ def run_ask(
         )
 
     selector = domain_selector or SimpleDomainSelector()
-    routing = selector.select({"layer1": layer1, "layer2": layer2, "question": question})
-    trace["domain_routing"] = routing
+    routing = selector.select(
+        {"layer1": layer1, "layer2": layer2, "question": question},
+        registry=rulebase_registry,
+    )
+    if not isinstance(routing, DomainRoutingPlan):
+        routing = DomainRoutingPlan.model_validate(routing)
+    trace["domain_routing"] = routing.model_dump(mode="json")
+
+    policy = default_policy_for_routing(
+        allow_cross_domain_expansion=routing.allow_cross_domain_expansion,
+        triggered_bridges=list(routing.triggered_bridges),
+    )
 
     with tc.span("retrieve_rules") as sp_rr:
-        if rulebase_registry is not None and domain_retriever is not None:
-            primary = routing["primary_domains"]
-            ranked, merged_index = domain_retriever.retrieve(
+        ranked: list[tuple[RuleRecord, float, dict[str, Any]]]
+        merged_index: RulebaseIndex
+        if rulebase_registry is not None and retriever_advanced is not None:
+            ret_res, ranked_all, ri_full = retriever_advanced.retrieve(
+                layer1, layer2, routing, top_k_final=top_k
+            )
+            trace["retrieval_result"] = ret_res.model_dump(mode="json")
+            ranked_primary, rejected_pf = filter_ranked_for_primary_phase(
+                ranked_all,
+                primary_domains=list(routing.primary_domains),
+                include_shared=routing.include_shared,
+            )
+            ranked, _exp, _used_dom = merge_secondary_with_policy(
+                ranked_primary,
+                ranked_all,
+                secondary_domains=list(routing.secondary_domains),
+                policy=policy,
+                triggered_bridges=list(routing.triggered_bridges),
+            )
+            trace["rejected_candidates_domain_filter"] = rejected_pf[:32]
+            ri = ri_full
+            merged_index = ri_full
+        elif rulebase_registry is not None and domain_retriever is not None:
+            ranked_all, merged_index = domain_retriever.retrieve(
                 layer1,
                 layer2,
-                primary,
-                include_shared=True,
+                list(routing.primary_domains),
+                include_shared=routing.include_shared,
                 top_k=top_k,
             )
+            ranked_primary, rejected_pf = filter_ranked_for_primary_phase(
+                ranked_all,
+                primary_domains=list(routing.primary_domains),
+                include_shared=routing.include_shared,
+            )
+            ranked, _exp, _used_dom = merge_secondary_with_policy(
+                ranked_primary,
+                ranked_all,
+                secondary_domains=list(routing.secondary_domains),
+                policy=policy,
+                triggered_bridges=list(routing.triggered_bridges),
+            )
+            trace["rejected_candidates_domain_filter"] = rejected_pf[:32]
             ri = merged_index
         else:
             ri = rule_index or get_rulebase_index()
-            ranked = retrieve_rules(layer1=layer1, layer2=layer2, top_k=top_k, index=ri)
-            ranked = enrich_ranked_with_retrieval_meta(ranked)
+            ranked_all = retrieve_rules(layer1=layer1, layer2=layer2, top_k=top_k, index=ri)
+            ranked_all = enrich_ranked_with_retrieval_meta(ranked_all)
+            ranked_primary, rejected_pf = filter_ranked_for_primary_phase(
+                ranked_all,
+                primary_domains=list(routing.primary_domains),
+                include_shared=routing.include_shared,
+            )
+            ranked, _exp, _used_dom = merge_secondary_with_policy(
+                ranked_primary,
+                ranked_all,
+                secondary_domains=list(routing.secondary_domains),
+                policy=policy,
+                triggered_bridges=list(routing.triggered_bridges),
+            )
+            trace["rejected_candidates_domain_filter"] = rejected_pf[:32]
             merged_index = ri
         session.retrieved_rules = [r for r, _, _ in ranked]
         sp_rr.output_summary = {
-            "domain_routing": routing,
+            "domain_routing": routing.model_dump(mode="json"),
             "top_rule_ids": [r.rule_id for r, _, _ in ranked[:8]],
             "top": [
                 {
@@ -392,24 +464,27 @@ def run_ask(
                     "layer": d.get("layer"),
                     "source_doc": d.get("source_doc"),
                     "source_article": d.get("source_article"),
+                    "retrieval_scope": d.get("retrieval_scope"),
                 }
                 for r, s, d in ranked[: min(8, len(ranked))]
             ],
         }
     trace["stage"].append("retrieve_done")
     trace["rule_retrieval"] = {
-        "backend": "hybrid_bm25_structured",
+        "backend": "advanced_domain_per_scope" if retriever_advanced is not None else "hybrid_bm25_structured",
         "top": (sp_rr.output_summary or {}).get("top", []),
     }
     trace["retrieved_rules_by_domain"] = _group_retrieved_by_domain(ranked)
 
     ctx = ReasoningContext(
-        primary_domains=list(routing["primary_domains"]),
-        secondary_domains=list(routing.get("secondary_domains") or []),
+        primary_domains=list(routing.primary_domains),
+        secondary_domains=list(routing.secondary_domains),
         active_rulebases=collect_rulebase_ids_from_index(merged_index.rules),
-        include_shared=True,
+        include_shared=routing.include_shared,
         question_time=None,
         statute_ids=[],
+        cross_domain_policy=policy,
+        triggered_bridges=list(routing.triggered_bridges),
     )
     trace["reasoning_context"] = ctx.to_trace_dict()
 
@@ -425,6 +500,8 @@ def run_ask(
             rule_index=ri,
             max_rule_repair=max_repair_attempts_rule,
             max_backward_repair=max_repair_attempts_backward,
+            reasoning_context=ctx,
+            cross_domain_policy=policy,
         )
         trace["rule_backward_gate"] = rg.trace
         if rg.v_rule:
@@ -511,6 +588,7 @@ def run_ask(
             backward_plan_dict=bstate.backward_plan,
             max_forward_repair=max_repair_attempts_forward,
             reasoning_context=ctx,
+            cross_domain_policy=policy,
         )
         trace["forward_gate"] = fg.trace
         if fg.v_fwd:
@@ -650,6 +728,7 @@ def run_clarify(
     rule_index: RulebaseIndex | None = None,
     rulebase_registry: RulebaseRegistry | None = None,
     domain_retriever: DomainScopedRuleRetriever | None = None,
+    retriever_advanced: AdvancedDomainRetriever | None = None,
     domain_selector: SimpleDomainSelector | None = None,
     evidence_retriever: EvidenceRetriever | None = None,
     top_k: int = 8,
@@ -724,28 +803,85 @@ def run_clarify(
         )
 
     selector = domain_selector or SimpleDomainSelector()
-    routing = selector.select({"layer1": layer1, "layer2": layer2, "question": question})
-    trace["domain_routing"] = routing
+    routing = selector.select(
+        {"layer1": layer1, "layer2": layer2, "question": question},
+        registry=rulebase_registry,
+    )
+    if not isinstance(routing, DomainRoutingPlan):
+        routing = DomainRoutingPlan.model_validate(routing)
+    trace["domain_routing"] = routing.model_dump(mode="json")
+
+    policy = default_policy_for_routing(
+        allow_cross_domain_expansion=routing.allow_cross_domain_expansion,
+        triggered_bridges=list(routing.triggered_bridges),
+    )
 
     with tc.span("retrieve_rules") as sp_rr:
-        if rulebase_registry is not None and domain_retriever is not None:
-            primary = routing["primary_domains"]
-            ranked, merged_index = domain_retriever.retrieve(
+        ranked: list[tuple[RuleRecord, float, dict[str, Any]]]
+        merged_index: RulebaseIndex
+        if rulebase_registry is not None and retriever_advanced is not None:
+            ret_res, ranked_all, ri_full = retriever_advanced.retrieve(
+                layer1, layer2, routing, top_k_final=top_k
+            )
+            trace["retrieval_result"] = ret_res.model_dump(mode="json")
+            ranked_primary, rejected_pf = filter_ranked_for_primary_phase(
+                ranked_all,
+                primary_domains=list(routing.primary_domains),
+                include_shared=routing.include_shared,
+            )
+            ranked, _exp, _used_dom = merge_secondary_with_policy(
+                ranked_primary,
+                ranked_all,
+                secondary_domains=list(routing.secondary_domains),
+                policy=policy,
+                triggered_bridges=list(routing.triggered_bridges),
+            )
+            trace["rejected_candidates_domain_filter"] = rejected_pf[:32]
+            ri = ri_full
+            merged_index = ri_full
+        elif rulebase_registry is not None and domain_retriever is not None:
+            ranked_all, merged_index = domain_retriever.retrieve(
                 layer1,
                 layer2,
-                primary,
-                include_shared=True,
+                list(routing.primary_domains),
+                include_shared=routing.include_shared,
                 top_k=top_k,
             )
+            ranked_primary, rejected_pf = filter_ranked_for_primary_phase(
+                ranked_all,
+                primary_domains=list(routing.primary_domains),
+                include_shared=routing.include_shared,
+            )
+            ranked, _exp, _used_dom = merge_secondary_with_policy(
+                ranked_primary,
+                ranked_all,
+                secondary_domains=list(routing.secondary_domains),
+                policy=policy,
+                triggered_bridges=list(routing.triggered_bridges),
+            )
+            trace["rejected_candidates_domain_filter"] = rejected_pf[:32]
             ri = merged_index
         else:
             ri = rule_index or get_rulebase_index()
-            ranked = retrieve_rules(layer1=layer1, layer2=layer2, top_k=top_k, index=ri)
-            ranked = enrich_ranked_with_retrieval_meta(ranked)
+            ranked_all = retrieve_rules(layer1=layer1, layer2=layer2, top_k=top_k, index=ri)
+            ranked_all = enrich_ranked_with_retrieval_meta(ranked_all)
+            ranked_primary, rejected_pf = filter_ranked_for_primary_phase(
+                ranked_all,
+                primary_domains=list(routing.primary_domains),
+                include_shared=routing.include_shared,
+            )
+            ranked, _exp, _used_dom = merge_secondary_with_policy(
+                ranked_primary,
+                ranked_all,
+                secondary_domains=list(routing.secondary_domains),
+                policy=policy,
+                triggered_bridges=list(routing.triggered_bridges),
+            )
+            trace["rejected_candidates_domain_filter"] = rejected_pf[:32]
             merged_index = ri
         session.retrieved_rules = [r for r, _, _ in ranked]
         sp_rr.output_summary = {
-            "domain_routing": routing,
+            "domain_routing": routing.model_dump(mode="json"),
             "top_rule_ids": [r.rule_id for r, _, _ in ranked[:8]],
             "top": [
                 {
@@ -758,23 +894,26 @@ def run_clarify(
                     "layer": d.get("layer"),
                     "source_doc": d.get("source_doc"),
                     "source_article": d.get("source_article"),
+                    "retrieval_scope": d.get("retrieval_scope"),
                 }
                 for r, s, d in ranked[: min(8, len(ranked))]
             ],
         }
     trace["rule_retrieval"] = {
-        "backend": "hybrid_bm25_structured",
+        "backend": "advanced_domain_per_scope" if retriever_advanced is not None else "hybrid_bm25_structured",
         "top": (sp_rr.output_summary or {}).get("top", []),
     }
     trace["retrieved_rules_by_domain"] = _group_retrieved_by_domain(ranked)
 
     ctx = ReasoningContext(
-        primary_domains=list(routing["primary_domains"]),
-        secondary_domains=list(routing.get("secondary_domains") or []),
+        primary_domains=list(routing.primary_domains),
+        secondary_domains=list(routing.secondary_domains),
         active_rulebases=collect_rulebase_ids_from_index(merged_index.rules),
-        include_shared=True,
+        include_shared=routing.include_shared,
         question_time=None,
         statute_ids=[],
+        cross_domain_policy=policy,
+        triggered_bridges=list(routing.triggered_bridges),
     )
     trace["reasoning_context"] = ctx.to_trace_dict()
 
@@ -790,6 +929,8 @@ def run_clarify(
             rule_index=ri,
             max_rule_repair=max_repair_attempts_rule,
             max_backward_repair=max_repair_attempts_backward,
+            reasoning_context=ctx,
+            cross_domain_policy=policy,
         )
         trace["rule_backward_gate"] = rg.trace
         if rg.v_rule:
@@ -868,6 +1009,7 @@ def run_clarify(
             backward_plan_dict=bstate.backward_plan,
             max_forward_repair=max_repair_attempts_forward,
             reasoning_context=ctx,
+            cross_domain_policy=policy,
         )
         trace["forward_gate"] = fg.trace
         if fg.v_fwd:

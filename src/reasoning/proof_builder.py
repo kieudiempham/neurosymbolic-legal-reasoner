@@ -64,6 +64,10 @@ def build_proof_with_reasoning(
         },
         ensure_ascii=False,
     )
+    pol_check = ""
+    if reasoning_context and reasoning_context.cross_domain_policy:
+        pol_check = str(reasoning_context.cross_domain_policy.to_trace_dict())
+
     steps: list[ProofStep] = [
         ProofStep(
             step_id=1,
@@ -76,6 +80,8 @@ def build_proof_with_reasoning(
             layer=m0["layer"],
             source_doc=m0["source_doc"],
             source_article=m0["source_article"],
+            step_type="domain_rule",
+            policy_check=pol_check or None,
         ),
         ProofStep(
             step_id=2,

@@ -49,16 +49,27 @@ def run_backward(
     max_paths: int = 3,
     excluded_rule_ids: frozenset[str] | None = None,
     preferred_rule_id: str | None = None,
+    reasoning_context: Any | None = None,
+    cross_domain_policy: Any | None = None,
 ) -> tuple[RuleRecord | None, ReasoningState]:
+    cand_in = list(candidates)
+    if reasoning_context is not None and cross_domain_policy is not None:
+        from runtime.cross_domain_policy import filter_ranked_for_primary_phase
+
+        cand_in, _rej = filter_ranked_for_primary_phase(
+            cand_in,
+            primary_domains=list(reasoning_context.primary_domains),
+            include_shared=reasoning_context.include_shared,
+        )
     plan = build_backward_plan(
-        goal=goal, candidates=candidates, known_facts=known_facts, max_paths=max_paths
+        goal=goal, candidates=cand_in, known_facts=known_facts, max_paths=max_paths
     )
     plan_dict = plan.model_dump(mode="json")
     trace: list[str] = [f"backward_plan:{len(plan.candidates)}_candidates"]
 
     selected = pick_best_rule_record(
         plan,
-        candidates,
+        cand_in,
         excluded_rule_ids=excluded_rule_ids,
         preferred_rule_id=preferred_rule_id,
     )
@@ -100,6 +111,17 @@ def build_backward_plan_only(
     candidates: list[tuple[RuleRecord, float, dict[str, Any]]],
     known_facts: dict[str, Any],
     max_paths: int = 3,
+    reasoning_context: Any | None = None,
+    cross_domain_policy: Any | None = None,
 ) -> BackwardPlan:
     """Expose plan builder for tests / tooling."""
-    return build_backward_plan(goal=goal, candidates=candidates, known_facts=known_facts, max_paths=max_paths)
+    cand_in = list(candidates)
+    if reasoning_context is not None and cross_domain_policy is not None:
+        from runtime.cross_domain_policy import filter_ranked_for_primary_phase
+
+        cand_in, _ = filter_ranked_for_primary_phase(
+            cand_in,
+            primary_domains=list(reasoning_context.primary_domains),
+            include_shared=reasoning_context.include_shared,
+        )
+    return build_backward_plan(goal=goal, candidates=cand_in, known_facts=known_facts, max_paths=max_paths)

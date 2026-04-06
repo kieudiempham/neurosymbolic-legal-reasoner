@@ -47,6 +47,8 @@ def run_forward(
     backward_plan: dict[str, Any] | None = None,
     candidates: list[tuple[RuleRecord, float, dict[str, Any]]] | None = None,
     substitution: dict[str, Any] | None = None,
+    reasoning_context: Any | None = None,
+    cross_domain_policy: Any | None = None,
 ) -> tuple[str, bool, ReasoningState, list[str]]:
     """
     If `backward_plan` + `candidates` are set, try candidate paths in order.
@@ -55,9 +57,18 @@ def run_forward(
     trace: list[str] = []
 
     if backward_plan is not None and candidates is not None:
+        cand_use = list(candidates)
+        if reasoning_context is not None and cross_domain_policy is not None:
+            from runtime.cross_domain_policy import filter_ranked_for_primary_phase
+
+            cand_use, _ = filter_ranked_for_primary_phase(
+                cand_use,
+                primary_domains=list(reasoning_context.primary_domains),
+                include_shared=reasoning_context.include_shared,
+            )
         bp = BackwardPlan.model_validate(backward_plan)
-        fwd = run_forward_best_path(plan=bp, candidates=candidates, goal=goal, known_facts=known_facts)
-        win_rule = next((r for r, _, _ in candidates if r.rule_id == fwd.rule_id), rule)
+        fwd = run_forward_best_path(plan=bp, candidates=cand_use, goal=goal, known_facts=known_facts)
+        win_rule = next((r for r, _, _ in cand_use if r.rule_id == fwd.rule_id), rule)
         reqs = body_to_requirements(win_rule)
         st = _state_from_forward(win_rule, reqs, fwd, trace + ["forward_multi_path"])
         return fwd.conclusion, fwd.goal_reached, st, trace

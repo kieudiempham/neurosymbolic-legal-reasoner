@@ -9,6 +9,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
+from retrieval.advanced_domain_retriever import AdvancedDomainRetriever
 from retrieval.domain_scoped_retriever import DomainScopedRuleRetriever
 from rulebase.rulebase_registry import RulebaseRegistry
 from runtime.domain_selector import SimpleDomainSelector
@@ -19,6 +20,7 @@ class QARuntimeBundle:
     rulebase_registry: RulebaseRegistry
     domain_retriever: DomainScopedRuleRetriever
     domain_selector: SimpleDomainSelector
+    retriever_advanced: AdvancedDomainRetriever | None = None
     parser: Any = None
     retriever: Any = None
     backward_reasoner: Any = None
@@ -40,4 +42,5 @@ class QARuntimeBundle:
             rulebase_registry=reg,
             domain_retriever=DomainScopedRuleRetriever(reg),
             domain_selector=SimpleDomainSelector(),
+            retriever_advanced=AdvancedDomainRetriever(reg),
         )

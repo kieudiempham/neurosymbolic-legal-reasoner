@@ -111,6 +111,18 @@ def load_rulebase(
 
 
 def get_rulebase_index() -> RulebaseIndex:
+    """Prefer process-wide :class:`RulebaseRegistry` (phase 2) when configured via ``qa_runtime``."""
+    try:
+        from runtime import qa_runtime as _qr
+
+        reg = getattr(_qr, "get_global_rulebase_registry", lambda: None)()
+        if reg is not None:
+            doms = reg.list_domains()
+            sh = reg.get_shared()
+            if doms or sh:
+                return reg.build_merged_index(doms, include_shared=bool(sh))
+    except Exception:
+        pass
     global _index
     if _index is None:
         _index = load_rulebase()

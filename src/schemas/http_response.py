@@ -61,6 +61,10 @@ class HealthResponse(BaseModel):
     rulebase_loaded: bool = False
     rule_count: int = 0
     evidence_chunks: int = 0
+    domains_loaded: list[str] = Field(default_factory=list)
+    shared_layer_loaded: bool = False
+    rule_counts_by_domain: dict[str, int] = Field(default_factory=dict)
+    registry_first: bool = False
 
 
 class ErrorResponse(BaseModel):

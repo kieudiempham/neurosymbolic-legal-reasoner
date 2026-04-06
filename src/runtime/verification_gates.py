@@ -13,6 +13,7 @@ from reasoning.backward_reasoner import build_backward_plan_only, run_backward
 from reasoning.forward_reasoner import run_forward
 from reasoning.proof_builder import build_proof
 from retrieval.rulebase_loader import RulebaseIndex
+from runtime.cross_domain_policy import CrossDomainPolicy
 from runtime.reasoning_context import ReasoningContext
 from schemas.question_parse import Layer2Parse
 from schemas.reasoning import ReasoningState
@@ -60,6 +61,8 @@ def gate_rule_and_backward(
     rule_index: RulebaseIndex,
     max_rule_repair: int = 2,
     max_backward_repair: int = 1,
+    reasoning_context: ReasoningContext | None = None,
+    cross_domain_policy: CrossDomainPolicy | None = None,
 ) -> RuleBackwardGateOutcome:
     """
     For each backward-plan candidate: ``verify_rule`` (with repair), then ``run_backward`` + ``verify_backward``.
@@ -75,7 +78,13 @@ def gate_rule_and_backward(
         out.error = "no_candidates"
         return out
 
-    plan = build_backward_plan_only(goal=goal, candidates=ranked, known_facts=known_facts)
+    plan = build_backward_plan_only(
+        goal=goal,
+        candidates=ranked,
+        known_facts=known_facts,
+        reasoning_context=reasoning_context,
+        cross_domain_policy=cross_domain_policy,
+    )
     by_id = {r.rule_id: r for r, _, _ in ranked}
 
     for cand in plan.candidates:
@@ -113,6 +122,8 @@ def gate_rule_and_backward(
             candidates=ranked,
             known_facts=known_facts,
             preferred_rule_id=rid,
+            reasoning_context=reasoning_context,
+            cross_domain_policy=cross_domain_policy,
         )
         if not selected:
             continue
@@ -185,6 +196,7 @@ def gate_forward_reasoning(
     backward_plan_dict: dict[str, Any],
     max_forward_repair: int = 1,
     reasoning_context: ReasoningContext | None = None,
+    cross_domain_policy: CrossDomainPolicy | None = None,
 ) -> ForwardGateOutcome:
     """Run forward + proof, then ``verify_forward`` with optional repair (re-run forward + rebuild proof)."""
     out = ForwardGateOutcome(ok=False)
@@ -199,6 +211,8 @@ def gate_forward_reasoning(
             goal=goal,
             backward_plan=backward_plan_dict,
             candidates=ranked,
+            reasoning_context=reasoning_context,
+            cross_domain_policy=cross_domain_policy,
         )
         win_rule = selected
         if fstate.forward_result and fstate.forward_result.get("rule_id"):

@@ -31,6 +31,23 @@ class Settings(BaseSettings):
     repo_root: Path = Field(default_factory=_default_repo_root)
 
     rulebase_core_path: Path | None = None
+    #: Optional per-domain rulebases (phase 2). If unset, :meth:`resolved_rulebase_enterprise` falls back to core.
+    rulebase_enterprise_path: Path | None = Field(
+        default=None,
+        validation_alias=AliasChoices("RULEBASE_ENTERPRISE_PATH", "LEGAL_QA_RULEBASE_ENTERPRISE_PATH"),
+    )
+    rulebase_labor_path: Path | None = Field(
+        default=None,
+        validation_alias=AliasChoices("RULEBASE_LABOR_PATH", "LEGAL_QA_RULEBASE_LABOR_PATH"),
+    )
+    rulebase_tax_path: Path | None = Field(
+        default=None,
+        validation_alias=AliasChoices("RULEBASE_TAX_PATH", "LEGAL_QA_RULEBASE_TAX_PATH"),
+    )
+    rulebase_shared_path: Path | None = Field(
+        default=None,
+        validation_alias=AliasChoices("RULEBASE_SHARED_PATH", "LEGAL_QA_RULEBASE_SHARED_PATH"),
+    )
     rulebase_mapping_path: Path | None = None
     evidence_chunks_path: Path | None = None
 
@@ -91,6 +108,19 @@ class Settings(BaseSettings):
     def resolved_rulebase_core(self) -> Path:
         p = self.rulebase_core_path
         return p if p is not None else self.repo_root / "data" / "processed" / "rulebase" / "rulebase_reasoning_core.json"
+
+    def resolved_rulebase_enterprise(self) -> Path:
+        p = self.rulebase_enterprise_path
+        return p if p is not None else self.resolved_rulebase_core()
+
+    def resolved_rulebase_labor(self) -> Path | None:
+        return self.rulebase_labor_path
+
+    def resolved_rulebase_tax(self) -> Path | None:
+        return self.rulebase_tax_path
+
+    def resolved_rulebase_shared(self) -> Path | None:
+        return self.rulebase_shared_path
 
     def resolved_rulebase_mapping(self) -> Path:
         p = self.rulebase_mapping_path

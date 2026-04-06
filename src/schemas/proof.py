@@ -26,6 +26,12 @@ class ProofStep(BaseModel):
     layer: str | None = None
     source_doc: str | None = None
     source_article: str | None = None
+    # Phase 2 — domain-aware proof
+    step_type: str | None = None
+    cross_domain_from: str | None = None
+    cross_domain_to: str | None = None
+    jump_reason: str | None = None
+    policy_check: str | None = None
 
 
 class ProofObject(BaseModel):
