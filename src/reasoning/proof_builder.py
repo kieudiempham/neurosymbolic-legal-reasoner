@@ -7,8 +7,10 @@ from typing import Any
 
 from schemas.proof import ProofObject, ProofStep
 from schemas.rule import RuleRecord
+from schemas.rule_metadata import meta_for_proof_and_trace
 from reasoning.internal.mapper import map_rule_record_to_reasoning_rule
 from reasoning.internal.models import ReasoningRule
+from runtime.reasoning_context import ReasoningContext
 from utils.ids import new_proof_id
 
 
@@ -18,6 +20,8 @@ def build_proof(
     used_facts: list[str],
     conclusion: str,
     forward_result: dict[str, Any] | None = None,
+    reasoning_context: ReasoningContext | None = None,
+    candidate_rules: dict[str, RuleRecord] | None = None,
 ) -> ProofObject:
     rr = map_rule_record_to_reasoning_rule(rule)
     return build_proof_with_reasoning(
@@ -26,7 +30,16 @@ def build_proof(
         used_facts=used_facts,
         conclusion=conclusion,
         forward_result=forward_result,
+        reasoning_context=reasoning_context,
+        candidate_rules=candidate_rules,
     )
+
+
+def _meta_step(rule: RuleRecord, candidate_rules: dict[str, RuleRecord] | None, rid: str | None) -> dict[str, Any]:
+    r = rule
+    if rid and candidate_rules:
+        r = candidate_rules.get(rid, rule)
+    return meta_for_proof_and_trace(r)
 
 
 def build_proof_with_reasoning(
@@ -36,8 +49,11 @@ def build_proof_with_reasoning(
     used_facts: list[str],
     conclusion: str,
     forward_result: dict[str, Any] | None = None,
+    reasoning_context: ReasoningContext | None = None,
+    candidate_rules: dict[str, RuleRecord] | None = None,
 ) -> ProofObject:
     """Proof với goal_atom, supporting atoms, optional forward semantic trace."""
+    m0 = _meta_step(rule, candidate_rules, rule.rule_id)
     atom_summary = json.dumps(
         {
             "goal_atom": [reasoning_rule.goal_atom[0], *list(reasoning_rule.goal_atom[1:])],
@@ -53,25 +69,48 @@ def build_proof_with_reasoning(
             step_id=1,
             description=f"Khớp luật {rule.rule_id} (logic_form={reasoning_rule.logic_form})",
             rule_id=rule.rule_id,
+            premises=list(reasoning_rule.positive_conditions) if reasoning_rule.positive_conditions else None,
+            conclusion={"kind": "rule_match", "rule_id": rule.rule_id},
+            rulebase_id=m0["rulebase_id"],
+            domain=m0["domain"],
+            layer=m0["layer"],
+            source_doc=m0["source_doc"],
+            source_article=m0["source_article"],
         ),
         ProofStep(
             step_id=2,
             description=f"Mục tiêu suy luận (goal_atom): {atom_summary}",
             rule_id=rule.rule_id,
+            premises=None,
+            conclusion={"kind": "goal_atom", "summary": atom_summary},
+            rulebase_id=m0["rulebase_id"],
+            domain=m0["domain"],
+            layer=m0["layer"],
+            source_doc=m0["source_doc"],
+            source_article=m0["source_article"],
         ),
         ProofStep(
             step_id=3,
             description="Đã xét điều kiện dương / phủ định / ngoại lệ / ràng buộc theo schema nội bộ",
             fact_keys=used_facts,
+            premises=used_facts,
+            conclusion={"kind": "conditions_reviewed"},
+            rulebase_id=m0["rulebase_id"],
+            domain=m0["domain"],
+            layer=m0["layer"],
+            source_doc=m0["source_doc"],
+            source_article=m0["source_article"],
         ),
     ]
     if forward_result and forward_result.get("proof_steps"):
         for i, ps in enumerate(forward_result["proof_steps"]):
+            rid = ps.get("rule_id") or rule.rule_id
+            mx = _meta_step(rule, candidate_rules, str(rid) if rid else None)
             steps.append(
                 ProofStep(
                     step_id=10 + i,
                     description="Bước suy diễn tiến (forward semantics)",
-                    rule_id=ps.get("rule_id") or rule.rule_id,
+                    rule_id=str(rid) if rid else rule.rule_id,
                     fact_keys=used_facts,
                     derived_atom=ps.get("derived_atom"),
                     supporting_atoms=ps.get("supporting_atoms"),
@@ -79,11 +118,28 @@ def build_proof_with_reasoning(
                     applied_constraints=ps.get("applied_constraints"),
                     status=ps.get("status"),
                     failure_reason=ps.get("failure_reason"),
+                    premises=ps.get("supporting_atoms"),
+                    conclusion={"kind": "forward_step", "derived_atom": ps.get("derived_atom")},
+                    rulebase_id=mx["rulebase_id"],
+                    domain=mx["domain"],
+                    layer=mx["layer"],
+                    source_doc=mx["source_doc"],
+                    source_article=mx["source_article"],
                 )
             )
 
     steps.append(
-        ProofStep(step_id=4, description=f"Kết luận hình thức: {conclusion}", rule_id=rule.rule_id)
+        ProofStep(
+            step_id=4,
+            description=f"Kết luận hình thức: {conclusion}",
+            rule_id=rule.rule_id,
+            conclusion={"kind": "final", "text": conclusion},
+            rulebase_id=m0["rulebase_id"],
+            domain=m0["domain"],
+            layer=m0["layer"],
+            source_doc=m0["source_doc"],
+            source_article=m0["source_article"],
+        )
     )
     prov = {
         "source_ref": rule.source_ref,
@@ -93,6 +149,8 @@ def build_proof_with_reasoning(
         "applied_constraint_types": [type(c).__name__ for c in reasoning_rule.constraints],
         "forward_substitution": (forward_result or {}).get("substitution"),
         "constraint_traces": (forward_result or {}).get("constraint_traces"),
+        "reasoning_context": reasoning_context.to_trace_dict() if reasoning_context else None,
+        "rulebase_provenance": m0,
     }
     return ProofObject(
         proof_id=new_proof_id(),

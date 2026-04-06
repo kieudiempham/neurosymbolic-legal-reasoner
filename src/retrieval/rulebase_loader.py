@@ -10,8 +10,13 @@ from typing import Any
 from pydantic import ValidationError
 
 from schemas.rule import RuleHead, RuleRecord
+from schemas.rule_metadata import normalize_rule_record
 
 logger = logging.getLogger(__name__)
+
+# Defaults for legacy single-file rulebases (multi-rulebase phase 1).
+_DEFAULT_LEGACY_DOMAIN = "enterprise"
+_DEFAULT_LEGACY_RULEBASE_ID = "enterprise_core"
 
 _configured_core_path: Path | None = None
 _index: RulebaseIndex | None = None
@@ -70,7 +75,13 @@ def _parse_rule(obj: dict[str, Any]) -> RuleRecord | None:
         return None
 
 
-def load_rulebase(path: Path | None = None) -> RulebaseIndex:
+def load_rulebase(
+    path: Path | None = None,
+    *,
+    legacy_domain: str = _DEFAULT_LEGACY_DOMAIN,
+    legacy_rulebase_id: str = _DEFAULT_LEGACY_RULEBASE_ID,
+    normalize_metadata: bool = True,
+) -> RulebaseIndex:
     p = path or _configured_core_path
     if p is None:
         logger.error("rulebase path not configured; call configure_rulebase_path()")
@@ -86,6 +97,14 @@ def load_rulebase(path: Path | None = None) -> RulebaseIndex:
             continue
         r = _parse_rule(row)
         if r:
+            if normalize_metadata:
+                r = normalize_rule_record(
+                    r,
+                    rulebase_id=legacy_rulebase_id,
+                    layer="domain",
+                    domain=legacy_domain,
+                    warn_prefix="[load_rulebase] ",
+                )
             out.append(r)
     logger.info("loaded %s rules from %s", len(out), p)
     return RulebaseIndex(out)

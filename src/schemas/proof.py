@@ -18,6 +18,14 @@ class ProofStep(BaseModel):
     applied_constraints: list[dict[str, Any]] | None = None
     status: str | None = None
     failure_reason: str | None = None
+    # Multi-rulebase provenance (optional; phase 1)
+    premises: list[Any] | None = None
+    conclusion: dict[str, Any] | None = None
+    rulebase_id: str | None = None
+    domain: str | None = None
+    layer: str | None = None
+    source_doc: str | None = None
+    source_article: str | None = None
 
 
 class ProofObject(BaseModel):

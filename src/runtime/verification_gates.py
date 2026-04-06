@@ -13,6 +13,7 @@ from reasoning.backward_reasoner import build_backward_plan_only, run_backward
 from reasoning.forward_reasoner import run_forward
 from reasoning.proof_builder import build_proof
 from retrieval.rulebase_loader import RulebaseIndex
+from runtime.reasoning_context import ReasoningContext
 from schemas.question_parse import Layer2Parse
 from schemas.reasoning import ReasoningState
 from schemas.rule import RuleRecord
@@ -183,10 +184,13 @@ def gate_forward_reasoning(
     known_facts: dict[str, Any],
     backward_plan_dict: dict[str, Any],
     max_forward_repair: int = 1,
+    reasoning_context: ReasoningContext | None = None,
 ) -> ForwardGateOutcome:
     """Run forward + proof, then ``verify_forward`` with optional repair (re-run forward + rebuild proof)."""
     out = ForwardGateOutcome(ok=False)
     _ = session
+
+    candidate_rules = {r.rule_id: r for r, _, _ in ranked}
 
     def _do_forward() -> tuple[str, bool, ReasoningState, Any]:
         conclusion, goal_ok, fstate, _ = run_forward(
@@ -205,6 +209,8 @@ def gate_forward_reasoning(
             used_facts=list(known_facts.keys()),
             conclusion=conclusion,
             forward_result=fstate.forward_result,
+            reasoning_context=reasoning_context,
+            candidate_rules=candidate_rules,
         )
         return conclusion, goal_ok, fstate, proof
 

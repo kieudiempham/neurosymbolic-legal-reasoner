@@ -27,8 +27,14 @@ from retrieval.evidence_retriever import (
     configure_evidence_path,
     get_evidence_retriever,
 )
+from retrieval.domain_scoped_retriever import DomainScopedRuleRetriever, enrich_ranked_with_retrieval_meta
 from retrieval.rule_retriever import retrieve_rules
-from retrieval.rulebase_loader import RulebaseIndex, configure_rulebase_path, get_rulebase_index, load_rulebase
+from retrieval.rulebase_loader import RulebaseIndex, configure_rulebase_path, get_rulebase_index
+from rulebase.rulebase_registry import RulebaseRegistry
+from runtime.domain_selector import SimpleDomainSelector
+from runtime.qa_runtime_bundle import QARuntimeBundle
+from runtime.reasoning_context import ReasoningContext
+from schemas.rule_metadata import collect_rulebase_ids_from_index
 from schemas.http_response import AskResponse, ClarificationPrompt, ClarifyResponse
 from schemas.question_parse import Layer1Parse, Layer2Parse
 from schemas.rule import RuleRecord
@@ -53,7 +59,19 @@ logger = logging.getLogger(__name__)
 
 def _merge_pipeline_trace_dict(trace: dict[str, Any], tc: TraceCollector) -> None:
     if not tc._noop:
-        trace["pipeline_trace"] = tc.to_dict()
+        d = tc.to_dict()
+        m = dict(d.get("meta") or {})
+        block = {k: trace[k] for k in (
+            "domain_routing",
+            "reasoning_context",
+            "retrieved_rules_by_domain",
+            "proof_steps_by_domain",
+            "final_grounding_docs",
+        ) if k in trace}
+        if block:
+            m["multi_rulebase_v1"] = block
+        d["meta"] = m
+        trace["pipeline_trace"] = d
 
 
 def _rule_dump(r: RuleRecord) -> dict[str, Any]:
@@ -72,6 +90,57 @@ def _proof_summary_for_evidence(proof: Any) -> str:
     if not proof:
         return ""
     return " ".join((s.description or "") for s in (getattr(proof, "proof_steps", None) or [])[:8])
+
+
+def _group_retrieved_by_domain(
+    ranked: list[tuple[RuleRecord, float, dict[str, Any]]],
+) -> dict[str, list[dict[str, Any]]]:
+    by_dom: dict[str, list[dict[str, Any]]] = {}
+    for r, s, d in ranked:
+        dom = str(d.get("domain") or "unknown")
+        by_dom.setdefault(dom, []).append(
+            {
+                "rule_id": r.rule_id,
+                "rulebase_id": d.get("rulebase_id"),
+                "domain": dom,
+                "layer": d.get("layer"),
+                "score": float(s),
+                "source_doc": d.get("source_doc"),
+                "source_article": d.get("source_article"),
+            }
+        )
+    return by_dom
+
+
+def _proof_steps_by_domain(proof: Any) -> dict[str, list[dict[str, Any]]]:
+    out: dict[str, list[dict[str, Any]]] = {}
+    for s in getattr(proof, "proof_steps", None) or []:
+        dom = str(getattr(s, "domain", None) or "unknown")
+        out.setdefault(dom, []).append(
+            {
+                "step_id": getattr(s, "step_id", None),
+                "rule_id": getattr(s, "rule_id", None),
+                "rulebase_id": getattr(s, "rulebase_id", None),
+                "domain": getattr(s, "domain", None),
+                "layer": getattr(s, "layer", None),
+                "source_doc": getattr(s, "source_doc", None),
+                "source_article": getattr(s, "source_article", None),
+            }
+        )
+    return out
+
+
+def _grounding_docs_from_evidence(ev: Any) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for e in ev or []:
+        rows.append(
+            {
+                "chunk_id": getattr(e, "chunk_id", None),
+                "article_clause": getattr(e, "article_clause", None),
+                "score": round(float(getattr(e, "score", 0.0)), 5),
+            }
+        )
+    return rows
 
 
 class QAOrchestrator:
@@ -113,17 +182,14 @@ class QAOrchestrator:
         self._max_repair_attempts_forward = max_repair_attempts_forward
         self._answer_reject_allow_fallback = answer_reject_allow_fallback
         self._session_svc = session_svc
-        self._rule_index: RulebaseIndex | None = None
         self._evidence: EvidenceRetriever | None = None
+        self._bundle: QARuntimeBundle = QARuntimeBundle.from_legacy_rulebase_path(
+            str(self._rulebase_core_path),
+            domain="enterprise",
+        )
 
     def _session(self) -> SessionService:
         return self._session_svc or get_session_service()
-
-    def _index(self) -> RulebaseIndex:
-        if self._rule_index is None:
-            configure_rulebase_path(self._rulebase_core_path)
-            self._rule_index = load_rulebase(self._rulebase_core_path)
-        return self._rule_index
 
     def _evidence_retriever(self) -> EvidenceRetriever:
         if self._evidence is None:
@@ -154,7 +220,9 @@ class QAOrchestrator:
             user_facts=user_facts or [],
             session_svc=self._session(),
             nesy=self._nesy(),
-            rule_index=self._index(),
+            rulebase_registry=self._bundle.rulebase_registry,
+            domain_retriever=self._bundle.domain_retriever,
+            domain_selector=self._bundle.domain_selector,
             evidence_retriever=self._evidence_retriever(),
             top_k=self._top_k,
             max_repair_attempts_parse=self._max_repair_attempts_parse,
@@ -172,7 +240,9 @@ class QAOrchestrator:
             answers=answers,
             session_svc=self._session(),
             nesy=self._nesy(),
-            rule_index=self._index(),
+            rulebase_registry=self._bundle.rulebase_registry,
+            domain_retriever=self._bundle.domain_retriever,
+            domain_selector=self._bundle.domain_selector,
             evidence_retriever=self._evidence_retriever(),
             top_k=self._top_k,
             max_repair_attempts_parse=self._max_repair_attempts_parse,
@@ -193,6 +263,9 @@ def run_ask(
     session_svc: SessionService | None = None,
     nesy: NeSyEngine | None = None,
     rule_index: RulebaseIndex | None = None,
+    rulebase_registry: RulebaseRegistry | None = None,
+    domain_retriever: DomainScopedRuleRetriever | None = None,
+    domain_selector: SimpleDomainSelector | None = None,
     evidence_retriever: EvidenceRetriever | None = None,
     top_k: int = 8,
     max_repair_attempts_parse: int = 2,
@@ -284,10 +357,29 @@ def run_ask(
             debug_trace=trace | {"error": "parse_rejected"},
         )
 
+    selector = domain_selector or SimpleDomainSelector()
+    routing = selector.select({"layer1": layer1, "layer2": layer2, "question": question})
+    trace["domain_routing"] = routing
+
     with tc.span("retrieve_rules") as sp_rr:
-        ranked = retrieve_rules(layer1=layer1, layer2=layer2, top_k=top_k, index=rule_index)
+        if rulebase_registry is not None and domain_retriever is not None:
+            primary = routing["primary_domains"]
+            ranked, merged_index = domain_retriever.retrieve(
+                layer1,
+                layer2,
+                primary,
+                include_shared=True,
+                top_k=top_k,
+            )
+            ri = merged_index
+        else:
+            ri = rule_index or get_rulebase_index()
+            ranked = retrieve_rules(layer1=layer1, layer2=layer2, top_k=top_k, index=ri)
+            ranked = enrich_ranked_with_retrieval_meta(ranked)
+            merged_index = ri
         session.retrieved_rules = [r for r, _, _ in ranked]
         sp_rr.output_summary = {
+            "domain_routing": routing,
             "top_rule_ids": [r.rule_id for r, _, _ in ranked[:8]],
             "top": [
                 {
@@ -295,6 +387,11 @@ def run_ask(
                     "score_total": s,
                     "matched_features": (d.get("matched_features") or [])[:12],
                     "score_components": d.get("score_components") or {},
+                    "rulebase_id": d.get("rulebase_id"),
+                    "domain": d.get("domain"),
+                    "layer": d.get("layer"),
+                    "source_doc": d.get("source_doc"),
+                    "source_article": d.get("source_article"),
                 }
                 for r, s, d in ranked[: min(8, len(ranked))]
             ],
@@ -304,9 +401,19 @@ def run_ask(
         "backend": "hybrid_bm25_structured",
         "top": (sp_rr.output_summary or {}).get("top", []),
     }
+    trace["retrieved_rules_by_domain"] = _group_retrieved_by_domain(ranked)
+
+    ctx = ReasoningContext(
+        primary_domains=list(routing["primary_domains"]),
+        secondary_domains=list(routing.get("secondary_domains") or []),
+        active_rulebases=collect_rulebase_ids_from_index(merged_index.rules),
+        include_shared=True,
+        question_time=None,
+        statute_ids=[],
+    )
+    trace["reasoning_context"] = ctx.to_trace_dict()
 
     goal = layer2.goal
-    ri = rule_index or get_rulebase_index()
 
     with tc.span("rule_backward_gate") as sp_b:
         rg = gate_rule_and_backward(
@@ -403,6 +510,7 @@ def run_ask(
             known_facts=known_facts_for_reasoning(session),
             backward_plan_dict=bstate.backward_plan,
             max_forward_repair=max_repair_attempts_forward,
+            reasoning_context=ctx,
         )
         trace["forward_gate"] = fg.trace
         if fg.v_fwd:
@@ -448,6 +556,7 @@ def run_ask(
             "step_count": len(proof.proof_steps or []),
             "derived_conclusion_excerpt": (proof.derived_conclusion or "")[:300],
         }
+    trace["proof_steps_by_domain"] = _proof_steps_by_domain(proof)
 
     with tc.span("retrieve_evidence") as sp_ev:
         ev = (evidence_retriever or get_evidence_retriever()).retrieve(
@@ -462,6 +571,7 @@ def run_ask(
             layer2=layer2,
         )
         sp_ev.output_summary = summarize_evidence_trace(ev)
+    trace["final_grounding_docs"] = _grounding_docs_from_evidence(ev)
 
     with tc.span("generate_answer") as sp_ga:
         ans = generate_answer(
@@ -538,6 +648,9 @@ def run_clarify(
     session_svc: SessionService | None = None,
     nesy: NeSyEngine | None = None,
     rule_index: RulebaseIndex | None = None,
+    rulebase_registry: RulebaseRegistry | None = None,
+    domain_retriever: DomainScopedRuleRetriever | None = None,
+    domain_selector: SimpleDomainSelector | None = None,
     evidence_retriever: EvidenceRetriever | None = None,
     top_k: int = 8,
     max_repair_attempts_parse: int = 2,
@@ -610,10 +723,29 @@ def run_clarify(
             debug_trace=trace | {"error": "parse_rejected"},
         )
 
+    selector = domain_selector or SimpleDomainSelector()
+    routing = selector.select({"layer1": layer1, "layer2": layer2, "question": question})
+    trace["domain_routing"] = routing
+
     with tc.span("retrieve_rules") as sp_rr:
-        ranked = retrieve_rules(layer1=layer1, layer2=layer2, top_k=top_k, index=rule_index)
+        if rulebase_registry is not None and domain_retriever is not None:
+            primary = routing["primary_domains"]
+            ranked, merged_index = domain_retriever.retrieve(
+                layer1,
+                layer2,
+                primary,
+                include_shared=True,
+                top_k=top_k,
+            )
+            ri = merged_index
+        else:
+            ri = rule_index or get_rulebase_index()
+            ranked = retrieve_rules(layer1=layer1, layer2=layer2, top_k=top_k, index=ri)
+            ranked = enrich_ranked_with_retrieval_meta(ranked)
+            merged_index = ri
         session.retrieved_rules = [r for r, _, _ in ranked]
         sp_rr.output_summary = {
+            "domain_routing": routing,
             "top_rule_ids": [r.rule_id for r, _, _ in ranked[:8]],
             "top": [
                 {
@@ -621,6 +753,11 @@ def run_clarify(
                     "score_total": s,
                     "matched_features": (d.get("matched_features") or [])[:12],
                     "score_components": d.get("score_components") or {},
+                    "rulebase_id": d.get("rulebase_id"),
+                    "domain": d.get("domain"),
+                    "layer": d.get("layer"),
+                    "source_doc": d.get("source_doc"),
+                    "source_article": d.get("source_article"),
                 }
                 for r, s, d in ranked[: min(8, len(ranked))]
             ],
@@ -629,9 +766,19 @@ def run_clarify(
         "backend": "hybrid_bm25_structured",
         "top": (sp_rr.output_summary or {}).get("top", []),
     }
+    trace["retrieved_rules_by_domain"] = _group_retrieved_by_domain(ranked)
+
+    ctx = ReasoningContext(
+        primary_domains=list(routing["primary_domains"]),
+        secondary_domains=list(routing.get("secondary_domains") or []),
+        active_rulebases=collect_rulebase_ids_from_index(merged_index.rules),
+        include_shared=True,
+        question_time=None,
+        statute_ids=[],
+    )
+    trace["reasoning_context"] = ctx.to_trace_dict()
 
     goal = layer2.goal
-    ri = rule_index or get_rulebase_index()
 
     with tc.span("rule_backward_gate") as sp_b:
         rg = gate_rule_and_backward(
@@ -720,6 +867,7 @@ def run_clarify(
             known_facts=known_facts_for_reasoning(session),
             backward_plan_dict=bstate.backward_plan,
             max_forward_repair=max_repair_attempts_forward,
+            reasoning_context=ctx,
         )
         trace["forward_gate"] = fg.trace
         if fg.v_fwd:
@@ -762,6 +910,7 @@ def run_clarify(
             "proof_id": proof.proof_id,
             "step_count": len(proof.proof_steps or []),
         }
+    trace["proof_steps_by_domain"] = _proof_steps_by_domain(proof)
 
     with tc.span("retrieve_evidence") as sp_ev:
         ev = (evidence_retriever or get_evidence_retriever()).retrieve(
@@ -776,6 +925,7 @@ def run_clarify(
             layer2=layer2,
         )
         sp_ev.output_summary = summarize_evidence_trace(ev)
+    trace["final_grounding_docs"] = _grounding_docs_from_evidence(ev)
 
     with tc.span("generate_answer") as sp_ga:
         ans = generate_answer(
