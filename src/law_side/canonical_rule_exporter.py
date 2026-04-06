@@ -20,7 +20,6 @@ logger = get_logger(__name__)
 
 def rule_seed_to_canonical(
     seed: RuleSeed,
-    doc_id: str,
     domain: str = "enterprise",
     rulebase_id: str = "",
 ) -> CanonicalRuleArtifact:
@@ -28,7 +27,6 @@ def rule_seed_to_canonical(
     
     Args:
         seed: RuleSeed from pipeline
-        doc_id: Document ID for provenance
         domain: Domain scope (enterprise, labor, tax)
         rulebase_id: Rulebase package ID (e.g., luật_doanh_nghiệp)
     
@@ -56,12 +54,17 @@ def rule_seed_to_canonical(
             "text": seed.dieu_kien_ap_dung,
         })
     
+    # Default rulebase_id from document if not provided
+    if not rulebase_id:
+        source_code = (seed.doc_code or "").lower().replace("/", "_").replace(" ", "_")
+        rulebase_id = f"{domain}_{source_code}" if source_code else f"{domain}_rulebase"
+
     # Create artifact
     artifact = CanonicalRuleArtifact(
         rule_id=seed.rule_id,
         domain=domain,
         layer="statute",  # Phase 1 only statute layer
-        rulebase_id=rulebase_id or f"statute_{domain}",
+        rulebase_id=rulebase_id,
         
         # Source lineage
         source_doc=seed.doc_code,
@@ -71,7 +74,7 @@ def rule_seed_to_canonical(
         source_unit_id=seed.source_unit_id,
         source_ref=seed.source_ref,
         source_ref_full=seed.source_ref_full,
-        surface_text=seed.source_text,
+        surface_text=seed.surface_text,
         
         # Logic content
         logic_form=logic_form,

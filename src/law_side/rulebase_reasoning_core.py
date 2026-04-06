@@ -409,9 +409,80 @@ def write_reasoning_core_json(pkg: dict[str, Any], out_path: Path) -> None:
     out_path.write_text(json.dumps(pkg, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
+def load_canonical_jsonl(path: Path) -> list[dict[str, Any]]:
+    """Load canonical rules from JSONL and return as raw canonical dictionaries."""
+    out: list[dict[str, Any]] = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        text = line.strip()
+        if not text:
+            continue
+        out.append(json.loads(text))
+    return out
+
+
+def _canonical_rule_to_reasoning_core_record(canon: dict[str, Any]) -> dict[str, Any]:
+    provenance = {
+        "domain": canon.get("domain"),
+        "layer": canon.get("layer"),
+        "rulebase_id": canon.get("rulebase_id"),
+        "source_doc": canon.get("source_doc"),
+        "source_article": canon.get("source_article"),
+        "source_clause": canon.get("source_clause"),
+        "source_point": canon.get("source_point"),
+        "source_unit_id": canon.get("source_unit_id"),
+        "source_ref": canon.get("source_ref"),
+        "source_ref_full": canon.get("source_ref_full"),
+        "surface_text": canon.get("surface_text"),
+        "doc_type": canon.get("doc_type"),
+        "doc_code": canon.get("doc_code"),
+        "issuing_body": canon.get("issuing_body"),
+        "review_status": canon.get("review_status"),
+        "confidence_score": canon.get("confidence_score"),
+    }
+    return {
+        "rule_id": str(canon.get("rule_id") or ""),
+        "logic_form": str(canon.get("logic_form") or "unknown"),
+        "head": canon.get("canonical_head") or {},
+        "body": canon.get("canonical_body") or [],
+        "auxiliary_clauses": canon.get("auxiliary_clauses") or [],
+        "metadata": {"provenance": provenance},
+        "selected_for_reasoning": True,
+    }
+
+
+def build_reasoning_core_package_from_canonical(
+    *,
+    canonical_rules: list[dict[str, Any]],
+    source_path: str | Path,
+    core_version: int = 1,
+    selection_policy: str = "canonical_reasoning_core_v1",
+) -> dict[str, Any]:
+    core = [_canonical_rule_to_reasoning_core_record(r) for r in canonical_rules]
+    pkg: dict[str, Any] = {
+        "core_version": core_version,
+        "selection_policy": selection_policy,
+        "source_file": str(source_path).replace("\\", "/"),
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "core_rule_count": len(core),
+        "core_rule_ids": [r.get("rule_id") for r in core if r.get("rule_id")],
+        "rules_reasoning_core": core,
+        "excluded_from_core": [],
+        "report": {
+            "total_rules": len(core),
+            "exportable_clean_rules": len(core),
+            "rules_in_reasoning_core": len(core),
+            "exportable_clean_excluded_from_core": 0,
+            "conclusion": "Compiled directly from canonical rules. Legacy rulebase_logic.json path remains available for compatibility.",
+        },
+    }
+    return pkg
+
+
 __all__ = [
     "build_reasoning_core_package",
+    "build_reasoning_core_package_from_canonical",
     "select_reasoning_core_records",
     "load_logic_json",
+    "load_canonical_jsonl",
     "write_reasoning_core_json",
 ]

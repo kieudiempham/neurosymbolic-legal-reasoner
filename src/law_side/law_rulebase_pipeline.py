@@ -187,25 +187,16 @@ class LawRulebasePipeline:
         )
 
         # NEW: Export canonical rule artifacts for backend
-        artifacts_by_document: dict[str, int] = {}
         if self._config.emit_canonical_artifacts and rule_seeds:
-            # Group rules by source document
-            for doc in documents:
-                doc_rules = [r for r in rule_seeds if r.doc_id == doc.doc_id]
-                if doc_rules:
-                    rulebase_id = f"{self._config.domain}_{doc.doc_code.lower().replace('/', '_')}"
-                    count = export_canonical_rules_jsonl(
-                        rule_seeds=doc_rules,
-                        output_path=out_canonical_rules,
-                        doc_id=doc.doc_id,
-                        domain=self._config.domain,
-                        rulebase_id=rulebase_id,
-                    )
-                    artifacts_by_document[doc.doc_id] = count
-                    self._log.info(
-                        f"Exported {count} canonical rules from {doc.doc_id} "
-                        f"(rulebase: {rulebase_id})"
-                    )
+            count = export_canonical_rules_jsonl(
+                rule_seeds=rule_seeds,
+                output_path=out_canonical_rules,
+                domain=self._config.domain,
+            )
+            self._log.info(
+                f"Exported {count} canonical rules to {out_canonical_rules} "
+                f"(domain={self._config.domain})"
+            )
 
         self._log.info("Pipeline done.")
         results = {
