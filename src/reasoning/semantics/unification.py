@@ -162,12 +162,31 @@ def apply_substitution_to_reasoning_rule(rr: ReasoningRule, subst: Substitution)
 
 
 def unify_goal_dict_with_goal_atom(
-    goal: dict[str, Any], goal_atom: tuple[Any, ...], subst: Substitution | None = None
+    goal: dict[str, Any],
+    goal_atom: tuple[Any, ...],
+    subst: Substitution | None = None,
+    *,
+    reasoning_context: Any | None = None,
+    rule: Any | None = None,
+    domain_policy: Any | None = None,
 ) -> tuple[Substitution | None, str | None]:
     """
     Unify runtime goal dict with rule head `goal_atom`.
     Returns (substitution, failure_reason).
+
+    When ``reasoning_context`` + ``rule`` are set, domain boundary is enforced before structural unify.
     """
+    if (
+        reasoning_context is not None
+        and rule is not None
+        and getattr(reasoning_context, "strict_domain_enforcement", False)
+    ):
+        from runtime.domain_reasoning_policy import DomainReasoningPolicy, policy_from_context
+
+        pol: DomainReasoningPolicy = domain_policy if domain_policy is not None else policy_from_context(reasoning_context)
+        ok, reason = pol.allows_unification(rule, reasoning_context)
+        if not ok:
+            return None, reason or "unification_rejected_by_domain"
     if not goal_atom:
         return None, "empty_goal_atom"
     gp = goal.get("predicate")

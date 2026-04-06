@@ -13,6 +13,7 @@ from reasoning.backward_reasoner import build_backward_plan_only, run_backward
 from reasoning.forward_reasoner import run_forward
 from reasoning.proof_builder import build_proof
 from retrieval.rulebase_loader import RulebaseIndex
+from rulebase.rule_identity import global_rule_key
 from runtime.cross_domain_policy import CrossDomainPolicy
 from runtime.reasoning_context import ReasoningContext
 from schemas.question_parse import Layer2Parse
@@ -63,6 +64,7 @@ def gate_rule_and_backward(
     max_backward_repair: int = 1,
     reasoning_context: ReasoningContext | None = None,
     cross_domain_policy: CrossDomainPolicy | None = None,
+    structured_facts: dict[str, dict[str, Any]] | None = None,
 ) -> RuleBackwardGateOutcome:
     """
     For each backward-plan candidate: ``verify_rule`` (with repair), then ``run_backward`` + ``verify_backward``.
@@ -84,12 +86,14 @@ def gate_rule_and_backward(
         known_facts=known_facts,
         reasoning_context=reasoning_context,
         cross_domain_policy=cross_domain_policy,
+        structured_facts=structured_facts,
     )
     by_id = {r.rule_id: r for r, _, _ in ranked}
+    by_gid = {global_rule_key(r): r for r, _, _ in ranked}
 
     for cand in plan.candidates:
         rid = cand.rule_id
-        rule = by_id.get(rid)
+        rule = by_gid.get(cand.global_rule_key) if cand.global_rule_key else by_id.get(rid)
         if not rule:
             continue
         out.tried_rule_ids.append(rid)
@@ -124,6 +128,7 @@ def gate_rule_and_backward(
             preferred_rule_id=rid,
             reasoning_context=reasoning_context,
             cross_domain_policy=cross_domain_policy,
+            structured_facts=structured_facts,
         )
         if not selected:
             continue
@@ -197,12 +202,16 @@ def gate_forward_reasoning(
     max_forward_repair: int = 1,
     reasoning_context: ReasoningContext | None = None,
     cross_domain_policy: CrossDomainPolicy | None = None,
+    phase3_proof_context: dict[str, Any] | None = None,
 ) -> ForwardGateOutcome:
     """Run forward + proof, then ``verify_forward`` with optional repair (re-run forward + rebuild proof)."""
     out = ForwardGateOutcome(ok=False)
-    _ = session
+    sf = dict(session.structured_facts) if session.structured_facts else None
 
-    candidate_rules = {r.rule_id: r for r, _, _ in ranked}
+    candidate_rules: dict[str, RuleRecord] = {}
+    for r, _, _ in ranked:
+        candidate_rules[r.rule_id] = r
+        candidate_rules[global_rule_key(r)] = r
 
     def _do_forward() -> tuple[str, bool, ReasoningState, Any]:
         conclusion, goal_ok, fstate, _ = run_forward(
@@ -213,11 +222,15 @@ def gate_forward_reasoning(
             candidates=ranked,
             reasoning_context=reasoning_context,
             cross_domain_policy=cross_domain_policy,
+            structured_facts=sf,
         )
         win_rule = selected
-        if fstate.forward_result and fstate.forward_result.get("rule_id"):
+        fr = fstate.forward_result or {}
+        if fr.get("global_rule_key"):
+            win_rule = candidate_rules.get(str(fr["global_rule_key"]), selected)
+        elif fr.get("rule_id"):
             _by_id = {r.rule_id: r for r, _, _ in ranked}
-            win_rule = _by_id.get(fstate.forward_result["rule_id"], selected)
+            win_rule = _by_id.get(fr["rule_id"], selected)
         proof = build_proof(
             rule=win_rule,
             used_facts=list(known_facts.keys()),
@@ -225,6 +238,7 @@ def gate_forward_reasoning(
             forward_result=fstate.forward_result,
             reasoning_context=reasoning_context,
             candidate_rules=candidate_rules,
+            phase3_context=phase3_proof_context,
         )
         return conclusion, goal_ok, fstate, proof
 

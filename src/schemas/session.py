@@ -21,6 +21,10 @@ class SessionState(BaseModel):
     layer1: Layer1Parse | None = None
     layer2: Layer2Parse | None = None
     known_facts: dict[str, Any] = Field(default_factory=dict)
+    structured_facts: dict[str, dict[str, Any]] = Field(
+        default_factory=dict,
+        description="Serialized StructuredFact by serialized_key — Chặng A parallel to known_facts.",
+    )
     missing_facts: list[str] = Field(default_factory=list)
     clarification_questions: list[dict[str, Any]] = Field(default_factory=list)
     retrieved_rules: list[RuleRecord] = Field(default_factory=list)

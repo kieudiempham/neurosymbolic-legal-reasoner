@@ -13,6 +13,11 @@ def known_facts_for_reasoning(session: SessionState) -> dict[str, Any]:
     return {k: v for k, v in session.known_facts.items() if not str(k).startswith("parse_amb:")}
 
 
+def structured_facts_for_reasoning(session: SessionState) -> dict[str, dict[str, Any]]:
+    """Structured facts (bridge/user/derived) for logic-layer matching — Chặng A."""
+    return dict(session.structured_facts or {})
+
+
 def extract_resolved_condition_atoms_from_known_facts(known_facts: dict[str, Any]) -> list[str]:
     out: list[str] = []
     for k, v in known_facts.items():

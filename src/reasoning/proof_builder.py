@@ -22,6 +22,7 @@ def build_proof(
     forward_result: dict[str, Any] | None = None,
     reasoning_context: ReasoningContext | None = None,
     candidate_rules: dict[str, RuleRecord] | None = None,
+    phase3_context: dict[str, Any] | None = None,
 ) -> ProofObject:
     rr = map_rule_record_to_reasoning_rule(rule)
     return build_proof_with_reasoning(
@@ -32,6 +33,7 @@ def build_proof(
         forward_result=forward_result,
         reasoning_context=reasoning_context,
         candidate_rules=candidate_rules,
+        phase3_context=phase3_context,
     )
 
 
@@ -51,6 +53,7 @@ def build_proof_with_reasoning(
     forward_result: dict[str, Any] | None = None,
     reasoning_context: ReasoningContext | None = None,
     candidate_rules: dict[str, RuleRecord] | None = None,
+    phase3_context: dict[str, Any] | None = None,
 ) -> ProofObject:
     """Proof với goal_atom, supporting atoms, optional forward semantic trace."""
     m0 = _meta_step(rule, candidate_rules, rule.rule_id)
@@ -68,9 +71,46 @@ def build_proof_with_reasoning(
     if reasoning_context and reasoning_context.cross_domain_policy:
         pol_check = str(reasoning_context.cross_domain_policy.to_trace_dict())
 
-    steps: list[ProofStep] = [
+    steps: list[ProofStep] = []
+    sid = 0
+    if phase3_context:
+        bf = phase3_context.get("bridge_facts") or []
+        gids = [str(x.get("fact_key", "")) for x in bf if isinstance(x, dict)]
+        if gids:
+            sid += 1
+            steps.append(
+                ProofStep(
+                    step_id=sid,
+                    description="Suy luận bridge (shared): sinh fact trung gian phục vụ domain/statute",
+                    step_type="bridge_inference",
+                    fact_keys=gids,
+                    generated_fact_ids=gids,
+                    conclusion={"kind": "bridge_facts", "n": len(gids)},
+                    temporal_check=phase3_context.get("temporal"),
+                )
+            )
+        tr = phase3_context.get("temporal_rejected_count", 0)
+        cr = phase3_context.get("conflict_rejected_count", 0)
+        if tr or cr:
+            sid += 1
+            steps.append(
+                ProofStep(
+                    step_id=sid,
+                    description=f"Lọc policy pha 3: temporal_rejected={tr}, conflict_rejected={cr}",
+                    step_type="policy_filter",
+                    temporal_check=phase3_context.get("temporal"),
+                    conflict_resolution={
+                        "temporal_rejected": tr,
+                        "conflict_rejected": cr,
+                    },
+                )
+            )
+
+    base_id = len(steps)
+    n0 = base_id
+    steps.extend([
         ProofStep(
-            step_id=1,
+            step_id=n0 + 1,
             description=f"Khớp luật {rule.rule_id} (logic_form={reasoning_rule.logic_form})",
             rule_id=rule.rule_id,
             premises=list(reasoning_rule.positive_conditions) if reasoning_rule.positive_conditions else None,
@@ -84,7 +124,7 @@ def build_proof_with_reasoning(
             policy_check=pol_check or None,
         ),
         ProofStep(
-            step_id=2,
+            step_id=n0 + 2,
             description=f"Mục tiêu suy luận (goal_atom): {atom_summary}",
             rule_id=rule.rule_id,
             premises=None,
@@ -96,7 +136,7 @@ def build_proof_with_reasoning(
             source_article=m0["source_article"],
         ),
         ProofStep(
-            step_id=3,
+            step_id=n0 + 3,
             description="Đã xét điều kiện dương / phủ định / ngoại lệ / ràng buộc theo schema nội bộ",
             fact_keys=used_facts,
             premises=used_facts,
@@ -107,14 +147,15 @@ def build_proof_with_reasoning(
             source_doc=m0["source_doc"],
             source_article=m0["source_article"],
         ),
-    ]
-    if forward_result and forward_result.get("proof_steps"):
-        for i, ps in enumerate(forward_result["proof_steps"]):
+    ])
+    fwd_list = (forward_result or {}).get("proof_steps") or []
+    if forward_result and fwd_list:
+        for i, ps in enumerate(fwd_list):
             rid = ps.get("rule_id") or rule.rule_id
             mx = _meta_step(rule, candidate_rules, str(rid) if rid else None)
             steps.append(
                 ProofStep(
-                    step_id=10 + i,
+                    step_id=n0 + 4 + i,
                     description="Bước suy diễn tiến (forward semantics)",
                     rule_id=str(rid) if rid else rule.rule_id,
                     fact_keys=used_facts,
@@ -136,7 +177,7 @@ def build_proof_with_reasoning(
 
     steps.append(
         ProofStep(
-            step_id=4,
+            step_id=n0 + 4 + len(fwd_list),
             description=f"Kết luận hình thức: {conclusion}",
             rule_id=rule.rule_id,
             conclusion={"kind": "final", "text": conclusion},
@@ -157,6 +198,7 @@ def build_proof_with_reasoning(
         "constraint_traces": (forward_result or {}).get("constraint_traces"),
         "reasoning_context": reasoning_context.to_trace_dict() if reasoning_context else None,
         "rulebase_provenance": m0,
+        "phase3": phase3_context,
     }
     return ProofObject(
         proof_id=new_proof_id(),

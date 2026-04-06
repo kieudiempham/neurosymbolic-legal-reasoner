@@ -4,12 +4,14 @@ from __future__ import annotations
 
 from typing import Any
 
+from rulebase.rule_identity import global_rule_key
 from schemas.reasoning import ReasoningState, RequirementItem
 from schemas.rule import RuleRecord
 from reasoning.internal.mapper import map_rule_record_to_reasoning_rule
 from reasoning.requirements_bridge import reasoning_rule_to_requirement_items
 from reasoning.semantics.backward_plan import build_backward_plan, pick_best_rule_record
 from reasoning.semantics.plan_models import BackwardPlan
+from reasoning.fact_matching import fact_satisfies_requirement_ctx
 from reasoning.semantics.unification import unify_goal_dict_with_goal_atom
 
 
@@ -28,8 +30,21 @@ def goal_unifies_with_head(goal: dict[str, Any], rule: RuleRecord) -> bool:
     return goal_unifies_with_goal_atom(goal, rr.goal_atom)
 
 
-def fact_satisfies_requirement(req_key: str, known_facts: dict[str, Any]) -> bool:
-    """Boundary-level check (string key) — prefer atom pipeline in `semantics.boundary_facts`."""
+def fact_satisfies_requirement(
+    req_key: str,
+    known_facts: dict[str, Any],
+    *,
+    structured_facts: dict[str, dict[str, Any]] | None = None,
+    reasoning_context: Any | None = None,
+) -> bool:
+    """Schema-aware when structured_facts/context provided; else legacy key match."""
+    if structured_facts is not None or reasoning_context is not None:
+        return fact_satisfies_requirement_ctx(
+            req_key,
+            known_facts,
+            structured_facts=structured_facts,
+            reasoning_context=reasoning_context,
+        )
     for k, v in known_facts.items():
         if v is False:
             continue
@@ -51,6 +66,7 @@ def run_backward(
     preferred_rule_id: str | None = None,
     reasoning_context: Any | None = None,
     cross_domain_policy: Any | None = None,
+    structured_facts: dict[str, dict[str, Any]] | None = None,
 ) -> tuple[RuleRecord | None, ReasoningState]:
     cand_in = list(candidates)
     if reasoning_context is not None and cross_domain_policy is not None:
@@ -62,7 +78,12 @@ def run_backward(
             include_shared=reasoning_context.include_shared,
         )
     plan = build_backward_plan(
-        goal=goal, candidates=cand_in, known_facts=known_facts, max_paths=max_paths
+        goal=goal,
+        candidates=cand_in,
+        known_facts=known_facts,
+        max_paths=max_paths,
+        structured_facts=structured_facts,
+        reasoning_context=reasoning_context,
     )
     plan_dict = plan.model_dump(mode="json")
     trace: list[str] = [f"backward_plan:{len(plan.candidates)}_candidates"]
@@ -85,7 +106,15 @@ def run_backward(
         )
 
     reqs = body_to_requirements(selected)
-    cand = next((c for c in plan.candidates if c.rule_id == selected.rule_id), None)
+    cand = next(
+        (
+            c
+            for c in plan.candidates
+            if (c.global_rule_key and c.global_rule_key == global_rule_key(selected))
+            or (not c.global_rule_key and c.rule_id == selected.rule_id)
+        ),
+        None,
+    )
     missing = list(cand.missing_fact_keys) if cand else []
     covered = [r.key for r in reqs if r.key not in missing]
     can_forward = bool(cand and not missing and cand.status != "blocked")
@@ -113,6 +142,7 @@ def build_backward_plan_only(
     max_paths: int = 3,
     reasoning_context: Any | None = None,
     cross_domain_policy: Any | None = None,
+    structured_facts: dict[str, dict[str, Any]] | None = None,
 ) -> BackwardPlan:
     """Expose plan builder for tests / tooling."""
     cand_in = list(candidates)
@@ -124,4 +154,11 @@ def build_backward_plan_only(
             primary_domains=list(reasoning_context.primary_domains),
             include_shared=reasoning_context.include_shared,
         )
-    return build_backward_plan(goal=goal, candidates=cand_in, known_facts=known_facts, max_paths=max_paths)
+    return build_backward_plan(
+        goal=goal,
+        candidates=cand_in,
+        known_facts=known_facts,
+        max_paths=max_paths,
+        structured_facts=structured_facts,
+        reasoning_context=reasoning_context,
+    )

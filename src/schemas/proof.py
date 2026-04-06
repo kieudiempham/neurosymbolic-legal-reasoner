@@ -32,6 +32,16 @@ class ProofStep(BaseModel):
     cross_domain_to: str | None = None
     jump_reason: str | None = None
     policy_check: str | None = None
+    # Phase 3 — bridge / temporal / conflict
+    generated_fact_ids: list[str] = Field(default_factory=list)
+    conflict_resolution: dict[str, Any] | None = None
+    temporal_check: dict[str, Any] | None = None
+    override_applied: bool | None = None
+    exception_applied: bool | None = None
+    # Chặng A — logic layer
+    logic_check: dict[str, Any] | None = None
+    domain_check: dict[str, Any] | None = None
+    bridge_fact_ids_used: list[str] = Field(default_factory=list)
 
 
 class ProofObject(BaseModel):

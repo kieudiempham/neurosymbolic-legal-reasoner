@@ -17,6 +17,7 @@ FailureReason = Literal[
     "constraint_unknown",
     "goal_not_derived",
     "unification_broken",
+    "domain_policy_blocked",
     "none",
 ]
 
@@ -106,6 +107,7 @@ class FailedPathRecord(BaseModel):
 
 class ForwardPathResult(BaseModel):
     rule_id: str
+    global_rule_key: str = ""
     goal_reached: bool
     conclusion: str = ""
     failure_reason: FailureReason = "none"
@@ -143,10 +145,12 @@ class EvaluationHooks(BaseModel):
     constraint_evaluation_trace: list[dict[str, Any]] = Field(default_factory=list)
     proof_validity_trace: dict[str, Any] = Field(default_factory=dict)
     failure_trace: list[dict[str, Any]] = Field(default_factory=list)
+    logic_layer_decisions: list[dict[str, Any]] = Field(default_factory=list)
 
 
 class BackwardCandidate(BaseModel):
     rule_id: str
+    global_rule_key: str = ""
     retrieval_score: float = 0.0
     unification_score: float = 0.0
     total_score: float = 0.0

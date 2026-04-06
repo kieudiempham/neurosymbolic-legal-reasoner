@@ -19,6 +19,7 @@ from reasoning.clarification_manager import (
 from question_side.parse_clarify_apply import (
     extract_resolved_condition_atoms_from_known_facts,
     known_facts_for_reasoning,
+    structured_facts_for_reasoning,
 )
 from question_side.question_normalizer import build_layer2
 from question_side.question_parser import parse_question_layer1
@@ -31,6 +32,7 @@ from retrieval.advanced_domain_retriever import AdvancedDomainRetriever
 from retrieval.domain_scoped_retriever import DomainScopedRuleRetriever, enrich_ranked_with_retrieval_meta
 from retrieval.rule_retriever import retrieve_rules
 from retrieval.rulebase_loader import RulebaseIndex, configure_rulebase_path, get_rulebase_index
+from rulebase.rule_identity import global_rule_key
 from rulebase.rulebase_registry import RulebaseRegistry
 from runtime.cross_domain_policy import (
     default_policy_for_routing,
@@ -39,12 +41,14 @@ from runtime.cross_domain_policy import (
 )
 from runtime.domain_selector import SimpleDomainSelector
 from runtime.qa_runtime_bundle import QARuntimeBundle
+from runtime.phase3_pipeline import apply_phase3_post_retrieve
 from runtime.reasoning_context import ReasoningContext
 from schemas.domain_routing import DomainRoutingPlan
 from schemas.rule_metadata import collect_rulebase_ids_from_index
 from schemas.http_response import AskResponse, ClarificationPrompt, ClarifyResponse
 from schemas.question_parse import Layer1Parse, Layer2Parse
 from schemas.rule import RuleRecord
+from schemas.reasoning_result import ReasoningResult
 from schemas.session import SessionState
 from schemas.verification import VerificationRecord
 from session.session_service import SessionService, get_session_service
@@ -74,6 +78,8 @@ def _merge_pipeline_trace_dict(trace: dict[str, Any], tc: TraceCollector) -> Non
             "retrieved_rules_by_domain",
             "proof_steps_by_domain",
             "final_grounding_docs",
+            "reasoning_result",
+            "phase3",
         ) if k in trace}
         if block:
             m["multi_rulebase_v1"] = block
@@ -148,6 +154,68 @@ def _grounding_docs_from_evidence(ev: Any) -> list[dict[str, Any]]:
             }
         )
     return rows
+
+
+def _finalize_reasoning_result_dict(
+    base: dict[str, Any],
+    *,
+    proof: Any | None,
+    ranked: list[tuple[RuleRecord, float, dict[str, Any]]],
+    bstate: Any | None,
+    fstate: Any | None,
+    selected: RuleRecord | None,
+    phase3_result: Any | None = None,
+) -> dict[str, Any]:
+    out = dict(base)
+    
+    # Phase 3 data
+    if phase3_result is not None:
+        out["bridge_rules_used"] = [
+            str(x.provenance.bridge_rule_id) 
+            for x in phase3_result.bridge_emitted
+        ]
+        out["bridge_generated_facts"] = [
+            x.model_dump(mode="json") 
+            for x in phase3_result.bridge_emitted
+        ]
+        out["rejected_candidates_temporal"] = phase3_result.temporal_rejected
+        out["rejected_candidates_conflict"] = phase3_result.conflict_rejected
+        out["rule_id_collision_warnings"] = phase3_result.rule_id_collision_warnings
+        out["namespacing_mode"] = "global_rule_key_v1"
+    
+    if proof is not None:
+        dom_summary = _proof_steps_by_domain(proof)
+        out["proof_summary_by_domain"] = {
+            k: [str(s.get("rule_id") or "") for s in v[:16]] for k, v in dom_summary.items()
+        }
+    if bstate is not None:
+        out["subgoals_unresolved"] = list(getattr(bstate, "missing_facts", None) or [])
+        out["subgoals_satisfied"] = list(getattr(bstate, "covered_requirements", None) or [])
+        out["unresolved_subgoals_domain"] = list(getattr(bstate, "missing_facts", None) or [])
+        bp = getattr(bstate, "backward_plan", None) or {}
+        if isinstance(bp, dict):
+            ev = bp.get("evaluation") or {}
+            ltd = ev.get("logic_layer_decisions") or []
+            if ltd:
+                out["logic_layer_policy_decisions"] = list(ltd)
+    if selected is not None:
+        out["final_winning_rule_ids"] = [selected.rule_id]
+    rt = out.get("rejected_candidates_temporal") or []
+    rc = out.get("rejected_candidates_conflict") or []
+    out["rejected_candidates"] = list(rt) + list(rc)
+    bridge_ids: list[str] = []
+    if phase3_result is not None:
+        bridge_ids = [str(x.fact_id) for x in phase3_result.bridge_emitted if getattr(x, "fact_id", None)]
+    out["bridge_facts_consumed"] = bridge_ids
+    out["diagnostics"] = {
+        "candidate_rule_count": len(ranked),
+        "forward_trace": bool(fstate and getattr(fstate, "forward_result", None)),
+        "logic_layer": bool(out.get("logic_layer_policy_decisions")),
+    }
+    try:
+        return ReasoningResult.model_validate(out).model_dump(mode="json")
+    except Exception:
+        return out
 
 
 class QAOrchestrator:
@@ -225,6 +293,7 @@ class QAOrchestrator:
         session_id: str | None,
         user_facts: list[str] | None,
         trace_collector: TraceCollector | None = None,
+        question_time: str | None = None,
     ) -> AskResponse:
         return run_ask(
             question=question,
@@ -245,6 +314,7 @@ class QAOrchestrator:
             max_repair_attempts_forward=self._max_repair_attempts_forward,
             answer_reject_allow_fallback=self._answer_reject_allow_fallback,
             trace_collector=trace_collector,
+            question_time=question_time,
         )
 
     def clarify(self, session_id: str, answers: list[dict[str, Any]], trace_collector: TraceCollector | None = None) -> ClarifyResponse:
@@ -290,6 +360,7 @@ def run_ask(
     max_repair_attempts_forward: int = 1,
     answer_reject_allow_fallback: bool = False,
     trace_collector: TraceCollector | None = None,
+    question_time: str | None = None,
 ) -> AskResponse:
     svc = session_svc or get_session_service()
     engine = nesy or NeSyEngine(nesy_nli_mock=True)
@@ -476,12 +547,39 @@ def run_ask(
     }
     trace["retrieved_rules_by_domain"] = _group_retrieved_by_domain(ranked)
 
+    # Phase 3: Apply temporal, conflict, and bridge filtering post-retrieval
+    with tc.span("phase3_post_retrieve") as sp_p3:
+        p3_result = apply_phase3_post_retrieve(
+            ranked=ranked,
+            session=session,
+            question=question,
+            routing=routing,
+            rulebase_registry=rulebase_registry,
+            question_time_explicit=question_time,
+            trace=trace,
+        )
+        ranked = p3_result.ranked
+        trace["phase3"] = {
+            "question_time_utc": p3_result.question_time_iso,
+            "temporal_rejected": p3_result.temporal_rejected[:16],
+            "conflict_rejected": p3_result.conflict_rejected[:16],
+            "bridge_emitted": [x.model_dump(mode="json") for x in p3_result.bridge_emitted],
+            "rule_id_collision_warnings": p3_result.rule_id_collision_warnings,
+        }
+        sp_p3.output_summary = {
+            "question_time": p3_result.question_time_iso,
+            "temporal_rejected_count": len(p3_result.temporal_rejected),
+            "conflict_rejected_count": len(p3_result.conflict_rejected),
+            "bridge_emitted_count": len(p3_result.bridge_emitted),
+            "final_ranked_count": len(ranked),
+        }
+
     ctx = ReasoningContext(
         primary_domains=list(routing.primary_domains),
         secondary_domains=list(routing.secondary_domains),
         active_rulebases=collect_rulebase_ids_from_index(merged_index.rules),
         include_shared=routing.include_shared,
-        question_time=None,
+        question_time=question_time or p3_result.question_time_iso,
         statute_ids=[],
         cross_domain_policy=policy,
         triggered_bridges=list(routing.triggered_bridges),
@@ -502,6 +600,7 @@ def run_ask(
             max_backward_repair=max_repair_attempts_backward,
             reasoning_context=ctx,
             cross_domain_policy=policy,
+            structured_facts=structured_facts_for_reasoning(session),
         )
         trace["rule_backward_gate"] = rg.trace
         if rg.v_rule:
@@ -521,6 +620,18 @@ def run_ask(
     if not rg.ok:
         with tc.span("pipeline_exit") as spx:
             spx.output_summary = {"reason": rg.error or "rule_backward_gate_failed"}
+        
+        # Build partial reasoning_result even in error case
+        error_reasoning_result = _finalize_reasoning_result_dict(
+            {"active_domains_used": list(ctx.primary_domains)},
+            proof=None,
+            ranked=ranked,
+            bstate=None,
+            fstate=None,
+            selected=None,
+            phase3_result=p3_result,
+        )
+        
         svc.save(session)
         _merge_pipeline_trace_dict(trace, tc)
         return AskResponse(
@@ -530,6 +641,7 @@ def run_ask(
             layer1=layer1,
             layer2=layer2,
             retrieved_rules=[_rule_dump(r) for r, s, d in ranked[:8]],
+            reasoning_result=error_reasoning_result,
             debug_trace=trace
             | {
                 "error": rg.error or "reasoning_blocked_by_rule_verification",
@@ -560,6 +672,18 @@ def run_ask(
             }
         session.missing_facts = bstate.missing_facts
         session.clarification_questions = prompts
+        
+        # Build partial reasoning_result for clarification case
+        clarify_reasoning_result = _finalize_reasoning_result_dict(
+            {"active_domains_used": list(ctx.primary_domains)},
+            proof=None,
+            ranked=ranked,
+            bstate=bstate,
+            fstate=None,
+            selected=selected,
+            phase3_result=p3_result,
+        )
+        
         svc.save(session)
         _merge_pipeline_trace_dict(trace, tc)
         return AskResponse(
@@ -572,6 +696,7 @@ def run_ask(
             retrieved_rules=[_rule_dump(r) for r, s, d in ranked[:8]],
             selected_rule=_rule_dump(selected) if selected else None,
             reasoning=bstate,
+            reasoning_result=clarify_reasoning_result,
             debug_trace=trace | {"stage": "needs_clarification"},
         )
 
@@ -589,6 +714,7 @@ def run_ask(
             max_forward_repair=max_repair_attempts_forward,
             reasoning_context=ctx,
             cross_domain_policy=policy,
+            phase3_proof_context=p3_result.proof_phase3_context,
         )
         trace["forward_gate"] = fg.trace
         if fg.v_fwd:
@@ -603,6 +729,18 @@ def run_ask(
     if not fg.ok:
         with tc.span("pipeline_exit") as spx:
             spx.output_summary = {"reason": fg.error or "forward_verification_failed"}
+        
+        # Build partial reasoning_result for forward gate failure
+        fg_fail_reasoning_result = _finalize_reasoning_result_dict(
+            {"active_domains_used": list(ctx.primary_domains)},
+            proof=None,
+            ranked=ranked,
+            bstate=bstate,
+            fstate=None,
+            selected=selected,
+            phase3_result=p3_result,
+        )
+        
         svc.save(session)
         _merge_pipeline_trace_dict(trace, tc)
         return AskResponse(
@@ -614,6 +752,7 @@ def run_ask(
             retrieved_rules=[_rule_dump(r) for r, s, d in ranked[:8]],
             selected_rule=_rule_dump(selected),
             reasoning=bstate,
+            reasoning_result=fg_fail_reasoning_result,
             debug_trace=trace | {"error": fg.error or "forward_verification_failed"},
         )
 
@@ -699,6 +838,22 @@ def run_ask(
         trace["answer_verification"] = {"final_decision": "REJECT", "note": "no_fallback_per_policy"}
 
     session.answer = ans
+    
+    # Build ReasoningResult as first-class artifact
+    reasoning_result_dict: dict[str, Any] = {
+        "active_domains_used": list(ctx.primary_domains),
+    }
+    reasoning_result_data = _finalize_reasoning_result_dict(
+        reasoning_result_dict,
+        proof=proof,
+        ranked=ranked,
+        bstate=bstate,
+        fstate=fstate,
+        selected=selected,
+        phase3_result=p3_result,
+    )
+    trace["reasoning_result"] = reasoning_result_data
+    
     trace["stage"].append("complete")
     session.pipeline_trace = trace
     _merge_pipeline_trace_dict(trace, tc)
@@ -715,6 +870,7 @@ def run_ask(
         reasoning=fstate,
         proof=proof,
         answer=ans,
+        reasoning_result=reasoning_result_data,
         debug_trace=trace,
     )
 
@@ -931,6 +1087,7 @@ def run_clarify(
             max_backward_repair=max_repair_attempts_backward,
             reasoning_context=ctx,
             cross_domain_policy=policy,
+            structured_facts=structured_facts_for_reasoning(session),
         )
         trace["rule_backward_gate"] = rg.trace
         if rg.v_rule:

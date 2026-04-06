@@ -7,6 +7,7 @@ from typing import Any
 from reasoning.internal.codec import canonicalize_atom, serialize_atom
 from reasoning.internal.mapper import map_rule_record_to_reasoning_rule
 from reasoning.internal.models import Atom
+from reasoning.fact_matching import atom_truth_status_ctx
 from reasoning.semantics.boundary_facts import atom_truth_status, known_atoms_from_facts
 from reasoning.semantics.constraint_eval import evaluate_constraint
 from reasoning.semantics.failed_path_hints import failed_path_record_from_result
@@ -22,18 +23,20 @@ from reasoning.semantics.unification import (
     apply_substitution_to_reasoning_rule,
     unify_goal_dict_with_goal_atom,
 )
+from runtime.domain_reasoning_policy import policy_from_context
+from rulebase.rule_identity import global_rule_key
 from schemas.rule import RuleRecord
 
 
-def _goal_matches_after_unify(goal: dict[str, Any], rr_goal_atom: tuple[Any, ...]) -> bool:
-    s, _fail = unify_goal_dict_with_goal_atom(goal, rr_goal_atom)
-    return s is not None
-
-
-def _supporting_positive_dicts(rr: Any, known_facts: dict[str, Any]) -> list[dict[str, Any]]:
+def _supporting_positive_dicts(
+    rr: Any,
+    known_facts: dict[str, Any],
+    structured_facts: dict[str, dict[str, Any]] | None = None,
+    reasoning_context: Any | None = None,
+) -> list[dict[str, Any]]:
     out: list[dict[str, Any]] = []
     for a in rr.positive_conditions:
-        if atom_truth_status(a, known_facts) == "true":
+        if _fwd_atom_status(a, known_facts, structured_facts, reasoning_context) == "true":
             out.append(
                 {
                     "predicate": a.predicate,
@@ -56,18 +59,51 @@ def _exc_atom_dict(atom: Atom) -> dict[str, Any]:
     return _neg_atom_dict(atom)
 
 
+def _fwd_atom_status(
+    atom: Atom,
+    known_facts: dict[str, Any],
+    structured_facts: dict[str, dict[str, Any]] | None,
+    reasoning_context: Any | None,
+) -> str:
+    if structured_facts is not None or reasoning_context is not None:
+        return atom_truth_status_ctx(
+            atom,
+            known_facts,
+            structured_facts=structured_facts,
+            reasoning_context=reasoning_context,
+            legacy_fuzzy=True,
+        )
+    return atom_truth_status(atom, known_facts)
+
+
 def run_forward_path(
     *,
     rule: RuleRecord,
     goal: dict[str, Any],
     known_facts: dict[str, Any],
     substitution: dict[str, Any] | None = None,
+    reasoning_context: Any | None = None,
+    structured_facts: dict[str, dict[str, Any]] | None = None,
 ) -> ForwardPathResult:
     """Single rule path: positive → negative (unless) → exception → constraints → derive goal."""
     rr0 = map_rule_record_to_reasoning_rule(rule)
     subst = Substitution(mapping=dict(substitution or {}))
     rr = apply_substitution_to_reasoning_rule(rr0, subst)
     goal_atom_list = list(rr.goal_atom)
+
+    if reasoning_context is not None and getattr(reasoning_context, "strict_domain_enforcement", False):
+        pol = policy_from_context(reasoning_context)
+        ok, rreason = pol.allows_rule(rule, reasoning_context)
+        if not ok:
+            return ForwardPathResult(
+                rule_id=rule.rule_id,
+                global_rule_key=global_rule_key(rule),
+                goal_reached=False,
+                failure_reason="domain_policy_blocked",
+                failure_detail=rreason or "domain_policy_blocked",
+                substitution=dict(subst.mapping),
+                goal_atom=goal_atom_list,
+            )
 
     def _fail(
         fr: FailureReason,
@@ -81,6 +117,7 @@ def run_forward_path(
     ) -> ForwardPathResult:
         return ForwardPathResult(
             rule_id=rule.rule_id,
+            global_rule_key=global_rule_key(rule),
             goal_reached=False,
             failure_reason=fr,
             failure_detail=detail,
@@ -88,17 +125,27 @@ def run_forward_path(
             constraint_traces=traces,
             known_atoms_snapshot=known_snap,
             goal_atom=goal_atom_list,
-            supporting_atoms=supporting or _supporting_positive_dicts(rr, known_facts),
+            supporting_atoms=supporting
+            or _supporting_positive_dicts(rr, known_facts, structured_facts, reasoning_context),
             blocking_negative_atoms=blocking_neg or [],
             triggered_exception_atoms=triggered_exc or [],
         )
 
-    if not _goal_matches_after_unify(goal, rr.goal_atom):
+    pol_u = policy_from_context(reasoning_context) if reasoning_context is not None else None
+    s_goal, ufail = unify_goal_dict_with_goal_atom(
+        goal,
+        rr.goal_atom,
+        reasoning_context=reasoning_context,
+        rule=rule,
+        domain_policy=pol_u,
+    )
+    if s_goal is None:
         return ForwardPathResult(
             rule_id=rule.rule_id,
+            global_rule_key=global_rule_key(rule),
             goal_reached=False,
             failure_reason="unification_broken",
-            failure_detail="goal_does_not_unify_with_head",
+            failure_detail=ufail or "goal_does_not_unify_with_head",
             substitution=dict(subst.mapping),
             goal_atom=goal_atom_list,
         )
@@ -107,20 +154,20 @@ def run_forward_path(
     known_snap = [serialize_atom(a) for a, _v in known_atoms_from_facts(known_facts)]
 
     for atom in rr.positive_conditions:
-        st = atom_truth_status(atom, known_facts)
+        st = _fwd_atom_status(atom, known_facts, structured_facts, reasoning_context)
         if st != "true":
             return _fail(
                 "positive_condition_missing",
                 serialize_atom(canonicalize_atom(atom)),
                 traces=traces,
                 known_snap=known_snap,
-                supporting=_supporting_positive_dicts(rr, known_facts),
+                supporting=_supporting_positive_dicts(rr, known_facts, structured_facts, reasoning_context),
             )
 
-    supporting = _supporting_positive_dicts(rr, known_facts)
+    supporting = _supporting_positive_dicts(rr, known_facts, structured_facts, reasoning_context)
 
     for atom in rr.negative_conditions:
-        st = atom_truth_status(atom, known_facts)
+        st = _fwd_atom_status(atom, known_facts, structured_facts, reasoning_context)
         if st == "true":
             return _fail(
                 "negative_condition_blocked",
@@ -140,7 +187,7 @@ def run_forward_path(
             )
 
     for atom in rr.exception_conditions:
-        st = atom_truth_status(atom, known_facts)
+        st = _fwd_atom_status(atom, known_facts, structured_facts, reasoning_context)
         if st == "true":
             return _fail(
                 "exception_triggered",
@@ -205,6 +252,7 @@ def run_forward_path(
 
     return ForwardPathResult(
         rule_id=rule.rule_id,
+        global_rule_key=global_rule_key(rule),
         goal_reached=True,
         conclusion=conclusion,
         failure_reason="none",
@@ -215,7 +263,11 @@ def run_forward_path(
         known_atoms_snapshot=known_snap,
         goal_atom=goal_atom_list,
         supporting_atoms=supporting,
-        blocking_negative_atoms=[_neg_atom_dict(a) for a in rr.negative_conditions if atom_truth_status(a, known_facts) == "false"],
+        blocking_negative_atoms=[
+            _neg_atom_dict(a)
+            for a in rr.negative_conditions
+            if _fwd_atom_status(a, known_facts, structured_facts, reasoning_context) == "false"
+        ],
     )
 
 
@@ -225,21 +277,31 @@ def run_forward_best_path(
     candidates: list[tuple[RuleRecord, float, dict[str, Any]]],
     goal: dict[str, Any],
     known_facts: dict[str, Any],
+    reasoning_context: Any | None = None,
+    structured_facts: dict[str, dict[str, Any]] | None = None,
 ) -> ForwardPathResult:
     """Try candidate paths in plan order until one reaches the goal."""
     from reasoning.semantics.plan_models import BackwardPlan
 
     bp = plan if isinstance(plan, BackwardPlan) else BackwardPlan.model_validate(plan)
     by_id = {r.rule_id: r for r, _, _ in candidates}
+    by_gid = {global_rule_key(r): r for r, _, _ in candidates}
     failed_records: list[FailedPathRecord] = []
     last: ForwardPathResult | None = None
     for c in bp.candidates:
         if c.unification_failure:
             continue
-        rule = by_id.get(c.rule_id)
+        rule = by_gid.get(c.global_rule_key) if c.global_rule_key else by_id.get(c.rule_id)
         if not rule:
             continue
-        res = run_forward_path(rule=rule, goal=goal, known_facts=known_facts, substitution=c.substitution)
+        res = run_forward_path(
+            rule=rule,
+            goal=goal,
+            known_facts=known_facts,
+            substitution=c.substitution,
+            reasoning_context=reasoning_context,
+            structured_facts=structured_facts,
+        )
         last = res
         if res.goal_reached:
             res.failed_path_records = failed_records
@@ -252,6 +314,7 @@ def run_forward_best_path(
         return last
     return ForwardPathResult(
         rule_id="",
+        global_rule_key="",
         goal_reached=False,
         failure_reason="goal_not_derived",
         failure_detail="no_candidate_paths",

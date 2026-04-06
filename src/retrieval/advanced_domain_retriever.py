@@ -12,6 +12,7 @@ from schemas.rule import RuleRecord
 from retrieval.domain_scoped_retriever import enrich_ranked_with_retrieval_meta
 from retrieval.rule_retriever import retrieve_rules
 from retrieval.rulebase_loader import RulebaseIndex
+from rulebase.rule_identity import global_rule_key
 from rulebase.rulebase_registry import RulebaseRegistry
 
 logger = logging.getLogger(__name__)
@@ -22,9 +23,10 @@ def _dedupe_best_score(
 ) -> list[tuple[RuleRecord, float, dict[str, Any]]]:
     best: dict[str, tuple[RuleRecord, float, dict[str, Any]]] = {}
     for r, s, d in items:
-        cur = best.get(r.rule_id)
+        gk = global_rule_key(r)
+        cur = best.get(gk)
         if cur is None or s > cur[1]:
-            best[r.rule_id] = (r, s, d)
+            best[gk] = (r, s, d)
     return sorted(best.values(), key=lambda x: -x[1])
 
 

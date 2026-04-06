@@ -53,4 +53,9 @@ def health() -> HealthResponse:
         shared_layer_loaded=shared_ok,
         rule_counts_by_domain=counts,
         registry_first=registry_first,
+        phase3_bridge_inference=True,
+        phase3_temporal_policy=True,
+        phase3_conflict_policy=True,
+        namespacing_mode="global_rule_key_v1",
+        default_reasoning_date_note="Using system UTC time if question_time not provided",
     )

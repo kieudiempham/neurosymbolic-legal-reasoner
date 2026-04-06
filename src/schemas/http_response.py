@@ -38,6 +38,7 @@ class AskResponse(BaseModel):
     reasoning: ReasoningState | None = None
     proof: ProofObject | None = None
     answer: FinalAnswer | None = None
+    reasoning_result: dict[str, Any] | None = None
     debug_trace: dict[str, Any] = Field(default_factory=dict)
 
 
@@ -53,6 +54,7 @@ class ClarifyResponse(BaseModel):
     reasoning: ReasoningState | None = None
     proof: ProofObject | None = None
     answer: FinalAnswer | None = None
+    reasoning_result: dict[str, Any] | None = None
     debug_trace: dict[str, Any] = Field(default_factory=dict)
 
 
@@ -65,6 +67,11 @@ class HealthResponse(BaseModel):
     shared_layer_loaded: bool = False
     rule_counts_by_domain: dict[str, int] = Field(default_factory=dict)
     registry_first: bool = False
+    phase3_bridge_inference: bool = True
+    phase3_temporal_policy: bool = True
+    phase3_conflict_policy: bool = True
+    namespacing_mode: str = "global_rule_key_v1"
+    default_reasoning_date_note: str = ""
 
 
 class ErrorResponse(BaseModel):

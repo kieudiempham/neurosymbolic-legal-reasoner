@@ -18,6 +18,11 @@ class ReasoningContext:
     statute_ids: list[str] = field(default_factory=list)
     cross_domain_policy: CrossDomainPolicy | None = None
     triggered_bridges: list[str] = field(default_factory=list)
+    phase3_bridge_inference: bool = True
+    phase3_temporal_policy: bool = True
+    phase3_conflict_policy: bool = True
+    namespacing_mode: str = "global_rule_key_v1"
+    strict_domain_enforcement: bool = False
 
     def to_trace_dict(self) -> dict[str, Any]:
         out: dict[str, Any] = {
@@ -28,6 +33,11 @@ class ReasoningContext:
             "question_time": self.question_time,
             "statute_ids": list(self.statute_ids),
             "triggered_bridges": list(self.triggered_bridges),
+            "phase3_bridge_inference": self.phase3_bridge_inference,
+            "phase3_temporal_policy": self.phase3_temporal_policy,
+            "phase3_conflict_policy": self.phase3_conflict_policy,
+            "namespacing_mode": self.namespacing_mode,
+            "strict_domain_enforcement": self.strict_domain_enforcement,
         }
         if self.cross_domain_policy:
             out["cross_domain_policy"] = self.cross_domain_policy.to_trace_dict()
