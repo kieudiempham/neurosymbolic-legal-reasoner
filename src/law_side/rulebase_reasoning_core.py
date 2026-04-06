@@ -7,7 +7,7 @@ Does not modify the full rulebase_logic.json; use extract script to emit a sidec
 from __future__ import annotations
 
 import json
-from collections import Counter
+from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -420,6 +420,66 @@ def load_canonical_jsonl(path: Path) -> list[dict[str, Any]]:
     return out
 
 
+def _canonical_rule_signature(canon: dict[str, Any]) -> tuple[str, str, str]:
+    return (
+        str(canon.get("logic_form") or "unknown"),
+        json.dumps(canon.get("canonical_head") or {}, sort_keys=True, ensure_ascii=False),
+        json.dumps(canon.get("canonical_body") or [], sort_keys=True, ensure_ascii=False),
+    )
+
+
+def _canonical_rule_category(canon: dict[str, Any]) -> tuple[str, list[str]]:
+    lf = (canon.get("logic_form") or "").strip().lower()
+    head_pred = str((canon.get("canonical_head") or {}).get("predicate") or "").strip().lower()
+    source_ref = str(canon.get("source_ref") or "").strip()
+    surface = str(canon.get("surface_text") or "").strip()
+
+    if lf == "procedure_step":
+        return "traceability_only", ["procedure_step_not_exportable"]
+    if not lf or lf in _EXCLUDED_LOGIC_FORMS:
+        return "excluded_from_core", ["logic_form_excluded_or_unknown"]
+    if not head_pred:
+        return "excluded_from_core", ["missing_canonical_head_predicate"]
+    if lf in ("obligation", "permission", "prohibition") and head_pred in {"obligation", "permission", "prohibition"}:
+        return "traceability_only", ["generic_normative_predicate"]
+    if not source_ref or not surface:
+        return "traceability_only", ["missing_source_trace"]
+    return "exportable_clean", []
+
+
+def _merge_reasoning_core_record_provenance(
+    base: dict[str, Any], duplicate: dict[str, Any]
+) -> None:
+    provenance = base["metadata"]["provenance"]
+    dup_prov = duplicate["metadata"]["provenance"]
+
+    existing_rule_ids = [str(provenance.get("rule_id") or "")] + provenance.get("rule_ids", [])
+    existing_source_refs = [str(provenance.get("source_ref") or "")] + provenance.get("source_refs", [])
+    existing_source_docs = [str(provenance.get("source_doc") or "")] + provenance.get("source_docs", [])
+
+    provenance["rule_ids"] = sorted(
+        x for x in set(existing_rule_ids + [str(duplicate.get("rule_id") or "")]) if x
+    )
+    provenance["source_refs"] = sorted(
+        x for x in set(existing_source_refs + [str(dup_prov.get("source_ref") or "")]) if x
+    )
+    provenance["source_docs"] = sorted(
+        x for x in set(existing_source_docs + [str(dup_prov.get("source_doc") or "")]) if x
+    )
+    provenance["derived_from_rule_ids"] = sorted(
+        set(provenance.get("derived_from_rule_ids", []) + dup_prov.get("derived_from_rule_ids", []))
+    )
+    provenance["derived_from_docs"] = sorted(
+        set(provenance.get("derived_from_docs", []) + dup_prov.get("derived_from_docs", []))
+    )
+    provenance["source_domains"] = sorted(
+        set(provenance.get("source_domains", []) + dup_prov.get("source_domains", []))
+    )
+
+    provenance["merged_variants"] = provenance.get("merged_variants", 0) + 1
+    provenance["duplicate_role"] = "merged_variant"
+
+
 def _canonical_rule_to_reasoning_core_record(canon: dict[str, Any]) -> dict[str, Any]:
     provenance = {
         "domain": canon.get("domain"),
@@ -438,6 +498,11 @@ def _canonical_rule_to_reasoning_core_record(canon: dict[str, Any]) -> dict[str,
         "issuing_body": canon.get("issuing_body"),
         "review_status": canon.get("review_status"),
         "confidence_score": canon.get("confidence_score"),
+        "generated_from_frame_id": canon.get("generated_from_frame_id"),
+        "derived_from_rule_ids": canon.get("derived_from_rule_ids") or [],
+        "derived_from_docs": canon.get("derived_from_docs") or [],
+        "source_domains": canon.get("source_domains") or [],
+        "rule_id": str(canon.get("rule_id") or ""),
     }
     return {
         "rule_id": str(canon.get("rule_id") or ""),
@@ -446,7 +511,8 @@ def _canonical_rule_to_reasoning_core_record(canon: dict[str, Any]) -> dict[str,
         "body": canon.get("canonical_body") or [],
         "auxiliary_clauses": canon.get("auxiliary_clauses") or [],
         "metadata": {"provenance": provenance},
-        "selected_for_reasoning": True,
+        "selected_for_reasoning": False,
+        "reasoning_partition": "traceability_only",
     }
 
 
@@ -457,23 +523,76 @@ def build_reasoning_core_package_from_canonical(
     core_version: int = 1,
     selection_policy: str = "canonical_reasoning_core_v1",
 ) -> dict[str, Any]:
-    core = [_canonical_rule_to_reasoning_core_record(r) for r in canonical_rules]
+    exportable_map: dict[tuple[str, str, str], dict[str, Any]] = {}
+    traceability_only: list[dict[str, Any]] = []
+    excluded_from_core: list[dict[str, Any]] = []
+    duplicate_reduction_count = 0
+
+    for canon in canonical_rules:
+        category, reasons = _canonical_rule_category(canon)
+        record = _canonical_rule_to_reasoning_core_record(canon)
+        record["reasoning_partition"] = category
+        if category == "exportable_clean":
+            record["selected_for_reasoning"] = True
+            sig = _canonical_rule_signature(canon)
+            if sig in exportable_map:
+                _merge_reasoning_core_record_provenance(exportable_map[sig], record)
+                duplicate_reduction_count += 1
+                continue
+            exportable_map[sig] = record
+        elif category == "traceability_only":
+            record["selected_for_reasoning"] = False
+            traceability_only.append({"rule_id": record["rule_id"], "reasoning_partition": category, "reason": reasons, **record})
+        else:
+            excluded_from_core.append({"rule_id": record["rule_id"], "reason": reasons})
+
+    core_records = list(exportable_map.values())
+    core_rule_ids = [r.get("rule_id") for r in core_records if r.get("rule_id")]
+    report = {
+        "total_rules": len(canonical_rules),
+        "exportable_clean_rules": len(core_records) + duplicate_reduction_count,
+        "rules_in_reasoning_core": len(core_records),
+        "traceability_only_rules": len(traceability_only),
+        "excluded_from_core_rules": len(excluded_from_core),
+        "duplicate_reduction_count": duplicate_reduction_count,
+        "core_by_logic_form": {},
+        "exclusion_reason_histogram": {},
+        "core_quality_summary": {
+            "total_rules": len(canonical_rules),
+            "exportable_clean_rules": len(core_records) + duplicate_reduction_count,
+            "rules_in_reasoning_core": len(core_records),
+            "traceability_only_rules": len(traceability_only),
+            "excluded_from_core_rules": len(excluded_from_core),
+        },
+        "conclusion": (
+            "Produced a reasoning-ready small core from canonical enterprise rules. "
+            "Traceability-only rules are preserved separately; excluded rules hold degraded or unknown semantics."
+        ),
+    }
+
+    by_form: dict[str, int] = {}
+    for r in core_records:
+        lf = r.get("logic_form") or "unknown"
+        by_form[lf] = by_form.get(lf, 0) + 1
+    report["core_by_logic_form"] = dict(sorted(by_form.items(), key=lambda x: x[0]))
+
+    reason_hist = Counter()
+    for e in excluded_from_core:
+        for r in e.get("reason") or []:
+            reason_hist[r] += 1
+    report["exclusion_reason_histogram"] = dict(reason_hist.most_common())
+
     pkg: dict[str, Any] = {
         "core_version": core_version,
         "selection_policy": selection_policy,
         "source_file": str(source_path).replace("\\", "/"),
         "generated_at": datetime.now(timezone.utc).isoformat(),
-        "core_rule_count": len(core),
-        "core_rule_ids": [r.get("rule_id") for r in core if r.get("rule_id")],
-        "rules_reasoning_core": core,
-        "excluded_from_core": [],
-        "report": {
-            "total_rules": len(core),
-            "exportable_clean_rules": len(core),
-            "rules_in_reasoning_core": len(core),
-            "exportable_clean_excluded_from_core": 0,
-            "conclusion": "Compiled directly from canonical rules. Legacy rulebase_logic.json path remains available for compatibility.",
-        },
+        "core_rule_count": len(core_records),
+        "core_rule_ids": core_rule_ids,
+        "rules_reasoning_core": core_records,
+        "traceability_only": traceability_only,
+        "excluded_from_core": excluded_from_core,
+        "report": report,
     }
     return pkg
 

@@ -1,0 +1,24 @@
+input_dir: "data/raw/legal_corpus/tax"
+doc_files:
+  - "01_luat_quan_ly_thue_108_2025_QH15.doc"
+  - "02_nghi_dinh_126_2020_ND-CP.doc"
+  - "03_nghi_dinh_123_2020_ND-CP.doc"
+  - "04_luat_thue_GTGT_48_2024_QH15.doc"
+  - "05_nghi_dinh_181_2025_ND-CP.doc"
+  - "06_luat_TNDN_67_2025_QH15.doc"
+  - "07_nghi_dinh_320_2025_ND-CP.doc"
+
+domain: "tax"
+autosize: false
+
+segmentation:
+  min_unit_chars: 30
+
+normative_detection:
+  max_candidates_per_unit: 8
+  min_sentence_chars: 40
+
+frame_extractor: {}
+predicate_normalizer: {}
+rule_builder: {}
+doc_loader: {}

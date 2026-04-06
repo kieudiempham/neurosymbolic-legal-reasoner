@@ -1,0 +1,26 @@
+{
+  "registry_type": "shared_predicates",
+  "predicates": [
+    "cho_doanh_nghiep_cho_thue_lai_rut_tien_ky_quy",
+    "condition",
+    "gia_han",
+    "thanh_phan_ho_so",
+    "",
+    "thu_hoi",
+    "cap_giay_phep",
+    "uy_quyen_bang_van_ban",
+    "ky_quy"
+  ],
+  "counts": {
+    "cho_doanh_nghiep_cho_thue_lai_rut_tien_ky_quy": 2,
+    "condition": 42,
+    "gia_han": 4,
+    "thanh_phan_ho_so": 66,
+    "": 6,
+    "thu_hoi": 4,
+    "cap_giay_phep": 17,
+    "uy_quyen_bang_van_ban": 4,
+    "ky_quy": 4
+  },
+  "source_domains": 1
+}

@@ -871,6 +871,19 @@ class NormativeSentenceDetector:
             return "other"
         if has_deadline:
             return "deadline"
+        # Prioritize deontic over effects
+        if has_obligation:
+            if re.search(r"\bđăng\s*ký\b", text, re.I | re.U):
+                return "registration_obligation"
+            if re.search(r"\bthông\s*báo\b", text, re.I | re.U):
+                return "notification"
+            return "duty"
+        if has_prohibition:
+            return "prohibition"
+        if has_permission and not (has_obligation or has_prohibition):
+            if not self._is_permission_normative(text):
+                return "other"
+            return "permission"
         if has_effect:
             return "legal_effect"
         if has_threshold:
@@ -879,23 +892,6 @@ class NormativeSentenceDetector:
             return "condition"
         if has_procedure and not has_deontic:
             return "procedure"
-
-        # Permission-only (non-definition) maps to permission.
-        if has_permission and not (has_obligation or has_prohibition):
-            if not self._is_permission_normative(text):
-                return "other"
-            return "permission"
-
-        if has_obligation and re.search(r"\bđăng\s*ký\b", text, re.I | re.U):
-            return "registration_obligation"
-        if has_obligation and re.search(r"\bthông\s*báo\b", text, re.I | re.U):
-            return "notification"
-
-        if has_obligation:
-            return "duty"
-        if has_prohibition:
-            return "prohibition"
-        return "other"
 
     def _is_permission_normative(self, text: str) -> bool:
         if self._looks_definition_like(text) or self._is_status_description(text):

@@ -17,6 +17,7 @@ Pipeline stages:
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -254,7 +255,7 @@ class LawRulebasePipeline:
             runtime_dir.mkdir(parents=True, exist_ok=True)
             runtime_core_path = runtime_dir / "rulebase_reasoning_core.json"
             
-            # Use existing compiler
+            # Use existing compiler with high-precision runtime selection
             from law_side.rulebase_reasoning_core import build_reasoning_core_package_from_canonical, load_canonical_jsonl, write_reasoning_core_json
             canonical_rules = load_canonical_jsonl(domain_rb_path)
             pkg = build_reasoning_core_package_from_canonical(
@@ -262,7 +263,24 @@ class LawRulebasePipeline:
                 source_path=domain_rb_path,
             )
             write_reasoning_core_json(pkg, runtime_core_path)
-            self._log.info(f"Compiled runtime core: {pkg['core_rule_count']} rules to {runtime_core_path}")
+            self._log.info(
+                f"Compiled runtime core: {pkg['core_rule_count']} reasoning-ready rules to {runtime_core_path}; "
+                f"exportable_clean={pkg['report']['exportable_clean_rules']} "
+                f"traceability_only={len(pkg.get('traceability_only', []))} "
+                f"excluded={len(pkg.get('excluded_from_core', []))}"
+            )
+
+            procedure_step_path = runtime_dir / "procedure_step_traceability.jsonl"
+            procedure_step_rules = [
+                rule for rule in canonical_rules if rule.get("logic_form") == "procedure_step"
+            ]
+            procedure_step_path.parent.mkdir(parents=True, exist_ok=True)
+            with open(procedure_step_path, "w", encoding="utf-8") as f:
+                for rule in procedure_step_rules:
+                    f.write(json.dumps(rule, ensure_ascii=False) + "\n")
+            self._log.info(
+                f"Exported {len(procedure_step_rules)} procedure_step traceability rules to {procedure_step_path}"
+            )
 
         self._log.info("Pipeline done.")
         results = {

@@ -40,10 +40,29 @@ def derive_domain_rulebase(
                 if line.strip():
                     data = json.loads(line)
                     data["layer"] = "domain"
+                    existing_notes = data.get("review_notes") or ""
                     data["review_notes"] = (
                         f"Aggregated from statute pack {pack_file.name}. "
-                        + (data.get("review_notes") or "")
+                        + existing_notes
                     ).strip()
+                    data["derived_from_rule_ids"] = list(
+                        dict.fromkeys(
+                            (data.get("derived_from_rule_ids") or [])
+                            + [data.get("rule_id") or ""]
+                        )
+                    )
+                    data["derived_from_docs"] = list(
+                        dict.fromkeys(
+                            (data.get("derived_from_docs") or [])
+                            + ([data.get("doc_code")] if data.get("doc_code") else [])
+                        )
+                    )
+                    data["source_domains"] = list(
+                        dict.fromkeys(
+                            (data.get("source_domains") or [])
+                            + [domain]
+                        )
+                    )
                     rule = CanonicalRuleArtifact(**data)
                     pack_rules.append(rule)
         

@@ -620,7 +620,25 @@ class RuleBuilder:
 
     def _rule_type_for_frame(self, frame_type: str | None) -> str:
         ft = (frame_type or "").strip().lower()
-        mapping = {
+        # Map English frame types to Vietnamese rule types
+        english_to_rule = {
+            "obligation": "quy_tac_nghia_vu",
+            "permission": "quy_tac_quyen",
+            "prohibition": "quy_tac_cam_doan",
+            "deadline": "quy_tac_thoi_han",
+            "procedure": "quy_tac_thu_tuc",
+            "document_requirement": "quy_tac_ho_so",
+            "authority_action": "quy_tac_hanh_dong_co_quan",
+            "condition": "quy_tac_dieu_kien",
+            "exception": "quy_tac_ngoai_le",
+            "threshold": "quy_tac_nguong_dinh_luong",
+            "legal_effect": "quy_tac_ket_qua_phap_ly",
+        }
+        if ft in english_to_rule:
+            return english_to_rule[ft]
+        
+        # Fallback to khung_* mapping for backward compatibility
+        khung_to_rule = {
             "khung_nghia_vu": "quy_tac_nghia_vu",
             "khung_quyen": "quy_tac_quyen",
             "khung_cam_doan": "quy_tac_cam_doan",
@@ -633,7 +651,7 @@ class RuleBuilder:
             "khung_nguong_dinh_luong": "quy_tac_nguong_dinh_luong",
             "khung_ket_qua_phap_ly": "quy_tac_ket_qua_phap_ly",
         }
-        return mapping.get(ft, "quy_tac_nghia_vu")
+        return khung_to_rule.get(ft, "quy_tac_nghia_vu")
 
     def _tinh_chat_fallback(self, frame_type: str | None) -> str:
         ft = (frame_type or "").strip().lower()

@@ -43,6 +43,18 @@ class CanonicalRuleArtifact(BaseModel):
     source_ref: str = Field(description="Short source reference (e.g., DOC_ID:Điều 10)")
     source_ref_full: str = Field(description="Full source path with context")
     surface_text: str = Field(description="Original Vietnamese text from source")
+    derived_from_rule_ids: list[str] = Field(
+        default_factory=list,
+        description="Source statute-layer rule ids for derived or aggregated rules",
+    )
+    derived_from_docs: list[str] = Field(
+        default_factory=list,
+        description="Documents that contributed to this derived rule",
+    )
+    source_domains: list[str] = Field(
+        default_factory=list,
+        description="Origin domains contributing to multi-domain or shared aggregation",
+    )
     
     # C. Rule Content - Logic Layer
     logic_form: str = Field(

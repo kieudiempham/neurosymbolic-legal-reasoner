@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Any
 
 from law_side.law_rulebase_models import RuleSeed
+from law_side.rulebase_logic_ir import RULE_TYPE_TO_LOGIC_FORM
 from schemas.canonical_rule import CanonicalRuleArtifact
 from utils.logger import get_logger
 
@@ -75,6 +76,9 @@ def rule_seed_to_canonical(
         source_ref=seed.source_ref,
         source_ref_full=seed.source_ref_full,
         surface_text=seed.source_text,
+        derived_from_rule_ids=[seed.rule_id],
+        derived_from_docs=[seed.doc_code] if seed.doc_code else [],
+        source_domains=[domain],
         
         # Logic content
         logic_form=logic_form,
@@ -109,33 +113,35 @@ def rule_seed_to_canonical(
 
 def _rule_type_to_logic_form(rule_type: str, tinh_chat: str) -> str:
     """Map RuleSeed rule_type/tinh_chat to canonical logic_form."""
-    rule_type_lower = (rule_type or "").lower()
-    tinh_chat_lower = (tinh_chat or "").lower()
-    
-    # Direct mappings
-    if "obligation" in rule_type_lower or "nghia_vu" in tinh_chat_lower:
+    rule_type_lower = (rule_type or "").strip().lower()
+    tinh_chat_lower = (tinh_chat or "").strip().lower()
+
+    if rule_type_lower in RULE_TYPE_TO_LOGIC_FORM:
+        return RULE_TYPE_TO_LOGIC_FORM[rule_type_lower]
+
+    # Vietnamese modality / semantics fallback
+    if "bat_buoc" in tinh_chat_lower or "nghia_vu" in tinh_chat_lower:
         return "obligation"
-    if "permission" in rule_type_lower or "quyen" in tinh_chat_lower:
+    if "duoc_phep" in tinh_chat_lower or "quyen" in tinh_chat_lower:
         return "permission"
-    if "prohibition" in rule_type_lower or "cam" in tinh_chat_lower:
+    if "bi_cam" in tinh_chat_lower or "cam" in tinh_chat_lower:
         return "prohibition"
-    if "deadline" in rule_type_lower or "thoi_han" in tinh_chat_lower:
+    if "thoi_han" in tinh_chat_lower:
         return "deadline"
-    if "threshold" in rule_type_lower or "nguong" in tinh_chat_lower:
+    if "nguong" in tinh_chat_lower:
         return "threshold"
-    if "exception" in rule_type_lower or "ngoai_le" in tinh_chat_lower:
+    if "ngoai_le" in tinh_chat_lower:
         return "exception"
-    if "condition" in rule_type_lower or "dieu_kien" in tinh_chat_lower:
+    if "dieu_kien" in tinh_chat_lower:
         return "applicability_condition"
-    if "authority" in rule_type_lower or "hanh_dong_co_quan" in tinh_chat_lower:
+    if "co_quan" in tinh_chat_lower or "co_trach_nhiem" in tinh_chat_lower:
         return "authority_action"
-    if "effect" in rule_type_lower or "ket_qua" in tinh_chat_lower:
+    if "ket_qua" in tinh_chat_lower:
         return "legal_effect"
-    if "document" in rule_type_lower or "ho_so" in tinh_chat_lower:
+    if "ho_so" in tinh_chat_lower:
         return "dossier"
-    
-    # Fallback
-    return "obligation"  # Most rules are obligations in enterprise law
+
+    return "obligation"
 
 
 def export_canonical_rules_jsonl(

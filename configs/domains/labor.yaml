@@ -1,42 +1,242 @@
-# Domain configuration for labor law parsing (Phase 2 placeholder).
+# Domain configuration for labor law parsing (Phase 3 implementation).
 
-# To be implemented in Phase 2 when labor law corpus is added.
-# Structure mirrors enterprise.yaml for consistency.
+# Mirrors enterprise.yaml and tax.yaml structure for consistency.
+# Labor-specific patterns for employment, contracts, social insurance, rights/obligations.
 
-# Placeholder structure - to be filled in Phase 2
+# Document metadata mapping
 doc_metadata:
-  defaults:
-    domain_scope: "labor"
-    doc_type: "law"
-    priority: "medium"
+  filename_patterns:
+    - pattern: "luat_lao_dong|08_luat"
+      doc_type: "law"
+      domain_scope: "lao_dong"
+      domain_subscope: "quyen_nghia_vu_lao_dong"
+      priority: "rat_cao"
+    - pattern: "nghi_dinh.*145|09_nghi_dinh"
+      doc_type: "decree"
+      domain_scope: "lao_dong"
+      domain_subscope: "hop_dong_lao_dong"
+      priority: "cao"
+    - pattern: "bao_hiem_xa_hoi|10_bao_hiem"
+      doc_type: "law"
+      domain_scope: "bao_hiem_xa_hoi"
+      domain_subscope: "nghia_vu_bao_hiem"
+      priority: "cao"
+    - pattern: "nghi_dinh.*158|11_nghi_dinh"
+      doc_type: "decree"
+      domain_scope: "bao_hiem_xa_hoi"
+      domain_subscope: "thu_tuc_bao_hiem"
+      priority: "cao"
 
+  hardcoded_files:
+    "08_luat_lao_dong_45_2019_QH14.doc":
+      doc_id: "DOC_LUAT_LAO_DONG_45_2019"
+      doc_title: "Luật Lao động"
+      doc_code: "45/2019/QH14"
+      doc_type: "law"
+      issuing_body: "Quốc hội"
+      domain_scope: "lao_dong"
+      domain_subscope: "quyen_nghia_vu_lao_dong"
+      
+    "09_nghi_dinh_145_2020_ND-CP.doc":
+      doc_id: "DOC_ND_145_2020"
+      doc_title: "Nghị định về hợp đồng lao động"
+      doc_code: "145/2020/NĐ-CP"
+      doc_type: "decree"
+      issuing_body: "Chính phủ"
+      domain_scope: "lao_dong"
+      domain_subscope: "hop_dong_lao_dong"
+      
+    "10_bao_hiem_xa_hoi_41_2024_QH15.doc":
+      doc_id: "DOC_LUAT_BHXH_41_2024"
+      doc_title: "Luật Bảo hiểm xã hội"
+      doc_code: "41/2024/QH15"
+      doc_type: "law"
+      issuing_body: "Quốc hội"
+      domain_scope: "bao_hiem_xa_hoi"
+      domain_subscope: "nghia_vu_bao_hiem"
+      
+    "11_nghi_dinh_158_2025_ND-CP.doc":
+      doc_id: "DOC_ND_158_2025"
+      doc_title: "Nghị định về bảo hiểm xã hội"
+      doc_code: "158/2025/NĐ-CP"
+      doc_type: "decree"
+      issuing_body: "Chính phủ"
+      domain_scope: "bao_hiem_xa_hoi"
+      domain_subscope: "thu_tuc_bao_hiem"
+
+  defaults:
+    when_unknown:
+      domain_scope: "lao_dong"
+      doc_type: "unknown"
+      priority: "trung_binh"
+
+# Normative sentence detection: subject & authority keywords
 normative_detection:
   subject_keywords:
-    # To be filled: labor law entities
-    - "lao_dong_vien"
-    - "nha_tuyendung"
-    - "cong_doan"
+    - "người\\s+sử\\s+dụng\\s+lao\\s+động"
+    - "người\\s+lao\\s+động"
+    - "công\\s+đoàn"
+    - "doanh\\s+nghiệp"
+    - "tổ\\s+chức"
+    - "cá\\s+nhân"
+    - "người\\s+tham\\s+gia\\s+bảo\\s+hiểm"
+    - "người\\s+đóng\\s+bảo\\s+hiểm"
+    - "cơ\\s+sở\\s+kinh\\s+doanh"
+    - "cơ\\s+quan\\s+bảo\\s+hiểm\\s+xã\\s+hội"
+    - "cơ\\s+quan\\s+lao\\s+động"
+    - "người\\s+sử\\s+dụng\\s+lao\\s+động\\s+phải"
+    - "người\\s+lao\\s+động\\s+được\\s+quyền"
+    - "công\\s+đoàn\\s+có\\s+quyền"
+    - "doanh\\s+nghiệp\\s+không\\s+được"
 
   authority_keywords:
-    # To be filled: labor authorities
-    - "co_quan_lao_dong"
+    - "cơ\\s+quan\\s+lao\\s+động"
+    - "cơ\\s+quan\\s+bảo\\s+hiểm\\s+xã\\s+hội"
+    - "cơ\\s+quan\\s+nhà\\s+nước\\s+có\\s+thẩm\\s+quyền"
+    - "sở\\s+lao\\s+động"
+    - "ủy\\s+ban\\s+nhân\\s+dân"
+    - "tổng\\s+cục\\s+thuế"
+    - "cục\\s+thuế"
+    - "cơ\\s+quan\\s+quản\\s+lý\\s+lao\\s+động"
+    - "cơ\\s+quan\\s+bảo\\s+hiểm\\s+xã\\s+hội\\s+cấp\\s+tỉnh"
 
   action_verbs:
-    # To be filled: labor-specific verbs
-    - "ky_hop_dong"
-    - "tham_gia_bao_hiem"
+    - "ký\\s+hợp\\s+đồng"
+    - "chấm\\s+dứt\\s+hợp\\s+đồng"
+    - "tham\\s+gia\\s+bảo\\s+hiểm"
+    - "đóng\\s+bảo\\s+hiểm"
+    - "thông\\s+báo"
+    - "gửi"
+    - "nộp"
+    - "cấp"
+    - "xem\\s*xét"
+    - "từ\\s*chối"
+    - "cập\\s*nhật"
+    - "thực\\s*hiện"
+    - "tiếp\\s*nhận"
+    - "chịu\\s*trách\\s*nhiệm"
+    - "phải"
+    - "không\\s+được"
+    - "được\\s+phép"
+    - "có\\s+quyền"
+    - "bị\\s+cấm"
+    - "được\\s+quyền"
+    - "có\\s+nghĩa\\s+vụ"
+    - "được\\s+miễn"
+    - "bị\\s+phạt"
+    - "trừ\\s+trường\\s+hợp"
+    - "ngoại\\s+lệ"
+    - "cơ\\s+quan\\s+có\\s+thẩm\\s+quyền\\s+quyết\\s+định"
+    - "cơ\\s+quan\\s+lao\\s+động\\s+cấp\\s+tỉnh\\s+cấp"
 
+# Legal frame extraction: labor patterns
 legal_frame_extraction:
   enterprise_entity_patterns:
-    # To be filled
+    - "người sử dụng lao động"
+    - "người lao động"
+    - "công đoàn"
+    - "doanh nghiệp"
+    - "tổ chức"
+    - "cá nhân"
+    - "người tham gia bảo hiểm"
+    - "người đóng bảo hiểm"
+    - "cơ sở kinh doanh"
+    - "cơ quan bảo hiểm xã hội"
+    - "cơ quan lao động"
 
   authority_patterns:
-    # To be filled
+    - "cơ quan lao động"
+    - "cơ quan bảo hiểm xã hội"
+    - "cơ quan nhà nước có thẩm quyền"
+    - "sở lao động"
+    - "ủy ban nhân dân"
+    - "tổng cục thuế"
+    - "cục thuế"
+    - "cơ quan quản lý lao động"
+    - "cơ quan bảo hiểm xã hội cấp tỉnh"
 
+  frame_type_mapping:
+    "thoi_han": "khung_thoi_han"
+    "thanh_phan_ho_so": "khung_ho_so"
+    "hanh_dong_co_quan": "khung_hanh_dong_co_quan"
+    "ngoai_le": "khung_ngoai_le"
+    "nguong_so_luong": "khung_nguong_dinh_luong"
+    "ket_qua_phap_ly": "khung_ket_qua_phap_ly"
+    "nghia_vu": "khung_nghia_vu"
+    "quyen": "khung_quyen"
+    "cam": "khung_cam"
+    "thu_tuc": "khung_thu_tuc"
+    "quy_trinh": "khung_quy_trinh"
+    "hanh_dong_co_quan_lao_dong": "khung_hanh_dong_co_quan"
+    "hanh_dong_co_quan_bhxh": "khung_hanh_dong_co_quan"
+    "truong_hop_ngoai_le": "khung_ngoai_le"
+    "dieu_kien_ap_dung": "khung_dieu_kien"
+    "quyen_lai_suat": "khung_quyen"
+    "nghia_vu_dong_bao_hiem": "khung_nghia_vu"
+    "quyen_duoc_huong_bao_hiem": "khung_quyen"
+
+# Predicate normalization hints
 predicate_normalization:
   action_surface_to_normalized:
-    # To be filled
+    "ký hợp đồng": "ky_hop_dong"
+    "chấm dứt hợp đồng": "cham_dut_hop_dong"
+    "tham gia bảo hiểm": "tham_gia_bao_hiem"
+    "đóng bảo hiểm": "dong_bao_hiem"
+    "thông báo lao động": "thong_bao_lao_dong"
+    "gửi hồ sơ": "gui_ho_so"
+    "nộp bảo hiểm": "nop_bao_hiem"
+    "cấp bảo hiểm": "cap_bao_hiem"
+    "thực hiện nghĩa vụ": "thuc_hien_nghia_vu"
+    "chịu trách nhiệm lao động": "chiu_trach_nhiem_lao_dong"
+    "được hưởng bảo hiểm": "duoc_huong_bao_hiem"
+    "bị phạt lao động": "bi_phat_lao_dong"
+    "được miễn bảo hiểm": "duoc_mien_bao_hiem"
+    "được giảm bảo hiểm": "duoc_giam_bao_hiem"
 
-output:
-  namespace: "labor"
-  excel_autosize: false
+  semantic_family_mapping:
+    "khung_nghia_vu": "obligation"
+    "khung_quyen": "permission"
+    "khung_cam": "prohibition"
+    "khung_thoi_han": "deadline"
+    "khung_nguong_dinh_luong": "threshold"
+    "khung_ngoai_le": "exception"
+    "khung_dieu_kien": "applicability_condition"
+    "khung_hanh_dong_co_quan": "authority_action"
+    "khung_ket_qua_phap_ly": "legal_effect"
+    "khung_ho_so": "dossier"
+    "khung_thu_tuc": "procedure_step"
+    "khung_quy_trinh": "procedure_step"
+
+  entity_type_mapping:
+    "nguoi_su_dung_lao_dong": "enterprise"
+    "nguoi_lao_dong": "worker"
+    "cong_doan": "union"
+    "doanh_nghiep": "enterprise"
+    "to_chuc": "organization"
+    "ca_nhan": "individual"
+    "nguoi_tham_gia_bao_hiem": "insured_person"
+    "nguoi_dong_bao_hiem": "insurer"
+    "co_so_kinh_doanh": "business_entity"
+    "co_quan_bao_hiem_xa_hoi": "social_insurance_agency"
+    "co_quan_lao_dong": "labor_agency"
+    "co_quan_nha_nuoc_co_tham_quyen": "authority"
+    "so_lao_dong": "labor_department"
+    "uy_ban_nhan_dan": "people_committee"
+    "tong_cuc_thue": "tax_authority"
+    "cuc_thue": "tax_department"
+    "co_quan_quan_ly_lao_dong": "labor_management_agency"
+    "co_quan_bao_hiem_xa_hoi_cap_tinh": "provincial_social_insurance_agency"
+
+  weak_signal_filters:
+    - "theo quy định của pháp luật"
+    - "theo hướng dẫn của bộ lao động"
+    - "theo thông tư của tổng cục thuế"
+    - "trừ trường hợp quy định tại"
+    - "trừ trường hợp đặc biệt"
+
+  blacklist_phrases:
+    - "được quy định tại điều"
+    - "theo quy định tại khoản"
+    - "như sau:"
+    - "bao gồm:"
+    - "như sau"

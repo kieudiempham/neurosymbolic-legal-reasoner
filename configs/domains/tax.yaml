@@ -1,42 +1,221 @@
-"""Domain configuration for tax law parsing (Phase 2 placeholder).
+# Domain configuration for tax law parsing (Phase 2 implementation).
 
-To be implemented in Phase 2 when tax law corpus is added.
-Structure mirrors enterprise.yaml for consistency.
-"""
+# Mirrors enterprise.yaml structure for consistency.
+# Tax-specific patterns for management, declaration, payment, invoices, dossiers, deadlines.
 
-# Placeholder structure - to be filled in Phase 2
+# Document metadata mapping
 doc_metadata:
-  defaults:
-    domain_scope: "tax"
-    doc_type: "regulation"
-    priority: "medium"
+  filename_patterns:
+    - pattern: "luat_quan_ly_thue|01_luat"
+      doc_type: "law"
+      domain_scope: "quan_ly_thue"
+      domain_subscope: "nghia_vu_quan_ly_thue"
+      priority: "rat_cao"
+    - pattern: "nghi_dinh.*thue|02_nghi_dinh|03_nghi_dinh"
+      doc_type: "decree"
+      domain_scope: "quan_ly_thue"
+      domain_subscope: "thu_tuc_khai_nop_thue"
+      priority: "rat_cao"
+    - pattern: "luat_thue_GTGT|04_luat"
+      doc_type: "law"
+      domain_scope: "thue_gia_tri_gia_tang"
+      domain_subscope: "nghia_vu_thue_GTGT"
+      priority: "cao"
+    - pattern: "nghi_dinh.*181|05_nghi_dinh"
+      doc_type: "decree"
+      domain_scope: "thue_gia_tri_gia_tang"
+      domain_subscope: "hoa_don_chung_tu"
+      priority: "cao"
+    - pattern: "luat_TNDN|06_luat"
+      doc_type: "law"
+      domain_scope: "thue_thu_nhap_doanh_nghiep"
+      domain_subscope: "nghia_vu_thue_TNDN"
+      priority: "cao"
+    - pattern: "nghi_dinh.*320|07_nghi_dinh"
+      doc_type: "decree"
+      domain_scope: "thue_thu_nhap_doanh_nghiep"
+      domain_subscope: "thu_tuc_khai_nop_TNDN"
+      priority: "cao"
 
+  hardcoded_files:
+    "01_luat_quan_ly_thue_108_2025_QH15.doc":
+      doc_id: "DOC_LUAT_QUAN_LY_THUE_108_2025"
+      doc_title: "Luật Quản lý thuế"
+      doc_code: "108/2025/QH15"
+      doc_type: "law"
+      issuing_body: "Quốc hội"
+      domain_scope: "quan_ly_thue"
+      domain_subscope: "nghia_vu_quan_ly_thue"
+      
+    "02_nghi_dinh_126_2020_ND-CP.doc":
+      doc_id: "DOC_ND_126_2020"
+      doc_title: "Nghị định về hóa đơn, chứng từ"
+      doc_code: "126/2020/NĐ-CP"
+      doc_type: "decree"
+      issuing_body: "Chính phủ"
+      domain_scope: "quan_ly_thue"
+      domain_subscope: "hoa_don_chung_tu"
+      
+    "03_nghi_dinh_123_2020_ND-CP.doc":
+      doc_id: "DOC_ND_123_2020"
+      doc_title: "Nghị định về hóa đơn điện tử"
+      doc_code: "123/2020/NĐ-CP"
+      doc_type: "decree"
+      issuing_body: "Chính phủ"
+      domain_scope: "quan_ly_thue"
+      domain_subscope: "hoa_don_dien_tu"
+      
+    "04_luat_thue_GTGT_48_2024_QH15.doc":
+      doc_id: "DOC_LUAT_THUE_GTGT_48_2024"
+      doc_title: "Luật Thuế giá trị gia tăng"
+      doc_code: "48/2024/QH15"
+      doc_type: "law"
+      issuing_body: "Quốc hội"
+      domain_scope: "thue_gia_tri_gia_tang"
+      domain_subscope: "nghia_vu_thue_GTGT"
+      
+    "05_nghi_dinh_181_2025_ND-CP.doc":
+      doc_id: "DOC_ND_181_2025"
+      doc_title: "Nghị định về thuế GTGT"
+      doc_code: "181/2025/NĐ-CP"
+      doc_type: "decree"
+      issuing_body: "Chính phủ"
+      domain_scope: "thue_gia_tri_gia_tang"
+      domain_subscope: "thu_tuc_thue_GTGT"
+      
+    "06_luat_TNDN_67_2025_QH15.doc":
+      doc_id: "DOC_LUAT_TNDN_67_2025"
+      doc_title: "Luật Thuế thu nhập doanh nghiệp"
+      doc_code: "67/2025/QH15"
+      doc_type: "law"
+      issuing_body: "Quốc hội"
+      domain_scope: "thue_thu_nhap_doanh_nghiep"
+      domain_subscope: "nghia_vu_thue_TNDN"
+      
+    "07_nghi_dinh_320_2025_ND-CP.doc":
+      doc_id: "DOC_ND_320_2025"
+      doc_title: "Nghị định về thuế TNDN"
+      doc_code: "320/2025/NĐ-CP"
+      doc_type: "decree"
+      issuing_body: "Chính phủ"
+      domain_scope: "thue_thu_nhap_doanh_nghiep"
+      domain_subscope: "thu_tuc_thue_TNDN"
+
+  defaults:
+    when_unknown:
+      domain_scope: "quan_ly_thue"
+      doc_type: "unknown"
+      priority: "trung_binh"
+
+# Normative sentence detection: subject & authority keywords
 normative_detection:
   subject_keywords:
-    # To be filled: tax entities
-    - "co_quan_thue"
-    - "nha_kinh_doanh"
+    - "người\\s+nộp\\s+thuế"
+    - "doanh\\s+nghiệp"
+    - "tổ\\s+chức"
+    - "cá\\s+nhân"
+    - "cơ\\s+sở\\s+kinh\\s+doanh"
+    - "nha\\s+kinh\\s+doanh"
+    - "người\\s+bán\\s+hàng"
+    - "người\\s+mua\\s+hàng"
+    - "cơ\\s+quan\\s+thuế"
+    - "tổng\\s+cục\\s+thuế"
+    - "cục\\s+thuế"
+    - "chi\\s+cục\\s+thuế"
 
   authority_keywords:
-    # To be filled: tax authorities
-    - "tong_cuc_thue"
+    - "cơ\\s+quan\\s+thuế"
+    - "tổng\\s+cục\\s+thuế"
+    - "cục\\s+thuế"
+    - "chi\\s+cục\\s+thuế"
+    - "cơ\\s+quan\\s+nhà\\s+nước\\s+có\\s+thẩm\\s+quyền"
 
   action_verbs:
-    # To be filled: tax-specific verbs
-    - "nop_thue"
-    - "khai_thue"
+    - "khai\\s+thuế"
+    - "nộp\\s+thuế"
+    - "kê\\s+khai"
+    - "đăng\\s+ký\\s+thuế"
+    - "thông\\s+báo"
+    - "gửi"
+    - "nộp"
+    - "cấp"
+    - "xem\\s*xét"
+    - "từ\\s*chối"
+    - "cập\\s*nhật"
+    - "thực\\s*hiện"
+    - "tiếp\\s*nhận"
+    - "chịu\\s*trách\\s*nhiệm"
+    - "phải"
+    - "không\\s+được"
+    - "được\\s+phép"
+    - "có\\s+quyền"
+    - "bị\\s+cấm"
 
+# Legal frame extraction: tax patterns
 legal_frame_extraction:
   enterprise_entity_patterns:
-    # To be filled
+    - "người nộp thuế"
+    - "doanh nghiệp"
+    - "tổ chức"
+    - "cá nhân"
+    - "cơ sở kinh doanh"
+    - "nhà kinh doanh"
+    - "người bán hàng"
+    - "người mua hàng"
+    - "cơ quan thuế"
+    - "tổng cục thuế"
+    - "cục thuế"
+    - "chi cục thuế"
 
   authority_patterns:
-    # To be filled
+    - "cơ quan thuế"
+    - "tổng cục thuế"
+    - "cục thuế"
+    - "chi cục thuế"
+    - "cơ quan nhà nước có thẩm quyền"
 
+  frame_type_mapping:
+    "thoi_han": "khung_thoi_han"
+    "thanh_phan_ho_so": "khung_ho_so"
+    "hanh_dong_co_quan": "khung_hanh_dong_co_quan"
+    "ngoai_le": "khung_ngoai_le"
+    "nguong_so_luong": "khung_nguong_dinh_luong"
+    "ket_qua_phap_ly": "khung_ket_qua_phap_ly"
+    "nghia_vu": "khung_nghia_vu"
+    "quyen": "khung_quyen"
+    "cam": "khung_cam"
+
+# Predicate normalization hints
 predicate_normalization:
   action_surface_to_normalized:
-    # To be filled
+    "khai thuế": "khai_thue"
+    "nộp thuế": "nop_thue"
+    "kê khai thuế": "ke_khai_thue"
+    "đăng ký thuế": "dang_ky_thue"
+    "thông báo thuế": "thong_bao_thue"
+    "gửi tờ khai": "gui_to_khai"
+    "nộp tờ khai": "nop_to_khai"
+    "cấp hóa đơn": "cap_hoa_don"
+    "xuất hóa đơn": "xuat_hoa_don"
+    "nhận hóa đơn": "nhan_hoa_don"
+    "lưu trữ hóa đơn": "luu_tru_hoa_don"
+    "thực hiện nghĩa vụ thuế": "thuc_hien_nghia_vu_thue"
+    "chịu trách nhiệm thuế": "chiu_trach_nhiem_thue"
+    "được khấu trừ thuế": "duoc_khau_tru_thue"
+    "bị phạt thuế": "bi_phat_thue"
+    "được miễn thuế": "duoc_mien_thue"
+    "được giảm thuế": "duoc_giam_thue"
 
-output:
-  namespace: "tax"
-  excel_autosize: false
+  weak_signal_filters:
+    - "theo quy định của pháp luật"
+    - "theo hướng dẫn của bộ tài chính"
+    - "theo thông tư của tổng cục thuế"
+    - "trừ trường hợp quy định tại"
+    - "trừ trường hợp đặc biệt"
+
+  blacklist_phrases:
+    - "được quy định tại điều"
+    - "theo quy định tại khoản"
+    - "như sau:"
+    - "bao gồm:"
+    - "như sau"
