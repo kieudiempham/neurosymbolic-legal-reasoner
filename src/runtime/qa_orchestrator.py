@@ -361,6 +361,7 @@ def run_ask(
     answer_reject_allow_fallback: bool = False,
     trace_collector: TraceCollector | None = None,
     question_time: str | None = None,
+    domain_hint: str | None = None,
 ) -> AskResponse:
     svc = session_svc or get_session_service()
     engine = nesy or NeSyEngine(nesy_nli_mock=True)
@@ -444,8 +445,11 @@ def run_ask(
         )
 
     selector = domain_selector or SimpleDomainSelector()
+    routing_dict = {"layer1": layer1, "layer2": layer2, "question": question}
+    if domain_hint:
+        routing_dict["user_domain_hint"] = domain_hint
     routing = selector.select(
-        {"layer1": layer1, "layer2": layer2, "question": question},
+        routing_dict,
         registry=rulebase_registry,
     )
     if not isinstance(routing, DomainRoutingPlan):

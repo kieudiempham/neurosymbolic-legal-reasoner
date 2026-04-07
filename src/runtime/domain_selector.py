@@ -51,12 +51,28 @@ class SimpleDomainSelector:
         layer1: Layer1Parse | None = None
         layer2: Layer2Parse | None = None
         q = ""
+        user_domain_hint: str | None = None
         if isinstance(parse_result, dict):
             layer1 = parse_result.get("layer1")
             layer2 = parse_result.get("layer2")
             q = str(parse_result.get("question") or parse_result.get("question_text") or "")
+            user_domain_hint = parse_result.get("user_domain_hint")
         else:
             layer1 = parse_result  # type: ignore[assignment]
+        
+        # Honor user domain hint if provided
+        valid_domains = {"enterprise", "tax", "labor"}
+        if user_domain_hint and user_domain_hint in valid_domains:
+            return DomainRoutingPlan(
+                primary_domains=[user_domain_hint],
+                secondary_domains=[],
+                include_shared=True,
+                allow_cross_domain_expansion=False,
+                shared_only=False,
+                routing_confidence=1.0,
+                routing_reasons=["user_domain_selection"],
+                triggered_bridges=[],
+            )
 
         if layer1 and hasattr(layer1, "subject_text"):
             q = f"{q} {layer1.subject_text or ''} {layer1.action_text or ''} {layer1.modality_text or ''}"

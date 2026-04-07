@@ -10,14 +10,18 @@ from schemas.rule import RuleRecord, RuleHead
 from schemas.rule_metadata import NormalizedRuleMeta
 
 
-# Load shared rules from file
-SHARED_RULES_FILE = Path(__file__).parent.parent.parent / "data" / "processed" / "shared_rule_pack.jsonl"
+# Load shared rules from file (v2.5 — semantic motifs with labor support)
+SHARED_RULES_FILE = Path(__file__).parent.parent.parent / "data" / "processed" / "shared_rule_pack_v2_5_refined.jsonl"
+# Fallback to v2 if v2.5 doesn't exist
+SHARED_RULES_FILE_V2 = Path(__file__).parent.parent.parent / "data" / "processed" / "shared_rule_pack_v2_semantic_motifs.jsonl"
 
 def _load_shared_rules() -> list[RuleRecord]:
-    """Load shared rules from JSONL file."""
+    """Load shared rules from JSONL file (v2.5 with labor support, falls back to v2)."""
     rules = []
-    if SHARED_RULES_FILE.exists():
-        with open(SHARED_RULES_FILE, 'r', encoding='utf-8') as f:
+    target_file = SHARED_RULES_FILE if SHARED_RULES_FILE.exists() else SHARED_RULES_FILE_V2
+    
+    if target_file.exists():
+        with open(target_file, 'r', encoding='utf-8') as f:
             for line in f:
                 if line.strip():
                     data = json.loads(line)
@@ -31,9 +35,11 @@ def _load_shared_rules() -> list[RuleRecord]:
                         ),
                         body=data.get('canonical_body', []),
                         metadata={
-                            "rulebase_id": "shared_pack_v1",
+                            "rulebase_id": "shared_motif_layer_v2_5",
                             "layer": "shared",
                             "domain": "shared",
+                            "motif": data.get('motif', ''),
+                            "source_domains": data.get('source_domains', []),
                             **data
                         }
                     )

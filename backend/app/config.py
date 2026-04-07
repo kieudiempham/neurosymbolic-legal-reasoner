@@ -111,16 +111,19 @@ class Settings(BaseSettings):
 
     def resolved_rulebase_enterprise(self) -> Path:
         p = self.rulebase_enterprise_path
-        return p if p is not None else self.resolved_rulebase_core()
+        return p if p is not None else self.repo_root / "data" / "processed" / "rulebase" / "enterprise" / "runtime" / "rulebase_reasoning_core.json"
 
-    def resolved_rulebase_labor(self) -> Path | None:
-        return self.rulebase_labor_path
+    def resolved_rulebase_labor(self) -> Path:
+        p = self.rulebase_labor_path
+        return p if p is not None else self.repo_root / "data" / "processed" / "rulebase" / "labor" / "runtime" / "rulebase_reasoning_core.json"
 
-    def resolved_rulebase_tax(self) -> Path | None:
-        return self.rulebase_tax_path
+    def resolved_rulebase_tax(self) -> Path:
+        p = self.rulebase_tax_path
+        return p if p is not None else self.repo_root / "data" / "processed" / "rulebase" / "tax" / "runtime" / "rulebase_reasoning_core.json"
 
-    def resolved_rulebase_shared(self) -> Path | None:
-        return self.rulebase_shared_path
+    def resolved_rulebase_shared(self) -> Path:
+        p = self.rulebase_shared_path
+        return p if p is not None else self.repo_root / "data" / "processed" / "shared_rule_pack_v2_5_refined.jsonl"
 
     def resolved_rulebase_mapping(self) -> Path:
         p = self.rulebase_mapping_path
