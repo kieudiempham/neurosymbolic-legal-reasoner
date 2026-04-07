@@ -102,15 +102,15 @@ class NormativeSentenceDetector:
             re.compile(r"^\s*(Người đại diện theo pháp luật[^,.;]{0,80})\b", re.I | re.U),
         ]
         self._authority_subject_re = re.compile(
-            r"\b(cơ\s+quan\s+đăng\s+ký\s+kinh\s+doanh|phòng\s+đăng\s+ký\s+kinh\s+doanh|cơ\s+quan\s+nhà\s+nước\s+có\s+thẩm\s+quyền)\b",
+            r"\b(cơ\s+quan\s+đăng\s+ký\s+kinh\s+doanh|phòng\s+đăng\s+ký\s+kinh\s+doanh|cơ\s+quan\s+nhà\s+nước\s+có\s+thẩm\s+quyền|BHXH|bảo\s+hiểm\s+xã\s+hội|cơ\s+quan\s+bảo\s+hiểm\s+xã\s+hội|sở\s+lao\s+động\s+thương\s+binh\s+và\s+xã\s+hội|chủ\s+tịch\s+ubnd\s+cấp\s+tỉnh|ngân\s+hàng\s+nhận\s+ký\s+quỹ)\b",
             re.I | re.U,
         )
         self._authority_subject_head_re = re.compile(
-            r"^\s*(cơ\s+quan\s+đăng\s+ký\s+kinh\s+doanh(?:\s+cấp\s+tỉnh)?|phòng\s+đăng\s+ký\s+kinh\s+doanh|cơ\s+quan\s+nhà\s+nước\s+có\s+thẩm\s+quyền)\b",
+            r"^\s*(cơ\s+quan\s+đăng\s+ký\s+kinh\s+doanh(?:\s+cấp\s+tỉnh)?|phòng\s+đăng\s+ký\s+kinh\s+doanh|cơ\s+quan\s+nhà\s+nước\s+có\s+thẩm\s+quyền|BHXH|bảo\s+hiểm\s+xã\s+hội|cơ\s+quan\s+bảo\s+hiểm\s+xã\s+hội|sở\s+lao\s+động\s+thương\s+binh\s+và\s+xã\s+hội|chủ\s+tịch\s+ubnd\s+cấp\s+tỉnh|ngân\s+hàng\s+nhận\s+ký\s+quỹ)\b",
             re.I | re.U,
         )
         self._authority_action_re = re.compile(
-            r"\b(xem\s+xét|thông\s+báo|cập\s+nhật|từ\s+chối|tiếp\s+nhận|ra\s+thông\s+báo|công\s+bố|cấp\s+(giấy|đăng\s*ký|lại|đổi))\b",
+            r"\b(xem\s+xét|thông\s+báo|cập\s+nhật|từ\s+chối|tiếp\s+nhận|ra\s+thông\s+báo|công\s+bố|cấp\s+(giấy|đăng\s*ký|lại|đổi|sổ\s+BHXH)|trả\s+BHXH|giải\s+quyết\s+chế\s+độ|chuyển\s+BHXH|thu\s+BHXH|hướng\s+dẫn\s+BHXH|cấp|gia\s+hạn|thu\s+hồi|xác\s+nhận|trình|kiểm\s+tra|chi\s+trả|trích)\b",
             re.I | re.U,
         )
         self._lead_in_only_re = re.compile(
@@ -135,7 +135,8 @@ class NormativeSentenceDetector:
         )
 
         # Semantic stage-2 extras: broaden recall for missing types.
-        self._exception_re = re.compile(r"\b(trừ\s+trường\s+hợp|ngoại\s+trừ|trừ\s+khi|nếu\s+không)\b", re.I | re.U)
+        # BROADENED for labor: add labor-specific exception patterns
+        self._exception_re = re.compile(r"\b(trừ\s+trường\s+hợp|ngoại\s+trừ|trừ\s+khi|nếu\s+không|trừ\b|không\s+áp\s+dụng\s+cho|ngoại\s+lệ)\b", re.I | re.U)
         self._threshold_re = re.compile(
             r"\b(không\s+quá|ít\s+nhất|trở\s+lên|từ\s+\d{1,4}|\d{1,3}\s*%|tỷ\s+lệ|phần\s+trăm|từ\s+[^.;]{0,10}\s+đến\s+[^.;]{0,10})\b",
             re.I | re.U,
@@ -532,7 +533,8 @@ class NormativeSentenceDetector:
 
     def _extract_exception_text(self, cand_text: str) -> str | None:
         t = _norm_space(cand_text)
-        m = re.search(r"(trừ\s+trường\s+hợp[^.;]{0,200}|ngoại\s+trừ[^.;]{0,200}|nếu\s+không[^.;]{0,200})", t, flags=re.I | re.U)
+        # IMPROVED: Better labor exception patterns, avoid deadline/threshold confusion
+        m = re.search(r"(trừ\s+trường\s+hợp[^.;]{0,200}|trừ\s+khi[^.;]{0,200}|không\s+thuộc\s+trường\s+hợp[^.;]{0,200}|ngoại\s+trừ[^.;]{0,200}|nếu\s+không[^.;]{0,200})", t, flags=re.I | re.U)
         return m.group(1).strip() if m else None
 
     def _extract_threshold_text(self, cand_text: str) -> str | None:
@@ -634,6 +636,13 @@ class NormativeSentenceDetector:
                 if cand:
                     segs.append((cand, "split=points"))
             return segs[: self._max_candidates_per_unit]
+
+        # 1b) PRIORITY: If unit has strong exception/procedure cues, emit those FIRST before obligation-heavy candidates.
+        # This recovers missing semantic families that get buried in deontic-heavy windows.
+        focused_exc = self._focused_exception_candidates(text)
+        if focused_exc and len(focused_exc) >= 2:
+            # Unit has multiple exception phrases → this is likely exception-focused, return them prioritized.
+            return focused_exc[: self._max_candidates_per_unit]
 
         # 2) Otherwise: trigger-driven windows (broadened for recall).
         triggers = (
@@ -751,9 +760,13 @@ class NormativeSentenceDetector:
         has_subject = self._has_subject(text)
         has_action = self._has_action(text)
 
-        if (has_deontic or has_authority) and not has_subject:
+        # Exception: allow exception-only candidates even without full subject/action structure.
+        # Exception phrases like "trừ trường hợp ..." are valid rules even if they lack subject/action detail.
+        has_clear_exception = bool(self._exception_re.search(text)) and len(_norm_space(text)) >= 40
+        
+        if (has_deontic or has_authority) and not has_subject and not has_clear_exception:
             return False
-        if has_deontic and not has_action:
+        if has_deontic and not has_action and not has_clear_exception:
             return False
         # Document requirement sentences can be action-poor; allow if document cue exists.
         if not (has_document or has_authority or has_deontic or has_condition or has_threshold or has_effect or has_procedure) and not has_action:
@@ -1201,6 +1214,13 @@ class NormativeSentenceDetector:
 
     def _has_authority_as_subject(self, text: str) -> bool:
         t = _norm_space(text)
+        # Relaxed check: if authority subject appears in text AND authority action verb appears anywhere,
+        # count as authority_action (don't require strict 70-char co-location).
+        has_authority_subject = bool(self._authority_subject_re.search(t)) or bool(self._authority_subject_head_re.search(t))
+        has_authority_action = bool(self._authority_action_re.search(t))
+        if has_authority_subject and has_authority_action:
+            return True
+        # Fallback to original strict pattern (head + action close together).
         if self._authority_subject_head_re.search(t):
             return True
         return bool(

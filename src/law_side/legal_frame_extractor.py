@@ -68,6 +68,7 @@ _CANDIDATE_TYPE_INTERNAL_RESCUE: dict[str, str] = {
     "thu_tuc": "procedure_rule",
     "thoi_han": "duty_rule",
     "thanh_phan_ho_so": "document_rule",
+    "quyen": "permission_rule",  # FIXED: rescue permission candidates as permission_rule
 }
 
 
@@ -527,7 +528,12 @@ class LegalFrameExtractor:
                 continue
 
             frame_type_out = self._to_vi_frame_type(frame_type)
-            if ct in _CANDIDATE_TYPE_TO_VI_FRAME:
+            # Only use candidate_type override if it makes sense for the content
+            # Don't let exception text in deadline sentences force khung_ngoai_le
+            if ct in _CANDIDATE_TYPE_TO_VI_FRAME and not (
+                ct == "ngoai_le" and frame_type == "duty_rule" and
+                ("trừ trường hợp" in (exception_text or "") or "trừ khi" in (exception_text or ""))
+            ):
                 frame_type_out = _CANDIDATE_TYPE_TO_VI_FRAME[ct]
             modality_out = self._to_vi_modality(modality)
             if frame_type_out == "khung_cam_doan":
@@ -624,6 +630,8 @@ class LegalFrameExtractor:
                 and len(exception_text) >= 14
                 and ct != "ngoai_le"
                 and frame_type_out != "khung_ngoai_le"
+                and ("trừ trường hợp" in exception_text.lower() or "trừ khi" in exception_text.lower() or "không thuộc trường hợp" in exception_text.lower())
+                and not any(word in exception_text.lower() for word in ["quá", "ít nhất", "trở lên", "từ", "đến", "tháng", "ngày", "năm"])
             ):
                 ex_id = self._make_frame_id(
                     unit_ref_full=getattr(ns, "unit_ref_full", "") or "",
@@ -741,11 +749,9 @@ class LegalFrameExtractor:
             return "condition_rule"
         if t == "status_rule":
             return "status_rule"
+        # FIXED: permission should map to permission_rule (not procedure_rule/drop)
         if t == "permission":
-            # Keep procedure only for explicit actionable permission.
-            if re.search(r"\b(có\s+quyền|có\s+thể|được\s+phép)\b", sentence_text, flags=re.I | re.U):
-                return "procedure_rule"
-            return "drop"
+            return "permission_rule"
         if t == "notification":
             return "duty_rule"
         if t == "prohibition":
@@ -754,9 +760,8 @@ class LegalFrameExtractor:
         # Fallback to cues.
         mod = classify_modality(sentence_text)
         if mod == "permission":
-            if re.search(r"\b(có\s+quyền|có\s+thể|được\s+phép)\b", sentence_text, flags=re.I | re.U):
-                return "procedure_rule"
-            return "drop"
+            # FIXED: map to permission_rule, not procedure_rule
+            return "permission_rule"
         if any(rx.search(sentence_text) for rx in self._authority_triggers):
             return "authority_action"
         if any(rx.search(sentence_text) for rx in self._dossier_triggers):
@@ -1206,6 +1211,7 @@ class LegalFrameExtractor:
             "procedure_rule": "khung_thu_tuc",
             "condition_rule": "khung_dieu_kien",
             "status_rule": "khung_quyen",
+            "permission_rule": "khung_quyen",  # ADDED: permission frames map to khung_quyen
         }
         return mapping.get(frame_type, frame_type)
 

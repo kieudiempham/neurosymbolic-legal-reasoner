@@ -99,6 +99,42 @@ normative_detection:
     - "cục\\s+thuế"
     - "cơ\\s+quan\\s+quản\\s+lý\\s+lao\\s+động"
     - "cơ\\s+quan\\s+bảo\\s+hiểm\\s+xã\\s+hội\\s+cấp\\s+tỉnh"
+    - "chủ\\s+tịch\\s+ủy\\s+ban\\s+nhân\\s+dân\\s+cấp\\s+tỉnh"
+    - "bộ\\s+lao\\s+động"
+    - "bộ\\s+trưởng\\s+bộ\\s+lao\\s+động"
+
+  exception_patterns:
+    - "trừ\\s+trường\\s+hợp"
+    - "ngoại\\s+lệ"
+    - "không\\s+áp\\s+dụng\\s+đối\\s+với"
+    - "trường\\s+hợp\\s+đặc\\s+biệt"
+    - "trừ\\s+khi"
+    - "ngoại\\s+trừ"
+
+  deontic_cues:
+    obligation:
+      - "phải"
+      - "có\\s+nghĩa\\s+vụ"
+      - "chịu\\s+trách\\s+nhiệm"
+      - "được\\s+quy\\s+định\\s+rằng"
+    permission:
+      - "được\\s+phép"
+      - "có\\s+quyền"
+      - "được\\s+quyền"
+      - "có\\s+thể"
+    prohibition:
+      - "không\\s+được"
+      - "bị\\s+cấm"
+      - "cấm"
+
+  procedure_cues:
+    - "thủ\\s+tục"
+    - "quy\\s+trình"
+    - "bước"
+    - "thực\\s+hiện\\s+theo"
+    - "đăng\\s+ký"
+    - "nộp\\s+hồ\\s+sơ"
+    - "cấp\\s+giấy\\s+phép"
 
   action_verbs:
     - "ký\\s+hợp\\s+đồng"

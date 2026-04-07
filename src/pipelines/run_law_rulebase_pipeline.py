@@ -31,6 +31,12 @@ def build_parser() -> argparse.ArgumentParser:
         help="YAML config for the pipeline.",
     )
     p.add_argument(
+        "--domain",
+        type=str,
+        default=None,
+        help="Domain to process (enterprise, labor, tax).",
+    )
+    p.add_argument(
         "--input_dir",
         type=Path,
         default=None,
@@ -51,6 +57,10 @@ def main() -> None:
 
     # Load pipeline from config.
     pipeline = LawRulebasePipeline.from_yaml(args.config)
+
+    # Apply domain override
+    if args.domain is not None:
+        pipeline._config.domain = args.domain  # type: ignore[attr-defined]
 
     # Apply overrides.
     if args.input_dir is not None:
