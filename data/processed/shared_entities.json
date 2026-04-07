@@ -1,0 +1,11 @@
+{
+  "entities": [
+    "X"
+  ],
+  "description": "Shared entities extracted from shared rules",
+  "version": "1.0",
+  "source_domains": [
+    "enterprise",
+    "tax"
+  ]
+}

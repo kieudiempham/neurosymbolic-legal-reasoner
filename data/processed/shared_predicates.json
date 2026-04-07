@@ -1,0 +1,19 @@
+{
+  "predicates": [
+    "cap_giay_chung_nhan_dang_ky_doanh_nghiep",
+    "cho_nguoi",
+    "dang_ky",
+    "hoan_thanh_nghia_vu_nop_thue",
+    "khai_chinh_xac",
+    "nhan_cac_uu_dai",
+    "thanh_phan_ho_so",
+    "thong_bao",
+    "xem_xet"
+  ],
+  "description": "Shared predicates promoted from cross-domain overlap",
+  "version": "1.0",
+  "source_domains": [
+    "enterprise",
+    "tax"
+  ]
+}
