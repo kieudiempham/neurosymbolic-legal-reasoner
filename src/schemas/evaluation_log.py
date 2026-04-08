@@ -15,6 +15,10 @@ QA_EVAL_LOG_FIELDS: list[str] = [
     "parsed_layer2",
     "predicted_domains",
     "activated_domains",
+    "bridge_rules_used",
+    "cross_domain_jumps_attempted",
+    "cross_domain_jumps_success",
+    "cross_domain_jumps_blocked",
     "retrieved_topk",
     "selected_rule",
     "requirement_set",
@@ -22,6 +26,8 @@ QA_EVAL_LOG_FIELDS: list[str] = [
     "clarification_question",
     "clarification_answer",
     "proof",
+    "proof_domains",
+    "final_statute_grounding",
     "verification_reports",
     "repair_actions",
     "evidence_snippets",
@@ -41,6 +47,10 @@ class QAEvaluationLogArtifact(BaseModel):
     parsed_layer2: dict[str, Any] | None = None
     predicted_domains: list[str] | None = None
     activated_domains: list[str] | None = None
+    bridge_rules_used: list[str] | None = None
+    cross_domain_jumps_attempted: int | None = None
+    cross_domain_jumps_success: int | None = None
+    cross_domain_jumps_blocked: int | None = None
     retrieved_topk: list[dict[str, Any]] | None = None
     selected_rule: dict[str, Any] | None = None
     requirement_set: list[dict[str, Any]] | None = None
@@ -48,6 +58,8 @@ class QAEvaluationLogArtifact(BaseModel):
     clarification_question: list[dict[str, Any]] | None = None
     clarification_answer: list[dict[str, Any]] | None = None
     proof: dict[str, Any] | None = None
+    proof_domains: list[str] | None = None
+    final_statute_grounding: str | None = None
     verification_reports: list[dict[str, Any]] | None = None
     repair_actions: list[dict[str, Any]] | None = None
     evidence_snippets: list[dict[str, Any]] | None = None
@@ -126,6 +138,126 @@ def _error_stages(debug_trace: dict[str, Any] | None) -> tuple[str | None, str |
     return first, final
 
 
+def _extract_cross_domain_metrics(
+    debug_trace: dict[str, Any] | None,
+    proof_payload: dict[str, Any] | None,
+    answer_payload: dict[str, Any] | None,
+) -> dict[str, Any]:
+    activated_domains: list[str] = []
+    bridge_rules_used: list[str] = []
+    proof_domains: list[str] = []
+    cross_domain_jumps_attempted: int | None = None
+    cross_domain_jumps_success: int | None = None
+    cross_domain_jumps_blocked: int | None = None
+    final_statute_grounding: str | None = None
+
+    if isinstance(debug_trace, dict):
+        ctx = debug_trace.get("reasoning_context") or {}
+        if isinstance(ctx, dict):
+            for x in (ctx.get("primary_domains") or []):
+                sx = str(x).strip()
+                if sx and sx not in activated_domains:
+                    activated_domains.append(sx)
+            for x in (ctx.get("secondary_domains") or []):
+                sx = str(x).strip()
+                if sx and sx not in activated_domains:
+                    activated_domains.append(sx)
+
+    if isinstance(proof_payload, dict):
+        for st in (proof_payload.get("proof_steps") or []):
+            if not isinstance(st, dict):
+                continue
+            dom = str(st.get("domain") or "").strip()
+            if dom and dom not in proof_domains:
+                proof_domains.append(dom)
+            for br in (st.get("bridge_fact_ids_used") or []):
+                sbr = str(br).strip()
+                if sbr and sbr not in bridge_rules_used:
+                    bridge_rules_used.append(sbr)
+            art = str(st.get("source_article") or "").strip()
+            if art:
+                # Keep the latest step statute as final grounding fallback.
+                final_statute_grounding = art
+
+        prov = proof_payload.get("provenance") or {}
+        if isinstance(prov, dict):
+            trace = prov.get("cross_domain_trace") or {}
+            if isinstance(trace, dict):
+                ad = trace.get("activated_domains") or {}
+                if isinstance(ad, dict):
+                    active = ad.get("active_domains") or {}
+                    if isinstance(active, dict):
+                        for dom in active.keys():
+                            sdom = str(dom).strip()
+                            if sdom and sdom not in activated_domains:
+                                activated_domains.append(sdom)
+
+                transitions = trace.get("domain_transitions") or []
+                if isinstance(transitions, list):
+                    cross_domain_jumps_success = len(transitions)
+                    for t in transitions:
+                        if isinstance(t, dict):
+                            bid = str(t.get("bridge_rule_id") or "").strip()
+                            if bid and bid not in bridge_rules_used:
+                                bridge_rules_used.append(bid)
+            if not final_statute_grounding:
+                fs = str(prov.get("final_statute") or "").strip()
+                if fs:
+                    final_statute_grounding = fs
+            for bid in (prov.get("bridges_triggered") or []):
+                sbid = str(bid).strip()
+                if sbid and sbid not in bridge_rules_used:
+                    bridge_rules_used.append(sbid)
+
+    if isinstance(debug_trace, dict):
+        metrics = debug_trace.get("cross_domain_metrics") or {}
+        if isinstance(metrics, dict):
+            if metrics.get("cross_domain_jumps_success") is not None:
+                try:
+                    cross_domain_jumps_success = int(metrics.get("cross_domain_jumps_success"))
+                except (TypeError, ValueError):
+                    pass
+            if metrics.get("cross_domain_jumps_attempted") is not None:
+                try:
+                    cross_domain_jumps_attempted = int(metrics.get("cross_domain_jumps_attempted"))
+                except (TypeError, ValueError):
+                    pass
+            if metrics.get("cross_domain_jumps_blocked") is not None:
+                try:
+                    cross_domain_jumps_blocked = int(metrics.get("cross_domain_jumps_blocked"))
+                except (TypeError, ValueError):
+                    pass
+        blocked = debug_trace.get("cross_domain_jumps_blocked")
+        if isinstance(blocked, list) and cross_domain_jumps_blocked is None:
+            cross_domain_jumps_blocked = len(blocked)
+
+    if cross_domain_jumps_success is None:
+        cross_domain_jumps_success = 0
+    if cross_domain_jumps_blocked is None:
+        cross_domain_jumps_blocked = 0
+    if cross_domain_jumps_attempted is None:
+        cross_domain_jumps_attempted = cross_domain_jumps_success + cross_domain_jumps_blocked
+
+    if not final_statute_grounding and isinstance(answer_payload, dict):
+        cites = answer_payload.get("legal_citations") or []
+        if isinstance(cites, list) and cites:
+            first = cites[0] if isinstance(cites[0], dict) else {}
+            if isinstance(first, dict):
+                final_statute_grounding = (
+                    str(first.get("statute") or first.get("source_doc") or "").strip() or None
+                )
+
+    return {
+        "activated_domains": activated_domains or None,
+        "bridge_rules_used": bridge_rules_used or None,
+        "cross_domain_jumps_attempted": cross_domain_jumps_attempted,
+        "cross_domain_jumps_success": cross_domain_jumps_success,
+        "cross_domain_jumps_blocked": cross_domain_jumps_blocked,
+        "proof_domains": proof_domains or None,
+        "final_statute_grounding": final_statute_grounding,
+    }
+
+
 def build_evaluation_log_artifact(
     *,
     session_id: str,
@@ -157,11 +289,14 @@ def build_evaluation_log_artifact(
         if not predicted_domains:
             predicted_domains = None
 
-    activated_domains = None
-    if isinstance(debug_trace, dict):
-        ctx = debug_trace.get("reasoning_context") or {}
-        if isinstance(ctx, dict):
-            activated_domains = [str(x) for x in (ctx.get("primary_domains") or []) if str(x).strip()] or None
+    cross_metrics = _extract_cross_domain_metrics(debug_trace, pf, ans)
+    activated_domains = cross_metrics.get("activated_domains")
+    bridge_rules_used = cross_metrics.get("bridge_rules_used")
+    cross_domain_jumps_attempted = cross_metrics.get("cross_domain_jumps_attempted")
+    cross_domain_jumps_success = cross_metrics.get("cross_domain_jumps_success")
+    cross_domain_jumps_blocked = cross_metrics.get("cross_domain_jumps_blocked")
+    proof_domains = cross_metrics.get("proof_domains")
+    final_statute_grounding = cross_metrics.get("final_statute_grounding")
 
     retrieved_topk = list(retrieved_rules or [])[:8] or None
 
@@ -266,6 +401,10 @@ def build_evaluation_log_artifact(
         parsed_layer2=l2,
         predicted_domains=predicted_domains,
         activated_domains=activated_domains,
+        bridge_rules_used=bridge_rules_used,
+        cross_domain_jumps_attempted=cross_domain_jumps_attempted,
+        cross_domain_jumps_success=cross_domain_jumps_success,
+        cross_domain_jumps_blocked=cross_domain_jumps_blocked,
         retrieved_topk=retrieved_topk,
         selected_rule=selected_rule,
         requirement_set=requirement_set,
@@ -273,6 +412,8 @@ def build_evaluation_log_artifact(
         clarification_question=clarification_q,
         clarification_answer=clarification_a,
         proof=pf,
+        proof_domains=proof_domains,
+        final_statute_grounding=final_statute_grounding,
         verification_reports=verification_reports,
         repair_actions=repair_actions,
         evidence_snippets=evidence_snippets,
