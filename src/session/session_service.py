@@ -17,8 +17,13 @@ class SessionService:
     def store(self) -> SessionStore:
         return self._store
 
-    def create_session(self, question: str, user_facts: list[str]) -> SessionState:
-        sid = new_session_id()
+    def create_session(
+        self,
+        question: str,
+        user_facts: list[str],
+        preferred_session_id: str | None = None,
+    ) -> SessionState:
+        sid = preferred_session_id or new_session_id()
         st = SessionState(
             session_id=sid,
             original_question=question,

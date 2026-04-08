@@ -455,7 +455,11 @@ def run_ask(
         for f in user_facts:
             session.known_facts[f] = True
     else:
-        session = svc.create_session(question, user_facts)
+        session = svc.create_session(
+            question,
+            user_facts,
+            preferred_session_id=session_id,
+        )
     if not tc._noop:
         tc.session_id = session.session_id
 
@@ -1534,6 +1538,62 @@ def run_clarify(
     if not fg.ok:
         with tc.span("pipeline_exit") as spx:
             spx.output_summary = {"reason": fg.error or "forward_verification_failed"}
+
+        if selected is not None and bstate is not None:
+            partial_conclusion = f"Kết luận tạm thời theo quy tắc {selected.rule_id}: cần đối chiếu thêm điều kiện thực tế."
+            partial_proof = fg.proof_obj
+            if partial_proof:
+                partial_conclusion = partial_proof.conclusion or partial_conclusion
+            partial_ev = (evidence_retriever or get_evidence_retriever()).retrieve(
+                question=question,
+                rule=selected,
+                conclusion=partial_conclusion,
+                top_k=3,
+                proof_summary=_proof_summary_for_evidence(partial_proof),
+                goal=goal,
+                modality_text=layer1.modality_text or "",
+                layer1=layer1,
+                layer2=layer2,
+            )
+            partial_ans = generate_answer(
+                question=question,
+                conclusion=partial_conclusion,
+                proof=partial_proof,
+                evidence=partial_ev,
+                goal_achieved=False,
+                rule=selected,
+            )
+            apply_answer_backend(trace["backend_modes"], partial_ans)
+            trace["forward_gate_partial_fallback"] = {
+                "enabled": True,
+                "reason": fg.error or "forward_verification_failed",
+                "selected_rule": selected.rule_id,
+                "proof_nonempty": bool(partial_proof and partial_proof.proof_steps),
+                "answer_nonempty": bool(partial_ans.answer_text),
+            }
+            trace["clarification_gain"] = _clarification_gain_summary(
+                pre_missing=pre_missing,
+                post_missing=list(bstate.missing_facts or []),
+                pre_status=pre_status,
+                post_status="answered_partial_after_forward_failure",
+                pre_proof=pre_proof,
+                post_proof=partial_proof,
+            )
+            svc.save(session)
+            _merge_pipeline_trace_dict(trace, tc)
+            return ClarifyResponse(
+                session_id=session.session_id,
+                needs_clarification=False,
+                verification_trace=session.verification_logs,
+                layer1=layer1,
+                layer2=layer2,
+                selected_rule=_rule_dump(selected),
+                reasoning=bstate,
+                proof=partial_proof,
+                answer=partial_ans,
+                debug_trace=trace | {"warning": "partial_answer_generated_after_forward_failure"},
+            )
+
         trace["clarification_gain"] = _clarification_gain_summary(
             pre_missing=pre_missing,
             post_missing=list(bstate.missing_facts or []),
