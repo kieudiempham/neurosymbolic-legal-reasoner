@@ -210,12 +210,54 @@ def build_evaluation_log_artifact(
     else:
         final_status = "open"
 
-    backend_modes = {
-        "parser_backend": (l1 or {}).get("parse_metadata", {}).get("parser_backend") if isinstance((l1 or {}).get("parse_metadata"), dict) else None,
-        "parser_model": (l1 or {}).get("parse_metadata", {}).get("parser_model") if isinstance((l1 or {}).get("parse_metadata"), dict) else None,
-        "answer_generation_mode": (ans or {}).get("generation_mode") if isinstance(ans, dict) else None,
-        "has_nli_trace": any(bool((r or {}).get("extra", {}).get("nli_trace")) for r in (verification_reports or [])),
-    }
+    backend_modes = None
+    if isinstance(debug_trace, dict) and isinstance(debug_trace.get("backend_modes"), dict):
+        backend_modes = dict(debug_trace.get("backend_modes") or {})
+    if backend_modes is None:
+        parse_meta = (l1 or {}).get("parse_metadata") if isinstance(l1, dict) else {}
+        parse_meta = parse_meta if isinstance(parse_meta, dict) else {}
+        parse_mode = "fallback" if bool(parse_meta.get("fallback_used")) or str(parse_meta.get("parser_backend") or "") == "heuristic" else "real"
+        answer_mode_raw = str((ans or {}).get("generation_mode") or "") if isinstance(ans, dict) else ""
+        answer_mode = "real" if answer_mode_raw == "llm_grounded" else ("fallback" if answer_mode_raw else "none")
+        verifier_mode = "none"
+        if verification_reports:
+            traces = [((r or {}).get("extra") or {}).get("nli_trace") for r in verification_reports if isinstance(r, dict)]
+            statuses = [str(t.get("nli_status") or "") for t in traces if isinstance(t, dict)]
+            if any("degraded" in s for s in statuses):
+                verifier_mode = "degraded"
+            elif any("mock" in s or "skipped_by_policy" in s for s in statuses):
+                verifier_mode = "mock"
+            elif any(s == "ok" for s in statuses):
+                verifier_mode = "real"
+        retrieval_mode = "none"
+        backend_name = ""
+        if isinstance(debug_trace, dict):
+            backend_name = str(((debug_trace.get("rule_retrieval") or {}).get("backend") or "")).strip()
+        if backend_name:
+            low = backend_name.lower()
+            retrieval_mode = "fallback" if "fallback" in low else ("degraded" if "degraded" in low else ("mock" if "mock" in low else "real"))
+        backend_modes = {
+            "parse_backend": {
+                "provider": parse_meta.get("parser_backend"),
+                "model": parse_meta.get("parser_model"),
+                "mode": parse_mode,
+            },
+            "answer_backend": {
+                "provider": "llm" if answer_mode_raw == "llm_grounded" else ("template" if answer_mode_raw else None),
+                "model": answer_mode_raw or None,
+                "mode": answer_mode,
+            },
+            "verifier_backend": {
+                "provider": "nesy_engine",
+                "model": None,
+                "mode": verifier_mode,
+            },
+            "retrieval_backend": {
+                "provider": "internal",
+                "model": backend_name or None,
+                "mode": retrieval_mode,
+            },
+        }
 
     return QAEvaluationLogArtifact(
         sample_id=session_id,

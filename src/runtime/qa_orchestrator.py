@@ -45,6 +45,12 @@ from runtime.cross_domain_policy import (
 from runtime.domain_selector import SimpleDomainSelector
 from runtime.qa_runtime_bundle import QARuntimeBundle
 from runtime.phase3_pipeline import apply_phase3_post_retrieve
+from runtime.backend_modes import (
+    apply_answer_backend,
+    apply_parse_backend,
+    apply_retrieval_backend,
+    init_backend_modes,
+)
 from runtime.evidence_stage import build_evidence_bundle
 from runtime.reasoning_context import ReasoningContext
 from schemas.domain_routing import DomainRoutingPlan
@@ -409,7 +415,11 @@ def run_ask(
     if not tc._noop:
         tc.session_id = session.session_id
 
-    trace: dict[str, Any] = {"stage": [], "query_text": question}
+    trace: dict[str, Any] = {
+        "stage": [],
+        "query_text": question,
+        "backend_modes": init_backend_modes(verifier_engine=engine),
+    }
 
     with tc.span("parse_layer1") as sp_l1:
         layer1 = parse_question_layer1(question)
@@ -420,6 +430,7 @@ def run_ask(
         sp_l2.output_summary = summarize_layer2_trace(layer2)
     session.layer1 = layer1
     session.layer2 = layer2
+    apply_parse_backend(trace["backend_modes"], layer1)
     trace["stage"].append("parse_done")
 
     with tc.span("parse_repair") as sp_pr:
@@ -581,6 +592,11 @@ def run_ask(
         "backend": "advanced_domain_per_scope" if retriever_advanced is not None else "hybrid_bm25_structured",
         "top": (sp_rr.output_summary or {}).get("top", []),
     }
+    apply_retrieval_backend(
+        trace["backend_modes"],
+        backend=trace["rule_retrieval"].get("backend"),
+        retrieved_count=len(ranked),
+    )
     trace["retrieved_rules_by_domain"] = _group_retrieved_by_domain(ranked)
 
     # Phase 3: Apply temporal, conflict, and bridge filtering post-retrieval
@@ -846,6 +862,7 @@ def run_ask(
                 goal_achieved=False,
                 rule=selected,
             )
+            apply_answer_backend(trace["backend_modes"], partial_ans)
             trace["forward_gate_partial_fallback"] = {
                 "enabled": True,
                 "reason": fg.error or "forward_verification_failed",
@@ -962,6 +979,7 @@ def run_ask(
             goal_achieved=goal_ok,
             rule=selected,
         )
+        apply_answer_backend(trace["backend_modes"], ans)
         sp_ga.output_summary = summarize_answer_trace(ans)
 
     with tc.span("answer_repair") as sp_ar:
@@ -1099,6 +1117,7 @@ def run_clarify(
         "stage": ["clarify_resume"],
         "query_text": question,
         "clarification_answers": list(normalized_answers or []),
+        "backend_modes": init_backend_modes(verifier_engine=engine),
     }
 
     with tc.span("parse_repair") as sp_pr:
@@ -1117,6 +1136,7 @@ def run_clarify(
         sp_pr.decision = _v_parse_cl.final_decision
     session.layer1 = layer1
     session.layer2 = layer2
+    apply_parse_backend(trace["backend_modes"], layer1)
     trace["parse_repair"] = parse_repair_trace
     _merge_verification(session, _v_parse_cl)
     if _v_parse_cl.final_decision == "REJECT":
@@ -1233,6 +1253,11 @@ def run_clarify(
         "backend": "advanced_domain_per_scope" if retriever_advanced is not None else "hybrid_bm25_structured",
         "top": (sp_rr.output_summary or {}).get("top", []),
     }
+    apply_retrieval_backend(
+        trace["backend_modes"],
+        backend=trace["rule_retrieval"].get("backend"),
+        retrieved_count=len(ranked),
+    )
     trace["retrieved_rules_by_domain"] = _group_retrieved_by_domain(ranked)
 
     ctx = ReasoningContext(
@@ -1445,6 +1470,7 @@ def run_clarify(
             goal_achieved=goal_ok,
             rule=selected,
         )
+        apply_answer_backend(trace["backend_modes"], ans)
         sp_ga.output_summary = summarize_answer_trace(ans)
 
     with tc.span("answer_repair") as sp_ar:
