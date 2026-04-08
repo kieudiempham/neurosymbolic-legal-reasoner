@@ -46,8 +46,14 @@ class ProofStep(BaseModel):
 
 class ProofObject(BaseModel):
     proof_id: str
+    selected_rule: str | None = None
     used_facts: list[str] = Field(default_factory=list)
     used_rules: list[str] = Field(default_factory=list)
+    conclusion: str = ""
     derived_conclusion: str = ""
+    satisfied_premises: list[str] = Field(default_factory=list)
+    missing_premises: list[str] = Field(default_factory=list)
+    exception_status: str | None = None
+    fail_stage: str | None = None
     proof_steps: list[ProofStep] = Field(default_factory=list)
     provenance: dict[str, Any] = Field(default_factory=dict)

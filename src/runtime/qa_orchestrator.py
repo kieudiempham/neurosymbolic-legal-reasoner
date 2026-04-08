@@ -12,7 +12,6 @@ from generation.answer_generator import (
     generate_answer,
     safe_regenerate_final_answer,
 )
-from reasoning.proof_builder import build_proof
 from reasoning.clarification_manager import (
     build_clarification_prompts_from_requirements,
     build_parse_ambiguity_prompts,
@@ -101,7 +100,10 @@ def _user_fact_keys(session: SessionState) -> list[str]:
 def _proof_summary_for_evidence(proof: Any) -> str:
     if not proof:
         return ""
-    return " ".join((s.description or "") for s in (getattr(proof, "proof_steps", None) or [])[:8])
+    summary = " ".join((s.description or "") for s in (getattr(proof, "proof_steps", None) or [])[:8]).strip()
+    if summary:
+        return summary
+    return str(getattr(proof, "conclusion", "") or getattr(proof, "derived_conclusion", ""))
 
 
 def _group_retrieved_by_domain(
@@ -764,6 +766,7 @@ def run_ask(
             session=session,
             known_facts=known_facts_for_reasoning(session),
             backward_plan_dict=bstate.backward_plan,
+            backward_state=bstate,
             max_forward_repair=max_repair_attempts_forward,
             reasoning_context=ctx,
             cross_domain_policy=policy,
@@ -785,15 +788,9 @@ def run_ask(
 
         if selected is not None and bstate is not None and not rg.clarification_needed:
             partial_conclusion = f"Kết luận tạm thời theo quy tắc {selected.rule_id}: cần đối chiếu thêm điều kiện thực tế."
-            partial_proof = build_proof(
-                rule=selected,
-                used_facts=list(bstate.covered_requirements or []),
-                conclusion=partial_conclusion,
-                forward_result=bstate.forward_result,
-                reasoning_context=ctx,
-                candidate_rules={r.rule_id: r for r, _, _ in ranked},
-                phase3_context=p3_result.proof_phase3_context,
-            )
+            partial_proof = fg.proof_obj
+            if partial_proof:
+                partial_conclusion = partial_proof.conclusion or partial_conclusion
             partial_ev = (evidence_retriever or get_evidence_retriever()).retrieve(
                 question=question,
                 rule=selected,
@@ -817,7 +814,7 @@ def run_ask(
                 "enabled": True,
                 "reason": fg.error or "forward_verification_failed",
                 "selected_rule": selected.rule_id,
-                "proof_nonempty": bool(partial_proof.proof_steps),
+                "proof_nonempty": bool(partial_proof and partial_proof.proof_steps),
                 "answer_nonempty": bool(partial_ans.answer_text),
             }
             reasoning_result_partial = _finalize_reasoning_result_dict(
@@ -1280,6 +1277,7 @@ def run_clarify(
             session=session,
             known_facts=known_facts_for_reasoning(session),
             backward_plan_dict=bstate.backward_plan,
+            backward_state=bstate,
             max_forward_repair=max_repair_attempts_forward,
             reasoning_context=ctx,
             cross_domain_policy=policy,

@@ -21,21 +21,50 @@ def _state_from_forward(
     reqs: list[RequirementItem],
     fwd: ForwardPathResult,
     trace: list[str],
+    base_requirement_artifact: dict[str, Any] | None = None,
 ) -> ReasoningState:
     derived = [f"derived:{fwd.conclusion}"] if fwd.conclusion else []
+    missing_keys: list[str] = []
+    if not fwd.goal_reached:
+        detail = fwd.failure_detail
+        if isinstance(detail, list):
+            missing_keys = [str(x) for x in detail if str(x).strip()]
+        elif detail is not None and str(detail).strip():
+            missing_keys = [str(detail)]
     artifact = build_requirement_set_artifact(
         selected_rule=rule,
         goal_predicate=str(fwd.goal_atom[0] if fwd.goal_atom else rule.head.predicate),
         requirement_items=reqs,
-        missing_keys=[],
+        missing_keys=missing_keys,
     )
+    if base_requirement_artifact:
+        merged_missing = list(base_requirement_artifact.get("unmet_required") or [])
+        merged_optional = list(base_requirement_artifact.get("unmet_optional") or [])
+        for key in artifact.unmet_required:
+            if key not in merged_missing:
+                merged_missing.append(key)
+        for key in artifact.unmet_optional:
+            if key not in merged_optional:
+                merged_optional.append(key)
+        merged_satisfied = [
+            k for k in list(base_requirement_artifact.get("satisfied") or []) if k not in set(merged_missing + merged_optional)
+        ]
+        artifact = artifact.model_copy(
+            update={
+                "unmet_required": merged_missing,
+                "unmet_optional": merged_optional,
+                "satisfied": merged_satisfied,
+            }
+        )
+
+    missing_facts = list(artifact.unmet_required)
     return ReasoningState(
         requirement_set=reqs,
-        missing_facts=[],
+        missing_facts=missing_facts,
         selected_rule_ids=[rule.rule_id],
         derived_facts=derived,
         goal_status="satisfied" if fwd.goal_reached else "failed",
-        covered_requirements=[r.key for r in reqs],
+        covered_requirements=list(artifact.satisfied),
         requirement_artifact=artifact,
         can_continue_forward=fwd.goal_reached,
         trace=trace,
@@ -61,6 +90,7 @@ def run_forward(
     reasoning_context: Any | None = None,
     cross_domain_policy: Any | None = None,
     structured_facts: dict[str, dict[str, Any]] | None = None,
+    requirement_artifact: dict[str, Any] | None = None,
 ) -> tuple[str, bool, ReasoningState, list[str]]:
     """
     If `backward_plan` + `candidates` are set, try candidate paths in order.
@@ -113,7 +143,13 @@ def run_forward(
             rule,
         )
         reqs = body_to_requirements(win_rule)
-        st = _state_from_forward(win_rule, reqs, fwd, trace + ["forward_multi_path"])
+        st = _state_from_forward(
+            win_rule,
+            reqs,
+            fwd,
+            trace + ["forward_multi_path"],
+            base_requirement_artifact=requirement_artifact,
+        )
         return fwd.conclusion, fwd.goal_reached, st, trace
 
     reqs = body_to_requirements(rule)
@@ -146,7 +182,13 @@ def run_forward(
         reasoning_context=reasoning_context,
         structured_facts=structured_facts,
     )
-    st = _state_from_forward(rule, reqs, fwd, trace + ["forward_single_path"])
+    st = _state_from_forward(
+        rule,
+        reqs,
+        fwd,
+        trace + ["forward_single_path"],
+        base_requirement_artifact=requirement_artifact,
+    )
     return fwd.conclusion, fwd.goal_reached, st, trace
 
 

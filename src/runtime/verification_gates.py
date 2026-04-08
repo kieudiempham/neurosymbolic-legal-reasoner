@@ -19,7 +19,7 @@ class VerificationLevel(Enum):
 
 from reasoning.backward_reasoner import body_to_requirements, build_backward_plan_only, fact_satisfies_requirement, run_backward
 from reasoning.forward_reasoner import run_forward
-from reasoning.proof_builder import build_proof
+from reasoning.proof_builder import build_partial_proof, build_proof
 from reasoning.requirement_artifact import build_requirement_set_artifact, requirement_missing_fact_keys
 from retrieval.rulebase_loader import RulebaseIndex
 from rulebase.rule_identity import global_rule_key
@@ -478,6 +478,7 @@ def gate_forward_reasoning(
     session: SessionState,
     known_facts: dict[str, Any],
     backward_plan_dict: dict[str, Any],
+    backward_state: ReasoningState | None = None,
     max_forward_repair: int = 1,
     reasoning_context: ReasoningContext | None = None,
     cross_domain_policy: CrossDomainPolicy | None = None,
@@ -514,6 +515,11 @@ def gate_forward_reasoning(
             reasoning_context=reasoning_context,
             cross_domain_policy=cross_domain_policy,
             structured_facts=sf,
+            requirement_artifact=(
+                backward_state.requirement_artifact.model_dump(mode="json")
+                if backward_state and backward_state.requirement_artifact
+                else None
+            ),
         )
         win_rule = selected
         fr = fstate.forward_result or {}
@@ -527,6 +533,7 @@ def gate_forward_reasoning(
             used_facts=list(known_facts.keys()),
             conclusion=conclusion,
             forward_result=fstate.forward_result,
+            requirement_artifact=(fstate.requirement_artifact.model_dump(mode="json") if fstate.requirement_artifact else None),
             reasoning_context=reasoning_context,
             candidate_rules=candidate_rules,
             phase3_context=phase3_proof_context,
@@ -558,6 +565,29 @@ def gate_forward_reasoning(
     if v_fwd.final_decision == "ACCEPT":
         out.ok = True
         return out
+
+    fail_rule = selected
+    if fst and fst.forward_result and fst.forward_result.get("rule_id"):
+        by_id = {r.rule_id: r for r, _, _ in ranked}
+        fail_rule = by_id.get(str(fst.forward_result.get("rule_id")), selected)
+    out.proof_obj = build_partial_proof(
+        rule=fail_rule,
+        used_facts=list(known_facts.keys()),
+        conclusion=conc or f"Kết luận tạm thời theo quy tắc {fail_rule.rule_id}: cần làm rõ thêm điều kiện.",
+        forward_result=fst.forward_result if fst else None,
+        requirement_artifact=(fst.requirement_artifact.model_dump(mode="json") if fst and fst.requirement_artifact else None),
+        reasoning_context=reasoning_context,
+        candidate_rules=candidate_rules,
+        phase3_context=phase3_proof_context,
+    )
+    out.trace.append(
+        {
+            "stage": "forward_partial_proof",
+            "rule_id": fail_rule.rule_id,
+            "failure_reason": (fst.forward_result or {}).get("failure_reason") if fst and fst.forward_result else None,
+            "fail_stage": out.proof_obj.fail_stage if out.proof_obj else None,
+        }
+    )
 
     out.error = "forward_verification_failed"
     return out

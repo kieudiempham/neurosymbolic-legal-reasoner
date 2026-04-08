@@ -20,6 +20,7 @@ def build_proof(
     used_facts: list[str],
     conclusion: str,
     forward_result: dict[str, Any] | None = None,
+    requirement_artifact: dict[str, Any] | None = None,
     reasoning_context: ReasoningContext | None = None,
     candidate_rules: dict[str, RuleRecord] | None = None,
     phase3_context: dict[str, Any] | None = None,
@@ -31,6 +32,7 @@ def build_proof(
         used_facts=used_facts,
         conclusion=conclusion,
         forward_result=forward_result,
+        requirement_artifact=requirement_artifact,
         reasoning_context=reasoning_context,
         candidate_rules=candidate_rules,
         phase3_context=phase3_context,
@@ -44,6 +46,112 @@ def _meta_step(rule: RuleRecord, candidate_rules: dict[str, RuleRecord] | None, 
     return meta_for_proof_and_trace(r)
 
 
+def _dedupe(values: list[str]) -> list[str]:
+    out: list[str] = []
+    seen: set[str] = set()
+    for raw in values:
+        key = str(raw or "").strip()
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        out.append(key)
+    return out
+
+
+def _premise_sets(
+    requirement_artifact: dict[str, Any] | None,
+    used_facts: list[str],
+) -> tuple[list[str], list[str]]:
+    if not requirement_artifact:
+        return _dedupe(list(used_facts)), []
+    satisfied = _dedupe(list(requirement_artifact.get("satisfied") or []))
+    missing = _dedupe(
+        list(requirement_artifact.get("unmet_required") or [])
+        + list(requirement_artifact.get("unmet_optional") or [])
+    )
+    return satisfied, missing
+
+
+def _exception_status_from_forward(forward_result: dict[str, Any] | None) -> str:
+    reason = str((forward_result or {}).get("failure_reason") or "").strip().lower()
+    if reason in {"exception_triggered", "negative_condition_blocked"}:
+        return "triggered"
+    if reason in {"exception_unknown", "unless_condition_unknown"}:
+        return "unknown"
+    return "none"
+
+
+def _fail_stage(forward_result: dict[str, Any] | None) -> str | None:
+    reason = str((forward_result or {}).get("failure_reason") or "").strip().lower()
+    if not reason:
+        return None
+    if "constraint" in reason:
+        return "constraint_check"
+    if "exception" in reason or "negative" in reason or "unless" in reason:
+        return "exception_check"
+    if "positive_condition" in reason:
+        return "premise_match"
+    return "forward_semantics"
+
+
+def build_partial_proof(
+    *,
+    rule: RuleRecord,
+    used_facts: list[str],
+    conclusion: str,
+    forward_result: dict[str, Any] | None = None,
+    reasoning_context: ReasoningContext | None = None,
+    requirement_artifact: dict[str, Any] | None = None,
+    candidate_rules: dict[str, RuleRecord] | None = None,
+    phase3_context: dict[str, Any] | None = None,
+) -> ProofObject:
+    failure_reason = str((forward_result or {}).get("failure_reason") or "").strip() or "forward_verification_failed"
+    stage = _fail_stage(forward_result) or "forward_semantics"
+    satisfied, missing = _premise_sets(requirement_artifact, used_facts)
+    m0 = _meta_step(rule, candidate_rules, rule.rule_id)
+    step = ProofStep(
+        step_id=1,
+        description=f"Forward reasoning did not complete at stage={stage}; reason={failure_reason}",
+        rule_id=rule.rule_id,
+        fact_keys=used_facts,
+        status="failed",
+        failure_reason=failure_reason,
+        conclusion={"kind": "forward_failure", "stage": stage, "reason": failure_reason},
+        step_type="forward_failure",
+        rulebase_id=m0["rulebase_id"],
+        domain=m0["domain"],
+        layer=m0["layer"],
+        source_doc=m0["source_doc"],
+        source_article=m0["source_article"],
+    )
+    prov = {
+        "source_ref": rule.source_ref,
+        "source_ref_full": rule.source_ref_full,
+        "logic_form": rule.logic_form,
+        "forward_substitution": (forward_result or {}).get("substitution"),
+        "constraint_traces": (forward_result or {}).get("constraint_traces"),
+        "reasoning_context": reasoning_context.to_trace_dict() if reasoning_context else None,
+        "rulebase_provenance": m0,
+        "phase3": phase3_context,
+        "failure_reason": failure_reason,
+        "failure_stage": stage,
+    }
+    return ProofObject(
+        proof_id=new_proof_id(),
+        selected_rule=rule.rule_id,
+        used_facts=used_facts,
+        used_rules=[rule.rule_id],
+        conclusion=conclusion,
+        derived_conclusion=conclusion,
+        satisfied_premises=satisfied,
+        missing_premises=missing,
+        exception_status=_exception_status_from_forward(forward_result),
+        fail_stage=stage,
+        proof_steps=[step],
+        provenance=prov,
+    )
+
+
 def build_proof_with_reasoning(
     *,
     rule: RuleRecord,
@@ -51,6 +159,7 @@ def build_proof_with_reasoning(
     used_facts: list[str],
     conclusion: str,
     forward_result: dict[str, Any] | None = None,
+    requirement_artifact: dict[str, Any] | None = None,
     reasoning_context: ReasoningContext | None = None,
     candidate_rules: dict[str, RuleRecord] | None = None,
     phase3_context: dict[str, Any] | None = None,
@@ -240,11 +349,18 @@ def build_proof_with_reasoning(
         "rulebase_provenance": m0,
         "phase3": phase3_context,
     }
+    satisfied, missing = _premise_sets(requirement_artifact, used_facts)
     return ProofObject(
         proof_id=new_proof_id(),
+        selected_rule=rule.rule_id,
         used_facts=used_facts,
         used_rules=[rule.rule_id],
+        conclusion=conclusion,
         derived_conclusion=conclusion,
+        satisfied_premises=satisfied,
+        missing_premises=missing,
+        exception_status=_exception_status_from_forward(forward_result),
+        fail_stage=_fail_stage(forward_result),
         proof_steps=steps,
         provenance=prov,
     )

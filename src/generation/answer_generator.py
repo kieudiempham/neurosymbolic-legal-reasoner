@@ -29,7 +29,14 @@ def _proof_lines(proof: ProofObject | None, *, max_steps: int = 6) -> list[str]:
 def _proof_sketch(proof: ProofObject | None, *, max_chars: int = 420) -> str:
     plines = _proof_lines(proof, max_steps=5)
     if not plines:
-        return (proof.derived_conclusion or "")[:max_chars] if proof else ""
+        if not proof:
+            return ""
+        base = proof.conclusion or proof.derived_conclusion
+        if not base and (proof.satisfied_premises or proof.missing_premises):
+            sat = ", ".join(proof.satisfied_premises[:3])
+            mis = ", ".join(proof.missing_premises[:2])
+            base = f"satisfied=[{sat}] missing=[{mis}]"
+        return (base or "")[:max_chars]
     s = " → ".join(plines[:4])
     return s if len(s) <= max_chars else s[: max_chars - 1] + "…"
 
@@ -45,7 +52,7 @@ def _build_template_grounded(
 ) -> tuple[str, str, float, dict[str, str], list]:
     """Returns answer_text, proof_summary, confidence, sections, legal_citations list."""
     pl = _proof_lines(proof)
-    proof_summary = " ".join(pl) if pl else (proof.derived_conclusion if proof else "")
+    proof_summary = " ".join(pl) if pl else ((proof.conclusion or proof.derived_conclusion) if proof else "")
     citations = build_legal_citations_from_evidence(evidence, rule=rule, max_citations=6)
 
     opening = (
@@ -153,7 +160,7 @@ def generate_answer(
     if mode == "llm_grounded" and llm_generate is not None:
         citations = build_legal_citations_from_evidence(evidence, rule=rule, max_citations=6)
         plines = _proof_lines(proof)
-        proof_summary = " ".join(plines) if plines else (proof.derived_conclusion if proof else "")
+        proof_summary = " ".join(plines) if plines else ((proof.conclusion or proof.derived_conclusion) if proof else "")
         llm_body = _llm_grounded_answer(
             question=question,
             conclusion=conclusion,
