@@ -5,6 +5,13 @@ from __future__ import annotations
 from typing import Any
 
 from rulebase.rule_identity import global_rule_key
+from reasoning.fact_matching import fact_satisfies_requirement_ctx
+from reasoning.internal.mapper import map_rule_record_to_reasoning_rule
+from reasoning.requirements_bridge import reasoning_rule_to_requirement_items
+from reasoning.requirement_artifact import build_requirement_set_artifact, requirement_missing_fact_keys
+from reasoning.semantics.backward_plan import build_backward_plan
+from reasoning.semantics.backward_plan import pick_best_rule_record
+from reasoning.semantics.unification import Substitution, apply_substitution_to_reasoning_rule, unify_goal_dict_with_goal_atom
 from schemas.reasoning import ReasoningState, RequirementItem
 from schemas.rule import RuleRecord
 from runtime.rule_selection_policy import select_best_candidates_with_policy
@@ -12,6 +19,16 @@ from runtime.rule_selection_policy import select_best_candidates_with_policy
 
 def body_to_requirements(rule: RuleRecord) -> list[RequirementItem]:
     rr = map_rule_record_to_reasoning_rule(rule)
+    return reasoning_rule_to_requirement_items(rr)
+
+
+def _body_to_requirements_with_substitution(
+    rule: RuleRecord,
+    substitution: dict[str, Any] | None,
+) -> list[RequirementItem]:
+    rr = map_rule_record_to_reasoning_rule(rule)
+    if substitution:
+        rr = apply_substitution_to_reasoning_rule(rr, Substitution(mapping=dict(substitution)))
     return reasoning_rule_to_requirement_items(rr)
 
 
@@ -94,13 +111,13 @@ def run_backward(
             requirement_set=[],
             missing_facts=[],
             selected_rule_ids=[],
+            requirement_artifact=None,
             trace=trace + ["no_unifying_rule"],
             can_continue_forward=False,
             backward_plan=plan_dict,
             evaluation_hooks=plan.evaluation.model_dump(mode="json"),
         )
 
-    reqs = body_to_requirements(selected)
     cand = next(
         (
             c
@@ -110,14 +127,35 @@ def run_backward(
         ),
         None,
     )
-    missing = list(cand.missing_fact_keys) if cand else []
-    covered = [r.key for r in reqs if r.key not in missing]
-    can_forward = bool(cand and not missing and cand.status != "blocked")
+    reqs = _body_to_requirements_with_substitution(selected, (cand.substitution if cand else None))
+    if cand:
+        missing_raw = list(cand.missing_fact_keys)
+    else:
+        missing_raw = [
+            req.key
+            for req in reqs
+            if not fact_satisfies_requirement(
+                req.key,
+                known_facts,
+                structured_facts=structured_facts,
+                reasoning_context=reasoning_context,
+            )
+        ]
+    artifact = build_requirement_set_artifact(
+        selected_rule=selected,
+        goal_predicate=str(goal.get("predicate") or selected.head.predicate or "unknown"),
+        requirement_items=reqs,
+        missing_keys=missing_raw,
+    )
+    missing = requirement_missing_fact_keys(artifact)
+    covered = list(artifact.satisfied)
+    can_forward = bool(cand and not artifact.unmet_required and not artifact.unmet_optional and cand.status != "blocked")
 
     st = ReasoningState(
         requirement_set=reqs,
         missing_facts=missing,
         selected_rule_ids=[selected.rule_id],
+        requirement_artifact=artifact,
         derived_facts=[],
         goal_status="open",
         covered_requirements=covered,

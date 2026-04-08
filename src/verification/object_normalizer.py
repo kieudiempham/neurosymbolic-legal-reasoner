@@ -54,6 +54,7 @@ def normalize_backward_bundle(
     backward_plan: dict[str, Any] | None,
     missing_facts: list[str] | None,
     requirements_ok: bool,
+    requirement_artifact: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     return {
         "goal": dict(goal),
@@ -61,6 +62,7 @@ def normalize_backward_bundle(
         "backward_plan": dict(backward_plan or {}),
         "missing_facts": list(missing_facts or []),
         "requirements_ok": requirements_ok,
+        "requirement_artifact": dict(requirement_artifact or {}),
     }
 
 
@@ -72,6 +74,8 @@ def normalize_forward_bundle(
     known_facts: dict[str, Any] | None,
     forward_result: dict[str, Any] | None,
     proof: dict[str, Any] | None,
+    requirement_artifact: dict[str, Any] | None = None,
+    selected_rule_id: str | None = None,
 ) -> dict[str, Any]:
     return {
         "goal": dict(goal),
@@ -80,6 +84,8 @@ def normalize_forward_bundle(
         "known_facts": dict(known_facts or {}),
         "forward_result": dict(forward_result or {}),
         "proof": dict(proof or {}),
+        "requirement_artifact": dict(requirement_artifact or {}),
+        "selected_rule_id": selected_rule_id,
     }
 
 

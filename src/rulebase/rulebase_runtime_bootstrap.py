@@ -36,7 +36,13 @@ class RulebaseRuntimeBootstrap:
     def build_registry(self, cfg: RulebasePathConfig) -> RulebaseRegistry:
         reg = RulebaseRegistry()
         ent_path = cfg.enterprise or cfg.legacy_core
+        logger.info("[bootstrap] === ARTIFACT LOADER STARTUP === ")
+        logger.info("[bootstrap] Repo root: %s", cfg.repo_root)
+        
+        # Enterprise rulebase
+        logger.info("[bootstrap] Enterprise rulebase path: %s | exists=%s", ent_path, ent_path.exists() if ent_path else False)
         if ent_path and ent_path.exists():
+            logger.info("[bootstrap] Loading enterprise rulebase (JSON/JSONL)...")
             idx = load_rulebase(
                 ent_path,
                 legacy_domain="enterprise",
@@ -44,27 +50,41 @@ class RulebaseRuntimeBootstrap:
                 normalize_metadata=False,
             )
             reg.register_domain("enterprise", idx, rulebase_id="enterprise_core")
+            logger.info("[bootstrap] ✓ Enterprise rulebase loaded: %d rules", len(idx.rules))
         else:
-            logger.warning("[bootstrap] no enterprise/legacy rulebase path resolved — registry empty")
+            logger.warning("[bootstrap] No enterprise/legacy rulebase path resolved — registry may be empty")
 
+        # Shared rulebase
+        logger.info("[bootstrap] Shared rulebase path: %s | exists=%s", cfg.shared, cfg.shared.exists() if cfg.shared else False)
         if cfg.shared and cfg.shared.exists():
+            logger.info("[bootstrap] Loading shared rulebase (JSONL expected)...")
             idx_s = load_rulebase(cfg.shared, legacy_domain="shared", legacy_rulebase_id="shared_core", normalize_metadata=False)
             reg.register_shared(idx_s, rulebase_id="shared_core")
+            logger.info("[bootstrap] ✓ Shared rulebase loaded: %d rules", len(idx_s.rules))
         else:
-            logger.debug("[bootstrap] no shared rulebase file — optional")
+            logger.debug("[bootstrap] Shared rulebase not configured or missing (optional)")
 
+        # Labor rulebase
+        logger.info("[bootstrap] Labor rulebase path: %s | exists=%s", cfg.labor, cfg.labor.exists() if cfg.labor else False)
         if cfg.labor and cfg.labor.exists():
+            logger.info("[bootstrap] Loading labor rulebase (JSON/JSONL)...")
             idx_l = load_rulebase(cfg.labor, legacy_domain="labor", legacy_rulebase_id="labor_core", normalize_metadata=False)
             reg.register_domain("labor", idx_l, rulebase_id="labor_core")
+            logger.info("[bootstrap] ✓ Labor rulebase loaded: %d rules", len(idx_l.rules))
         else:
-            logger.debug("[bootstrap] labor rulebase not configured or missing file")
+            logger.debug("[bootstrap] Labor rulebase not configured or missing (optional)")
 
+        # Tax rulebase
+        logger.info("[bootstrap] Tax rulebase path: %s | exists=%s", cfg.tax, cfg.tax.exists() if cfg.tax else False)
         if cfg.tax and cfg.tax.exists():
+            logger.info("[bootstrap] Loading tax rulebase (JSON/JSONL)...")
             idx_t = load_rulebase(cfg.tax, legacy_domain="tax", legacy_rulebase_id="tax_core", normalize_metadata=False)
             reg.register_domain("tax", idx_t, rulebase_id="tax_core")
+            logger.info("[bootstrap] ✓ Tax rulebase loaded: %d rules", len(idx_t.rules))
         else:
-            logger.debug("[bootstrap] tax rulebase not configured or missing file")
+            logger.debug("[bootstrap] Tax rulebase not configured or missing (optional)")
 
+        logger.info("[bootstrap] ==========================================")
         return reg
 
     def build_runtime_bundle(self, cfg: RulebasePathConfig) -> QARuntimeBundle:

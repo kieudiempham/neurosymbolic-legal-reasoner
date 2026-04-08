@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 from typing import Any
 
 from schemas.question_parse import Layer1Parse, Layer2Parse
@@ -14,6 +15,18 @@ from retrieval.rulebase_loader import RulebaseIndex, get_rulebase_index
 from utils.text import lower_fold
 
 logger = logging.getLogger(__name__)
+
+_SYMBOLIC_TOKEN = re.compile(r"^[A-Z_][A-Z0-9_]{0,4}$")
+
+
+def _is_symbolic_placeholder(value: str) -> bool:
+    s = value.strip()
+    if not s:
+        return True
+    if _SYMBOLIC_TOKEN.fullmatch(s):
+        return True
+    sl = lower_fold(s)
+    return sl.startswith("unresolved_") or sl.endswith("_atom")
 
 
 def _token_overlap(a: str, b: str) -> float:
@@ -69,11 +82,30 @@ def structured_score_rule(
     else:
         comp["logic_form_focus_match"] = 0.0
 
+    # Prevent dossier/procedure forms from dominating permission-style questions.
+    if layer1.question_focus == "permission" and rule.logic_form in {
+        "dossier",
+        "procedure_step",
+        "deadline",
+        "threshold",
+    }:
+        score -= 3.0
+        comp["focus_logic_penalty"] = -3.0
+    elif layer1.question_focus == "permission" and rule.logic_form in {"obligation", "legal_effect"}:
+        score += 1.0
+        comp["focus_logic_penalty"] = 1.0
+    else:
+        comp["focus_logic_penalty"] = 0.0
+
     ga = [str(x) for x in (goal.get("args") or [])]
     ha = [str(x) for x in rule.head.args]
     arg_ov = 0.0
     for g in ga:
+        if _is_symbolic_placeholder(g):
+            continue
         for h in ha:
+            if _is_symbolic_placeholder(h):
+                continue
             arg_ov += _token_overlap(g, h)
     comp["goal_head_arg_overlap"] = 2.0 * arg_ov
     score += 2.0 * arg_ov

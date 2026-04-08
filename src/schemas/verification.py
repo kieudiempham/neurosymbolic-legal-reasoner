@@ -44,6 +44,12 @@ class VerificationRecord(BaseModel):
     repair_target_module: str | None = None
     repair_hint: str = ""
     repair_payload: dict[str, Any] = Field(default_factory=dict)
+    decision: FusionDecision | None = None
+    reasons: list[str] = Field(default_factory=list)
+    repair_hints: list[str] = Field(default_factory=list)
+    repair_applied: bool = False
+    rerun_stage: str | None = None
+    repair_diagnostics: dict[str, Any] = Field(default_factory=dict)
     semantic_scores: dict[str, float] = Field(default_factory=dict)
     symbolic_checks: dict[str, Any] = Field(default_factory=dict)
     normalized_inputs: dict[str, Any] = Field(default_factory=dict)

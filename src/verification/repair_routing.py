@@ -48,6 +48,13 @@ ANSWER_CODES = frozenset(
         "answer_time_quantity_mismatch",
     }
 )
+RETRIEVAL_CODES = frozenset(
+    {
+        "retrieval_empty_error",
+        "retrieval_low_recall_error",
+        "retrieval_ranking_error",
+    }
+)
 
 
 def repair_target_for_code(code: str) -> str:
@@ -61,6 +68,8 @@ def repair_target_for_code(code: str) -> str:
         return "forward_reasoner"
     if code in ANSWER_CODES:
         return "answer_generator"
+    if code in RETRIEVAL_CODES:
+        return "retrieval_or_retrieval_ranking"
     return "unspecified"
 
 

@@ -6,14 +6,25 @@ Policy helpers keep ``qa_orchestrator`` thin; all gates return structured traces
 
 from __future__ import annotations
 
+import logging
 from dataclasses import dataclass, field
+from enum import Enum
 from typing import Any
 
-from reasoning.backward_reasoner import build_backward_plan_only, run_backward
+class VerificationLevel(Enum):
+    """Three-level verification: only hard rejects block."""
+    ACCEPT = "accept"
+    SOFT_REJECT = "soft_reject"  # Can proceed with warning
+    HARD_REJECT = "hard_reject"  # Must block and try next
+
+from reasoning.backward_reasoner import body_to_requirements, build_backward_plan_only, fact_satisfies_requirement, run_backward
 from reasoning.forward_reasoner import run_forward
 from reasoning.proof_builder import build_proof
+from reasoning.requirement_artifact import build_requirement_set_artifact, requirement_missing_fact_keys
 from retrieval.rulebase_loader import RulebaseIndex
 from rulebase.rule_identity import global_rule_key
+from runtime.cross_domain_policy import CrossDomainPolicy
+from runtime.reasoning_context import ReasoningContext
 from runtime.rule_selection_policy import select_best_candidates_with_policy
 from runtime.temporal_policy import rule_temporally_valid
 from runtime.conflict_resolution_policy import prune_conflicting_candidates
@@ -24,6 +35,8 @@ from schemas.session import SessionState
 from schemas.verification import VerificationRecord
 from verification.engine import NeSyEngine
 from verification.repair_loop import run_backward_repair_loop, run_forward_repair_loop, run_rule_repair_loop
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -39,6 +52,9 @@ class RuleBackwardGateOutcome:
     trace: list[dict[str, Any]] = field(default_factory=list)
     error: str | None = None
     tried_rule_ids: list[str] = field(default_factory=list)
+    candidate_verdicts: dict[str, dict[str, Any]] = field(default_factory=dict)  # rule_id -> {level, reason}
+    soft_reject_count: int = 0
+    hard_reject_count: int = 0
 
 
 @dataclass
@@ -51,6 +67,31 @@ class ForwardGateOutcome:
     v_fwd: VerificationRecord | None = None
     trace: list[dict[str, Any]] = field(default_factory=list)
     error: str | None = None
+
+
+def _triage_missing_facts(state: ReasoningState) -> tuple[list[str], list[str]]:
+    """Split missing facts into critical vs optional for clarification gating."""
+    if state.requirement_artifact is not None:
+        return list(state.requirement_artifact.unmet_required), list(state.requirement_artifact.unmet_optional)
+
+    by_key = {req.key: req for req in state.requirement_set}
+    critical: list[str] = []
+    optional: list[str] = []
+    for key in list(state.missing_facts or []):
+        req = by_key.get(key)
+        kind = (req.requirement_kind or "") if req else ""
+        is_critical = False
+        if kind in ("negative", "exception", "constraint"):
+            is_critical = True
+        elif key.startswith("constraint:"):
+            is_critical = True
+        elif "unless(" in key or "exception_applies(" in key:
+            is_critical = True
+        if is_critical:
+            critical.append(key)
+        else:
+            optional.append(key)
+    return critical, optional
 
 
 def gate_rule_and_backward(
@@ -92,6 +133,132 @@ def gate_rule_and_backward(
     by_id = {r.rule_id: r for r, _, _ in ranked}
     by_gid = {global_rule_key(r): r for r, _, _ in ranked}
 
+    if not plan.candidates and ranked:
+        fallback_rule = ranked[0][0]
+        reqs = body_to_requirements(fallback_rule)
+        missing = [
+            req.key
+            for req in reqs
+            if not fact_satisfies_requirement(
+                req.key,
+                known_facts,
+                structured_facts=structured_facts,
+                reasoning_context=reasoning_context,
+            )
+        ]
+        synthetic_state = ReasoningState(
+            requirement_set=reqs,
+            missing_facts=[],
+            selected_rule_ids=[fallback_rule.rule_id],
+            derived_facts=[],
+            goal_status="open",
+            covered_requirements=[],
+            can_continue_forward=not missing,
+            trace=["backward_plan_empty", "repair:select_top_rule", "repair:rebuild_requirement_set"],
+            backward_plan={
+                "candidates": [
+                    {
+                        "rule_id": fallback_rule.rule_id,
+                        "global_rule_key": global_rule_key(fallback_rule),
+                        "status": "ready" if not missing else "needs_input",
+                        "missing_fact_keys": list(missing),
+                    }
+                ]
+            },
+            evaluation_hooks={
+                "repair_target": "backward_reasoner",
+                "repair_action": "select_top_rule_and_rebuild_requirement_set",
+            },
+        )
+        artifact = build_requirement_set_artifact(
+            selected_rule=fallback_rule,
+            goal_predicate=str(goal.get("predicate") or fallback_rule.head.predicate or "unknown"),
+            requirement_items=reqs,
+            missing_keys=missing,
+        )
+        synthetic_state = synthetic_state.model_copy(
+            update={
+                "requirement_artifact": artifact,
+                "missing_facts": requirement_missing_fact_keys(artifact),
+                "covered_requirements": list(artifact.satisfied),
+                "can_continue_forward": not requirement_missing_fact_keys(artifact),
+            }
+        )
+        out.trace.append(
+            {
+                "stage": "backward_plan_repair",
+                "rule_id": fallback_rule.rule_id,
+                "goal": goal,
+                "decision": "REPAIR",
+                "repair_target": "backward_reasoner",
+                "repair_hints": ["select_top_retrieved_rule", "rebuild_requirement_set", "rerun_backward_verification"],
+                "repair_applied": True,
+                "rerun_stage": "backward_verification",
+                "before_after": {
+                    "selected_rule_before": None,
+                    "selected_rule_after": fallback_rule.rule_id,
+                    "proof_before": None,
+                    "proof_after": synthetic_state.backward_plan,
+                    "verification_before": "no_plan_candidates",
+                    "verification_after": "REPAIR",
+                },
+            }
+        )
+        logger.info(
+            "[backward_repair] plan empty for goal=%s; fallback rule=%s missing=%d",
+            goal.get("predicate"),
+            fallback_rule.rule_id,
+            len(missing),
+        )
+        sel, st, v_back, btrace = run_backward_repair_loop(
+            engine,
+            goal=goal,
+            selected_rule=fallback_rule,
+            bstate=synthetic_state,
+            ranked=ranked,
+            known_facts=known_facts,
+            max_attempts=max_backward_repair,
+        )
+        out.trace.append(
+            {
+                "stage": "backward_plan_repair_rerun",
+                "initial_rule_id": fallback_rule.rule_id,
+                "final_rule_id": sel.rule_id if sel else None,
+                "final_decision": v_back.final_decision,
+                "repair_history": btrace,
+            }
+        )
+        if v_back.final_decision in ("ACCEPT", "REPAIR") and sel:
+            critical_missing, optional_missing = _triage_missing_facts(st)
+            if optional_missing:
+                out.trace.append(
+                    {
+                        "stage": "missing_fact_triage",
+                        "rule_id": sel.rule_id,
+                        "critical_missing": critical_missing,
+                        "optional_missing": optional_missing,
+                        "decision": "allow_partial_reasoning" if not critical_missing else "needs_clarification",
+                    }
+                )
+            st = st.model_copy(update={"missing_facts": list(critical_missing), "can_continue_forward": (st.can_continue_forward or not critical_missing)})
+            out.ok = True
+            out.clarification_needed = bool(critical_missing)
+            out.selected = sel
+            out.bstate = st
+            out.v_back = v_back
+            out.candidate_verdicts[sel.rule_id] = {
+                "rule_id": sel.rule_id,
+                "goal": goal,
+                "verification_decision": v_back.final_decision,
+                "verification_level": VerificationLevel.SOFT_REJECT.value if v_back.final_decision == "REPAIR" else VerificationLevel.ACCEPT.value,
+                "rejection_reason": list(v_back.diagnostics),
+                "repair_target": "backward_reasoner",
+                "repair_hints": ["select_top_retrieved_rule", "rebuild_requirement_set", "rerun_backward_verification"],
+                "critical_missing": critical_missing,
+                "optional_missing": optional_missing,
+            }
+            return out
+
     for cand in plan.candidates:
         rid = cand.rule_id
         rule = by_gid.get(cand.global_rule_key) if cand.global_rule_key else by_id.get(rid)
@@ -114,13 +281,52 @@ def gate_rule_and_backward(
             {
                 "stage": "rule_gate",
                 "rule_id": rid,
+                "goal": goal,
                 "final_decision": v_rule.final_decision,
+                "verification_level": (
+                    VerificationLevel.ACCEPT.value if v_rule.final_decision == "ACCEPT" else
+                    VerificationLevel.SOFT_REJECT.value if v_rule.final_decision == "REPAIR" else
+                    VerificationLevel.HARD_REJECT.value
+                ),
+                "rejection_reason": list(v_rule.diagnostics),
+                "repair_target": v_rule.repair_target,
+                "repair_hints": list(getattr(v_rule, "repair_hints", []) or ([v_rule.repair_hint] if v_rule.repair_hint else [])),
+                "repair_applied": getattr(v_rule, "repair_applied", False),
+                "rerun_stage": getattr(v_rule, "rerun_stage", None),
                 "repair_history": rtrace,
             }
         )
 
-        if v_rule.final_decision != "ACCEPT":
+        level = (
+            VerificationLevel.ACCEPT
+            if v_rule.final_decision == "ACCEPT"
+            else VerificationLevel.SOFT_REJECT
+            if v_rule.final_decision == "REPAIR"
+            else VerificationLevel.HARD_REJECT
+        )
+        out.candidate_verdicts[rid] = {
+            "rule_id": rid,
+            "goal": goal,
+            "verification_decision": v_rule.final_decision,
+            "verification_level": level.value,
+            "rejection_reason": list(v_rule.diagnostics),
+            "repair_target": v_rule.repair_target,
+            "repair_hints": list(getattr(v_rule, "repair_hints", []) or ([v_rule.repair_hint] if v_rule.repair_hint else [])),
+        }
+        logger.info(
+            "[rule_gate] candidate rule_id=%s goal=%s decision=%s level=%s reasons=%s",
+            rid,
+            goal.get("predicate"),
+            v_rule.final_decision,
+            level.value,
+            "; ".join(v_rule.diagnostics[:3]),
+        )
+
+        if level == VerificationLevel.HARD_REJECT:
+            out.hard_reject_count += 1
             continue
+        if level == VerificationLevel.SOFT_REJECT:
+            out.soft_reject_count += 1
 
         # ← TEMPORAL RE-CHECK BEFORE APPLY
         if reasoning_context and reasoning_context.question_time:
@@ -129,9 +335,12 @@ def gate_rule_and_backward(
                 out.trace.append({
                     "stage": "temporal_recheck_before_apply",
                     "rule_id": rid,
+                    "goal": goal,
+                    "verification_level": VerificationLevel.HARD_REJECT.value,
                     "rejected": True,
                     "reason": reason,
                 })
+                out.hard_reject_count += 1
                 continue
 
         selected, bstate = run_backward(
@@ -144,6 +353,17 @@ def gate_rule_and_backward(
             structured_facts=structured_facts,
         )
         if not selected:
+            out.trace.append(
+                {
+                    "stage": "backward_select",
+                    "rule_id": rid,
+                    "goal": goal,
+                    "verification_level": VerificationLevel.HARD_REJECT.value,
+                    "rejected": True,
+                    "reason": "backward_reasoner_returned_no_selected_rule",
+                }
+            )
+            out.hard_reject_count += 1
             continue
 
         sel, st, v_back, btrace = run_backward_repair_loop(
@@ -161,8 +381,26 @@ def gate_rule_and_backward(
                 "initial_rule_id": rid,
                 "final_rule_id": sel.rule_id if sel else None,
                 "final_decision": v_back.final_decision,
+                "verification_level": (
+                    VerificationLevel.ACCEPT.value if v_back.final_decision == "ACCEPT" else
+                    VerificationLevel.SOFT_REJECT.value if v_back.final_decision == "REPAIR" else
+                    VerificationLevel.HARD_REJECT.value
+                ),
+                "rejection_reason": list(v_back.diagnostics),
+                "repair_target": v_back.repair_target,
+                "repair_hints": list(getattr(v_back, "repair_hints", []) or ([v_back.repair_hint] if v_back.repair_hint else [])),
+                "repair_applied": getattr(v_back, "repair_applied", False),
+                "rerun_stage": getattr(v_back, "rerun_stage", None),
                 "repair_history": btrace,
             }
+        )
+        logger.info(
+            "[backward_gate] candidate rule_id=%s final_rule_id=%s goal=%s decision=%s reasons=%s",
+            rid,
+            sel.rule_id if sel else None,
+            goal.get("predicate"),
+            v_back.final_decision,
+            "; ".join(v_back.diagnostics[:3]),
         )
 
         if sel and sel.rule_id != rid:
@@ -173,9 +411,12 @@ def gate_rule_and_backward(
                     out.trace.append({
                         "stage": "temporal_recheck_after_repair_switch",
                         "rule_id": sel.rule_id,
+                        "goal": goal,
+                        "verification_level": VerificationLevel.HARD_REJECT.value,
                         "rejected": True,
                         "reason": reason,
                     })
+                    out.hard_reject_count += 1
                     continue
             
             law2 = str((sel.source_ref_full or sel.source_ref) or "")
@@ -190,19 +431,32 @@ def gate_rule_and_backward(
             )
             out.trace.append({"stage": "rule_reverify_after_backward_switch", "repair_history": rtrace2})
             v_rule = v_rule2
-            if v_rule2.final_decision != "ACCEPT":
+            if v_rule2.final_decision == "REJECT":
+                out.hard_reject_count += 1
                 continue
 
         if st.missing_facts:
+            critical_missing, optional_missing = _triage_missing_facts(st)
+            if optional_missing:
+                out.trace.append(
+                    {
+                        "stage": "missing_fact_triage",
+                        "rule_id": sel.rule_id if sel else None,
+                        "critical_missing": critical_missing,
+                        "optional_missing": optional_missing,
+                        "decision": "allow_partial_reasoning" if not critical_missing else "needs_clarification",
+                    }
+                )
+            st = st.model_copy(update={"missing_facts": list(critical_missing), "can_continue_forward": (st.can_continue_forward or not critical_missing)})
             out.ok = True
-            out.clarification_needed = True
+            out.clarification_needed = bool(critical_missing)
             out.selected = sel
             out.bstate = st
             out.v_rule = v_rule
             out.v_back = v_back
             return out
 
-        if v_back.final_decision == "ACCEPT" and sel:
+        if v_back.final_decision in ("ACCEPT", "REPAIR") and sel:
             out.ok = True
             out.clarification_needed = False
             out.selected = sel
@@ -211,7 +465,7 @@ def gate_rule_and_backward(
             out.v_back = v_back
             return out
 
-    out.error = "reasoning_blocked_by_rule_verification"
+    out.error = "reasoning_blocked_by_rule_verification" if out.hard_reject_count >= len(out.tried_rule_ids) else "reasoning_soft_reject_only"
     return out
 
 
@@ -291,6 +545,8 @@ def gate_forward_reasoning(
         proof_obj=proof,
         forward_retry_fn=_do_forward,
         max_attempts=max_forward_repair,
+        requirement_artifact=(fstate.requirement_artifact.model_dump(mode="json") if fstate and fstate.requirement_artifact else None),
+        selected_rule_id=selected.rule_id,
     )
     out.trace.extend(ftrace)
     out.v_fwd = v_fwd

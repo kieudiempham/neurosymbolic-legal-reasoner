@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import re
 from typing import Any
 
 from question_side.question_normalizer import build_layer2
@@ -90,6 +91,32 @@ def repair_parse_bundle(
             return l1_new, l2_new, trace
         except Exception:
             pass
+
+    qt = (question_text or "").strip()
+    lower_q = qt.lower()
+    if "có quyền" in lower_q and (layer1.question_focus == "unknown" or layer1.subject_text == qt):
+        subj = layer1.subject_text
+        if lower_q.startswith("lao động"):
+            subj = "lao động"
+        action = layer1.action_text
+        match = re.search(r"có quyền gì(?:\s+khi\s+(.+))?", lower_q)
+        if match:
+            action = (match.group(1) or "thực hiện quyền theo hợp đồng").strip(" ?.")
+        l1_fixed = layer1.model_copy(
+            update={
+                "subject_text": subj,
+                "action_text": action,
+                "question_focus": "permission",
+                "assertion_status": "ambiguous",
+                "raw_notes": list(layer1.raw_notes or []) + ["heuristic_permission_repair"],
+            }
+        )
+        l2_fixed = build_layer2(l1_fixed, list(user_facts))
+        return l1_fixed, l2_fixed, {
+            "repair_kind": "heuristic_layer1_permission",
+            "fields_touched": ["layer1.subject_text", "layer1.action_text", "layer1.question_focus", "layer2.goal"],
+            "repair_backend": "heuristic",
+        }
 
     if code_set & {"goal_construction_error"} and not llm_touch:
         l2 = repair_layer2_from_payload(layer1, user_facts, payload)

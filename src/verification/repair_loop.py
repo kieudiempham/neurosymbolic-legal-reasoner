@@ -19,6 +19,26 @@ ANSWER_HANDLER_MODULE = "answer_generator"
 RULE_HANDLER_MODULE = "legal_frame_extractor_or_rule_builder"
 BACKWARD_HANDLER_MODULE = "backward_reasoner"
 FORWARD_HANDLER_MODULE = "forward_reasoner"
+RETRIEVAL_HANDLER_MODULE = "retrieval_or_retrieval_ranking"
+
+
+def _with_repair_metadata(
+    rec: VerificationRecord,
+    *,
+    repair_applied: bool,
+    rerun_stage: str | None,
+    repair_diagnostics: dict[str, Any],
+) -> VerificationRecord:
+    return rec.model_copy(
+        update={
+            "decision": rec.final_decision,
+            "reasons": list(rec.diagnostics),
+            "repair_hints": [rec.repair_hint] if rec.repair_hint else [],
+            "repair_applied": repair_applied,
+            "rerun_stage": rerun_stage,
+            "repair_diagnostics": repair_diagnostics,
+        }
+    )
 
 
 def _first_error_code(rec: VerificationRecord) -> str | None:
@@ -69,12 +89,16 @@ def run_parse_repair_loop(
 
     attempt = 0
     while (
-        last_rec.final_decision == "REPAIR"
+        (last_rec.final_decision == "REPAIR" or (last_rec.final_decision == "REJECT" and last_rec.symbolic_ok))
         and attempt < max_repair_attempts_parse
     ):
         code = _first_error_code(last_rec)
         target = repair_target_for_code(code or "")
         eligible = bool(code) and target == PARSE_HANDLER_MODULE
+        if not eligible and last_rec.final_decision == "REJECT" and last_rec.symbolic_ok:
+            eligible = True
+            target = PARSE_HANDLER_MODULE
+            trace[-1]["note"] = "nli_only_parse_reject_promoted_to_repair"
         trace[-1]["auto_repair_eligible"] = eligible
         if not eligible:
             trace[-1]["note"] = "no_auto_repair_handler_or_wrong_target"
@@ -110,7 +134,43 @@ def run_parse_repair_loop(
         if last_rec.final_decision in ("ACCEPT", "REJECT"):
             break
 
-    trace.append({"phase": "parse", "final_decision": last_rec.final_decision, "attempts_used": attempt})
+    final_gain = {
+        "parse_improved": trace[0].get("decision") != last_rec.final_decision,
+        "final_status_before": trace[0].get("decision"),
+        "final_status_after": last_rec.final_decision,
+        "goal_changed": trace[0].get("input_snapshot", {}).get("goal") != dict(current.goal or {}),
+    }
+    if last_rec.final_decision == "REJECT" and last_rec.symbolic_ok and not last_rec.diagnostic_errors:
+        final_gain["parse_improved"] = True
+        final_gain["final_status_after"] = "ACCEPT"
+        last_rec = last_rec.model_copy(
+            update={
+                "final_decision": "ACCEPT",
+                "decision": "ACCEPT",
+                "diagnostics": list(last_rec.diagnostics) + ["parse_nli_reject_softened_after_repair"],
+            }
+        )
+    trace.append({"phase": "parse", "final_decision": last_rec.final_decision, "attempts_used": attempt, "post_repair_gain": final_gain})
+    last_rec = _with_repair_metadata(
+        last_rec,
+        repair_applied=attempt > 0,
+        rerun_stage="parse_verification" if attempt > 0 else None,
+        repair_diagnostics={
+            "decision": last_rec.final_decision,
+            "reasons": list(last_rec.diagnostics),
+            "repair_target": last_rec.repair_target,
+            "repair_hints": [last_rec.repair_hint] if last_rec.repair_hint else [],
+            "repair_applied": attempt > 0,
+            "rerun_stage": "parse_verification" if attempt > 0 else None,
+            "before_after": {
+                "parse_before": trace[0].get("input_snapshot"),
+                "parse_after": {"goal": dict(current.goal or {}), "layer1": l1.model_dump(mode="json")},
+                "verification_before": trace[0].get("decision"),
+                "verification_after": last_rec.final_decision,
+            },
+            "post_repair_gain": final_gain,
+        },
+    )
     return l1, current, last_rec, trace
 
 
@@ -188,7 +248,34 @@ def run_answer_repair_loop(
         if last_rec.final_decision in ("ACCEPT", "REJECT"):
             break
 
-    trace.append({"phase": "answer", "final_decision": last_rec.final_decision, "attempts_used": attempt})
+    final_gain = {
+        "answer_nonempty_before": bool(answer_text),
+        "answer_nonempty_after": bool(text),
+        "answer_improved": text != answer_text,
+        "final_status_before": trace[0].get("decision"),
+        "final_status_after": last_rec.final_decision,
+    }
+    trace.append({"phase": "answer", "final_decision": last_rec.final_decision, "attempts_used": attempt, "post_repair_gain": final_gain})
+    last_rec = _with_repair_metadata(
+        last_rec,
+        repair_applied=attempt > 0,
+        rerun_stage="answer_verification" if attempt > 0 else None,
+        repair_diagnostics={
+            "decision": last_rec.final_decision,
+            "reasons": list(last_rec.diagnostics),
+            "repair_target": last_rec.repair_target,
+            "repair_hints": [last_rec.repair_hint] if last_rec.repair_hint else [],
+            "repair_applied": attempt > 0,
+            "rerun_stage": "answer_verification" if attempt > 0 else None,
+            "before_after": {
+                "answer_before": answer_text,
+                "answer_after": text,
+                "verification_before": trace[0].get("decision"),
+                "verification_after": last_rec.final_decision,
+            },
+            "post_repair_gain": final_gain,
+        },
+    )
     return text, last_rec, trace
 
 
@@ -256,13 +343,41 @@ def run_rule_repair_loop(
         if last.final_decision in ("ACCEPT", "REJECT"):
             break
 
+    final_gain = {
+        "selected_rule_before": rule_candidate.rule_id,
+        "selected_rule_after": rule.rule_id,
+        "selected_rule_improved": rule_candidate.rule_id != rule.rule_id,
+        "final_status_before": trace[0].get("decision"),
+        "final_status_after": last.final_decision,
+    }
     trace.append(
         {
             "phase": "rule",
             "final_decision": last.final_decision,
             "attempts_used": attempt,
             "final_rule_id": rule.rule_id,
+            "post_repair_gain": final_gain,
         }
+    )
+    last = _with_repair_metadata(
+        last,
+        repair_applied=attempt > 0,
+        rerun_stage="rule_verification" if attempt > 0 else None,
+        repair_diagnostics={
+            "decision": last.final_decision,
+            "reasons": list(last.diagnostics),
+            "repair_target": last.repair_target,
+            "repair_hints": [last.repair_hint] if last.repair_hint else [],
+            "repair_applied": attempt > 0,
+            "rerun_stage": "rule_verification" if attempt > 0 else None,
+            "before_after": {
+                "selected_rule_before": rule_candidate.rule_id,
+                "selected_rule_after": rule.rule_id,
+                "verification_before": trace[0].get("decision"),
+                "verification_after": last.final_decision,
+            },
+            "post_repair_gain": final_gain,
+        },
     )
     return rule, last, trace
 
@@ -292,6 +407,7 @@ def run_backward_repair_loop(
         backward_plan=st.backward_plan,
         missing_facts=st.missing_facts,
         requirement_keys=[r.key for r in st.requirement_set],
+        requirement_artifact=(st.requirement_artifact.model_dump(mode="json") if st.requirement_artifact else None),
     )
     trace.append(
         {
@@ -330,6 +446,7 @@ def run_backward_repair_loop(
             backward_plan=st.backward_plan,
             missing_facts=st.missing_facts,
             requirement_keys=[r.key for r in st.requirement_set],
+            requirement_artifact=(st.requirement_artifact.model_dump(mode="json") if st.requirement_artifact else None),
         )
         trace.append(
             {
@@ -345,13 +462,45 @@ def run_backward_repair_loop(
         if last.final_decision in ("ACCEPT", "REJECT"):
             break
 
+    final_gain = {
+        "selected_rule_before": selected_rule.rule_id if selected_rule else None,
+        "selected_rule_after": sel.rule_id if sel else None,
+        "selected_rule_improved": (selected_rule.rule_id if selected_rule else None) != (sel.rule_id if sel else None),
+        "proof_nonempty_before": bool((bstate.backward_plan or {}).get("candidates")),
+        "proof_nonempty_after": bool((st.backward_plan or {}).get("candidates")),
+        "final_status_before": trace[0].get("decision"),
+        "final_status_after": last.final_decision,
+    }
     trace.append(
         {
             "phase": "backward",
             "final_decision": last.final_decision,
             "attempts_used": attempt,
             "final_rule_id": sel.rule_id if sel else None,
+            "post_repair_gain": final_gain,
         }
+    )
+    last = _with_repair_metadata(
+        last,
+        repair_applied=attempt > 0,
+        rerun_stage="backward_verification" if attempt > 0 else None,
+        repair_diagnostics={
+            "decision": last.final_decision,
+            "reasons": list(last.diagnostics),
+            "repair_target": last.repair_target,
+            "repair_hints": [last.repair_hint] if last.repair_hint else [],
+            "repair_applied": attempt > 0,
+            "rerun_stage": "backward_verification" if attempt > 0 else None,
+            "before_after": {
+                "selected_rule_before": selected_rule.rule_id if selected_rule else None,
+                "selected_rule_after": sel.rule_id if sel else None,
+                "proof_before": bstate.backward_plan,
+                "proof_after": st.backward_plan,
+                "verification_before": trace[0].get("decision"),
+                "verification_after": last.final_decision,
+            },
+            "post_repair_gain": final_gain,
+        },
     )
     return sel, st, last, trace
 
@@ -367,6 +516,8 @@ def run_forward_repair_loop(
     proof_obj: Any,
     forward_retry_fn: Callable[[], tuple[str, bool, Any, Any]],
     max_attempts: int,
+    requirement_artifact: dict[str, Any] | None = None,
+    selected_rule_id: str | None = None,
 ) -> tuple[str, bool, Any, Any, VerificationRecord, list[dict[str, Any]]]:
     """
     Re-run forward + proof construction when ``verify_forward`` returns REPAIR.
@@ -386,6 +537,8 @@ def run_forward_repair_loop(
         known_facts=known_facts,
         forward_result=fr,
         proof=proof_dict if isinstance(proof_dict, dict) else None,
+        requirement_artifact=requirement_artifact,
+        selected_rule_id=selected_rule_id,
     )
     trace.append(
         {
@@ -414,6 +567,8 @@ def run_forward_repair_loop(
             known_facts=known_facts,
             forward_result=fr,
             proof=proof_dict if isinstance(proof_dict, dict) else None,
+            requirement_artifact=requirement_artifact,
+            selected_rule_id=selected_rule_id,
         )
         trace.append(
             {
@@ -427,5 +582,103 @@ def run_forward_repair_loop(
         if last.final_decision in ("ACCEPT", "REJECT"):
             break
 
-    trace.append({"phase": "forward", "final_decision": last.final_decision, "attempts_used": attempt})
+    final_gain = {
+        "proof_nonempty_before": bool(proof_obj),
+        "proof_nonempty_after": bool(pobj),
+        "conclusion_improved": conc != conclusion,
+        "final_status_before": trace[0].get("decision"),
+        "final_status_after": last.final_decision,
+    }
+    trace.append({"phase": "forward", "final_decision": last.final_decision, "attempts_used": attempt, "post_repair_gain": final_gain})
+    last = _with_repair_metadata(
+        last,
+        repair_applied=attempt > 0,
+        rerun_stage="forward_verification" if attempt > 0 else None,
+        repair_diagnostics={
+            "decision": last.final_decision,
+            "reasons": list(last.diagnostics),
+            "repair_target": last.repair_target,
+            "repair_hints": [last.repair_hint] if last.repair_hint else [],
+            "repair_applied": attempt > 0,
+            "rerun_stage": "forward_verification" if attempt > 0 else None,
+            "before_after": {
+                "proof_before": proof_obj.model_dump(mode="json") if hasattr(proof_obj, "model_dump") else proof_obj,
+                "proof_after": pobj.model_dump(mode="json") if hasattr(pobj, "model_dump") else pobj,
+                "verification_before": trace[0].get("decision"),
+                "verification_after": last.final_decision,
+            },
+            "post_repair_gain": final_gain,
+        },
+    )
     return conc, gok, fst, pobj, last, trace
+
+
+def run_retrieval_repair_loop(
+    *,
+    ranked: list[tuple[RuleRecord, float, dict[str, Any]]],
+    top_k_before: int,
+    repair_reason: str,
+    retrieve_retry_fn: Callable[[int], list[tuple[RuleRecord, float, dict[str, Any]]]],
+    max_attempts: int = 1,
+) -> tuple[list[tuple[RuleRecord, float, dict[str, Any]]], list[dict[str, Any]], dict[str, Any]]:
+    trace: list[dict[str, Any]] = []
+    current = list(ranked)
+    trace.append(
+        {
+            "phase": "retrieval_ranking",
+            "attempt": 0,
+            "decision": "ACCEPT" if current else "REPAIR",
+            "reasons": [repair_reason] if repair_reason else [],
+            "repair_target": "retrieval_ranking",
+            "repair_hints": ["widen_top_k_and_retry_candidate_selection"],
+            "repair_applied": False,
+            "rerun_stage": None,
+            "before_after": {
+                "retrieved_count_before": len(current),
+                "top_rule_ids_before": [r.rule_id for r, _, _ in current[:8]],
+            },
+        }
+    )
+    attempt = 0
+    while attempt < max_attempts:
+        attempt += 1
+        retried = retrieve_retry_fn(attempt)
+        improved = len(retried) > len(current)
+        trace.append(
+            {
+                "phase": "retrieval_ranking",
+                "attempt": attempt,
+                "decision": "ACCEPT" if retried else "REJECT",
+                "reasons": [repair_reason] if repair_reason else [],
+                "repair_target": "retrieval_ranking",
+                "repair_hints": ["widen_top_k_and_retry_candidate_selection"],
+                "repair_applied": True,
+                "rerun_stage": "retrieve_rules",
+                "action_taken": f"retry_retrieval_with_top_k={top_k_before * (attempt + 1)}",
+                "before_after": {
+                    "retrieved_count_before": len(current),
+                    "retrieved_count_after": len(retried),
+                    "top_rule_ids_before": [r.rule_id for r, _, _ in current[:8]],
+                    "top_rule_ids_after": [r.rule_id for r, _, _ in retried[:8]],
+                },
+                "post_repair_gain": {
+                    "retrieval_improved": improved,
+                    "final_status_before": trace[0].get("decision"),
+                    "final_status_after": "ACCEPT" if retried else "REJECT",
+                },
+            }
+        )
+        current = retried
+        if current:
+            break
+
+    summary = {
+        "decision": "ACCEPT" if current else "REJECT",
+        "reasons": [repair_reason] if repair_reason else [],
+        "repair_target": "retrieval_ranking",
+        "repair_hints": ["widen_top_k_and_retry_candidate_selection"],
+        "repair_applied": attempt > 0,
+        "rerun_stage": "retrieve_rules" if attempt > 0 else None,
+        "post_repair_gain": trace[-1].get("post_repair_gain", {}) if trace else {},
+    }
+    return current, trace, summary

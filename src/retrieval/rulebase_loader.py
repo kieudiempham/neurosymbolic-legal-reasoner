@@ -89,8 +89,35 @@ def load_rulebase(
     if not p.exists():
         logger.error("rulebase not found: %s", p)
         return RulebaseIndex([])
-    data = json.loads(p.read_text(encoding="utf-8"))
-    raw_rules = data.get("rules_reasoning_core") or data.get("rules") or []
+    
+    logger.info("[rulebase] Loading rulebase from: %s (domain=%s, suffix=%s)", p, legacy_domain, p.suffix)
+    text = p.read_text(encoding="utf-8")
+    
+    # Try to load as JSON first
+    try:
+        logger.debug("[rulebase] Attempting JSON parse for %s...", p.name)
+        data = json.loads(text)
+        raw_rules = data.get("rules_reasoning_core") or data.get("rules") or []
+        logger.info("[rulebase] ✓ Successfully parsed as JSON: found %d rules", len(raw_rules))
+    except json.JSONDecodeError as e:
+        # If JSON fails and it's likely JSONL (extension or "Extra data" error), try JSONL
+        if p.suffix == ".jsonl" or "Extra data" in str(e):
+            logger.info("[rulebase] Detected JSONL format for %s (error: %s), loading line by line", p.name, type(e).__name__)
+            raw_rules = []
+            for line_num, line in enumerate(text.splitlines(), 1):
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    rule = json.loads(line)
+                    raw_rules.append(rule)
+                except json.JSONDecodeError as line_e:
+                    logger.warning("[rulebase] Skip malformed JSON line %d in %s: %s", line_num, p.name, line_e)
+            logger.info("[rulebase] ✓ Successfully parsed as JSONL: found %d rules", len(raw_rules))
+        else:
+            logger.error("[rulebase] JSON parse failed and not JSONL format: %s", e)
+            raise e
+    
     out: list[RuleRecord] = []
     for row in raw_rules:
         if not isinstance(row, dict):
@@ -106,7 +133,7 @@ def load_rulebase(
                     warn_prefix="[load_rulebase] ",
                 )
             out.append(r)
-    logger.info("loaded %s rules from %s", len(out), p)
+    logger.info("[rulebase] ✓ Loaded %d rules (in %d raw records) from %s | domain=%s", len(out), len(raw_rules), p.name, legacy_domain)
     return RulebaseIndex(out)
 
 

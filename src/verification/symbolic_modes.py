@@ -194,6 +194,7 @@ def symbolic_backward(
     requirements_ok: bool,
     missing_facts: list[str] | None,
     requirement_keys: list[str] | None = None,
+    requirement_artifact: dict[str, Any] | None = None,
 ) -> SymbolicCheckResult:
     r = SymbolicCheckResult(ok=True)
     if not selected_rule_id:
@@ -230,6 +231,32 @@ def symbolic_backward(
     else:
         r.add("requirements_path", "pass", "", "can_continue_forward")
 
+    art = requirement_artifact or {}
+    if art:
+        art_rule_id = str(art.get("rule_id") or "")
+        if art_rule_id and art_rule_id != selected_rule_id:
+            r.add(
+                "artifact_rule_alignment",
+                "fail",
+                "requirement artifact rule_id lệch selected_rule_id",
+                "requirement_artifact.rule_id",
+                code="requirement_construction_error",
+            )
+        else:
+            r.add("artifact_rule_alignment", "pass", "", "requirement_artifact.rule_id")
+
+        mk_art = set((art.get("unmet_required") or []) + (art.get("unmet_optional") or []))
+        if mk and mk_art and mk != mk_art:
+            r.add(
+                "missing_vs_artifact",
+                "fail",
+                "missing_facts không khớp unmet_* trong requirement artifact",
+                "requirement_artifact",
+                code="requirement_construction_error",
+            )
+        else:
+            r.add("missing_vs_artifact", "pass", "", "requirement_artifact.unmet_*")
+
     gpred = str(goal.get("predicate") or "")
     cand0 = cands[0] if cands else {}
     if isinstance(cand0, dict) and cand0.get("goal_atom"):
@@ -252,6 +279,8 @@ def symbolic_forward(
     proof: dict[str, Any] | None,
     conclusion: str,
     goal: dict[str, Any] | None = None,
+    requirement_artifact: dict[str, Any] | None = None,
+    selected_rule_id: str | None = None,
 ) -> SymbolicCheckResult:
     r = SymbolicCheckResult(ok=True)
     fr = forward_result or {}
@@ -298,6 +327,44 @@ def symbolic_forward(
         r.add("conclusion_nonempty", "fail", "Rỗng conclusion khi thành công", "conclusion", code="forward_conclusion_error")
     else:
         r.add("conclusion_nonempty", "pass", "", "conclusion")
+
+    art = requirement_artifact or {}
+    if art:
+        proof_steps = (proof or {}).get("proof_steps") or []
+        rule_ids = {
+            str(st.get("rule_id") or "")
+            for st in proof_steps
+            if isinstance(st, dict)
+        }
+        if selected_rule_id and rule_ids and selected_rule_id not in rule_ids:
+            r.add(
+                "proof_rule_alignment",
+                "fail",
+                "proof_steps không chứa selected_rule_id",
+                "proof.proof_steps",
+                code="forward_proof_error",
+            )
+        else:
+            r.add("proof_rule_alignment", "pass", "", "proof.proof_steps")
+
+        required_preds = {str(x) for x in (art.get("required_predicates") or []) if str(x)}
+        supported_preds = {
+            str(a.get("predicate") or "")
+            for st in proof_steps
+            if isinstance(st, dict)
+            for a in (st.get("supporting_atoms") or [])
+            if isinstance(a, dict)
+        }
+        if required_preds and not (required_preds & supported_preds):
+            r.add(
+                "requirement_proof_skeleton",
+                "fail",
+                "required_predicates không xuất hiện trong proof supporting_atoms",
+                "requirement_artifact.required_predicates",
+                code="forward_proof_error",
+            )
+        else:
+            r.add("requirement_proof_skeleton", "pass", "", "proof.proof_steps.supporting_atoms")
 
     if goal and goal_achieved:
         gp = str(goal.get("predicate") or "")

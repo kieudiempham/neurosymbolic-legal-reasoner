@@ -8,6 +8,7 @@ from rulebase.rule_identity import global_rule_key
 from schemas.reasoning import ReasoningState, RequirementItem
 from schemas.rule import RuleRecord
 from reasoning.backward_reasoner import body_to_requirements
+from reasoning.requirement_artifact import build_requirement_set_artifact
 from reasoning.internal.mapper import map_rule_record_to_reasoning_rule
 from reasoning.semantics.forward_engine import run_forward_best_path, run_forward_path
 from runtime.domain_reasoning_policy import policy_from_context
@@ -22,6 +23,12 @@ def _state_from_forward(
     trace: list[str],
 ) -> ReasoningState:
     derived = [f"derived:{fwd.conclusion}"] if fwd.conclusion else []
+    artifact = build_requirement_set_artifact(
+        selected_rule=rule,
+        goal_predicate=str(fwd.goal_atom[0] if fwd.goal_atom else rule.head.predicate),
+        requirement_items=reqs,
+        missing_keys=[],
+    )
     return ReasoningState(
         requirement_set=reqs,
         missing_facts=[],
@@ -29,6 +36,7 @@ def _state_from_forward(
         derived_facts=derived,
         goal_status="satisfied" if fwd.goal_reached else "failed",
         covered_requirements=[r.key for r in reqs],
+        requirement_artifact=artifact,
         can_continue_forward=fwd.goal_reached,
         trace=trace,
         forward_result=fwd.model_dump(mode="json"),

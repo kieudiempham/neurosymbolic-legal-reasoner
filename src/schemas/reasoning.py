@@ -21,6 +21,19 @@ class RequirementItem(BaseModel):
     atom_payload: dict[str, Any] | None = None
 
 
+class RequirementSetArtifact(BaseModel):
+    """Normalized and auditable requirement-set artifact for one selected rule."""
+
+    rule_id: str
+    goal_predicate: str
+    required_predicates: list[str] = Field(default_factory=list)
+    optional_predicates: list[str] = Field(default_factory=list)
+    exception_predicates: list[str] = Field(default_factory=list)
+    unmet_required: list[str] = Field(default_factory=list)
+    unmet_optional: list[str] = Field(default_factory=list)
+    satisfied: list[str] = Field(default_factory=list)
+
+
 class ReasoningState(BaseModel):
     requirement_set: list[RequirementItem] = Field(default_factory=list)
     missing_facts: list[str] = Field(default_factory=list)
@@ -28,6 +41,7 @@ class ReasoningState(BaseModel):
     derived_facts: list[str] = Field(default_factory=list)
     goal_status: GoalStatus = "open"
     covered_requirements: list[str] = Field(default_factory=list)
+    requirement_artifact: RequirementSetArtifact | None = None
     can_continue_forward: bool = False
     trace: list[str] = Field(default_factory=list)
     # Runtime semantic layer (optional; backward-compatible when absent)

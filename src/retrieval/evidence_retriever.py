@@ -30,12 +30,42 @@ def configure_evidence_path(path: Path | None) -> None:
 
 def _load_chunks(path: Path) -> list[dict[str, Any]]:
     if not path.exists():
-        logger.warning("evidence corpus missing: %s — using empty list", path)
+        logger.warning("[evidence] evidence corpus missing: %s — using empty list", path)
         return []
-    data = json.loads(path.read_text(encoding="utf-8"))
-    if isinstance(data, list):
-        return [x for x in data if isinstance(x, dict)]
-    return list((data.get("chunks") or data.get("evidence_chunks") or []))
+    
+    logger.info("[evidence] Loading evidence chunks from: %s", path)
+    text = path.read_text(encoding="utf-8")
+    
+    # Try to load as JSON first
+    try:
+        logger.debug("[evidence] Attempting JSON parse...")
+        data = json.loads(text)
+        if isinstance(data, list):
+            chunks = [x for x in data if isinstance(x, dict)]
+            logger.info("[evidence] ✓ Successfully loaded as JSON list: %d chunks", len(chunks))
+            return chunks
+        result = list((data.get("chunks") or data.get("evidence_chunks") or []))
+        logger.info("[evidence] ✓ Successfully loaded as JSON object: %d chunks", len(result))
+        return result
+    except json.JSONDecodeError as e:
+        # If JSON fails and it's likely JSONL, try JSONL
+        if path.suffix == ".jsonl" or "Extra data" in str(e):
+            logger.info("[evidence] Detected JSONL format (or Extra data error), loading line by line...")
+            chunks = []
+            for line_num, line in enumerate(text.splitlines(), 1):
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    chunk = json.loads(line)
+                    if isinstance(chunk, dict):
+                        chunks.append(chunk)
+                except json.JSONDecodeError as line_e:
+                    logger.warning("[evidence] Skip malformed JSON line %d in %s: %s", line_num, path, line_e)
+            logger.info("[evidence] ✓ Successfully loaded as JSONL: %d chunks", len(chunks))
+            return chunks
+        else:
+            raise e
 
 
 def _chunk_document(ch: dict[str, Any]) -> str:

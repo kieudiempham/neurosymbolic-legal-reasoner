@@ -6,11 +6,13 @@ import logging
 from pathlib import Path
 from typing import Any
 
+logger = logging.getLogger(__name__)
 from generation.answer_generator import (
     apply_answer_text_and_refresh_citations,
     generate_answer,
     safe_regenerate_final_answer,
 )
+from reasoning.proof_builder import build_proof
 from reasoning.clarification_manager import (
     build_clarification_prompts_from_requirements,
     build_parse_ambiguity_prompts,
@@ -54,7 +56,7 @@ from schemas.verification import VerificationRecord
 from session.session_service import SessionService, get_session_service
 from verification.engine import NeSyEngine
 from verification.nli_verifier import NLIVerifier
-from verification.repair_loop import run_answer_repair_loop, run_parse_repair_loop
+from verification.repair_loop import run_answer_repair_loop, run_parse_repair_loop, run_retrieval_repair_loop
 from runtime.verification_gates import gate_forward_reasoning, gate_rule_and_backward
 from runtime.pipeline_tracing import (
     TraceCollector,
@@ -64,9 +66,6 @@ from runtime.pipeline_tracing import (
     summarize_layer2_trace,
     summarize_verification_trace,
 )
-
-logger = logging.getLogger(__name__)
-
 
 def _merge_pipeline_trace_dict(trace: dict[str, Any], tc: TraceCollector) -> None:
     if not tc._noop:
@@ -606,7 +605,58 @@ def run_ask(
             cross_domain_policy=policy,
             structured_facts=structured_facts_for_reasoning(session),
         )
+
         trace["rule_backward_gate"] = rg.trace
+        trace["verification_diagnostics"] = list(rg.candidate_verdicts.values())
+
+        if not rg.ok and ranked:
+            def _retry_retrieval(attempt: int) -> list[tuple[RuleRecord, float, dict[str, Any]]]:
+                widened_top_k = max(top_k * (attempt + 1), len(ranked) + 4)
+                retried = retrieve_rules(layer1=layer1, layer2=layer2, top_k=widened_top_k, index=merged_index)
+                retried = enrich_ranked_with_retrieval_meta(retried)
+                retried_primary, _ = filter_ranked_for_primary_phase(
+                    retried,
+                    primary_domains=list(routing.primary_domains),
+                    include_shared=routing.include_shared,
+                )
+                retried_final, _exp, _used_dom = merge_secondary_with_policy(
+                    retried_primary,
+                    retried,
+                    secondary_domains=list(routing.secondary_domains),
+                    policy=policy,
+                    triggered_bridges=list(routing.triggered_bridges),
+                )
+                return retried_final
+
+            repaired_ranked, retrieval_repair_trace, retrieval_repair_summary = run_retrieval_repair_loop(
+                ranked=ranked,
+                top_k_before=top_k,
+                repair_reason=rg.error or "rule_backward_gate_failed",
+                retrieve_retry_fn=_retry_retrieval,
+                max_attempts=1,
+            )
+            trace["retrieval_ranking_repair"] = retrieval_repair_trace
+            trace["retrieval_ranking_repair_summary"] = retrieval_repair_summary
+
+            if repaired_ranked:
+                ranked = repaired_ranked
+                session.retrieved_rules = [r for r, _, _ in ranked]
+                rg = gate_rule_and_backward(
+                    engine,
+                    goal=goal,
+                    layer2=layer2,
+                    ranked=ranked,
+                    known_facts=known_facts_for_reasoning(session),
+                    rule_index=ri,
+                    max_rule_repair=max_repair_attempts_rule,
+                    max_backward_repair=max_repair_attempts_backward,
+                    reasoning_context=ctx,
+                    cross_domain_policy=policy,
+                    structured_facts=structured_facts_for_reasoning(session),
+                )
+                trace["rule_backward_gate_rerun"] = rg.trace
+                trace["verification_diagnostics_after_repair"] = list(rg.candidate_verdicts.values())
+
         if rg.v_rule:
             _merge_verification(session, rg.v_rule)
         if rg.v_back:
@@ -619,13 +669,12 @@ def run_ask(
             "verify_rule": summarize_verification_trace(rg.v_rule) if rg.v_rule else {},
             "verify_backward": summarize_verification_trace(rg.v_back) if rg.v_back else {},
         }
-        sp_b.decision = rg.v_back.final_decision if rg.v_back else "none"
+        sp_b.decision = rg.v_back.final_decision if rg.v_back else (rg.v_rule.final_decision if rg.v_rule else "none")
 
     if not rg.ok:
         with tc.span("pipeline_exit") as spx:
             spx.output_summary = {"reason": rg.error or "rule_backward_gate_failed"}
-        
-        # Build partial reasoning_result even in error case
+
         error_reasoning_result = _finalize_reasoning_result_dict(
             {"active_domains_used": list(ctx.primary_domains)},
             proof=None,
@@ -635,7 +684,7 @@ def run_ask(
             selected=None,
             phase3_result=p3_result,
         )
-        
+
         svc.save(session)
         _merge_pipeline_trace_dict(trace, tc)
         return AskResponse(
@@ -733,6 +782,69 @@ def run_ask(
     if not fg.ok:
         with tc.span("pipeline_exit") as spx:
             spx.output_summary = {"reason": fg.error or "forward_verification_failed"}
+
+        if selected is not None and bstate is not None and not rg.clarification_needed:
+            partial_conclusion = f"Kết luận tạm thời theo quy tắc {selected.rule_id}: cần đối chiếu thêm điều kiện thực tế."
+            partial_proof = build_proof(
+                rule=selected,
+                used_facts=list(bstate.covered_requirements or []),
+                conclusion=partial_conclusion,
+                forward_result=bstate.forward_result,
+                reasoning_context=ctx,
+                candidate_rules={r.rule_id: r for r, _, _ in ranked},
+                phase3_context=p3_result.proof_phase3_context,
+            )
+            partial_ev = (evidence_retriever or get_evidence_retriever()).retrieve(
+                question=question,
+                rule=selected,
+                conclusion=partial_conclusion,
+                top_k=3,
+                proof_summary=_proof_summary_for_evidence(partial_proof),
+                goal=goal,
+                modality_text=layer1.modality_text or "",
+                layer1=layer1,
+                layer2=layer2,
+            )
+            partial_ans = generate_answer(
+                question=question,
+                conclusion=partial_conclusion,
+                proof=partial_proof,
+                evidence=partial_ev,
+                goal_achieved=False,
+                rule=selected,
+            )
+            trace["forward_gate_partial_fallback"] = {
+                "enabled": True,
+                "reason": fg.error or "forward_verification_failed",
+                "selected_rule": selected.rule_id,
+                "proof_nonempty": bool(partial_proof.proof_steps),
+                "answer_nonempty": bool(partial_ans.answer_text),
+            }
+            reasoning_result_partial = _finalize_reasoning_result_dict(
+                {"active_domains_used": list(ctx.primary_domains)},
+                proof=partial_proof,
+                ranked=ranked,
+                bstate=bstate,
+                fstate=None,
+                selected=selected,
+                phase3_result=p3_result,
+            )
+            svc.save(session)
+            _merge_pipeline_trace_dict(trace, tc)
+            return AskResponse(
+                session_id=session.session_id,
+                needs_clarification=False,
+                verification_trace=session.verification_logs,
+                layer1=layer1,
+                layer2=layer2,
+                retrieved_rules=[_rule_dump(r) for r, s, d in ranked[:8]],
+                selected_rule=_rule_dump(selected),
+                reasoning=bstate,
+                proof=partial_proof,
+                answer=partial_ans,
+                reasoning_result=reasoning_result_partial,
+                debug_trace=trace | {"warning": "partial_answer_generated_after_forward_failure"},
+            )
         
         # Build partial reasoning_result for forward gate failure
         fg_fail_reasoning_result = _finalize_reasoning_result_dict(

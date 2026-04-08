@@ -94,12 +94,26 @@ def _finalize_record(
         symbolic_ok=symbolic_ok,
         nli_result=nli,
         final_decision=decision,
+        decision=decision,
         diagnostics=diag,
+        reasons=list(diag),
         repair_target=repair_legacy,
         diagnostic_errors=list(error_codes),
         repair_target_module=rt_mod,
         repair_hint=hint,
+        repair_hints=[hint] if hint else [],
         repair_payload=payload,
+        repair_applied=False,
+        rerun_stage=None,
+        repair_diagnostics={
+            "decision": decision,
+            "reasons": list(diag),
+            "repair_target": repair_legacy,
+            "repair_target_module": rt_mod,
+            "repair_hints": [hint] if hint else [],
+            "repair_applied": False,
+            "rerun_stage": None,
+        },
         semantic_scores=semantic_scores or nli_scores,
         symbolic_checks=symbolic_checks,
         normalized_inputs=normalized,
@@ -272,6 +286,7 @@ class NeSyEngine:
         backward_plan: dict[str, Any] | None = None,
         missing_facts: list[str] | None = None,
         requirement_keys: list[str] | None = None,
+        requirement_artifact: dict[str, Any] | None = None,
     ) -> VerificationRecord:
         sym = symbolic_backward(
             goal,
@@ -280,6 +295,7 @@ class NeSyEngine:
             requirements_ok=requirements_ok,
             missing_facts=missing_facts,
             requirement_keys=requirement_keys,
+            requirement_artifact=requirement_artifact,
         )
         trace = ["symbolic_backward_done"]
         prem, hyp, tmpl = verbalize_backward_mode(goal, selected_rule_id, backward_plan, missing_facts)
@@ -311,6 +327,7 @@ class NeSyEngine:
                 backward_plan=backward_plan,
                 missing_facts=missing_facts,
                 requirements_ok=requirements_ok,
+                requirement_artifact=requirement_artifact,
             ),
             trace=trace,
             symbolic_checks=_sym_dict(sym),
@@ -327,6 +344,8 @@ class NeSyEngine:
         known_facts: dict[str, Any] | None = None,
         forward_result: dict[str, Any] | None = None,
         proof: dict[str, Any] | None = None,
+        requirement_artifact: dict[str, Any] | None = None,
+        selected_rule_id: str | None = None,
     ) -> VerificationRecord:
         sym = symbolic_forward(
             goal_achieved=goal_achieved,
@@ -334,6 +353,8 @@ class NeSyEngine:
             proof=proof,
             conclusion=conclusion,
             goal=goal,
+            requirement_artifact=requirement_artifact,
+            selected_rule_id=selected_rule_id,
         )
         trace = ["symbolic_forward_done"]
         prem, hyp, tmpl = verbalize_forward_mode(goal, known_facts, proof, forward_result, conclusion)
@@ -371,6 +392,8 @@ class NeSyEngine:
                 known_facts=known_facts,
                 forward_result=forward_result,
                 proof=proof,
+                requirement_artifact=requirement_artifact,
+                selected_rule_id=selected_rule_id,
             ),
             trace=trace,
             symbolic_checks=_sym_dict(sym),
