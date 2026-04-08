@@ -191,23 +191,24 @@ def run_parse_repair_loop(
                 "diagnostics": list(last_rec.diagnostics) + ["parse_nli_reject_softened_after_repair"],
             }
         )
-    trace.append({"phase": "parse", "final_decision": last_rec.final_decision, "attempts_used": attempt, "post_repair_gain": final_gain})
     root_cause = str(_first_error_code(last_rec) or "unknown")
-    if last_rec.final_decision != "ACCEPT":
-        trace.append(
-            {
-                "phase": "parse",
-                "root_cause": root_cause,
-                **_repair_action_log(
-                    verifier_mode="parse_verification",
-                    verdict=last_rec.final_decision,
-                    issue_type=root_cause,
-                    repair_target=str(last_rec.repair_target_module or "unspecified"),
-                    repair_action="stop_after_controlled_repair",
-                    rerun_result="failed",
-                ),
-            }
-        )
+    trace.append(
+        {
+            "phase": "parse",
+            "final_decision": last_rec.final_decision,
+            "attempts_used": attempt,
+            "post_repair_gain": final_gain,
+            "root_cause": root_cause,
+            **_repair_action_log(
+                verifier_mode="parse_verification",
+                verdict=last_rec.final_decision,
+                issue_type=root_cause,
+                repair_target=str(last_rec.repair_target_module or "unspecified"),
+                repair_action=("stop_after_controlled_repair" if last_rec.final_decision != "ACCEPT" else "finalize_after_repair"),
+                rerun_result=("failed" if last_rec.final_decision != "ACCEPT" else "accepted"),
+            ),
+        }
+    )
     last_rec = _with_repair_metadata(
         last_rec,
         repair_applied=attempt > 0,
@@ -329,23 +330,24 @@ def run_answer_repair_loop(
         "final_status_before": trace[0].get("decision"),
         "final_status_after": last_rec.final_decision,
     }
-    trace.append({"phase": "answer", "final_decision": last_rec.final_decision, "attempts_used": attempt, "post_repair_gain": final_gain})
     root_cause = str(_first_error_code(last_rec) or "unknown")
-    if last_rec.final_decision != "ACCEPT":
-        trace.append(
-            {
-                "phase": "answer",
-                "root_cause": root_cause,
-                **_repair_action_log(
-                    verifier_mode="answer_verification",
-                    verdict=last_rec.final_decision,
-                    issue_type=root_cause,
-                    repair_target=str(last_rec.repair_target_module or "unspecified"),
-                    repair_action="stop_after_controlled_repair",
-                    rerun_result="failed",
-                ),
-            }
-        )
+    trace.append(
+        {
+            "phase": "answer",
+            "final_decision": last_rec.final_decision,
+            "attempts_used": attempt,
+            "post_repair_gain": final_gain,
+            "root_cause": root_cause,
+            **_repair_action_log(
+                verifier_mode="answer_verification",
+                verdict=last_rec.final_decision,
+                issue_type=root_cause,
+                repair_target=str(last_rec.repair_target_module or "unspecified"),
+                repair_action=("stop_after_controlled_repair" if last_rec.final_decision != "ACCEPT" else "finalize_after_repair"),
+                rerun_result=("failed" if last_rec.final_decision != "ACCEPT" else "accepted"),
+            ),
+        }
+    )
     last_rec = _with_repair_metadata(
         last_rec,
         repair_applied=attempt > 0,
@@ -401,6 +403,14 @@ def run_rule_repair_loop(
             "repair_target_module": last.repair_target_module,
             "diagnostic_errors": list(last.diagnostic_errors),
             "action_taken": "initial_verify_rule",
+            **_repair_action_log(
+                verifier_mode="rule_verification",
+                verdict=last.final_decision,
+                issue_type=str(_first_error_code(last) or "none"),
+                repair_target=str(last.repair_target_module or "unspecified"),
+                repair_action="initial_verify",
+                rerun_result="not_rerun",
+            ),
         }
     )
     attempt = 0
@@ -429,6 +439,14 @@ def run_rule_repair_loop(
                 "rule_id": rule.rule_id,
                 "action_taken": "reload_rule_from_rulebase_index",
                 "diagnostic_errors": list(last.diagnostic_errors),
+                **_repair_action_log(
+                    verifier_mode="rule_verification",
+                    verdict=last.final_decision,
+                    issue_type=str(code or "none"),
+                    repair_target=RULE_HANDLER_MODULE,
+                    repair_action="reload_rule_from_index",
+                    rerun_result="rerun_done",
+                ),
             }
         )
         if last.final_decision in ("ACCEPT", "REJECT"):
@@ -448,8 +466,17 @@ def run_rule_repair_loop(
             "attempts_used": attempt,
             "final_rule_id": rule.rule_id,
             "post_repair_gain": final_gain,
+            **_repair_action_log(
+                verifier_mode="rule_verification",
+                verdict=last.final_decision,
+                issue_type=str(_first_error_code(last) or "none"),
+                repair_target=str(last.repair_target_module or "unspecified"),
+                repair_action=("stop_after_controlled_repair" if last.final_decision != "ACCEPT" else "finalize_after_repair"),
+                rerun_result=("failed" if last.final_decision != "ACCEPT" else "accepted"),
+            ),
         }
     )
+    root_cause = str(_first_error_code(last) or "unknown")
     last = _with_repair_metadata(
         last,
         repair_applied=attempt > 0,
@@ -461,6 +488,7 @@ def run_rule_repair_loop(
             "repair_hints": [last.repair_hint] if last.repair_hint else [],
             "repair_applied": attempt > 0,
             "rerun_stage": "rule_verification" if attempt > 0 else None,
+            "root_cause": root_cause,
             "before_after": {
                 "selected_rule_before": rule_candidate.rule_id,
                 "selected_rule_after": rule.rule_id,
@@ -509,13 +537,21 @@ def run_backward_repair_loop(
             "repair_target_module": last.repair_target_module,
             "diagnostic_errors": list(last.diagnostic_errors),
             "action_taken": "initial_verify_backward",
+            **_repair_action_log(
+                verifier_mode="backward_verification",
+                verdict=last.final_decision,
+                issue_type=str(_first_error_code(last) or "none"),
+                repair_target=str(last.repair_target_module or "unspecified"),
+                repair_action="initial_verify",
+                rerun_result="not_rerun",
+            ),
         }
     )
     attempt = 0
     excluded: set[str] = set()
     while last.final_decision == "REPAIR" and attempt < max_attempts:
         code = _first_error_code(last)
-        if not code or repair_target_for_code(code) != BACKWARD_HANDLER_MODULE:
+        if not code or repair_target_for_code(code) not in BACKWARD_HANDLER_TARGETS:
             trace[-1]["note"] = "no_auto_repair_or_wrong_target"
             break
         attempt += 1
@@ -548,6 +584,14 @@ def run_backward_repair_loop(
                 "action_taken": "run_backward_excluding_failed_ids",
                 "excluded_rule_ids": list(excluded),
                 "diagnostic_errors": list(last.diagnostic_errors),
+                **_repair_action_log(
+                    verifier_mode="backward_verification",
+                    verdict=last.final_decision,
+                    issue_type=str(code or "none"),
+                    repair_target=str(repair_target_for_code(code)),
+                    repair_action="rerank_selected_rule_and_rebuild_requirements",
+                    rerun_result="rerun_done",
+                ),
             }
         )
         if last.final_decision in ("ACCEPT", "REJECT"):
@@ -569,8 +613,17 @@ def run_backward_repair_loop(
             "attempts_used": attempt,
             "final_rule_id": sel.rule_id if sel else None,
             "post_repair_gain": final_gain,
+            **_repair_action_log(
+                verifier_mode="backward_verification",
+                verdict=last.final_decision,
+                issue_type=str(_first_error_code(last) or "none"),
+                repair_target=str(last.repair_target_module or "unspecified"),
+                repair_action=("stop_after_controlled_repair" if last.final_decision != "ACCEPT" else "finalize_after_repair"),
+                rerun_result=("failed" if last.final_decision != "ACCEPT" else "accepted"),
+            ),
         }
     )
+    root_cause = str(_first_error_code(last) or "unknown")
     last = _with_repair_metadata(
         last,
         repair_applied=attempt > 0,
@@ -582,6 +635,7 @@ def run_backward_repair_loop(
             "repair_hints": [last.repair_hint] if last.repair_hint else [],
             "repair_applied": attempt > 0,
             "rerun_stage": "backward_verification" if attempt > 0 else None,
+            "root_cause": root_cause,
             "before_after": {
                 "selected_rule_before": selected_rule.rule_id if selected_rule else None,
                 "selected_rule_after": sel.rule_id if sel else None,
@@ -639,12 +693,20 @@ def run_forward_repair_loop(
             "repair_target_module": last.repair_target_module,
             "diagnostic_errors": list(last.diagnostic_errors),
             "action_taken": "initial_verify_forward",
+            **_repair_action_log(
+                verifier_mode="forward_verification",
+                verdict=last.final_decision,
+                issue_type=str(_first_error_code(last) or "none"),
+                repair_target=str(last.repair_target_module or "unspecified"),
+                repair_action="initial_verify",
+                rerun_result="not_rerun",
+            ),
         }
     )
     attempt = 0
     while last.final_decision == "REPAIR" and attempt < max_attempts:
         code = _first_error_code(last)
-        if not code or repair_target_for_code(code) != FORWARD_HANDLER_MODULE:
+        if not code or repair_target_for_code(code) not in FORWARD_HANDLER_TARGETS:
             trace[-1]["note"] = "no_auto_repair_or_wrong_target"
             break
         attempt += 1
@@ -668,6 +730,14 @@ def run_forward_repair_loop(
                 "decision": last.final_decision,
                 "action_taken": "forward_retry_fn_rerun",
                 "diagnostic_errors": list(last.diagnostic_errors),
+                **_repair_action_log(
+                    verifier_mode="forward_verification",
+                    verdict=last.final_decision,
+                    issue_type=str(code or "none"),
+                    repair_target=str(repair_target_for_code(code)),
+                    repair_action="rerun_forward_and_rebuild_proof",
+                    rerun_result="rerun_done",
+                ),
             }
         )
         if last.final_decision in ("ACCEPT", "REJECT"):
@@ -680,7 +750,24 @@ def run_forward_repair_loop(
         "final_status_before": trace[0].get("decision"),
         "final_status_after": last.final_decision,
     }
-    trace.append({"phase": "forward", "final_decision": last.final_decision, "attempts_used": attempt, "post_repair_gain": final_gain})
+    root_cause = str(_first_error_code(last) or "unknown")
+    trace.append(
+        {
+            "phase": "forward",
+            "final_decision": last.final_decision,
+            "attempts_used": attempt,
+            "post_repair_gain": final_gain,
+            "root_cause": root_cause,
+            **_repair_action_log(
+                verifier_mode="forward_verification",
+                verdict=last.final_decision,
+                issue_type=root_cause,
+                repair_target=str(last.repair_target_module or "unspecified"),
+                repair_action=("stop_after_controlled_repair" if last.final_decision != "ACCEPT" else "finalize_after_repair"),
+                rerun_result=("failed" if last.final_decision != "ACCEPT" else "accepted"),
+            ),
+        }
+    )
     last = _with_repair_metadata(
         last,
         repair_applied=attempt > 0,
@@ -692,6 +779,7 @@ def run_forward_repair_loop(
             "repair_hints": [last.repair_hint] if last.repair_hint else [],
             "repair_applied": attempt > 0,
             "rerun_stage": "forward_verification" if attempt > 0 else None,
+            "root_cause": root_cause,
             "before_after": {
                 "proof_before": proof_obj.model_dump(mode="json") if hasattr(proof_obj, "model_dump") else proof_obj,
                 "proof_after": pobj.model_dump(mode="json") if hasattr(pobj, "model_dump") else pobj,
@@ -728,6 +816,14 @@ def run_retrieval_repair_loop(
                 "retrieved_count_before": len(current),
                 "top_rule_ids_before": [r.rule_id for r, _, _ in current[:8]],
             },
+            **_repair_action_log(
+                verifier_mode="retrieval_verification",
+                verdict="ACCEPT" if current else "REPAIR",
+                issue_type="retrieval_ranking_error" if not current else "none",
+                repair_target="retrieval",
+                repair_action="initial_retrieval_check",
+                rerun_result="not_rerun",
+            ),
         }
     )
     attempt = 0
@@ -757,6 +853,14 @@ def run_retrieval_repair_loop(
                     "final_status_before": trace[0].get("decision"),
                     "final_status_after": "ACCEPT" if retried else "REJECT",
                 },
+                **_repair_action_log(
+                    verifier_mode="retrieval_verification",
+                    verdict="ACCEPT" if retried else "REJECT",
+                    issue_type="retrieval_ranking_error",
+                    repair_target="retrieval",
+                    repair_action="widen_topk_and_rerank",
+                    rerun_result="rerun_done",
+                ),
             }
         )
         current = retried
@@ -771,5 +875,13 @@ def run_retrieval_repair_loop(
         "repair_applied": attempt > 0,
         "rerun_stage": "retrieve_rules" if attempt > 0 else None,
         "post_repair_gain": trace[-1].get("post_repair_gain", {}) if trace else {},
+        **_repair_action_log(
+            verifier_mode="retrieval_verification",
+            verdict="ACCEPT" if current else "REJECT",
+            issue_type="retrieval_ranking_error" if not current else "none",
+            repair_target="retrieval",
+            repair_action=("stop_after_controlled_repair" if not current else "finalize_after_repair"),
+            rerun_result=("failed" if not current else "accepted"),
+        ),
     }
     return current, trace, summary
