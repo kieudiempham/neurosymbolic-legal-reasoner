@@ -169,3 +169,37 @@ def build_clarification_prompts_from_requirements(
         row.setdefault("reason_hint", row["reason"])
         out.append(row)
     return out
+
+
+def filter_clarification_targets(
+    missing_keys: list[str],
+    *,
+    known_facts: dict[str, Any] | None = None,
+    parse_layer2: Any | None = None,
+) -> list[str]:
+    """Do not ask clarification for facts already known or already present in parse output."""
+    known = set(str(k) for k in (known_facts or {}).keys())
+    parsed: set[str] = set()
+    if parse_layer2 is not None:
+        for seq_name in ("condition_atoms", "facts"):
+            seq = getattr(parse_layer2, seq_name, None) or []
+            for x in seq:
+                sx = str(x).strip()
+                if sx:
+                    parsed.add(sx)
+        goal = getattr(parse_layer2, "goal", None) or {}
+        if isinstance(goal, dict):
+            gp = str(goal.get("predicate") or "").strip()
+            gargs = list(goal.get("args") or [])
+            if gp:
+                parsed.add(f"{gp}({', '.join(str(a) for a in gargs)})")
+
+    out: list[str] = []
+    for key in missing_keys:
+        sk = str(key).strip()
+        if not sk:
+            continue
+        if sk in known or sk in parsed:
+            continue
+        out.append(sk)
+    return out

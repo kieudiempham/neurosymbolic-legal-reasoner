@@ -8,6 +8,57 @@ from typing import Any
 from schemas.session import SessionState
 
 
+def _to_bool(value: Any) -> bool | None:
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, (int, float)):
+        return bool(value)
+    if isinstance(value, str):
+        v = value.strip().lower()
+        if v in {"1", "true", "yes", "y", "co", "có", "dung", "đúng"}:
+            return True
+        if v in {"0", "false", "no", "n", "khong", "không", "sai"}:
+            return False
+    return None
+
+
+def normalize_clarification_answers(
+    answers: list[dict[str, Any]],
+    clarification_questions: list[dict[str, Any]] | None,
+) -> list[dict[str, Any]]:
+    """Map user clarification to normalized fact values by expected answer type."""
+    by_key = {str(q.get("fact_key") or ""): q for q in (clarification_questions or [])}
+    out: list[dict[str, Any]] = []
+    for ans in answers:
+        fk = str(ans.get("fact_key") or "").strip()
+        if not fk:
+            continue
+        q = by_key.get(fk, {})
+        expected = str(q.get("expected_type") or "").strip().lower()
+        value = ans.get("value")
+        norm: Any = value
+
+        if expected == "yes_no":
+            norm = _to_bool(value)
+        elif expected == "number":
+            if isinstance(value, str):
+                try:
+                    norm = float(value.strip().replace(",", "."))
+                except Exception:
+                    norm = None
+        elif expected in {"choice", "text", "time", "document"}:
+            if isinstance(value, str):
+                norm = value.strip() or None
+
+        # Choice answers should respect suggested options when provided.
+        options = [str(x) for x in (q.get("options") or []) if str(x).strip()]
+        if expected == "choice" and options and isinstance(norm, str) and norm not in options:
+            norm = None
+
+        out.append({"fact_key": fk, "value": norm})
+    return out
+
+
 def known_facts_for_reasoning(session: SessionState) -> dict[str, Any]:
     """Strip parse_amb:* keys so backward/forward do not treat them as domain facts."""
     return {k: v for k, v in session.known_facts.items() if not str(k).startswith("parse_amb:")}

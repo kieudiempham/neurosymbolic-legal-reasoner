@@ -59,17 +59,21 @@ RETRIEVAL_CODES = frozenset(
 
 def repair_target_for_code(code: str) -> str:
     if code in PARSE_CODES:
-        return "question_parser_or_layer2_builder"
+        return "parser"
     if code in RULE_CODES:
         return "legal_frame_extractor_or_rule_builder"
-    if code in BACKWARD_CODES:
-        return "backward_reasoner"
-    if code in FORWARD_CODES:
+    if code == "backward_rule_selection_error":
+        return "selected_rule_ranking"
+    if code in {"backward_unification_error", "missing_fact_error", "requirement_construction_error"}:
+        return "backward_requirement_extraction"
+    if code in {"forward_constraint_error", "forward_exception_error", "forward_conclusion_error"}:
         return "forward_reasoner"
+    if code == "forward_proof_error":
+        return "forward_proof_construction"
     if code in ANSWER_CODES:
-        return "answer_generator"
+        return "answer_generation"
     if code in RETRIEVAL_CODES:
-        return "retrieval_or_retrieval_ranking"
+        return "retrieval"
     return "unspecified"
 
 

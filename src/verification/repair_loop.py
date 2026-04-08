@@ -21,6 +21,31 @@ BACKWARD_HANDLER_MODULE = "backward_reasoner"
 FORWARD_HANDLER_MODULE = "forward_reasoner"
 RETRIEVAL_HANDLER_MODULE = "retrieval_or_retrieval_ranking"
 
+PARSE_HANDLER_TARGETS = {"parser", PARSE_HANDLER_MODULE}
+ANSWER_HANDLER_TARGETS = {"answer_generation", ANSWER_HANDLER_MODULE}
+BACKWARD_HANDLER_TARGETS = {"selected_rule_ranking", "backward_requirement_extraction", BACKWARD_HANDLER_MODULE}
+FORWARD_HANDLER_TARGETS = {"forward_reasoner", "forward_proof_construction", FORWARD_HANDLER_MODULE}
+RETRIEVAL_HANDLER_TARGETS = {"retrieval", RETRIEVAL_HANDLER_MODULE}
+
+
+def _repair_action_log(
+    *,
+    verifier_mode: str,
+    verdict: str,
+    issue_type: str,
+    repair_target: str,
+    repair_action: str,
+    rerun_result: str,
+) -> dict[str, Any]:
+    return {
+        "verifier_mode": verifier_mode,
+        "verdict": verdict,
+        "issue_type": issue_type,
+        "repair_target": repair_target,
+        "repair_action": repair_action,
+        "rerun_result": rerun_result,
+    }
+
 
 def _with_repair_metadata(
     rec: VerificationRecord,
@@ -84,6 +109,14 @@ def run_parse_repair_loop(
             "input_snapshot": {"goal": dict(current.goal or {}), "layer1_focus": l1.question_focus},
             "diagnostic_errors": list(last_rec.diagnostic_errors),
             "auto_repair_eligible": False,
+            **_repair_action_log(
+                verifier_mode="parse_verification",
+                verdict=last_rec.final_decision,
+                issue_type=str(_first_error_code(last_rec) or "none"),
+                repair_target=str(last_rec.repair_target_module or "unspecified"),
+                repair_action="initial_verify",
+                rerun_result="not_rerun",
+            ),
         }
     )
 
@@ -94,7 +127,7 @@ def run_parse_repair_loop(
     ):
         code = _first_error_code(last_rec)
         target = repair_target_for_code(code or "")
-        eligible = bool(code) and target == PARSE_HANDLER_MODULE
+        eligible = bool(code) and target in PARSE_HANDLER_TARGETS
         if not eligible and last_rec.final_decision == "REJECT" and last_rec.symbolic_ok:
             eligible = True
             target = PARSE_HANDLER_MODULE
@@ -129,6 +162,14 @@ def run_parse_repair_loop(
                 "diagnostic_errors": list(last_rec.diagnostic_errors),
                 "repair_hint": hint,
                 "repair_trace": rt,
+                **_repair_action_log(
+                    verifier_mode="parse_verification",
+                    verdict=last_rec.final_decision,
+                    issue_type=str(code or "none"),
+                    repair_target=str(target or "unspecified"),
+                    repair_action="repair_parse_bundle",
+                    rerun_result="rerun_done",
+                ),
             }
         )
         if last_rec.final_decision in ("ACCEPT", "REJECT"):
@@ -151,6 +192,22 @@ def run_parse_repair_loop(
             }
         )
     trace.append({"phase": "parse", "final_decision": last_rec.final_decision, "attempts_used": attempt, "post_repair_gain": final_gain})
+    root_cause = str(_first_error_code(last_rec) or "unknown")
+    if last_rec.final_decision != "ACCEPT":
+        trace.append(
+            {
+                "phase": "parse",
+                "root_cause": root_cause,
+                **_repair_action_log(
+                    verifier_mode="parse_verification",
+                    verdict=last_rec.final_decision,
+                    issue_type=root_cause,
+                    repair_target=str(last_rec.repair_target_module or "unspecified"),
+                    repair_action="stop_after_controlled_repair",
+                    rerun_result="failed",
+                ),
+            }
+        )
     last_rec = _with_repair_metadata(
         last_rec,
         repair_applied=attempt > 0,
@@ -162,6 +219,7 @@ def run_parse_repair_loop(
             "repair_hints": [last_rec.repair_hint] if last_rec.repair_hint else [],
             "repair_applied": attempt > 0,
             "rerun_stage": "parse_verification" if attempt > 0 else None,
+            "root_cause": root_cause,
             "before_after": {
                 "parse_before": trace[0].get("input_snapshot"),
                 "parse_after": {"goal": dict(current.goal or {}), "layer1": l1.model_dump(mode="json")},
@@ -207,6 +265,14 @@ def run_answer_repair_loop(
             "input_snapshot": {"answer_excerpt": text[:200]},
             "diagnostic_errors": list(last_rec.diagnostic_errors),
             "auto_repair_eligible": False,
+            **_repair_action_log(
+                verifier_mode="answer_verification",
+                verdict=last_rec.final_decision,
+                issue_type=str(_first_error_code(last_rec) or "none"),
+                repair_target=str(last_rec.repair_target_module or "unspecified"),
+                repair_action="initial_verify",
+                rerun_result="not_rerun",
+            ),
         }
     )
 
@@ -214,7 +280,7 @@ def run_answer_repair_loop(
     while last_rec.final_decision == "REPAIR" and attempt < max_repair_attempts_answer:
         code = _first_error_code(last_rec)
         target = repair_target_for_code(code or "")
-        eligible = bool(code) and target == ANSWER_HANDLER_MODULE
+        eligible = bool(code) and target in ANSWER_HANDLER_TARGETS
         trace[-1]["auto_repair_eligible"] = eligible
         if not eligible:
             trace[-1]["note"] = "no_auto_repair_handler_or_wrong_target"
@@ -243,6 +309,14 @@ def run_answer_repair_loop(
                 "output_snapshot": {"answer_excerpt": text[:200]},
                 "diagnostic_errors": list(last_rec.diagnostic_errors),
                 "repair_hint": hint,
+                **_repair_action_log(
+                    verifier_mode="answer_verification",
+                    verdict=last_rec.final_decision,
+                    issue_type=str(code or "none"),
+                    repair_target=str(target or "unspecified"),
+                    repair_action="regenerate_answer",
+                    rerun_result="rerun_done",
+                ),
             }
         )
         if last_rec.final_decision in ("ACCEPT", "REJECT"):
@@ -256,6 +330,22 @@ def run_answer_repair_loop(
         "final_status_after": last_rec.final_decision,
     }
     trace.append({"phase": "answer", "final_decision": last_rec.final_decision, "attempts_used": attempt, "post_repair_gain": final_gain})
+    root_cause = str(_first_error_code(last_rec) or "unknown")
+    if last_rec.final_decision != "ACCEPT":
+        trace.append(
+            {
+                "phase": "answer",
+                "root_cause": root_cause,
+                **_repair_action_log(
+                    verifier_mode="answer_verification",
+                    verdict=last_rec.final_decision,
+                    issue_type=root_cause,
+                    repair_target=str(last_rec.repair_target_module or "unspecified"),
+                    repair_action="stop_after_controlled_repair",
+                    rerun_result="failed",
+                ),
+            }
+        )
     last_rec = _with_repair_metadata(
         last_rec,
         repair_applied=attempt > 0,
@@ -267,6 +357,7 @@ def run_answer_repair_loop(
             "repair_hints": [last_rec.repair_hint] if last_rec.repair_hint else [],
             "repair_applied": attempt > 0,
             "rerun_stage": "answer_verification" if attempt > 0 else None,
+            "root_cause": root_cause,
             "before_after": {
                 "answer_before": answer_text,
                 "answer_after": text,

@@ -4,9 +4,11 @@ from __future__ import annotations
 
 from typing import Any
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 from schemas.answer import FinalAnswer
+from schemas.clarification import ClarificationArtifact, ClarificationTarget
+from schemas.evaluation_log import QAEvaluationLogArtifact, build_evaluation_log_artifact
 from schemas.question_parse import Layer1Parse, Layer2Parse
 from schemas.proof import ProofObject
 from schemas.reasoning import ReasoningState
@@ -40,6 +42,52 @@ class AskResponse(BaseModel):
     answer: FinalAnswer | None = None
     reasoning_result: dict[str, Any] | None = None
     debug_trace: dict[str, Any] = Field(default_factory=dict)
+    clarification_artifact: ClarificationArtifact | None = None
+    evaluation_log: QAEvaluationLogArtifact | None = None
+
+    @model_validator(mode="after")
+    def _populate_clarification_artifact(self) -> "AskResponse":
+        if self.clarification_artifact is None:
+            targets = [
+                ClarificationTarget(
+                    fact_key=p.fact_key,
+                    target_kind=p.target_kind,
+                    expected_type=p.expected_type,
+                )
+                for p in self.clarification_questions
+            ]
+            self.clarification_artifact = ClarificationArtifact(
+                needs_clarification=self.needs_clarification,
+                clarification_targets=targets,
+                clarification_question=[p.question_text for p in self.clarification_questions if p.question_text],
+                rationale=[(p.reason or p.reason_hint) for p in self.clarification_questions if (p.reason or p.reason_hint)],
+            )
+        return self
+
+    @model_validator(mode="after")
+    def _populate_evaluation_log(self) -> "AskResponse":
+        if self.evaluation_log is None:
+            query_text = None
+            if isinstance(self.debug_trace, dict):
+                q = self.debug_trace.get("query_text")
+                if isinstance(q, str) and q.strip():
+                    query_text = q.strip()
+            self.evaluation_log = build_evaluation_log_artifact(
+                session_id=self.session_id,
+                query_text=query_text,
+                layer1=self.layer1,
+                layer2=self.layer2,
+                retrieved_rules=self.retrieved_rules,
+                selected_rule=self.selected_rule,
+                reasoning=self.reasoning,
+                proof=self.proof,
+                answer=self.answer,
+                needs_clarification=self.needs_clarification,
+                clarification_questions=self.clarification_questions,
+                verification_trace=self.verification_trace,
+                debug_trace=self.debug_trace,
+            )
+        return self
 
 
 class ClarifyResponse(BaseModel):
@@ -56,6 +104,52 @@ class ClarifyResponse(BaseModel):
     answer: FinalAnswer | None = None
     reasoning_result: dict[str, Any] | None = None
     debug_trace: dict[str, Any] = Field(default_factory=dict)
+    clarification_artifact: ClarificationArtifact | None = None
+    evaluation_log: QAEvaluationLogArtifact | None = None
+
+    @model_validator(mode="after")
+    def _populate_clarification_artifact(self) -> "ClarifyResponse":
+        if self.clarification_artifact is None:
+            targets = [
+                ClarificationTarget(
+                    fact_key=p.fact_key,
+                    target_kind=p.target_kind,
+                    expected_type=p.expected_type,
+                )
+                for p in self.clarification_questions
+            ]
+            self.clarification_artifact = ClarificationArtifact(
+                needs_clarification=self.needs_clarification,
+                clarification_targets=targets,
+                clarification_question=[p.question_text for p in self.clarification_questions if p.question_text],
+                rationale=[(p.reason or p.reason_hint) for p in self.clarification_questions if (p.reason or p.reason_hint)],
+            )
+        return self
+
+    @model_validator(mode="after")
+    def _populate_evaluation_log(self) -> "ClarifyResponse":
+        if self.evaluation_log is None:
+            query_text = None
+            if isinstance(self.debug_trace, dict):
+                q = self.debug_trace.get("query_text")
+                if isinstance(q, str) and q.strip():
+                    query_text = q.strip()
+            self.evaluation_log = build_evaluation_log_artifact(
+                session_id=self.session_id,
+                query_text=query_text,
+                layer1=self.layer1,
+                layer2=self.layer2,
+                retrieved_rules=self.retrieved_rules,
+                selected_rule=self.selected_rule,
+                reasoning=self.reasoning,
+                proof=self.proof,
+                answer=self.answer,
+                needs_clarification=self.needs_clarification,
+                clarification_questions=self.clarification_questions,
+                verification_trace=self.verification_trace,
+                debug_trace=self.debug_trace,
+            )
+        return self
 
 
 class HealthResponse(BaseModel):

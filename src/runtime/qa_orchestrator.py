@@ -15,11 +15,13 @@ from generation.answer_generator import (
 from reasoning.clarification_manager import (
     build_clarification_prompts_from_requirements,
     build_parse_ambiguity_prompts,
+    filter_clarification_targets,
     merge_clarification_prompts_unified,
 )
 from question_side.parse_clarify_apply import (
     extract_resolved_condition_atoms_from_known_facts,
     known_facts_for_reasoning,
+    normalize_clarification_answers,
     structured_facts_for_reasoning,
 )
 from question_side.question_normalizer import build_layer2
@@ -142,6 +144,34 @@ def _proof_steps_by_domain(proof: Any) -> dict[str, list[dict[str, Any]]]:
             }
         )
     return out
+
+
+def _clarification_gain_summary(
+    *,
+    pre_missing: list[str],
+    post_missing: list[str],
+    pre_status: str,
+    post_status: str,
+    pre_proof: Any | None,
+    post_proof: Any | None,
+) -> dict[str, Any]:
+    pre_set = {str(x) for x in pre_missing if str(x).strip()}
+    post_set = {str(x) for x in post_missing if str(x).strip()}
+    newly = sorted(pre_set - post_set)
+    pre_steps = len(getattr(pre_proof, "proof_steps", None) or []) if pre_proof is not None else 0
+    post_steps = len(getattr(post_proof, "proof_steps", None) or []) if post_proof is not None else 0
+    return {
+        "pre_clarification_status": pre_status,
+        "post_clarification_status": post_status,
+        "newly_satisfied_requirements": newly,
+        "proof_delta": {
+            "proof_before_steps": pre_steps,
+            "proof_after_steps": post_steps,
+            "step_delta": post_steps - pre_steps,
+            "had_proof_before": pre_proof is not None,
+            "has_proof_after": post_proof is not None,
+        },
+    }
 
 
 def _grounding_docs_from_evidence(ev: Any) -> list[dict[str, Any]]:
@@ -378,7 +408,7 @@ def run_ask(
     if not tc._noop:
         tc.session_id = session.session_id
 
-    trace: dict[str, Any] = {"stage": []}
+    trace: dict[str, Any] = {"stage": [], "query_text": question}
 
     with tc.span("parse_layer1") as sp_l1:
         layer1 = parse_question_layer1(question)
@@ -713,8 +743,13 @@ def run_ask(
         with tc.span("clarification") as sp_cl:
             parse_ambs = (layer2.diagnostics or {}).get("ambiguities") or []
             parse_prompts = build_parse_ambiguity_prompts([a for a in parse_ambs if not a.get("blocking")])
-            backward_prompts = build_clarification_prompts_from_requirements(
+            filtered_missing = filter_clarification_targets(
                 bstate.missing_facts,
+                known_facts=session.known_facts,
+                parse_layer2=layer2,
+            )
+            backward_prompts = build_clarification_prompts_from_requirements(
+                filtered_missing,
                 bstate.requirement_set,
                 backward_plan=bstate.backward_plan,
                 related_rule_id=selected.rule_id if selected else None,
@@ -1016,7 +1051,12 @@ def run_clarify(
     if not session:
         raise KeyError("session_not_found")
 
-    svc.merge_fact_answers(session, answers)
+    pre_missing = list((session.reasoning.missing_facts if session.reasoning else session.missing_facts) or [])
+    pre_status = "needs_clarification" if bool(pre_missing or session.clarification_questions) else "open"
+    pre_proof = session.proof
+
+    normalized_answers = normalize_clarification_answers(answers, list(session.clarification_questions or []))
+    svc.merge_fact_answers(session, normalized_answers)
     question = session.original_question
     if not tc._noop:
         tc.question_text = question or ""
@@ -1038,7 +1078,11 @@ def run_clarify(
     session.layer1 = layer1
     session.layer2 = layer2
 
-    trace: dict[str, Any] = {"stage": ["clarify_resume"]}
+    trace: dict[str, Any] = {
+        "stage": ["clarify_resume"],
+        "query_text": question,
+        "clarification_answers": list(normalized_answers or []),
+    }
 
     with tc.span("parse_repair") as sp_pr:
         layer1, layer2, _v_parse_cl, parse_repair_trace = run_parse_repair_loop(
@@ -1242,14 +1286,27 @@ def run_clarify(
         with tc.span("clarification") as sp_cl:
             parse_ambs = (layer2.diagnostics or {}).get("ambiguities") or []
             parse_prompts = build_parse_ambiguity_prompts([a for a in parse_ambs if not a.get("blocking")])
-            backward_prompts = build_clarification_prompts_from_requirements(
+            filtered_missing = filter_clarification_targets(
                 bstate.missing_facts,
+                known_facts=session.known_facts,
+                parse_layer2=layer2,
+            )
+            backward_prompts = build_clarification_prompts_from_requirements(
+                filtered_missing,
                 bstate.requirement_set,
                 backward_plan=bstate.backward_plan,
                 related_rule_id=selected.rule_id if selected else None,
             )
             prompts = merge_clarification_prompts_unified(parse_prompts, backward_prompts)
             sp_cl.output_summary = {"prompt_count": len(prompts), "missing_facts": bstate.missing_facts}
+        trace["clarification_gain"] = _clarification_gain_summary(
+            pre_missing=pre_missing,
+            post_missing=list(bstate.missing_facts or []),
+            pre_status=pre_status,
+            post_status="needs_clarification",
+            pre_proof=pre_proof,
+            post_proof=None,
+        )
         session.missing_facts = bstate.missing_facts
         session.clarification_questions = prompts
         svc.save(session)
@@ -1295,6 +1352,14 @@ def run_clarify(
     if not fg.ok:
         with tc.span("pipeline_exit") as spx:
             spx.output_summary = {"reason": fg.error or "forward_verification_failed"}
+        trace["clarification_gain"] = _clarification_gain_summary(
+            pre_missing=pre_missing,
+            post_missing=list(bstate.missing_facts or []),
+            pre_status=pre_status,
+            post_status="insufficient_after_clarification",
+            pre_proof=pre_proof,
+            post_proof=fg.proof_obj,
+        )
         svc.save(session)
         _merge_pipeline_trace_dict(trace, tc)
         return ClarifyResponse(
@@ -1387,6 +1452,14 @@ def run_clarify(
         trace["answer_verification"] = {"final_decision": "REJECT", "note": "no_fallback_per_policy"}
 
     session.answer = ans
+    trace["clarification_gain"] = _clarification_gain_summary(
+        pre_missing=pre_missing,
+        post_missing=list((fstate.missing_facts if fstate else []) or []),
+        pre_status=pre_status,
+        post_status="resolved_after_clarification",
+        pre_proof=pre_proof,
+        post_proof=proof,
+    )
     session.pipeline_trace = trace
     _merge_pipeline_trace_dict(trace, tc)
     svc.save(session)
