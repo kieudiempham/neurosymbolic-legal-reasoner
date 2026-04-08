@@ -53,6 +53,7 @@ from runtime.backend_modes import (
     init_backend_modes,
 )
 from runtime.evidence_stage import build_evidence_bundle
+from runtime.experiment_run_config import ExperimentRunConfig, resolve_experiment_run_config
 from runtime.reasoning_context import ReasoningContext
 from schemas.domain_routing import DomainRoutingPlan
 from schemas.rule_metadata import collect_rulebase_ids_from_index
@@ -282,6 +283,12 @@ def _finalize_reasoning_result_dict(
         return out
 
 
+def _resolve_run_config(
+    run_config: ExperimentRunConfig | dict[str, Any] | str | Path | None,
+) -> ExperimentRunConfig:
+    return resolve_experiment_run_config(run_config)
+
+
 class QAOrchestrator:
     """Central business orchestrator for ask / clarify flows."""
 
@@ -358,6 +365,7 @@ class QAOrchestrator:
         user_facts: list[str] | None,
         trace_collector: TraceCollector | None = None,
         question_time: str | None = None,
+        run_config: ExperimentRunConfig | dict[str, Any] | str | Path | None = None,
     ) -> AskResponse:
         return run_ask(
             question=question,
@@ -379,9 +387,16 @@ class QAOrchestrator:
             answer_reject_allow_fallback=self._answer_reject_allow_fallback,
             trace_collector=trace_collector,
             question_time=question_time,
+            run_config=run_config,
         )
 
-    def clarify(self, session_id: str, answers: list[dict[str, Any]], trace_collector: TraceCollector | None = None) -> ClarifyResponse:
+    def clarify(
+        self,
+        session_id: str,
+        answers: list[dict[str, Any]],
+        trace_collector: TraceCollector | None = None,
+        run_config: ExperimentRunConfig | dict[str, Any] | str | Path | None = None,
+    ) -> ClarifyResponse:
         return run_clarify(
             session_id=session_id,
             answers=answers,
@@ -400,6 +415,7 @@ class QAOrchestrator:
             max_repair_attempts_forward=self._max_repair_attempts_forward,
             answer_reject_allow_fallback=self._answer_reject_allow_fallback,
             trace_collector=trace_collector,
+            run_config=run_config,
         )
 
 
@@ -426,10 +442,12 @@ def run_ask(
     trace_collector: TraceCollector | None = None,
     question_time: str | None = None,
     domain_hint: str | None = None,
+    run_config: ExperimentRunConfig | dict[str, Any] | str | Path | None = None,
 ) -> AskResponse:
     svc = session_svc or get_session_service()
     engine = nesy or NeSyEngine(nesy_nli_mock=True)
     tc = trace_collector or TraceCollector.noop()
+    resolved_run_config = _resolve_run_config(run_config)
 
     if session_id and (st := svc.get(session_id)):
         session = st
@@ -445,6 +463,7 @@ def run_ask(
         "stage": [],
         "query_text": question,
         "backend_modes": init_backend_modes(verifier_engine=engine),
+        "run_config": resolved_run_config.to_trace_dict(),
     }
 
     with tc.span("parse_layer1") as sp_l1:
@@ -525,12 +544,13 @@ def run_ask(
     )
     if not isinstance(routing, DomainRoutingPlan):
         routing = DomainRoutingPlan.model_validate(routing)
-    trace["domain_routing"] = routing.model_dump(mode="json")
-
     policy = default_policy_for_routing(
         allow_cross_domain_expansion=routing.allow_cross_domain_expansion,
         triggered_bridges=list(routing.triggered_bridges),
     )
+    routing = resolved_run_config.apply_routing_plan(routing)
+    policy = resolved_run_config.apply_cross_domain_policy(policy)
+    trace["domain_routing"] = routing.model_dump(mode="json")
 
     with tc.span("retrieve_rules") as sp_rr:
         ranked: list[tuple[RuleRecord, float, dict[str, Any]]]
@@ -668,6 +688,31 @@ def run_ask(
 
     goal = layer2.goal
 
+    if not resolved_run_config.enable_backward_chaining:
+        with tc.span("pipeline_exit") as spx:
+            spx.output_summary = {"reason": "backward_disabled_by_run_config"}
+        error_reasoning_result = _finalize_reasoning_result_dict(
+            {"active_domains_used": list(ctx.primary_domains)},
+            proof=None,
+            ranked=ranked,
+            bstate=None,
+            fstate=None,
+            selected=None,
+            phase3_result=p3_result,
+        )
+        svc.save(session)
+        _merge_pipeline_trace_dict(trace, tc)
+        return AskResponse(
+            session_id=session.session_id,
+            needs_clarification=False,
+            verification_trace=session.verification_logs,
+            layer1=layer1,
+            layer2=layer2,
+            retrieved_rules=[_rule_dump(r) for r, s, d in ranked[:8]],
+            reasoning_result=error_reasoning_result,
+            debug_trace=trace | {"error": "backward_disabled_by_run_config"},
+        )
+
     with tc.span("rule_backward_gate") as sp_b:
         rg = gate_rule_and_backward(
             engine,
@@ -785,6 +830,32 @@ def run_ask(
     session.selected_rule = selected
 
     if rg.clarification_needed and bstate:
+        if not resolved_run_config.enable_clarification:
+            with tc.span("pipeline_exit") as spx:
+                spx.output_summary = {"reason": "clarification_disabled_by_run_config"}
+            clarify_disabled_result = _finalize_reasoning_result_dict(
+                {"active_domains_used": list(ctx.primary_domains)},
+                proof=None,
+                ranked=ranked,
+                bstate=bstate,
+                fstate=None,
+                selected=selected,
+                phase3_result=p3_result,
+            )
+            svc.save(session)
+            _merge_pipeline_trace_dict(trace, tc)
+            return AskResponse(
+                session_id=session.session_id,
+                needs_clarification=False,
+                verification_trace=session.verification_logs,
+                layer1=layer1,
+                layer2=layer2,
+                retrieved_rules=[_rule_dump(r) for r, s, d in ranked[:8]],
+                selected_rule=_rule_dump(selected) if selected else None,
+                reasoning=bstate,
+                reasoning_result=clarify_disabled_result,
+                debug_trace=trace | {"error": "clarification_disabled_by_run_config"},
+            )
         with tc.span("clarification") as sp_cl:
             parse_ambs = (layer2.diagnostics or {}).get("ambiguities") or []
             parse_prompts = build_parse_ambiguity_prompts([a for a in parse_ambs if not a.get("blocking")])
@@ -1106,10 +1177,12 @@ def run_clarify(
     max_repair_attempts_forward: int = 1,
     answer_reject_allow_fallback: bool = False,
     trace_collector: TraceCollector | None = None,
+    run_config: ExperimentRunConfig | dict[str, Any] | str | Path | None = None,
 ) -> ClarifyResponse:
     svc = session_svc or get_session_service()
     engine = nesy or NeSyEngine(nesy_nli_mock=True)
     tc = trace_collector or TraceCollector.noop()
+    resolved_run_config = _resolve_run_config(run_config)
     session = svc.get(session_id)
     if not session:
         raise KeyError("session_not_found")
@@ -1149,6 +1222,7 @@ def run_clarify(
         "query_text": question,
         "clarification_answers": list(normalized_answers or []),
         "backend_modes": init_backend_modes(verifier_engine=engine),
+        "run_config": resolved_run_config.to_trace_dict(),
     }
 
     with tc.span("parse_repair") as sp_pr:
@@ -1190,12 +1264,13 @@ def run_clarify(
     )
     if not isinstance(routing, DomainRoutingPlan):
         routing = DomainRoutingPlan.model_validate(routing)
-    trace["domain_routing"] = routing.model_dump(mode="json")
-
     policy = default_policy_for_routing(
         allow_cross_domain_expansion=routing.allow_cross_domain_expansion,
         triggered_bridges=list(routing.triggered_bridges),
     )
+    routing = resolved_run_config.apply_routing_plan(routing)
+    policy = resolved_run_config.apply_cross_domain_policy(policy)
+    trace["domain_routing"] = routing.model_dump(mode="json")
 
     with tc.span("retrieve_rules") as sp_rr:
         ranked: list[tuple[RuleRecord, float, dict[str, Any]]]
@@ -1305,6 +1380,17 @@ def run_clarify(
 
     goal = layer2.goal
 
+    if not resolved_run_config.enable_backward_chaining:
+        with tc.span("pipeline_exit") as spx:
+            spx.output_summary = {"reason": "backward_disabled_by_run_config"}
+        svc.save(session)
+        _merge_pipeline_trace_dict(trace, tc)
+        return ClarifyResponse(
+            session_id=session.session_id,
+            verification_trace=session.verification_logs,
+            debug_trace=trace | {"error": "backward_disabled_by_run_config"},
+        )
+
     with tc.span("rule_backward_gate") as sp_b:
         rg = gate_rule_and_backward(
             engine,
@@ -1356,6 +1442,29 @@ def run_clarify(
     session.selected_rule = selected
 
     if rg.clarification_needed and bstate:
+        if not resolved_run_config.enable_clarification:
+            with tc.span("pipeline_exit") as spx:
+                spx.output_summary = {"reason": "clarification_disabled_by_run_config"}
+            trace["clarification_gain"] = _clarification_gain_summary(
+                pre_missing=pre_missing,
+                post_missing=list(bstate.missing_facts or []),
+                pre_status=pre_status,
+                post_status="clarification_disabled_by_run_config",
+                pre_proof=pre_proof,
+                post_proof=None,
+            )
+            svc.save(session)
+            _merge_pipeline_trace_dict(trace, tc)
+            return ClarifyResponse(
+                session_id=session.session_id,
+                needs_clarification=False,
+                verification_trace=session.verification_logs,
+                layer1=layer1,
+                layer2=layer2,
+                selected_rule=_rule_dump(selected) if selected else None,
+                reasoning=bstate,
+                debug_trace=trace | {"error": "clarification_disabled_by_run_config"},
+            )
         with tc.span("clarification") as sp_cl:
             parse_ambs = (layer2.diagnostics or {}).get("ambiguities") or []
             parse_prompts = build_parse_ambiguity_prompts([a for a in parse_ambs if not a.get("blocking")])

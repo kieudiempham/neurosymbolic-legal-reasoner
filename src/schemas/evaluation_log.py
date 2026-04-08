@@ -36,6 +36,7 @@ QA_EVAL_LOG_FIELDS: list[str] = [
     "final_status",
     "error_stage_first",
     "error_stage_final",
+    "run_config",
     "backend_modes",
 ]
 
@@ -68,6 +69,7 @@ class QAEvaluationLogArtifact(BaseModel):
     final_status: str | None = None
     error_stage_first: str | None = None
     error_stage_final: str | None = None
+    run_config: dict[str, Any] | None = None
     backend_modes: dict[str, Any] | None = None
 
 
@@ -346,6 +348,9 @@ def build_evaluation_log_artifact(
         final_status = "open"
 
     backend_modes = None
+    run_config = None
+    if isinstance(debug_trace, dict) and isinstance(debug_trace.get("run_config"), dict):
+        run_config = dict(debug_trace.get("run_config") or {})
     if isinstance(debug_trace, dict) and isinstance(debug_trace.get("backend_modes"), dict):
         backend_modes = dict(debug_trace.get("backend_modes") or {})
     if backend_modes is None:
@@ -422,6 +427,7 @@ def build_evaluation_log_artifact(
         final_status=final_status,
         error_stage_first=first_error,
         error_stage_final=final_error,
+        run_config=run_config,
         backend_modes=backend_modes,
     )
 

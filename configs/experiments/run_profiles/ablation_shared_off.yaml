@@ -1,0 +1,7 @@
+profile_name: ablation_shared_off
+enable_shared_layer: false
+enable_clarification: true
+enable_repair_loop: true
+enable_backward_chaining: true
+enable_nli_verifier: true
+enable_cross_domain_jump: true

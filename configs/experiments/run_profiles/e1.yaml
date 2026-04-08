@@ -1,0 +1,7 @@
+profile_name: E1
+enable_shared_layer: false
+enable_clarification: false
+enable_repair_loop: true
+enable_backward_chaining: true
+enable_nli_verifier: false
+enable_cross_domain_jump: false

@@ -51,5 +51,6 @@ class QARunRecord(BaseModel):
     goal: dict[str, Any] | None = None
     missing_facts: list[str] = Field(default_factory=list)
     verification_decisions: dict[str, str] = Field(default_factory=dict)
+    run_config: dict[str, Any] | None = None
     trace_file: str | None = None
     failure_reason: str | None = None

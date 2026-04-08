@@ -1,0 +1,7 @@
+profile_name: E4
+enable_shared_layer: true
+enable_clarification: true
+enable_repair_loop: true
+enable_backward_chaining: true
+enable_nli_verifier: true
+enable_cross_domain_jump: true

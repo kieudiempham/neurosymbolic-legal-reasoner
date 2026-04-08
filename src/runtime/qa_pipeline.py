@@ -12,6 +12,7 @@ from runtime.pipeline_tracing import (
     save_pipeline_trace_json,
     trace_summary_compact,
 )
+from runtime.experiment_run_config import ExperimentRunConfig, resolve_experiment_run_config
 from runtime.qa_orchestrator import run_ask, run_clarify
 from schemas.http_response import AskResponse, ClarifyResponse
 from schemas.pipeline_trace import PipelineTrace
@@ -26,6 +27,60 @@ from verification.nli_verifier import NLIVerifier
 from runtime.nli_bootstrap import resolve_pipeline_nesy_engine
 
 logger = logging.getLogger(__name__)
+
+
+def _resolve_run_config(
+    run_config: ExperimentRunConfig | dict[str, Any] | str | Path | None,
+) -> ExperimentRunConfig:
+    return resolve_experiment_run_config(run_config)
+
+
+def _resolve_nesy_for_run_config(
+    *,
+    run_config: ExperimentRunConfig,
+    nesy: NeSyEngine | None,
+    nli_verifier: NLIVerifier | None,
+    settings: Any | None,
+) -> tuple[NeSyEngine, dict[str, Any]]:
+    if not run_config.enable_nli_verifier:
+        return (
+            NeSyEngine(nli_degraded=True, nli_meta={"nli_status": "disabled_by_run_config"}),
+            {
+                "verifier_class": "NeSyEngine",
+                "source": "disabled_by_run_config",
+                "nli_degraded": True,
+            },
+        )
+
+    resolved_nesy = nesy
+    nli_runtime: dict[str, Any]
+    if resolved_nesy is None:
+        try:
+            resolved_nesy, nli_runtime = resolve_pipeline_nesy_engine(
+                nesy=None,
+                nli_verifier=nli_verifier,
+                settings=settings,
+            )
+        except Exception as e:
+            logger.warning("NLI bootstrap failed (%s); using NeSyEngine(nli_degraded=True) — symbolic-only mode.", e)
+            resolved_nesy = NeSyEngine(nli_degraded=True, nli_meta={"nli_status": "degraded_symbolic_only_bootstrap_error"})
+            nli_runtime = {
+                "verifier_class": "NeSyEngine",
+                "source": "degraded_symbolic_only",
+                "bootstrap_error": str(e),
+                "nli_degraded": True,
+            }
+    else:
+        if nli_verifier is not None:
+            logger.warning("Both ``nesy`` and ``nli_verifier`` set; using ``nesy`` only.")
+        try:
+            from runtime.nli_bootstrap import load_app_settings, nli_runtime_descriptor
+
+            s = settings or load_app_settings()
+            nli_runtime = nli_runtime_descriptor(resolved_nesy, s)
+        except Exception:
+            nli_runtime = {"verifier_class": type(getattr(resolved_nesy, "_nli", object())).__name__, "source": "caller_nesy"}
+    return resolved_nesy, nli_runtime
 
 
 def _final_answer_summary(ans: Any) -> FinalAnswerSummary | None:
@@ -163,6 +218,7 @@ def to_run_record(qa: QAResponse, *, qid: str | None = None) -> QARunRecord:
         goal=qa.current_trace_summary.get("goal") if qa.current_trace_summary else None,
         missing_facts=list(qa.current_trace_summary.get("missing_facts") or []) if qa.current_trace_summary else [],
         verification_decisions=qa.meta.get("verification_decisions") or {},
+        run_config=qa.meta.get("run_config") if isinstance(qa.meta, dict) else None,
         trace_file=qa.meta.get("trace_file") if isinstance(qa.meta, dict) else None,
         failure_reason=qa.reason,
     )
@@ -190,6 +246,7 @@ def run_qa_pipeline(
     max_repair_attempts_backward: int | None = None,
     max_repair_attempts_forward: int | None = None,
     answer_reject_allow_fallback: bool | None = None,
+    run_config: ExperimentRunConfig | dict[str, Any] | str | Path | None = None,
 ) -> QAResponse:
     """
     Single entrypoint: full ``run_ask`` with structured tracing.
@@ -211,34 +268,13 @@ def run_qa_pipeline(
             logger.warning("Could not load app settings (%s); using NeSyEngine mock fallback.", e)
             cfg = None
 
-    resolved_nesy = nesy
-    nli_runtime: dict[str, Any]
-    if resolved_nesy is None:
-        try:
-            resolved_nesy, nli_runtime = resolve_pipeline_nesy_engine(
-                nesy=None,
-                nli_verifier=nli_verifier,
-                settings=cfg,
-            )
-        except Exception as e:
-            logger.warning("NLI bootstrap failed (%s); using NeSyEngine(nli_degraded=True) — symbolic-only mode.", e)
-            resolved_nesy = NeSyEngine(nli_degraded=True, nli_meta={"nli_status": "degraded_symbolic_only_bootstrap_error"})
-            nli_runtime = {
-                "verifier_class": "NeSyEngine",
-                "source": "degraded_symbolic_only",
-                "bootstrap_error": str(e),
-                "nli_degraded": True,
-            }
-    else:
-        if nli_verifier is not None:
-            logger.warning("Both ``nesy`` and ``nli_verifier`` set; using ``nesy`` only.")
-        try:
-            from runtime.nli_bootstrap import load_app_settings, nli_runtime_descriptor
-
-            s = cfg or load_app_settings()
-            nli_runtime = nli_runtime_descriptor(resolved_nesy, s)
-        except Exception:
-            nli_runtime = {"verifier_class": type(getattr(resolved_nesy, "_nli", object())).__name__, "source": "caller_nesy"}
+    resolved_run_config = _resolve_run_config(run_config)
+    resolved_nesy, nli_runtime = _resolve_nesy_for_run_config(
+        run_config=resolved_run_config,
+        nesy=nesy,
+        nli_verifier=nli_verifier,
+        settings=cfg,
+    )
 
     top_k_r = top_k if top_k is not None else (cfg.rule_retrieval_top_k if cfg is not None else 8)
     m_parse = max_repair_attempts_parse if max_repair_attempts_parse is not None else 2
@@ -246,6 +282,13 @@ def run_qa_pipeline(
     m_rule = max_repair_attempts_rule if max_repair_attempts_rule is not None else 2
     m_bwd = max_repair_attempts_backward if max_repair_attempts_backward is not None else 1
     m_fwd = max_repair_attempts_forward if max_repair_attempts_forward is not None else 1
+    m_parse, m_ans, m_rule, m_bwd, m_fwd = resolved_run_config.apply_repair_limits(
+        parse=m_parse,
+        answer=m_ans,
+        rule=m_rule,
+        backward=m_bwd,
+        forward=m_fwd,
+    )
     ans_fb = (
         answer_reject_allow_fallback
         if answer_reject_allow_fallback is not None
@@ -276,6 +319,7 @@ def run_qa_pipeline(
         max_repair_attempts_forward=m_fwd,
         answer_reject_allow_fallback=ans_fb,
         trace_collector=tc,
+        run_config=resolved_run_config,
     )
 
     pt: PipelineTrace | None = tc.to_pipeline_trace() if tc and not tc._noop else None
@@ -297,6 +341,7 @@ def run_qa_pipeline(
     meta["verification_decisions"] = vmap
     meta["qid"] = qid
     meta["nli_runtime"] = nli_runtime
+    meta["run_config"] = resolved_run_config.to_trace_dict()
     if ask.selected_rule:
         meta["selected_rule_ids"] = [ask.selected_rule.get("rule_id", "")]
     qa = qa.model_copy(update={"meta": meta})
@@ -324,6 +369,7 @@ def run_clarification_pipeline(
     max_repair_attempts_backward: int | None = None,
     max_repair_attempts_forward: int | None = None,
     answer_reject_allow_fallback: bool | None = None,
+    run_config: ExperimentRunConfig | dict[str, Any] | str | Path | None = None,
 ) -> QAResponse:
     """Resume session after clarification; same tracing contract as ``run_qa_pipeline``."""
     cfg = settings
@@ -336,34 +382,13 @@ def run_clarification_pipeline(
             logger.warning("Could not load app settings (%s); using NeSyEngine mock fallback.", e)
             cfg = None
 
-    resolved_nesy = nesy
-    nli_runtime: dict[str, Any]
-    if resolved_nesy is None:
-        try:
-            resolved_nesy, nli_runtime = resolve_pipeline_nesy_engine(
-                nesy=None,
-                nli_verifier=nli_verifier,
-                settings=cfg,
-            )
-        except Exception as e:
-            logger.warning("NLI bootstrap failed (%s); using NeSyEngine(nli_degraded=True) — symbolic-only mode.", e)
-            resolved_nesy = NeSyEngine(nli_degraded=True, nli_meta={"nli_status": "degraded_symbolic_only_bootstrap_error"})
-            nli_runtime = {
-                "verifier_class": "NeSyEngine",
-                "source": "degraded_symbolic_only",
-                "bootstrap_error": str(e),
-                "nli_degraded": True,
-            }
-    else:
-        if nli_verifier is not None:
-            logger.warning("Both ``nesy`` and ``nli_verifier`` set; using ``nesy`` only.")
-        try:
-            from runtime.nli_bootstrap import load_app_settings, nli_runtime_descriptor
-
-            s = cfg or load_app_settings()
-            nli_runtime = nli_runtime_descriptor(resolved_nesy, s)
-        except Exception:
-            nli_runtime = {"verifier_class": type(getattr(resolved_nesy, "_nli", object())).__name__, "source": "caller_nesy"}
+    resolved_run_config = _resolve_run_config(run_config)
+    resolved_nesy, nli_runtime = _resolve_nesy_for_run_config(
+        run_config=resolved_run_config,
+        nesy=nesy,
+        nli_verifier=nli_verifier,
+        settings=cfg,
+    )
 
     top_k_r = top_k if top_k is not None else (cfg.rule_retrieval_top_k if cfg is not None else 8)
     m_parse = max_repair_attempts_parse if max_repair_attempts_parse is not None else 2
@@ -371,6 +396,13 @@ def run_clarification_pipeline(
     m_rule = max_repair_attempts_rule if max_repair_attempts_rule is not None else 2
     m_bwd = max_repair_attempts_backward if max_repair_attempts_backward is not None else 1
     m_fwd = max_repair_attempts_forward if max_repair_attempts_forward is not None else 1
+    m_parse, m_ans, m_rule, m_bwd, m_fwd = resolved_run_config.apply_repair_limits(
+        parse=m_parse,
+        answer=m_ans,
+        rule=m_rule,
+        backward=m_bwd,
+        forward=m_fwd,
+    )
     ans_fb = (
         answer_reject_allow_fallback
         if answer_reject_allow_fallback is not None
@@ -405,6 +437,7 @@ def run_clarification_pipeline(
         max_repair_attempts_forward=m_fwd,
         answer_reject_allow_fallback=ans_fb,
         trace_collector=tc,
+        run_config=resolved_run_config,
     )
 
     qtext = ""
@@ -432,6 +465,7 @@ def run_clarification_pipeline(
     meta["verification_decisions"] = vmap
     meta["qid"] = qid
     meta["nli_runtime"] = nli_runtime
+    meta["run_config"] = resolved_run_config.to_trace_dict()
     if resp.selected_rule:
         meta["selected_rule_ids"] = [resp.selected_rule.get("rule_id", "")]
     qa = qa.model_copy(update={"meta": meta})
