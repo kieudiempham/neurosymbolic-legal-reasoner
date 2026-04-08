@@ -13,6 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.routes_ask import router as ask_router
 from app.api.routes_clarify import router as clarify_router
+from app.api.routes_clarification_eval import router as eval_router
 from app.api.routes_health import router as health_router
 from app.api.routes_session import router as session_router
 from app.api.routes_domains import router as domains_router
@@ -74,6 +75,7 @@ app.include_router(health_router)
 app.include_router(domains_router)
 app.include_router(ask_router)
 app.include_router(clarify_router)
+app.include_router(eval_router)
 app.include_router(session_router)
 
 
