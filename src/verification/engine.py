@@ -143,7 +143,23 @@ class NeSyEngine:
         self._entailment_threshold = entailment_threshold
         self._contradiction_threshold = contradiction_threshold
 
-    def _nli_trace_bundle(self, mode: VerificationMode, nli: NLIResult | None) -> dict[str, Any]:
+    def _nli_trace_bundle(
+        self,
+        mode: VerificationMode,
+        nli: NLIResult | None,
+        *,
+        premise: str | None = None,
+        hypothesis: str | None = None,
+    ) -> dict[str, Any]:
+        """
+        Comprehensive NLI trace: backend info, entailment/neutral/contradiction scores, input texts, and decision status.
+
+        Covers all five verification modes with explicit status:
+        - "ok": NLI ran, nli.label present
+        - "degraded_symbolic_only": NLI disabled due to nli_degraded flag
+        - "skipped_by_policy": NLI policy (mock mode) disables this mode
+        - "skipped": NLI policy allows this mode but None verifier  (symmetric case)
+        """
         will_run = use_nli_for(mode, nesy_nli_mock=self._nesy_nli_mock, nli_degraded=self._nli_degraded)
         meta = dict(self._nli_meta)
         status = "ok"
@@ -162,11 +178,17 @@ class NeSyEngine:
             "nli_provider": meta.get("nli_provider", "unknown"),
             "nli_model_name": meta.get("nli_model_name"),
         }
+        if premise is not None:
+            out["premise"] = premise
+        if hypothesis is not None:
+            out["hypothesis"] = hypothesis
         if nli and nli.scores:
+            out["nli_decision"] = nli.label
             out["entailment"] = float(nli.scores.get("entailment", 0.0))
             out["contradiction"] = float(nli.scores.get("contradiction", 0.0))
             out["neutral"] = float(nli.scores.get("neutral", 0.0))
         elif nli:
+            out["nli_decision"] = nli.label
             out["nli_label"] = nli.label
             out["nli_score"] = float(nli.score)
         return out
@@ -219,7 +241,7 @@ class NeSyEngine:
             trace=trace,
             symbolic_checks=_sym_dict(sym),
             verbalization_meta=meta,
-            nli_trace=self._nli_trace_bundle("parse_verification", nli),
+            nli_trace=self._nli_trace_bundle("parse_verification", nli, premise=prem, hypothesis=hyp),
         )
 
     def verify_rule(
@@ -274,7 +296,7 @@ class NeSyEngine:
             trace=trace,
             symbolic_checks=_sym_dict(sym),
             verbalization_meta=meta,
-            nli_trace=self._nli_trace_bundle("rule_verification", nli),
+            nli_trace=self._nli_trace_bundle("rule_verification", nli, premise=prem, hypothesis=hyp),
         )
 
     def verify_backward(
@@ -332,7 +354,7 @@ class NeSyEngine:
             trace=trace,
             symbolic_checks=_sym_dict(sym),
             verbalization_meta=meta,
-            nli_trace=self._nli_trace_bundle("backward_verification", nli),
+            nli_trace=self._nli_trace_bundle("backward_verification", nli, premise=prem, hypothesis=hyp),
         )
 
     def verify_forward(
@@ -398,7 +420,7 @@ class NeSyEngine:
             trace=trace,
             symbolic_checks=_sym_dict(sym),
             verbalization_meta=meta,
-            nli_trace=self._nli_trace_bundle("forward_verification", nli),
+            nli_trace=self._nli_trace_bundle("forward_verification", nli, premise=prem, hypothesis=hyp),
         )
 
     def verify_answer(
@@ -465,7 +487,7 @@ class NeSyEngine:
             trace=trace,
             symbolic_checks={**_sym_dict(sym_sa), "check_answer_vs_goal": diag_sym},
             verbalization_meta=meta,
-            nli_trace=self._nli_trace_bundle("answer_verification", nli),
+            nli_trace=self._nli_trace_bundle("answer_verification", nli, premise=prem, hypothesis=hyp),
         )
 
 

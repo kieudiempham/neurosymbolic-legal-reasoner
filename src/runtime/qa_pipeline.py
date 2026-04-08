@@ -221,13 +221,13 @@ def run_qa_pipeline(
                 settings=cfg,
             )
         except Exception as e:
-            logger.warning("NLI bootstrap failed (%s); using NeSyEngine(nesy_nli_mock=True).", e)
-            resolved_nesy = NeSyEngine(nesy_nli_mock=True)
+            logger.warning("NLI bootstrap failed (%s); using NeSyEngine(nli_degraded=True) — symbolic-only mode.", e)
+            resolved_nesy = NeSyEngine(nli_degraded=True, nli_meta={"nli_status": "degraded_symbolic_only_bootstrap_error"})
             nli_runtime = {
                 "verifier_class": "NeSyEngine",
-                "source": "fallback_mock",
+                "source": "degraded_symbolic_only",
                 "bootstrap_error": str(e),
-                "nesy_nli_mock": True,
+                "nli_degraded": True,
             }
     else:
         if nli_verifier is not None:
@@ -346,9 +346,14 @@ def run_clarification_pipeline(
                 settings=cfg,
             )
         except Exception as e:
-            logger.warning("NLI bootstrap failed (%s); using NeSyEngine(nesy_nli_mock=True).", e)
-            resolved_nesy = NeSyEngine(nesy_nli_mock=True)
-            nli_runtime = {"source": "fallback_mock", "bootstrap_error": str(e), "nesy_nli_mock": True}
+            logger.warning("NLI bootstrap failed (%s); using NeSyEngine(nli_degraded=True) — symbolic-only mode.", e)
+            resolved_nesy = NeSyEngine(nli_degraded=True, nli_meta={"nli_status": "degraded_symbolic_only_bootstrap_error"})
+            nli_runtime = {
+                "verifier_class": "NeSyEngine",
+                "source": "degraded_symbolic_only",
+                "bootstrap_error": str(e),
+                "nli_degraded": True,
+            }
     else:
         if nli_verifier is not None:
             logger.warning("Both ``nesy`` and ``nli_verifier`` set; using ``nesy`` only.")

@@ -6,9 +6,14 @@ import json
 import logging
 import os
 import re
+from time import perf_counter
+from urllib.parse import urlparse
 from typing import Any
 
-from openai import OpenAI
+try:
+    from openai import OpenAI
+except ImportError:  # pragma: no cover - exercised in environments without optional LLM deps
+    OpenAI = None  # type: ignore[assignment]
 from pydantic import BaseModel, Field, field_validator
 
 from schemas.question_parse import (
@@ -19,6 +24,8 @@ from schemas.question_parse import (
 )
 
 logger = logging.getLogger(__name__)
+
+_PROMPT_VERSION = "v5_layer1_slot_prompt_1"
 
 _SYSTEM = """Bạn là bộ trích xuất slot cho câu hỏi pháp luật (tiếng Việt).
 Chỉ trả về MỘT object JSON duy nhất, không markdown, không giải thích.
@@ -132,6 +139,8 @@ def parse_layer1_llm(
     key = (api_key or os.environ.get("LEGAL_QA_LLM_API_KEY") or os.environ.get("LLM_API_KEY") or "").strip()
     if not key:
         raise RuntimeError("layer1_llm_no_api_key")
+    if OpenAI is None:
+        raise RuntimeError("layer1_llm_openai_missing")
 
     base = (base_url or os.environ.get("LEGAL_QA_LLM_BASE_URL") or os.environ.get("LLM_BASE_URL") or "").strip()
     if not base:
@@ -140,6 +149,10 @@ def parse_layer1_llm(
     if not mdl:
         mdl = "llama-3.1-8b-instant"
 
+    parsed_base = urlparse(base)
+    provider = (parsed_base.netloc or parsed_base.path or "openai_compatible").strip() or "openai_compatible"
+
+    t0 = perf_counter()
     client = OpenAI(api_key=key, base_url=base.rstrip("/"), timeout=90.0)
     user = f"Câu hỏi:\n{question.strip()}"
     resp = client.chat.completions.create(
@@ -152,6 +165,7 @@ def parse_layer1_llm(
         max_tokens=512,
     )
     raw = (resp.choices[0].message.content or "").strip()
+    latency_ms = round((perf_counter() - t0) * 1000.0, 3)
     data = _extract_json(raw)
     parsed = _LLMJsonLayer1.model_validate({k: data.get(k, "") for k in _LLMJsonLayer1.model_fields})
 
@@ -169,7 +183,11 @@ def parse_layer1_llm(
         raw_notes=["llm_layer1_json"],
         parse_metadata={
             "parser_backend": "llm",
+            "parser_provider": provider,
             "parser_model": mdl,
+            "parser_prompt_version": _PROMPT_VERSION,
+            "parser_latency_ms": latency_ms,
+            "parser_backend_mode": "real",
             "fallback_used": False,
             "raw_llm_output": raw[:8000],
         },
@@ -192,9 +210,14 @@ def repair_layer1_slots_llm(
     key = (api_key or os.environ.get("LEGAL_QA_LLM_API_KEY") or os.environ.get("LLM_API_KEY") or "").strip()
     if not key:
         raise RuntimeError("layer1_llm_no_api_key")
+    if OpenAI is None:
+        raise RuntimeError("layer1_llm_openai_missing")
 
     base = (base_url or os.environ.get("LEGAL_QA_LLM_BASE_URL") or "").strip() or "https://api.groq.com/openai/v1"
     mdl = (model or os.environ.get("LEGAL_QA_LLM_MODEL") or "").strip() or "llama-3.1-8b-instant"
+    parsed_base = urlparse(base)
+    provider = (parsed_base.netloc or parsed_base.path or "openai_compatible").strip() or "openai_compatible"
+    t0 = perf_counter()
     client = OpenAI(api_key=key, base_url=base.rstrip("/"), timeout=90.0)
 
     prev_json = previous.model_dump(mode="json", exclude={"parse_metadata", "raw_notes"})
@@ -214,6 +237,7 @@ def repair_layer1_slots_llm(
         max_tokens=512,
     )
     raw = (resp.choices[0].message.content or "").strip()
+    latency_ms = round((perf_counter() - t0) * 1000.0, 3)
     data = _extract_json(raw)
     parsed = _LLMJsonLayer1.model_validate({k: data.get(k, "") for k in _LLMJsonLayer1.model_fields})
 
@@ -231,7 +255,11 @@ def repair_layer1_slots_llm(
         raw_notes=list(previous.raw_notes) + ["llm_layer1_slot_repair"],
         parse_metadata={
             "parser_backend": "llm_repair",
+            "parser_provider": provider,
             "parser_model": mdl,
+            "parser_prompt_version": _PROMPT_VERSION,
+            "parser_latency_ms": latency_ms,
+            "parser_backend_mode": "real",
             "fallback_used": False,
             "raw_llm_output": raw[:8000],
             "repair_hint": hint,

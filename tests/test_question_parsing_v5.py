@@ -5,6 +5,7 @@ from __future__ import annotations
 from question_side.heuristic_layer1 import parse_question_layer1_heuristic
 from question_side.question_normalizer import build_layer2
 from question_side.question_parser import parse_question_layer1
+from question_side.query_parser_v5 import parse as parse_query_v5
 from schemas.question_parse import Layer1Parse, Layer2Parse
 from verification.engine import NeSyEngine
 
@@ -91,3 +92,76 @@ def test_verify_parse_runtime_smoke() -> None:
     rec = eng.verify_parse(l1, l2, question_text="Công ty có nghĩa vụ cập nhật thông tin cổ đông đúng hạn không?")
     assert rec.mode == "parse_verification"
     assert rec.final_decision in ("ACCEPT", "REJECT", "REPAIR")
+
+
+def test_parse_real_llm_success_metadata(monkeypatch) -> None:
+    monkeypatch.setenv("LEGAL_QA_LAYER1_USE_LLM", "1")
+    monkeypatch.setenv("LEGAL_QA_LLM_API_KEY", "fake-key")
+
+    def _fake_parse_layer1_llm(*args, **kwargs):
+        l1 = Layer1Parse(
+            utterance_type="direct_question",
+            subject_text="Công ty",
+            action_text="nộp hồ sơ",
+            question_focus="obligation",
+            assertion_status="ambiguous",
+            parse_metadata={
+                "parser_backend": "llm",
+                "parser_provider": "api.groq.com",
+                "parser_model": "llama-3.1-8b-instant",
+                "parser_prompt_version": "v5_layer1_slot_prompt_1",
+                "parser_latency_ms": 10.5,
+                "parser_backend_mode": "real",
+                "fallback_used": False,
+            },
+        )
+        return l1, dict(l1.parse_metadata)
+
+    monkeypatch.setattr("question_side.question_parser.parse_layer1_llm", _fake_parse_layer1_llm)
+    l1 = parse_question_layer1("Công ty có phải nộp hồ sơ không?")
+
+    assert l1.parse_metadata.get("parser_backend") == "llm"
+    assert l1.parse_metadata.get("parser_provider") == "api.groq.com"
+    assert l1.parse_metadata.get("parser_prompt_version") == "v5_layer1_slot_prompt_1"
+    assert l1.parse_metadata.get("parser_backend_mode") == "real"
+    assert l1.parse_metadata.get("fallback_used") is False
+
+
+def test_parse_degraded_fallback_when_llm_provider_fails(monkeypatch) -> None:
+    monkeypatch.setenv("LEGAL_QA_LAYER1_USE_LLM", "1")
+    monkeypatch.setenv("LEGAL_QA_LLM_API_KEY", "fake-key")
+    monkeypatch.setattr(
+        "question_side.question_parser.parse_layer1_llm",
+        lambda *args, **kwargs: (_ for _ in ()).throw(RuntimeError("api rate limit")),
+    )
+
+    l1 = parse_question_layer1("Công ty có phải nộp hồ sơ không?")
+    assert l1.parse_metadata.get("parser_backend") == "heuristic"
+    assert l1.parse_metadata.get("fallback_used") is True
+    assert l1.parse_metadata.get("fallback_reason") == "llm_provider_error"
+    assert l1.parse_metadata.get("parser_backend_mode") == "degraded"
+
+
+def test_parse_malformed_output_classified_and_fallback(monkeypatch) -> None:
+    monkeypatch.setenv("LEGAL_QA_LAYER1_USE_LLM", "1")
+    monkeypatch.setenv("LEGAL_QA_LLM_API_KEY", "fake-key")
+    monkeypatch.setattr(
+        "question_side.question_parser.parse_layer1_llm",
+        lambda *args, **kwargs: (_ for _ in ()).throw(ValueError("layer1_llm_not_object")),
+    )
+
+    l1 = parse_question_layer1("Công ty có phải nộp hồ sơ không?")
+    assert l1.parse_metadata.get("parser_backend") == "heuristic"
+    assert l1.parse_metadata.get("fallback_used") is True
+    assert l1.parse_metadata.get("fallback_reason") == "llm_malformed_output"
+    assert l1.parse_metadata.get("parser_backend_mode") == "degraded"
+
+
+def test_query_parser_v5_unified_interface(monkeypatch) -> None:
+    monkeypatch.setenv("LEGAL_QA_LAYER1_USE_LLM", "0")
+    l1, l2, meta = parse_query_v5("Doanh nghiệp có phải nộp báo cáo định kỳ không?", user_facts=["u1"])
+    assert isinstance(l1, Layer1Parse)
+    assert isinstance(l2, Layer2Parse)
+    assert meta.get("query_parser_version") == "v5"
+    assert meta.get("layer2_built") is True
+    assert meta.get("parser_backend_mode") in ("fallback", "real", "degraded")

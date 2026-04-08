@@ -24,8 +24,9 @@ from question_side.parse_clarify_apply import (
     normalize_clarification_answers,
     structured_facts_for_reasoning,
 )
-from question_side.question_normalizer import build_layer2
-from question_side.question_parser import parse_question_layer1
+from question_side.question_normalizer import build_layer2 as _build_layer2
+from question_side.question_parser import parse_question_layer1 as _parse_question_layer1
+from question_side.query_parser_v5 import parse as parse_query_v5
 from retrieval.evidence_retriever import (
     EvidenceRetriever,
     configure_evidence_path,
@@ -74,6 +75,31 @@ from runtime.pipeline_tracing import (
     summarize_layer2_trace,
     summarize_verification_trace,
 )
+
+parse_question_layer1 = _parse_question_layer1
+build_layer2 = _build_layer2
+
+
+def _parse_query_for_runtime(
+    question: str,
+    *,
+    user_facts: list[str],
+    forced_condition_atoms: list[str] | None = None,
+) -> tuple[Layer1Parse, Layer2Parse, dict[str, Any]]:
+    if parse_question_layer1 is _parse_question_layer1 and build_layer2 is _build_layer2:
+        return parse_query_v5(
+            question,
+            user_facts=user_facts,
+            forced_condition_atoms=forced_condition_atoms,
+        )
+
+    layer1 = parse_question_layer1(question)
+    layer2 = build_layer2(
+        layer1,
+        user_facts=user_facts,
+        forced_condition_atoms=forced_condition_atoms,
+    )
+    return layer1, layer2, dict(getattr(layer1, "parse_metadata", None) or {})
 
 def _merge_pipeline_trace_dict(trace: dict[str, Any], tc: TraceCollector) -> None:
     if not tc._noop:
@@ -422,11 +448,13 @@ def run_ask(
     }
 
     with tc.span("parse_layer1") as sp_l1:
-        layer1 = parse_question_layer1(question)
+        layer1, layer2, _parse_meta = _parse_query_for_runtime(
+            question,
+            user_facts=_user_fact_keys(session),
+        )
         sp_l1.output_summary = summarize_layer1_trace(layer1)
 
     with tc.span("parse_layer2") as sp_l2:
-        layer2 = build_layer2(layer1, user_facts=_user_fact_keys(session))
         sp_l2.output_summary = summarize_layer2_trace(layer2)
     session.layer1 = layer1
     session.layer2 = layer2
@@ -1100,15 +1128,18 @@ def run_clarify(
     forced = extract_resolved_condition_atoms_from_known_facts(session.known_facts)
 
     with tc.span("parse_layer1") as sp_l1:
-        layer1 = session.layer1 or parse_question_layer1(question)
+        if session.layer1 is not None and session.layer2 is not None:
+            layer1 = session.layer1
+            layer2 = session.layer2
+        else:
+            layer1, layer2, _parse_meta = _parse_query_for_runtime(
+                question,
+                user_facts=_user_fact_keys(session),
+                forced_condition_atoms=forced if forced else None,
+            )
         sp_l1.output_summary = summarize_layer1_trace(layer1)
 
     with tc.span("parse_layer2") as sp_l2:
-        layer2 = build_layer2(
-            layer1,
-            user_facts=_user_fact_keys(session),
-            forced_condition_atoms=forced if forced else None,
-        )
         sp_l2.output_summary = summarize_layer2_trace(layer2)
     session.layer1 = layer1
     session.layer2 = layer2

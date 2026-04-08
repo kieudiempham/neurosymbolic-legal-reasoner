@@ -29,7 +29,11 @@ def summarize_layer1_trace(layer1: Layer1Parse) -> dict[str, Any]:
     meta = layer1.parse_metadata or {}
     return {
         "parser_backend": meta.get("parser_backend"),
+        "parser_provider": meta.get("parser_provider"),
         "parser_model": meta.get("parser_model"),
+        "parser_prompt_version": meta.get("parser_prompt_version"),
+        "parser_latency_ms": meta.get("parser_latency_ms"),
+        "parser_backend_mode": meta.get("parser_backend_mode"),
         "fallback_used": meta.get("fallback_used"),
         "fallback_reason": meta.get("fallback_reason"),
         "question_focus": layer1.question_focus,

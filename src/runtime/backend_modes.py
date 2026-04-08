@@ -44,22 +44,28 @@ def derive_verifier_backend(engine: Any | None) -> dict[str, Any]:
 def apply_parse_backend(modes: dict[str, Any], layer1: Any | None) -> None:
     meta = getattr(layer1, "parse_metadata", None) or {}
     backend = str(meta.get("parser_backend") or "")
+    provider = meta.get("parser_provider") or backend or "heuristic"
     model = meta.get("parser_model")
+    backend_mode = str(meta.get("parser_backend_mode") or "").strip().lower()
     fallback_used = bool(meta.get("fallback_used", False))
 
     if not backend and layer1 is None:
         modes["parse_backend"] = _stage(mode="none")
         return
 
+    if backend_mode in {"real", "fallback", "degraded", "mock", "none"}:
+        modes["parse_backend"] = _stage(provider=str(provider), model=model, mode=backend_mode)
+        return
+
     if fallback_used or backend == "heuristic":
-        modes["parse_backend"] = _stage(provider=backend or "heuristic", model=model, mode="fallback")
+        modes["parse_backend"] = _stage(provider=str(provider), model=model, mode="fallback")
         return
 
     if backend:
-        modes["parse_backend"] = _stage(provider=backend, model=model, mode="real")
+        modes["parse_backend"] = _stage(provider=str(provider), model=model, mode="real")
         return
 
-    modes["parse_backend"] = _stage(provider="heuristic", model=model, mode="fallback")
+    modes["parse_backend"] = _stage(provider=str(provider), model=model, mode="fallback")
 
 
 def apply_retrieval_backend(
