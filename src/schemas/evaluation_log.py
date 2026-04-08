@@ -188,6 +188,13 @@ def build_evaluation_log_artifact(
         evidence_snippets = list(ans.get("evidence_snippets") or []) or None
         legal_citations = list(ans.get("legal_citations") or []) or None
         final_answer = str(ans.get("answer_text") or "").strip() or None
+        extra = ans.get("extra") or {}
+        if isinstance(extra, dict) and extra.get("evidence_linkage"):
+            linkage_rows = []
+            for subgoal, ids in (extra.get("evidence_linkage") or {}).items():
+                linkage_rows.append({"subgoal": str(subgoal), "evidence_ids": list(ids or [])})
+            if linkage_rows:
+                repair_actions = list(repair_actions or []) + [{"phase": "evidence_linkage", "rows": linkage_rows}]
 
     first_error, final_error = _error_stages(debug_trace)
 

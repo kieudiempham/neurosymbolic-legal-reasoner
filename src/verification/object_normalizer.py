@@ -94,11 +94,13 @@ def normalize_answer_bundle(
     answer_text: str,
     conclusion: str,
     proof: dict[str, Any] | None,
+    evidence_bundle: dict[str, Any] | None,
     symbolic_ok: bool,
 ) -> dict[str, Any]:
     return {
         "answer_text": (answer_text or "").strip(),
         "conclusion": (conclusion or "").strip(),
         "proof": dict(proof or {}),
+        "evidence_bundle": dict(evidence_bundle or {}),
         "symbolic_ok": symbolic_ok,
     }

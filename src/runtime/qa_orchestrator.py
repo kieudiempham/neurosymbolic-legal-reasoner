@@ -45,6 +45,7 @@ from runtime.cross_domain_policy import (
 from runtime.domain_selector import SimpleDomainSelector
 from runtime.qa_runtime_bundle import QARuntimeBundle
 from runtime.phase3_pipeline import apply_phase3_post_retrieve
+from runtime.evidence_stage import build_evidence_bundle
 from runtime.reasoning_context import ReasoningContext
 from schemas.domain_routing import DomainRoutingPlan
 from schemas.rule_metadata import collect_rulebase_ids_from_index
@@ -935,6 +936,19 @@ def run_ask(
             layer1=layer1,
             layer2=layer2,
         )
+        evidence_bundle = build_evidence_bundle(
+            query=question,
+            selected_rule=selected,
+            requirement_set=list(bstate.requirement_set or []),
+            proof=proof,
+            snippets=ev,
+        )
+        trace["evidence_stage"] = {
+            "bundle_id": evidence_bundle.bundle_id,
+            "selected_rule_id": evidence_bundle.selected_rule_id,
+            "linkage_map": evidence_bundle.linkage_map,
+            "items": [x.model_dump(mode="json") for x in evidence_bundle.items],
+        }
         sp_ev.output_summary = summarize_evidence_trace(ev)
     trace["final_grounding_docs"] = _grounding_docs_from_evidence(ev)
 
@@ -944,6 +958,7 @@ def run_ask(
             conclusion=conclusion,
             proof=proof,
             evidence=ev,
+            evidence_bundle=evidence_bundle,
             goal_achieved=goal_ok,
             rule=selected,
         )
@@ -955,6 +970,7 @@ def run_ask(
             answer_text=ans.answer_text,
             conclusion=conclusion,
             proof=proof.model_dump(mode="json"),
+            evidence_bundle=evidence_bundle.model_dump(mode="json"),
             modality_expected=layer1.modality_text or "",
             goal_action=str(goal.get("args", ["", "", ""])[1] if len(goal.get("args", [])) > 1 else ""),
             action_token_in_answer=ans.answer_text,
@@ -1017,6 +1033,7 @@ def run_ask(
         selected_rule=_rule_dump(selected),
         reasoning=fstate,
         proof=proof,
+        evidence_bundle=evidence_bundle,
         answer=ans,
         reasoning_result=reasoning_result_data,
         debug_trace=trace,
@@ -1402,6 +1419,19 @@ def run_clarify(
             layer1=layer1,
             layer2=layer2,
         )
+        evidence_bundle = build_evidence_bundle(
+            query=question,
+            selected_rule=selected,
+            requirement_set=list(bstate.requirement_set or []),
+            proof=proof,
+            snippets=ev,
+        )
+        trace["evidence_stage"] = {
+            "bundle_id": evidence_bundle.bundle_id,
+            "selected_rule_id": evidence_bundle.selected_rule_id,
+            "linkage_map": evidence_bundle.linkage_map,
+            "items": [x.model_dump(mode="json") for x in evidence_bundle.items],
+        }
         sp_ev.output_summary = summarize_evidence_trace(ev)
     trace["final_grounding_docs"] = _grounding_docs_from_evidence(ev)
 
@@ -1411,6 +1441,7 @@ def run_clarify(
             conclusion=conclusion,
             proof=proof,
             evidence=ev,
+            evidence_bundle=evidence_bundle,
             goal_achieved=goal_ok,
             rule=selected,
         )
@@ -1422,6 +1453,7 @@ def run_clarify(
             answer_text=ans.answer_text,
             conclusion=conclusion,
             proof=proof.model_dump(mode="json"),
+            evidence_bundle=evidence_bundle.model_dump(mode="json"),
             modality_expected=layer1.modality_text or "",
             goal_action=str(goal.get("args", ["", "", ""])[1] if len(goal.get("args", [])) > 1 else ""),
             action_token_in_answer=ans.answer_text,
@@ -1474,6 +1506,7 @@ def run_clarify(
         selected_rule=_rule_dump(selected),
         reasoning=fstate,
         proof=proof,
+        evidence_bundle=evidence_bundle,
         answer=ans,
         debug_trace=trace,
     )

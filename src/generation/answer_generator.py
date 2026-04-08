@@ -10,7 +10,7 @@ from generation.legal_citations import (
     link_answer_text_to_citations,
 )
 from schemas.answer import FinalAnswer
-from schemas.evidence import EvidenceSnippet
+from schemas.evidence import EvidenceBundle, EvidenceSnippet
 from schemas.proof import ProofObject
 from schemas.rule import RuleRecord
 
@@ -144,6 +144,7 @@ def generate_answer(
     proof: ProofObject | None,
     evidence: list[EvidenceSnippet],
     goal_achieved: bool,
+    evidence_bundle: EvidenceBundle | None = None,
     mode: str = "template_grounded",
     llm_generate: Callable[..., str] | None = None,
     rule: RuleRecord | None = None,
@@ -156,6 +157,9 @@ def generate_answer(
     - ``llm_grounded``: narrative từ LLM nhưng tham chiếu bracket chỉ từ evidence đã build.
     """
     citations = build_legal_citations_from_evidence(evidence, rule=rule, max_citations=6)
+    if evidence_bundle is not None:
+        # Keep a stable attachment to first-class evidence stage for downstream audit.
+        evidence = list(evidence)
 
     if mode == "llm_grounded" and llm_generate is not None:
         citations = build_legal_citations_from_evidence(evidence, rule=rule, max_citations=6)
@@ -229,6 +233,10 @@ def generate_answer(
         legal_citations=citations,
         citation_spans=spans,
         answer_sections=sections,
+        extra={
+            "evidence_bundle_id": evidence_bundle.bundle_id if evidence_bundle else None,
+            "evidence_linkage": evidence_bundle.linkage_map if evidence_bundle else None,
+        },
     )
 
 

@@ -243,6 +243,7 @@ def run_answer_repair_loop(
     goal_action: str,
     action_token_in_answer: str | None,
     max_repair_attempts_answer: int,
+    evidence_bundle: dict[str, Any] | None = None,
     regenerate_fn: Callable[[int, str, dict[str, Any]], str] | None = None,
 ) -> tuple[str, VerificationRecord, list[dict[str, Any]]]:
     trace: list[dict[str, Any]] = []
@@ -251,6 +252,7 @@ def run_answer_repair_loop(
         answer_text=text,
         conclusion=conclusion,
         proof=proof,
+        evidence_bundle=evidence_bundle,
         modality_expected=modality_expected,
         goal_action=goal_action,
         action_token_in_answer=action_token_in_answer or text,
@@ -296,6 +298,7 @@ def run_answer_repair_loop(
             answer_text=text,
             conclusion=conclusion,
             proof=proof,
+            evidence_bundle=evidence_bundle,
             modality_expected=modality_expected,
             goal_action=goal_action,
             action_token_in_answer=text,

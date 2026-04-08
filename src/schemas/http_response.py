@@ -8,6 +8,7 @@ from pydantic import BaseModel, Field, model_validator
 
 from schemas.answer import FinalAnswer
 from schemas.clarification import ClarificationArtifact, ClarificationTarget
+from schemas.evidence import EvidenceBundle
 from schemas.evaluation_log import QAEvaluationLogArtifact, build_evaluation_log_artifact
 from schemas.question_parse import Layer1Parse, Layer2Parse
 from schemas.proof import ProofObject
@@ -39,6 +40,7 @@ class AskResponse(BaseModel):
     selected_rule: dict[str, Any] | None = None
     reasoning: ReasoningState | None = None
     proof: ProofObject | None = None
+    evidence_bundle: EvidenceBundle | None = None
     answer: FinalAnswer | None = None
     reasoning_result: dict[str, Any] | None = None
     debug_trace: dict[str, Any] = Field(default_factory=dict)
@@ -101,6 +103,7 @@ class ClarifyResponse(BaseModel):
     selected_rule: dict[str, Any] | None = None
     reasoning: ReasoningState | None = None
     proof: ProofObject | None = None
+    evidence_bundle: EvidenceBundle | None = None
     answer: FinalAnswer | None = None
     reasoning_result: dict[str, Any] | None = None
     debug_trace: dict[str, Any] = Field(default_factory=dict)
