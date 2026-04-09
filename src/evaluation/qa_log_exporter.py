@@ -14,12 +14,148 @@ from schemas.evaluation_log import (
 )
 
 
+QUALITY_DEGRADE_SUMMARY_FIELDS: list[str] = [
+    "rows_total",
+    "total_answered",
+    "total_answered_clean",
+    "total_partial",
+    "total_forward_failure_fallback",
+    "total_unification_broken",
+    "total_verified_final",
+    "total_proof_with_unverified_verification",
+]
+
+
 def _normalize_record(item: dict[str, Any] | QAEvaluationLogArtifact) -> QAEvaluationLogArtifact:
     if isinstance(item, QAEvaluationLogArtifact):
         return item
     if "evaluation_log" in item and isinstance(item.get("evaluation_log"), dict):
         return QAEvaluationLogArtifact.model_validate(item["evaluation_log"])
     return QAEvaluationLogArtifact.model_validate(item)
+
+
+def _has_forward_failure_fallback(error_stage_final: str | None) -> bool:
+    stage = (error_stage_final or "").strip().lower()
+    if not stage:
+        return False
+    if stage == "partial_answer_generated_after_forward_failure":
+        return True
+    return "forward" in stage and "fail" in stage
+
+
+def _is_partial(log: QAEvaluationLogArtifact) -> bool:
+    status = (log.final_status or "").strip().lower()
+    stage = (log.error_stage_final or "").strip().lower()
+    if status == "partial":
+        return True
+    if _has_forward_failure_fallback(log.error_stage_final):
+        return True
+    if status == "answered" and "partial" in stage:
+        return True
+    return False
+
+
+def _has_unification_broken(error_stage_final: str | None) -> bool:
+    stage = (error_stage_final or "").strip().lower()
+    return "unification_broken" in stage
+
+
+def _is_verification_clean(log: QAEvaluationLogArtifact) -> bool:
+    reports = list(log.verification_reports or [])
+    if not reports:
+        return False
+
+    for report in reports:
+        if not isinstance(report, dict):
+            continue
+        decision = str(report.get("final_decision") or "").strip().upper()
+        if decision in {"REPAIR", "REJECT"}:
+            return False
+        extra = report.get("extra") or {}
+        if isinstance(extra, dict):
+            nli_trace = extra.get("nli_trace") or {}
+            if isinstance(nli_trace, dict):
+                nli_status = str(nli_trace.get("nli_status") or "").strip().lower()
+                if nli_status and (
+                    "degraded" in nli_status
+                    or "mock" in nli_status
+                    or "skipped" in nli_status
+                ):
+                    return False
+    return True
+
+
+def summarize_quality_degrade_metrics(
+    records: Iterable[dict[str, Any] | QAEvaluationLogArtifact],
+) -> dict[str, Any]:
+    """Build quality/degrade counters for batch-level telemetry reporting."""
+    total = 0
+    total_answered = 0
+    total_partial = 0
+    total_forward_failure_fallback = 0
+    total_unification_broken = 0
+    total_verified_final = 0
+    total_proof_with_unverified_verification = 0
+
+    for item in records:
+        log = _normalize_record(item)
+        total += 1
+
+        status = (log.final_status or "").strip().lower()
+        stage = log.error_stage_final
+        has_proof = isinstance(log.proof, dict) and bool(log.proof)
+        is_partial = _is_partial(log)
+        verification_clean = _is_verification_clean(log)
+
+        if status == "answered":
+            total_answered += 1
+        if is_partial:
+            total_partial += 1
+        if _has_forward_failure_fallback(stage):
+            total_forward_failure_fallback += 1
+        if _has_unification_broken(stage):
+            total_unification_broken += 1
+
+        if has_proof and not verification_clean:
+            total_proof_with_unverified_verification += 1
+
+        if status == "answered" and not is_partial and verification_clean:
+            total_verified_final += 1
+
+    total_answered_clean = max(total_answered - total_partial, 0)
+    denom = total if total > 0 else 1
+
+    return {
+        "rows_total": total,
+        "total_answered": total_answered,
+        "total_answered_clean": total_answered_clean,
+        "total_partial": total_partial,
+        "total_forward_failure_fallback": total_forward_failure_fallback,
+        "total_unification_broken": total_unification_broken,
+        "total_verified_final": total_verified_final,
+        "total_proof_with_unverified_verification": total_proof_with_unverified_verification,
+        "rates": {
+            "answered": total_answered / denom,
+            "answered_clean": total_answered_clean / denom,
+            "partial": total_partial / denom,
+            "forward_failure_fallback": total_forward_failure_fallback / denom,
+            "unification_broken": total_unification_broken / denom,
+            "verified_final": total_verified_final / denom,
+            "proof_with_unverified_verification": total_proof_with_unverified_verification / denom,
+        },
+    }
+
+
+def export_quality_degrade_summary_csv(summary: dict[str, Any], output_path: str | Path) -> None:
+    """Export a compact quality summary CSV (metric,value) for quick paper reporting."""
+    p = Path(output_path)
+    p.parent.mkdir(parents=True, exist_ok=True)
+
+    with p.open("w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=["metric", "value"])
+        writer.writeheader()
+        for metric in QUALITY_DEGRADE_SUMMARY_FIELDS:
+            writer.writerow({"metric": metric, "value": summary.get(metric)})
 
 
 def load_jsonl_records(path: str | Path) -> list[dict[str, Any]]:

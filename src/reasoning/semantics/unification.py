@@ -60,6 +60,32 @@ def _fuzzy_equal(a: Any, b: Any) -> bool:
     return len(tg & th) / max(1, len(tg | th)) >= 0.34
 
 
+def _normalize_predicate_token(value: Any) -> str:
+    s = str(value or "").strip()
+    if not s:
+        return ""
+    folded = lower_fold(s)
+    folded = folded.replace("-", "_").replace(" ", "_")
+    while "__" in folded:
+        folded = folded.replace("__", "_")
+    return folded.strip("_")
+
+
+def _is_empty_arg(value: Any) -> bool:
+    if value is None:
+        return True
+    if isinstance(value, str) and not value.strip():
+        return True
+    return False
+
+
+def _trim_trailing_empty_args(args: list[Any]) -> list[Any]:
+    out = list(args)
+    while out and _is_empty_arg(out[-1]):
+        out.pop()
+    return out
+
+
 def unify_terms(a: Any, b: Any, subst: Substitution) -> Substitution | None:
     """Unify two terms; extend `subst` or return None."""
     if is_variable(a):
@@ -190,9 +216,9 @@ def unify_goal_dict_with_goal_atom(
     if not goal_atom:
         return None, "empty_goal_atom"
     gp = goal.get("predicate")
-    ga = list(goal.get("args") or [])
-    ha = list(goal_atom[1:])
-    if gp != goal_atom[0]:
+    ga = _trim_trailing_empty_args(list(goal.get("args") or []))
+    ha = _trim_trailing_empty_args(list(goal_atom[1:]))
+    if _normalize_predicate_token(gp) != _normalize_predicate_token(goal_atom[0]):
         return None, "predicate_mismatch"
     if len(ga) != len(ha):
         return None, "arity_mismatch"

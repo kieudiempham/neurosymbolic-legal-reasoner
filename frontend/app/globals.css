@@ -1,0 +1,117 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+  color: #111;
+}
+
+main {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+section {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+h1 {
+  font-size: 20px;
+  margin: 0 0 12px 0;
+}
+
+h2 {
+  font-size: 16px;
+  margin: 0 0 10px 0;
+}
+
+textarea,
+input {
+  width: 100%;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 14px;
+}
+
+button {
+  border: 1px solid #444;
+  background: #111;
+  color: #fff;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.badge {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 12px;
+  border: 1px solid #bbb;
+  margin-right: 6px;
+}
+
+.badge-final {
+  background: #e7f8ea;
+  border-color: #7bc58a;
+}
+
+.badge-partial {
+  background: #fff7df;
+  border-color: #e5b74a;
+}
+
+.badge-degraded {
+  background: #fde8e8;
+  border-color: #d77a7a;
+}
+
+.badge-warning {
+  background: #ffe9d6;
+  border-color: #d58f50;
+}
+
+pre {
+  background: #f1f1f1;
+  border: 1px solid #d3d3d3;
+  border-radius: 6px;
+  padding: 10px;
+  overflow: auto;
+  font-size: 12px;
+}
+
+small {
+  color: #555;
+}
+
+.error {
+  color: #a10000;
+  white-space: pre-wrap;
+}
+
+.item {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 8px;
+}

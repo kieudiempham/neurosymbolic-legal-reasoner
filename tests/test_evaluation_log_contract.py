@@ -2,9 +2,16 @@ from __future__ import annotations
 
 import json
 
-from evaluation.qa_log_exporter import export_logs_csv, export_logs_jsonl, load_jsonl_records
+from evaluation.qa_log_exporter import (
+    QUALITY_DEGRADE_SUMMARY_FIELDS,
+    export_logs_csv,
+    export_logs_jsonl,
+    export_quality_degrade_summary_csv,
+    load_jsonl_records,
+    summarize_quality_degrade_metrics,
+)
 from schemas.evaluation_log import QA_EVAL_LOG_FIELDS, QAEvaluationLogArtifact
-from schemas.http_response import AskResponse
+from schemas.http_response import AskResponse, ClarifyResponse
 
 
 def test_ask_response_auto_populates_evaluation_log_with_stable_fields() -> None:
@@ -58,3 +65,101 @@ def test_exporter_normalizes_records_and_writes_jsonl_csv(tmp_path) -> None:
     csv_lines = out_csv.read_text(encoding="utf-8").strip().splitlines()
     assert csv_lines[0].split(",") == QA_EVAL_LOG_FIELDS
     assert len(csv_lines) == 3
+
+
+def test_answer_quality_partial_when_answered_after_forward_failure() -> None:
+    resp = AskResponse(
+        session_id="sess_partial_quality",
+        evaluation_log=QAEvaluationLogArtifact(
+            sample_id="sess_partial_quality",
+            final_status="answered",
+            error_stage_final="partial_answer_generated_after_forward_failure",
+        ),
+    )
+    assert resp.answer_quality == "partial"
+    assert resp.answer_quality_reason == "forward_verification_failed_fallback"
+    assert len(resp.warnings) == 1
+    assert resp.warnings[0].code == "FORWARD_VERIFICATION_FAILED"
+    assert resp.warnings[0].severity == "warning"
+    assert resp.diagnostics.get("warning_codes") == ["FORWARD_VERIFICATION_FAILED"]
+    assert resp.diagnostics.get("answer_quality") == "partial"
+    assert resp.evaluation_log is not None
+    assert resp.evaluation_log.final_status == "answered"
+
+
+def test_answer_quality_final_for_normal_answered_flow() -> None:
+    resp = ClarifyResponse(
+        session_id="sess_final_quality",
+        evaluation_log=QAEvaluationLogArtifact(
+            sample_id="sess_final_quality",
+            final_status="answered",
+            error_stage_final=None,
+        ),
+    )
+    assert resp.answer_quality == "final"
+    assert resp.answer_quality_reason == "fully_verified"
+    assert resp.warnings == []
+    assert resp.diagnostics.get("warning_codes") == []
+
+
+def test_quality_degrade_summary_counters_and_csv_export(tmp_path) -> None:
+    records = [
+        {
+            "sample_id": "clean_answer",
+            "final_status": "answered",
+            "error_stage_final": None,
+            "proof": {"proof_id": "p1"},
+            "verification_reports": [
+                {
+                    "mode": "answer_verification",
+                    "final_decision": "ACCEPT",
+                    "extra": {"nli_trace": {"nli_status": "ok"}},
+                }
+            ],
+        },
+        {
+            "sample_id": "partial_after_forward_fail",
+            "final_status": "answered",
+            "error_stage_final": "partial_answer_generated_after_forward_failure",
+            "proof": {"proof_id": "p2"},
+            "verification_reports": [
+                {
+                    "mode": "forward_verification",
+                    "final_decision": "REPAIR",
+                    "extra": {"nli_trace": {"nli_status": "degraded_symbolic_only"}},
+                }
+            ],
+        },
+        {
+            "sample_id": "failed_unification",
+            "final_status": "failed",
+            "error_stage_final": "unification_broken",
+            "proof": {"proof_id": "p3"},
+            "verification_reports": [
+                {
+                    "mode": "forward_verification",
+                    "final_decision": "REJECT",
+                    "extra": {"nli_trace": {"nli_status": "ok"}},
+                }
+            ],
+        },
+    ]
+
+    summary = summarize_quality_degrade_metrics(records)
+
+    assert summary["rows_total"] == 3
+    assert summary["total_answered"] == 2
+    assert summary["total_answered_clean"] == 1
+    assert summary["total_partial"] == 1
+    assert summary["total_forward_failure_fallback"] == 1
+    assert summary["total_unification_broken"] == 1
+    assert summary["total_verified_final"] == 1
+    assert summary["total_proof_with_unverified_verification"] == 2
+
+    out_csv = tmp_path / "quality_summary.csv"
+    export_quality_degrade_summary_csv(summary, out_csv)
+
+    lines = out_csv.read_text(encoding="utf-8").strip().splitlines()
+    assert lines[0] == "metric,value"
+    assert len(lines) == len(QUALITY_DEGRADE_SUMMARY_FIELDS) + 1
+    assert any(line.startswith("total_partial,") for line in lines[1:])

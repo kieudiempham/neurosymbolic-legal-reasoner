@@ -139,6 +139,21 @@ def run_forward_path(
         rule=rule,
         domain_policy=pol_u,
     )
+    if s_goal is None and subst.mapping:
+        # Guard: backward-provided substitution can be stale for this forward attempt.
+        # Retry unification against original rule head to reduce false unification_broken.
+        s_retry, _retry_fail = unify_goal_dict_with_goal_atom(
+            goal,
+            rr0.goal_atom,
+            reasoning_context=reasoning_context,
+            rule=rule,
+            domain_policy=pol_u,
+        )
+        if s_retry is not None:
+            rr = apply_substitution_to_reasoning_rule(rr0, s_retry)
+            goal_atom_list = list(rr.goal_atom)
+            s_goal = s_retry
+            ufail = None
     if s_goal is None:
         return ForwardPathResult(
             rule_id=rule.rule_id,

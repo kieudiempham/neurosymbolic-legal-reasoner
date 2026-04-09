@@ -1,6 +1,6 @@
 $ErrorActionPreference = 'Stop'
 
-$baseUrl = 'http://localhost:8000'
+$baseUrl = 'http://localhost:8001'
 $ts = Get-Date -Format 'yyyyMMdd_HHmmss'
 $outDir = 'data/processed/evaluation'
 New-Item -ItemType Directory -Path $outDir -Force | Out-Null

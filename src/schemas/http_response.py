@@ -29,6 +29,79 @@ class ClarificationPrompt(BaseModel):
     blocking_reason: str = ""
 
 
+class ResponseWarning(BaseModel):
+    code: str
+    severity: str = "warning"
+    user_safe_message: str
+    stage: str | None = None
+
+
+def _derive_answer_quality(*, final_status: str | None, error_stage_final: str | None) -> str | None:
+    fs = (final_status or "").strip().lower()
+    ef = (error_stage_final or "").strip().lower()
+
+    # Explicit forward-failure fallback should be signaled as non-final quality.
+    if fs == "answered" and ef == "partial_answer_generated_after_forward_failure":
+        return "partial"
+    if fs == "answered":
+        return "final"
+    if fs == "partial" or ef == "partial_answer_generated_after_forward_failure":
+        return "partial"
+    if fs in {"failed", "open", "needs_clarification"}:
+        return "degraded"
+    return None
+
+
+def _derive_answer_quality_reason(*, final_status: str | None, error_stage_final: str | None) -> str | None:
+    fs = (final_status or "").strip().lower()
+    ef = (error_stage_final or "").strip().lower()
+
+    if fs == "answered" and ef == "partial_answer_generated_after_forward_failure":
+        return "forward_verification_failed_fallback"
+    if fs == "answered":
+        return "fully_verified"
+    if fs == "partial":
+        return "partial_reasoning_only"
+    if fs == "needs_clarification":
+        return "needs_more_facts"
+    if fs in {"failed", "open"}:
+        return "pipeline_not_resolved"
+    return None
+
+
+def _derive_response_warnings(*, final_status: str | None, error_stage_final: str | None) -> list[ResponseWarning]:
+    fs = (final_status or "").strip().lower()
+    ef = (error_stage_final or "").strip().lower()
+
+    if fs == "answered" and ef == "partial_answer_generated_after_forward_failure":
+        return [
+            ResponseWarning(
+                code="FORWARD_VERIFICATION_FAILED",
+                severity="warning",
+                user_safe_message="Cau tra loi nay chua duoc xac minh day du.",
+                stage="forward_reasoning",
+            )
+        ]
+    return []
+
+
+def _derive_response_diagnostics(
+    *,
+    final_status: str | None,
+    error_stage_final: str | None,
+    answer_quality: str | None,
+    answer_quality_reason: str | None,
+    warnings: list[ResponseWarning],
+) -> dict[str, Any]:
+    return {
+        "final_status": final_status,
+        "answer_quality": answer_quality,
+        "answer_quality_reason": answer_quality_reason,
+        "error_stage_final": error_stage_final,
+        "warning_codes": [w.code for w in warnings],
+    }
+
+
 class AskResponse(BaseModel):
     session_id: str
     needs_clarification: bool = False
@@ -46,6 +119,10 @@ class AskResponse(BaseModel):
     debug_trace: dict[str, Any] = Field(default_factory=dict)
     clarification_artifact: ClarificationArtifact | None = None
     evaluation_log: QAEvaluationLogArtifact | None = None
+    answer_quality: str | None = None
+    answer_quality_reason: str | None = None
+    warnings: list[ResponseWarning] = Field(default_factory=list)
+    diagnostics: dict[str, Any] = Field(default_factory=dict)
 
     @model_validator(mode="after")
     def _populate_clarification_artifact(self) -> "AskResponse":
@@ -91,6 +168,39 @@ class AskResponse(BaseModel):
             )
         return self
 
+    @model_validator(mode="after")
+    def _populate_answer_quality(self) -> "AskResponse":
+        if self.answer_quality is None and self.evaluation_log is not None:
+            self.answer_quality = _derive_answer_quality(
+                final_status=self.evaluation_log.final_status,
+                error_stage_final=self.evaluation_log.error_stage_final,
+            )
+        return self
+
+    @model_validator(mode="after")
+    def _populate_response_meta(self) -> "AskResponse":
+        if self.evaluation_log is None:
+            return self
+        if self.answer_quality_reason is None:
+            self.answer_quality_reason = _derive_answer_quality_reason(
+                final_status=self.evaluation_log.final_status,
+                error_stage_final=self.evaluation_log.error_stage_final,
+            )
+        if not self.warnings:
+            self.warnings = _derive_response_warnings(
+                final_status=self.evaluation_log.final_status,
+                error_stage_final=self.evaluation_log.error_stage_final,
+            )
+        if not self.diagnostics:
+            self.diagnostics = _derive_response_diagnostics(
+                final_status=self.evaluation_log.final_status,
+                error_stage_final=self.evaluation_log.error_stage_final,
+                answer_quality=self.answer_quality,
+                answer_quality_reason=self.answer_quality_reason,
+                warnings=self.warnings,
+            )
+        return self
+
 
 class ClarifyResponse(BaseModel):
     session_id: str
@@ -109,6 +219,10 @@ class ClarifyResponse(BaseModel):
     debug_trace: dict[str, Any] = Field(default_factory=dict)
     clarification_artifact: ClarificationArtifact | None = None
     evaluation_log: QAEvaluationLogArtifact | None = None
+    answer_quality: str | None = None
+    answer_quality_reason: str | None = None
+    warnings: list[ResponseWarning] = Field(default_factory=list)
+    diagnostics: dict[str, Any] = Field(default_factory=dict)
 
     @model_validator(mode="after")
     def _populate_clarification_artifact(self) -> "ClarifyResponse":
@@ -151,6 +265,39 @@ class ClarifyResponse(BaseModel):
                 clarification_questions=self.clarification_questions,
                 verification_trace=self.verification_trace,
                 debug_trace=self.debug_trace,
+            )
+        return self
+
+    @model_validator(mode="after")
+    def _populate_answer_quality(self) -> "ClarifyResponse":
+        if self.answer_quality is None and self.evaluation_log is not None:
+            self.answer_quality = _derive_answer_quality(
+                final_status=self.evaluation_log.final_status,
+                error_stage_final=self.evaluation_log.error_stage_final,
+            )
+        return self
+
+    @model_validator(mode="after")
+    def _populate_response_meta(self) -> "ClarifyResponse":
+        if self.evaluation_log is None:
+            return self
+        if self.answer_quality_reason is None:
+            self.answer_quality_reason = _derive_answer_quality_reason(
+                final_status=self.evaluation_log.final_status,
+                error_stage_final=self.evaluation_log.error_stage_final,
+            )
+        if not self.warnings:
+            self.warnings = _derive_response_warnings(
+                final_status=self.evaluation_log.final_status,
+                error_stage_final=self.evaluation_log.error_stage_final,
+            )
+        if not self.diagnostics:
+            self.diagnostics = _derive_response_diagnostics(
+                final_status=self.evaluation_log.final_status,
+                error_stage_final=self.evaluation_log.error_stage_final,
+                answer_quality=self.answer_quality,
+                answer_quality_reason=self.answer_quality_reason,
+                warnings=self.warnings,
             )
         return self
 

@@ -62,6 +62,15 @@ def test_unification_binds_variable_and_applies_to_rule() -> None:
     assert rr2.positive_conditions[0].args[0] == "cong_ty_a"
 
 
+def test_unification_normalizes_predicate_and_trims_empty_trailing_args() -> None:
+    goal = {"predicate": " Must-File ", "args": ["cong_ty_a", "file_report", ""]}
+    head = ("must_file", "company_x", "file_report")
+    subst, fail = unify_goal_dict_with_goal_atom(goal, head)
+    assert fail is None
+    assert subst is not None
+    assert subst.mapping.get("company_x") == "cong_ty_a"
+
+
 # --- Test 3: backward structured plan ---
 def test_backward_plan_has_candidates_scores_and_missing() -> None:
     r1 = _rule(
@@ -96,6 +105,27 @@ def test_forward_success_derives_goal_and_proof() -> None:
     assert res.goal_reached
     assert res.proof_steps
     assert res.conclusion.startswith("must(")
+
+
+def test_forward_retries_unification_when_backward_substitution_is_stale() -> None:
+    r = _rule(
+        "FS_STALE_SUB",
+        "must",
+        ["company_x", "act"],
+        [{"predicate": "applies_if", "args": ["company_x", "ok"]}],
+    )
+    rr = map_rule_record_to_reasoning_rule(r)
+    k = serialize_atom(rr.positive_conditions[0])
+    known = {k.replace("company_x", "c1"): True}
+
+    res = run_forward_path(
+        rule=r,
+        goal={"predicate": "must", "args": ["c1", "act"]},
+        known_facts=known,
+        substitution={"company_x": "stale_company"},
+    )
+    assert res.goal_reached
+    assert res.failure_reason == "none"
 
 
 # --- Test 5: exception triggered ---

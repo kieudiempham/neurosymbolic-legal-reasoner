@@ -1,0 +1,45 @@
+{
+  "total_cases": 30,
+  "answered": 10,
+  "answered_final": 0,
+  "answered_partial": 10,
+  "degraded": 20,
+  "failed_or_open": 6,
+  "with_proof": 10,
+  "with_selected_rule": 24,
+  "needs_clarification": 19,
+  "top_warning_codes": [
+    {
+      "value": "FORWARD_VERIFICATION_FAILED",
+      "count": 10
+    }
+  ],
+  "top_answer_quality_reason": [
+    {
+      "value": "needs_more_facts",
+      "count": 14
+    },
+    {
+      "value": "forward_verification_failed_fallback",
+      "count": 10
+    },
+    {
+      "value": "pipeline_not_resolved",
+      "count": 6
+    }
+  ],
+  "top_error_stage_final": [
+    {
+      "value": "partial_answer_generated_after_forward_failure",
+      "count": 10
+    },
+    {
+      "value": "reasoning_blocked_by_rule_verification",
+      "count": 4
+    },
+    {
+      "value": "parse_rejected",
+      "count": 2
+    }
+  ]
+}
