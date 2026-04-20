@@ -1,3 +1,0 @@
-{
-  "raw_llm_response": "{\"utterance_type\":\"direct_question\",\"subject_text\":\"Công ty A\",\"condition_text\":\"\",\"action_text\":\"nộp báo cáo\",\"modality_text\":\"phải\",\"time_text\":\"\",\"deadline_text\":\"\",\"exception_text\":\"\",\"question_focus\":\"obligation\",\"assertion_status\":\"ambiguous\"}"
-}

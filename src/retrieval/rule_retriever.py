@@ -9,7 +9,7 @@ from typing import Any
 
 from schemas.question_parse import Layer1Parse, Layer2Parse
 from schemas.rule import RuleRecord
-from retrieval.hybrid_rule_ranker import bm25_scores_for_documents, hybrid_combine, normalize_scores
+from retrieval.hybrid_rule_ranker import bm25_scores_for_documents, normalize_scores
 from retrieval.retrieval_query import build_rule_retrieval_query
 from retrieval.rulebase_loader import RulebaseIndex, get_rulebase_index
 from utils.text import lower_fold
@@ -37,6 +37,281 @@ _GOAL_FAMILY_BY_PREDICATE: dict[str, str] = {
     "applicability": "applicability",
     "legal_effect": "legal_effect",
 }
+
+_REGISTRATION_CHANGE_ATOM = "dang_ky_thay_doi_noi_dung_dang_ky_doanh_nghiep"
+_REGISTRATION_ACTION_HINTS = {
+    "gui_thong_bao",
+    "thong_bao_thay_doi_noi_dung_dang_ky_doanh_nghiep",
+    "thong_bao_thay_doi",
+}
+_ENTERPRISE_REGISTRATION_ANCHORS = (
+    "thay doi noi dung dang ky doanh nghiep",
+    "thong bao thay doi noi dung dang ky doanh nghiep",
+    "dang ky doanh nghiep",
+    "enterprise_registration",
+    "deadline",
+)
+_TAX_ATTRACTOR_TERMS = (
+    "thuc_hien_nop_thay_so_tien_thue_bi_cuong_che",
+    "cuong che thue",
+    "nop thay tien thue",
+    "nguoi nop thue bi cuong che",
+    "thue bi cuong che",
+    "nop_thay",
+    "cuong_che",
+)
+
+_CONTEXT_SIGNAL_KEYWORDS: dict[str, tuple[str, ...]] = {
+    "inheritance": (
+        "thua ke",
+        "thua_ke",
+        "di san",
+        "di_san",
+        "nguoi thua ke",
+        "nguoi_thua_ke",
+        "thua ke co phan",
+    ),
+    "ownership_transfer": (
+        "chuyen nhuong",
+        "chuyen_nhuong",
+        "chuyen quyen so huu",
+        "chuyen_quyen_so_huu",
+        "mua ban co phan",
+        "sang ten",
+    ),
+    "merger": (
+        "sap nhap",
+        "sap_nhap",
+        "hop nhat",
+        "hop_nhat",
+        "chia tach",
+        "chia_tach",
+        "tai cau truc",
+        "tai_cau_truc",
+    ),
+    "bankruptcy": (
+        "pha san",
+        "pha_san",
+        "mat kha nang thanh toan",
+        "mat_kha_nang_thanh_toan",
+        "giai the",
+        "giai_the",
+    ),
+    "tax_enforcement": (
+        "cuong che thue",
+        "cuong_che",
+        "nop thay tien thue",
+        "nop_thay",
+        "bien phap cuong che",
+        "thu hoi no thue",
+        "thu_hoi_no_thue",
+    ),
+}
+
+
+def _norm_predicate_token(value: str) -> str:
+    return re.sub(r"[^a-z0-9_]+", "", lower_fold((value or "").strip()))
+
+
+def _extract_atom_predicate(atom: Any) -> str:
+    if isinstance(atom, dict):
+        return _norm_predicate_token(str(atom.get("predicate") or ""))
+    s = lower_fold(str(atom or "").strip())
+    if not s:
+        return ""
+    pred = s.split("(", 1)[0].strip() if "(" in s else s.split()[0].strip()
+    return _norm_predicate_token(pred)
+
+
+def _layer2_condition_predicates(layer2: Layer2Parse) -> set[str]:
+    out: set[str] = set()
+    for atom in layer2.condition_atoms or []:
+        pred = _extract_atom_predicate(atom)
+        if pred and pred not in _GENERIC_BODY_PREDICATES:
+            out.add(pred)
+    return out
+
+
+def _rule_condition_predicates(rule: RuleRecord) -> set[str]:
+    out: set[str] = set()
+    for atom in rule.body or []:
+        pred = _extract_atom_predicate(atom)
+        if pred:
+            out.add(pred)
+    hp = _norm_predicate_token(str(rule.head.predicate or ""))
+    if hp:
+        out.add(hp)
+    return out
+
+
+def _layer2_event_type(layer2: Layer2Parse) -> str:
+    diagnostics = dict(getattr(layer2, "diagnostics", None) or {})
+    cond_norm = dict(diagnostics.get("condition_normalization") or {})
+    frame = dict(cond_norm.get("frame") or {})
+    return _norm_predicate_token(str(frame.get("event_type") or ""))
+
+
+def _rule_event_type(rule: RuleRecord) -> str:
+    md = rule.metadata or {}
+    for raw in (
+        md.get("event_type"),
+        md.get("canonical_predicate"),
+        md.get("condition_predicate"),
+        md.get("motif"),
+    ):
+        candidate = _norm_predicate_token(str(raw or ""))
+        if candidate and candidate != "unknown":
+            return candidate
+    cond_preds = _rule_condition_predicates(rule)
+    if cond_preds:
+        return sorted(cond_preds)[0]
+    return ""
+
+
+def _layer2_action_object(layer2: Layer2Parse, goal: dict[str, Any]) -> tuple[str, str]:
+    diagnostics = dict(getattr(layer2, "diagnostics", None) or {})
+    goal_can = dict(diagnostics.get("goal_canonicalization") or {})
+    action = _norm_predicate_token(str(goal_can.get("action_canonical") or ""))
+    obj = _norm_predicate_token(str(goal_can.get("object_canonical") or ""))
+    args = [str(x or "") for x in (goal.get("args") or [])]
+    if not action and len(args) >= 2:
+        action = _norm_predicate_token(args[1])
+    if not obj and len(args) >= 3:
+        obj = _norm_predicate_token(args[2])
+    return action, obj
+
+
+def _rule_action_object_blob(rule: RuleRecord) -> str:
+    parts: list[str] = [
+        str(rule.head.predicate or ""),
+        " ".join(str(x or "") for x in (rule.head.args or [])),
+        " ".join(str((x or {}).get("predicate") or "") for x in (rule.body or [])),
+    ]
+    return lower_fold(" ".join(parts))
+
+
+def _rule_semantic_blob(rule: RuleRecord) -> str:
+    md = rule.metadata or {}
+    prov = md.get("provenance") or {}
+    parts: list[str] = [
+        str(rule.logic_form or ""),
+        str(rule.head.predicate or ""),
+        " ".join(str(x or "") for x in (rule.head.args or [])),
+        " ".join(str((b or {}).get("predicate") or "") for b in (rule.body or [])),
+        json.dumps(rule.body or [], ensure_ascii=False),
+        str(md.get("domain") or ""),
+        str(md.get("layer") or ""),
+        str(md.get("source_doc") or ""),
+        str(md.get("source_article") or ""),
+        str(prov.get("source_ref_full") or ""),
+        str(prov.get("source_ref") or ""),
+        str(prov.get("surface_text") or ""),
+    ]
+    return lower_fold(" ".join(p for p in parts if p))
+
+
+def _rule_context_blob(rule: RuleRecord) -> str:
+    md = rule.metadata or {}
+    prov = md.get("provenance") or {}
+    parts: list[str] = [
+        json.dumps(rule.body or [], ensure_ascii=False),
+        str(md.get("source_doc") or ""),
+        str(md.get("source_article") or ""),
+        str(prov.get("source_ref_full") or ""),
+        str(prov.get("source_ref") or ""),
+        str(prov.get("surface_text") or ""),
+    ]
+    return lower_fold(" ".join(p for p in parts if p))
+
+
+def _query_context_blob(layer1: Layer1Parse, layer2: Layer2Parse, goal: dict[str, Any]) -> str:
+    diagnostics = dict(getattr(layer2, "diagnostics", None) or {})
+    cond_norm = dict(diagnostics.get("condition_normalization") or {})
+    frame = dict(cond_norm.get("frame") or {})
+    goal_can = dict(diagnostics.get("goal_canonicalization") or {})
+    goal_args = " ".join(str(x or "") for x in (goal.get("args") or []))
+    parts: list[str] = [
+        str(layer1.subject_text or ""),
+        str(layer1.condition_text or ""),
+        str(layer1.action_text or ""),
+        str(layer1.time_text or ""),
+        str(layer1.deadline_text or ""),
+        str(layer1.exception_text or ""),
+        " ".join(str(x or "") for x in (layer2.condition_atoms or [])),
+        str(goal.get("predicate") or ""),
+        goal_args,
+        str(frame.get("event_type") or ""),
+        str(goal_can.get("action_canonical") or ""),
+        str(goal_can.get("object_canonical") or ""),
+    ]
+    return lower_fold(" ".join(p for p in parts if p))
+
+
+def _detect_context_signals(blob: str) -> set[str]:
+    hits: set[str] = set()
+    for label, keywords in _CONTEXT_SIGNAL_KEYWORDS.items():
+        if any(k in blob for k in keywords):
+            hits.add(label)
+    return hits
+
+
+def _is_enterprise_registration_deadline_query(
+    *,
+    layer1: Layer1Parse,
+    layer2: Layer2Parse,
+    goal: dict[str, Any],
+) -> bool:
+    goal_pred = str(goal.get("predicate") or "").strip().lower()
+
+    diagnostics = dict(getattr(layer2, "diagnostics", None) or {})
+    cond_norm = dict(diagnostics.get("condition_normalization") or {})
+    cond_domain = str(cond_norm.get("domain") or "").strip().lower()
+    has_enterprise_domain = cond_domain == "enterprise_registration"
+
+    cond_atoms = [str(a or "").strip().lower() for a in (layer2.condition_atoms or []) if str(a or "").strip()]
+    has_registration_atom = any(_REGISTRATION_CHANGE_ATOM in a for a in cond_atoms)
+
+    parse_text_blob = lower_fold(
+        " ".join(
+            [
+                str(layer1.subject_text or ""),
+                str(layer1.condition_text or ""),
+                str(layer1.action_text or ""),
+                str(layer1.time_text or ""),
+                str(layer1.deadline_text or ""),
+            ]
+        )
+    )
+    has_registration_text = (
+        "thay doi noi dung dang ky doanh nghiep" in parse_text_blob
+        or "dang ky doanh nghiep" in parse_text_blob
+        or "thong bao thay doi noi dung dang ky doanh nghiep" in parse_text_blob
+    )
+
+    action_blob = lower_fold(
+        " ".join(
+            [
+                str(layer1.action_text or ""),
+                " ".join(str(x or "") for x in (goal.get("args") or [])),
+            ]
+        )
+    )
+    has_notification_action = any(h in action_blob for h in _REGISTRATION_ACTION_HINTS) or (
+        "gui thong bao" in action_blob
+    )
+
+    has_deadline_signal = (
+        goal_pred == "deadline"
+        or str(layer1.question_focus or "").strip().lower() == "deadline"
+        or any(x in parse_text_blob for x in ("thoi han", "may ngay", "ngay", "deadline"))
+    )
+
+    has_registration_signal = has_registration_atom or has_registration_text
+
+    if has_enterprise_domain and has_registration_atom and has_notification_action and has_deadline_signal:
+        return True
+
+    return has_registration_signal and has_notification_action and has_deadline_signal
 
 
 def _is_shared_rule(rule: RuleRecord) -> bool:
@@ -204,15 +479,40 @@ def structured_score_rule(
         matched.append("action_modality")
 
     blob = str(rule.head.args) + str(rule.body)
+    semantic_blob = _rule_semantic_blob(rule)
+    layer2_event = _layer2_event_type(layer2)
+    rule_event = _rule_event_type(rule)
+    query_cond_preds = _layer2_condition_predicates(layer2)
+    rule_cond_preds = _rule_condition_predicates(rule)
+
+    event_type_match = 0.0
+    if layer2_event and (layer2_event == rule_event or layer2_event in rule_cond_preds):
+        event_type_match = 7.0
+        score += event_type_match
+        matched.append("event_type")
+    comp["event_type_match"] = event_type_match
+
     cond_ov = 0.0
-    for c in layer2.condition_atoms or []:
-        if _is_generic_condition_atom(str(c)):
-            continue
-        cond_ov += 2.0 * _token_overlap(blob, c)
+    if query_cond_preds and rule_cond_preds:
+        inter = query_cond_preds & rule_cond_preds
+        union = query_cond_preds | rule_cond_preds
+        if inter:
+            cond_ov = 6.0 * (len(inter) / max(1, len(union)))
+            if query_cond_preds.issubset(rule_cond_preds):
+                cond_ov += 2.0
+            elif len(inter) >= 2:
+                cond_ov += 1.0
+            score += cond_ov
     comp["condition_atom_overlap"] = cond_ov
-    score += cond_ov
     if cond_ov > 0.01:
         matched.append("condition_atoms")
+
+    if event_type_match > 0.0 and cond_ov > 0.01:
+        score += 2.5
+        comp["event_atom_alignment_bonus"] = 2.5
+        matched.append("event_atom_alignment")
+    else:
+        comp["event_atom_alignment_bonus"] = 0.0
 
     if layer2.subject_normalized and layer2.subject_normalized in blob:
         score += 1.0
@@ -263,13 +563,14 @@ def structured_score_rule(
 
     goal_family = _goal_semantic_family(layer1, goal)
     rule_family = _rule_semantic_family(rule)
+    goal_family_score = 0.0
     if goal_family and rule_family:
         if goal_family == rule_family:
-            score += 2.0
-            comp["semantic_compatibility"] = 2.0
+            goal_family_score = 3.0
+            score += goal_family_score
             matched.append("semantic_family")
         else:
-            mismatch_penalty = 1.5
+            mismatch_penalty = 2.0
             if _is_shared_rule(rule):
                 mismatch_penalty += 1.5
             if goal_family in {"permission", "obligation", "prohibition", "applicability", "legal_effect"} and rule_family in {
@@ -280,9 +581,93 @@ def structured_score_rule(
             }:
                 mismatch_penalty += 1.5
             score -= mismatch_penalty
-            comp["semantic_compatibility"] = -mismatch_penalty
+            goal_family_score = -mismatch_penalty
     else:
-        comp["semantic_compatibility"] = 0.0
+        goal_family_score = 0.0
+    comp["goal_family_match"] = goal_family_score
+    # Keep legacy key for downstream diagnostics compatibility.
+    comp["semantic_compatibility"] = goal_family_score
+
+    q_action, q_object = _layer2_action_object(layer2, goal)
+    rule_action_obj_blob = _rule_action_object_blob(rule)
+    action_obj_score = 0.0
+    if q_action:
+        action_obj_score += 2.0 * _token_overlap(q_action.replace("_", " "), rule_action_obj_blob)
+    if q_object:
+        action_obj_score += 1.6 * _token_overlap(q_object.replace("_", " "), rule_action_obj_blob)
+    if action_obj_score > 0.0:
+        score += action_obj_score
+        matched.append("action_object")
+    comp["action_object_similarity"] = action_obj_score
+    comp["action_object_match"] = action_obj_score
+
+    query_context_blob = _query_context_blob(layer1, layer2, goal)
+    rule_context_blob = _rule_context_blob(rule)
+    query_context_signals = _detect_context_signals(query_context_blob)
+    rule_context_signals = _detect_context_signals(rule_context_blob)
+    missing_context_signals = rule_context_signals - query_context_signals
+
+    context_mismatch_penalty = 0.0
+    if missing_context_signals:
+        context_mismatch_penalty += 2.2 * len(missing_context_signals)
+        if "tax_enforcement" in missing_context_signals:
+            context_mismatch_penalty += 1.8
+        score -= context_mismatch_penalty
+        matched.append("context_mismatch")
+    comp["context_mismatch_penalty"] = -context_mismatch_penalty
+    comp["context_rule_signal_count"] = float(len(rule_context_signals))
+    comp["context_query_signal_count"] = float(len(query_context_signals))
+    comp["context_missing_signal_count"] = float(len(missing_context_signals))
+
+    query_is_enterprise_registration_deadline = _is_enterprise_registration_deadline_query(
+        layer1=layer1,
+        layer2=layer2,
+        goal=goal,
+    )
+
+    if query_is_enterprise_registration_deadline:
+        positive_boost = 0.0
+        if any(anchor in semantic_blob for anchor in _ENTERPRISE_REGISTRATION_ANCHORS):
+            positive_boost += 4.0
+        rule_domain = str(md.get("domain") or "").strip().lower()
+        if rule_domain in {"enterprise", "enterprise_registration", "shared"}:
+            positive_boost += 1.5
+        if str(rule.head.predicate or "").strip().lower() in {
+            "deadline",
+            "regulatory_deadline",
+            "regulatory_deadline_requirement",
+        }:
+            positive_boost += 1.5
+        if positive_boost > 0.0:
+            score += positive_boost
+            matched.append("enterprise_registration_positive")
+        comp["enterprise_registration_positive_boost"] = positive_boost
+
+        tax_attractor_penalty = 0.0
+        if any(term in semantic_blob for term in _TAX_ATTRACTOR_TERMS):
+            tax_attractor_penalty = 22.0
+            score -= tax_attractor_penalty
+            matched.append("tax_attractor_penalized")
+        comp["tax_attractor_penalty"] = -tax_attractor_penalty
+
+        semantic_family_mismatch_penalty = 0.0
+        if any(
+            term in semantic_blob
+            for term in (
+                "thuc_hien_nop_thay_so_tien_thue_bi_cuong_che",
+                "cuong che thue",
+                "nop thay tien thue",
+                "nguoi nop thue bi cuong che",
+                "ben thu ba",
+            )
+        ):
+            semantic_family_mismatch_penalty = 10.0
+            score -= semantic_family_mismatch_penalty
+        comp["semantic_family_mismatch_penalty"] = -semantic_family_mismatch_penalty
+    else:
+        comp["enterprise_registration_positive_boost"] = 0.0
+        comp["tax_attractor_penalty"] = 0.0
+        comp["semantic_family_mismatch_penalty"] = 0.0
 
     if _is_shared_rule(rule):
         has_anchor = any(
@@ -303,9 +688,12 @@ def structured_score_rule(
 
     anchor_strength = (
         max(0.0, comp.get("head_predicate_match", 0.0))
+        + max(0.0, comp.get("event_type_match", 0.0))
+        + max(0.0, comp.get("goal_family_match", 0.0))
         + max(0.0, comp.get("goal_head_arg_overlap", 0.0))
         + max(0.0, comp.get("condition_atom_overlap", 0.0))
         + max(0.0, comp.get("action_modality_overlap", 0.0))
+        + max(0.0, comp.get("action_object_similarity", 0.0))
     )
     query_blob = f"{layer1.subject_text} {layer1.action_text} {layer1.modality_text}".strip()
     query_terms = [t for t in lower_fold(query_blob).split() if t]
@@ -361,8 +749,8 @@ def retrieve_rules(
     layer2: Layer2Parse,
     top_k: int = 8,
     index: RulebaseIndex | None = None,
-    w_lexical: float = 0.35,
-    w_structured: float = 0.65,
+    w_lexical: float = 0.25,
+    w_structured: float = 0.75,
 ) -> list[tuple[RuleRecord, float, dict[str, Any]]]:
     """
     Return top-k candidate rules for backward chaining.
@@ -402,38 +790,96 @@ def retrieve_rules(
 
     bm25_norm = normalize_scores(bm25_raw)
     struct_norm = normalize_scores(struct_raw)
-    hybrid = hybrid_combine(bm25_norm, struct_norm, w_lex=w_lexical, w_struct=w_structured)
 
     ranked: list[tuple[RuleRecord, float, dict[str, Any]]] = []
+    semantic_rows: list[dict[str, Any]] = []
     for i, rule in enumerate(pool):
-        base_total = hybrid[i]
         br, sr = bm25_raw[i], struct_raw[i]
         comp, mf = struct_diags[i]
-        tie_adjust = 0.0
-        if sr > 0.0:
-            tie_adjust += min(0.05, sr * 0.01)
-        if sr <= 0.0 and _is_shared_rule(rule):
-            tie_adjust -= 0.03
-        if br <= 0.0 and sr <= 0.0 and _is_shared_rule(rule):
-            tie_adjust -= 0.04
-        total = base_total + tie_adjust
+
+        domain_match = 1.0 if comp.get("metadata_domain", 0.0) > 0.0 else 0.0
+        event_type_match = 1.0 if comp.get("event_type_match", 0.0) > 0.0 else 0.0
+        condition_atom_signal = min(1.0, max(0.0, float(comp.get("condition_atom_overlap", 0.0))) / 6.0)
+        goal_family_match = 1.0 if comp.get("goal_family_match", 0.0) > 0.0 else 0.0
+        action_object_match = min(1.0, max(0.0, float(comp.get("action_object_match", 0.0))) / 2.0)
+        context_penalty_signal = max(0.0, -float(comp.get("context_mismatch_penalty", 0.0)))
+
+        semantic_total = (
+            0.5 * domain_match
+            + 2.5 * event_type_match
+            + 2.0 * condition_atom_signal
+            + 1.0 * goal_family_match
+            + 1.5 * action_object_match
+            - 2.0 * context_penalty_signal
+        )
+
+        lexical_tie_bonus = 0.15 * bm25_norm[i]
+        total = semantic_total + lexical_tie_bonus
+
+        semantic_rows.append(
+            {
+                "index": i,
+                "semantic_total": semantic_total,
+                "event_type_match": event_type_match,
+                "condition_atom_signal": condition_atom_signal,
+                "bm25_norm": bm25_norm[i],
+            }
+        )
+
         diag: dict[str, Any] = {
             "final_score": total,
             "score_total": total,
-            "score_total_base": base_total,
-            "tie_break_adjustment": tie_adjust,
+            "score_total_base": semantic_total,
+            "tie_break_adjustment": lexical_tie_bonus,
             "bm25_raw": br,
             "bm25_norm": bm25_norm[i],
             "structured_raw": sr,
             "structured_norm": struct_norm[i],
             "hybrid_weights": {"lexical": w_lexical, "structured": w_structured},
+            "semantic_formula_signals": {
+                "domain_match": domain_match,
+                "event_type_match": event_type_match,
+                "condition_atom_overlap": condition_atom_signal,
+                "goal_family_match": goal_family_match,
+                "action_object_match": action_object_match,
+                "context_mismatch_penalty": context_penalty_signal,
+            },
             "score_components": comp,
             "matched_features": mf,
             "retrieval_query_preview": query[:500],
         }
         ranked.append((rule, total, diag))
 
-    ranked.sort(key=lambda x: -x[1])
+    # Semantic-first constraint:
+    # If strong event+atom candidates exist, they must be preferred over lexical-only candidates.
+    has_strong_semantic = any(
+        row["event_type_match"] >= 1.0 and row["condition_atom_signal"] >= 0.35 for row in semantic_rows
+    )
+    rebuilt: list[tuple[RuleRecord, float, dict[str, Any]]] = []
+    for rule, total, diag in ranked:
+        sig = dict(diag.get("semantic_formula_signals") or {})
+        strong_sem = sig.get("event_type_match", 0.0) >= 1.0 and sig.get("condition_atom_overlap", 0.0) >= 0.35
+        weak_sem = sig.get("event_type_match", 0.0) <= 0.0 and sig.get("condition_atom_overlap", 0.0) < 0.2
+        if has_strong_semantic:
+            semantic_priority = 2 if strong_sem else (0 if weak_sem else 1)
+        else:
+            semantic_priority = 1
+        diag["semantic_selection_constraint"] = {
+            "strong_event_atom": strong_sem,
+            "weak_event_atom": weak_sem,
+            "active": has_strong_semantic,
+            "semantic_priority": semantic_priority,
+        }
+        rebuilt.append((rule, total, diag))
+    ranked = rebuilt
+
+    ranked.sort(
+        key=lambda x: (
+            -int((x[2].get("semantic_selection_constraint") or {}).get("semantic_priority", 1)),
+            -x[1],
+            -float(x[2].get("bm25_norm") or 0.0),
+        )
+    )
     return ranked[:top_k]
 
 

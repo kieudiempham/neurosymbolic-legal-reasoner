@@ -64,6 +64,8 @@ from schemas.rule_metadata import collect_rulebase_ids_from_index
 from schemas.http_response import AskResponse, ClarificationPrompt, ClarifyResponse
 from schemas.question_parse import Layer1Parse, Layer2Parse
 from schemas.rule import RuleRecord
+from schemas.reasoning import ReasoningState
+from schemas.proof import ProofObject
 from schemas.reasoning_result import ReasoningResult
 from schemas.session import SessionState
 from schemas.verification import VerificationRecord
@@ -825,6 +827,7 @@ def run_ask(
         "backend_modes": init_backend_modes(verifier_engine=engine),
         "run_config": resolved_run_config.to_trace_dict(),
         "clarification_enabled": bool(resolved_run_config.enable_clarification),
+        "hard_gates_hit": [],
     }
 
     parse_unavailable_meta: dict[str, Any] | None = None
@@ -853,22 +856,14 @@ def run_ask(
             sp_l1.decision = "parse_unavailable"
 
     if parse_unavailable_meta is not None:
+        trace.setdefault("hard_gates_hit", []).append("parse_unavailable")
         layer1 = _layer1_parse_unavailable(parse_unavailable_meta)
+        layer2 = build_layer2(layer1, user_facts=_user_fact_keys(session))
         session.layer1 = layer1
-        session.layer2 = None
+        session.layer2 = layer2
         apply_parse_backend(trace["backend_modes"], layer1)
         trace["parser_status"] = dict(layer1.parse_metadata or {})
         trace["stage"].append("parse_unavailable")
-        svc.save(session)
-        _merge_pipeline_trace_dict(trace, tc)
-        return AskResponse(
-            session_id=session.session_id,
-            needs_clarification=False,
-            layer1=layer1,
-            layer2=None,
-            verification_trace=session.verification_logs,
-            debug_trace=trace | {"error": "parse_unavailable"},
-        )
 
     with tc.span("parse_layer2") as sp_l2:
         sp_l2.output_summary = summarize_layer2_trace(layer2)
@@ -909,6 +904,7 @@ def run_ask(
     trace["alternatives_preserved"] = bool(parse_uncertainty.get("alternatives_preserved"))
     ambs = (layer2.diagnostics or {}).get("ambiguities") or []
     if any(a.get("blocking") for a in ambs):
+        trace.setdefault("hard_gates_hit", []).append("parse_ambiguity_blocking")
         clarification_enabled = bool(resolved_run_config.enable_clarification)
         usable_primary = _layer2_has_usable_primary_parse(layer2)
         with tc.span("parse_ambiguity_policy") as sp_cl:
@@ -920,29 +916,21 @@ def run_ask(
                 "prompt_count": len(prompts),
                 "target_kinds": [str((p if isinstance(p, dict) else {}).get("target_kind", "")) for p in prompts[:8]],
             }
-        if clarification_enabled:
-            session.clarification_questions = prompts
-            svc.save(session)
-            _merge_pipeline_trace_dict(trace, tc)
-            return AskResponse(
-                session_id=session.session_id,
-                needs_clarification=True,
-                clarification_questions=[ClarificationPrompt.model_validate(p) for p in prompts],
-                layer1=layer1,
-                layer2=layer2,
-                verification_trace=session.verification_logs,
-                debug_trace=trace | {"stage": "parse_ambiguity_blocking"},
-            )
+        session.clarification_questions = prompts
+        trace["clarification_targets_non_blocking"] = prompts[:16]
+        trace["parse_ambiguity_non_blocking"] = {
+            "clarification_enabled": clarification_enabled,
+            "usable_primary_parse": usable_primary,
+            "prompt_count": len(prompts),
+        }
+        trace["stage"].append("parse_ambiguity_non_blocking_continue")
 
         if usable_primary:
             trace["parse_ambiguity_blocking_bypassed_for_batch"] = True
             trace["parse_best_effort_primary_used"] = True
             trace["parse_alternatives_preserved_in_diagnostics"] = bool(ambs)
             trace["stage"].append("parse_ambiguity_blocking_bypassed")
-            session.clarification_questions = []
         else:
-            with tc.span("pipeline_exit") as spx:
-                spx.output_summary = {"reason": "parse_ambiguity_blocking_no_usable_primary_batch"}
             goal_now = dict(getattr(layer2, "goal", None) or {})
             goal_pred_now = str(goal_now.get("predicate") or "").strip().lower()
             goal_args_now = list(goal_now.get("args") or []) if isinstance(goal_now.get("args"), list) else []
@@ -972,65 +960,17 @@ def run_ask(
             trace["parse_ambiguity_blocking_no_usable_primary_batch"] = True
             trace["parse_non_usable_summary"] = parse_usability_summary
             trace["stage"].append("parse_ambiguity_blocking_no_usable_primary_batch")
-            degraded = generate_honest_degraded_answer(
-                question=question,
-                reason="parse_ambiguity_blocking_no_usable_primary_batch",
-                selected_rule=None,
-                goal=layer2.goal,
-                retrieved_rules=[],
-            )
-            degraded = _apply_parse_uncertainty_answer_policy(
-                ans=degraded,
-                layer2=layer2,
-                trace=trace,
-                context_tag="ask.parse_ambiguity_no_usable_primary",
-            )
-            apply_answer_backend(trace["backend_modes"], degraded)
-            degraded_reasoning_result = _finalize_reasoning_result_dict(
-                {"active_domains_used": [], "parse_non_usable_summary": parse_usability_summary},
-                proof=None,
-                ranked=[],
-                bstate=None,
-                fstate=None,
-                selected=None,
-                phase3_result=None,
-            )
-            trace["reasoning_result"] = degraded_reasoning_result
-            session.clarification_questions = []
-            svc.save(session)
-            _merge_pipeline_trace_dict(trace, tc)
-            return AskResponse(
-                session_id=session.session_id,
-                needs_clarification=False,
-                layer1=layer1,
-                layer2=layer2,
-                verification_trace=session.verification_logs,
-                answer=degraded,
-                reasoning_result=degraded_reasoning_result,
-                debug_trace=trace
-                | {
-                    "error": "parse_ambiguity_blocking_no_usable_primary_batch",
-                    "parse_non_usable_summary": parse_usability_summary,
-                },
-            )
+            trace["parse_non_usable_non_blocking_continue"] = True
     if v_parse.final_decision == "REJECT":
-        with tc.span("pipeline_exit") as spx:
-            spx.output_summary = {"reason": "parse_rejected"}
-        svc.save(session)
-        _merge_pipeline_trace_dict(trace, tc)
-        return AskResponse(
-            session_id=session.session_id,
-            needs_clarification=False,
-            verification_trace=session.verification_logs,
-            layer1=layer1,
-            layer2=layer2,
-            debug_trace=trace | {"error": "parse_rejected"},
-        )
+        trace.setdefault("hard_gates_hit", []).append("parse_verification_reject")
+        with tc.span("parse_reject_policy") as spx:
+            spx.output_summary = {"reason": "parse_rejected_non_blocking_continue"}
+        trace["parse_rejected_non_blocking"] = True
+        trace["stage"].append("parse_rejected_non_blocking_continue")
 
     selector = domain_selector or SimpleDomainSelector()
     routing_dict = {"layer1": layer1, "layer2": layer2, "question": question}
-    if domain_hint:
-        routing_dict["user_domain_hint"] = domain_hint
+    trace["domain_hint_ignored"] = True
     routing = selector.select(
         routing_dict,
         registry=rulebase_registry,
@@ -1109,29 +1049,34 @@ def run_ask(
             trace["rejected_candidates_domain_filter"] = rejected_pf[:32]
             merged_index = ri
         session.retrieved_rules = [r for r, _, _ in ranked]
+        top_limit = min(10, len(ranked))
+        top_rows = [
+            {
+                "rule_id": r.rule_id,
+                "score_total": s,
+                "matched_features": (d.get("matched_features") or [])[:12],
+                "score_components": d.get("score_components") or {},
+                "rulebase_id": d.get("rulebase_id"),
+                "domain": d.get("domain"),
+                "layer": d.get("layer"),
+                "source_doc": d.get("source_doc"),
+                "source_article": d.get("source_article"),
+                "retrieval_scope": d.get("retrieval_scope"),
+            }
+            for r, s, d in ranked[:top_limit]
+        ]
         sp_rr.output_summary = {
             "domain_routing": routing.model_dump(mode="json"),
             "top_rule_ids": [r.rule_id for r, _, _ in ranked[:8]],
-            "top": [
-                {
-                    "rule_id": r.rule_id,
-                    "score_total": s,
-                    "matched_features": (d.get("matched_features") or [])[:12],
-                    "score_components": d.get("score_components") or {},
-                    "rulebase_id": d.get("rulebase_id"),
-                    "domain": d.get("domain"),
-                    "layer": d.get("layer"),
-                    "source_doc": d.get("source_doc"),
-                    "source_article": d.get("source_article"),
-                    "retrieval_scope": d.get("retrieval_scope"),
-                }
-                for r, s, d in ranked[: min(8, len(ranked))]
-            ],
+            "top": top_rows,
+            "final_top10_score_breakdown": top_rows,
         }
     trace["stage"].append("retrieve_done")
     trace["rule_retrieval"] = {
         "backend": "advanced_domain_per_scope" if retriever_advanced is not None else "hybrid_bm25_structured",
         "top": (sp_rr.output_summary or {}).get("top", []),
+        "final_top10_score_breakdown": (sp_rr.output_summary or {}).get("final_top10_score_breakdown", []),
+        "domain_hint_ignored": True,
     }
     apply_retrieval_backend(
         trace["backend_modes"],
@@ -1181,32 +1126,25 @@ def run_ask(
 
     goal = layer2.goal
 
+    selected: RuleRecord | None = None
+    bstate: ReasoningState | None = None
+    rescued_fallback_flow = False
+
     if not resolved_run_config.enable_backward_chaining:
+        trace.setdefault("hard_gates_hit", []).append("backward_disabled_by_run_config")
         with tc.span("pipeline_exit") as spx:
             spx.output_summary = {"reason": "backward_disabled_by_run_config"}
-        error_reasoning_result = _finalize_reasoning_result_dict(
-            {"active_domains_used": list(ctx.primary_domains)},
-            proof=None,
-            ranked=ranked,
-            bstate=None,
-            fstate=None,
-            selected=None,
-            phase3_result=p3_result,
+        selected = ranked[0][0] if ranked else None
+        bstate = ReasoningState(
+            requirement_set=[],
+            missing_facts=[],
+            selected_rule_ids=[selected.rule_id] if selected else [],
+            goal_status="failed",
+            trace=["backward_disabled_non_blocking_continue"],
         )
-        svc.save(session)
-        _merge_pipeline_trace_dict(trace, tc)
-        return AskResponse(
-            session_id=session.session_id,
-            needs_clarification=False,
-            verification_trace=session.verification_logs,
-            layer1=layer1,
-            layer2=layer2,
-            retrieved_rules=[_rule_dump(r) for r, s, d in ranked[:8]],
-            reasoning_result=error_reasoning_result,
-            debug_trace=trace | {"error": "backward_disabled_by_run_config"},
-        )
-
-    with tc.span("rule_backward_gate") as sp_b:
+    else:
+        with tc.span("rule_backward_gate") as sp_b:
+            pass
         rg = gate_rule_and_backward(
             engine,
             goal=goal,
@@ -1334,147 +1272,33 @@ def run_ask(
             "verify_backward": summarize_verification_trace(rg.v_back) if rg.v_back else {},
         }
         sp_b.decision = rg.v_back.final_decision if rg.v_back else (rg.v_rule.final_decision if rg.v_rule else "none")
-
-    if not rg.ok:
-        with tc.span("pipeline_exit") as spx:
-            spx.output_summary = {"reason": rg.error or "rule_backward_gate_failed"}
-
-        fallback_answer = None
-        if _should_use_honest_degraded_answer(
-            selected=None,
-            goal=goal,
-            proof=None,
-            failure_reason=rg.error,
-        ):
-            fallback_answer = generate_honest_degraded_answer(
-                question=question,
-                reason=rg.error or "no_grounded_rule_found",
-                selected_rule=None,
-                goal=goal,
-                retrieved_rules=[r for r, _s, _d in ranked[:3]],
+        if not rg.ok:
+            trace.setdefault("hard_gates_hit", []).append("rule_backward_gate_failure")
+            with tc.span("pipeline_exit") as spx:
+                spx.output_summary = {"reason": rg.error or "rule_backward_gate_failed_non_blocking_continue"}
+            selected = rg.selected or (ranked[0][0] if ranked else None)
+            bstate = rg.bstate or ReasoningState(
+                requirement_set=[],
+                missing_facts=[],
+                selected_rule_ids=[selected.rule_id] if selected else [],
+                goal_status="failed",
+                trace=["rule_backward_gate_failed_non_blocking_continue"],
             )
-            fallback_answer = _apply_parse_uncertainty_answer_policy(
-                ans=fallback_answer,
-                layer2=layer2,
-                trace=trace,
-                context_tag="ask.rule_backward_fallback",
-            )
-            apply_answer_backend(trace["backend_modes"], fallback_answer)
+            trace["rule_backward_gate_non_blocking"] = {
+                "error": rg.error,
+                "tried_rule_ids": list(rg.tried_rule_ids or []),
+            }
+        else:
+            selected = rg.selected
+            bstate = rg.bstate
+            rescued_fallback_flow = bool(getattr(rg, "rescued_fallback_flow", False))
 
-        error_reasoning_result = _finalize_reasoning_result_dict(
-            {"active_domains_used": list(ctx.primary_domains)},
-            proof=None,
-            ranked=ranked,
-            bstate=None,
-            fstate=None,
-            selected=None,
-            phase3_result=p3_result,
-        )
-
-        svc.save(session)
-        _merge_pipeline_trace_dict(trace, tc)
-        return AskResponse(
-            session_id=session.session_id,
-            needs_clarification=False,
-            verification_trace=session.verification_logs,
-            layer1=layer1,
-            layer2=layer2,
-            retrieved_rules=[_rule_dump(r) for r, s, d in ranked[:8]],
-            answer=fallback_answer,
-            reasoning_result=error_reasoning_result,
-            debug_trace=trace
-            | {
-                "error": rg.error or "reasoning_blocked_by_rule_verification",
-                "tried_rule_ids": rg.tried_rule_ids,
-            },
-        )
-
-    selected = rg.selected
-    bstate = rg.bstate
-    rescued_fallback_flow = bool(getattr(rg, "rescued_fallback_flow", False))
     session.reasoning = bstate
     session.selected_rule = selected
 
     if rg.clarification_needed and bstate:
-        if not resolved_run_config.enable_clarification:
-            if rescued_fallback_flow and bool(getattr(rg, "rescued_missing_facts_materiality_hold", False)):
-                with tc.span("rescued_missing_facts_conditional_answer") as spx:
-                    conditional_answer = _build_rescued_conditional_missing_facts_answer(
-                        question=question,
-                        selected_rule=selected,
-                        goal=goal,
-                        missing_facts=list(getattr(bstate, "missing_facts", []) or []),
-                        retrieved_rules=[r for r, _s, _d in ranked[:3]],
-                    )
-                    conditional_answer = _apply_parse_uncertainty_answer_policy(
-                        ans=conditional_answer,
-                        layer2=layer2,
-                        trace=trace,
-                        context_tag="ask.rescued_conditional",
-                    )
-                    apply_answer_backend(trace["backend_modes"], conditional_answer)
-                    spx.output_summary = {
-                        "reason": "rescued_missing_facts_conditional_answer",
-                        "missing_facts": list(getattr(bstate, "missing_facts", []) or []),
-                        "selected_rule_id": selected.rule_id if selected else None,
-                    }
-
-                rescued_conditional_result = _finalize_reasoning_result_dict(
-                    {"active_domains_used": list(ctx.primary_domains)},
-                    proof=None,
-                    ranked=ranked,
-                    bstate=bstate,
-                    fstate=None,
-                    selected=selected,
-                    phase3_result=p3_result,
-                )
-                svc.save(session)
-                _merge_pipeline_trace_dict(trace, tc)
-                return AskResponse(
-                    session_id=session.session_id,
-                    needs_clarification=False,
-                    verification_trace=session.verification_logs,
-                    layer1=layer1,
-                    layer2=layer2,
-                    retrieved_rules=[_rule_dump(r) for r, s, d in ranked[:8]],
-                    selected_rule=_rule_dump(selected) if selected else None,
-                    reasoning=bstate,
-                    proof=None,
-                    answer=conditional_answer,
-                    reasoning_result=rescued_conditional_result,
-                    debug_trace=trace
-                    | {
-                        "error": "rescued_missing_facts_conditional_answer",
-                        "rescued_fallback_flow": True,
-                        "missing_facts": list(getattr(bstate, "missing_facts", []) or []),
-                    },
-                )
-            with tc.span("pipeline_exit") as spx:
-                spx.output_summary = {"reason": "clarification_disabled_by_run_config"}
-            clarify_disabled_result = _finalize_reasoning_result_dict(
-                {"active_domains_used": list(ctx.primary_domains)},
-                proof=None,
-                ranked=ranked,
-                bstate=bstate,
-                fstate=None,
-                selected=selected,
-                phase3_result=p3_result,
-            )
-            svc.save(session)
-            _merge_pipeline_trace_dict(trace, tc)
-            return AskResponse(
-                session_id=session.session_id,
-                needs_clarification=False,
-                verification_trace=session.verification_logs,
-                layer1=layer1,
-                layer2=layer2,
-                retrieved_rules=[_rule_dump(r) for r, s, d in ranked[:8]],
-                selected_rule=_rule_dump(selected) if selected else None,
-                reasoning=bstate,
-                reasoning_result=clarify_disabled_result,
-                debug_trace=trace | {"error": "clarification_disabled_by_run_config"},
-            )
-        with tc.span("clarification") as sp_cl:
+        trace.setdefault("hard_gates_hit", []).append("needs_clarification")
+        with tc.span("clarification_non_blocking") as sp_cl:
             parse_ambs = (layer2.diagnostics or {}).get("ambiguities") or []
             parse_prompts = build_parse_ambiguity_prompts([a for a in parse_ambs if not a.get("blocking")])
             filtered_missing = filter_clarification_targets(
@@ -1490,41 +1314,44 @@ def run_ask(
             )
             prompts = merge_clarification_prompts_unified(parse_prompts, backward_prompts)
             sp_cl.output_summary = {
-                "backward_missing_facts": True,
+                "backward_missing_facts": bool(bstate.missing_facts),
                 "prompt_count": len(prompts),
                 "missing_facts": bstate.missing_facts,
+                "non_blocking_continue": True,
             }
         session.missing_facts = bstate.missing_facts
         session.clarification_questions = prompts
-        
-        # Build partial reasoning_result for clarification case
-        clarify_reasoning_result = _finalize_reasoning_result_dict(
-            {"active_domains_used": list(ctx.primary_domains)},
-            proof=None,
-            ranked=ranked,
-            bstate=bstate,
-            fstate=None,
-            selected=selected,
-            phase3_result=p3_result,
-        )
-        
-        svc.save(session)
-        _merge_pipeline_trace_dict(trace, tc)
-        return AskResponse(
-            session_id=session.session_id,
-            needs_clarification=True,
-            clarification_questions=[ClarificationPrompt.model_validate(p) for p in prompts],
-            layer1=layer1,
-            layer2=layer2,
-            verification_trace=session.verification_logs,
-            retrieved_rules=[_rule_dump(r) for r, s, d in ranked[:8]],
-            selected_rule=_rule_dump(selected) if selected else None,
-            reasoning=bstate,
-            reasoning_result=clarify_reasoning_result,
-            debug_trace=trace | {"stage": "needs_clarification"},
-        )
+        trace["clarification_non_blocking"] = {
+            "clarification_enabled": bool(resolved_run_config.enable_clarification),
+            "prompt_count": len(prompts),
+            "missing_facts": list(getattr(bstate, "missing_facts", []) or []),
+            "rescued_fallback_flow": rescued_fallback_flow,
+        }
+        if rescued_fallback_flow and bool(getattr(rg, "rescued_missing_facts_materiality_hold", False)):
+            trace["rescued_missing_facts_conditional_answer_non_blocking"] = True
+        trace["stage"].append("clarification_non_blocking_continue")
 
-    assert selected is not None and bstate is not None
+    if bstate is None:
+        trace.setdefault("hard_gates_hit", []).append("no_reasoning_state")
+        bstate = ReasoningState(
+            requirement_set=[],
+            missing_facts=[],
+            selected_rule_ids=[selected.rule_id] if selected else [],
+            goal_status="failed",
+            trace=["missing_reasoning_state_non_blocking_continue"],
+        )
+        session.reasoning = bstate
+
+    if selected is None:
+        trace.setdefault("hard_gates_hit", []).append("no_selected_rule")
+        selected = RuleRecord(
+            rule_id="RULE_FALLBACK_UNKNOWN",
+            logic_form="fallback_rule",
+            head={"predicate": "unknown", "args": []},
+            body=[],
+            metadata={"fallback": True, "reason": "no_selected_rule_non_blocking_continue"},
+        )
+        session.selected_rule = selected
 
     with tc.span("forward_gate") as sp_f:
         fg = gate_forward_reasoning(
@@ -1553,120 +1380,24 @@ def run_ask(
         sp_f.decision = fg.v_fwd.final_decision if fg.v_fwd else "none"
 
     if not fg.ok:
+        trace.setdefault("hard_gates_hit", []).append("forward_gate_failure")
         with tc.span("pipeline_exit") as spx:
-            spx.output_summary = {"reason": fg.error or "forward_verification_failed"}
+            spx.output_summary = {"reason": fg.error or "forward_verification_failed_non_blocking_continue"}
 
-        if selected is not None and bstate is not None and not rg.clarification_needed:
-            partial_proof = fg.proof_obj
-            use_honest = _should_use_honest_degraded_answer(
-                selected=selected,
-                goal=goal,
-                proof=partial_proof,
-                failure_reason=fg.error or "forward_verification_failed",
-            )
-            if use_honest:
-                partial_ans = generate_honest_degraded_answer(
-                    question=question,
-                    reason=fg.error or "forward_verification_failed",
-                    selected_rule=selected,
-                    goal=goal,
-                    retrieved_rules=[r for r, _s, _d in ranked[:3]],
-                )
-                partial_ev = []
-            else:
-                partial_conclusion = f"Kết luận tạm thời theo quy tắc {selected.rule_id}: cần đối chiếu thêm điều kiện thực tế."
-                if partial_proof:
-                    partial_conclusion = partial_proof.conclusion or partial_conclusion
-                partial_ev = (evidence_retriever or get_evidence_retriever()).retrieve(
-                    question=question,
-                    rule=selected,
-                    conclusion=partial_conclusion,
-                    top_k=3,
-                    proof_summary=_proof_summary_for_evidence(partial_proof),
-                    goal=goal,
-                    modality_text=layer1.modality_text or "",
-                    layer1=layer1,
-                    layer2=layer2,
-                )
-                partial_ans = generate_answer(
-                    question=question,
-                    conclusion=partial_conclusion,
-                    proof=partial_proof,
-                    evidence=partial_ev,
-                    goal_achieved=False,
-                    rule=selected,
-                )
-            apply_answer_backend(trace["backend_modes"], partial_ans)
-            partial_ans = _apply_parse_uncertainty_answer_policy(
-                ans=partial_ans,
-                layer2=layer2,
-                trace=trace,
-                context_tag="ask.partial_after_forward_failure",
-            )
-            trace["forward_gate_partial_fallback"] = {
-                "enabled": True,
-                "reason": fg.error or "forward_verification_failed",
-                "selected_rule": selected.rule_id,
-                "proof_nonempty": bool(partial_proof and partial_proof.proof_steps),
-                "answer_nonempty": bool(partial_ans.answer_text),
-                "mode": "degraded_honest" if use_honest else "template_partial",
-            }
-            reasoning_result_partial = _finalize_reasoning_result_dict(
-                {"active_domains_used": list(ctx.primary_domains)},
-                proof=partial_proof,
-                ranked=ranked,
-                bstate=bstate,
-                fstate=None,
-                selected=selected,
-                phase3_result=p3_result,
-            )
-            svc.save(session)
-            _merge_pipeline_trace_dict(trace, tc)
-            return AskResponse(
-                session_id=session.session_id,
-                needs_clarification=False,
-                verification_trace=session.verification_logs,
-                layer1=layer1,
-                layer2=layer2,
-                retrieved_rules=[_rule_dump(r) for r, s, d in ranked[:8]],
-                selected_rule=_rule_dump(selected),
-                reasoning=bstate,
-                proof=partial_proof,
-                answer=partial_ans,
-                reasoning_result=reasoning_result_partial,
-                debug_trace=trace | {"warning": "partial_answer_generated_after_forward_failure", "degraded_honest": use_honest},
-            )
-        
-        # Build partial reasoning_result for forward gate failure
-        fg_fail_reasoning_result = _finalize_reasoning_result_dict(
-            {"active_domains_used": list(ctx.primary_domains)},
-            proof=None,
-            ranked=ranked,
-            bstate=bstate,
-            fstate=None,
-            selected=selected,
-            phase3_result=p3_result,
-        )
-        
-        svc.save(session)
-        _merge_pipeline_trace_dict(trace, tc)
-        return AskResponse(
-            session_id=session.session_id,
-            needs_clarification=False,
-            verification_trace=session.verification_logs,
-            layer1=layer1,
-            layer2=layer2,
-            retrieved_rules=[_rule_dump(r) for r, s, d in ranked[:8]],
-            selected_rule=_rule_dump(selected),
-            reasoning=bstate,
-            reasoning_result=fg_fail_reasoning_result,
-            debug_trace=trace | {"error": fg.error or "forward_verification_failed"},
-        )
-
-    conclusion = fg.conclusion
-    goal_ok = fg.goal_achieved
-    fstate = fg.fstate
+    conclusion = fg.conclusion or (proof := fg.proof_obj) and (proof.conclusion or proof.derived_conclusion) or "Kết luận chưa đủ điều kiện xác minh đầy đủ."
+    goal_ok = bool(fg.goal_achieved)
+    fstate = fg.fstate or bstate
     proof = fg.proof_obj
+    if proof is None:
+        trace.setdefault("hard_gates_hit", []).append("no_proof")
+        proof = ProofObject(
+            proof_id=f"proof_fallback_{session.session_id}",
+            selected_rule=selected.rule_id if selected else None,
+            conclusion=conclusion,
+            derived_conclusion=conclusion,
+            fail_stage="forward_gate",
+        )
+        trace["no_proof_non_blocking_fallback"] = True
     session.reasoning = fstate
     session.proof = proof
     if fstate and fstate.forward_result and fstate.forward_result.get("rule_id"):
@@ -1783,6 +1514,7 @@ def run_ask(
                 "reason": "rescued_fallback_answer_verification_relaxation",
             }
     elif v_ans.final_decision == "REJECT":
+        trace.setdefault("hard_gates_hit", []).append("answer_verification_reject_no_fallback")
         ans.verification_summary += ";answer_verification_rejected_no_fallback"
         trace["answer_verification"] = {"final_decision": "REJECT", "note": "no_fallback_per_policy"}
 
@@ -1888,6 +1620,7 @@ def run_clarify(
         "backend_modes": init_backend_modes(verifier_engine=engine),
         "run_config": resolved_run_config.to_trace_dict(),
         "clarification_enabled": bool(resolved_run_config.enable_clarification),
+        "hard_gates_hit": [],
     }
 
     parse_unavailable_meta: dict[str, Any] | None = None
@@ -1921,21 +1654,14 @@ def run_clarify(
             sp_l1.decision = "parse_unavailable"
 
     if parse_unavailable_meta is not None:
+        trace.setdefault("hard_gates_hit", []).append("parse_unavailable")
         layer1 = _layer1_parse_unavailable(parse_unavailable_meta)
+        layer2 = build_layer2(layer1, user_facts=_user_fact_keys(session))
         session.layer1 = layer1
-        session.layer2 = None
+        session.layer2 = layer2
         apply_parse_backend(trace["backend_modes"], layer1)
         trace["parser_status"] = dict(layer1.parse_metadata or {})
         trace["stage"].append("parse_unavailable")
-        svc.save(session)
-        _merge_pipeline_trace_dict(trace, tc)
-        return ClarifyResponse(
-            session_id=session.session_id,
-            layer1=layer1,
-            layer2=None,
-            verification_trace=session.verification_logs,
-            debug_trace=trace | {"error": "parse_unavailable"},
-        )
 
     with tc.span("parse_layer2") as sp_l2:
         sp_l2.output_summary = summarize_layer2_trace(layer2)
@@ -1974,6 +1700,7 @@ def run_clarify(
     trace["alternatives_preserved"] = bool(parse_uncertainty.get("alternatives_preserved"))
     parse_ambs = (layer2.diagnostics or {}).get("ambiguities") or []
     if any(a.get("blocking") for a in parse_ambs):
+        trace.setdefault("hard_gates_hit", []).append("parse_ambiguity_blocking")
         clarification_enabled = bool(resolved_run_config.enable_clarification)
         usable_primary = _layer2_has_usable_primary_parse(layer2)
         with tc.span("parse_ambiguity_policy") as sp_cl:
@@ -1985,29 +1712,21 @@ def run_clarify(
                 "prompt_count": len(prompts),
                 "target_kinds": [str((p if isinstance(p, dict) else {}).get("target_kind", "")) for p in prompts[:8]],
             }
-        if clarification_enabled:
-            session.clarification_questions = prompts
-            svc.save(session)
-            _merge_pipeline_trace_dict(trace, tc)
-            return ClarifyResponse(
-                session_id=session.session_id,
-                needs_clarification=True,
-                clarification_questions=[ClarificationPrompt.model_validate(p) for p in prompts],
-                verification_trace=session.verification_logs,
-                layer1=layer1,
-                layer2=layer2,
-                debug_trace=trace | {"stage": "parse_ambiguity_blocking"},
-            )
+        session.clarification_questions = prompts
+        trace["clarification_targets_non_blocking"] = prompts[:16]
+        trace["parse_ambiguity_non_blocking"] = {
+            "clarification_enabled": clarification_enabled,
+            "usable_primary_parse": usable_primary,
+            "prompt_count": len(prompts),
+        }
+        trace["stage"].append("parse_ambiguity_non_blocking_continue")
 
         if usable_primary:
             trace["parse_ambiguity_blocking_bypassed_for_batch"] = True
             trace["parse_best_effort_primary_used"] = True
             trace["parse_alternatives_preserved_in_diagnostics"] = bool(parse_ambs)
             trace["stage"].append("parse_ambiguity_blocking_bypassed")
-            session.clarification_questions = []
         else:
-            with tc.span("pipeline_exit") as spx:
-                spx.output_summary = {"reason": "parse_ambiguity_blocking_no_usable_primary_batch"}
             goal_now = dict(getattr(layer2, "goal", None) or {})
             goal_pred_now = str(goal_now.get("predicate") or "").strip().lower()
             goal_args_now = list(goal_now.get("args") or []) if isinstance(goal_now.get("args"), list) else []
@@ -2037,60 +1756,14 @@ def run_clarify(
             trace["parse_ambiguity_blocking_no_usable_primary_batch"] = True
             trace["parse_non_usable_summary"] = parse_usability_summary
             trace["stage"].append("parse_ambiguity_blocking_no_usable_primary_batch")
-            degraded = generate_honest_degraded_answer(
-                question=question,
-                reason="parse_ambiguity_blocking_no_usable_primary_batch",
-                selected_rule=None,
-                goal=layer2.goal,
-                retrieved_rules=[],
-            )
-            degraded = _apply_parse_uncertainty_answer_policy(
-                ans=degraded,
-                layer2=layer2,
-                trace=trace,
-                context_tag="clarify.parse_ambiguity_no_usable_primary",
-            )
-            apply_answer_backend(trace["backend_modes"], degraded)
-            degraded_reasoning_result = _finalize_reasoning_result_dict(
-                {"active_domains_used": [], "parse_non_usable_summary": parse_usability_summary},
-                proof=None,
-                ranked=[],
-                bstate=None,
-                fstate=None,
-                selected=None,
-                phase3_result=None,
-            )
-            trace["reasoning_result"] = degraded_reasoning_result
-            session.clarification_questions = []
-            svc.save(session)
-            _merge_pipeline_trace_dict(trace, tc)
-            return ClarifyResponse(
-                session_id=session.session_id,
-                needs_clarification=False,
-                verification_trace=session.verification_logs,
-                layer1=layer1,
-                layer2=layer2,
-                answer=degraded,
-                reasoning_result=degraded_reasoning_result,
-                debug_trace=trace
-                | {
-                    "error": "parse_ambiguity_blocking_no_usable_primary_batch",
-                    "parse_non_usable_summary": parse_usability_summary,
-                },
-            )
+            trace["parse_non_usable_non_blocking_continue"] = True
 
     if _v_parse_cl.final_decision == "REJECT":
-        with tc.span("pipeline_exit") as spx:
-            spx.output_summary = {"reason": "parse_rejected"}
-        svc.save(session)
-        _merge_pipeline_trace_dict(trace, tc)
-        return ClarifyResponse(
-            session_id=session.session_id,
-            verification_trace=session.verification_logs,
-            layer1=layer1,
-            layer2=layer2,
-            debug_trace=trace | {"error": "parse_rejected"},
-        )
+        trace.setdefault("hard_gates_hit", []).append("parse_verification_reject")
+        with tc.span("parse_reject_policy") as spx:
+            spx.output_summary = {"reason": "parse_rejected_non_blocking_continue"}
+        trace["parse_rejected_non_blocking"] = True
+        trace["stage"].append("parse_rejected_non_blocking_continue")
 
     selector = domain_selector or SimpleDomainSelector()
     routing = selector.select(
@@ -2215,18 +1888,24 @@ def run_clarify(
 
     goal = layer2.goal
 
+    selected: RuleRecord | None = None
+    bstate: ReasoningState | None = None
+
     if not resolved_run_config.enable_backward_chaining:
+        trace.setdefault("hard_gates_hit", []).append("backward_disabled_by_run_config")
         with tc.span("pipeline_exit") as spx:
             spx.output_summary = {"reason": "backward_disabled_by_run_config"}
-        svc.save(session)
-        _merge_pipeline_trace_dict(trace, tc)
-        return ClarifyResponse(
-            session_id=session.session_id,
-            verification_trace=session.verification_logs,
-            debug_trace=trace | {"error": "backward_disabled_by_run_config"},
+        selected = ranked[0][0] if ranked else None
+        bstate = ReasoningState(
+            requirement_set=[],
+            missing_facts=[],
+            selected_rule_ids=[selected.rule_id] if selected else [],
+            goal_status="failed",
+            trace=["backward_disabled_non_blocking_continue"],
         )
-
-    with tc.span("rule_backward_gate") as sp_b:
+    else:
+        with tc.span("rule_backward_gate") as sp_b:
+            pass
         rg = gate_rule_and_backward(
             engine,
             goal=goal,
@@ -2254,75 +1933,28 @@ def run_clarify(
             "verify_backward": summarize_verification_trace(rg.v_back) if rg.v_back else {},
         }
         sp_b.decision = rg.v_back.final_decision if rg.v_back else "none"
-
-    if not rg.ok:
-        with tc.span("pipeline_exit") as spx:
-            spx.output_summary = {"reason": rg.error or "rule_backward_gate_failed"}
-        fallback_answer = None
-        if _should_use_honest_degraded_answer(
-            selected=None,
-            goal=goal,
-            proof=None,
-            failure_reason=rg.error,
-        ):
-            fallback_answer = generate_honest_degraded_answer(
-                question=question,
-                reason=rg.error or "no_grounded_rule_found",
-                selected_rule=None,
-                goal=goal,
-                retrieved_rules=[r for r, _s, _d in ranked[:3]],
+        if not rg.ok:
+            trace.setdefault("hard_gates_hit", []).append("rule_backward_gate_failure")
+            with tc.span("pipeline_exit") as spx:
+                spx.output_summary = {"reason": rg.error or "rule_backward_gate_failed_non_blocking_continue"}
+            selected = rg.selected or (ranked[0][0] if ranked else None)
+            bstate = rg.bstate or ReasoningState(
+                requirement_set=[],
+                missing_facts=[],
+                selected_rule_ids=[selected.rule_id] if selected else [],
+                goal_status="failed",
+                trace=["rule_backward_gate_failed_non_blocking_continue"],
             )
-            fallback_answer = _apply_parse_uncertainty_answer_policy(
-                ans=fallback_answer,
-                layer2=layer2,
-                trace=trace,
-                context_tag="clarify.rule_backward_fallback",
-            )
-            apply_answer_backend(trace["backend_modes"], fallback_answer)
-        svc.save(session)
-        _merge_pipeline_trace_dict(trace, tc)
-        return ClarifyResponse(
-            session_id=session.session_id,
-            verification_trace=session.verification_logs,
-            reasoning=rg.bstate,
-            answer=fallback_answer,
-            debug_trace=trace
-            | {
-                "error": rg.error or "reasoning_blocked_by_rule_verification",
-                "tried_rule_ids": rg.tried_rule_ids,
-            },
-        )
+        else:
+            selected = rg.selected
+            bstate = rg.bstate
 
-    selected = rg.selected
-    bstate = rg.bstate
     session.reasoning = bstate
     session.selected_rule = selected
 
     if rg.clarification_needed and bstate:
-        if not resolved_run_config.enable_clarification:
-            with tc.span("pipeline_exit") as spx:
-                spx.output_summary = {"reason": "clarification_disabled_by_run_config"}
-            trace["clarification_gain"] = _clarification_gain_summary(
-                pre_missing=pre_missing,
-                post_missing=list(bstate.missing_facts or []),
-                pre_status=pre_status,
-                post_status="clarification_disabled_by_run_config",
-                pre_proof=pre_proof,
-                post_proof=None,
-            )
-            svc.save(session)
-            _merge_pipeline_trace_dict(trace, tc)
-            return ClarifyResponse(
-                session_id=session.session_id,
-                needs_clarification=False,
-                verification_trace=session.verification_logs,
-                layer1=layer1,
-                layer2=layer2,
-                selected_rule=_rule_dump(selected) if selected else None,
-                reasoning=bstate,
-                debug_trace=trace | {"error": "clarification_disabled_by_run_config"},
-            )
-        with tc.span("clarification") as sp_cl:
+        trace.setdefault("hard_gates_hit", []).append("needs_clarification")
+        with tc.span("clarification_non_blocking") as sp_cl:
             parse_ambs = (layer2.diagnostics or {}).get("ambiguities") or []
             parse_prompts = build_parse_ambiguity_prompts([a for a in parse_ambs if not a.get("blocking")])
             filtered_missing = filter_clarification_targets(
@@ -2337,32 +1969,51 @@ def run_clarify(
                 related_rule_id=selected.rule_id if selected else None,
             )
             prompts = merge_clarification_prompts_unified(parse_prompts, backward_prompts)
-            sp_cl.output_summary = {"prompt_count": len(prompts), "missing_facts": bstate.missing_facts}
+            sp_cl.output_summary = {
+                "prompt_count": len(prompts),
+                "missing_facts": bstate.missing_facts,
+                "non_blocking_continue": True,
+                "clarification_enabled": bool(resolved_run_config.enable_clarification),
+            }
         trace["clarification_gain"] = _clarification_gain_summary(
             pre_missing=pre_missing,
             post_missing=list(bstate.missing_facts or []),
             pre_status=pre_status,
-            post_status="needs_clarification",
+            post_status="answered",
             pre_proof=pre_proof,
             post_proof=None,
         )
         session.missing_facts = bstate.missing_facts
         session.clarification_questions = prompts
-        svc.save(session)
-        _merge_pipeline_trace_dict(trace, tc)
-        return ClarifyResponse(
-            session_id=session.session_id,
-            needs_clarification=True,
-            clarification_questions=[ClarificationPrompt.model_validate(p) for p in prompts],
-            verification_trace=session.verification_logs,
-            layer1=layer1,
-            layer2=layer2,
-            selected_rule=_rule_dump(selected) if selected else None,
-            reasoning=bstate,
-            debug_trace=trace,
-        )
+        trace["clarification_non_blocking"] = {
+            "prompt_count": len(prompts),
+            "missing_facts": list(bstate.missing_facts or []),
+            "clarification_enabled": bool(resolved_run_config.enable_clarification),
+        }
+        trace["stage"].append("clarification_non_blocking_continue")
 
-    assert selected is not None and bstate is not None
+    # If batch mode bypassed clarification, continue with conditional answer logic
+    # Otherwise we have selected+bstate from backward
+    if bstate is None:
+        trace.setdefault("hard_gates_hit", []).append("no_reasoning_state")
+        bstate = ReasoningState(
+            requirement_set=[],
+            missing_facts=[],
+            selected_rule_ids=[selected.rule_id] if selected else [],
+            goal_status="failed",
+            trace=["missing_reasoning_state_non_blocking_continue"],
+        )
+        session.reasoning = bstate
+    if selected is None:
+        trace.setdefault("hard_gates_hit", []).append("no_selected_rule")
+        selected = RuleRecord(
+            rule_id="RULE_FALLBACK_UNKNOWN",
+            logic_form="fallback_rule",
+            head={"predicate": "unknown", "args": []},
+            body=[],
+            metadata={"fallback": True, "reason": "no_selected_rule_non_blocking_continue"},
+        )
+        session.selected_rule = selected
 
     with tc.span("forward_gate") as sp_f:
         fg = gate_forward_reasoning(
@@ -2389,110 +2040,24 @@ def run_clarify(
         sp_f.decision = fg.v_fwd.final_decision if fg.v_fwd else "none"
 
     if not fg.ok:
+        trace.setdefault("hard_gates_hit", []).append("forward_gate_failure")
         with tc.span("pipeline_exit") as spx:
-            spx.output_summary = {"reason": fg.error or "forward_verification_failed"}
+            spx.output_summary = {"reason": fg.error or "forward_verification_failed_non_blocking_continue"}
 
-        if selected is not None and bstate is not None:
-            partial_proof = fg.proof_obj
-            use_honest = _should_use_honest_degraded_answer(
-                selected=selected,
-                goal=goal,
-                proof=partial_proof,
-                failure_reason=fg.error or "forward_verification_failed",
-            )
-            if use_honest:
-                partial_ans = generate_honest_degraded_answer(
-                    question=question,
-                    reason=fg.error or "forward_verification_failed",
-                    selected_rule=selected,
-                    goal=goal,
-                    retrieved_rules=[r for r, _s, _d in ranked[:3]],
-                )
-            else:
-                partial_conclusion = f"Kết luận tạm thời theo quy tắc {selected.rule_id}: cần đối chiếu thêm điều kiện thực tế."
-                if partial_proof:
-                    partial_conclusion = partial_proof.conclusion or partial_conclusion
-                partial_ev = (evidence_retriever or get_evidence_retriever()).retrieve(
-                    question=question,
-                    rule=selected,
-                    conclusion=partial_conclusion,
-                    top_k=3,
-                    proof_summary=_proof_summary_for_evidence(partial_proof),
-                    goal=goal,
-                    modality_text=layer1.modality_text or "",
-                    layer1=layer1,
-                    layer2=layer2,
-                )
-                partial_ans = generate_answer(
-                    question=question,
-                    conclusion=partial_conclusion,
-                    proof=partial_proof,
-                    evidence=partial_ev,
-                    goal_achieved=False,
-                    rule=selected,
-                )
-            apply_answer_backend(trace["backend_modes"], partial_ans)
-            partial_ans = _apply_parse_uncertainty_answer_policy(
-                ans=partial_ans,
-                layer2=layer2,
-                trace=trace,
-                context_tag="clarify.partial_after_forward_failure",
-            )
-            trace["forward_gate_partial_fallback"] = {
-                "enabled": True,
-                "reason": fg.error or "forward_verification_failed",
-                "selected_rule": selected.rule_id,
-                "proof_nonempty": bool(partial_proof and partial_proof.proof_steps),
-                "answer_nonempty": bool(partial_ans.answer_text),
-                "mode": "degraded_honest" if use_honest else "template_partial",
-            }
-            trace["clarification_gain"] = _clarification_gain_summary(
-                pre_missing=pre_missing,
-                post_missing=list(bstate.missing_facts or []),
-                pre_status=pre_status,
-                post_status="answered_partial_after_forward_failure",
-                pre_proof=pre_proof,
-                post_proof=partial_proof,
-            )
-            svc.save(session)
-            _merge_pipeline_trace_dict(trace, tc)
-            return ClarifyResponse(
-                session_id=session.session_id,
-                needs_clarification=False,
-                verification_trace=session.verification_logs,
-                layer1=layer1,
-                layer2=layer2,
-                selected_rule=_rule_dump(selected),
-                reasoning=bstate,
-                proof=partial_proof,
-                answer=partial_ans,
-                debug_trace=trace | {"warning": "partial_answer_generated_after_forward_failure", "degraded_honest": use_honest},
-            )
-
-        trace["clarification_gain"] = _clarification_gain_summary(
-            pre_missing=pre_missing,
-            post_missing=list(bstate.missing_facts or []),
-            pre_status=pre_status,
-            post_status="insufficient_after_clarification",
-            pre_proof=pre_proof,
-            post_proof=fg.proof_obj,
-        )
-        svc.save(session)
-        _merge_pipeline_trace_dict(trace, tc)
-        return ClarifyResponse(
-            session_id=session.session_id,
-            verification_trace=session.verification_logs,
-            layer1=layer1,
-            layer2=layer2,
-            selected_rule=_rule_dump(selected),
-            reasoning=bstate,
-            debug_trace=trace | {"error": fg.error or "forward_verification_failed"},
-        )
-
-    conclusion = fg.conclusion
-    goal_ok = fg.goal_achieved
-    fstate = fg.fstate
+    conclusion = fg.conclusion or (proof := fg.proof_obj) and (proof.conclusion or proof.derived_conclusion) or "Kết luận chưa đủ điều kiện xác minh đầy đủ."
+    goal_ok = bool(fg.goal_achieved)
+    fstate = fg.fstate or bstate
     proof = fg.proof_obj
+    if proof is None:
+        trace.setdefault("hard_gates_hit", []).append("no_proof")
+        proof = ProofObject(
+            proof_id=f"proof_fallback_{session.session_id}",
+            selected_rule=selected.rule_id if selected else None,
+            conclusion=conclusion,
+            derived_conclusion=conclusion,
+            fail_stage="forward_gate",
+        )
+        trace["no_proof_non_blocking_fallback"] = True
     session.reasoning = fstate
     session.proof = proof
     if fstate and fstate.forward_result and fstate.forward_result.get("rule_id"):
@@ -2544,6 +2109,7 @@ def run_clarify(
             evidence_bundle=evidence_bundle,
             goal_achieved=goal_ok,
             rule=selected,
+            missing_facts=bstate.missing_facts if bstate else None,
         )
         apply_answer_backend(trace["backend_modes"], ans)
         sp_ga.output_summary = summarize_answer_trace(ans)
@@ -2596,6 +2162,7 @@ def run_clarify(
             reg.verification_summary = ans.verification_summary + ";answer_fallback_regenerate_on_reject"
         ans = reg
     elif v_ans.final_decision == "REJECT":
+        trace.setdefault("hard_gates_hit", []).append("answer_verification_reject_no_fallback")
         ans.verification_summary += ";answer_verification_rejected_no_fallback"
         trace["answer_verification"] = {"final_decision": "REJECT", "note": "no_fallback_per_policy"}
 

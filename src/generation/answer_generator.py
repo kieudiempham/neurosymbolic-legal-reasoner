@@ -49,6 +49,7 @@ def _build_template_grounded(
     evidence: list[EvidenceSnippet],
     goal_achieved: bool,
     rule: RuleRecord | None,
+    missing_facts: list[str] | None = None,
 ) -> tuple[str, str, float, dict[str, str], list]:
     """Returns answer_text, proof_summary, confidence, sections, legal_citations list."""
     pl = _proof_lines(proof)
@@ -84,11 +85,21 @@ def _build_template_grounded(
             "thông tin đã cung cấp.)"
         )
 
-    conclusion_line = (
-        f"Về nguyên tắc, kết luận: {conclusion}."
-        if goal_achieved
-        else f"Về nguyên tắc, kết luận: {conclusion or 'chưa đủ căn cứ kết luận chắc chắn'}; cần xác định thêm tình tiết còn thiếu."
-    )
+    # Build conclusion with conditional logic if missing facts
+    if missing_facts and len(missing_facts) > 0:
+        # Conditional legal answer format: state missing facts, then conditional branches
+        missing_facts_str = "; ".join(str(f).strip() for f in missing_facts[:3] if f)
+        conclusion_line = (
+            f"Về nguyên tắc, kết luận: {conclusion}. "
+            f"(Kết luận này có điều kiện do còn thiếu thông tin: {missing_facts_str}. "
+            f"Nếu xác nhận các thông tin trên, kết luận này sẽ chính thức hơn.)"
+        )
+    else:
+        conclusion_line = (
+            f"Về nguyên tắc, kết luận: {conclusion}."
+            if goal_achieved
+            else f"Về nguyên tắc, kết luận: {conclusion or 'chưa đủ căn cứ kết luận chắc chắn'}; cần xác định thêm tình tiết còn thiếu."
+        )
 
     analysis = "\n\n".join(analysis_parts)
     answer_text = (
@@ -149,6 +160,7 @@ def generate_answer(
     mode: str = "template_grounded",
     llm_generate: Callable[..., str] | None = None,
     rule: RuleRecord | None = None,
+    missing_facts: list[str] | None = None,
 ) -> FinalAnswer:
     """
     Grounded answer: conclusion + proof + evidence; citations chỉ từ evidence/provenance rule.
@@ -221,6 +233,7 @@ def generate_answer(
         evidence=evidence,
         goal_achieved=goal_achieved,
         rule=rule,
+        missing_facts=missing_facts,
     )
     spans = link_answer_text_to_citations(answer_text, citations)
     return FinalAnswer(

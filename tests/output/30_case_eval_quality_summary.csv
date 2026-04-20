@@ -1,9 +1,0 @@
-metric,value
-rows_total,30
-total_answered,10
-total_answered_clean,0
-total_partial,10
-total_forward_failure_fallback,10
-total_unification_broken,0
-total_verified_final,0
-total_proof_with_unverified_verification,10
