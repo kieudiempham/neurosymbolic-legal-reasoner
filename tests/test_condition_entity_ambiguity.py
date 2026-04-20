@@ -66,4 +66,31 @@ def test_layer1_for_ambiguous_assertion_adds_goal_ambiguity_diag() -> None:
     l2 = build_layer2(l1, user_facts=[])
     amb = l2.diagnostics.get("ambiguities") or []
     kinds = [a.get("type") for a in amb]
-    assert "ambiguous_goal" in kinds or l2.diagnostics.get("assertion_ambiguous")
+    assert "ambiguous_goal" not in kinds
+    assert l2.diagnostics.get("assertion_ambiguity_suppressed") is True
+
+
+def test_layer1_for_mixed_assertion_keeps_goal_ambiguity() -> None:
+    l1 = Layer1Parse(
+        utterance_type="conditional_legal_question",
+        subject_text="Người lao động",
+        action_text="đơn phương chấm dứt hợp đồng",
+        condition_text="nếu đã báo trước đúng hạn",
+        question_focus="obligation",
+        assertion_status="ambiguous",
+    )
+    from question_side.question_normalizer import build_layer2
+
+    l2 = build_layer2(l1, user_facts=[])
+    amb = l2.diagnostics.get("ambiguities") or []
+    kinds = [a.get("type") for a in amb]
+    assert "ambiguous_goal" in kinds
+
+
+def test_entity_mentions_are_trimmed_without_clause_noise() -> None:
+    _eid, _role, _reg, mentions = resolve_subject_entity(
+        "Người sử dụng lao động nếu vi phạm nghĩa vụ thông báo thì xử lý thế nào?"
+    )
+    surfaces = [m.surface.lower() for m in mentions]
+    assert any("người sử dụng lao động" in s for s in surfaces)
+    assert all("nếu" not in s for s in surfaces)

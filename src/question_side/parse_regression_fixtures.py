@@ -6,6 +6,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+from utils.text import assert_clean_unicode_input
+
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 _FIXTURE_DIR = _REPO_ROOT / "tests" / "fixtures"
 
@@ -33,5 +35,8 @@ def load_parse_regression_cases(*, files: tuple[str, ...] | None = None) -> list
         for i, row in enumerate(data):
             if not isinstance(row, dict):
                 raise ValueError(f"{fn}[{i}]: expected object")
+            qtxt = row.get("question_text")
+            if isinstance(qtxt, str) and qtxt.strip():
+                assert_clean_unicode_input(qtxt, where=f"{fn}[{i}].question_text")
             out.append(row)
     return out

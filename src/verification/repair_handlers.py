@@ -19,12 +19,31 @@ _FOCUS_TO_PRED: dict[str, str] = {
     "exception": "exception",
     "applicability": "applies_if",
     "dossier": "dossier",
-    "legal_effect": "obligation",
+    "legal_effect": "legal_effect",
     "authority": "obligation",
     "procedure": "obligation",
-    "legal_consequence": "obligation",
+    "legal_consequence": "legal_effect",
     "unknown": "unknown",
 }
+
+
+def _backfill_action_for_repair(question_text: str, l1: Layer1Parse) -> Layer1Parse:
+    if (l1.action_text or "").strip():
+        return l1
+    q = (question_text or "").strip().lower()
+    patt = re.search(r"(?:phải|cần|được|co duoc|có được|co phai|có phải)\s+([^?.;,:]+)", q, flags=re.IGNORECASE)
+    action = ""
+    if patt:
+        action = re.sub(r"\s+", " ", patt.group(1)).strip()
+    if not action:
+        v = re.search(r"\b(nộp|gửi|đăng ký|thanh toán|thông báo|kê khai|công khai|hoàn tất|báo)\b([^?.;,:]*)", q, flags=re.IGNORECASE)
+        if v:
+            action = re.sub(r"\s+", " ", f"{v.group(1)} {v.group(2)}").strip()
+    if not action and l1.question_focus == "deadline":
+        action = "thực hiện nghĩa vụ theo thời hạn"
+    if not action:
+        return l1
+    return l1.model_copy(update={"action_text": action, "raw_notes": list(l1.raw_notes or []) + ["repair_action_backfill"]})
 
 
 def repair_layer2_from_payload(
@@ -67,6 +86,7 @@ def repair_parse_bundle(
     otherwise goal-only Layer-2 repair.
     """
     codes = list(payload.get("diagnostic_errors") or [])
+    layer1 = _backfill_action_for_repair(question_text, layer1)
     code_set = set(codes)
     has_key = bool((os.environ.get("LEGAL_QA_LLM_API_KEY") or os.environ.get("LLM_API_KEY") or "").strip())
     llm_touch = code_set & {"parse_slot_error", "layer1_layer2_misalignment", "fact_extraction_error"}

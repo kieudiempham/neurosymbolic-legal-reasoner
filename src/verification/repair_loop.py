@@ -70,6 +70,31 @@ def _first_error_code(rec: VerificationRecord) -> str | None:
     return rec.diagnostic_errors[0] if rec.diagnostic_errors else None
 
 
+def _enforce_material_gain(
+    rec: VerificationRecord,
+    *,
+    initial_decision: str,
+    repair_attempted: bool,
+    material_gain: bool,
+    reason: str,
+) -> VerificationRecord:
+    if not repair_attempted:
+        return rec
+    if initial_decision == "ACCEPT":
+        return rec
+    if material_gain:
+        return rec
+    if rec.final_decision not in ("ACCEPT", "REPAIR"):
+        return rec
+    return rec.model_copy(
+        update={
+            "final_decision": "REJECT",
+            "decision": "REJECT",
+            "diagnostics": list(rec.diagnostics) + [reason],
+        }
+    )
+
+
 def run_parse_repair_loop(
     engine: NeSyEngine,
     *,
@@ -121,17 +146,10 @@ def run_parse_repair_loop(
     )
 
     attempt = 0
-    while (
-        (last_rec.final_decision == "REPAIR" or (last_rec.final_decision == "REJECT" and last_rec.symbolic_ok))
-        and attempt < max_repair_attempts_parse
-    ):
+    while last_rec.final_decision == "REPAIR" and attempt < max_repair_attempts_parse:
         code = _first_error_code(last_rec)
         target = repair_target_for_code(code or "")
         eligible = bool(code) and target in PARSE_HANDLER_TARGETS
-        if not eligible and last_rec.final_decision == "REJECT" and last_rec.symbolic_ok:
-            eligible = True
-            target = PARSE_HANDLER_MODULE
-            trace[-1]["note"] = "nli_only_parse_reject_promoted_to_repair"
         trace[-1]["auto_repair_eligible"] = eligible
         if not eligible:
             trace[-1]["note"] = "no_auto_repair_handler_or_wrong_target"
@@ -175,22 +193,30 @@ def run_parse_repair_loop(
         if last_rec.final_decision in ("ACCEPT", "REJECT"):
             break
 
+    fields_changed: list[str] = []
+    if trace[0].get("input_snapshot", {}).get("goal") != dict(current.goal or {}):
+        fields_changed.append("goal")
+    if trace[0].get("input_snapshot", {}).get("layer1_focus") != l1.question_focus:
+        fields_changed.append("layer1_focus")
+
     final_gain = {
         "parse_improved": trace[0].get("decision") != last_rec.final_decision,
         "final_status_before": trace[0].get("decision"),
         "final_status_after": last_rec.final_decision,
-        "goal_changed": trace[0].get("input_snapshot", {}).get("goal") != dict(current.goal or {}),
+        "goal_changed": "goal" in fields_changed,
+        "repair_attempted": attempt > 0,
+        "material_gain": bool(fields_changed),
+        "fields_changed": fields_changed,
     }
-    if last_rec.final_decision == "REJECT" and last_rec.symbolic_ok and not last_rec.diagnostic_errors:
-        final_gain["parse_improved"] = True
-        final_gain["final_status_after"] = "ACCEPT"
-        last_rec = last_rec.model_copy(
-            update={
-                "final_decision": "ACCEPT",
-                "decision": "ACCEPT",
-                "diagnostics": list(last_rec.diagnostics) + ["parse_nli_reject_softened_after_repair"],
-            }
-        )
+    material_gain = bool(fields_changed)
+    last_rec = _enforce_material_gain(
+        last_rec,
+        initial_decision=str(trace[0].get("decision") or "REJECT"),
+        repair_attempted=attempt > 0,
+        material_gain=material_gain,
+        reason="repair_without_material_parse_gain",
+    )
+    final_gain["final_status_after"] = last_rec.final_decision
     root_cause = str(_first_error_code(last_rec) or "unknown")
     trace.append(
         {
@@ -198,6 +224,9 @@ def run_parse_repair_loop(
             "final_decision": last_rec.final_decision,
             "attempts_used": attempt,
             "post_repair_gain": final_gain,
+            "repair_attempted": attempt > 0,
+            "material_gain": material_gain,
+            "fields_changed": fields_changed,
             "root_cause": root_cause,
             **_repair_action_log(
                 verifier_mode="parse_verification",
@@ -455,13 +484,28 @@ def run_rule_repair_loop(
         if last.final_decision in ("ACCEPT", "REJECT"):
             break
 
+    fields_changed: list[str] = []
+    if rule_candidate.rule_id != rule.rule_id:
+        fields_changed.append("selected_rule")
+
     final_gain = {
         "selected_rule_before": rule_candidate.rule_id,
         "selected_rule_after": rule.rule_id,
         "selected_rule_improved": rule_candidate.rule_id != rule.rule_id,
         "final_status_before": trace[0].get("decision"),
         "final_status_after": last.final_decision,
+        "repair_attempted": attempt > 0,
+        "material_gain": bool(fields_changed),
+        "fields_changed": fields_changed,
     }
+    material_gain = bool(fields_changed)
+    last = _enforce_material_gain(
+        last,
+        initial_decision=str(trace[0].get("decision") or "REJECT"),
+        repair_attempted=attempt > 0,
+        material_gain=material_gain,
+        reason="repair_without_material_rule_gain",
+    )
     trace.append(
         {
             "phase": "rule",
@@ -469,6 +513,9 @@ def run_rule_repair_loop(
             "attempts_used": attempt,
             "final_rule_id": rule.rule_id,
             "post_repair_gain": final_gain,
+            "repair_attempted": attempt > 0,
+            "material_gain": material_gain,
+            "fields_changed": fields_changed,
             **_repair_action_log(
                 verifier_mode="rule_verification",
                 verdict=last.final_decision,
@@ -600,6 +647,14 @@ def run_backward_repair_loop(
         if last.final_decision in ("ACCEPT", "REJECT"):
             break
 
+    fields_changed: list[str] = []
+    if (selected_rule.rule_id if selected_rule else None) != (sel.rule_id if sel else None):
+        fields_changed.append("selected_rule")
+    if bool((bstate.backward_plan or {}).get("candidates")) != bool((st.backward_plan or {}).get("candidates")):
+        fields_changed.append("backward_plan_candidates")
+    if list(bstate.missing_facts or []) != list(st.missing_facts or []):
+        fields_changed.append("missing_facts")
+
     final_gain = {
         "selected_rule_before": selected_rule.rule_id if selected_rule else None,
         "selected_rule_after": sel.rule_id if sel else None,
@@ -608,7 +663,19 @@ def run_backward_repair_loop(
         "proof_nonempty_after": bool((st.backward_plan or {}).get("candidates")),
         "final_status_before": trace[0].get("decision"),
         "final_status_after": last.final_decision,
+        "repair_attempted": attempt > 0,
+        "material_gain": bool(fields_changed),
+        "fields_changed": fields_changed,
     }
+    material_gain = bool(fields_changed)
+    last = _enforce_material_gain(
+        last,
+        initial_decision=str(trace[0].get("decision") or "REJECT"),
+        repair_attempted=attempt > 0,
+        material_gain=material_gain,
+        reason="repair_without_material_backward_gain",
+    )
+    final_gain["final_status_after"] = last.final_decision
     trace.append(
         {
             "phase": "backward",
@@ -616,6 +683,9 @@ def run_backward_repair_loop(
             "attempts_used": attempt,
             "final_rule_id": sel.rule_id if sel else None,
             "post_repair_gain": final_gain,
+            "repair_attempted": attempt > 0,
+            "material_gain": material_gain,
+            "fields_changed": fields_changed,
             **_repair_action_log(
                 verifier_mode="backward_verification",
                 verdict=last.final_decision,
@@ -746,13 +816,33 @@ def run_forward_repair_loop(
         if last.final_decision in ("ACCEPT", "REJECT"):
             break
 
+    fields_changed: list[str] = []
+    if conc != conclusion:
+        fields_changed.append("conclusion")
+    if bool(proof_obj) != bool(pobj):
+        fields_changed.append("proof_presence")
+    if bool(getattr(forward_state, "forward_result", None)) != bool(getattr(fst, "forward_result", None)):
+        fields_changed.append("forward_result")
+
     final_gain = {
         "proof_nonempty_before": bool(proof_obj),
         "proof_nonempty_after": bool(pobj),
         "conclusion_improved": conc != conclusion,
         "final_status_before": trace[0].get("decision"),
         "final_status_after": last.final_decision,
+        "repair_attempted": attempt > 0,
+        "material_gain": bool(fields_changed),
+        "fields_changed": fields_changed,
     }
+    material_gain = bool(fields_changed)
+    last = _enforce_material_gain(
+        last,
+        initial_decision=str(trace[0].get("decision") or "REJECT"),
+        repair_attempted=attempt > 0,
+        material_gain=material_gain,
+        reason="repair_without_material_forward_gain",
+    )
+    final_gain["final_status_after"] = last.final_decision
     root_cause = str(_first_error_code(last) or "unknown")
     trace.append(
         {
@@ -760,6 +850,9 @@ def run_forward_repair_loop(
             "final_decision": last.final_decision,
             "attempts_used": attempt,
             "post_repair_gain": final_gain,
+            "repair_attempted": attempt > 0,
+            "material_gain": material_gain,
+            "fields_changed": fields_changed,
             "root_cause": root_cause,
             **_repair_action_log(
                 verifier_mode="forward_verification",

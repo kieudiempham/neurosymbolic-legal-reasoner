@@ -30,6 +30,67 @@ class PredicateEntry(TypedDict, total=False):
 DEFAULT_PRIORITY = 5
 
 ENTRIES: list[PredicateEntry] = [
+    # --- Lao động (labor)
+    {
+        "trigger_patterns": [
+            "thử việc",
+            "thu viec",
+            "trong thời gian thử việc",
+            "trong thoi gian thu viec",
+        ],
+        "canonical_predicate": "trong_thoi_gian_thu_viec",
+        "arg_schema": ["subject"],
+        "domain": "labor",
+        "priority": 20,
+    },
+    {
+        "trigger_patterns": [
+            "đơn phương nghỉ việc",
+            "don phuong nghi viec",
+            "đơn phương chấm dứt hợp đồng lao động",
+            "don phuong cham dut hop dong lao dong",
+        ],
+        "canonical_predicate": "don_phuong_cham_dut_hop_dong_lao_dong",
+        "arg_schema": ["subject"],
+        "domain": "labor",
+        "priority": 21,
+    },
+    {
+        "trigger_patterns": [
+            "chấm dứt hợp đồng lao động",
+            "cham dut hop dong lao dong",
+            "khi chấm dứt hợp đồng lao động",
+        ],
+        "canonical_predicate": "cham_dut_hop_dong_lao_dong",
+        "arg_schema": ["subject"],
+        "domain": "labor",
+        "priority": 21,
+    },
+    {
+        "trigger_patterns": [
+            "làm thêm giờ",
+            "lam them gio",
+            "tăng ca",
+            "tang ca",
+        ],
+        "canonical_predicate": "lam_them_gio",
+        "arg_schema": ["subject"],
+        "domain": "labor",
+        "priority": 18,
+    },
+    {
+        "trigger_patterns": [
+            "tham gia bảo hiểm xã hội",
+            "tham gia bhxh",
+            "dong bao hiem xa hoi",
+            "đóng bảo hiểm xã hội",
+        ],
+        "canonical_predicate": "tham_gia_bao_hiem_xa_hoi",
+        "arg_schema": ["subject"],
+        "domain": "labor",
+        "priority": 19,
+    },
+
     # --- Đăng ký / thay đổi nội dung (aligned with dang_ky_thay_doi_* in predicate_normalizer)
     {
         "trigger_patterns": [

@@ -8,6 +8,11 @@ from retrieval.evidence_query_expansion import expand_query_terms, merge_query_v
 from schemas.question_parse import Layer1Parse, Layer2Parse
 
 
+def _is_generic_stated_condition(atom: str) -> bool:
+    a = str(atom or "").strip().lower()
+    return a.startswith("stated_condition(")
+
+
 def build_rule_retrieval_query(
     layer1: Layer1Parse,
     layer2: Layer2Parse,
@@ -28,8 +33,12 @@ def build_rule_retrieval_query(
     parts.append(layer1.time_text or "")
     parts.append(layer1.deadline_text or "")
     parts.append(layer1.exception_text or "")
-    for atom in layer2.condition_atoms or []:
-        parts.append(str(atom))
+    specific_atoms = [str(atom) for atom in (layer2.condition_atoms or []) if not _is_generic_stated_condition(str(atom))]
+    if specific_atoms:
+        parts.extend(specific_atoms)
+    else:
+        # Keep weak condition text as lexical hint when only generic fallback atom exists.
+        parts.append(layer1.condition_text or "")
     parts.append(layer2.subject_normalized or "")
     parts.append(layer2.subject_type_guess or "")
     parts.append(layer2.query_rule_candidate or "")

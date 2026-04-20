@@ -28,6 +28,14 @@ def _utc_iso() -> str:
 def summarize_layer1_trace(layer1: Layer1Parse) -> dict[str, Any]:
     meta = layer1.parse_metadata or {}
     return {
+        "input_encoding_suspect": meta.get("input_encoding_suspect"),
+        "input_encoding_diag": meta.get("input_encoding_diag"),
+        "requested_mode": meta.get("requested_mode"),
+        "actual_mode": meta.get("actual_mode"),
+        "provider": meta.get("provider") or meta.get("parser_provider"),
+        "model": meta.get("model") or meta.get("parser_model"),
+        "parser_available": meta.get("parser_available"),
+        "parser_error": meta.get("parser_error"),
         "parser_backend": meta.get("parser_backend"),
         "parser_provider": meta.get("parser_provider"),
         "parser_model": meta.get("parser_model"),

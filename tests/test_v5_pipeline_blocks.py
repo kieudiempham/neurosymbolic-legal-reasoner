@@ -11,10 +11,11 @@ from reasoning.clarification_types import infer_target_kind, priority_for_kind
 from retrieval.evidence_retriever import EvidenceRetriever
 from retrieval.retrieval_query import build_evidence_retrieval_query, build_rule_retrieval_query
 from retrieval.rule_retriever import retrieve_rules, rule_document_text
-from retrieval.rulebase_loader import load_rulebase
+from retrieval.rulebase_loader import RulebaseIndex, load_rulebase
 from schemas.evidence import EvidenceSnippet
 from schemas.proof import ProofObject, ProofStep
 from schemas.question_parse import Layer1Parse, Layer2Parse
+from schemas.rule import RuleHead, RuleRecord
 
 _REPO = Path(__file__).resolve().parents[1]
 _CORE = _REPO / "data" / "processed" / "rulebase" / "doanhnghiep" / "rulebase_reasoning_core.json"
@@ -175,3 +176,68 @@ def test_pipeline_retrieval_connects_to_backward_types(rule_index) -> None:
     l2 = Layer2Parse(goal={"predicate": "obligation", "args": ["c", "act", "o"]})
     ranked = retrieve_rules(layer1=l1, layer2=l2, top_k=4, index=rule_index)
     assert all(len(t) == 3 for t in ranked)
+
+
+def test_retrieval_penalizes_shared_generic_deadline_when_goal_unknown() -> None:
+    shared = RuleRecord(
+        rule_id="shared_motif_deadline_1",
+        logic_form="deadline",
+        head=RuleHead(predicate="regulatory_deadline_requirement", args=["X"]),
+        body=[],
+        metadata={"domain": "shared", "layer": "shared", "motif": "deadline"},
+    )
+    domain_rule = RuleRecord(
+        rule_id="RULE_ENTERPRISE_DOSSIER_1",
+        logic_form="dossier",
+        head=RuleHead(predicate="obligation", args=["company_x", "nop_ho_so", "doi_tuong"]),
+        body=[],
+        metadata={"domain": "enterprise", "layer": "domain"},
+    )
+    idx = RulebaseIndex([shared, domain_rule])
+
+    l1 = Layer1Parse(question_focus="unknown", subject_text="", action_text="", modality_text="")
+    l2 = Layer2Parse(goal={"predicate": "unknown", "args": []}, query_rule_candidate="")
+
+    ranked = retrieve_rules(layer1=l1, layer2=l2, top_k=2, index=idx)
+    assert ranked
+    assert ranked[0][0].rule_id == "RULE_ENTERPRISE_DOSSIER_1"
+    shared_diag = next(diag for rule, _score, diag in ranked if rule.rule_id == "shared_motif_deadline_1")
+    assert shared_diag.get("tie_break_adjustment", 0.0) < 0.0
+
+
+def test_retrieval_penalizes_labor_domain_attractor_for_wrong_families() -> None:
+    labor_attractor = RuleRecord(
+        rule_id="RULE_LABOR_GENERIC_ATTRACTOR",
+        logic_form="obligation",
+        head=RuleHead(predicate="obligation", args=["X", "Y", "Z"]),
+        body=[{"predicate": "applies_if", "args": ["X", "eligible"]}],
+        metadata={"domain": "labor", "layer": "domain"},
+    )
+    permission_specific = RuleRecord(
+        rule_id="RULE_ENTERPRISE_PERMISSION_SPECIFIC",
+        logic_form="permission",
+        head=RuleHead(predicate="permission", args=["company_x", "gui_phieu", "van_ban"]),
+        body=[{"predicate": "applies_if", "args": ["company_x", "du_dieu_kien_gui_phieu"]}],
+        metadata={"domain": "enterprise", "layer": "domain"},
+    )
+    deadline_specific = RuleRecord(
+        rule_id="RULE_ENTERPRISE_DEADLINE_SPECIFIC",
+        logic_form="deadline",
+        head=RuleHead(predicate="regulatory_deadline_requirement", args=["company_x", "nop_ho_so", "30_ngay"]),
+        body=[{"predicate": "applies_if", "args": ["company_x", "thay_doi_dang_ky"]}],
+        metadata={"domain": "enterprise", "layer": "domain"},
+    )
+    idx = RulebaseIndex([labor_attractor, permission_specific, deadline_specific])
+
+    l1_perm = Layer1Parse(subject_text="công ty", action_text="gửi phiếu", modality_text="được", question_focus="permission")
+    l2_perm = Layer2Parse(goal={"predicate": "permission", "args": ["company_x", "gui_phieu", "van_ban"]})
+    ranked_perm = retrieve_rules(layer1=l1_perm, layer2=l2_perm, top_k=3, index=idx)
+    assert ranked_perm[0][0].rule_id == "RULE_ENTERPRISE_PERMISSION_SPECIFIC"
+
+    l1_deadline = Layer1Parse(subject_text="công ty", action_text="nộp hồ sơ", modality_text="phải", question_focus="deadline")
+    l2_deadline = Layer2Parse(goal={"predicate": "unknown", "args": ["company_x", "nop_ho_so", "30_ngay"]})
+    ranked_deadline = retrieve_rules(layer1=l1_deadline, layer2=l2_deadline, top_k=3, index=idx)
+    assert ranked_deadline[0][0].rule_id == "RULE_ENTERPRISE_DEADLINE_SPECIFIC"
+
+    attractor_diag = next(diag for rule, _s, diag in ranked_deadline if rule.rule_id == "RULE_LABOR_GENERIC_ATTRACTOR")
+    assert (attractor_diag.get("score_components") or {}).get("attractor_penalty", 0.0) < 0.0

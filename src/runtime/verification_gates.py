@@ -17,10 +17,9 @@ class VerificationLevel(Enum):
     SOFT_REJECT = "soft_reject"  # Can proceed with warning
     HARD_REJECT = "hard_reject"  # Must block and try next
 
-from reasoning.backward_reasoner import body_to_requirements, build_backward_plan_only, fact_satisfies_requirement, run_backward
+from reasoning.backward_reasoner import build_backward_plan_only, run_backward
 from reasoning.forward_reasoner import run_forward
 from reasoning.proof_builder import build_partial_proof, build_proof
-from reasoning.requirement_artifact import build_requirement_set_artifact, requirement_missing_fact_keys
 from retrieval.rulebase_loader import RulebaseIndex
 from rulebase.rule_identity import global_rule_key
 from runtime.cross_domain_policy import CrossDomainPolicy
@@ -39,6 +38,186 @@ from verification.repair_loop import run_backward_repair_loop, run_forward_repai
 logger = logging.getLogger(__name__)
 
 
+_SEMANTIC_FAMILY_BY_TOKEN = {
+    "obligation": "obligation",
+    "must": "obligation",
+    "permission": "permission",
+    "prohibition": "prohibition",
+    "deadline": "deadline",
+    "regulatory_deadline": "deadline",
+    "regulatory_deadline_requirement": "deadline",
+    "threshold": "threshold",
+    "applicability": "applicability",
+    "applies_if": "applicability",
+    "legal_effect": "legal_effect",
+    "procedure": "obligation",
+    "legal_consequence": "legal_effect",
+}
+
+
+def _semantic_family(value: Any) -> str:
+    raw = str(value or "").strip().lower()
+    if not raw:
+        return ""
+    return _SEMANTIC_FAMILY_BY_TOKEN.get(raw, raw)
+
+
+def _repair_material_gain(rec: VerificationRecord | None) -> bool:
+    if rec is None:
+        return False
+    diag = dict(getattr(rec, "repair_diagnostics", {}) or {})
+    gain = dict(diag.get("post_repair_gain") or {})
+    return bool(gain.get("material_gain"))
+
+
+def _failed_symbolic_check_names(vrec: VerificationRecord | None) -> set[str]:
+    checks = ((getattr(vrec, "symbolic_checks", {}) or {}).get("checks") or []) if vrec else []
+    names: set[str] = set()
+    for item in checks:
+        if not isinstance(item, dict):
+            continue
+        if str(item.get("status") or "").strip().lower() != "fail":
+            continue
+        name = str(item.get("name") or "").strip()
+        if name:
+            names.add(name)
+    return names
+
+
+def _is_catastrophic_rule_incompatibility(vrec: VerificationRecord | None) -> bool:
+    if vrec is None:
+        return True
+    failed_names = _failed_symbolic_check_names(vrec)
+    # Only head_vs_goal mismatch is eligible for bounded fallback relaxation.
+    if not failed_names:
+        return False
+    return any(name != "head_vs_goal" for name in failed_names)
+
+
+def _summarize_backward_plan_candidates(state: ReasoningState | None) -> list[dict[str, Any]]:
+    plan = (state.backward_plan or {}) if state else {}
+    rows = plan.get("candidates") or []
+    out: list[dict[str, Any]] = []
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        out.append(
+            {
+                "rule_id": row.get("rule_id"),
+                "status": row.get("status"),
+                "total_score": row.get("total_score"),
+                "unification_failure": row.get("unification_failure"),
+                "missing_fact_keys_count": len(list(row.get("missing_fact_keys") or [])),
+            }
+        )
+    return out
+
+
+def _candidate_semantic_guard(
+    diag: dict[str, Any],
+    *,
+    goal: dict[str, Any] | None = None,
+    rule: RuleRecord | None = None,
+    admission_source: str | None = None,
+) -> tuple[bool, str | None, dict[str, Any]]:
+    comp = dict(diag.get("score_components") or {})
+    sem = float(comp.get("semantic_compatibility", 0.0) or 0.0)
+    attractor = float(comp.get("attractor_penalty", 0.0) or 0.0)
+    anchor = float(comp.get("semantic_anchor_strength", 0.0) or 0.0)
+    logic_form_focus_match = float(comp.get("logic_form_focus_match", 0.0) or 0.0)
+    aligned_family = False
+    fallback_logic_family_rescue = False
+    rescue_meta: dict[str, Any] = {
+        "admission_source": str(admission_source or "planner"),
+        "semantic_compatibility": sem,
+        "attractor_penalty": attractor,
+        "semantic_anchor_strength": anchor,
+        "logic_form_focus_match": logic_form_focus_match,
+    }
+    if goal is not None and rule is not None:
+        goal_family = _semantic_family((goal or {}).get("predicate"))
+        rule_family = _semantic_family(rule.head.predicate if rule.head else "")
+        aligned_family = bool(goal_family and rule_family and goal_family == rule_family)
+        rule_logic_family = _semantic_family(getattr(rule, "logic_form", ""))
+        fallback_logic_family_rescue = bool(
+            goal_family
+            and rule_logic_family
+            and goal_family == rule_logic_family
+            and logic_form_focus_match >= 4.0
+            and sem > -2.0
+        )
+        rescue_meta.update(
+            {
+                "goal_family": goal_family,
+                "rule_head_family": rule_family,
+                "rule_logic_family": rule_logic_family,
+                "aligned_family": aligned_family,
+                "fallback_logic_family_rescue": fallback_logic_family_rescue,
+            }
+        )
+    if sem <= -2.0:
+        if not aligned_family:
+            return False, "semantic_family_mismatch", rescue_meta
+    if attractor <= -2.0 and anchor < 2.5:
+        if not aligned_family:
+            if str(admission_source or "") == "fallback_top_retrieved" and fallback_logic_family_rescue:
+                rescue_meta.update(
+                    {
+                        "fallback_relaxation_applied": True,
+                        "rescue_kind": "fallback_logic_form_family_anchor_relaxation",
+                    }
+                )
+                return True, None, rescue_meta
+            return False, "attractor_rule_penalized", rescue_meta
+    return True, None, rescue_meta
+
+
+def _collect_goal_rescue_variants(
+    goal: dict[str, Any],
+    ranked: list[tuple[RuleRecord, float, dict[str, Any]]],
+    *,
+    max_variants: int = 4,
+) -> list[dict[str, Any]]:
+    """Build alternative goals by swapping predicate to top retrieved head predicates."""
+    base_pred = str((goal or {}).get("predicate") or "").strip()
+    goal_args = list((goal or {}).get("args") or [])
+    variants: list[dict[str, Any]] = []
+    seen: set[str] = {base_pred} if base_pred else set()
+    for rule, _score, _meta in ranked:
+        head_pred = str(rule.head.predicate if rule.head else "").strip()
+        if not head_pred:
+            continue
+        if head_pred in seen:
+            continue
+        if str(rule.rule_id).startswith("shared_motif_"):
+            continue
+        seen.add(head_pred)
+        variants.append({"predicate": head_pred, "args": goal_args})
+        if len(variants) >= max_variants:
+            break
+    return variants
+
+
+def _collect_planner_fallback_rule_ids(
+    ranked: list[tuple[RuleRecord, float, dict[str, Any]]],
+    *,
+    max_rules: int = 3,
+) -> list[str]:
+    out: list[str] = []
+    for rule, _score, _meta in ranked:
+        rid = str(rule.rule_id or "").strip()
+        if not rid:
+            continue
+        if rid in out:
+            continue
+        if rid.startswith("shared_motif_"):
+            continue
+        out.append(rid)
+        if len(out) >= max_rules:
+            break
+    return out
+
+
 @dataclass
 class RuleBackwardGateOutcome:
     """When ``clarification_needed`` is True, caller returns clarification before any forward gate."""
@@ -55,6 +234,8 @@ class RuleBackwardGateOutcome:
     candidate_verdicts: dict[str, dict[str, Any]] = field(default_factory=dict)  # rule_id -> {level, reason}
     soft_reject_count: int = 0
     hard_reject_count: int = 0
+    rescued_fallback_flow: bool = False
+    rescued_missing_facts_materiality_hold: bool = False
 
 
 @dataclass
@@ -94,6 +275,15 @@ def _triage_missing_facts(state: ReasoningState) -> tuple[list[str], list[str]]:
     return critical, optional
 
 
+def _has_catastrophic_contradiction(diagnostics: list[str] | None) -> bool:
+    """Guardrail: only bypass materiality when no contradiction/conflict signal is present."""
+    for item in (diagnostics or []):
+        token = str(item or "").lower()
+        if "contradiction" in token or "xung_dot" in token or "conflict" in token:
+            return True
+    return False
+
+
 def gate_rule_and_backward(
     engine: NeSyEngine,
     *,
@@ -122,6 +312,7 @@ def gate_rule_and_backward(
         out.error = "no_candidates"
         return out
 
+    planner_goal = goal
     plan = build_backward_plan_only(
         goal=goal,
         candidates=ranked,
@@ -130,165 +321,225 @@ def gate_rule_and_backward(
         cross_domain_policy=cross_domain_policy,
         structured_facts=structured_facts,
     )
-    by_id = {r.rule_id: r for r, _, _ in ranked}
-    by_gid = {global_rule_key(r): r for r, _, _ in ranked}
-
+    goal_rescue_attempted = False
     if not plan.candidates and ranked:
-        fallback_rule = ranked[0][0]
-        reqs = body_to_requirements(fallback_rule)
-        missing = [
-            req.key
-            for req in reqs
-            if not fact_satisfies_requirement(
-                req.key,
-                known_facts,
-                structured_facts=structured_facts,
+        rescue_variants = _collect_goal_rescue_variants(goal, ranked)
+        rescue_trace: list[dict[str, Any]] = []
+        best_plan = plan
+        for alt_goal in rescue_variants:
+            goal_rescue_attempted = True
+            alt_plan = build_backward_plan_only(
+                goal=alt_goal,
+                candidates=ranked,
+                known_facts=known_facts,
                 reasoning_context=reasoning_context,
+                cross_domain_policy=cross_domain_policy,
+                structured_facts=structured_facts,
             )
-        ]
-        synthetic_state = ReasoningState(
-            requirement_set=reqs,
-            missing_facts=[],
-            selected_rule_ids=[fallback_rule.rule_id],
-            derived_facts=[],
-            goal_status="open",
-            covered_requirements=[],
-            can_continue_forward=not missing,
-            trace=["backward_plan_empty", "repair:select_top_rule", "repair:rebuild_requirement_set"],
-            backward_plan={
-                "candidates": [
-                    {
-                        "rule_id": fallback_rule.rule_id,
-                        "global_rule_key": global_rule_key(fallback_rule),
-                        "status": "ready" if not missing else "needs_input",
-                        "missing_fact_keys": list(missing),
-                    }
-                ]
-            },
-            evaluation_hooks={
-                "repair_target": "backward_reasoner",
-                "repair_action": "select_top_rule_and_rebuild_requirement_set",
-            },
-        )
-        artifact = build_requirement_set_artifact(
-            selected_rule=fallback_rule,
-            goal_predicate=str(goal.get("predicate") or fallback_rule.head.predicate or "unknown"),
-            requirement_items=reqs,
-            missing_keys=missing,
-        )
-        synthetic_state = synthetic_state.model_copy(
-            update={
-                "requirement_artifact": artifact,
-                "missing_facts": requirement_missing_fact_keys(artifact),
-                "covered_requirements": list(artifact.satisfied),
-                "can_continue_forward": not requirement_missing_fact_keys(artifact),
-            }
-        )
+            rescue_trace.append(
+                {
+                    "goal_predicate": alt_goal.get("predicate"),
+                    "candidate_count": len(alt_plan.candidates),
+                }
+            )
+            if len(alt_plan.candidates) > len(best_plan.candidates):
+                best_plan = alt_plan
+                planner_goal = alt_goal
+            if alt_plan.candidates:
+                break
         out.trace.append(
             {
-                "stage": "backward_plan_repair",
-                "rule_id": fallback_rule.rule_id,
-                "goal": goal,
-                "decision": "REPAIR",
-                "repair_target": "backward_reasoner",
-                "repair_hints": ["select_top_retrieved_rule", "rebuild_requirement_set", "rerun_backward_verification"],
-                "repair_applied": True,
-                "rerun_stage": "backward_verification",
-                "before_after": {
-                    "selected_rule_before": None,
-                    "selected_rule_after": fallback_rule.rule_id,
-                    "proof_before": None,
-                    "proof_after": synthetic_state.backward_plan,
-                    "verification_before": "no_plan_candidates",
-                    "verification_after": "REPAIR",
-                },
+                "stage": "goal_head_rescue_before_planner",
+                "goal_before": goal,
+                "goal_after": planner_goal,
+                "rescue_attempted": goal_rescue_attempted,
+                "rescue_candidates": rescue_trace,
+                "plan_candidates_after_rescue": len(best_plan.candidates),
+            }
+        )
+        plan = best_plan
+
+    by_id = {r.rule_id: r for r, _, _ in ranked}
+    by_gid = {global_rule_key(r): r for r, _, _ in ranked}
+    ranked_diag = {r.rule_id: (d or {}) for r, _s, d in ranked}
+
+    candidate_queue: list[dict[str, Any]] = []
+    for cand in plan.candidates:
+        candidate_queue.append(
+            {
+                "rule_id": cand.rule_id,
+                "global_rule_key": cand.global_rule_key,
+                "admission_source": "planner",
+            }
+        )
+
+    if not candidate_queue and ranked:
+        fallback_ids = _collect_planner_fallback_rule_ids(ranked, max_rules=3)
+        for rid in fallback_ids:
+            candidate_queue.append(
+                {
+                    "rule_id": rid,
+                    "global_rule_key": None,
+                    "admission_source": "fallback_top_retrieved",
+                }
+            )
+        out.trace.append(
+            {
+                "stage": "planner_admission_fallback",
+                "goal": planner_goal,
+                "trigger": "admitted_candidates_empty",
+                "fallback_rule_ids": fallback_ids,
+                "fallback_count": len(fallback_ids),
+            }
+        )
+
+    if not candidate_queue and ranked:
+        top_retrieved = [r.rule_id for r, _, _ in ranked[:3]]
+        for rid in top_retrieved:
+            out.tried_rule_ids.append(rid)
+            out.candidate_verdicts[rid] = {
+                "rule_id": rid,
+                "goal": planner_goal,
+                "verification_decision": "REJECT",
+                "verification_level": VerificationLevel.HARD_REJECT.value,
+                "rejection_reason": ["no_unifiable_candidate_for_goal"],
+                "repair_target": "retrieval_or_parse",
+                "repair_hints": ["refine_parse_goal", "rerank_with_semantic_constraints"],
+                "admission_source": "none",
+            }
+        out.trace.append(
+            {
+                "stage": "backward_plan_empty",
+                "goal": planner_goal,
+                "goal_before_rescue": goal,
+                "goal_rescue_attempted": goal_rescue_attempted,
+                "decision": "REJECT",
+                "reason": "no_unifiable_candidate_for_goal",
+                "top_retrieved_rule_ids": top_retrieved,
+                "repair_applied": False,
             }
         )
         logger.info(
-            "[backward_repair] plan empty for goal=%s; fallback rule=%s missing=%d",
+            "[backward_gate] plan/admission empty for goal=%s (planner_goal=%s); top_retrieved=%s",
             goal.get("predicate"),
-            fallback_rule.rule_id,
-            len(missing),
+            planner_goal.get("predicate") if isinstance(planner_goal, dict) else None,
+            top_retrieved,
         )
-        sel, st, v_back, btrace = run_backward_repair_loop(
-            engine,
-            goal=goal,
-            selected_rule=fallback_rule,
-            bstate=synthetic_state,
-            ranked=ranked,
-            known_facts=known_facts,
-            max_attempts=max_backward_repair,
-        )
-        out.trace.append(
-            {
-                "stage": "backward_plan_repair_rerun",
-                "initial_rule_id": fallback_rule.rule_id,
-                "final_rule_id": sel.rule_id if sel else None,
-                "final_decision": v_back.final_decision,
-                "repair_history": btrace,
-            }
-        )
-        if v_back.final_decision in ("ACCEPT", "REPAIR") and sel:
-            critical_missing, optional_missing = _triage_missing_facts(st)
-            if optional_missing:
-                out.trace.append(
-                    {
-                        "stage": "missing_fact_triage",
-                        "rule_id": sel.rule_id,
-                        "critical_missing": critical_missing,
-                        "optional_missing": optional_missing,
-                        "decision": "allow_partial_reasoning" if not critical_missing else "needs_clarification",
-                    }
-                )
-            st = st.model_copy(update={"missing_facts": list(critical_missing), "can_continue_forward": (st.can_continue_forward or not critical_missing)})
-            out.ok = True
-            out.clarification_needed = bool(critical_missing)
-            out.selected = sel
-            out.bstate = st
-            out.v_back = v_back
-            out.candidate_verdicts[sel.rule_id] = {
-                "rule_id": sel.rule_id,
-                "goal": goal,
-                "verification_decision": v_back.final_decision,
-                "verification_level": VerificationLevel.SOFT_REJECT.value if v_back.final_decision == "REPAIR" else VerificationLevel.ACCEPT.value,
-                "rejection_reason": list(v_back.diagnostics),
-                "repair_target": "backward_reasoner",
-                "repair_hints": ["select_top_retrieved_rule", "rebuild_requirement_set", "rerun_backward_verification"],
-                "critical_missing": critical_missing,
-                "optional_missing": optional_missing,
-            }
-            return out
+        out.hard_reject_count = len(top_retrieved)
+        out.error = "no_grounded_rule_found"
+        return out
 
-    for cand in plan.candidates:
-        rid = cand.rule_id
-        rule = by_gid.get(cand.global_rule_key) if cand.global_rule_key else by_id.get(rid)
+    for item in candidate_queue:
+        rid = str(item.get("rule_id") or "")
+        admission_source = str(item.get("admission_source") or "planner")
+        gkey = item.get("global_rule_key")
+        rule = by_gid.get(gkey) if gkey else by_id.get(rid)
         if not rule:
             continue
         out.tried_rule_ids.append(rid)
+
+        cand_diag = ranked_diag.get(rid, {})
+        cand_ok, cand_reason, cand_meta = _candidate_semantic_guard(
+            cand_diag,
+            goal=planner_goal,
+            rule=rule,
+            admission_source=admission_source,
+        )
+        if not cand_ok:
+            out.hard_reject_count += 1
+            out.candidate_verdicts[rid] = {
+                "rule_id": rid,
+                "goal": planner_goal,
+                "verification_decision": "REJECT",
+                "verification_level": VerificationLevel.HARD_REJECT.value,
+                "rejection_reason": [cand_reason or "semantic_guard_reject"],
+                "repair_target": "retrieval_or_parse",
+                "repair_hints": ["rerank_with_semantic_constraints", "avoid_attractor_rule"],
+                "admission_source": admission_source,
+                "semantic_guard_meta": cand_meta,
+            }
+            out.trace.append(
+                {
+                    "stage": "candidate_semantic_guard",
+                    "rule_id": rid,
+                    "admission_source": admission_source,
+                    "decision": "REJECT",
+                    "reason": cand_reason,
+                    "score_components": cand_diag.get("score_components") or {},
+                    "guard_meta": cand_meta,
+                }
+            )
+            continue
+
+        if cand_meta.get("fallback_relaxation_applied"):
+            out.trace.append(
+                {
+                    "stage": "candidate_semantic_guard_fallback_rescue",
+                    "rule_id": rid,
+                    "goal": planner_goal,
+                    "admission_source": admission_source,
+                    "decision": "RELAX_TO_CONTINUE",
+                    "rescue_kind": cand_meta.get("rescue_kind"),
+                    "guard_meta": cand_meta,
+                    "score_components": cand_diag.get("score_components") or {},
+                }
+            )
 
         law_span = str((rule.source_ref_full or rule.source_ref) or "")
 
         rule, v_rule, rtrace = run_rule_repair_loop(
             engine,
-            layer2_goal=goal,
+            layer2_goal=planner_goal,
             rule_candidate=rule,
             law_span=law_span,
             legal_frame=layer2.query_rule_candidate or "",
             rule_index=rule_index,
             max_attempts=max_rule_repair,
         )
+
+        original_rule_decision = v_rule.final_decision
+        original_rule_reasons = list(v_rule.diagnostics)
+        has_head_goal_mismatch = any(
+            "head_vs_goal" in str(reason or "") or "predicate_mismatch" in str(reason or "")
+            for reason in original_rule_reasons
+        )
+        has_nli_contradiction_high = any(
+            str(reason or "").strip() == "nli_contradiction_high"
+            for reason in original_rule_reasons
+        )
+        fallback_rule_relaxation_triggered = False
+        fallback_rule_relaxation_reason = ""
+        catastrophic_rule_incompatibility = _is_catastrophic_rule_incompatibility(v_rule)
+        if (
+            admission_source == "fallback_top_retrieved"
+            and bool(cand_meta.get("fallback_relaxation_applied"))
+            and original_rule_decision == "REJECT"
+            and bool(cand_meta.get("fallback_logic_family_rescue"))
+            and (has_head_goal_mismatch or has_nli_contradiction_high)
+            and not catastrophic_rule_incompatibility
+        ):
+            fallback_rule_relaxation_triggered = True
+            fallback_rule_relaxation_reason = "rescued_fallback_bounded_rule_verification_relaxation"
+
+        effective_rule_decision = "REPAIR" if fallback_rule_relaxation_triggered else original_rule_decision
         out.trace.append(
             {
                 "stage": "rule_gate",
                 "rule_id": rid,
-                "goal": goal,
-                "final_decision": v_rule.final_decision,
+                "goal": planner_goal,
+                "admission_source": admission_source,
+                "final_decision": effective_rule_decision,
                 "verification_level": (
-                    VerificationLevel.ACCEPT.value if v_rule.final_decision == "ACCEPT" else
-                    VerificationLevel.SOFT_REJECT.value if v_rule.final_decision == "REPAIR" else
+                    VerificationLevel.ACCEPT.value if effective_rule_decision == "ACCEPT" else
+                    VerificationLevel.SOFT_REJECT.value if effective_rule_decision == "REPAIR" else
                     VerificationLevel.HARD_REJECT.value
                 ),
                 "rejection_reason": list(v_rule.diagnostics),
+                "fallback_rule_verification_relaxation_triggered": fallback_rule_relaxation_triggered,
+                "fallback_rule_verification_relaxation_reason": fallback_rule_relaxation_reason,
+                "original_reject_reason": original_rule_reasons,
+                "original_final_decision": original_rule_decision,
+                "relaxed_final_decision": effective_rule_decision,
                 "repair_target": v_rule.repair_target,
                 "repair_hints": list(getattr(v_rule, "repair_hints", []) or ([v_rule.repair_hint] if v_rule.repair_hint else [])),
                 "repair_applied": getattr(v_rule, "repair_applied", False),
@@ -297,27 +548,48 @@ def gate_rule_and_backward(
             }
         )
 
+        if fallback_rule_relaxation_triggered:
+            out.trace.append(
+                {
+                    "stage": "rule_gate_fallback_relaxation",
+                    "rule_id": rid,
+                    "goal": planner_goal,
+                    "admission_source": admission_source,
+                    "triggered": True,
+                    "original_final_decision": original_rule_decision,
+                    "original_reject_reason": original_rule_reasons,
+                    "relaxed_final_decision": effective_rule_decision,
+                    "semantic_guard_meta": cand_meta,
+                    "catastrophic_rule_incompatibility": catastrophic_rule_incompatibility,
+                }
+            )
+
         level = (
             VerificationLevel.ACCEPT
-            if v_rule.final_decision == "ACCEPT"
+            if effective_rule_decision == "ACCEPT"
             else VerificationLevel.SOFT_REJECT
-            if v_rule.final_decision == "REPAIR"
+            if effective_rule_decision == "REPAIR"
             else VerificationLevel.HARD_REJECT
         )
         out.candidate_verdicts[rid] = {
             "rule_id": rid,
-            "goal": goal,
-            "verification_decision": v_rule.final_decision,
+            "goal": planner_goal,
+            "verification_decision": effective_rule_decision,
             "verification_level": level.value,
             "rejection_reason": list(v_rule.diagnostics),
+            "fallback_rule_verification_relaxation_triggered": fallback_rule_relaxation_triggered,
+            "original_reject_reason": original_rule_reasons,
+            "original_final_decision": original_rule_decision,
+            "relaxed_final_decision": effective_rule_decision,
             "repair_target": v_rule.repair_target,
             "repair_hints": list(getattr(v_rule, "repair_hints", []) or ([v_rule.repair_hint] if v_rule.repair_hint else [])),
+            "admission_source": admission_source,
         }
         logger.info(
             "[rule_gate] candidate rule_id=%s goal=%s decision=%s level=%s reasons=%s",
             rid,
-            goal.get("predicate"),
-            v_rule.final_decision,
+            planner_goal.get("predicate"),
+            effective_rule_decision,
             level.value,
             "; ".join(v_rule.diagnostics[:3]),
         )
@@ -328,6 +600,18 @@ def gate_rule_and_backward(
         if level == VerificationLevel.SOFT_REJECT:
             out.soft_reject_count += 1
 
+        out.trace.append(
+            {
+                "stage": "post_rule_gate_survivor",
+                "rule_id": rid,
+                "goal": planner_goal,
+                "admission_source": admission_source,
+                "rule_gate_decision": effective_rule_decision,
+                "rule_gate_level": level.value,
+                "fallback_rule_verification_relaxation_triggered": fallback_rule_relaxation_triggered,
+            }
+        )
+
         # ← TEMPORAL RE-CHECK BEFORE APPLY
         if reasoning_context and reasoning_context.question_time:
             ok, reason = rule_temporally_valid(rule, reasoning_context.question_time)
@@ -335,7 +619,7 @@ def gate_rule_and_backward(
                 out.trace.append({
                     "stage": "temporal_recheck_before_apply",
                     "rule_id": rid,
-                    "goal": goal,
+                    "goal": planner_goal,
                     "verification_level": VerificationLevel.HARD_REJECT.value,
                     "rejected": True,
                     "reason": reason,
@@ -344,23 +628,54 @@ def gate_rule_and_backward(
                 continue
 
         selected, bstate = run_backward(
-            goal=goal,
+            goal=planner_goal,
             candidates=ranked,
             known_facts=known_facts,
             preferred_rule_id=rid,
+            admission_source=admission_source,
+            semantic_guard_fallback_rescued=(admission_source == "fallback_top_retrieved"),
+            rule_gate_fallback_relaxed=fallback_rule_relaxation_triggered,
             reasoning_context=reasoning_context,
             cross_domain_policy=cross_domain_policy,
             structured_facts=structured_facts,
+        )
+        backward_plan_rescue = dict((bstate.evaluation_hooks or {}).get("backward_plan_rescue") or {}) if bstate else {}
+        out.trace.append(
+            {
+                "stage": "backward_select_entry",
+                "rule_id": rid,
+                "goal": planner_goal,
+                "admission_source": admission_source,
+                "preferred_rule_id": rid,
+                "backward_plan_candidates_count": len(_summarize_backward_plan_candidates(bstate)),
+                "backward_plan_candidates": _summarize_backward_plan_candidates(bstate),
+                "backward_failure_trace": list((bstate.evaluation_hooks or {}).get("failure_trace") or []) if bstate else [],
+                "backward_plan_rescue_triggered": bool(backward_plan_rescue.get("triggered")),
+                "backward_plan_original_candidate_count": backward_plan_rescue.get("original_candidate_count"),
+                "backward_plan_rescued_candidate_count": backward_plan_rescue.get("rescued_candidate_count"),
+                "backward_plan_rescue_admission_reason": backward_plan_rescue.get("admission_reason"),
+                "backward_plan_final_selected_rule_id": backward_plan_rescue.get("final_selected_rule_id"),
+            }
         )
         if not selected:
             out.trace.append(
                 {
                     "stage": "backward_select",
                     "rule_id": rid,
-                    "goal": goal,
+                    "goal": planner_goal,
+                    "admission_source": admission_source,
                     "verification_level": VerificationLevel.HARD_REJECT.value,
                     "rejected": True,
                     "reason": "backward_reasoner_returned_no_selected_rule",
+                    "backward_state_trace": list(bstate.trace or []) if bstate else [],
+                    "backward_plan_candidates_count": len(_summarize_backward_plan_candidates(bstate)),
+                    "backward_plan_candidates": _summarize_backward_plan_candidates(bstate),
+                    "backward_failure_trace": list((bstate.evaluation_hooks or {}).get("failure_trace") or []) if bstate else [],
+                    "backward_plan_rescue_triggered": bool(backward_plan_rescue.get("triggered")),
+                    "backward_plan_original_candidate_count": backward_plan_rescue.get("original_candidate_count"),
+                    "backward_plan_rescued_candidate_count": backward_plan_rescue.get("rescued_candidate_count"),
+                    "backward_plan_rescue_admission_reason": backward_plan_rescue.get("admission_reason"),
+                    "backward_plan_final_selected_rule_id": backward_plan_rescue.get("final_selected_rule_id"),
                 }
             )
             out.hard_reject_count += 1
@@ -368,25 +683,56 @@ def gate_rule_and_backward(
 
         sel, st, v_back, btrace = run_backward_repair_loop(
             engine,
-            goal=goal,
+            goal=planner_goal,
             selected_rule=selected,
             bstate=bstate,
             ranked=ranked,
             known_facts=known_facts,
             max_attempts=max_backward_repair,
         )
+        rescued_backward_plan_triggered = bool(backward_plan_rescue.get("triggered"))
+        rescued_flow_active = bool(
+            admission_source == "fallback_top_retrieved"
+            and fallback_rule_relaxation_triggered
+            and rescued_backward_plan_triggered
+        )
+
+        original_back_decision = v_back.final_decision
+        original_back_reasons = list(v_back.diagnostics)
+        backward_rescue_relaxation_triggered = False
+        if rescued_flow_active and original_back_decision == "REJECT":
+            reasons = set(str(x or "").strip() for x in original_back_reasons)
+            if (
+                "fusion_policy_backward_semantic_guard_reject" in reasons
+                or "backward_semantic_family_mismatch" in reasons
+                or any("semantic_family_alignment:" in x for x in reasons)
+            ):
+                backward_rescue_relaxation_triggered = True
+
+        effective_back_decision = "REPAIR" if backward_rescue_relaxation_triggered else original_back_decision
         out.trace.append(
             {
                 "stage": "backward_gate",
                 "initial_rule_id": rid,
                 "final_rule_id": sel.rule_id if sel else None,
-                "final_decision": v_back.final_decision,
+                "goal": planner_goal,
+                "admission_source": admission_source,
+                "final_decision": effective_back_decision,
                 "verification_level": (
-                    VerificationLevel.ACCEPT.value if v_back.final_decision == "ACCEPT" else
-                    VerificationLevel.SOFT_REJECT.value if v_back.final_decision == "REPAIR" else
+                    VerificationLevel.ACCEPT.value if effective_back_decision == "ACCEPT" else
+                    VerificationLevel.SOFT_REJECT.value if effective_back_decision == "REPAIR" else
                     VerificationLevel.HARD_REJECT.value
                 ),
                 "rejection_reason": list(v_back.diagnostics),
+                "backward_rescue_relaxation_triggered": backward_rescue_relaxation_triggered,
+                "backward_rescue_relaxation_reason": (
+                    "rescued_fallback_backward_semantic_guard_relaxation"
+                    if backward_rescue_relaxation_triggered
+                    else ""
+                ),
+                "original_final_decision": original_back_decision,
+                "original_reject_reason": original_back_reasons,
+                "relaxed_final_decision": effective_back_decision,
                 "repair_target": v_back.repair_target,
                 "repair_hints": list(getattr(v_back, "repair_hints", []) or ([v_back.repair_hint] if v_back.repair_hint else [])),
                 "repair_applied": getattr(v_back, "repair_applied", False),
@@ -394,12 +740,24 @@ def gate_rule_and_backward(
                 "repair_history": btrace,
             }
         )
+        if backward_rescue_relaxation_triggered:
+            out.trace.append(
+                {
+                    "stage": "backward_gate_rescued_relaxation",
+                    "rule_id": sel.rule_id if sel else rid,
+                    "admission_source": admission_source,
+                    "triggered": True,
+                    "original_final_decision": original_back_decision,
+                    "original_reject_reason": original_back_reasons,
+                    "relaxed_final_decision": effective_back_decision,
+                }
+            )
         logger.info(
             "[backward_gate] candidate rule_id=%s final_rule_id=%s goal=%s decision=%s reasons=%s",
             rid,
             sel.rule_id if sel else None,
-            goal.get("predicate"),
-            v_back.final_decision,
+            planner_goal.get("predicate"),
+            effective_back_decision,
             "; ".join(v_back.diagnostics[:3]),
         )
 
@@ -411,7 +769,7 @@ def gate_rule_and_backward(
                     out.trace.append({
                         "stage": "temporal_recheck_after_repair_switch",
                         "rule_id": sel.rule_id,
-                        "goal": goal,
+                        "goal": planner_goal,
                         "verification_level": VerificationLevel.HARD_REJECT.value,
                         "rejected": True,
                         "reason": reason,
@@ -422,7 +780,7 @@ def gate_rule_and_backward(
             law2 = str((sel.source_ref_full or sel.source_ref) or "")
             _, v_rule2, rtrace2 = run_rule_repair_loop(
                 engine,
-                layer2_goal=goal,
+                layer2_goal=planner_goal,
                 rule_candidate=sel,
                 law_span=law2,
                 legal_frame=layer2.query_rule_candidate or "",
@@ -436,6 +794,46 @@ def gate_rule_and_backward(
                 continue
 
         if st.missing_facts:
+            backward_ok_for_clarify = v_back.final_decision in ("ACCEPT", "REPAIR") and (
+                v_back.final_decision == "ACCEPT" or _repair_material_gain(v_back)
+            )
+            if not backward_ok_for_clarify:
+                rescued_materiality_keepalive = bool(
+                    rescued_flow_active
+                    and effective_back_decision in ("ACCEPT", "REPAIR")
+                    and not _has_catastrophic_contradiction(v_back.diagnostics)
+                )
+                if rescued_materiality_keepalive:
+                    out.trace.append(
+                        {
+                            "stage": "backward_materiality_guard_rescued_keepalive",
+                            "rule_id": sel.rule_id if sel else rid,
+                            "decision": "KEEP_FOR_CONDITIONAL_REASONING",
+                            "reason": "rescued_fallback_missing_facts_without_catastrophic_contradiction",
+                            "missing_facts": list(st.missing_facts or []),
+                            "repair_diagnostics": getattr(v_back, "repair_diagnostics", {}),
+                        }
+                    )
+                    out.ok = True
+                    out.clarification_needed = True
+                    out.selected = sel
+                    out.bstate = st
+                    out.v_rule = v_rule
+                    out.v_back = v_back
+                    out.rescued_fallback_flow = True
+                    out.rescued_missing_facts_materiality_hold = True
+                    return out
+                out.hard_reject_count += 1
+                out.trace.append(
+                    {
+                        "stage": "backward_materiality_guard",
+                        "rule_id": sel.rule_id if sel else rid,
+                        "decision": "REJECT",
+                        "reason": "backward_repair_without_material_gain",
+                        "repair_diagnostics": getattr(v_back, "repair_diagnostics", {}),
+                    }
+                )
+                continue
             critical_missing, optional_missing = _triage_missing_facts(st)
             if optional_missing:
                 out.trace.append(
@@ -456,14 +854,47 @@ def gate_rule_and_backward(
             out.v_back = v_back
             return out
 
-        if v_back.final_decision in ("ACCEPT", "REPAIR") and sel:
+        if effective_back_decision == "ACCEPT" and sel:
             out.ok = True
             out.clarification_needed = False
             out.selected = sel
             out.bstate = st
             out.v_rule = v_rule
             out.v_back = v_back
+            out.rescued_fallback_flow = rescued_flow_active
             return out
+
+        if effective_back_decision == "REPAIR" and sel:
+            out.soft_reject_count += 1
+            if _repair_material_gain(v_back) or backward_rescue_relaxation_triggered:
+                out.ok = True
+                out.clarification_needed = False
+                out.selected = sel
+                out.bstate = st
+                out.v_rule = v_rule
+                out.v_back = v_back
+                out.rescued_fallback_flow = rescued_flow_active
+                out.trace.append(
+                    {
+                        "stage": "backward_repair_promoted_for_rescued_fallback",
+                        "rule_id": sel.rule_id,
+                        "decision": "PROMOTE_TO_FORWARD",
+                        "reason": (
+                            "rescued_fallback_backward_verification_relaxed"
+                            if backward_rescue_relaxation_triggered
+                            else "backward_repair_with_material_gain"
+                        ),
+                    }
+                )
+                return out
+            out.trace.append(
+                {
+                    "stage": "backward_repair_not_promoted",
+                    "rule_id": sel.rule_id,
+                    "decision": "REJECT",
+                    "reason": "backward_requires_accept_for_final_promotion",
+                }
+            )
 
     out.error = "reasoning_blocked_by_rule_verification" if out.hard_reject_count >= len(out.tried_rule_ids) else "reasoning_soft_reject_only"
     return out
@@ -483,6 +914,7 @@ def gate_forward_reasoning(
     reasoning_context: ReasoningContext | None = None,
     cross_domain_policy: CrossDomainPolicy | None = None,
     phase3_proof_context: dict[str, Any] | None = None,
+    rescued_fallback_flow: bool = False,
 ) -> ForwardGateOutcome:
     """Run forward + proof, then ``verify_forward`` with optional repair (re-run forward + rebuild proof)."""
     out = ForwardGateOutcome(ok=False)
@@ -566,14 +998,45 @@ def gate_forward_reasoning(
         out.ok = True
         return out
 
+    if rescued_fallback_flow and v_fwd.final_decision == "REJECT":
+        out.trace.append(
+            {
+                "stage": "forward_gate_rescued_relaxation",
+                "triggered": True,
+                "original_final_decision": "REJECT",
+                "original_reject_reason": list(v_fwd.diagnostics),
+                "relaxed_final_decision": "REPAIR",
+                "reason": "rescued_fallback_forward_verification_relaxation",
+            }
+        )
+        out.ok = True
+        return out
+
     fail_rule = selected
     if fst and fst.forward_result and fst.forward_result.get("rule_id"):
         by_id = {r.rule_id: r for r, _, _ in ranked}
         fail_rule = by_id.get(str(fst.forward_result.get("rule_id")), selected)
+    fail_reason = (fst.forward_result or {}).get("failure_reason") if fst and fst.forward_result else None
+    quality_failures = {
+        "unknown_goal_atom",
+        "unknown_rule_head",
+        "predicate_family_mismatch",
+        "actor_role_mismatch",
+        "constraint_schema_missing",
+        "noncanonical_goal_surface",
+        "weak_shared_template",
+        "unification_broken",
+    }
+    fallback_conclusion = conc
+    if not fallback_conclusion:
+        if str(fail_reason or "") in quality_failures:
+            fallback_conclusion = f"Forward blocked by runtime quality gate ({fail_reason})."
+        else:
+            fallback_conclusion = f"Kết luận tạm thời theo quy tắc {fail_rule.rule_id}: cần làm rõ thêm điều kiện."
     out.proof_obj = build_partial_proof(
         rule=fail_rule,
         used_facts=list(known_facts.keys()),
-        conclusion=conc or f"Kết luận tạm thời theo quy tắc {fail_rule.rule_id}: cần làm rõ thêm điều kiện.",
+        conclusion=fallback_conclusion,
         forward_result=fst.forward_result if fst else None,
         requirement_artifact=(fst.requirement_artifact.model_dump(mode="json") if fst and fst.requirement_artifact else None),
         reasoning_context=reasoning_context,

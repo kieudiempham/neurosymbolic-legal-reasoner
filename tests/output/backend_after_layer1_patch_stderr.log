@@ -1,0 +1,2323 @@
+INFO:     Started server process [5952]
+INFO:     Waiting for application startup.
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights: 100%|##########| 202/202 [00:00<00:00, 6118.56it/s]
+[1mDebertaV2ForSequenceClassification LOAD REPORT[0m from: MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+deberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2713' in position 66: character maps to <undefined>
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\__main__.py", line 4, in <module>
+    uvicorn.main()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1406, in main
+    rv = self.invoke(ctx)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 433, in main
+    run(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 606, in run
+    server.run()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\_compat.py", line 30, in asyncio_run
+    return runner.run(main)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 641, in run_until_complete
+    self.run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 608, in run_forever
+    self._run_once()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1936, in _run_once
+    handle._run()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 84, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 86, in main
+    await app(scope, self.receive, self.send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 29, in __call__
+    return await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\cors.py", line 80, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 49, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 669, in app
+    await self.lifespan(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 638, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 241, in __aenter__
+    await self._router._startup()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 4886, in _startup
+    handler()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\backend\app\main.py", line 57, in _configure_qa
+    configure_qa_orchestrator(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\runtime\qa_runtime.py", line 62, in configure_qa_orchestrator
+    bundle = RulebaseRuntimeBootstrap().build_runtime_bundle(path_config_from_settings(settings))
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 91, in build_runtime_bundle
+    reg = self.build_registry(cfg)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 46, in build_registry
+    idx = load_rulebase(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\retrieval\rulebase_loader.py", line 101, in load_rulebase
+    logger.info("[rulebase] \u2713 Successfully parsed as JSON: found %d rules", len(raw_rules))
+Message: '[rulebase] \u2713 Successfully parsed as JSON: found %d rules'
+Arguments: (257,)
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2713' in position 66: character maps to <undefined>
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\__main__.py", line 4, in <module>
+    uvicorn.main()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1406, in main
+    rv = self.invoke(ctx)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 433, in main
+    run(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 606, in run
+    server.run()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\_compat.py", line 30, in asyncio_run
+    return runner.run(main)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 641, in run_until_complete
+    self.run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 608, in run_forever
+    self._run_once()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1936, in _run_once
+    handle._run()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 84, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 86, in main
+    await app(scope, self.receive, self.send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 29, in __call__
+    return await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\cors.py", line 80, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 49, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 669, in app
+    await self.lifespan(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 638, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 241, in __aenter__
+    await self._router._startup()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 4886, in _startup
+    handler()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\backend\app\main.py", line 57, in _configure_qa
+    configure_qa_orchestrator(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\runtime\qa_runtime.py", line 62, in configure_qa_orchestrator
+    bundle = RulebaseRuntimeBootstrap().build_runtime_bundle(path_config_from_settings(settings))
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 91, in build_runtime_bundle
+    reg = self.build_registry(cfg)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 46, in build_registry
+    idx = load_rulebase(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\retrieval\rulebase_loader.py", line 136, in load_rulebase
+    logger.info("[rulebase] \u2713 Loaded %d rules (in %d raw records) from %s | domain=%s", len(out), len(raw_rules), p.name, legacy_domain)
+Message: '[rulebase] \u2713 Loaded %d rules (in %d raw records) from %s | domain=%s'
+Arguments: (257, 257, 'rulebase_reasoning_core.json', 'enterprise')
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u0110' in position 89: character maps to <undefined>
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\__main__.py", line 4, in <module>
+    uvicorn.main()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1406, in main
+    rv = self.invoke(ctx)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 433, in main
+    run(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 606, in run
+    server.run()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\_compat.py", line 30, in asyncio_run
+    return runner.run(main)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 641, in run_until_complete
+    self.run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 608, in run_forever
+    self._run_once()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1936, in _run_once
+    handle._run()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 84, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 86, in main
+    await app(scope, self.receive, self.send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 29, in __call__
+    return await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\cors.py", line 80, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 49, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 669, in app
+    await self.lifespan(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 638, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 241, in __aenter__
+    await self._router._startup()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 4886, in _startup
+    handler()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\backend\app\main.py", line 57, in _configure_qa
+    configure_qa_orchestrator(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\runtime\qa_runtime.py", line 62, in configure_qa_orchestrator
+    bundle = RulebaseRuntimeBootstrap().build_runtime_bundle(path_config_from_settings(settings))
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 91, in build_runtime_bundle
+    reg = self.build_registry(cfg)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 52, in build_registry
+    reg.register_domain("enterprise", idx, rulebase_id="enterprise_core")
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_registry.py", line 66, in register_domain
+    self.domain_rulebases[domain] = _normalize_index_rules(rulebase, rulebase_id=rid, layer="domain", domain=domain)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_registry.py", line 38, in _normalize_index_rules
+    normalize_rule_record(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\schemas\rule_metadata.py", line 84, in normalize_rule_record
+    logger.warning(
+Message: '%srule %s: canonical_head inferred from RuleRecord.head'
+Arguments: ('[registry] ', 'RULE_LUATDN_D10_K2_\u0110_E000002_HE4AE6F360804__ea5d6f9921d211')
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u0110' in position 89: character maps to <undefined>
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\__main__.py", line 4, in <module>
+    uvicorn.main()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1406, in main
+    rv = self.invoke(ctx)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 433, in main
+    run(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 606, in run
+    server.run()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\_compat.py", line 30, in asyncio_run
+    return runner.run(main)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 641, in run_until_complete
+    self.run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 608, in run_forever
+    self._run_once()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1936, in _run_once
+    handle._run()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 84, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 86, in main
+    await app(scope, self.receive, self.send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 29, in __call__
+    return await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\cors.py", line 80, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 49, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 669, in app
+    await self.lifespan(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 638, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 241, in __aenter__
+    await self._router._startup()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 4886, in _startup
+    handler()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\backend\app\main.py", line 57, in _configure_qa
+    configure_qa_orchestrator(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\runtime\qa_runtime.py", line 62, in configure_qa_orchestrator
+    bundle = RulebaseRuntimeBootstrap().build_runtime_bundle(path_config_from_settings(settings))
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 91, in build_runtime_bundle
+    reg = self.build_registry(cfg)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 52, in build_registry
+    reg.register_domain("enterprise", idx, rulebase_id="enterprise_core")
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_registry.py", line 66, in register_domain
+    self.domain_rulebases[domain] = _normalize_index_rules(rulebase, rulebase_id=rid, layer="domain", domain=domain)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_registry.py", line 38, in _normalize_index_rules
+    normalize_rule_record(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\schemas\rule_metadata.py", line 94, in normalize_rule_record
+    logger.warning(
+Message: '%srule %s: canonical_body inferred from RuleRecord.body'
+Arguments: ('[registry] ', 'RULE_LUATDN_D10_K2_\u0110_E000002_HE4AE6F360804__ea5d6f9921d211')
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u0110' in position 90: character maps to <undefined>
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\__main__.py", line 4, in <module>
+    uvicorn.main()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1406, in main
+    rv = self.invoke(ctx)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 433, in main
+    run(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 606, in run
+    server.run()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\_compat.py", line 30, in asyncio_run
+    return runner.run(main)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 641, in run_until_complete
+    self.run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 608, in run_forever
+    self._run_once()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1936, in _run_once
+    handle._run()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 84, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 86, in main
+    await app(scope, self.receive, self.send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 29, in __call__
+    return await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\cors.py", line 80, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 49, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 669, in app
+    await self.lifespan(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 638, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 241, in __aenter__
+    await self._router._startup()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 4886, in _startup
+    handler()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\backend\app\main.py", line 57, in _configure_qa
+    configure_qa_orchestrator(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\runtime\qa_runtime.py", line 62, in configure_qa_orchestrator
+    bundle = RulebaseRuntimeBootstrap().build_runtime_bundle(path_config_from_settings(settings))
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 91, in build_runtime_bundle
+    reg = self.build_registry(cfg)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 52, in build_registry
+    reg.register_domain("enterprise", idx, rulebase_id="enterprise_core")
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_registry.py", line 66, in register_domain
+    self.domain_rulebases[domain] = _normalize_index_rules(rulebase, rulebase_id=rid, layer="domain", domain=domain)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_registry.py", line 38, in _normalize_index_rules
+    normalize_rule_record(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\schemas\rule_metadata.py", line 84, in normalize_rule_record
+    logger.warning(
+Message: '%srule %s: canonical_head inferred from RuleRecord.head'
+Arguments: ('[registry] ', 'RULE_LUATDN_D181_K2_\u0110_E000444_H24E74A219AD7__0c18e58fdd4b67')
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u0110' in position 90: character maps to <undefined>
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\__main__.py", line 4, in <module>
+    uvicorn.main()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1406, in main
+    rv = self.invoke(ctx)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 433, in main
+    run(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 606, in run
+    server.run()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\_compat.py", line 30, in asyncio_run
+    return runner.run(main)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 641, in run_until_complete
+    self.run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 608, in run_forever
+    self._run_once()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1936, in _run_once
+    handle._run()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 84, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 86, in main
+    await app(scope, self.receive, self.send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 29, in __call__
+    return await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\cors.py", line 80, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 49, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 669, in app
+    await self.lifespan(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 638, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 241, in __aenter__
+    await self._router._startup()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 4886, in _startup
+    handler()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\backend\app\main.py", line 57, in _configure_qa
+    configure_qa_orchestrator(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\runtime\qa_runtime.py", line 62, in configure_qa_orchestrator
+    bundle = RulebaseRuntimeBootstrap().build_runtime_bundle(path_config_from_settings(settings))
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 91, in build_runtime_bundle
+    reg = self.build_registry(cfg)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 52, in build_registry
+    reg.register_domain("enterprise", idx, rulebase_id="enterprise_core")
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_registry.py", line 66, in register_domain
+    self.domain_rulebases[domain] = _normalize_index_rules(rulebase, rulebase_id=rid, layer="domain", domain=domain)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_registry.py", line 38, in _normalize_index_rules
+    normalize_rule_record(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\schemas\rule_metadata.py", line 94, in normalize_rule_record
+    logger.warning(
+Message: '%srule %s: canonical_body inferred from RuleRecord.body'
+Arguments: ('[registry] ', 'RULE_LUATDN_D181_K2_\u0110_E000444_H24E74A219AD7__0c18e58fdd4b67')
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2713' in position 77: character maps to <undefined>
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\__main__.py", line 4, in <module>
+    uvicorn.main()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1406, in main
+    rv = self.invoke(ctx)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 433, in main
+    run(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 606, in run
+    server.run()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\_compat.py", line 30, in asyncio_run
+    return runner.run(main)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 641, in run_until_complete
+    self.run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 608, in run_forever
+    self._run_once()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1936, in _run_once
+    handle._run()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 84, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 86, in main
+    await app(scope, self.receive, self.send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 29, in __call__
+    return await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\cors.py", line 80, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 49, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 669, in app
+    await self.lifespan(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 638, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 241, in __aenter__
+    await self._router._startup()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 4886, in _startup
+    handler()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\backend\app\main.py", line 57, in _configure_qa
+    configure_qa_orchestrator(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\runtime\qa_runtime.py", line 62, in configure_qa_orchestrator
+    bundle = RulebaseRuntimeBootstrap().build_runtime_bundle(path_config_from_settings(settings))
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 91, in build_runtime_bundle
+    reg = self.build_registry(cfg)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 53, in build_registry
+    logger.info("[bootstrap] \u2713 Enterprise rulebase loaded: %d rules", len(idx.rules))
+Message: '[bootstrap] \u2713 Enterprise rulebase loaded: %d rules'
+Arguments: (257,)
+--- Logging error ---
+Traceback (most recent call last):
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\retrieval\rulebase_loader.py", line 99, in load_rulebase
+    data = json.loads(text)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\json\decoder.py", line 340, in decode
+    raise JSONDecodeError("Extra data", s, end)
+json.decoder.JSONDecodeError: Extra data: line 2 column 1 (char 1537)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2713' in position 66: character maps to <undefined>
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\__main__.py", line 4, in <module>
+    uvicorn.main()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1406, in main
+    rv = self.invoke(ctx)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 433, in main
+    run(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 606, in run
+    server.run()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\_compat.py", line 30, in asyncio_run
+    return runner.run(main)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 641, in run_until_complete
+    self.run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 608, in run_forever
+    self._run_once()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1936, in _run_once
+    handle._run()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 84, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 86, in main
+    await app(scope, self.receive, self.send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 29, in __call__
+    return await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\cors.py", line 80, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 49, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 669, in app
+    await self.lifespan(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 638, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 241, in __aenter__
+    await self._router._startup()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 4886, in _startup
+    handler()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\backend\app\main.py", line 57, in _configure_qa
+    configure_qa_orchestrator(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\runtime\qa_runtime.py", line 62, in configure_qa_orchestrator
+    bundle = RulebaseRuntimeBootstrap().build_runtime_bundle(path_config_from_settings(settings))
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 91, in build_runtime_bundle
+    reg = self.build_registry(cfg)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 61, in build_registry
+    idx_s = load_rulebase(cfg.shared, legacy_domain="shared", legacy_rulebase_id="shared_core", normalize_metadata=False)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\retrieval\rulebase_loader.py", line 116, in load_rulebase
+    logger.info("[rulebase] \u2713 Successfully parsed as JSONL: found %d rules", len(raw_rules))
+Message: '[rulebase] \u2713 Successfully parsed as JSONL: found %d rules'
+Arguments: (6,)
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2713' in position 66: character maps to <undefined>
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\__main__.py", line 4, in <module>
+    uvicorn.main()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1406, in main
+    rv = self.invoke(ctx)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 433, in main
+    run(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 606, in run
+    server.run()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\_compat.py", line 30, in asyncio_run
+    return runner.run(main)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 641, in run_until_complete
+    self.run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 608, in run_forever
+    self._run_once()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1936, in _run_once
+    handle._run()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 84, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 86, in main
+    await app(scope, self.receive, self.send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 29, in __call__
+    return await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\cors.py", line 80, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 49, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 669, in app
+    await self.lifespan(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 638, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 241, in __aenter__
+    await self._router._startup()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 4886, in _startup
+    handler()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\backend\app\main.py", line 57, in _configure_qa
+    configure_qa_orchestrator(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\runtime\qa_runtime.py", line 62, in configure_qa_orchestrator
+    bundle = RulebaseRuntimeBootstrap().build_runtime_bundle(path_config_from_settings(settings))
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 91, in build_runtime_bundle
+    reg = self.build_registry(cfg)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 61, in build_registry
+    idx_s = load_rulebase(cfg.shared, legacy_domain="shared", legacy_rulebase_id="shared_core", normalize_metadata=False)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\retrieval\rulebase_loader.py", line 136, in load_rulebase
+    logger.info("[rulebase] \u2713 Loaded %d rules (in %d raw records) from %s | domain=%s", len(out), len(raw_rules), p.name, legacy_domain)
+Message: '[rulebase] \u2713 Loaded %d rules (in %d raw records) from %s | domain=%s'
+Arguments: (6, 6, 'shared_rule_pack_v2_5_refined.jsonl', 'shared')
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2713' in position 77: character maps to <undefined>
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\__main__.py", line 4, in <module>
+    uvicorn.main()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1406, in main
+    rv = self.invoke(ctx)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 433, in main
+    run(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 606, in run
+    server.run()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\_compat.py", line 30, in asyncio_run
+    return runner.run(main)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 641, in run_until_complete
+    self.run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 608, in run_forever
+    self._run_once()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1936, in _run_once
+    handle._run()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 84, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 86, in main
+    await app(scope, self.receive, self.send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 29, in __call__
+    return await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\cors.py", line 80, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 49, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 669, in app
+    await self.lifespan(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 638, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 241, in __aenter__
+    await self._router._startup()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 4886, in _startup
+    handler()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\backend\app\main.py", line 57, in _configure_qa
+    configure_qa_orchestrator(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\runtime\qa_runtime.py", line 62, in configure_qa_orchestrator
+    bundle = RulebaseRuntimeBootstrap().build_runtime_bundle(path_config_from_settings(settings))
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 91, in build_runtime_bundle
+    reg = self.build_registry(cfg)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 63, in build_registry
+    logger.info("[bootstrap] \u2713 Shared rulebase loaded: %d rules", len(idx_s.rules))
+Message: '[bootstrap] \u2713 Shared rulebase loaded: %d rules'
+Arguments: (6,)
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2713' in position 66: character maps to <undefined>
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\__main__.py", line 4, in <module>
+    uvicorn.main()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1406, in main
+    rv = self.invoke(ctx)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 433, in main
+    run(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 606, in run
+    server.run()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\_compat.py", line 30, in asyncio_run
+    return runner.run(main)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 641, in run_until_complete
+    self.run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 608, in run_forever
+    self._run_once()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1936, in _run_once
+    handle._run()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 84, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 86, in main
+    await app(scope, self.receive, self.send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 29, in __call__
+    return await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\cors.py", line 80, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 49, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 669, in app
+    await self.lifespan(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 638, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 241, in __aenter__
+    await self._router._startup()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 4886, in _startup
+    handler()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\backend\app\main.py", line 57, in _configure_qa
+    configure_qa_orchestrator(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\runtime\qa_runtime.py", line 62, in configure_qa_orchestrator
+    bundle = RulebaseRuntimeBootstrap().build_runtime_bundle(path_config_from_settings(settings))
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 91, in build_runtime_bundle
+    reg = self.build_registry(cfg)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 71, in build_registry
+    idx_l = load_rulebase(cfg.labor, legacy_domain="labor", legacy_rulebase_id="labor_core", normalize_metadata=False)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\retrieval\rulebase_loader.py", line 101, in load_rulebase
+    logger.info("[rulebase] \u2713 Successfully parsed as JSON: found %d rules", len(raw_rules))
+Message: '[rulebase] \u2713 Successfully parsed as JSON: found %d rules'
+Arguments: (20,)
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2713' in position 66: character maps to <undefined>
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\__main__.py", line 4, in <module>
+    uvicorn.main()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1406, in main
+    rv = self.invoke(ctx)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 433, in main
+    run(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 606, in run
+    server.run()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\_compat.py", line 30, in asyncio_run
+    return runner.run(main)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 641, in run_until_complete
+    self.run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 608, in run_forever
+    self._run_once()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1936, in _run_once
+    handle._run()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 84, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 86, in main
+    await app(scope, self.receive, self.send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 29, in __call__
+    return await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\cors.py", line 80, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 49, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 669, in app
+    await self.lifespan(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 638, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 241, in __aenter__
+    await self._router._startup()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 4886, in _startup
+    handler()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\backend\app\main.py", line 57, in _configure_qa
+    configure_qa_orchestrator(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\runtime\qa_runtime.py", line 62, in configure_qa_orchestrator
+    bundle = RulebaseRuntimeBootstrap().build_runtime_bundle(path_config_from_settings(settings))
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 91, in build_runtime_bundle
+    reg = self.build_registry(cfg)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 71, in build_registry
+    idx_l = load_rulebase(cfg.labor, legacy_domain="labor", legacy_rulebase_id="labor_core", normalize_metadata=False)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\retrieval\rulebase_loader.py", line 136, in load_rulebase
+    logger.info("[rulebase] \u2713 Loaded %d rules (in %d raw records) from %s | domain=%s", len(out), len(raw_rules), p.name, legacy_domain)
+Message: '[rulebase] \u2713 Loaded %d rules (in %d raw records) from %s | domain=%s'
+Arguments: (20, 20, 'rulebase_reasoning_core.json', 'labor')
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2713' in position 77: character maps to <undefined>
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\__main__.py", line 4, in <module>
+    uvicorn.main()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1406, in main
+    rv = self.invoke(ctx)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 433, in main
+    run(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 606, in run
+    server.run()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\_compat.py", line 30, in asyncio_run
+    return runner.run(main)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 641, in run_until_complete
+    self.run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 608, in run_forever
+    self._run_once()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1936, in _run_once
+    handle._run()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 84, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 86, in main
+    await app(scope, self.receive, self.send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 29, in __call__
+    return await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\cors.py", line 80, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 49, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 669, in app
+    await self.lifespan(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 638, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 241, in __aenter__
+    await self._router._startup()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 4886, in _startup
+    handler()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\backend\app\main.py", line 57, in _configure_qa
+    configure_qa_orchestrator(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\runtime\qa_runtime.py", line 62, in configure_qa_orchestrator
+    bundle = RulebaseRuntimeBootstrap().build_runtime_bundle(path_config_from_settings(settings))
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 91, in build_runtime_bundle
+    reg = self.build_registry(cfg)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 73, in build_registry
+    logger.info("[bootstrap] \u2713 Labor rulebase loaded: %d rules", len(idx_l.rules))
+Message: '[bootstrap] \u2713 Labor rulebase loaded: %d rules'
+Arguments: (20,)
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2713' in position 66: character maps to <undefined>
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\__main__.py", line 4, in <module>
+    uvicorn.main()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1406, in main
+    rv = self.invoke(ctx)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 433, in main
+    run(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 606, in run
+    server.run()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\_compat.py", line 30, in asyncio_run
+    return runner.run(main)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 641, in run_until_complete
+    self.run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 608, in run_forever
+    self._run_once()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1936, in _run_once
+    handle._run()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 84, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 86, in main
+    await app(scope, self.receive, self.send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 29, in __call__
+    return await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\cors.py", line 80, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 49, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 669, in app
+    await self.lifespan(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 638, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 241, in __aenter__
+    await self._router._startup()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 4886, in _startup
+    handler()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\backend\app\main.py", line 57, in _configure_qa
+    configure_qa_orchestrator(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\runtime\qa_runtime.py", line 62, in configure_qa_orchestrator
+    bundle = RulebaseRuntimeBootstrap().build_runtime_bundle(path_config_from_settings(settings))
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 91, in build_runtime_bundle
+    reg = self.build_registry(cfg)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 81, in build_registry
+    idx_t = load_rulebase(cfg.tax, legacy_domain="tax", legacy_rulebase_id="tax_core", normalize_metadata=False)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\retrieval\rulebase_loader.py", line 101, in load_rulebase
+    logger.info("[rulebase] \u2713 Successfully parsed as JSON: found %d rules", len(raw_rules))
+Message: '[rulebase] \u2713 Successfully parsed as JSON: found %d rules'
+Arguments: (164,)
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2713' in position 66: character maps to <undefined>
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\__main__.py", line 4, in <module>
+    uvicorn.main()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1406, in main
+    rv = self.invoke(ctx)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 433, in main
+    run(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 606, in run
+    server.run()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\_compat.py", line 30, in asyncio_run
+    return runner.run(main)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 641, in run_until_complete
+    self.run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 608, in run_forever
+    self._run_once()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1936, in _run_once
+    handle._run()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 84, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 86, in main
+    await app(scope, self.receive, self.send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 29, in __call__
+    return await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\cors.py", line 80, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 49, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 669, in app
+    await self.lifespan(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 638, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 241, in __aenter__
+    await self._router._startup()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 4886, in _startup
+    handler()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\backend\app\main.py", line 57, in _configure_qa
+    configure_qa_orchestrator(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\runtime\qa_runtime.py", line 62, in configure_qa_orchestrator
+    bundle = RulebaseRuntimeBootstrap().build_runtime_bundle(path_config_from_settings(settings))
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 91, in build_runtime_bundle
+    reg = self.build_registry(cfg)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 81, in build_registry
+    idx_t = load_rulebase(cfg.tax, legacy_domain="tax", legacy_rulebase_id="tax_core", normalize_metadata=False)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\retrieval\rulebase_loader.py", line 136, in load_rulebase
+    logger.info("[rulebase] \u2713 Loaded %d rules (in %d raw records) from %s | domain=%s", len(out), len(raw_rules), p.name, legacy_domain)
+Message: '[rulebase] \u2713 Loaded %d rules (in %d raw records) from %s | domain=%s'
+Arguments: (164, 164, 'rulebase_reasoning_core.json', 'tax')
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u0110' in position 86: character maps to <undefined>
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\__main__.py", line 4, in <module>
+    uvicorn.main()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1406, in main
+    rv = self.invoke(ctx)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 433, in main
+    run(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 606, in run
+    server.run()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\_compat.py", line 30, in asyncio_run
+    return runner.run(main)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 641, in run_until_complete
+    self.run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 608, in run_forever
+    self._run_once()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1936, in _run_once
+    handle._run()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 84, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 86, in main
+    await app(scope, self.receive, self.send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 29, in __call__
+    return await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\cors.py", line 80, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 49, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 669, in app
+    await self.lifespan(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 638, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 241, in __aenter__
+    await self._router._startup()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 4886, in _startup
+    handler()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\backend\app\main.py", line 57, in _configure_qa
+    configure_qa_orchestrator(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\runtime\qa_runtime.py", line 62, in configure_qa_orchestrator
+    bundle = RulebaseRuntimeBootstrap().build_runtime_bundle(path_config_from_settings(settings))
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 91, in build_runtime_bundle
+    reg = self.build_registry(cfg)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 82, in build_registry
+    reg.register_domain("tax", idx_t, rulebase_id="tax_core")
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_registry.py", line 66, in register_domain
+    self.domain_rulebases[domain] = _normalize_index_rules(rulebase, rulebase_id=rid, layer="domain", domain=domain)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_registry.py", line 38, in _normalize_index_rules
+    normalize_rule_record(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\schemas\rule_metadata.py", line 84, in normalize_rule_record
+    logger.warning(
+Message: '%srule %s: canonical_head inferred from RuleRecord.head'
+Arguments: ('[registry] ', 'RULE_DOC_D55_K2_\u0110_E000382_HE452356BEE25__0699fe2df89140')
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u0110' in position 86: character maps to <undefined>
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\__main__.py", line 4, in <module>
+    uvicorn.main()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1406, in main
+    rv = self.invoke(ctx)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 433, in main
+    run(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 606, in run
+    server.run()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\_compat.py", line 30, in asyncio_run
+    return runner.run(main)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 641, in run_until_complete
+    self.run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 608, in run_forever
+    self._run_once()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1936, in _run_once
+    handle._run()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 84, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 86, in main
+    await app(scope, self.receive, self.send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 29, in __call__
+    return await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\cors.py", line 80, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 49, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 669, in app
+    await self.lifespan(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 638, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 241, in __aenter__
+    await self._router._startup()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 4886, in _startup
+    handler()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\backend\app\main.py", line 57, in _configure_qa
+    configure_qa_orchestrator(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\runtime\qa_runtime.py", line 62, in configure_qa_orchestrator
+    bundle = RulebaseRuntimeBootstrap().build_runtime_bundle(path_config_from_settings(settings))
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 91, in build_runtime_bundle
+    reg = self.build_registry(cfg)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 82, in build_registry
+    reg.register_domain("tax", idx_t, rulebase_id="tax_core")
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_registry.py", line 66, in register_domain
+    self.domain_rulebases[domain] = _normalize_index_rules(rulebase, rulebase_id=rid, layer="domain", domain=domain)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_registry.py", line 38, in _normalize_index_rules
+    normalize_rule_record(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\schemas\rule_metadata.py", line 94, in normalize_rule_record
+    logger.warning(
+Message: '%srule %s: canonical_body inferred from RuleRecord.body'
+Arguments: ('[registry] ', 'RULE_DOC_D55_K2_\u0110_E000382_HE452356BEE25__0699fe2df89140')
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u0110' in position 86: character maps to <undefined>
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\__main__.py", line 4, in <module>
+    uvicorn.main()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1406, in main
+    rv = self.invoke(ctx)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 433, in main
+    run(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 606, in run
+    server.run()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\_compat.py", line 30, in asyncio_run
+    return runner.run(main)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 641, in run_until_complete
+    self.run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 608, in run_forever
+    self._run_once()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1936, in _run_once
+    handle._run()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 84, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 86, in main
+    await app(scope, self.receive, self.send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 29, in __call__
+    return await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\cors.py", line 80, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 49, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 669, in app
+    await self.lifespan(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 638, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 241, in __aenter__
+    await self._router._startup()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 4886, in _startup
+    handler()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\backend\app\main.py", line 57, in _configure_qa
+    configure_qa_orchestrator(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\runtime\qa_runtime.py", line 62, in configure_qa_orchestrator
+    bundle = RulebaseRuntimeBootstrap().build_runtime_bundle(path_config_from_settings(settings))
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 91, in build_runtime_bundle
+    reg = self.build_registry(cfg)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 82, in build_registry
+    reg.register_domain("tax", idx_t, rulebase_id="tax_core")
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_registry.py", line 66, in register_domain
+    self.domain_rulebases[domain] = _normalize_index_rules(rulebase, rulebase_id=rid, layer="domain", domain=domain)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_registry.py", line 38, in _normalize_index_rules
+    normalize_rule_record(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\schemas\rule_metadata.py", line 84, in normalize_rule_record
+    logger.warning(
+Message: '%srule %s: canonical_head inferred from RuleRecord.head'
+Arguments: ('[registry] ', 'RULE_DOC_D55_K2_\u0110_E000378_HE715F55604BC__b147a03798942a')
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u0110' in position 86: character maps to <undefined>
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\__main__.py", line 4, in <module>
+    uvicorn.main()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1406, in main
+    rv = self.invoke(ctx)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 433, in main
+    run(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 606, in run
+    server.run()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\_compat.py", line 30, in asyncio_run
+    return runner.run(main)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 641, in run_until_complete
+    self.run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 608, in run_forever
+    self._run_once()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1936, in _run_once
+    handle._run()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 84, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 86, in main
+    await app(scope, self.receive, self.send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 29, in __call__
+    return await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\cors.py", line 80, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 49, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 669, in app
+    await self.lifespan(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 638, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 241, in __aenter__
+    await self._router._startup()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 4886, in _startup
+    handler()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\backend\app\main.py", line 57, in _configure_qa
+    configure_qa_orchestrator(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\runtime\qa_runtime.py", line 62, in configure_qa_orchestrator
+    bundle = RulebaseRuntimeBootstrap().build_runtime_bundle(path_config_from_settings(settings))
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 91, in build_runtime_bundle
+    reg = self.build_registry(cfg)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 82, in build_registry
+    reg.register_domain("tax", idx_t, rulebase_id="tax_core")
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_registry.py", line 66, in register_domain
+    self.domain_rulebases[domain] = _normalize_index_rules(rulebase, rulebase_id=rid, layer="domain", domain=domain)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_registry.py", line 38, in _normalize_index_rules
+    normalize_rule_record(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\schemas\rule_metadata.py", line 94, in normalize_rule_record
+    logger.warning(
+Message: '%srule %s: canonical_body inferred from RuleRecord.body'
+Arguments: ('[registry] ', 'RULE_DOC_D55_K2_\u0110_E000378_HE715F55604BC__b147a03798942a')
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u0110' in position 86: character maps to <undefined>
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\__main__.py", line 4, in <module>
+    uvicorn.main()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1406, in main
+    rv = self.invoke(ctx)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 433, in main
+    run(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 606, in run
+    server.run()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\_compat.py", line 30, in asyncio_run
+    return runner.run(main)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 641, in run_until_complete
+    self.run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 608, in run_forever
+    self._run_once()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1936, in _run_once
+    handle._run()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 84, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 86, in main
+    await app(scope, self.receive, self.send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 29, in __call__
+    return await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\cors.py", line 80, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 49, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 669, in app
+    await self.lifespan(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 638, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 241, in __aenter__
+    await self._router._startup()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 4886, in _startup
+    handler()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\backend\app\main.py", line 57, in _configure_qa
+    configure_qa_orchestrator(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\runtime\qa_runtime.py", line 62, in configure_qa_orchestrator
+    bundle = RulebaseRuntimeBootstrap().build_runtime_bundle(path_config_from_settings(settings))
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 91, in build_runtime_bundle
+    reg = self.build_registry(cfg)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 82, in build_registry
+    reg.register_domain("tax", idx_t, rulebase_id="tax_core")
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_registry.py", line 66, in register_domain
+    self.domain_rulebases[domain] = _normalize_index_rules(rulebase, rulebase_id=rid, layer="domain", domain=domain)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_registry.py", line 38, in _normalize_index_rules
+    normalize_rule_record(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\schemas\rule_metadata.py", line 84, in normalize_rule_record
+    logger.warning(
+Message: '%srule %s: canonical_head inferred from RuleRecord.head'
+Arguments: ('[registry] ', 'RULE_DOC_D40_K2_\u0110_E000056_H2CAEB5123D91__64c83f5afdc5c4')
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u0110' in position 86: character maps to <undefined>
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\__main__.py", line 4, in <module>
+    uvicorn.main()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1406, in main
+    rv = self.invoke(ctx)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 433, in main
+    run(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 606, in run
+    server.run()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\_compat.py", line 30, in asyncio_run
+    return runner.run(main)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 641, in run_until_complete
+    self.run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 608, in run_forever
+    self._run_once()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1936, in _run_once
+    handle._run()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 84, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 86, in main
+    await app(scope, self.receive, self.send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 29, in __call__
+    return await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\cors.py", line 80, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 49, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 669, in app
+    await self.lifespan(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 638, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 241, in __aenter__
+    await self._router._startup()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 4886, in _startup
+    handler()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\backend\app\main.py", line 57, in _configure_qa
+    configure_qa_orchestrator(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\runtime\qa_runtime.py", line 62, in configure_qa_orchestrator
+    bundle = RulebaseRuntimeBootstrap().build_runtime_bundle(path_config_from_settings(settings))
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 91, in build_runtime_bundle
+    reg = self.build_registry(cfg)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 82, in build_registry
+    reg.register_domain("tax", idx_t, rulebase_id="tax_core")
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_registry.py", line 66, in register_domain
+    self.domain_rulebases[domain] = _normalize_index_rules(rulebase, rulebase_id=rid, layer="domain", domain=domain)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_registry.py", line 38, in _normalize_index_rules
+    normalize_rule_record(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\schemas\rule_metadata.py", line 94, in normalize_rule_record
+    logger.warning(
+Message: '%srule %s: canonical_body inferred from RuleRecord.body'
+Arguments: ('[registry] ', 'RULE_DOC_D40_K2_\u0110_E000056_H2CAEB5123D91__64c83f5afdc5c4')
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2713' in position 77: character maps to <undefined>
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\__main__.py", line 4, in <module>
+    uvicorn.main()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1406, in main
+    rv = self.invoke(ctx)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\click\core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 433, in main
+    run(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\main.py", line 606, in run
+    server.run()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\_compat.py", line 30, in asyncio_run
+    return runner.run(main)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 641, in run_until_complete
+    self.run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 608, in run_forever
+    self._run_once()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1936, in _run_once
+    handle._run()
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 84, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 86, in main
+    await app(scope, self.receive, self.send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 29, in __call__
+    return await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\cors.py", line 80, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 49, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 669, in app
+    await self.lifespan(scope, receive, send)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\starlette\routing.py", line 638, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 241, in __aenter__
+    await self._router._startup()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\.venv\Lib\site-packages\fastapi\routing.py", line 4886, in _startup
+    handler()
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\backend\app\main.py", line 57, in _configure_qa
+    configure_qa_orchestrator(
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\runtime\qa_runtime.py", line 62, in configure_qa_orchestrator
+    bundle = RulebaseRuntimeBootstrap().build_runtime_bundle(path_config_from_settings(settings))
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 91, in build_runtime_bundle
+    reg = self.build_registry(cfg)
+  File "D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner\src\rulebase\rulebase_runtime_bootstrap.py", line 83, in build_registry
+    logger.info("[bootstrap] \u2713 Tax rulebase loaded: %d rules", len(idx_t.rules))
+Message: '[bootstrap] \u2713 Tax rulebase loaded: %d rules'
+Arguments: (164,)
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8001 (Press CTRL+C to quit)

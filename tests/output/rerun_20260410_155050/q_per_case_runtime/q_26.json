@@ -1,0 +1,1981 @@
+{
+  "query_text": "Khi hợp đồng lao động chấm dứt, doanh nghiệp phải hoàn tất việc thanh toán các khoản có liên quan trong bao lâu?",
+  "layer1": {
+    "utterance_type": "conditional_legal_question",
+    "subject_text": "hợp đồng lao động",
+    "condition_text": "chấm dứt",
+    "action_text": "hoàn tất việc thanh toán các khoản có liên quan",
+    "modality_text": "",
+    "time_text": "",
+    "deadline_text": "bao lâu",
+    "exception_text": "",
+    "question_focus": "deadline",
+    "assertion_status": "asserted",
+    "raw_notes": [
+      "llm_layer1_json"
+    ],
+    "parse_metadata": {
+      "parser_backend": "llm",
+      "parser_provider": "api.groq.com",
+      "parser_model": "llama-3.1-8b-instant",
+      "requested_mode": "llm_required",
+      "actual_mode": "llm_real",
+      "provider": "api.groq.com",
+      "model": "llama-3.1-8b-instant",
+      "parser_available": true,
+      "parser_error": null,
+      "parser_prompt_version": "v5_layer1_slot_prompt_1",
+      "parser_latency_ms": 691.103,
+      "parser_backend_mode": "llm_real",
+      "fallback_used": false,
+      "raw_llm_output": "{\n  \"utterance_type\": \"conditional_legal_question\",\n  \"subject_text\": \"hợp đồng lao động\",\n  \"condition_text\": \"chấm dứt\",\n  \"action_text\": \"hoàn tất việc thanh toán các khoản có liên quan\",\n  \"modality_text\": \"\",\n  \"time_text\": \"\",\n  \"deadline_text\": \"bao lâu\",\n  \"exception_text\": \"\",\n  \"question_focus\": \"deadline\",\n  \"assertion_status\": \"asserted\"\n}",
+      "fallback_reason": null
+    }
+  },
+  "layer2": {
+    "subject_normalized": "unknown_subject_x",
+    "subject_type_guess": "unknown",
+    "condition_atoms": [
+      "stated_condition(cham_dut)"
+    ],
+    "facts": [
+      "asserted:cham_dut"
+    ],
+    "goal": {
+      "predicate": "deadline",
+      "args": [
+        "thanh_toan_quyen_loi",
+        0,
+        "ngay",
+        "moc_thoi_gian"
+      ]
+    },
+    "query_rule_candidate": "ut=conditional_legal_question|subj=unknown_subject_x|role=unknown|focus=deadline|pred=deadline|atoms=stated_condition(cham_dut)|goal=deadline:thanh_toan_quyen_loi,0,ngay,moc_thoi_gian",
+    "diagnostics": {
+      "normalizer": "v3_registry_condition",
+      "focus": "deadline",
+      "assertion_status_normalized": "asserted",
+      "hypothetical_condition_refs": [],
+      "condition_normalization": {
+        "frame": {
+          "event_type": "stated_condition",
+          "actor_entity_id": "unknown_subject_x",
+          "actor_role": "unknown",
+          "time_hint": null,
+          "exception_hint": null,
+          "status": "asserted",
+          "source_text": "chấm dứt"
+        },
+        "primary_atom": "stated_condition(cham_dut)",
+        "alternative_atoms": [],
+        "confidence": 0.42,
+        "canonical_predicate": "stated_condition",
+        "domain": "",
+        "ambiguity_reason": "low_lexicon_match"
+      },
+      "ambiguities": [
+        {
+          "type": "ambiguous_condition",
+          "field": "condition_text",
+          "source_text": "chấm dứt",
+          "candidates": [
+            "stated_condition(cham_dut)"
+          ],
+          "confidence_gap": 0.1,
+          "blocking": true,
+          "priority": 1,
+          "blocking_reason": "condition_canonical_mapping_uncertain"
+        }
+      ],
+      "entity_registry": {
+        "primary_subject_id": "unknown_subject_x",
+        "records": {
+          "unknown_subject_x": {
+            "entity_id": "unknown_subject_x",
+            "entity_role": "unknown",
+            "mention_texts": [
+              "hợp đồng lao động hoàn tất việc thanh toán các khoản có liên quan chấm dứt"
+            ],
+            "owner_entity_id": null,
+            "confidence": 0.75
+          }
+        },
+        "mentions": []
+      },
+      "goal_canonicalization": {
+        "action_canonical": "thanh_toan_quyen_loi",
+        "object_canonical": "quyen_loi_lien_quan",
+        "action_confidence": 0.88,
+        "archetype_confidence": 0.0,
+        "archetype_candidates": []
+      },
+      "intent_structure": {
+        "has_multi_intent": false,
+        "intent_units": [],
+        "sub_goals": [],
+        "primary_intent": {
+          "focus": "deadline"
+        },
+        "secondary_intents": [],
+        "selection_policy": "primary_for_reasoning_secondary_preserved"
+      }
+    }
+  },
+  "clarification_questions": [],
+  "selected_rule": null,
+  "retrieved_rules": [],
+  "reasoning": null,
+  "backward_plan": null,
+  "forward_result": null,
+  "verification_trace": [
+    {
+      "mode": "parse_verification",
+      "symbolic_result": "ok",
+      "symbolic_ok": true,
+      "nli_result": {
+        "label": "contradiction",
+        "score": 0.64501953125,
+        "scores": {
+          "entailment": 0.2335205078125,
+          "neutral": 0.12164306640625,
+          "contradiction": 0.64501953125
+        }
+      },
+      "final_decision": "REJECT",
+      "diagnostics": [
+        "nli_contradiction_moderate"
+      ],
+      "repair_target": null,
+      "extra": {
+        "verbalization_meta": {
+          "template": "parse_v2_question_layer1_vs_goal_facts",
+          "guardrails": [
+            "guardrail:missing_modality_layer1",
+            "guardrail:empty_bracket_placeholder"
+          ],
+          "premise": "Câu hỏi gốc (verbatim): Khi hợp đồng lao động chấm dứt, doanh nghiệp phải hoàn tất việc thanh toán các khoản có liên quan trong bao lâu? | Layer1: utterance=[conditional_legal_question], subject=[hợp đồng lao động], condition=[chấm dứt], action=[hoàn tất việc thanh toán các khoản có liên quan], modality=[], time=[], deadline=[bao lâu], focus=[deadline], assertion=[asserted].",
+          "hypothesis": "Hạn [ngay] cho [0] kể từ mốc [moc_thoi_gian] cho hành động [thanh_toan_quyen_loi]. Thời hạn/deadline được nêu rõ. | Sự kiện người dùng (1): asserted:cham_dut. Điều kiện (1): stated_condition(cham_dut)."
+        },
+        "nli_trace": {
+          "mode": "parse_verification",
+          "nli_enabled": true,
+          "nli_status": "ok",
+          "nli_provider": "HuggingFaceNLIVerifier",
+          "nli_model_name": "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7",
+          "premise": "Câu hỏi gốc (verbatim): Khi hợp đồng lao động chấm dứt, doanh nghiệp phải hoàn tất việc thanh toán các khoản có liên quan trong bao lâu? | Layer1: utterance=[conditional_legal_question], subject=[hợp đồng lao động], condition=[chấm dứt], action=[hoàn tất việc thanh toán các khoản có liên quan], modality=[], time=[], deadline=[bao lâu], focus=[deadline], assertion=[asserted].",
+          "hypothesis": "Hạn [ngay] cho [0] kể từ mốc [moc_thoi_gian] cho hành động [thanh_toan_quyen_loi]. Thời hạn/deadline được nêu rõ. | Sự kiện người dùng (1): asserted:cham_dut. Điều kiện (1): stated_condition(cham_dut).",
+          "nli_decision": "contradiction",
+          "entailment": 0.2335205078125,
+          "contradiction": 0.64501953125,
+          "neutral": 0.12164306640625
+        }
+      },
+      "diagnostic_errors": [],
+      "repair_target_module": null,
+      "repair_hint": "",
+      "repair_payload": {
+        "mode": "parse_verification",
+        "diagnostic_errors": [],
+        "repair_targets": []
+      },
+      "decision": "REJECT",
+      "reasons": [
+        "nli_contradiction_moderate"
+      ],
+      "repair_hints": [],
+      "repair_applied": false,
+      "rerun_stage": null,
+      "repair_diagnostics": {
+        "decision": "REJECT",
+        "reasons": [
+          "nli_contradiction_moderate"
+        ],
+        "repair_target": null,
+        "repair_hints": [],
+        "repair_applied": false,
+        "rerun_stage": null,
+        "root_cause": "unknown",
+        "before_after": {
+          "parse_before": {
+            "goal": {
+              "predicate": "deadline",
+              "args": [
+                "thanh_toan_quyen_loi",
+                0,
+                "ngay",
+                "moc_thoi_gian"
+              ]
+            },
+            "layer1_focus": "deadline"
+          },
+          "parse_after": {
+            "goal": {
+              "predicate": "deadline",
+              "args": [
+                "thanh_toan_quyen_loi",
+                0,
+                "ngay",
+                "moc_thoi_gian"
+              ]
+            },
+            "layer1": {
+              "utterance_type": "conditional_legal_question",
+              "subject_text": "hợp đồng lao động",
+              "condition_text": "chấm dứt",
+              "action_text": "hoàn tất việc thanh toán các khoản có liên quan",
+              "modality_text": "",
+              "time_text": "",
+              "deadline_text": "bao lâu",
+              "exception_text": "",
+              "question_focus": "deadline",
+              "assertion_status": "asserted",
+              "raw_notes": [
+                "llm_layer1_json"
+              ],
+              "parse_metadata": {
+                "parser_backend": "llm",
+                "parser_provider": "api.groq.com",
+                "parser_model": "llama-3.1-8b-instant",
+                "requested_mode": "llm_required",
+                "actual_mode": "llm_real",
+                "provider": "api.groq.com",
+                "model": "llama-3.1-8b-instant",
+                "parser_available": true,
+                "parser_error": null,
+                "parser_prompt_version": "v5_layer1_slot_prompt_1",
+                "parser_latency_ms": 691.103,
+                "parser_backend_mode": "llm_real",
+                "fallback_used": false,
+                "raw_llm_output": "{\n  \"utterance_type\": \"conditional_legal_question\",\n  \"subject_text\": \"hợp đồng lao động\",\n  \"condition_text\": \"chấm dứt\",\n  \"action_text\": \"hoàn tất việc thanh toán các khoản có liên quan\",\n  \"modality_text\": \"\",\n  \"time_text\": \"\",\n  \"deadline_text\": \"bao lâu\",\n  \"exception_text\": \"\",\n  \"question_focus\": \"deadline\",\n  \"assertion_status\": \"asserted\"\n}",
+                "fallback_reason": null
+              }
+            }
+          },
+          "verification_before": "REJECT",
+          "verification_after": "REJECT"
+        },
+        "post_repair_gain": {
+          "parse_improved": false,
+          "final_status_before": "REJECT",
+          "final_status_after": "REJECT",
+          "goal_changed": false,
+          "repair_attempted": false,
+          "material_gain": false,
+          "fields_changed": []
+        }
+      },
+      "semantic_scores": {
+        "entailment": 0.2335205078125,
+        "neutral": 0.12164306640625,
+        "contradiction": 0.64501953125
+      },
+      "symbolic_checks": {
+        "ok": true,
+        "issues": [],
+        "codes": [],
+        "checks": [
+          {
+            "name": "question_text_length",
+            "status": "pass",
+            "message": "",
+            "field": "question_text"
+          },
+          {
+            "name": "subject_presence",
+            "status": "pass",
+            "message": "",
+            "field": "subject"
+          },
+          {
+            "name": "action_presence",
+            "status": "pass",
+            "message": "",
+            "field": "action_text"
+          },
+          {
+            "name": "modality_presence",
+            "status": "skip",
+            "message": "Không có modality_text (có thể chấp nhận)",
+            "field": "modality_text"
+          },
+          {
+            "name": "goal_predicate_schema",
+            "status": "pass",
+            "message": "",
+            "field": "layer2.goal.predicate"
+          },
+          {
+            "name": "goal_arity",
+            "status": "pass",
+            "message": "",
+            "field": "layer2.goal.args"
+          },
+          {
+            "name": "focus_goal_alignment",
+            "status": "pass",
+            "message": "",
+            "field": "layer1.question_focus"
+          },
+          {
+            "name": "facts_shape",
+            "status": "pass",
+            "message": "",
+            "field": "layer2.facts"
+          },
+          {
+            "name": "condition_atom_0",
+            "status": "pass",
+            "message": "",
+            "field": "layer2.condition_atoms[0]"
+          }
+        ]
+      },
+      "normalized_inputs": {
+        "question_text": "Khi hợp đồng lao động chấm dứt, doanh nghiệp phải hoàn tất việc thanh toán các khoản có liên quan trong bao lâu?",
+        "layer1": {
+          "utterance_type": "conditional_legal_question",
+          "subject_text": "hợp đồng lao động",
+          "condition_text": "chấm dứt",
+          "action_text": "hoàn tất việc thanh toán các khoản có liên quan",
+          "modality_text": "",
+          "time_text": "",
+          "deadline_text": "bao lâu",
+          "exception_text": "",
+          "question_focus": "deadline",
+          "assertion_status": "asserted",
+          "raw_notes": [
+            "llm_layer1_json"
+          ],
+          "parse_metadata": {
+            "parser_backend": "llm",
+            "parser_provider": "api.groq.com",
+            "parser_model": "llama-3.1-8b-instant",
+            "requested_mode": "llm_required",
+            "actual_mode": "llm_real",
+            "provider": "api.groq.com",
+            "model": "llama-3.1-8b-instant",
+            "parser_available": true,
+            "parser_error": null,
+            "parser_prompt_version": "v5_layer1_slot_prompt_1",
+            "parser_latency_ms": 691.103,
+            "parser_backend_mode": "llm_real",
+            "fallback_used": false,
+            "raw_llm_output": "{\n  \"utterance_type\": \"conditional_legal_question\",\n  \"subject_text\": \"hợp đồng lao động\",\n  \"condition_text\": \"chấm dứt\",\n  \"action_text\": \"hoàn tất việc thanh toán các khoản có liên quan\",\n  \"modality_text\": \"\",\n  \"time_text\": \"\",\n  \"deadline_text\": \"bao lâu\",\n  \"exception_text\": \"\",\n  \"question_focus\": \"deadline\",\n  \"assertion_status\": \"asserted\"\n}",
+            "fallback_reason": null
+          }
+        },
+        "layer2": {
+          "subject_normalized": "unknown_subject_x",
+          "subject_type_guess": "unknown",
+          "condition_atoms": [
+            "stated_condition(cham_dut)"
+          ],
+          "facts": [
+            "asserted:cham_dut"
+          ],
+          "goal": {
+            "predicate": "deadline",
+            "args": [
+              "thanh_toan_quyen_loi",
+              0,
+              "ngay",
+              "moc_thoi_gian"
+            ]
+          },
+          "query_rule_candidate": "ut=conditional_legal_question|subj=unknown_subject_x|role=unknown|focus=deadline|pred=deadline|atoms=stated_condition(cham_dut)|goal=deadline:thanh_toan_quyen_loi,0,ngay,moc_thoi_gian",
+          "diagnostics": {
+            "normalizer": "v3_registry_condition",
+            "focus": "deadline",
+            "assertion_status_normalized": "asserted",
+            "hypothetical_condition_refs": [],
+            "condition_normalization": {
+              "frame": {
+                "event_type": "stated_condition",
+                "actor_entity_id": "unknown_subject_x",
+                "actor_role": "unknown",
+                "time_hint": null,
+                "exception_hint": null,
+                "status": "asserted",
+                "source_text": "chấm dứt"
+              },
+              "primary_atom": "stated_condition(cham_dut)",
+              "alternative_atoms": [],
+              "confidence": 0.42,
+              "canonical_predicate": "stated_condition",
+              "domain": "",
+              "ambiguity_reason": "low_lexicon_match"
+            },
+            "ambiguities": [
+              {
+                "type": "ambiguous_condition",
+                "field": "condition_text",
+                "source_text": "chấm dứt",
+                "candidates": [
+                  "stated_condition(cham_dut)"
+                ],
+                "confidence_gap": 0.1,
+                "blocking": true,
+                "priority": 1,
+                "blocking_reason": "condition_canonical_mapping_uncertain"
+              }
+            ],
+            "entity_registry": {
+              "primary_subject_id": "unknown_subject_x",
+              "records": {
+                "unknown_subject_x": {
+                  "entity_id": "unknown_subject_x",
+                  "entity_role": "unknown",
+                  "mention_texts": [
+                    "hợp đồng lao động hoàn tất việc thanh toán các khoản có liên quan chấm dứt"
+                  ],
+                  "owner_entity_id": null,
+                  "confidence": 0.75
+                }
+              },
+              "mentions": []
+            },
+            "goal_canonicalization": {
+              "action_canonical": "thanh_toan_quyen_loi",
+              "object_canonical": "quyen_loi_lien_quan",
+              "action_confidence": 0.88,
+              "archetype_confidence": 0.0,
+              "archetype_candidates": []
+            },
+            "intent_structure": {
+              "has_multi_intent": false,
+              "intent_units": [],
+              "sub_goals": [],
+              "primary_intent": {
+                "focus": "deadline"
+              },
+              "secondary_intents": [],
+              "selection_policy": "primary_for_reasoning_secondary_preserved"
+            }
+          }
+        }
+      },
+      "verbalized_texts": {
+        "premise": "Câu hỏi gốc (verbatim): Khi hợp đồng lao động chấm dứt, doanh nghiệp phải hoàn tất việc thanh toán các khoản có liên quan trong bao lâu? | Layer1: utterance=[conditional_legal_question], subject=[hợp đồng lao động], condition=[chấm dứt], action=[hoàn tất việc thanh toán các khoản có liên quan], modality=[], time=[], deadline=[bao lâu], focus=[deadline], assertion=[asserted].",
+        "hypothesis": "Hạn [ngay] cho [0] kể từ mốc [moc_thoi_gian] cho hành động [thanh_toan_quyen_loi]. Thời hạn/deadline được nêu rõ. | Sự kiện người dùng (1): asserted:cham_dut. Điều kiện (1): stated_condition(cham_dut).",
+        "premise_alignment": "Câu hỏi gốc (verbatim): Khi hợp đồng lao động chấm dứt, doanh nghiệp phải hoàn tất việc thanh toán các khoản có liên quan trong bao lâu? | Layer1: utterance=[conditional_legal_question], subject=[hợp đồng lao động], condition=[chấm dứt], action=[hoàn tất việc thanh toán các khoản có liên quan], modality=[], time=[], deadline=[bao lâu], focus=[deadline], assertion=[asserted].",
+        "hypothesis_goal": "Hạn [ngay] cho [0] kể từ mốc [moc_thoi_gian] cho hành động [thanh_toan_quyen_loi]. Thời hạn/deadline được nêu rõ. | Sự kiện người dùng (1): asserted:cham_dut. Điều kiện (1): stated_condition(cham_dut).",
+        "layer1_subject": "Subject (chủ thể câu hỏi): [hợp đồng lao động]."
+      },
+      "trace": [
+        "symbolic_parse_done",
+        "nli_parse"
+      ]
+    },
+    {
+      "mode": "parse_verification",
+      "symbolic_result": "ok",
+      "symbolic_ok": true,
+      "nli_result": {
+        "label": "contradiction",
+        "score": 0.64501953125,
+        "scores": {
+          "entailment": 0.2335205078125,
+          "neutral": 0.12164306640625,
+          "contradiction": 0.64501953125
+        }
+      },
+      "final_decision": "REJECT",
+      "diagnostics": [
+        "nli_contradiction_moderate"
+      ],
+      "repair_target": null,
+      "extra": {
+        "verbalization_meta": {
+          "template": "parse_v2_question_layer1_vs_goal_facts",
+          "guardrails": [
+            "guardrail:missing_modality_layer1",
+            "guardrail:empty_bracket_placeholder"
+          ],
+          "premise": "Câu hỏi gốc (verbatim): Khi hợp đồng lao động chấm dứt, doanh nghiệp phải hoàn tất việc thanh toán các khoản có liên quan trong bao lâu? | Layer1: utterance=[conditional_legal_question], subject=[hợp đồng lao động], condition=[chấm dứt], action=[hoàn tất việc thanh toán các khoản có liên quan], modality=[], time=[], deadline=[bao lâu], focus=[deadline], assertion=[asserted].",
+          "hypothesis": "Hạn [ngay] cho [0] kể từ mốc [moc_thoi_gian] cho hành động [thanh_toan_quyen_loi]. Thời hạn/deadline được nêu rõ. | Sự kiện người dùng (1): asserted:cham_dut. Điều kiện (1): stated_condition(cham_dut)."
+        },
+        "nli_trace": {
+          "mode": "parse_verification",
+          "nli_enabled": true,
+          "nli_status": "ok",
+          "nli_provider": "HuggingFaceNLIVerifier",
+          "nli_model_name": "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7",
+          "premise": "Câu hỏi gốc (verbatim): Khi hợp đồng lao động chấm dứt, doanh nghiệp phải hoàn tất việc thanh toán các khoản có liên quan trong bao lâu? | Layer1: utterance=[conditional_legal_question], subject=[hợp đồng lao động], condition=[chấm dứt], action=[hoàn tất việc thanh toán các khoản có liên quan], modality=[], time=[], deadline=[bao lâu], focus=[deadline], assertion=[asserted].",
+          "hypothesis": "Hạn [ngay] cho [0] kể từ mốc [moc_thoi_gian] cho hành động [thanh_toan_quyen_loi]. Thời hạn/deadline được nêu rõ. | Sự kiện người dùng (1): asserted:cham_dut. Điều kiện (1): stated_condition(cham_dut).",
+          "nli_decision": "contradiction",
+          "entailment": 0.2335205078125,
+          "contradiction": 0.64501953125,
+          "neutral": 0.12164306640625
+        }
+      },
+      "diagnostic_errors": [],
+      "repair_target_module": null,
+      "repair_hint": "",
+      "repair_payload": {
+        "mode": "parse_verification",
+        "diagnostic_errors": [],
+        "repair_targets": []
+      },
+      "decision": "REJECT",
+      "reasons": [
+        "nli_contradiction_moderate"
+      ],
+      "repair_hints": [],
+      "repair_applied": false,
+      "rerun_stage": null,
+      "repair_diagnostics": {
+        "decision": "REJECT",
+        "reasons": [
+          "nli_contradiction_moderate"
+        ],
+        "repair_target": null,
+        "repair_hints": [],
+        "repair_applied": false,
+        "rerun_stage": null,
+        "root_cause": "unknown",
+        "before_after": {
+          "parse_before": {
+            "goal": {
+              "predicate": "deadline",
+              "args": [
+                "thanh_toan_quyen_loi",
+                0,
+                "ngay",
+                "moc_thoi_gian"
+              ]
+            },
+            "layer1_focus": "deadline"
+          },
+          "parse_after": {
+            "goal": {
+              "predicate": "deadline",
+              "args": [
+                "thanh_toan_quyen_loi",
+                0,
+                "ngay",
+                "moc_thoi_gian"
+              ]
+            },
+            "layer1": {
+              "utterance_type": "conditional_legal_question",
+              "subject_text": "hợp đồng lao động",
+              "condition_text": "chấm dứt",
+              "action_text": "hoàn tất việc thanh toán các khoản có liên quan",
+              "modality_text": "",
+              "time_text": "",
+              "deadline_text": "bao lâu",
+              "exception_text": "",
+              "question_focus": "deadline",
+              "assertion_status": "asserted",
+              "raw_notes": [
+                "llm_layer1_json"
+              ],
+              "parse_metadata": {
+                "parser_backend": "llm",
+                "parser_provider": "api.groq.com",
+                "parser_model": "llama-3.1-8b-instant",
+                "requested_mode": "llm_required",
+                "actual_mode": "llm_real",
+                "provider": "api.groq.com",
+                "model": "llama-3.1-8b-instant",
+                "parser_available": true,
+                "parser_error": null,
+                "parser_prompt_version": "v5_layer1_slot_prompt_1",
+                "parser_latency_ms": 691.103,
+                "parser_backend_mode": "llm_real",
+                "fallback_used": false,
+                "raw_llm_output": "{\n  \"utterance_type\": \"conditional_legal_question\",\n  \"subject_text\": \"hợp đồng lao động\",\n  \"condition_text\": \"chấm dứt\",\n  \"action_text\": \"hoàn tất việc thanh toán các khoản có liên quan\",\n  \"modality_text\": \"\",\n  \"time_text\": \"\",\n  \"deadline_text\": \"bao lâu\",\n  \"exception_text\": \"\",\n  \"question_focus\": \"deadline\",\n  \"assertion_status\": \"asserted\"\n}",
+                "fallback_reason": null
+              }
+            }
+          },
+          "verification_before": "REJECT",
+          "verification_after": "REJECT"
+        },
+        "post_repair_gain": {
+          "parse_improved": false,
+          "final_status_before": "REJECT",
+          "final_status_after": "REJECT",
+          "goal_changed": false,
+          "repair_attempted": false,
+          "material_gain": false,
+          "fields_changed": []
+        }
+      },
+      "semantic_scores": {
+        "entailment": 0.2335205078125,
+        "neutral": 0.12164306640625,
+        "contradiction": 0.64501953125
+      },
+      "symbolic_checks": {
+        "ok": true,
+        "issues": [],
+        "codes": [],
+        "checks": [
+          {
+            "name": "question_text_length",
+            "status": "pass",
+            "message": "",
+            "field": "question_text"
+          },
+          {
+            "name": "subject_presence",
+            "status": "pass",
+            "message": "",
+            "field": "subject"
+          },
+          {
+            "name": "action_presence",
+            "status": "pass",
+            "message": "",
+            "field": "action_text"
+          },
+          {
+            "name": "modality_presence",
+            "status": "skip",
+            "message": "Không có modality_text (có thể chấp nhận)",
+            "field": "modality_text"
+          },
+          {
+            "name": "goal_predicate_schema",
+            "status": "pass",
+            "message": "",
+            "field": "layer2.goal.predicate"
+          },
+          {
+            "name": "goal_arity",
+            "status": "pass",
+            "message": "",
+            "field": "layer2.goal.args"
+          },
+          {
+            "name": "focus_goal_alignment",
+            "status": "pass",
+            "message": "",
+            "field": "layer1.question_focus"
+          },
+          {
+            "name": "facts_shape",
+            "status": "pass",
+            "message": "",
+            "field": "layer2.facts"
+          },
+          {
+            "name": "condition_atom_0",
+            "status": "pass",
+            "message": "",
+            "field": "layer2.condition_atoms[0]"
+          }
+        ]
+      },
+      "normalized_inputs": {
+        "question_text": "Khi hợp đồng lao động chấm dứt, doanh nghiệp phải hoàn tất việc thanh toán các khoản có liên quan trong bao lâu?",
+        "layer1": {
+          "utterance_type": "conditional_legal_question",
+          "subject_text": "hợp đồng lao động",
+          "condition_text": "chấm dứt",
+          "action_text": "hoàn tất việc thanh toán các khoản có liên quan",
+          "modality_text": "",
+          "time_text": "",
+          "deadline_text": "bao lâu",
+          "exception_text": "",
+          "question_focus": "deadline",
+          "assertion_status": "asserted",
+          "raw_notes": [
+            "llm_layer1_json"
+          ],
+          "parse_metadata": {
+            "parser_backend": "llm",
+            "parser_provider": "api.groq.com",
+            "parser_model": "llama-3.1-8b-instant",
+            "requested_mode": "llm_required",
+            "actual_mode": "llm_real",
+            "provider": "api.groq.com",
+            "model": "llama-3.1-8b-instant",
+            "parser_available": true,
+            "parser_error": null,
+            "parser_prompt_version": "v5_layer1_slot_prompt_1",
+            "parser_latency_ms": 691.103,
+            "parser_backend_mode": "llm_real",
+            "fallback_used": false,
+            "raw_llm_output": "{\n  \"utterance_type\": \"conditional_legal_question\",\n  \"subject_text\": \"hợp đồng lao động\",\n  \"condition_text\": \"chấm dứt\",\n  \"action_text\": \"hoàn tất việc thanh toán các khoản có liên quan\",\n  \"modality_text\": \"\",\n  \"time_text\": \"\",\n  \"deadline_text\": \"bao lâu\",\n  \"exception_text\": \"\",\n  \"question_focus\": \"deadline\",\n  \"assertion_status\": \"asserted\"\n}",
+            "fallback_reason": null
+          }
+        },
+        "layer2": {
+          "subject_normalized": "unknown_subject_x",
+          "subject_type_guess": "unknown",
+          "condition_atoms": [
+            "stated_condition(cham_dut)"
+          ],
+          "facts": [
+            "asserted:cham_dut"
+          ],
+          "goal": {
+            "predicate": "deadline",
+            "args": [
+              "thanh_toan_quyen_loi",
+              0,
+              "ngay",
+              "moc_thoi_gian"
+            ]
+          },
+          "query_rule_candidate": "ut=conditional_legal_question|subj=unknown_subject_x|role=unknown|focus=deadline|pred=deadline|atoms=stated_condition(cham_dut)|goal=deadline:thanh_toan_quyen_loi,0,ngay,moc_thoi_gian",
+          "diagnostics": {
+            "normalizer": "v3_registry_condition",
+            "focus": "deadline",
+            "assertion_status_normalized": "asserted",
+            "hypothetical_condition_refs": [],
+            "condition_normalization": {
+              "frame": {
+                "event_type": "stated_condition",
+                "actor_entity_id": "unknown_subject_x",
+                "actor_role": "unknown",
+                "time_hint": null,
+                "exception_hint": null,
+                "status": "asserted",
+                "source_text": "chấm dứt"
+              },
+              "primary_atom": "stated_condition(cham_dut)",
+              "alternative_atoms": [],
+              "confidence": 0.42,
+              "canonical_predicate": "stated_condition",
+              "domain": "",
+              "ambiguity_reason": "low_lexicon_match"
+            },
+            "ambiguities": [
+              {
+                "type": "ambiguous_condition",
+                "field": "condition_text",
+                "source_text": "chấm dứt",
+                "candidates": [
+                  "stated_condition(cham_dut)"
+                ],
+                "confidence_gap": 0.1,
+                "blocking": true,
+                "priority": 1,
+                "blocking_reason": "condition_canonical_mapping_uncertain"
+              }
+            ],
+            "entity_registry": {
+              "primary_subject_id": "unknown_subject_x",
+              "records": {
+                "unknown_subject_x": {
+                  "entity_id": "unknown_subject_x",
+                  "entity_role": "unknown",
+                  "mention_texts": [
+                    "hợp đồng lao động hoàn tất việc thanh toán các khoản có liên quan chấm dứt"
+                  ],
+                  "owner_entity_id": null,
+                  "confidence": 0.75
+                }
+              },
+              "mentions": []
+            },
+            "goal_canonicalization": {
+              "action_canonical": "thanh_toan_quyen_loi",
+              "object_canonical": "quyen_loi_lien_quan",
+              "action_confidence": 0.88,
+              "archetype_confidence": 0.0,
+              "archetype_candidates": []
+            },
+            "intent_structure": {
+              "has_multi_intent": false,
+              "intent_units": [],
+              "sub_goals": [],
+              "primary_intent": {
+                "focus": "deadline"
+              },
+              "secondary_intents": [],
+              "selection_policy": "primary_for_reasoning_secondary_preserved"
+            }
+          }
+        }
+      },
+      "verbalized_texts": {
+        "premise": "Câu hỏi gốc (verbatim): Khi hợp đồng lao động chấm dứt, doanh nghiệp phải hoàn tất việc thanh toán các khoản có liên quan trong bao lâu? | Layer1: utterance=[conditional_legal_question], subject=[hợp đồng lao động], condition=[chấm dứt], action=[hoàn tất việc thanh toán các khoản có liên quan], modality=[], time=[], deadline=[bao lâu], focus=[deadline], assertion=[asserted].",
+        "hypothesis": "Hạn [ngay] cho [0] kể từ mốc [moc_thoi_gian] cho hành động [thanh_toan_quyen_loi]. Thời hạn/deadline được nêu rõ. | Sự kiện người dùng (1): asserted:cham_dut. Điều kiện (1): stated_condition(cham_dut).",
+        "premise_alignment": "Câu hỏi gốc (verbatim): Khi hợp đồng lao động chấm dứt, doanh nghiệp phải hoàn tất việc thanh toán các khoản có liên quan trong bao lâu? | Layer1: utterance=[conditional_legal_question], subject=[hợp đồng lao động], condition=[chấm dứt], action=[hoàn tất việc thanh toán các khoản có liên quan], modality=[], time=[], deadline=[bao lâu], focus=[deadline], assertion=[asserted].",
+        "hypothesis_goal": "Hạn [ngay] cho [0] kể từ mốc [moc_thoi_gian] cho hành động [thanh_toan_quyen_loi]. Thời hạn/deadline được nêu rõ. | Sự kiện người dùng (1): asserted:cham_dut. Điều kiện (1): stated_condition(cham_dut).",
+        "layer1_subject": "Subject (chủ thể câu hỏi): [hợp đồng lao động]."
+      },
+      "trace": [
+        "symbolic_parse_done",
+        "nli_parse"
+      ]
+    }
+  ],
+  "proof": null,
+  "answer": null,
+  "debug_trace": {
+    "stage": [
+      "clarify_resume"
+    ],
+    "query_text": "Khi hợp đồng lao động chấm dứt, doanh nghiệp phải hoàn tất việc thanh toán các khoản có liên quan trong bao lâu?",
+    "clarification_answers": [],
+    "invalid_clarification_answers": [
+      {
+        "fact_key": "parse_amb:ambiguous_condition:0",
+        "source_fact_key": "parse_amb:ambiguous_condition:0",
+        "expected_type": "choice",
+        "error": "invalid_type",
+        "value": "Co, theo thong tin toi cung cap.",
+        "options": [
+          "stated_condition(cham_dut)"
+        ]
+      }
+    ],
+    "invalid_clarification_answer": true,
+    "backend_modes": {
+      "parse_backend": {
+        "provider": "api.groq.com",
+        "model": "llama-3.1-8b-instant",
+        "mode": "llm_real"
+      },
+      "answer_backend": {
+        "provider": null,
+        "model": null,
+        "mode": "none"
+      },
+      "verifier_backend": {
+        "provider": "HuggingFaceNLIVerifier",
+        "model": "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7",
+        "mode": "real"
+      },
+      "retrieval_backend": {
+        "provider": null,
+        "model": null,
+        "mode": "none"
+      }
+    },
+    "run_config": {
+      "profile_name": "custom",
+      "enable_shared_layer": true,
+      "enable_clarification": true,
+      "enable_repair_loop": true,
+      "enable_backward_chaining": true,
+      "enable_nli_verifier": true,
+      "enable_cross_domain_jump": true,
+      "config_source": null
+    },
+    "parser_status": {
+      "parser_backend": "llm",
+      "parser_provider": "api.groq.com",
+      "parser_model": "llama-3.1-8b-instant",
+      "requested_mode": "llm_required",
+      "actual_mode": "llm_real",
+      "provider": "api.groq.com",
+      "model": "llama-3.1-8b-instant",
+      "parser_available": true,
+      "parser_error": null,
+      "parser_prompt_version": "v5_layer1_slot_prompt_1",
+      "parser_latency_ms": 691.103,
+      "parser_backend_mode": "llm_real",
+      "fallback_used": false,
+      "raw_llm_output": "{\n  \"utterance_type\": \"conditional_legal_question\",\n  \"subject_text\": \"hợp đồng lao động\",\n  \"condition_text\": \"chấm dứt\",\n  \"action_text\": \"hoàn tất việc thanh toán các khoản có liên quan\",\n  \"modality_text\": \"\",\n  \"time_text\": \"\",\n  \"deadline_text\": \"bao lâu\",\n  \"exception_text\": \"\",\n  \"question_focus\": \"deadline\",\n  \"assertion_status\": \"asserted\"\n}",
+      "fallback_reason": null
+    },
+    "parse_repair": [
+      {
+        "phase": "parse",
+        "attempt": 0,
+        "decision": "REJECT",
+        "repair_target_module": null,
+        "input_snapshot": {
+          "goal": {
+            "predicate": "deadline",
+            "args": [
+              "thanh_toan_quyen_loi",
+              0,
+              "ngay",
+              "moc_thoi_gian"
+            ]
+          },
+          "layer1_focus": "deadline"
+        },
+        "diagnostic_errors": [],
+        "auto_repair_eligible": false,
+        "verifier_mode": "parse_verification",
+        "verdict": "REJECT",
+        "issue_type": "none",
+        "repair_target": "unspecified",
+        "repair_action": "initial_verify",
+        "rerun_result": "not_rerun"
+      },
+      {
+        "phase": "parse",
+        "final_decision": "REJECT",
+        "attempts_used": 0,
+        "post_repair_gain": {
+          "parse_improved": false,
+          "final_status_before": "REJECT",
+          "final_status_after": "REJECT",
+          "goal_changed": false,
+          "repair_attempted": false,
+          "material_gain": false,
+          "fields_changed": []
+        },
+        "repair_attempted": false,
+        "material_gain": false,
+        "fields_changed": [],
+        "root_cause": "unknown",
+        "verifier_mode": "parse_verification",
+        "verdict": "REJECT",
+        "issue_type": "unknown",
+        "repair_target": "unspecified",
+        "repair_action": "stop_after_controlled_repair",
+        "rerun_result": "failed"
+      }
+    ],
+    "error": "parse_rejected"
+  },
+  "evaluation_log": {
+    "sample_id": "sess_1775811185078_a9cd6273",
+    "query_text": "Khi hợp đồng lao động chấm dứt, doanh nghiệp phải hoàn tất việc thanh toán các khoản có liên quan trong bao lâu?",
+    "parsed_layer1": {
+      "utterance_type": "conditional_legal_question",
+      "subject_text": "hợp đồng lao động",
+      "condition_text": "chấm dứt",
+      "action_text": "hoàn tất việc thanh toán các khoản có liên quan",
+      "modality_text": "",
+      "time_text": "",
+      "deadline_text": "bao lâu",
+      "exception_text": "",
+      "question_focus": "deadline",
+      "assertion_status": "asserted",
+      "raw_notes": [
+        "llm_layer1_json"
+      ],
+      "parse_metadata": {
+        "parser_backend": "llm",
+        "parser_provider": "api.groq.com",
+        "parser_model": "llama-3.1-8b-instant",
+        "requested_mode": "llm_required",
+        "actual_mode": "llm_real",
+        "provider": "api.groq.com",
+        "model": "llama-3.1-8b-instant",
+        "parser_available": true,
+        "parser_error": null,
+        "parser_prompt_version": "v5_layer1_slot_prompt_1",
+        "parser_latency_ms": 691.103,
+        "parser_backend_mode": "llm_real",
+        "fallback_used": false,
+        "raw_llm_output": "{\n  \"utterance_type\": \"conditional_legal_question\",\n  \"subject_text\": \"hợp đồng lao động\",\n  \"condition_text\": \"chấm dứt\",\n  \"action_text\": \"hoàn tất việc thanh toán các khoản có liên quan\",\n  \"modality_text\": \"\",\n  \"time_text\": \"\",\n  \"deadline_text\": \"bao lâu\",\n  \"exception_text\": \"\",\n  \"question_focus\": \"deadline\",\n  \"assertion_status\": \"asserted\"\n}",
+        "fallback_reason": null
+      }
+    },
+    "parsed_layer2": {
+      "subject_normalized": "unknown_subject_x",
+      "subject_type_guess": "unknown",
+      "condition_atoms": [
+        "stated_condition(cham_dut)"
+      ],
+      "facts": [
+        "asserted:cham_dut"
+      ],
+      "goal": {
+        "predicate": "deadline",
+        "args": [
+          "thanh_toan_quyen_loi",
+          0,
+          "ngay",
+          "moc_thoi_gian"
+        ]
+      },
+      "query_rule_candidate": "ut=conditional_legal_question|subj=unknown_subject_x|role=unknown|focus=deadline|pred=deadline|atoms=stated_condition(cham_dut)|goal=deadline:thanh_toan_quyen_loi,0,ngay,moc_thoi_gian",
+      "diagnostics": {
+        "normalizer": "v3_registry_condition",
+        "focus": "deadline",
+        "assertion_status_normalized": "asserted",
+        "hypothetical_condition_refs": [],
+        "condition_normalization": {
+          "frame": {
+            "event_type": "stated_condition",
+            "actor_entity_id": "unknown_subject_x",
+            "actor_role": "unknown",
+            "time_hint": null,
+            "exception_hint": null,
+            "status": "asserted",
+            "source_text": "chấm dứt"
+          },
+          "primary_atom": "stated_condition(cham_dut)",
+          "alternative_atoms": [],
+          "confidence": 0.42,
+          "canonical_predicate": "stated_condition",
+          "domain": "",
+          "ambiguity_reason": "low_lexicon_match"
+        },
+        "ambiguities": [
+          {
+            "type": "ambiguous_condition",
+            "field": "condition_text",
+            "source_text": "chấm dứt",
+            "candidates": [
+              "stated_condition(cham_dut)"
+            ],
+            "confidence_gap": 0.1,
+            "blocking": true,
+            "priority": 1,
+            "blocking_reason": "condition_canonical_mapping_uncertain"
+          }
+        ],
+        "entity_registry": {
+          "primary_subject_id": "unknown_subject_x",
+          "records": {
+            "unknown_subject_x": {
+              "entity_id": "unknown_subject_x",
+              "entity_role": "unknown",
+              "mention_texts": [
+                "hợp đồng lao động hoàn tất việc thanh toán các khoản có liên quan chấm dứt"
+              ],
+              "owner_entity_id": null,
+              "confidence": 0.75
+            }
+          },
+          "mentions": []
+        },
+        "goal_canonicalization": {
+          "action_canonical": "thanh_toan_quyen_loi",
+          "object_canonical": "quyen_loi_lien_quan",
+          "action_confidence": 0.88,
+          "archetype_confidence": 0.0,
+          "archetype_candidates": []
+        },
+        "intent_structure": {
+          "has_multi_intent": false,
+          "intent_units": [],
+          "sub_goals": [],
+          "primary_intent": {
+            "focus": "deadline"
+          },
+          "secondary_intents": [],
+          "selection_policy": "primary_for_reasoning_secondary_preserved"
+        }
+      }
+    },
+    "predicted_domains": null,
+    "activated_domains": null,
+    "bridge_rules_used": null,
+    "cross_domain_jumps_attempted": 0,
+    "cross_domain_jumps_success": 0,
+    "cross_domain_jumps_blocked": 0,
+    "retrieved_topk": null,
+    "selected_rule": null,
+    "requirement_set": null,
+    "missing_facts": null,
+    "clarification_question": [],
+    "clarification_answer": [],
+    "proof": null,
+    "proof_domains": null,
+    "final_statute_grounding": null,
+    "verification_reports": [
+      {
+        "mode": "parse_verification",
+        "symbolic_result": "ok",
+        "symbolic_ok": true,
+        "nli_result": {
+          "label": "contradiction",
+          "score": 0.64501953125,
+          "scores": {
+            "entailment": 0.2335205078125,
+            "neutral": 0.12164306640625,
+            "contradiction": 0.64501953125
+          }
+        },
+        "final_decision": "REJECT",
+        "diagnostics": [
+          "nli_contradiction_moderate"
+        ],
+        "repair_target": null,
+        "extra": {
+          "verbalization_meta": {
+            "template": "parse_v2_question_layer1_vs_goal_facts",
+            "guardrails": [
+              "guardrail:missing_modality_layer1",
+              "guardrail:empty_bracket_placeholder"
+            ],
+            "premise": "Câu hỏi gốc (verbatim): Khi hợp đồng lao động chấm dứt, doanh nghiệp phải hoàn tất việc thanh toán các khoản có liên quan trong bao lâu? | Layer1: utterance=[conditional_legal_question], subject=[hợp đồng lao động], condition=[chấm dứt], action=[hoàn tất việc thanh toán các khoản có liên quan], modality=[], time=[], deadline=[bao lâu], focus=[deadline], assertion=[asserted].",
+            "hypothesis": "Hạn [ngay] cho [0] kể từ mốc [moc_thoi_gian] cho hành động [thanh_toan_quyen_loi]. Thời hạn/deadline được nêu rõ. | Sự kiện người dùng (1): asserted:cham_dut. Điều kiện (1): stated_condition(cham_dut)."
+          },
+          "nli_trace": {
+            "mode": "parse_verification",
+            "nli_enabled": true,
+            "nli_status": "ok",
+            "nli_provider": "HuggingFaceNLIVerifier",
+            "nli_model_name": "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7",
+            "premise": "Câu hỏi gốc (verbatim): Khi hợp đồng lao động chấm dứt, doanh nghiệp phải hoàn tất việc thanh toán các khoản có liên quan trong bao lâu? | Layer1: utterance=[conditional_legal_question], subject=[hợp đồng lao động], condition=[chấm dứt], action=[hoàn tất việc thanh toán các khoản có liên quan], modality=[], time=[], deadline=[bao lâu], focus=[deadline], assertion=[asserted].",
+            "hypothesis": "Hạn [ngay] cho [0] kể từ mốc [moc_thoi_gian] cho hành động [thanh_toan_quyen_loi]. Thời hạn/deadline được nêu rõ. | Sự kiện người dùng (1): asserted:cham_dut. Điều kiện (1): stated_condition(cham_dut).",
+            "nli_decision": "contradiction",
+            "entailment": 0.2335205078125,
+            "contradiction": 0.64501953125,
+            "neutral": 0.12164306640625
+          }
+        },
+        "diagnostic_errors": [],
+        "repair_target_module": null,
+        "repair_hint": "",
+        "repair_payload": {
+          "mode": "parse_verification",
+          "diagnostic_errors": [],
+          "repair_targets": []
+        },
+        "decision": "REJECT",
+        "reasons": [
+          "nli_contradiction_moderate"
+        ],
+        "repair_hints": [],
+        "repair_applied": false,
+        "rerun_stage": null,
+        "repair_diagnostics": {
+          "decision": "REJECT",
+          "reasons": [
+            "nli_contradiction_moderate"
+          ],
+          "repair_target": null,
+          "repair_hints": [],
+          "repair_applied": false,
+          "rerun_stage": null,
+          "root_cause": "unknown",
+          "before_after": {
+            "parse_before": {
+              "goal": {
+                "predicate": "deadline",
+                "args": [
+                  "thanh_toan_quyen_loi",
+                  0,
+                  "ngay",
+                  "moc_thoi_gian"
+                ]
+              },
+              "layer1_focus": "deadline"
+            },
+            "parse_after": {
+              "goal": {
+                "predicate": "deadline",
+                "args": [
+                  "thanh_toan_quyen_loi",
+                  0,
+                  "ngay",
+                  "moc_thoi_gian"
+                ]
+              },
+              "layer1": {
+                "utterance_type": "conditional_legal_question",
+                "subject_text": "hợp đồng lao động",
+                "condition_text": "chấm dứt",
+                "action_text": "hoàn tất việc thanh toán các khoản có liên quan",
+                "modality_text": "",
+                "time_text": "",
+                "deadline_text": "bao lâu",
+                "exception_text": "",
+                "question_focus": "deadline",
+                "assertion_status": "asserted",
+                "raw_notes": [
+                  "llm_layer1_json"
+                ],
+                "parse_metadata": {
+                  "parser_backend": "llm",
+                  "parser_provider": "api.groq.com",
+                  "parser_model": "llama-3.1-8b-instant",
+                  "requested_mode": "llm_required",
+                  "actual_mode": "llm_real",
+                  "provider": "api.groq.com",
+                  "model": "llama-3.1-8b-instant",
+                  "parser_available": true,
+                  "parser_error": null,
+                  "parser_prompt_version": "v5_layer1_slot_prompt_1",
+                  "parser_latency_ms": 691.103,
+                  "parser_backend_mode": "llm_real",
+                  "fallback_used": false,
+                  "raw_llm_output": "{\n  \"utterance_type\": \"conditional_legal_question\",\n  \"subject_text\": \"hợp đồng lao động\",\n  \"condition_text\": \"chấm dứt\",\n  \"action_text\": \"hoàn tất việc thanh toán các khoản có liên quan\",\n  \"modality_text\": \"\",\n  \"time_text\": \"\",\n  \"deadline_text\": \"bao lâu\",\n  \"exception_text\": \"\",\n  \"question_focus\": \"deadline\",\n  \"assertion_status\": \"asserted\"\n}",
+                  "fallback_reason": null
+                }
+              }
+            },
+            "verification_before": "REJECT",
+            "verification_after": "REJECT"
+          },
+          "post_repair_gain": {
+            "parse_improved": false,
+            "final_status_before": "REJECT",
+            "final_status_after": "REJECT",
+            "goal_changed": false,
+            "repair_attempted": false,
+            "material_gain": false,
+            "fields_changed": []
+          }
+        },
+        "semantic_scores": {
+          "entailment": 0.2335205078125,
+          "neutral": 0.12164306640625,
+          "contradiction": 0.64501953125
+        },
+        "symbolic_checks": {
+          "ok": true,
+          "issues": [],
+          "codes": [],
+          "checks": [
+            {
+              "name": "question_text_length",
+              "status": "pass",
+              "message": "",
+              "field": "question_text"
+            },
+            {
+              "name": "subject_presence",
+              "status": "pass",
+              "message": "",
+              "field": "subject"
+            },
+            {
+              "name": "action_presence",
+              "status": "pass",
+              "message": "",
+              "field": "action_text"
+            },
+            {
+              "name": "modality_presence",
+              "status": "skip",
+              "message": "Không có modality_text (có thể chấp nhận)",
+              "field": "modality_text"
+            },
+            {
+              "name": "goal_predicate_schema",
+              "status": "pass",
+              "message": "",
+              "field": "layer2.goal.predicate"
+            },
+            {
+              "name": "goal_arity",
+              "status": "pass",
+              "message": "",
+              "field": "layer2.goal.args"
+            },
+            {
+              "name": "focus_goal_alignment",
+              "status": "pass",
+              "message": "",
+              "field": "layer1.question_focus"
+            },
+            {
+              "name": "facts_shape",
+              "status": "pass",
+              "message": "",
+              "field": "layer2.facts"
+            },
+            {
+              "name": "condition_atom_0",
+              "status": "pass",
+              "message": "",
+              "field": "layer2.condition_atoms[0]"
+            }
+          ]
+        },
+        "normalized_inputs": {
+          "question_text": "Khi hợp đồng lao động chấm dứt, doanh nghiệp phải hoàn tất việc thanh toán các khoản có liên quan trong bao lâu?",
+          "layer1": {
+            "utterance_type": "conditional_legal_question",
+            "subject_text": "hợp đồng lao động",
+            "condition_text": "chấm dứt",
+            "action_text": "hoàn tất việc thanh toán các khoản có liên quan",
+            "modality_text": "",
+            "time_text": "",
+            "deadline_text": "bao lâu",
+            "exception_text": "",
+            "question_focus": "deadline",
+            "assertion_status": "asserted",
+            "raw_notes": [
+              "llm_layer1_json"
+            ],
+            "parse_metadata": {
+              "parser_backend": "llm",
+              "parser_provider": "api.groq.com",
+              "parser_model": "llama-3.1-8b-instant",
+              "requested_mode": "llm_required",
+              "actual_mode": "llm_real",
+              "provider": "api.groq.com",
+              "model": "llama-3.1-8b-instant",
+              "parser_available": true,
+              "parser_error": null,
+              "parser_prompt_version": "v5_layer1_slot_prompt_1",
+              "parser_latency_ms": 691.103,
+              "parser_backend_mode": "llm_real",
+              "fallback_used": false,
+              "raw_llm_output": "{\n  \"utterance_type\": \"conditional_legal_question\",\n  \"subject_text\": \"hợp đồng lao động\",\n  \"condition_text\": \"chấm dứt\",\n  \"action_text\": \"hoàn tất việc thanh toán các khoản có liên quan\",\n  \"modality_text\": \"\",\n  \"time_text\": \"\",\n  \"deadline_text\": \"bao lâu\",\n  \"exception_text\": \"\",\n  \"question_focus\": \"deadline\",\n  \"assertion_status\": \"asserted\"\n}",
+              "fallback_reason": null
+            }
+          },
+          "layer2": {
+            "subject_normalized": "unknown_subject_x",
+            "subject_type_guess": "unknown",
+            "condition_atoms": [
+              "stated_condition(cham_dut)"
+            ],
+            "facts": [
+              "asserted:cham_dut"
+            ],
+            "goal": {
+              "predicate": "deadline",
+              "args": [
+                "thanh_toan_quyen_loi",
+                0,
+                "ngay",
+                "moc_thoi_gian"
+              ]
+            },
+            "query_rule_candidate": "ut=conditional_legal_question|subj=unknown_subject_x|role=unknown|focus=deadline|pred=deadline|atoms=stated_condition(cham_dut)|goal=deadline:thanh_toan_quyen_loi,0,ngay,moc_thoi_gian",
+            "diagnostics": {
+              "normalizer": "v3_registry_condition",
+              "focus": "deadline",
+              "assertion_status_normalized": "asserted",
+              "hypothetical_condition_refs": [],
+              "condition_normalization": {
+                "frame": {
+                  "event_type": "stated_condition",
+                  "actor_entity_id": "unknown_subject_x",
+                  "actor_role": "unknown",
+                  "time_hint": null,
+                  "exception_hint": null,
+                  "status": "asserted",
+                  "source_text": "chấm dứt"
+                },
+                "primary_atom": "stated_condition(cham_dut)",
+                "alternative_atoms": [],
+                "confidence": 0.42,
+                "canonical_predicate": "stated_condition",
+                "domain": "",
+                "ambiguity_reason": "low_lexicon_match"
+              },
+              "ambiguities": [
+                {
+                  "type": "ambiguous_condition",
+                  "field": "condition_text",
+                  "source_text": "chấm dứt",
+                  "candidates": [
+                    "stated_condition(cham_dut)"
+                  ],
+                  "confidence_gap": 0.1,
+                  "blocking": true,
+                  "priority": 1,
+                  "blocking_reason": "condition_canonical_mapping_uncertain"
+                }
+              ],
+              "entity_registry": {
+                "primary_subject_id": "unknown_subject_x",
+                "records": {
+                  "unknown_subject_x": {
+                    "entity_id": "unknown_subject_x",
+                    "entity_role": "unknown",
+                    "mention_texts": [
+                      "hợp đồng lao động hoàn tất việc thanh toán các khoản có liên quan chấm dứt"
+                    ],
+                    "owner_entity_id": null,
+                    "confidence": 0.75
+                  }
+                },
+                "mentions": []
+              },
+              "goal_canonicalization": {
+                "action_canonical": "thanh_toan_quyen_loi",
+                "object_canonical": "quyen_loi_lien_quan",
+                "action_confidence": 0.88,
+                "archetype_confidence": 0.0,
+                "archetype_candidates": []
+              },
+              "intent_structure": {
+                "has_multi_intent": false,
+                "intent_units": [],
+                "sub_goals": [],
+                "primary_intent": {
+                  "focus": "deadline"
+                },
+                "secondary_intents": [],
+                "selection_policy": "primary_for_reasoning_secondary_preserved"
+              }
+            }
+          }
+        },
+        "verbalized_texts": {
+          "premise": "Câu hỏi gốc (verbatim): Khi hợp đồng lao động chấm dứt, doanh nghiệp phải hoàn tất việc thanh toán các khoản có liên quan trong bao lâu? | Layer1: utterance=[conditional_legal_question], subject=[hợp đồng lao động], condition=[chấm dứt], action=[hoàn tất việc thanh toán các khoản có liên quan], modality=[], time=[], deadline=[bao lâu], focus=[deadline], assertion=[asserted].",
+          "hypothesis": "Hạn [ngay] cho [0] kể từ mốc [moc_thoi_gian] cho hành động [thanh_toan_quyen_loi]. Thời hạn/deadline được nêu rõ. | Sự kiện người dùng (1): asserted:cham_dut. Điều kiện (1): stated_condition(cham_dut).",
+          "premise_alignment": "Câu hỏi gốc (verbatim): Khi hợp đồng lao động chấm dứt, doanh nghiệp phải hoàn tất việc thanh toán các khoản có liên quan trong bao lâu? | Layer1: utterance=[conditional_legal_question], subject=[hợp đồng lao động], condition=[chấm dứt], action=[hoàn tất việc thanh toán các khoản có liên quan], modality=[], time=[], deadline=[bao lâu], focus=[deadline], assertion=[asserted].",
+          "hypothesis_goal": "Hạn [ngay] cho [0] kể từ mốc [moc_thoi_gian] cho hành động [thanh_toan_quyen_loi]. Thời hạn/deadline được nêu rõ. | Sự kiện người dùng (1): asserted:cham_dut. Điều kiện (1): stated_condition(cham_dut).",
+          "layer1_subject": "Subject (chủ thể câu hỏi): [hợp đồng lao động]."
+        },
+        "trace": [
+          "symbolic_parse_done",
+          "nli_parse"
+        ]
+      },
+      {
+        "mode": "parse_verification",
+        "symbolic_result": "ok",
+        "symbolic_ok": true,
+        "nli_result": {
+          "label": "contradiction",
+          "score": 0.64501953125,
+          "scores": {
+            "entailment": 0.2335205078125,
+            "neutral": 0.12164306640625,
+            "contradiction": 0.64501953125
+          }
+        },
+        "final_decision": "REJECT",
+        "diagnostics": [
+          "nli_contradiction_moderate"
+        ],
+        "repair_target": null,
+        "extra": {
+          "verbalization_meta": {
+            "template": "parse_v2_question_layer1_vs_goal_facts",
+            "guardrails": [
+              "guardrail:missing_modality_layer1",
+              "guardrail:empty_bracket_placeholder"
+            ],
+            "premise": "Câu hỏi gốc (verbatim): Khi hợp đồng lao động chấm dứt, doanh nghiệp phải hoàn tất việc thanh toán các khoản có liên quan trong bao lâu? | Layer1: utterance=[conditional_legal_question], subject=[hợp đồng lao động], condition=[chấm dứt], action=[hoàn tất việc thanh toán các khoản có liên quan], modality=[], time=[], deadline=[bao lâu], focus=[deadline], assertion=[asserted].",
+            "hypothesis": "Hạn [ngay] cho [0] kể từ mốc [moc_thoi_gian] cho hành động [thanh_toan_quyen_loi]. Thời hạn/deadline được nêu rõ. | Sự kiện người dùng (1): asserted:cham_dut. Điều kiện (1): stated_condition(cham_dut)."
+          },
+          "nli_trace": {
+            "mode": "parse_verification",
+            "nli_enabled": true,
+            "nli_status": "ok",
+            "nli_provider": "HuggingFaceNLIVerifier",
+            "nli_model_name": "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7",
+            "premise": "Câu hỏi gốc (verbatim): Khi hợp đồng lao động chấm dứt, doanh nghiệp phải hoàn tất việc thanh toán các khoản có liên quan trong bao lâu? | Layer1: utterance=[conditional_legal_question], subject=[hợp đồng lao động], condition=[chấm dứt], action=[hoàn tất việc thanh toán các khoản có liên quan], modality=[], time=[], deadline=[bao lâu], focus=[deadline], assertion=[asserted].",
+            "hypothesis": "Hạn [ngay] cho [0] kể từ mốc [moc_thoi_gian] cho hành động [thanh_toan_quyen_loi]. Thời hạn/deadline được nêu rõ. | Sự kiện người dùng (1): asserted:cham_dut. Điều kiện (1): stated_condition(cham_dut).",
+            "nli_decision": "contradiction",
+            "entailment": 0.2335205078125,
+            "contradiction": 0.64501953125,
+            "neutral": 0.12164306640625
+          }
+        },
+        "diagnostic_errors": [],
+        "repair_target_module": null,
+        "repair_hint": "",
+        "repair_payload": {
+          "mode": "parse_verification",
+          "diagnostic_errors": [],
+          "repair_targets": []
+        },
+        "decision": "REJECT",
+        "reasons": [
+          "nli_contradiction_moderate"
+        ],
+        "repair_hints": [],
+        "repair_applied": false,
+        "rerun_stage": null,
+        "repair_diagnostics": {
+          "decision": "REJECT",
+          "reasons": [
+            "nli_contradiction_moderate"
+          ],
+          "repair_target": null,
+          "repair_hints": [],
+          "repair_applied": false,
+          "rerun_stage": null,
+          "root_cause": "unknown",
+          "before_after": {
+            "parse_before": {
+              "goal": {
+                "predicate": "deadline",
+                "args": [
+                  "thanh_toan_quyen_loi",
+                  0,
+                  "ngay",
+                  "moc_thoi_gian"
+                ]
+              },
+              "layer1_focus": "deadline"
+            },
+            "parse_after": {
+              "goal": {
+                "predicate": "deadline",
+                "args": [
+                  "thanh_toan_quyen_loi",
+                  0,
+                  "ngay",
+                  "moc_thoi_gian"
+                ]
+              },
+              "layer1": {
+                "utterance_type": "conditional_legal_question",
+                "subject_text": "hợp đồng lao động",
+                "condition_text": "chấm dứt",
+                "action_text": "hoàn tất việc thanh toán các khoản có liên quan",
+                "modality_text": "",
+                "time_text": "",
+                "deadline_text": "bao lâu",
+                "exception_text": "",
+                "question_focus": "deadline",
+                "assertion_status": "asserted",
+                "raw_notes": [
+                  "llm_layer1_json"
+                ],
+                "parse_metadata": {
+                  "parser_backend": "llm",
+                  "parser_provider": "api.groq.com",
+                  "parser_model": "llama-3.1-8b-instant",
+                  "requested_mode": "llm_required",
+                  "actual_mode": "llm_real",
+                  "provider": "api.groq.com",
+                  "model": "llama-3.1-8b-instant",
+                  "parser_available": true,
+                  "parser_error": null,
+                  "parser_prompt_version": "v5_layer1_slot_prompt_1",
+                  "parser_latency_ms": 691.103,
+                  "parser_backend_mode": "llm_real",
+                  "fallback_used": false,
+                  "raw_llm_output": "{\n  \"utterance_type\": \"conditional_legal_question\",\n  \"subject_text\": \"hợp đồng lao động\",\n  \"condition_text\": \"chấm dứt\",\n  \"action_text\": \"hoàn tất việc thanh toán các khoản có liên quan\",\n  \"modality_text\": \"\",\n  \"time_text\": \"\",\n  \"deadline_text\": \"bao lâu\",\n  \"exception_text\": \"\",\n  \"question_focus\": \"deadline\",\n  \"assertion_status\": \"asserted\"\n}",
+                  "fallback_reason": null
+                }
+              }
+            },
+            "verification_before": "REJECT",
+            "verification_after": "REJECT"
+          },
+          "post_repair_gain": {
+            "parse_improved": false,
+            "final_status_before": "REJECT",
+            "final_status_after": "REJECT",
+            "goal_changed": false,
+            "repair_attempted": false,
+            "material_gain": false,
+            "fields_changed": []
+          }
+        },
+        "semantic_scores": {
+          "entailment": 0.2335205078125,
+          "neutral": 0.12164306640625,
+          "contradiction": 0.64501953125
+        },
+        "symbolic_checks": {
+          "ok": true,
+          "issues": [],
+          "codes": [],
+          "checks": [
+            {
+              "name": "question_text_length",
+              "status": "pass",
+              "message": "",
+              "field": "question_text"
+            },
+            {
+              "name": "subject_presence",
+              "status": "pass",
+              "message": "",
+              "field": "subject"
+            },
+            {
+              "name": "action_presence",
+              "status": "pass",
+              "message": "",
+              "field": "action_text"
+            },
+            {
+              "name": "modality_presence",
+              "status": "skip",
+              "message": "Không có modality_text (có thể chấp nhận)",
+              "field": "modality_text"
+            },
+            {
+              "name": "goal_predicate_schema",
+              "status": "pass",
+              "message": "",
+              "field": "layer2.goal.predicate"
+            },
+            {
+              "name": "goal_arity",
+              "status": "pass",
+              "message": "",
+              "field": "layer2.goal.args"
+            },
+            {
+              "name": "focus_goal_alignment",
+              "status": "pass",
+              "message": "",
+              "field": "layer1.question_focus"
+            },
+            {
+              "name": "facts_shape",
+              "status": "pass",
+              "message": "",
+              "field": "layer2.facts"
+            },
+            {
+              "name": "condition_atom_0",
+              "status": "pass",
+              "message": "",
+              "field": "layer2.condition_atoms[0]"
+            }
+          ]
+        },
+        "normalized_inputs": {
+          "question_text": "Khi hợp đồng lao động chấm dứt, doanh nghiệp phải hoàn tất việc thanh toán các khoản có liên quan trong bao lâu?",
+          "layer1": {
+            "utterance_type": "conditional_legal_question",
+            "subject_text": "hợp đồng lao động",
+            "condition_text": "chấm dứt",
+            "action_text": "hoàn tất việc thanh toán các khoản có liên quan",
+            "modality_text": "",
+            "time_text": "",
+            "deadline_text": "bao lâu",
+            "exception_text": "",
+            "question_focus": "deadline",
+            "assertion_status": "asserted",
+            "raw_notes": [
+              "llm_layer1_json"
+            ],
+            "parse_metadata": {
+              "parser_backend": "llm",
+              "parser_provider": "api.groq.com",
+              "parser_model": "llama-3.1-8b-instant",
+              "requested_mode": "llm_required",
+              "actual_mode": "llm_real",
+              "provider": "api.groq.com",
+              "model": "llama-3.1-8b-instant",
+              "parser_available": true,
+              "parser_error": null,
+              "parser_prompt_version": "v5_layer1_slot_prompt_1",
+              "parser_latency_ms": 691.103,
+              "parser_backend_mode": "llm_real",
+              "fallback_used": false,
+              "raw_llm_output": "{\n  \"utterance_type\": \"conditional_legal_question\",\n  \"subject_text\": \"hợp đồng lao động\",\n  \"condition_text\": \"chấm dứt\",\n  \"action_text\": \"hoàn tất việc thanh toán các khoản có liên quan\",\n  \"modality_text\": \"\",\n  \"time_text\": \"\",\n  \"deadline_text\": \"bao lâu\",\n  \"exception_text\": \"\",\n  \"question_focus\": \"deadline\",\n  \"assertion_status\": \"asserted\"\n}",
+              "fallback_reason": null
+            }
+          },
+          "layer2": {
+            "subject_normalized": "unknown_subject_x",
+            "subject_type_guess": "unknown",
+            "condition_atoms": [
+              "stated_condition(cham_dut)"
+            ],
+            "facts": [
+              "asserted:cham_dut"
+            ],
+            "goal": {
+              "predicate": "deadline",
+              "args": [
+                "thanh_toan_quyen_loi",
+                0,
+                "ngay",
+                "moc_thoi_gian"
+              ]
+            },
+            "query_rule_candidate": "ut=conditional_legal_question|subj=unknown_subject_x|role=unknown|focus=deadline|pred=deadline|atoms=stated_condition(cham_dut)|goal=deadline:thanh_toan_quyen_loi,0,ngay,moc_thoi_gian",
+            "diagnostics": {
+              "normalizer": "v3_registry_condition",
+              "focus": "deadline",
+              "assertion_status_normalized": "asserted",
+              "hypothetical_condition_refs": [],
+              "condition_normalization": {
+                "frame": {
+                  "event_type": "stated_condition",
+                  "actor_entity_id": "unknown_subject_x",
+                  "actor_role": "unknown",
+                  "time_hint": null,
+                  "exception_hint": null,
+                  "status": "asserted",
+                  "source_text": "chấm dứt"
+                },
+                "primary_atom": "stated_condition(cham_dut)",
+                "alternative_atoms": [],
+                "confidence": 0.42,
+                "canonical_predicate": "stated_condition",
+                "domain": "",
+                "ambiguity_reason": "low_lexicon_match"
+              },
+              "ambiguities": [
+                {
+                  "type": "ambiguous_condition",
+                  "field": "condition_text",
+                  "source_text": "chấm dứt",
+                  "candidates": [
+                    "stated_condition(cham_dut)"
+                  ],
+                  "confidence_gap": 0.1,
+                  "blocking": true,
+                  "priority": 1,
+                  "blocking_reason": "condition_canonical_mapping_uncertain"
+                }
+              ],
+              "entity_registry": {
+                "primary_subject_id": "unknown_subject_x",
+                "records": {
+                  "unknown_subject_x": {
+                    "entity_id": "unknown_subject_x",
+                    "entity_role": "unknown",
+                    "mention_texts": [
+                      "hợp đồng lao động hoàn tất việc thanh toán các khoản có liên quan chấm dứt"
+                    ],
+                    "owner_entity_id": null,
+                    "confidence": 0.75
+                  }
+                },
+                "mentions": []
+              },
+              "goal_canonicalization": {
+                "action_canonical": "thanh_toan_quyen_loi",
+                "object_canonical": "quyen_loi_lien_quan",
+                "action_confidence": 0.88,
+                "archetype_confidence": 0.0,
+                "archetype_candidates": []
+              },
+              "intent_structure": {
+                "has_multi_intent": false,
+                "intent_units": [],
+                "sub_goals": [],
+                "primary_intent": {
+                  "focus": "deadline"
+                },
+                "secondary_intents": [],
+                "selection_policy": "primary_for_reasoning_secondary_preserved"
+              }
+            }
+          }
+        },
+        "verbalized_texts": {
+          "premise": "Câu hỏi gốc (verbatim): Khi hợp đồng lao động chấm dứt, doanh nghiệp phải hoàn tất việc thanh toán các khoản có liên quan trong bao lâu? | Layer1: utterance=[conditional_legal_question], subject=[hợp đồng lao động], condition=[chấm dứt], action=[hoàn tất việc thanh toán các khoản có liên quan], modality=[], time=[], deadline=[bao lâu], focus=[deadline], assertion=[asserted].",
+          "hypothesis": "Hạn [ngay] cho [0] kể từ mốc [moc_thoi_gian] cho hành động [thanh_toan_quyen_loi]. Thời hạn/deadline được nêu rõ. | Sự kiện người dùng (1): asserted:cham_dut. Điều kiện (1): stated_condition(cham_dut).",
+          "premise_alignment": "Câu hỏi gốc (verbatim): Khi hợp đồng lao động chấm dứt, doanh nghiệp phải hoàn tất việc thanh toán các khoản có liên quan trong bao lâu? | Layer1: utterance=[conditional_legal_question], subject=[hợp đồng lao động], condition=[chấm dứt], action=[hoàn tất việc thanh toán các khoản có liên quan], modality=[], time=[], deadline=[bao lâu], focus=[deadline], assertion=[asserted].",
+          "hypothesis_goal": "Hạn [ngay] cho [0] kể từ mốc [moc_thoi_gian] cho hành động [thanh_toan_quyen_loi]. Thời hạn/deadline được nêu rõ. | Sự kiện người dùng (1): asserted:cham_dut. Điều kiện (1): stated_condition(cham_dut).",
+          "layer1_subject": "Subject (chủ thể câu hỏi): [hợp đồng lao động]."
+        },
+        "trace": [
+          "symbolic_parse_done",
+          "nli_parse"
+        ]
+      }
+    ],
+    "repair_actions": [
+      {
+        "stage": [
+          "clarify_resume"
+        ],
+        "query_text": "Khi hợp đồng lao động chấm dứt, doanh nghiệp phải hoàn tất việc thanh toán các khoản có liên quan trong bao lâu?",
+        "clarification_answers": [],
+        "invalid_clarification_answers": [
+          {
+            "fact_key": "parse_amb:ambiguous_condition:0",
+            "source_fact_key": "parse_amb:ambiguous_condition:0",
+            "expected_type": "choice",
+            "error": "invalid_type",
+            "value": "Co, theo thong tin toi cung cap.",
+            "options": [
+              "stated_condition(cham_dut)"
+            ]
+          }
+        ],
+        "invalid_clarification_answer": true,
+        "backend_modes": {
+          "parse_backend": {
+            "provider": "api.groq.com",
+            "model": "llama-3.1-8b-instant",
+            "mode": "llm_real"
+          },
+          "answer_backend": {
+            "provider": null,
+            "model": null,
+            "mode": "none"
+          },
+          "verifier_backend": {
+            "provider": "HuggingFaceNLIVerifier",
+            "model": "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7",
+            "mode": "real"
+          },
+          "retrieval_backend": {
+            "provider": null,
+            "model": null,
+            "mode": "none"
+          }
+        },
+        "run_config": {
+          "profile_name": "custom",
+          "enable_shared_layer": true,
+          "enable_clarification": true,
+          "enable_repair_loop": true,
+          "enable_backward_chaining": true,
+          "enable_nli_verifier": true,
+          "enable_cross_domain_jump": true,
+          "config_source": null
+        },
+        "parser_status": {
+          "parser_backend": "llm",
+          "parser_provider": "api.groq.com",
+          "parser_model": "llama-3.1-8b-instant",
+          "requested_mode": "llm_required",
+          "actual_mode": "llm_real",
+          "provider": "api.groq.com",
+          "model": "llama-3.1-8b-instant",
+          "parser_available": true,
+          "parser_error": null,
+          "parser_prompt_version": "v5_layer1_slot_prompt_1",
+          "parser_latency_ms": 691.103,
+          "parser_backend_mode": "llm_real",
+          "fallback_used": false,
+          "raw_llm_output": "{\n  \"utterance_type\": \"conditional_legal_question\",\n  \"subject_text\": \"hợp đồng lao động\",\n  \"condition_text\": \"chấm dứt\",\n  \"action_text\": \"hoàn tất việc thanh toán các khoản có liên quan\",\n  \"modality_text\": \"\",\n  \"time_text\": \"\",\n  \"deadline_text\": \"bao lâu\",\n  \"exception_text\": \"\",\n  \"question_focus\": \"deadline\",\n  \"assertion_status\": \"asserted\"\n}",
+          "fallback_reason": null
+        },
+        "parse_repair": [
+          {
+            "phase": "parse",
+            "attempt": 0,
+            "decision": "REJECT",
+            "repair_target_module": null,
+            "input_snapshot": {
+              "goal": {
+                "predicate": "deadline",
+                "args": [
+                  "thanh_toan_quyen_loi",
+                  0,
+                  "ngay",
+                  "moc_thoi_gian"
+                ]
+              },
+              "layer1_focus": "deadline"
+            },
+            "diagnostic_errors": [],
+            "auto_repair_eligible": false,
+            "verifier_mode": "parse_verification",
+            "verdict": "REJECT",
+            "issue_type": "none",
+            "repair_target": "unspecified",
+            "repair_action": "initial_verify",
+            "rerun_result": "not_rerun"
+          },
+          {
+            "phase": "parse",
+            "final_decision": "REJECT",
+            "attempts_used": 0,
+            "post_repair_gain": {
+              "parse_improved": false,
+              "final_status_before": "REJECT",
+              "final_status_after": "REJECT",
+              "goal_changed": false,
+              "repair_attempted": false,
+              "material_gain": false,
+              "fields_changed": []
+            },
+            "repair_attempted": false,
+            "material_gain": false,
+            "fields_changed": [],
+            "root_cause": "unknown",
+            "verifier_mode": "parse_verification",
+            "verdict": "REJECT",
+            "issue_type": "unknown",
+            "repair_target": "unspecified",
+            "repair_action": "stop_after_controlled_repair",
+            "rerun_result": "failed"
+          }
+        ],
+        "error": "parse_rejected"
+      },
+      {
+        "profile_name": "custom",
+        "enable_shared_layer": true,
+        "enable_clarification": true,
+        "enable_repair_loop": true,
+        "enable_backward_chaining": true,
+        "enable_nli_verifier": true,
+        "enable_cross_domain_jump": true,
+        "config_source": null
+      },
+      {
+        "phase": "parse",
+        "attempt": 0,
+        "decision": "REJECT",
+        "repair_target_module": null,
+        "input_snapshot": {
+          "goal": {
+            "predicate": "deadline",
+            "args": [
+              "thanh_toan_quyen_loi",
+              0,
+              "ngay",
+              "moc_thoi_gian"
+            ]
+          },
+          "layer1_focus": "deadline"
+        },
+        "diagnostic_errors": [],
+        "auto_repair_eligible": false,
+        "verifier_mode": "parse_verification",
+        "verdict": "REJECT",
+        "issue_type": "none",
+        "repair_target": "unspecified",
+        "repair_action": "initial_verify",
+        "rerun_result": "not_rerun"
+      },
+      {
+        "phase": "parse",
+        "final_decision": "REJECT",
+        "attempts_used": 0,
+        "post_repair_gain": {
+          "parse_improved": false,
+          "final_status_before": "REJECT",
+          "final_status_after": "REJECT",
+          "goal_changed": false,
+          "repair_attempted": false,
+          "material_gain": false,
+          "fields_changed": []
+        },
+        "repair_attempted": false,
+        "material_gain": false,
+        "fields_changed": [],
+        "root_cause": "unknown",
+        "verifier_mode": "parse_verification",
+        "verdict": "REJECT",
+        "issue_type": "unknown",
+        "repair_target": "unspecified",
+        "repair_action": "stop_after_controlled_repair",
+        "rerun_result": "failed"
+      },
+      {
+        "parse_improved": false,
+        "final_status_before": "REJECT",
+        "final_status_after": "REJECT",
+        "goal_changed": false,
+        "repair_attempted": false,
+        "material_gain": false,
+        "fields_changed": []
+      }
+    ],
+    "evidence_snippets": null,
+    "legal_citations": null,
+    "final_answer": null,
+    "final_status": "failed",
+    "error_stage_first": null,
+    "error_stage_final": "parse_rejected",
+    "run_config": {
+      "profile_name": "custom",
+      "enable_shared_layer": true,
+      "enable_clarification": true,
+      "enable_repair_loop": true,
+      "enable_backward_chaining": true,
+      "enable_nli_verifier": true,
+      "enable_cross_domain_jump": true,
+      "config_source": null
+    },
+    "backend_modes": {
+      "parse_backend": {
+        "provider": "api.groq.com",
+        "model": "llama-3.1-8b-instant",
+        "mode": "llm_real"
+      },
+      "answer_backend": {
+        "provider": null,
+        "model": null,
+        "mode": "none"
+      },
+      "verifier_backend": {
+        "provider": "HuggingFaceNLIVerifier",
+        "model": "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7",
+        "mode": "real"
+      },
+      "retrieval_backend": {
+        "provider": null,
+        "model": null,
+        "mode": "none"
+      }
+    }
+  }
+}

@@ -1,17 +1,17 @@
 *.egg-info/
 
-# Generated review spreadsheets (produced by rule-base pipelines).
+
 # data/interim/**.xlsx
 # data/processed/**.xlsx
 
-# Local experiment outputs (keep structure, ignore heavy runs)
+
 experiments/logs/
 experiments/predictions/
 *.pkl
 *.pt
 *.bin
 
-# Large / sensitive data (uncomment if needed)
+
 # data/raw/
 
 # OS

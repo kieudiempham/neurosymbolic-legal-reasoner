@@ -10,12 +10,14 @@ from schemas.question_parse import Layer1Parse, Layer2Parse
 
 
 def _resolved_backend_mode(meta: dict[str, Any]) -> str:
-    mode = str(meta.get("parser_backend_mode") or "").strip().lower()
-    if mode in {"real", "fallback", "degraded", "mock", "none"}:
+    mode = str(meta.get("actual_mode") or meta.get("parser_backend_mode") or "").strip().lower()
+    if mode in {"llm_real", "heuristic_fallback", "parse_unavailable"}:
         return mode
-    if bool(meta.get("fallback_used", False)):
-        return "fallback"
-    return "real"
+    if str(meta.get("parser_backend") or "").strip().lower() == "heuristic":
+        return "heuristic_fallback"
+    if bool(meta.get("parser_available", False)):
+        return "llm_real"
+    return "parse_unavailable"
 
 
 def parse(
@@ -27,9 +29,11 @@ def parse(
     llm_api_key: str | None = None,
     llm_base_url: str | None = None,
     llm_model: str | None = None,
+    settings: Any | None = None,
 ) -> tuple[Layer1Parse, Layer2Parse, dict[str, Any]]:
     layer1 = parse_question_layer1(
         query,
+        settings=settings,
         prefer_llm=prefer_llm,
         llm_api_key=llm_api_key,
         llm_base_url=llm_base_url,

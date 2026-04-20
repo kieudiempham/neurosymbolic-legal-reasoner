@@ -31,6 +31,10 @@ QuestionFocus = Literal[
     "authority",
     "procedure",
     "legal_consequence",
+    "compensation_rule",
+    "entitlement_rule",
+    "refund_eligibility",
+    "payment_obligation_explanation",
     "unknown",
 ]
 
@@ -52,7 +56,7 @@ class Layer1Parse(BaseModel):
     question_focus: QuestionFocus = "unknown"
     assertion_status: AssertionStatus = "unknown"
     raw_notes: list[str] = Field(default_factory=list)
-    """Parser metadata: parser_backend, parser_model, fallback_used, raw_llm_output, etc."""
+    """Parser metadata: requested_mode, actual_mode, provider, model, parser_available, parser_error, etc."""
     parse_metadata: dict[str, Any] = Field(default_factory=dict)
 
 

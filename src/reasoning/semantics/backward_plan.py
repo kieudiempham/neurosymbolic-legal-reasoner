@@ -188,6 +188,15 @@ def _classify_rule(
     return grounded, missing_atoms, neg_checks, exc_checks, cons_checks, miss_cons, miss_exc, miss_keys
 
 
+def _is_shared_rule(rule: RuleRecord) -> bool:
+    md = rule.metadata or {}
+    return (
+        str(md.get("domain") or "") == "shared"
+        or str(md.get("layer") or "") == "shared"
+        or str(rule.rule_id).startswith("shared_motif_")
+    )
+
+
 def build_backward_plan(
     *,
     goal: dict[str, Any],
@@ -207,6 +216,9 @@ def build_backward_plan(
 
     for rule, rscore, _meta in candidates:
         rr0 = map_rule_record_to_reasoning_rule(rule)
+        diag = _meta if isinstance(_meta, dict) else {}
+        score_components = diag.get("score_components") if isinstance(diag.get("score_components"), dict) else {}
+        semantic_compatibility = float(score_components.get("semantic_compatibility") or 0.0)
         subst, fail = unify_goal_dict_with_goal_atom(
             goal,
             rr0.goal_atom,
@@ -244,6 +256,23 @@ def build_backward_plan(
             if _atom_truth_for_plan(a, known_facts, structured_facts, reasoning_context) == "true"
         )
         missing_n = len(miss_a) + len(miss_e) + len(miss_co)
+        shared_generic_candidate = _is_shared_rule(rule)
+        weak_grounding = bool(
+            shared_generic_candidate
+            and semantic_compatibility < 0.5
+            and pos_g == 0
+            and exact < 0.5
+        )
+        grounding_reasons: list[str] = []
+        if weak_grounding:
+            grounding_reasons.extend(
+                [
+                    "shared_generic_candidate",
+                    f"semantic_compatibility={semantic_compatibility:.2f}",
+                    f"grounded_positive_atoms={pos_g}",
+                    f"head_match={exact:.2f}",
+                ]
+            )
 
         total = _score_candidate(
             float(rscore),
@@ -279,6 +308,12 @@ def build_backward_plan(
             missing_exception_inputs=miss_e,
             missing_fact_keys=list(dict.fromkeys(miss_keys)),
             status=status,
+            rule_head_predicate=str(rule.head.predicate or ""),
+            rule_logic_form=str(rule.logic_form or ""),
+            semantic_compatibility=semantic_compatibility,
+            shared_generic_candidate=shared_generic_candidate,
+            weak_grounding=weak_grounding,
+            grounding_reasons=grounding_reasons,
         )
         unified_ok.append(cand)
 

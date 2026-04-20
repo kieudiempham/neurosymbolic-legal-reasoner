@@ -17,6 +17,64 @@ from utils.text import lower_fold
 logger = logging.getLogger(__name__)
 
 _SYMBOLIC_TOKEN = re.compile(r"^[A-Z_][A-Z0-9_]{0,4}$")
+_GENERIC_BODY_PREDICATES = {
+    "applies_if",
+    "condition",
+    "eligible",
+    "subject",
+    "fact",
+    "context",
+}
+
+_GOAL_FAMILY_BY_PREDICATE: dict[str, str] = {
+    "obligation": "obligation",
+    "permission": "permission",
+    "prohibition": "prohibition",
+    "deadline": "deadline",
+    "regulatory_deadline": "deadline",
+    "regulatory_deadline_requirement": "deadline",
+    "threshold": "threshold",
+    "applicability": "applicability",
+    "legal_effect": "legal_effect",
+}
+
+
+def _is_shared_rule(rule: RuleRecord) -> bool:
+    md = rule.metadata or {}
+    return (
+        str(md.get("domain") or "") == "shared"
+        or str(md.get("layer") or "") == "shared"
+        or str(rule.rule_id).startswith("shared_motif_")
+    )
+
+
+def _goal_semantic_family(layer1: Layer1Parse, goal: dict[str, Any]) -> str:
+    gp = str(goal.get("predicate") or "").strip().lower()
+    if gp and gp != "unknown":
+        return _GOAL_FAMILY_BY_PREDICATE.get(gp, gp)
+    qf = str(layer1.question_focus or "").strip().lower()
+    if qf and qf != "unknown":
+        return _GOAL_FAMILY_BY_PREDICATE.get(qf, qf)
+    return ""
+
+
+def _rule_semantic_family(rule: RuleRecord) -> str:
+    hp = str(rule.head.predicate or "").strip().lower()
+    if hp and hp != "unknown":
+        return _GOAL_FAMILY_BY_PREDICATE.get(hp, hp)
+    lf = str(rule.logic_form or "").strip().lower()
+    if lf and lf != "unknown":
+        return _GOAL_FAMILY_BY_PREDICATE.get(lf, lf)
+    motif = str((rule.metadata or {}).get("motif") or "").strip().lower()
+    if motif:
+        return _GOAL_FAMILY_BY_PREDICATE.get(motif, motif)
+    return ""
+
+
+def _head_matches_goal_family(rule: RuleRecord, goal_family: str) -> bool:
+    if not goal_family:
+        return False
+    return _rule_semantic_family(rule) == goal_family
 
 
 def _is_symbolic_placeholder(value: str) -> bool:
@@ -29,12 +87,36 @@ def _is_symbolic_placeholder(value: str) -> bool:
     return sl.startswith("unresolved_") or sl.endswith("_atom")
 
 
+def _is_generic_condition_atom(value: str) -> bool:
+    v = lower_fold(str(value or "").strip())
+    return v.startswith("stated_condition(")
+
+
 def _token_overlap(a: str, b: str) -> float:
     ta = set(lower_fold(a).replace("_", " ").split())
     tb = set(lower_fold(b).replace("_", " ").split())
     if not ta or not tb:
         return 0.0
     return len(ta & tb) / max(1, len(ta | tb))
+
+
+def _is_generic_head_arg(arg: str) -> bool:
+    s = str(arg or "").strip()
+    if not s:
+        return True
+    if _is_symbolic_placeholder(s):
+        return True
+    return bool(re.fullmatch(r"[a-z]", s.lower()))
+
+
+def _is_generic_attractor_rule(rule: RuleRecord) -> bool:
+    body_preds = [str((x or {}).get("predicate") or "").strip().lower() for x in (rule.body or [])]
+    generic_body = not body_preds or all(p in _GENERIC_BODY_PREDICATES for p in body_preds)
+    head_args = [str(x) for x in (rule.head.args or [])]
+    if not head_args:
+        return generic_body
+    generic_arg_ratio = sum(1 for a in head_args if _is_generic_head_arg(a)) / max(1, len(head_args))
+    return generic_body and generic_arg_ratio >= 0.67
 
 
 def rule_document_text(rule: RuleRecord) -> str:
@@ -124,6 +206,8 @@ def structured_score_rule(
     blob = str(rule.head.args) + str(rule.body)
     cond_ov = 0.0
     for c in layer2.condition_atoms or []:
+        if _is_generic_condition_atom(str(c)):
+            continue
         cond_ov += 2.0 * _token_overlap(blob, c)
     comp["condition_atom_overlap"] = cond_ov
     score += cond_ov
@@ -177,6 +261,83 @@ def structured_score_rule(
     else:
         comp["metadata_domain"] = 0.0
 
+    goal_family = _goal_semantic_family(layer1, goal)
+    rule_family = _rule_semantic_family(rule)
+    if goal_family and rule_family:
+        if goal_family == rule_family:
+            score += 2.0
+            comp["semantic_compatibility"] = 2.0
+            matched.append("semantic_family")
+        else:
+            mismatch_penalty = 1.5
+            if _is_shared_rule(rule):
+                mismatch_penalty += 1.5
+            if goal_family in {"permission", "obligation", "prohibition", "applicability", "legal_effect"} and rule_family in {
+                "deadline",
+                "threshold",
+                "dossier",
+                "procedure",
+            }:
+                mismatch_penalty += 1.5
+            score -= mismatch_penalty
+            comp["semantic_compatibility"] = -mismatch_penalty
+    else:
+        comp["semantic_compatibility"] = 0.0
+
+    if _is_shared_rule(rule):
+        has_anchor = any(
+            (
+                comp.get("head_predicate_match", 0.0) > 0.0,
+                comp.get("goal_head_arg_overlap", 0.0) > 0.01,
+                comp.get("condition_atom_overlap", 0.0) > 0.01,
+                comp.get("action_modality_overlap", 0.0) > 0.01,
+            )
+        )
+        if not has_anchor:
+            score -= 1.5
+            comp["shared_generic_anchor_penalty"] = -1.5
+        else:
+            comp["shared_generic_anchor_penalty"] = 0.0
+    else:
+        comp["shared_generic_anchor_penalty"] = 0.0
+
+    anchor_strength = (
+        max(0.0, comp.get("head_predicate_match", 0.0))
+        + max(0.0, comp.get("goal_head_arg_overlap", 0.0))
+        + max(0.0, comp.get("condition_atom_overlap", 0.0))
+        + max(0.0, comp.get("action_modality_overlap", 0.0))
+    )
+    query_blob = f"{layer1.subject_text} {layer1.action_text} {layer1.modality_text}".strip()
+    query_terms = [t for t in lower_fold(query_blob).split() if t]
+    lexical_shortcut = len(query_terms) <= 3
+
+    if _is_generic_attractor_rule(rule):
+        attractor_penalty = 0.0
+        if anchor_strength < 2.0:
+            attractor_penalty += 1.8
+        if lexical_shortcut:
+            attractor_penalty += 0.7
+        if comp.get("semantic_compatibility", 0.0) < 0:
+            attractor_penalty += 1.3
+        dom = str((rule.metadata or {}).get("domain") or "").lower()
+        if dom in {"labor", "lao_dong"} and anchor_strength < 3.0:
+            attractor_penalty += 0.8
+        if attractor_penalty > 0:
+            score -= attractor_penalty
+            comp["attractor_penalty"] = -attractor_penalty
+        else:
+            comp["attractor_penalty"] = 0.0
+    else:
+        comp["attractor_penalty"] = 0.0
+
+    comp["semantic_anchor_strength"] = anchor_strength
+
+    if score < 0.0:
+        comp["structured_floor_applied"] = -score
+        score = 0.0
+    else:
+        comp["structured_floor_applied"] = 0.0
+
     comp["structured_total"] = score
     return score, comp, matched
 
@@ -213,8 +374,11 @@ def retrieve_rules(
     goal = layer2.goal
     gp = goal.get("predicate")
     pool = idx.all()
+    goal_family = _goal_semantic_family(layer1, goal)
     if isinstance(gp, str) and gp and gp != "unknown":
         filtered = [r for r in pool if r.head.predicate == gp]
+        if not filtered and goal_family:
+            filtered = [r for r in pool if _head_matches_goal_family(r, goal_family)]
         if filtered:
             pool = filtered
 
@@ -242,12 +406,22 @@ def retrieve_rules(
 
     ranked: list[tuple[RuleRecord, float, dict[str, Any]]] = []
     for i, rule in enumerate(pool):
-        total = hybrid[i]
+        base_total = hybrid[i]
         br, sr = bm25_raw[i], struct_raw[i]
         comp, mf = struct_diags[i]
+        tie_adjust = 0.0
+        if sr > 0.0:
+            tie_adjust += min(0.05, sr * 0.01)
+        if sr <= 0.0 and _is_shared_rule(rule):
+            tie_adjust -= 0.03
+        if br <= 0.0 and sr <= 0.0 and _is_shared_rule(rule):
+            tie_adjust -= 0.04
+        total = base_total + tie_adjust
         diag: dict[str, Any] = {
             "final_score": total,
             "score_total": total,
+            "score_total_base": base_total,
+            "tie_break_adjustment": tie_adjust,
             "bm25_raw": br,
             "bm25_norm": bm25_norm[i],
             "structured_raw": sr,

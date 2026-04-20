@@ -1,182 +1,184 @@
 [
   {
-    "id": "q01",
+    "id": "n01",
     "domain_hint": "enterprise",
     "intent_hint": "applicability_condition",
-    "question": "Muốn thành lập công ty trách nhiệm hữu hạn một thành viên thì cần đáp ứng những điều kiện gì?"
+    "question": "Để mở công ty TNHH một thành viên, cá nhân hoặc tổ chức cần đáp ứng các điều kiện pháp lý nào?"
   },
   {
-    "id": "q02",
+    "id": "n02",
     "domain_hint": "enterprise",
     "intent_hint": "dossier_requirement",
-    "question": "Hồ sơ đăng ký thành lập công ty cổ phần gồm những giấy tờ nào?"
+    "question": "Nếu đăng ký thành lập công ty cổ phần thì bộ hồ sơ phải chuẩn bị gồm những tài liệu gì?"
   },
   {
-    "id": "q03",
+    "id": "n03",
     "domain_hint": "enterprise",
     "intent_hint": "deadline_requirement",
-    "question": "Sau khi được cấp giấy chứng nhận đăng ký doanh nghiệp, công ty phải công bố thông tin trong thời hạn bao lâu?"
+    "question": "Sau lúc được cấp Giấy chứng nhận đăng ký doanh nghiệp, trong bao nhiêu ngày doanh nghiệp phải công khai nội dung đăng ký?"
   },
   {
-    "id": "q04",
+    "id": "n04",
     "domain_hint": "enterprise",
     "intent_hint": "permission_or_prohibition",
-    "question": "Doanh nghiệp có được đặt tên trùng hoặc gây nhầm lẫn với doanh nghiệp khác không?"
+    "question": "Tên doanh nghiệp dự kiến có được phép giống hoặc dễ gây nhầm với tên của doanh nghiệp đã tồn tại hay không?"
   },
   {
-    "id": "q05",
+    "id": "n05",
     "domain_hint": "enterprise",
     "intent_hint": "procedure_requirement",
-    "question": "Khi thay đổi người đại diện theo pháp luật thì doanh nghiệp phải làm thủ tục gì?"
+    "question": "Doanh nghiệp đổi người đại diện theo pháp luật thì phải thực hiện những bước thủ tục nào?"
   },
   {
-    "id": "q06",
+    "id": "n06",
     "domain_hint": "enterprise",
     "intent_hint": "deadline_requirement",
-    "question": "Thời hạn thông báo thay đổi nội dung đăng ký doanh nghiệp là bao nhiêu ngày?"
+    "question": "Kể từ khi có thay đổi nội dung đăng ký doanh nghiệp, công ty phải gửi thông báo trong thời hạn mấy ngày?"
   },
   {
-    "id": "q07",
+    "id": "n07",
     "domain_hint": "enterprise",
     "intent_hint": "legal_effect",
-    "question": "Trường hợp nào doanh nghiệp bị thu hồi giấy chứng nhận đăng ký doanh nghiệp?"
+    "question": "Những trường hợp nào có thể dẫn đến việc doanh nghiệp bị thu hồi giấy chứng nhận đăng ký doanh nghiệp?"
   },
   {
-    "id": "q08",
+    "id": "n08",
     "domain_hint": "enterprise",
     "intent_hint": "applicability_condition",
-    "question": "Hộ kinh doanh có được chuyển đổi thành doanh nghiệp không, nếu có thì cần điều kiện gì?"
+    "question": "Hộ kinh doanh muốn chuyển lên thành doanh nghiệp thì pháp luật cho phép trong trường hợp nào và cần đáp ứng gì?"
   },
   {
-    "id": "q09",
+    "id": "n09",
     "domain_hint": "enterprise",
     "intent_hint": "obligation",
-    "question": "Doanh nghiệp có bắt buộc phải có địa chỉ trụ sở chính rõ ràng không?"
+    "question": "Trụ sở chính của doanh nghiệp có bắt buộc phải xác định được địa chỉ cụ thể, rõ ràng hay không?"
   },
   {
-    "id": "q10",
+    "id": "n10",
     "domain_hint": "enterprise",
     "intent_hint": "deadline_requirement",
-    "question": "Khi tạm ngừng kinh doanh, doanh nghiệp phải thông báo cho cơ quan đăng ký kinh doanh trước bao lâu?"
+    "question": "Nếu doanh nghiệp dự định tạm ngừng hoạt động thì phải báo cho cơ quan đăng ký kinh doanh trước bao nhiêu ngày?"
   },
+
   {
-    "id": "q11",
+    "id": "n11",
     "domain_hint": "tax",
     "intent_hint": "obligation",
-    "question": "Doanh nghiệp mới thành lập thì khi nào phải đăng ký thuế?"
+    "question": "Công ty mới thành lập thì nghĩa vụ đăng ký thuế phát sinh vào thời điểm nào?"
   },
   {
-    "id": "q12",
+    "id": "n12",
     "domain_hint": "tax",
     "intent_hint": "exception_or_threshold",
-    "question": "Công ty có doanh thu nhỏ thì có bắt buộc kê khai thuế giá trị gia tăng không?"
+    "question": "Doanh nghiệp có quy mô doanh thu thấp thì có phải kê khai thuế giá trị gia tăng hay thuộc trường hợp ngoại lệ?"
   },
   {
-    "id": "q13",
+    "id": "n13",
     "domain_hint": "tax",
     "intent_hint": "deadline_requirement",
-    "question": "Hạn nộp hồ sơ khai thuế theo tháng là ngày nào?"
+    "question": "Tờ khai thuế theo tháng phải nộp chậm nhất vào ngày nào của kỳ tiếp theo?"
   },
   {
-    "id": "q14",
+    "id": "n14",
     "domain_hint": "tax",
     "intent_hint": "deadline_requirement",
-    "question": "Hạn nộp hồ sơ khai thuế theo quý là khi nào?"
+    "question": "Đối với khai thuế theo quý thì hạn cuối để nộp hồ sơ là thời điểm nào?"
   },
   {
-    "id": "q15",
+    "id": "n15",
     "domain_hint": "tax",
     "intent_hint": "legal_effect",
-    "question": "Doanh nghiệp chậm nộp tiền thuế thì có thể bị xử lý như thế nào?"
+    "question": "Nếu nộp tiền thuế trễ hạn thì doanh nghiệp có thể bị áp dụng những hậu quả pháp lý gì?"
   },
   {
-    "id": "q16",
+    "id": "n16",
     "domain_hint": "tax",
     "intent_hint": "legal_effect",
-    "question": "Trường hợp nào doanh nghiệp được hoàn thuế giá trị gia tăng?"
+    "question": "Trong các trường hợp nào doanh nghiệp được giải quyết hoàn thuế giá trị gia tăng?"
   },
   {
-    "id": "q17",
+    "id": "n17",
     "domain_hint": "tax",
     "intent_hint": "obligation",
-    "question": "Doanh nghiệp có bắt buộc sử dụng hóa đơn điện tử không?"
+    "question": "Hiện nay doanh nghiệp có bắt buộc phải lập và sử dụng hóa đơn điện tử không?"
   },
   {
-    "id": "q18",
+    "id": "n18",
     "domain_hint": "tax",
     "intent_hint": "permission",
-    "question": "Khi phát hiện kê khai sai thuế đã nộp, doanh nghiệp có được khai bổ sung không?"
+    "question": "Doanh nghiệp đã kê khai sai số thuế thì sau đó có được nộp hồ sơ khai bổ sung hay không?"
   },
   {
-    "id": "q19",
+    "id": "n19",
     "domain_hint": "tax",
     "intent_hint": "applicability_condition",
-    "question": "Chi phí tiền lương muốn được tính vào chi phí được trừ khi tính thuế thì cần điều kiện gì?"
+    "question": "Khoản chi tiền lương muốn được tính là chi phí được trừ khi xác định thu nhập chịu thuế thì phải thỏa mãn điều kiện nào?"
   },
   {
-    "id": "q20",
+    "id": "n20",
     "domain_hint": "tax",
     "intent_hint": "threshold_or_exception",
-    "question": "Doanh nghiệp không phát sinh doanh thu trong kỳ thì có phải nộp tờ khai thuế không?"
+    "question": "Trong kỳ không phát sinh doanh thu thì doanh nghiệp còn phải nộp tờ khai thuế nữa không?"
   },
+
   {
-    "id": "q21",
+    "id": "n21",
     "domain_hint": "labor",
     "intent_hint": "obligation",
-    "question": "Người sử dụng lao động có bắt buộc phải ký hợp đồng lao động bằng văn bản không?"
+    "question": "Người sử dụng lao động có luôn phải ký hợp đồng lao động bằng văn bản với người lao động không?"
   },
   {
-    "id": "q22",
+    "id": "n22",
     "domain_hint": "labor",
     "intent_hint": "exception",
-    "question": "Trường hợp nào được phép giao kết hợp đồng lao động bằng lời nói?"
+    "question": "Pháp luật cho phép giao kết hợp đồng lao động bằng lời nói trong những tình huống nào?"
   },
   {
-    "id": "q23",
+    "id": "n23",
     "domain_hint": "labor",
     "intent_hint": "threshold_condition",
-    "question": "Thời gian thử việc tối đa đối với nhân viên chuyên môn kỹ thuật là bao lâu?"
+    "question": "Với công việc cần trình độ chuyên môn hoặc kỹ thuật, thời gian thử việc tối đa là bao nhiêu ngày?"
   },
   {
-    "id": "q24",
+    "id": "n24",
     "domain_hint": "labor",
     "intent_hint": "threshold_condition",
-    "question": "Trong thời gian thử việc, người lao động có được trả lương không, và tối thiểu là bao nhiêu?"
+    "question": "Trong giai đoạn thử việc thì người lao động có được hưởng lương không, nếu có thì mức thấp nhất là bao nhiêu phần trăm?"
   },
   {
-    "id": "q25",
+    "id": "n25",
     "domain_hint": "labor",
     "intent_hint": "obligation",
-    "question": "Người sử dụng lao động có phải tham gia bảo hiểm xã hội cho người lao động không?"
+    "question": "Người sử dụng lao động có nghĩa vụ tham gia bảo hiểm xã hội cho người lao động trong trường hợp nào?"
   },
   {
-    "id": "q26",
+    "id": "n26",
     "domain_hint": "labor",
     "intent_hint": "deadline_requirement",
-    "question": "Khi chấm dứt hợp đồng lao động, doanh nghiệp phải thanh toán các khoản liên quan trong thời hạn bao lâu?"
+    "question": "Khi hợp đồng lao động chấm dứt, doanh nghiệp phải hoàn tất việc thanh toán các khoản có liên quan trong bao lâu?"
   },
   {
-    "id": "q27",
+    "id": "n27",
     "domain_hint": "labor",
     "intent_hint": "deadline_requirement",
-    "question": "Người lao động đơn phương nghỉ việc thì phải báo trước bao nhiêu ngày?"
+    "question": "Nếu người lao động tự mình chấm dứt hợp đồng thì phải báo trước cho người sử dụng lao động mấy ngày?"
   },
   {
-    "id": "q28",
+    "id": "n28",
     "domain_hint": "labor",
     "intent_hint": "exception_or_prohibition",
-    "question": "Doanh nghiệp có được đơn phương chấm dứt hợp đồng lao động với người đang nghỉ ốm không?"
+    "question": "Người lao động đang nghỉ ốm hoặc điều trị thì doanh nghiệp có được quyền đơn phương chấm dứt hợp đồng với họ không?"
   },
   {
-    "id": "q29",
+    "id": "n29",
     "domain_hint": "labor",
     "intent_hint": "threshold_condition",
-    "question": "Làm thêm giờ thì người lao động được trả lương như thế nào?"
+    "question": "Tiền lương làm thêm giờ của người lao động được tính theo mức nào so với giờ làm việc bình thường?"
   },
   {
-    "id": "q30",
+    "id": "n30",
     "domain_hint": "labor",
     "intent_hint": "legal_effect",
-    "question": "Người sử dụng lao động có quyền xử lý kỷ luật sa thải trong những trường hợp nào?"
+    "question": "Người sử dụng lao động chỉ được áp dụng hình thức kỷ luật sa thải khi rơi vào các trường hợp nào?"
   }
 ]

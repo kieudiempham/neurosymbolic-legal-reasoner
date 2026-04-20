@@ -71,6 +71,42 @@ def test_unification_normalizes_predicate_and_trims_empty_trailing_args() -> Non
     assert subst.mapping.get("company_x") == "cong_ty_a"
 
 
+def test_unification_accepts_same_semantic_family_predicates() -> None:
+    goal = {"predicate": "obligation", "args": ["cong_ty_a", "nop_ho_so", "doi_tuong"]}
+    head = ("must", "company_x", "nop_ho_so", "doi_tuong")
+    subst, fail = unify_goal_dict_with_goal_atom(goal, head)
+    assert fail is None
+    assert subst is not None
+    assert subst.mapping.get("company_x") == "cong_ty_a"
+
+
+def test_unification_relaxes_object_slot_for_generic_placeholder() -> None:
+    goal = {
+        "predicate": "obligation",
+        "args": ["cong_ty_a", "dang_ky_thue", "doi_tuong"],
+    }
+    head = ("obligation", "company_x", "dang_ky_thue", "X")
+    subst, fail = unify_goal_dict_with_goal_atom(goal, head)
+    assert fail is None
+    assert subst is not None
+    assert subst.mapping.get("company_x") == "cong_ty_a"
+
+
+def test_unification_relaxes_action_slot_for_verbose_question_surface() -> None:
+    goal = {
+        "predicate": "obligation",
+        "args": [
+            "company_x",
+            "truong_hop_nao_doanh_nghiep_duoc_hoan_thue_gia_tang",
+            "doi_tuong",
+        ],
+    }
+    head = ("obligation", "company_x", "hoan_thue_gia_tang", "X")
+    subst, fail = unify_goal_dict_with_goal_atom(goal, head)
+    assert fail is None
+    assert subst is not None
+
+
 # --- Test 3: backward structured plan ---
 def test_backward_plan_has_candidates_scores_and_missing() -> None:
     r1 = _rule(
@@ -346,5 +382,6 @@ def test_clarification_manager_sort_keys_with_forward_result() -> None:
     prompts = build_clarification_prompts_from_requirements(
         keys, reqs, backward_plan=None, forward_result=fwd
     )
-    assert prompts[0]["fact_key"].startswith("constraint:")
+    assert prompts[0]["source_fact_key"].startswith("constraint:")
+    assert prompts[0]["fact_key"] in {"threshold_value", "duration_limit", "salary_minimum_basis"}
     assert prompts[0].get("reason_hint") == "need number"

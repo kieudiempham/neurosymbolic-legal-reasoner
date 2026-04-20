@@ -43,6 +43,7 @@ def ask(req: AskRequest) -> AskResponse:
             max_repair_attempts_backward=orchestrator._max_repair_attempts_backward,
             max_repair_attempts_forward=orchestrator._max_repair_attempts_forward,
             answer_reject_allow_fallback=orchestrator._answer_reject_allow_fallback,
+            settings=orchestrator._settings,
             domain_hint=req.domain if req.domain else None,
         )
         

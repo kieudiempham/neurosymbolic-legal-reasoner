@@ -8,6 +8,7 @@ from reasoning.clarification_types import (
     clarification_question_for_kind,
     expected_answer_type,
     infer_target_kind,
+    materialize_clarification_target,
     priority_for_kind,
 )
 from reasoning.internal.codec import serialize_atom
@@ -145,22 +146,42 @@ def build_clarification_prompts_from_requirements(
     plan_q = _questions_from_backward_plan(backward_plan) if backward_plan else {}
     hint = best_forward_failure_hint(forward_result)
     out: list[dict[str, Any]] = []
+    seen_public_fact_keys: set[str] = set()
     for k in keys:
         ri = by_key.get(k)
-        kind = infer_target_kind(k, ri.requirement_kind if ri else None)
-        exp_type = expected_answer_type(kind)
+        materialized = materialize_clarification_target(
+            k,
+            requirement_kind=ri.requirement_kind if ri else None,
+            fallback_text=plan_q.get(k) or "",
+        )
+        public_key = str(materialized.get("fact_key") or k)
+        source_key = str(materialized.get("source_fact_key") or k)
+        if public_key in seen_public_fact_keys:
+            continue
+        seen_public_fact_keys.add(public_key)
+
+        kind = str(materialized.get("target_kind") or infer_target_kind(k, ri.requirement_kind if ri else None))
+        exp_type = str(materialized.get("expected_type") or expected_answer_type(kind))
         pri = priority_for_kind(kind)
         row: dict[str, Any] = {
-            "fact_key": k,
+            "fact_key": public_key,
+            "source_fact_key": source_key,
             "target_kind": kind,
             "expected_type": exp_type,
             "priority": pri,
             "related_rule_id": related_rule_id or "",
         }
-        if k in plan_q and plan_q[k]:
+        options = list(materialized.get("options") or [])
+        if options:
+            row["options"] = [str(x) for x in options if str(x).strip()]
+
+        # Do not leak internal placeholders in user-facing question text.
+        if bool(materialized.get("is_placeholder")):
+            row["question_text"] = str(materialized.get("question_text") or "")
+        elif k in plan_q and plan_q[k]:
             row["question_text"] = plan_q[k]
         else:
-            row["question_text"] = clarification_question_for_kind(
+            row["question_text"] = str(materialized.get("question_text") or "") or clarification_question_for_kind(
                 kind, k, requirement_kind=ri.requirement_kind if ri else None
             )
         if hint:

@@ -30,6 +30,13 @@ app = FastAPI(title=settings.app_name, version="0.1.0")
 
 @app.on_event("startup")
 def _configure_qa() -> None:
+    # Startup environment diagnostics (critical for .env loading debug)
+    logger.info("=== Environment Diagnostics at Startup ===")
+    diag = settings.startup_env_diagnostics()
+    for key, val in diag.items():
+        logger.info(f"  {key}: {val}")
+    logger.info("=========================================")
+    
     # Validate artifact paths before startup
     logger.info("=== Multi-Domain Artifact Loader Validation ===")
     

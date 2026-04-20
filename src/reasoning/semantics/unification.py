@@ -60,6 +60,98 @@ def _fuzzy_equal(a: Any, b: Any) -> bool:
     return len(tg & th) / max(1, len(tg | th)) >= 0.34
 
 
+_ACTION_OBJECT_RELAXED_FAMILIES = {
+    "obligation",
+    "permission",
+    "prohibition",
+    "applicability",
+    "legal_effect",
+}
+
+_GENERIC_ACTION_OBJECT_TOKENS = {
+    "x",
+    "y",
+    "z",
+    "object",
+    "action",
+    "unknown",
+    "doi_tuong",
+    "hanh_vi",
+    "procedure_or_consequence",
+}
+
+_ACTION_OBJECT_NOISE = {
+    "co",
+    "duoc",
+    "phep",
+    "phai",
+    "bat",
+    "buoc",
+    "nghia",
+    "vu",
+    "truong",
+    "hop",
+    "nao",
+    "nhu",
+    "the",
+    "khi",
+    "bao",
+    "lau",
+    "nhieu",
+    "khong",
+    "mot",
+    "so",
+}
+
+
+def _is_symbolic_placeholder(value: Any) -> bool:
+    if not isinstance(value, str):
+        return False
+    t = value.strip()
+    if not t:
+        return True
+    tl = lower_fold(t).replace("-", "_").replace(" ", "_")
+    return tl in _GENERIC_ACTION_OBJECT_TOKENS
+
+
+def _action_object_tokens(value: Any) -> set[str]:
+    raw = lower_fold(str(value or "")).replace("_", " ").replace("-", " ")
+    toks = [t for t in raw.split() if t]
+    return {t for t in toks if len(t) > 1 and t not in _ACTION_OBJECT_NOISE}
+
+
+def _action_object_equivalent(a: Any, b: Any) -> bool:
+    if _is_symbolic_placeholder(a) or _is_symbolic_placeholder(b):
+        return True
+    if _fuzzy_equal(a, b):
+        return True
+    ta = _action_object_tokens(a)
+    tb = _action_object_tokens(b)
+    if not ta or not tb:
+        return False
+    inter = len(ta & tb)
+    union = len(ta | tb)
+    if inter == 0:
+        return False
+    # Accept when core lexical intent overlaps even if one side is a verbose question-like phrase.
+    return (inter / max(1, union) >= 0.2) or (inter >= 2)
+
+
+def _unify_terms_for_slot(
+    a: Any,
+    b: Any,
+    subst: Substitution,
+    *,
+    relaxed_action_object: bool,
+) -> Substitution | None:
+    u = unify_terms(a, b, subst)
+    if u is not None:
+        return u
+    if relaxed_action_object and _action_object_equivalent(a, b):
+        return subst
+    return None
+
+
 def _normalize_predicate_token(value: Any) -> str:
     s = str(value or "").strip()
     if not s:
@@ -69,6 +161,30 @@ def _normalize_predicate_token(value: Any) -> str:
     while "__" in folded:
         folded = folded.replace("__", "_")
     return folded.strip("_")
+
+
+_PREDICATE_FAMILY: dict[str, str] = {
+    "obligation": "obligation",
+    "must": "obligation",
+    "permission": "permission",
+    "prohibition": "prohibition",
+    "deadline": "deadline",
+    "regulatory_deadline": "deadline",
+    "regulatory_deadline_requirement": "deadline",
+    "threshold": "threshold",
+    "applicability": "applicability",
+    "applies_if": "applicability",
+    "legal_effect": "legal_effect",
+    "procedure": "obligation",
+    "legal_consequence": "legal_effect",
+}
+
+
+def _predicate_family(value: Any) -> str:
+    token = _normalize_predicate_token(value)
+    if not token:
+        return ""
+    return _PREDICATE_FAMILY.get(token, token)
 
 
 def _is_empty_arg(value: Any) -> bool:
@@ -218,13 +334,18 @@ def unify_goal_dict_with_goal_atom(
     gp = goal.get("predicate")
     ga = _trim_trailing_empty_args(list(goal.get("args") or []))
     ha = _trim_trailing_empty_args(list(goal_atom[1:]))
-    if _normalize_predicate_token(gp) != _normalize_predicate_token(goal_atom[0]):
+    goal_pred = _normalize_predicate_token(gp)
+    head_pred = _normalize_predicate_token(goal_atom[0])
+    if goal_pred != head_pred and _predicate_family(goal_pred) != _predicate_family(head_pred):
         return None, "predicate_mismatch"
     if len(ga) != len(ha):
         return None, "arity_mismatch"
+    family = _predicate_family(goal_pred)
     s = subst or Substitution.empty()
-    for g, h in zip(ga, ha):
-        u = unify_terms(g, h, s)
+    for idx, (g, h) in enumerate(zip(ga, ha)):
+        # Slot 0 is subject and remains strict; slots 1.. are action/object and can be relaxed for selected families.
+        relaxed_slot = idx >= 1 and family in _ACTION_OBJECT_RELAXED_FAMILIES
+        u = _unify_terms_for_slot(g, h, s, relaxed_action_object=relaxed_slot)
         if u is None:
             return None, "term_unification_failed"
         s = u

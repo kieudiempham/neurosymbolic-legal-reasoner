@@ -76,6 +76,7 @@ def configure_qa_orchestrator(
         max_repair_attempts_forward=max_repair_attempts_forward,
         answer_reject_allow_fallback=answer_reject_allow_fallback,
         qa_runtime_bundle=bundle,
+        settings=settings,
     )
     if bundle is not None:
         set_global_rulebase_registry(bundle.rulebase_registry)

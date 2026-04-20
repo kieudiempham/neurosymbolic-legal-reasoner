@@ -87,6 +87,16 @@ def _article_num(s: str | None) -> str | None:
     return m.group(1) if m else None
 
 
+def _clause_num(s: str | None) -> str | None:
+    if not s:
+        return None
+    mk = re.search(r"khoản\s*(\d+)", s, re.IGNORECASE)
+    if mk:
+        return mk.group(1)
+    ms = re.search(r"clause\s*[=:]?\s*(\d+)", s, re.IGNORECASE)
+    return ms.group(1) if ms else None
+
+
 def _split_article_clause(ac: str | None) -> tuple[str | None, str | None, str | None]:
     if not ac:
         return None, None, None
@@ -96,6 +106,39 @@ def _split_article_clause(ac: str | None) -> tuple[str | None, str | None, str |
     mk = re.search(r"khoản\s*(\d+)", s, re.IGNORECASE)
     clause = f"khoản {mk.group(1)}" if mk else None
     return article, clause, None
+
+
+def _build_rule_provenance_snippet(rule: RuleRecord) -> EvidenceSnippet | None:
+    prov = (rule.metadata or {}).get("provenance") or {}
+    src_ref_full = str(prov.get("source_ref_full") or rule.source_ref_full or "").strip()
+    src_ref = str(prov.get("source_ref") or rule.source_ref or "").strip()
+    src_text = str(prov.get("source_text") or "").strip()
+    source_doc = str(prov.get("source_doc") or prov.get("doc_code") or "").strip() or None
+
+    if not (src_ref_full or src_ref or src_text):
+        return None
+
+    article_clause = src_ref_full or src_ref or None
+    article, clause, point = _split_article_clause(article_clause)
+    fallback_text = src_text or src_ref_full or src_ref
+    if len(fallback_text) > 1200:
+        fallback_text = fallback_text[:1199] + "…"
+
+    return EvidenceSnippet(
+        chunk_id=f"rule_provenance:{rule.rule_id}",
+        text=fallback_text,
+        source_doc=source_doc,
+        article_clause=article_clause,
+        rule_id=rule.rule_id,
+        linked_rule_id=rule.rule_id,
+        source_ref=src_ref or None,
+        article=article,
+        clause=clause,
+        point=point,
+        score=0.35,
+        retrieval_reason="rule_provenance_fallback",
+        score_breakdown={"provenance_fallback": 1.0},
+    )
 
 
 class EvidenceRetriever:
@@ -163,6 +206,7 @@ class EvidenceRetriever:
 
         bm25_n = normalize_scores(bm25_max)
         sr_article = _article_num(sr)
+        sr_clause = _clause_num(sr)
         q_low = lower_fold(question[:500] if question else "")
 
         struct_scores: list[dict[str, float]] = []
@@ -179,6 +223,7 @@ class EvidenceRetriever:
                 "rule_id_match": 0.0,
                 "source_ref_substring": 0.0,
                 "article_align": 0.0,
+                "clause_align": 0.0,
                 "conclusion_overlap": 0.0,
                 "question_token_overlap": 0.0,
             }
@@ -193,6 +238,9 @@ class EvidenceRetriever:
 
             if sr_article and ch_art and sr_article == ch_art:
                 comp["article_align"] = 2.5
+            ch_clause = _clause_num(ac) or _clause_num(str(ch.get("clause") or ""))
+            if sr_clause and ch_clause and sr_clause == ch_clause:
+                comp["clause_align"] = 1.8
 
             if conclusion and lower_fold(conclusion[:100]) in lower_fold(text):
                 comp["conclusion_overlap"] = 2.2
@@ -256,7 +304,20 @@ class EvidenceRetriever:
             )
 
         scored.sort(key=lambda x: -x[0])
-        return [s for _, s in scored[:top_k]]
+        top = [s for _, s in scored[:top_k]]
+
+        # Provenance rescue: keep at least one grounded snippet even when lexical retrieval is weak.
+        if rule is not None:
+            prov_snippet = _build_rule_provenance_snippet(rule)
+            if prov_snippet is not None:
+                top_article_hits = 0
+                if sr_article:
+                    top_article_hits = sum(1 for s in top if _article_num(s.article_clause or s.source_ref or "") == sr_article)
+                if not top or top_article_hits == 0:
+                    top = [prov_snippet] + top
+                    top = top[:top_k]
+
+        return top
 
 
 def get_evidence_retriever() -> EvidenceRetriever:

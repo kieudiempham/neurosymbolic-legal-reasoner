@@ -55,27 +55,17 @@ def _build_template_grounded(
     proof_summary = " ".join(pl) if pl else ((proof.conclusion or proof.derived_conclusion) if proof else "")
     citations = build_legal_citations_from_evidence(evidence, rule=rule, max_citations=6)
 
-    opening = (
-        "Kính gửi Quý khách hàng,\n\n"
-        "Cảm ơn anh/chị đã gửi câu hỏi. Căn cứ thông tin đã trao đổi và quy định pháp luật hiện hành, "
-        "chúng tôi xin trao đổi ngắn gọn như sau:\n\n"
-    )
+    opening = "Kính gửi Quý khách hàng,"
 
+    issue = f"Vấn đề pháp lý: {question.strip()[:220]}"
     if goal_achieved:
-        conclusion_lead = (
-            f"Về nguyên tắc, kết luận pháp lý tượng trưng là: {conclusion}. "
-            "Theo kết quả suy luận đã kiểm chứng, hướng xử lý phù hợp với kết luận nêu trên."
-        )
+        rule_line = "Quy tắc áp dụng: hệ thống đã đối chiếu quy tắc pháp lý liên quan và xác nhận hướng suy luận phù hợp."
     else:
-        conclusion_lead = (
-            f"Về nguyên tắc, chưa đủ cơ sở để khẳng định tuyệt đối. "
-            f"Kết luận tượng trưng: {conclusion or 'chưa suy ra'}. "
-            "Cần làm rõ thêm điều kiện thực tế hoặc chứng cứ liên quan."
-        )
+        rule_line = "Quy tắc áp dụng: có quy tắc liên quan nhưng còn thiếu dữ kiện hoặc căn cứ để kết luận chắc chắn."
 
     sketch = _proof_sketch(proof)
     analysis_parts: list[str] = []
-    analysis_parts.append("Phần phân tích rút gọn dựa trên chứng minh logic: " + (sketch or "—"))
+    analysis_parts.append("Áp dụng vào tình huống: " + (sketch or "cần bổ sung thêm dữ kiện thực tế để đối chiếu điều kiện pháp lý."))
     if citations:
         refs = []
         for c in citations[:3]:
@@ -94,14 +84,21 @@ def _build_template_grounded(
             "thông tin đã cung cấp.)"
         )
 
-    closing = (
-        "\n\nTuy nhiên, áp dụng cụ thể còn phụ thuộc hồ sơ và bối cảnh thực tế; "
-        "anh/chị nên đối chiếu văn bản pháp luật và cân nhắc tư vấn chuyên sâu khi cần.\n\n"
-        "Trân trọng."
+    conclusion_line = (
+        f"Về nguyên tắc, kết luận: {conclusion}."
+        if goal_achieved
+        else f"Về nguyên tắc, kết luận: {conclusion or 'chưa đủ căn cứ kết luận chắc chắn'}; cần xác định thêm tình tiết còn thiếu."
     )
 
     analysis = "\n\n".join(analysis_parts)
-    answer_text = opening + conclusion_lead + "\n\n" + analysis + closing
+    answer_text = (
+        f"{opening}\n\n"
+        f"1) {issue}\n"
+        f"2) {rule_line}\n"
+        f"3) {analysis}\n"
+        f"4) {conclusion_line}\n\n"
+        "Trân trọng."
+    )
 
     conf = 0.82 if goal_achieved else 0.38
     if not evidence:
@@ -109,9 +106,13 @@ def _build_template_grounded(
 
     sections = {
         "opening": opening.strip(),
-        "conclusion_lead": conclusion_lead.strip(),
+        "legal_issue": issue.strip(),
+        "legal_rule": rule_line.strip(),
+        "application": analysis.strip(),
+        "conclusion": conclusion_line.strip(),
+        "conclusion_lead": conclusion_line.strip(),
         "analysis": analysis.strip(),
-        "closing": closing.strip(),
+        "closing": "Trân trọng.",
     }
     return answer_text, proof_summary, conf, sections, citations
 
@@ -252,8 +253,9 @@ def safe_regenerate_final_answer(
     ev = evidence or []
     citations = build_legal_citations_from_evidence(ev, rule=rule, max_citations=5)
     ps = " ".join(_proof_lines(proof, max_steps=3)) if proof else ""
-    opening = "Kính gửi,\n\nTheo kết luận logic đã rà soát lại, chúng tôi tóm tắt như sau:\n\n"
-    core = f"Về nguyên tắc: {conclusion}."
+    opening = "Kính gửi,"
+    issue = "Vấn đề pháp lý: xác định quyền/nghĩa vụ theo dữ kiện đã cung cấp."
+    core = f"Quy tắc trọng tâm: {conclusion}."
     tail = ""
     if ps:
         tail += f" Cơ sở luận giải rút gọn: {ps[:280]}"
@@ -263,11 +265,24 @@ def safe_regenerate_final_answer(
             cite_bits.append(f"[{c.display_label.strip()}]")
     if cite_bits:
         tail += " Tham chiếu: " + ", ".join(cite_bits) + "."
-    answer_text = opening + core + tail + "\n\nTrân trọng."
+    application = f"Áp dụng: {tail.strip() or 'cần đối chiếu thêm dữ kiện để áp dụng chính xác.'}"
+    conclusion_line = f"Về nguyên tắc, kết luận: {conclusion}."
+    answer_text = (
+        f"{opening}\n\n"
+        f"1) {issue}\n"
+        f"2) {core}\n"
+        f"3) {application}\n"
+        f"4) {conclusion_line}\n\n"
+        "Trân trọng."
+    )
     sections = {
         "opening": opening.strip(),
-        "conclusion_lead": core,
-        "analysis": (tail.strip()),
+        "legal_issue": issue,
+        "legal_rule": core,
+        "application": application,
+        "conclusion": conclusion_line,
+        "conclusion_lead": conclusion_line,
+        "analysis": application,
         "closing": "Trân trọng.",
     }
     spans = link_answer_text_to_citations(answer_text, citations)
@@ -301,6 +316,77 @@ def safe_regenerate_answer(
         rule=rule,
         goal_achieved=goal_achieved,
     ).answer_text
+
+
+def generate_honest_degraded_answer(
+    *,
+    question: str,
+    reason: str,
+    selected_rule: RuleRecord | None = None,
+    goal: dict[str, Any] | None = None,
+    retrieved_rules: list[RuleRecord] | None = None,
+) -> FinalAnswer:
+    """Honest fallback with provisional legal guidance when full grounding is unavailable."""
+    rule_hint = str(selected_rule.rule_id) if selected_rule else ""
+    top_rule = selected_rule or ((retrieved_rules or [None])[0] if retrieved_rules else None)
+    top_hint = str(getattr(top_rule, "rule_id", "") or "")
+    pred = str((goal or {}).get("predicate") or "")
+
+    opening = "Kính gửi Quý khách hàng,"
+    issue = f"Vấn đề pháp lý: {question.strip()[:220]}"
+    if top_hint:
+        rule_line = (
+            f"Quy tắc/điều kiện có khả năng liên quan: {top_hint}. "
+            "Đây là căn cứ tạm thời, cần đối chiếu thêm trước khi kết luận chắc chắn."
+        )
+    elif pred:
+        rule_line = f"Quy tắc/điều kiện có khả năng liên quan: nhóm {pred}; hiện chưa đủ căn cứ để chọn quy tắc khớp hoàn toàn."
+    else:
+        rule_line = "Quy tắc/điều kiện có khả năng liên quan: chưa xác định chắc chắn từ dữ liệu hiện có."
+
+    application = (
+        "Áp dụng tạm thời: nếu tình tiết thực tế đúng với điều kiện của quy tắc liên quan thì có thể đi theo hướng kết luận tương ứng; "
+        "hiện còn thiếu dữ kiện mốc thời gian/chủ thể/điều kiện ngoại lệ để chốt kết luận."
+    )
+    conclusion_line = (
+        f"Về nguyên tắc, chưa đủ căn cứ grounded để kết luận dứt điểm (reason={reason or 'grounding_unavailable'}); "
+        "cần xác định thêm dữ kiện then chốt."
+    )
+    answer_text = (
+        f"{opening}\n\n"
+        f"1) {issue}\n"
+        f"2) {rule_line}\n"
+        f"3) {application}\n"
+        f"4) {conclusion_line}\n\n"
+        "Trân trọng."
+    )
+    return FinalAnswer(
+        answer_text=answer_text,
+        conclusion="chua_du_can_cu_grounded",
+        proof_summary="",
+        evidence_snippets=[],
+        confidence=0.2,
+        verification_summary=f"mode=degraded_honest;reason={reason or 'grounding_unavailable'}",
+        generation_mode="degraded_honest",
+        legal_citations=[],
+        citation_spans=[],
+        answer_sections={
+            "opening": opening,
+            "legal_issue": issue,
+            "legal_rule": rule_line,
+            "application": application,
+            "conclusion": conclusion_line,
+            "conclusion_lead": conclusion_line,
+            "analysis": application,
+            "closing": "Trân trọng.",
+        },
+        extra={
+            "degraded": True,
+            "reason": reason or "grounding_unavailable",
+            "selected_rule_id": rule_hint or None,
+            "provisional_rule_id": top_hint or None,
+        },
+    )
 
 
 def apply_answer_text_and_refresh_citations(ans: FinalAnswer, new_text: str) -> None:

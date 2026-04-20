@@ -34,6 +34,16 @@ def _exception_override_bonus(rule: RuleRecord, bucket_rules: list[RuleRecord]) 
     return exc_bonus, ov_bonus
 
 
+def _semantic_compatibility_from_diag(diag: dict[str, Any]) -> float:
+    comps = diag.get("score_components") if isinstance(diag, dict) else None
+    if not isinstance(comps, dict):
+        return 0.0
+    try:
+        return float(comps.get("semantic_compatibility") or 0.0)
+    except (TypeError, ValueError):
+        return 0.0
+
+
 def head_bucket(rule: RuleRecord) -> tuple[Any, ...]:
     """Bucket by full head shape — predicate + arity + args (not only predicate/arity)."""
     a = rule.head.args or []
@@ -61,14 +71,15 @@ def prune_conflicting_candidates(
             kept.append((r, s, d2))
             continue
         brules = [x[0] for x in items]
-        scored: list[tuple[RuleRecord, float, dict[str, Any], int, int, int, float, float]] = []
+        scored: list[tuple[RuleRecord, float, dict[str, Any], int, int, float, int, float]] = []
         for r, s, d in items:
             pr, sp = _priority_specificity(r)
             eb, ob = _exception_override_bonus(r, brules)
-            scored.append((r, s, d, eb, ob, pr, sp))
-        scored.sort(key=lambda x: (-x[3], -x[4], -x[5], -x[6], -x[1]))
+            sem = _semantic_compatibility_from_diag(d)
+            scored.append((r, s, d, eb, ob, sem, pr, sp))
+        scored.sort(key=lambda x: (-x[3], -x[4], -x[5], -x[6], -x[7], -x[1]))
         win = scored[0]
-        r_w, s_w, d_w, eb_w, ob_w, pr_w, sp_w = win
+        r_w, s_w, d_w, eb_w, ob_w, sem_w, pr_w, sp_w = win
         d_out = dict(d_w)
         d_out["conflict_resolution"] = {
             "status": "winner",
@@ -76,10 +87,11 @@ def prune_conflicting_candidates(
             "specificity": sp_w,
             "exception_bonus": eb_w,
             "override_bonus": ob_w,
+            "semantic_compatibility": sem_w,
         }
         kept.append((r_w, s_w, d_out))
         for loser in scored[1:]:
-            r_l, s_l, d_l, eb_l, ob_l, pr_l, sp_l = loser
+            r_l, s_l, d_l, eb_l, ob_l, sem_l, pr_l, sp_l = loser
             rejected.append(
                 {
                     "rule_id": r_l.rule_id,
@@ -93,6 +105,8 @@ def prune_conflicting_candidates(
                         "winner_priority": pr_w,
                         "exception_bonus": eb_l,
                         "override_bonus": ob_l,
+                        "semantic_compatibility": sem_l,
+                        "winner_semantic_compatibility": sem_w,
                     },
                 }
             )

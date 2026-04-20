@@ -1,0 +1,664 @@
+{
+  "meta": {
+    "rerun_dir": "tests\\output\\rerun_20260411_124137\\q_per_case_runtime",
+    "selected_case_ids": [
+      "n01",
+      "n21",
+      "n11",
+      "n02",
+      "n22"
+    ],
+    "selection_mode": "auto_representative_no_grounded_rule_found"
+  },
+  "cases": [
+    {
+      "qid": "n01",
+      "question": "Để mở công ty TNHH một thành viên, cá nhân hoặc tổ chức cần đáp ứng các điều kiện pháp lý nào?",
+      "domain_hint": "enterprise",
+      "intent_hint": "applicability_condition",
+      "raw_result_path": "tests/output/rerun_20260411_124137/q_per_case_runtime/raw/n01.json",
+      "final_goal": {
+        "predicate": "obligation",
+        "args": [
+          "company_x",
+          "dap_ung_cac_dieu_kien_phap",
+          "doi_tuong"
+        ]
+      },
+      "canonical_lookup": {
+        "canonical_file": "data\\processed\\rulebase\\enterprise\\canonical_rules.jsonl",
+        "goal_predicate": "obligation",
+        "goal_predicate_match_count": 0,
+        "goal_predicate_match_sample": [],
+        "top_retrieved_rule_presence": [
+          {
+            "rule_id": "RULE_LUATDN_D63_K1_E000181_H87D3F0FBD99C__a9ae4ea72ac5d0",
+            "canonical_exists": true,
+            "runtime_exists": true
+          },
+          {
+            "rule_id": "RULE_LUATDN_D149_K3_E_E000416_HE242ED7ECBAC__f367c61c9b9311",
+            "canonical_exists": true,
+            "runtime_exists": true
+          },
+          {
+            "rule_id": "RULE_LUATDN_D61_K3_D_E000176_H55FDA829DADB__f7265b90b07569",
+            "canonical_exists": true,
+            "runtime_exists": true
+          }
+        ]
+      },
+      "runtime_lookup": {
+        "runtime_file": "data\\processed\\rulebase\\enterprise\\runtime\\rulebase_reasoning_core.json",
+        "goal_predicate": "obligation",
+        "goal_predicate_match_count": 0,
+        "goal_predicate_match_sample": [],
+        "top_retrieved_rule_presence": [
+          {
+            "rule_id": "RULE_LUATDN_D63_K1_E000181_H87D3F0FBD99C__a9ae4ea72ac5d0",
+            "canonical_exists": true,
+            "runtime_exists": true
+          },
+          {
+            "rule_id": "RULE_LUATDN_D149_K3_E_E000416_HE242ED7ECBAC__f367c61c9b9311",
+            "canonical_exists": true,
+            "runtime_exists": true
+          },
+          {
+            "rule_id": "RULE_LUATDN_D61_K3_D_E000176_H55FDA829DADB__f7265b90b07569",
+            "canonical_exists": true,
+            "runtime_exists": true
+          }
+        ]
+      },
+      "retrieved_top_k": [
+        {
+          "domain": "enterprise",
+          "rule_id": "RULE_LUATDN_D63_K1_E000181_H87D3F0FBD99C__a9ae4ea72ac5d0",
+          "score": 1.004,
+          "source_doc": "Điều 63 khoản 1"
+        },
+        {
+          "domain": "enterprise",
+          "rule_id": "RULE_LUATDN_D149_K3_E_E000416_HE242ED7ECBAC__f367c61c9b9311",
+          "score": 0.9955244344186646,
+          "source_doc": "Điều 149 khoản 3 điểm e"
+        },
+        {
+          "domain": "enterprise",
+          "rule_id": "RULE_LUATDN_D61_K3_D_E000176_H55FDA829DADB__f7265b90b07569",
+          "score": 0.9931540317301529,
+          "source_doc": "Điều 61 khoản 3 điểm d"
+        },
+        {
+          "domain": "enterprise",
+          "rule_id": "RULE_LUATDN_D213_K3_E000595_HF074DD2CC305__ddccd7be9f9f25",
+          "score": 0.9878786131977431,
+          "source_doc": "Điều 213 khoản 3"
+        },
+        {
+          "domain": "enterprise",
+          "rule_id": "RULE_LUATDN_D48_K3_E000159_H7C5394B2A508__9f1915899a92d3",
+          "score": 0.9789822404192889,
+          "source_doc": "Điều 48 khoản 3"
+        },
+        {
+          "domain": "enterprise",
+          "rule_id": "RULE_LUATDN_D164_K4_D_E000433_H395BEE0AC05A__17760faad1c29a",
+          "score": 0.9774308265324695,
+          "source_doc": "Điều 164 khoản 4 điểm d"
+        },
+        {
+          "domain": "enterprise",
+          "rule_id": "RULE_LUATDN_D8_K3_E000001_H5745E238E6BA__19b1296ca4aca4",
+          "score": 0.9752274894934485,
+          "source_doc": "Điều 8 khoản 3"
+        },
+        {
+          "domain": "enterprise",
+          "rule_id": "RULE_ND168_D4_K5_E000601_H71B013782AB6__005e6d8d168b9f",
+          "score": 0.9672640408665315,
+          "source_doc": "Điều 4 khoản 5"
+        }
+      ],
+      "admitted_planner_candidates": [],
+      "unify_failures": [],
+      "backward_plan_failure": {
+        "stage": "backward_plan_empty",
+        "decision": "REJECT",
+        "reason": "no_unifiable_candidate_for_goal",
+        "top_retrieved_rule_ids": [
+          "RULE_LUATDN_D63_K1_E000181_H87D3F0FBD99C__a9ae4ea72ac5d0",
+          "RULE_LUATDN_D149_K3_E_E000416_HE242ED7ECBAC__f367c61c9b9311",
+          "RULE_LUATDN_D61_K3_D_E000176_H55FDA829DADB__f7265b90b07569"
+        ]
+      }
+    },
+    {
+      "qid": "n21",
+      "question": "Người sử dụng lao động có luôn phải ký hợp đồng lao động bằng văn bản với người lao động không?",
+      "domain_hint": "labor",
+      "intent_hint": "obligation",
+      "raw_result_path": "tests/output/rerun_20260411_124137/q_per_case_runtime/raw/n21.json",
+      "final_goal": {
+        "predicate": "obligation",
+        "args": [
+          "employer_x",
+          "ky_bang_van_ban",
+          "doi_tuong"
+        ]
+      },
+      "canonical_lookup": {
+        "canonical_file": "data\\processed\\rulebase\\labor\\canonical_rules.jsonl",
+        "goal_predicate": "obligation",
+        "goal_predicate_match_count": 0,
+        "goal_predicate_match_sample": [],
+        "top_retrieved_rule_presence": [
+          {
+            "rule_id": "RULE_DOC_D20_K1_E000013_H32D80C4BD91B__211cd79bc58720",
+            "canonical_exists": false,
+            "runtime_exists": true
+          },
+          {
+            "rule_id": "RULE_DOC_D4_K3_E000001_H64D211505B05__bc8c52f96bf088",
+            "canonical_exists": true,
+            "runtime_exists": true
+          },
+          {
+            "rule_id": "RULE_DOC_D10_K4_B_E000081_H67432AD0C04D__6b14d5766d4be1",
+            "canonical_exists": false,
+            "runtime_exists": true
+          }
+        ]
+      },
+      "runtime_lookup": {
+        "runtime_file": "data\\processed\\rulebase\\labor\\runtime\\rulebase_reasoning_core.json",
+        "goal_predicate": "obligation",
+        "goal_predicate_match_count": 0,
+        "goal_predicate_match_sample": [],
+        "top_retrieved_rule_presence": [
+          {
+            "rule_id": "RULE_DOC_D20_K1_E000013_H32D80C4BD91B__211cd79bc58720",
+            "canonical_exists": false,
+            "runtime_exists": true
+          },
+          {
+            "rule_id": "RULE_DOC_D4_K3_E000001_H64D211505B05__bc8c52f96bf088",
+            "canonical_exists": true,
+            "runtime_exists": true
+          },
+          {
+            "rule_id": "RULE_DOC_D10_K4_B_E000081_H67432AD0C04D__6b14d5766d4be1",
+            "canonical_exists": false,
+            "runtime_exists": true
+          }
+        ]
+      },
+      "retrieved_top_k": [
+        {
+          "domain": "labor",
+          "rule_id": "RULE_DOC_D20_K1_E000013_H32D80C4BD91B__211cd79bc58720",
+          "score": 0.35,
+          "source_doc": "Điều 20 khoản 1"
+        },
+        {
+          "domain": "labor",
+          "rule_id": "RULE_DOC_D4_K3_E000001_H64D211505B05__bc8c52f96bf088",
+          "score": 0.04233382125324387,
+          "source_doc": "Điều 4 khoản 3"
+        },
+        {
+          "domain": "labor",
+          "rule_id": "RULE_DOC_D10_K4_B_E000081_H67432AD0C04D__6b14d5766d4be1",
+          "score": 0.04068106558253687,
+          "source_doc": "Điều 10 khoản 4 điểm b"
+        },
+        {
+          "domain": "labor",
+          "rule_id": "RULE_DOC_D10_K4_B_E000079_H67432AD0C04D__71822b08d564da",
+          "score": 0.04062275691895584,
+          "source_doc": "Điều 10 khoản 4 điểm b"
+        },
+        {
+          "domain": "labor",
+          "rule_id": "RULE_DOC_D19_K1_C_E000012_HFF5D3733A234__4ca8f3da5db94a",
+          "score": 0.038454578910749805,
+          "source_doc": "Điều 19 khoản 1 điểm c"
+        },
+        {
+          "domain": "labor",
+          "rule_id": "RULE_DOC_D36_K1_B_E000089_H34A8448034FE__6eb485b37250d5",
+          "score": 0.038257204576721264,
+          "source_doc": "Điều 36 khoản 1 điểm b"
+        },
+        {
+          "domain": "labor",
+          "rule_id": "RULE_DOC_D31_K2_E000065_H5409B912A897__501d29855c3827",
+          "score": 0.038215031089677186,
+          "source_doc": "Điều 31 khoản 2"
+        },
+        {
+          "domain": "labor",
+          "rule_id": "RULE_DOC_D31_K2_E000066_H5409B912A897__510d40e71965ed",
+          "score": 0.03813243414292648,
+          "source_doc": "Điều 31 khoản 2"
+        }
+      ],
+      "admitted_planner_candidates": [],
+      "unify_failures": [],
+      "backward_plan_failure": {
+        "stage": "backward_plan_empty",
+        "decision": "REJECT",
+        "reason": "no_unifiable_candidate_for_goal",
+        "top_retrieved_rule_ids": [
+          "RULE_DOC_D20_K1_E000013_H32D80C4BD91B__211cd79bc58720",
+          "RULE_DOC_D4_K3_E000001_H64D211505B05__bc8c52f96bf088",
+          "RULE_DOC_D10_K4_B_E000081_H67432AD0C04D__6b14d5766d4be1"
+        ]
+      }
+    },
+    {
+      "qid": "n11",
+      "question": "Công ty mới thành lập thì nghĩa vụ đăng ký thuế phát sinh vào thời điểm nào?",
+      "domain_hint": "tax",
+      "intent_hint": "obligation",
+      "raw_result_path": "tests/output/rerun_20260411_124137/q_per_case_runtime/raw/n11.json",
+      "final_goal": {
+        "predicate": "obligation",
+        "args": [
+          "company_x",
+          "dang_ky_thue_phat_sinh_vao",
+          "doi_tuong"
+        ]
+      },
+      "canonical_lookup": {
+        "canonical_file": "data\\processed\\rulebase\\tax\\canonical_rules.jsonl",
+        "goal_predicate": "obligation",
+        "goal_predicate_match_count": 0,
+        "goal_predicate_match_sample": [],
+        "top_retrieved_rule_presence": [
+          {
+            "rule_id": "RULE_DOC_D13_K12_C_E000157_H50C2C91A1AE4__671046c71559f9",
+            "canonical_exists": true,
+            "runtime_exists": true
+          },
+          {
+            "rule_id": "RULE_DOC_D5_K2_A_E000090_HBB9D013E5C49__debce160f318e4",
+            "canonical_exists": true,
+            "runtime_exists": true
+          },
+          {
+            "rule_id": "RULE_DOC_D42_K2_E000062_H4AA368A00689__66b956ab978b32",
+            "canonical_exists": true,
+            "runtime_exists": true
+          }
+        ]
+      },
+      "runtime_lookup": {
+        "runtime_file": "data\\processed\\rulebase\\tax\\runtime\\rulebase_reasoning_core.json",
+        "goal_predicate": "obligation",
+        "goal_predicate_match_count": 0,
+        "goal_predicate_match_sample": [],
+        "top_retrieved_rule_presence": [
+          {
+            "rule_id": "RULE_DOC_D13_K12_C_E000157_H50C2C91A1AE4__671046c71559f9",
+            "canonical_exists": true,
+            "runtime_exists": true
+          },
+          {
+            "rule_id": "RULE_DOC_D5_K2_A_E000090_HBB9D013E5C49__debce160f318e4",
+            "canonical_exists": true,
+            "runtime_exists": true
+          },
+          {
+            "rule_id": "RULE_DOC_D42_K2_E000062_H4AA368A00689__66b956ab978b32",
+            "canonical_exists": true,
+            "runtime_exists": true
+          }
+        ]
+      },
+      "retrieved_top_k": [
+        {
+          "domain": "tax",
+          "rule_id": "RULE_DOC_D13_K12_C_E000157_H50C2C91A1AE4__671046c71559f9",
+          "score": 0.9716862344669743,
+          "source_doc": "Điều 13 khoản 12 điểm c"
+        },
+        {
+          "domain": "tax",
+          "rule_id": "RULE_DOC_D5_K2_A_E000090_HBB9D013E5C49__debce160f318e4",
+          "score": 0.9688925756770449,
+          "source_doc": "Điều 5 khoản 2 điểm a"
+        },
+        {
+          "domain": "tax",
+          "rule_id": "RULE_DOC_D42_K2_E000062_H4AA368A00689__66b956ab978b32",
+          "score": 0.9586511627906973,
+          "source_doc": "Điều 42 khoản 2"
+        },
+        {
+          "domain": "tax",
+          "rule_id": "RULE_DOC_D17_K3_E000340_HB5F8994CD4FA__f9090b33125cde",
+          "score": 0.9538982815053834,
+          "source_doc": "Điều 17 khoản 3"
+        },
+        {
+          "domain": "tax",
+          "rule_id": "RULE_DOC_D9_K2_E000123_H83956BBB5E67__e3e111efa6fb83",
+          "score": 0.9519508583903992,
+          "source_doc": "Điều 9 khoản 2"
+        },
+        {
+          "domain": "tax",
+          "rule_id": "RULE_DOC_D3_K5_E000400_H6EB34C2A72FD__3604de7818cc1f",
+          "score": 0.9518945954734691,
+          "source_doc": "Điều 3 khoản 5"
+        },
+        {
+          "domain": "tax",
+          "rule_id": "RULE_DOC_D11_K4_E000008_HDA180653CC88__3ef845c710bce1",
+          "score": 0.9508544627530702,
+          "source_doc": "Điều 11 khoản 4"
+        },
+        {
+          "domain": "tax",
+          "rule_id": "RULE_DOC_D29_K2_E000373_H4D9F19CAFAB5__ba6b30481ea936",
+          "score": 0.9484630744000115,
+          "source_doc": "Điều 29 khoản 2"
+        }
+      ],
+      "admitted_planner_candidates": [],
+      "unify_failures": [
+        {
+          "rule_id": "RULE_DOC_D13_K12_C_E000157_H50C2C91A1AE4__671046c71559f9",
+          "verification_decision": "REJECT",
+          "rejection_reason": [
+            "no_unifiable_candidate_for_goal"
+          ],
+          "repair_hints": [
+            "refine_parse_goal",
+            "rerank_with_semantic_constraints"
+          ]
+        },
+        {
+          "rule_id": "RULE_DOC_D5_K2_A_E000090_HBB9D013E5C49__debce160f318e4",
+          "verification_decision": "REJECT",
+          "rejection_reason": [
+            "no_unifiable_candidate_for_goal"
+          ],
+          "repair_hints": [
+            "refine_parse_goal",
+            "rerank_with_semantic_constraints"
+          ]
+        },
+        {
+          "rule_id": "RULE_DOC_D42_K2_E000062_H4AA368A00689__66b956ab978b32",
+          "verification_decision": "REJECT",
+          "rejection_reason": [
+            "no_unifiable_candidate_for_goal"
+          ],
+          "repair_hints": [
+            "refine_parse_goal",
+            "rerank_with_semantic_constraints"
+          ]
+        }
+      ],
+      "backward_plan_failure": {
+        "stage": "backward_plan_empty",
+        "decision": "REJECT",
+        "reason": "no_unifiable_candidate_for_goal",
+        "top_retrieved_rule_ids": [
+          "RULE_DOC_D13_K12_C_E000157_H50C2C91A1AE4__671046c71559f9",
+          "RULE_DOC_D5_K2_A_E000090_HBB9D013E5C49__debce160f318e4",
+          "RULE_DOC_D42_K2_E000062_H4AA368A00689__66b956ab978b32"
+        ]
+      }
+    },
+    {
+      "qid": "n02",
+      "question": "Nếu đăng ký thành lập công ty cổ phần thì bộ hồ sơ phải chuẩn bị gồm những tài liệu gì?",
+      "domain_hint": "enterprise",
+      "intent_hint": "dossier_requirement",
+      "raw_result_path": "tests/output/rerun_20260411_124137/q_per_case_runtime/raw/n02.json",
+      "final_goal": {
+        "predicate": "obligation",
+        "args": [
+          "company_x",
+          "bo_ho_so_phai_chuan_bi",
+          "doi_tuong"
+        ]
+      },
+      "canonical_lookup": {
+        "canonical_file": "data\\processed\\rulebase\\enterprise\\canonical_rules.jsonl",
+        "goal_predicate": "obligation",
+        "goal_predicate_match_count": 0,
+        "goal_predicate_match_sample": [],
+        "top_retrieved_rule_presence": [
+          {
+            "rule_id": "RULE_LUATDN_D48_K3_E000159_H7C5394B2A508__9f1915899a92d3",
+            "canonical_exists": true,
+            "runtime_exists": true
+          },
+          {
+            "rule_id": "RULE_LUATDN_D8_K3_E000001_H5745E238E6BA__19b1296ca4aca4",
+            "canonical_exists": true,
+            "runtime_exists": true
+          },
+          {
+            "rule_id": "RULE_LUATDN_D149_K3_E_E000416_HE242ED7ECBAC__f367c61c9b9311",
+            "canonical_exists": true,
+            "runtime_exists": true
+          }
+        ]
+      },
+      "runtime_lookup": {
+        "runtime_file": "data\\processed\\rulebase\\enterprise\\runtime\\rulebase_reasoning_core.json",
+        "goal_predicate": "obligation",
+        "goal_predicate_match_count": 0,
+        "goal_predicate_match_sample": [],
+        "top_retrieved_rule_presence": [
+          {
+            "rule_id": "RULE_LUATDN_D48_K3_E000159_H7C5394B2A508__9f1915899a92d3",
+            "canonical_exists": true,
+            "runtime_exists": true
+          },
+          {
+            "rule_id": "RULE_LUATDN_D8_K3_E000001_H5745E238E6BA__19b1296ca4aca4",
+            "canonical_exists": true,
+            "runtime_exists": true
+          },
+          {
+            "rule_id": "RULE_LUATDN_D149_K3_E_E000416_HE242ED7ECBAC__f367c61c9b9311",
+            "canonical_exists": true,
+            "runtime_exists": true
+          }
+        ]
+      },
+      "retrieved_top_k": [
+        {
+          "domain": "enterprise",
+          "rule_id": "RULE_LUATDN_D48_K3_E000159_H7C5394B2A508__9f1915899a92d3",
+          "score": 1.004,
+          "source_doc": "Điều 48 khoản 3"
+        },
+        {
+          "domain": "enterprise",
+          "rule_id": "RULE_LUATDN_D8_K3_E000001_H5745E238E6BA__19b1296ca4aca4",
+          "score": 1.0020318235781,
+          "source_doc": "Điều 8 khoản 3"
+        },
+        {
+          "domain": "enterprise",
+          "rule_id": "RULE_LUATDN_D149_K3_E_E000416_HE242ED7ECBAC__f367c61c9b9311",
+          "score": 0.991886103092614,
+          "source_doc": "Điều 149 khoản 3 điểm e"
+        },
+        {
+          "domain": "enterprise",
+          "rule_id": "RULE_LUATDN_D164_K4_D_E000433_H395BEE0AC05A__17760faad1c29a",
+          "score": 0.9901093724649402,
+          "source_doc": "Điều 164 khoản 4 điểm d"
+        },
+        {
+          "domain": "enterprise",
+          "rule_id": "RULE_LUATDN_D61_K3_D_E000176_H55FDA829DADB__f7265b90b07569",
+          "score": 0.9896077155552794,
+          "source_doc": "Điều 61 khoản 3 điểm d"
+        },
+        {
+          "domain": "enterprise",
+          "rule_id": "RULE_ND168_D4_K5_E000601_H71B013782AB6__005e6d8d168b9f",
+          "score": 0.9864604426879537,
+          "source_doc": "Điều 4 khoản 5"
+        },
+        {
+          "domain": "enterprise",
+          "rule_id": "RULE_LUATDN_D122_K5_E000346_H7EB788490A1F__7203022e8e06fc",
+          "score": 0.9857960307090651,
+          "source_doc": "Điều 122 khoản 5"
+        },
+        {
+          "domain": "enterprise",
+          "rule_id": "RULE_LUATDN_D63_K1_E000181_H87D3F0FBD99C__a9ae4ea72ac5d0",
+          "score": 0.975811695864921,
+          "source_doc": "Điều 63 khoản 1"
+        }
+      ],
+      "admitted_planner_candidates": [],
+      "unify_failures": [],
+      "backward_plan_failure": {
+        "stage": "backward_plan_empty",
+        "decision": "REJECT",
+        "reason": "no_unifiable_candidate_for_goal",
+        "top_retrieved_rule_ids": [
+          "RULE_LUATDN_D48_K3_E000159_H7C5394B2A508__9f1915899a92d3",
+          "RULE_LUATDN_D8_K3_E000001_H5745E238E6BA__19b1296ca4aca4",
+          "RULE_LUATDN_D149_K3_E_E000416_HE242ED7ECBAC__f367c61c9b9311"
+        ]
+      }
+    },
+    {
+      "qid": "n22",
+      "question": "Pháp luật cho phép giao kết hợp đồng lao động bằng lời nói trong những tình huống nào?",
+      "domain_hint": "labor",
+      "intent_hint": "exception",
+      "raw_result_path": "tests/output/rerun_20260411_124137/q_per_case_runtime/raw/n22.json",
+      "final_goal": {
+        "predicate": "obligation",
+        "args": [
+          "unknown_subject_x",
+          "bang_loi_noi",
+          "doi_tuong"
+        ]
+      },
+      "canonical_lookup": {
+        "canonical_file": "data\\processed\\rulebase\\labor\\canonical_rules.jsonl",
+        "goal_predicate": "obligation",
+        "goal_predicate_match_count": 0,
+        "goal_predicate_match_sample": [],
+        "top_retrieved_rule_presence": [
+          {
+            "rule_id": "RULE_DOC_D20_K1_E000013_H32D80C4BD91B__211cd79bc58720",
+            "canonical_exists": false,
+            "runtime_exists": true
+          },
+          {
+            "rule_id": "shared_motif_deadline_1",
+            "canonical_exists": false,
+            "runtime_exists": false
+          },
+          {
+            "rule_id": "shared_motif_dossier_1",
+            "canonical_exists": false,
+            "runtime_exists": false
+          }
+        ]
+      },
+      "runtime_lookup": {
+        "runtime_file": "data\\processed\\rulebase\\labor\\runtime\\rulebase_reasoning_core.json",
+        "goal_predicate": "obligation",
+        "goal_predicate_match_count": 0,
+        "goal_predicate_match_sample": [],
+        "top_retrieved_rule_presence": [
+          {
+            "rule_id": "RULE_DOC_D20_K1_E000013_H32D80C4BD91B__211cd79bc58720",
+            "canonical_exists": false,
+            "runtime_exists": true
+          },
+          {
+            "rule_id": "shared_motif_deadline_1",
+            "canonical_exists": false,
+            "runtime_exists": false
+          },
+          {
+            "rule_id": "shared_motif_dossier_1",
+            "canonical_exists": false,
+            "runtime_exists": false
+          }
+        ]
+      },
+      "retrieved_top_k": [
+        {
+          "domain": "labor",
+          "rule_id": "RULE_DOC_D20_K1_E000013_H32D80C4BD91B__211cd79bc58720",
+          "score": 0.35,
+          "source_doc": "Điều 20 khoản 1"
+        },
+        {
+          "domain": "labor",
+          "rule_id": "RULE_DOC_D4_K3_E000001_H64D211505B05__bc8c52f96bf088",
+          "score": 0.02183940227708525,
+          "source_doc": "Điều 4 khoản 3"
+        },
+        {
+          "domain": "shared",
+          "rule_id": "shared_motif_deadline_1",
+          "score": 0.31999999999999995,
+          "source_doc": ""
+        },
+        {
+          "domain": "shared",
+          "rule_id": "shared_motif_dossier_1",
+          "score": 0.31999999999999995,
+          "source_doc": ""
+        },
+        {
+          "domain": "shared",
+          "rule_id": "shared_motif_exception_1",
+          "score": 0.31999999999999995,
+          "source_doc": ""
+        },
+        {
+          "domain": "shared",
+          "rule_id": "shared_motif_threshold_1",
+          "score": 0.31999999999999995,
+          "source_doc": ""
+        },
+        {
+          "domain": "shared",
+          "rule_id": "shared_motif_applicability_condition_1",
+          "score": 0.31999999999999995,
+          "source_doc": ""
+        },
+        {
+          "domain": "shared",
+          "rule_id": "shared_motif_legal_effect_1",
+          "score": 0.31999999999999995,
+          "source_doc": ""
+        }
+      ],
+      "admitted_planner_candidates": [],
+      "unify_failures": [],
+      "backward_plan_failure": {
+        "stage": "backward_plan_empty",
+        "decision": "REJECT",
+        "reason": "no_unifiable_candidate_for_goal",
+        "top_retrieved_rule_ids": [
+          "RULE_DOC_D20_K1_E000013_H32D80C4BD91B__211cd79bc58720",
+          "shared_motif_deadline_1",
+          "shared_motif_dossier_1"
+        ]
+      }
+    }
+  ]
+}

@@ -14,6 +14,20 @@ from runtime.reasoning_context import ReasoningContext
 from utils.ids import new_proof_id
 
 
+def _is_unknown_token(value: Any) -> bool:
+    t = str(value or "").strip().lower()
+    return (not t) or t in {"unknown", "none", "n/a", "na", "_"}
+
+
+def _is_shared_rule(rule: RuleRecord) -> bool:
+    md = rule.metadata or {}
+    return (
+        str(md.get("domain") or "") == "shared"
+        or str(md.get("layer") or "") == "shared"
+        or str(rule.rule_id).startswith("shared_motif_")
+    )
+
+
 def build_proof(
     *,
     rule: RuleRecord,
@@ -26,6 +40,35 @@ def build_proof(
     phase3_context: dict[str, Any] | None = None,
 ) -> ProofObject:
     rr = map_rule_record_to_reasoning_rule(rule)
+    failure_reason = str((forward_result or {}).get("failure_reason") or "").strip().lower()
+    quality_gate_failures = {
+        "unknown_goal_atom",
+        "unknown_rule_head",
+        "predicate_family_mismatch",
+        "actor_role_mismatch",
+        "constraint_schema_missing",
+        "noncanonical_goal_surface",
+        "weak_shared_template",
+        "unification_broken",
+    }
+    if (
+        not conclusion.strip()
+        or failure_reason in quality_gate_failures
+        or _is_unknown_token(rr.goal_atom[0] if rr.goal_atom else "")
+        or (_is_shared_rule(rule) and (_is_unknown_token(rule.head.predicate) or _is_unknown_token(rule.logic_form)))
+    ):
+        fallback_conclusion = conclusion or f"Forward quality gate rejected rule {rule.rule_id}."
+        return build_partial_proof(
+            rule=rule,
+            used_facts=used_facts,
+            conclusion=fallback_conclusion,
+            forward_result=forward_result,
+            reasoning_context=reasoning_context,
+            requirement_artifact=requirement_artifact,
+            candidate_rules=candidate_rules,
+            phase3_context=phase3_context,
+        )
+
     return build_proof_with_reasoning(
         rule=rule,
         reasoning_rule=rr,
@@ -87,6 +130,16 @@ def _fail_stage(forward_result: dict[str, Any] | None) -> str | None:
         return None
     if "constraint" in reason:
         return "constraint_check"
+    if reason in {
+        "unknown_goal_atom",
+        "unknown_rule_head",
+        "constraint_schema_missing",
+        "noncanonical_goal_surface",
+        "weak_shared_template",
+    }:
+        return "runtime_quality_gate"
+    if reason in {"predicate_family_mismatch", "actor_role_mismatch", "unification_broken"}:
+        return "unification_gate"
     if "exception" in reason or "negative" in reason or "unless" in reason:
         return "exception_check"
     if "positive_condition" in reason:

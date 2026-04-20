@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 from typing import Literal
 
@@ -15,12 +16,13 @@ def _default_repo_root() -> Path:
 
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
+_ENV_FILE = _REPO_ROOT / ".env"
 
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_prefix="LEGAL_QA_",
-        env_file=_REPO_ROOT / ".env",
+        env_file=_ENV_FILE,
         env_file_encoding="utf-8",
         extra="ignore",
     )
@@ -63,6 +65,16 @@ class Settings(BaseSettings):
     llm_model: str = Field(
         default="llama-3.1-8b-instant",
         validation_alias=AliasChoices("LLM_MODEL", "LEGAL_QA_LLM_MODEL"),
+    )
+
+    # Question parser policy (source-of-truth consumed in src/question_side/question_parser.py)
+    question_parser_mode: Literal["llm_required", "prefer_llm", "heuristic_only"] = Field(
+        default="llm_required",
+        validation_alias=AliasChoices("QUESTION_PARSER_MODE", "LEGAL_QA_QUESTION_PARSER_MODE"),
+    )
+    question_parser_allow_fallback: bool = Field(
+        default=False,
+        validation_alias=AliasChoices("QUESTION_PARSER_ALLOW_FALLBACK", "LEGAL_QA_QUESTION_PARSER_ALLOW_FALLBACK"),
     )
 
     # Hugging Face NLI (mDeBERTa XNLI multilingual — premise/hypothesis)
@@ -132,6 +144,23 @@ class Settings(BaseSettings):
     def resolved_evidence_chunks(self) -> Path:
         p = self.evidence_chunks_path
         return p if p is not None else self.repo_root / "data" / "corpus" / "evidence_chunks.json"
+
+    def env_file_path(self) -> Path:
+        return _ENV_FILE
+
+    def startup_env_diagnostics(self) -> dict[str, object]:
+        env_path = self.env_file_path()
+        return {
+            "cwd": os.getcwd(),
+            "settings_module_file": str(Path(__file__).resolve()),
+            "resolved_env_file": str(env_path),
+            "resolved_env_file_exists": env_path.exists(),
+            "llm_api_key_present": bool((self.llm_api_key or "").strip()),
+            "llm_model": self.llm_model,
+            "llm_base_url": self.llm_base_url,
+            "question_parser_mode": self.question_parser_mode,
+            "question_parser_allow_fallback": self.question_parser_allow_fallback,
+        }
 
 
 VerificationModeLiteral = Literal[

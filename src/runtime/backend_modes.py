@@ -42,30 +42,33 @@ def derive_verifier_backend(engine: Any | None) -> dict[str, Any]:
 
 
 def apply_parse_backend(modes: dict[str, Any], layer1: Any | None) -> None:
-    meta = getattr(layer1, "parse_metadata", None) or {}
-    backend = str(meta.get("parser_backend") or "")
-    provider = meta.get("parser_provider") or backend or "heuristic"
-    model = meta.get("parser_model")
-    backend_mode = str(meta.get("parser_backend_mode") or "").strip().lower()
-    fallback_used = bool(meta.get("fallback_used", False))
+    if isinstance(layer1, dict):
+        meta = layer1
+    else:
+        meta = getattr(layer1, "parse_metadata", None) or {}
 
-    if not backend and layer1 is None:
-        modes["parse_backend"] = _stage(mode="none")
+    provider = meta.get("provider") or meta.get("parser_provider")
+    model = meta.get("model") or meta.get("parser_model")
+    backend_mode = str(meta.get("actual_mode") or meta.get("parser_backend_mode") or "").strip().lower()
+    parser_available = bool(meta.get("parser_available", False))
+
+    if layer1 is None and not meta:
+        modes["parse_backend"] = _stage(provider=provider, model=model, mode="parse_unavailable")
         return
 
-    if backend_mode in {"real", "fallback", "degraded", "mock", "none"}:
-        modes["parse_backend"] = _stage(provider=str(provider), model=model, mode=backend_mode)
+    if backend_mode in {"llm_real", "heuristic_fallback", "parse_unavailable"}:
+        modes["parse_backend"] = _stage(provider=(str(provider) if provider is not None else None), model=model, mode=backend_mode)
         return
 
-    if fallback_used or backend == "heuristic":
-        modes["parse_backend"] = _stage(provider=str(provider), model=model, mode="fallback")
+    if str(meta.get("parser_backend") or "").strip().lower() == "heuristic":
+        modes["parse_backend"] = _stage(provider=(str(provider) if provider is not None else None), model=model, mode="heuristic_fallback")
         return
 
-    if backend:
-        modes["parse_backend"] = _stage(provider=str(provider), model=model, mode="real")
+    if parser_available:
+        modes["parse_backend"] = _stage(provider=(str(provider) if provider is not None else None), model=model, mode="llm_real")
         return
 
-    modes["parse_backend"] = _stage(provider=str(provider), model=model, mode="fallback")
+    modes["parse_backend"] = _stage(provider=(str(provider) if provider is not None else None), model=model, mode="parse_unavailable")
 
 
 def apply_retrieval_backend(

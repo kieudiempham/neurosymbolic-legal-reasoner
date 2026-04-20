@@ -55,6 +55,115 @@ def _repair_fields(mode: str, codes: list[str]) -> tuple[str | None, str, dict[s
     return mod, hint, payload
 
 
+def _nli_scores(nli: NLIResult | None) -> tuple[float, float, float]:
+    if nli is None:
+        return 0.0, 0.0, 0.0
+    if nli.scores:
+        return (
+            float(nli.scores.get("entailment", 0.0)),
+            float(nli.scores.get("neutral", 0.0)),
+            float(nli.scores.get("contradiction", 0.0)),
+        )
+    if nli.label == "entailment":
+        return float(nli.score), 0.0, 0.0
+    if nli.label == "contradiction":
+        return 0.0, 0.0, float(nli.score)
+    return 0.0, float(nli.score), 0.0
+
+
+def _fuse_with_policy(
+    *,
+    mode: VerificationMode,
+    symbolic_ok: bool,
+    error_codes: list[str],
+    nli: NLIResult | None,
+    entailment_threshold: float,
+    contradiction_threshold: float,
+    parse_focus: str | None = None,
+    parse_action: str | None = None,
+    parse_action_hint: str | None = None,
+    parse_goal_action: str | None = None,
+) -> tuple[FusionDecision, list[str]]:
+    decision, fusion_diag = fuse_ne_sy_v5(
+        symbolic_ok=symbolic_ok,
+        nli=nli,
+        entailment_threshold=entailment_threshold,
+        contradiction_threshold=contradiction_threshold,
+    )
+    diag = list(fusion_diag)
+    e, neu, c = _nli_scores(nli)
+
+    if decision == "ACCEPT" and not symbolic_ok:
+        decision = "REPAIR"
+        diag.append("fusion_policy_no_accept_when_symbolic_failed")
+
+    contradiction_flag = bool(
+        (nli is not None and c >= contradiction_threshold)
+        or (nli is not None and nli.label == "contradiction" and max(float(nli.score), c) >= 0.35)
+    )
+    parse_soft_guard = mode == "parse_verification" and symbolic_ok and parse_focus in {"deadline", "obligation"}
+
+    legal_focus = (parse_focus or "").strip().lower() in {"legal_consequence", "legal_effect"}
+    legal_tokens = {
+        "hau_qua_phap_ly",
+        "che_tai_ap_dung",
+        "gia_tri_phap_ly",
+        "bi_xu_ly",
+        "xu_phat",
+        "vo_hieu",
+    }
+    action_blob = f"{(parse_action or '').strip().lower()} {(parse_action_hint or '').strip().lower()}"
+    legal_action_usable = any(tok in action_blob for tok in legal_tokens)
+    goal_action = (parse_goal_action or "").strip().lower()
+    legal_goal_action_known = bool(goal_action and goal_action not in {"unknown", "hanh_vi"})
+
+    # Parse stage is an availability gate; avoid hard reject for contradiction-only conflicts
+    # when symbolic parse is structurally valid for common deadline/obligation questions.
+    if contradiction_flag and parse_soft_guard and decision == "REJECT":
+        decision = "REPAIR"
+        diag.append("fusion_policy_parse_contradiction_high_guarded_repair")
+
+    if (
+        contradiction_flag
+        and decision == "REJECT"
+        and mode == "parse_verification"
+        and symbolic_ok
+        and legal_focus
+        and legal_action_usable
+        and legal_goal_action_known
+    ):
+        decision = "REPAIR"
+        diag.append("fusion_policy_parse_legal_effect_bounded_soft_repair")
+
+    if contradiction_flag and decision != "REJECT":
+        # Parse stage is used as an availability gate; keep symbolic-pass samples alive.
+        if mode == "parse_verification" and symbolic_ok:
+            decision = "REPAIR"
+            diag.append("fusion_policy_parse_contradiction_soft_repair")
+        else:
+            decision = "REJECT"
+            diag.append("fusion_policy_contradiction_hard_reject")
+
+    if mode in {"parse_verification", "backward_verification", "forward_verification"} and decision == "ACCEPT":
+        if nli is not None and neu >= max(e, c, 0.45):
+            decision = "REPAIR"
+            diag.append("fusion_policy_neutral_requires_repair")
+
+    if mode == "backward_verification" and (
+        "backward_semantic_family_mismatch" in error_codes or "backward_weak_grounding" in error_codes
+    ):
+        if decision != "REJECT":
+            diag.append("fusion_policy_backward_semantic_guard_reject")
+        decision = "REJECT"
+
+    if mode == "forward_verification" and "forward_proof_error" in error_codes:
+        if decision != "REJECT":
+            diag.append("fusion_policy_forward_proof_guard_reject")
+        decision = "REJECT"
+
+    return decision, diag
+
+
 def _finalize_record(
     *,
     mode: VerificationMode,
@@ -222,11 +331,20 @@ class NeSyEngine:
         if use_nli_for("parse_verification", nesy_nli_mock=self._nesy_nli_mock, nli_degraded=self._nli_degraded):
             nli = self._nli.verify(prem, hyp)
             trace.append("nli_parse")
-        dec, fusion_diag = fuse_ne_sy_v5(
+        goal_args = list((layer2.goal or {}).get("args") or [])
+        goal_action = str(goal_args[1]) if len(goal_args) >= 2 else ""
+        l1_meta = dict(layer1.parse_metadata or {})
+        dec, fusion_diag = _fuse_with_policy(
+            mode="parse_verification",
             symbolic_ok=sym.ok,
+            error_codes=sym.error_codes,
             nli=nli,
             entailment_threshold=self._entailment_threshold,
             contradiction_threshold=self._contradiction_threshold,
+            parse_focus=layer1.question_focus,
+            parse_action=layer1.action_text,
+            parse_action_hint=str(l1_meta.get("action_canonical_hint") or l1_meta.get("used_fallback_label") or ""),
+            parse_goal_action=goal_action,
         )
         return _finalize_record(
             mode="parse_verification",
@@ -272,8 +390,10 @@ class NeSyEngine:
         if use_nli_for("rule_verification", nesy_nli_mock=self._nesy_nli_mock, nli_degraded=self._nli_degraded):
             nli = self._nli.verify(prem, hyp)
             trace.append("nli_rule")
-        dec, fusion_diag = fuse_ne_sy_v5(
+        dec, fusion_diag = _fuse_with_policy(
+            mode="rule_verification",
             symbolic_ok=sym.ok,
+            error_codes=sym.error_codes,
             nli=nli,
             entailment_threshold=self._entailment_threshold,
             contradiction_threshold=self._contradiction_threshold,
@@ -328,8 +448,10 @@ class NeSyEngine:
         if use_nli_for("backward_verification", nesy_nli_mock=self._nesy_nli_mock, nli_degraded=self._nli_degraded):
             nli = self._nli.verify(prem, hyp)
             trace.append("nli_backward")
-        dec, fusion_diag = fuse_ne_sy_v5(
+        dec, fusion_diag = _fuse_with_policy(
+            mode="backward_verification",
             symbolic_ok=sym.ok,
+            error_codes=sym.error_codes,
             nli=nli,
             entailment_threshold=self._entailment_threshold,
             contradiction_threshold=self._contradiction_threshold,
@@ -392,8 +514,10 @@ class NeSyEngine:
         if use_nli_for("forward_verification", nesy_nli_mock=self._nesy_nli_mock, nli_degraded=self._nli_degraded):
             nli = self._nli.verify(prem, hyp)
             trace.append("nli_forward")
-        dec, fusion_diag = fuse_ne_sy_v5(
+        dec, fusion_diag = _fuse_with_policy(
+            mode="forward_verification",
             symbolic_ok=sym.ok,
+            error_codes=sym.error_codes,
             nli=nli,
             entailment_threshold=self._entailment_threshold,
             contradiction_threshold=self._contradiction_threshold,
@@ -461,8 +585,10 @@ class NeSyEngine:
         if use_nli_for("answer_verification", nesy_nli_mock=self._nesy_nli_mock, nli_degraded=self._nli_degraded):
             nli = self._nli.verify(prem, hyp)
             trace.append("nli_answer")
-        dec, fusion_diag = fuse_ne_sy_v5(
+        dec, fusion_diag = _fuse_with_policy(
+            mode="answer_verification",
             symbolic_ok=sym_ok,
+            error_codes=sym_sa.error_codes,
             nli=nli,
             entailment_threshold=self._entailment_threshold,
             contradiction_threshold=self._contradiction_threshold,

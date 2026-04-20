@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from typing import Any
 
 from reasoning.internal.codec import canonicalize_atom, serialize_atom
@@ -26,6 +27,107 @@ from reasoning.semantics.unification import (
 from runtime.domain_reasoning_policy import policy_from_context
 from rulebase.rule_identity import global_rule_key
 from schemas.rule import RuleRecord
+
+_SEMANTIC_FAMILY_BY_PREDICATE: dict[str, str] = {
+    "obligation": "obligation",
+    "must": "obligation",
+    "permission": "permission",
+    "prohibition": "prohibition",
+    "deadline": "deadline",
+    "regulatory_deadline": "deadline",
+    "regulatory_deadline_requirement": "deadline",
+    "threshold": "threshold",
+    "applies_if": "applicability",
+    "applicability": "applicability",
+    "legal_effect": "legal_effect",
+}
+
+
+def _is_variable_like(value: Any) -> bool:
+    if not isinstance(value, str):
+        return False
+    t = value.strip()
+    return t.endswith("_x") or t in {"company_x", "subject_x", "actor_x"}
+
+
+def _is_unknown_token(value: Any) -> bool:
+    t = str(value or "").strip().lower()
+    return (not t) or t in {"unknown", "none", "n/a", "na", "_"}
+
+
+def _semantic_family(value: Any) -> str:
+    t = str(value or "").strip().lower()
+    if not t:
+        return ""
+    return _SEMANTIC_FAMILY_BY_PREDICATE.get(t, t)
+
+
+def _is_noncanonical_surface(value: Any) -> bool:
+    if not isinstance(value, str):
+        return False
+    s = value.strip()
+    if not s:
+        return False
+    if len(s) > 96 and " " in s:
+        return True
+    if len(s.split()) >= 9:
+        return True
+    if re.search(r"[\?\!\,\.;:]", s):
+        return True
+    return False
+
+
+def _is_shared_rule(rule: RuleRecord) -> bool:
+    md = rule.metadata or {}
+    return (
+        str(md.get("domain") or "") == "shared"
+        or str(md.get("layer") or "") == "shared"
+        or str(rule.rule_id).startswith("shared_motif_")
+    )
+
+
+def _actor_role_mismatch(goal: dict[str, Any], goal_atom: tuple[Any, ...]) -> bool:
+    ga = list(goal.get("args") or [])
+    ha = list(goal_atom[1:] or [])
+    if not ga or not ha:
+        return False
+    g0, h0 = ga[0], ha[0]
+    if _is_unknown_token(g0) or _is_unknown_token(h0):
+        return False
+    if _is_variable_like(g0) or _is_variable_like(h0):
+        return False
+    return str(g0).strip().lower() != str(h0).strip().lower()
+
+
+def assess_forward_runtime_quality(rule: RuleRecord, goal: dict[str, Any]) -> tuple[bool, FailureReason | None, str]:
+    gp = goal.get("predicate")
+    if _is_unknown_token(gp):
+        return False, "unknown_goal_atom", "goal predicate unknown"
+    if _is_noncanonical_surface(gp) or any(_is_noncanonical_surface(x) for x in (goal.get("args") or [])):
+        return False, "noncanonical_goal_surface", "goal predicate/args still in surface form"
+
+    hp = rule.head.predicate
+    if _is_unknown_token(hp):
+        return False, "unknown_rule_head", "rule head predicate unknown"
+
+    if _is_unknown_token(rule.logic_form):
+        if _is_shared_rule(rule):
+            return False, "weak_shared_template", "shared rule has unknown logic_form"
+        return False, "unknown_rule_head", "rule logic_form unknown"
+
+    gf = _semantic_family(gp)
+    hf = _semantic_family(hp)
+    if gf and hf and gf != hf:
+        return False, "predicate_family_mismatch", f"goal_family={gf}, head_family={hf}"
+
+    if _is_shared_rule(rule):
+        body = [c for c in (rule.body or []) if isinstance(c, dict)]
+        meaningful_body = any(not _is_unknown_token(c.get("predicate")) for c in body)
+        has_usable_head_args = any(not _is_unknown_token(a) for a in (rule.head.args or []))
+        if not meaningful_body and not has_usable_head_args:
+            return False, "weak_shared_template", "shared runtime rule lacks canonical body/head signal"
+
+    return True, None, ""
 
 
 def _supporting_positive_dicts(
@@ -86,10 +188,43 @@ def run_forward_path(
     structured_facts: dict[str, dict[str, Any]] | None = None,
 ) -> ForwardPathResult:
     """Single rule path: positive → negative (unless) → exception → constraints → derive goal."""
+    quality_ok, quality_reason, quality_detail = assess_forward_runtime_quality(rule, goal)
+    if not quality_ok:
+        return ForwardPathResult(
+            rule_id=rule.rule_id,
+            global_rule_key=global_rule_key(rule),
+            goal_reached=False,
+            failure_reason=quality_reason or "goal_not_derived",
+            failure_detail=quality_detail,
+            goal_atom=[str(goal.get("predicate") or "unknown"), *list(goal.get("args") or [])],
+        )
+
     rr0 = map_rule_record_to_reasoning_rule(rule)
     subst = Substitution(mapping=dict(substitution or {}))
     rr = apply_substitution_to_reasoning_rule(rr0, subst)
     goal_atom_list = list(rr.goal_atom)
+
+    if _is_unknown_token(rr.goal_atom[0] if rr.goal_atom else ""):
+        return ForwardPathResult(
+            rule_id=rule.rule_id,
+            global_rule_key=global_rule_key(rule),
+            goal_reached=False,
+            failure_reason="unknown_rule_head",
+            failure_detail="mapped goal_atom predicate unknown",
+            substitution=dict(subst.mapping),
+            goal_atom=goal_atom_list,
+        )
+
+    if rr.logic_form in {"threshold", "deadline"} and not rr.constraints:
+        return ForwardPathResult(
+            rule_id=rule.rule_id,
+            global_rule_key=global_rule_key(rule),
+            goal_reached=False,
+            failure_reason="constraint_schema_missing",
+            failure_detail=f"logic_form={rr.logic_form} but constraints empty",
+            substitution=dict(subst.mapping),
+            goal_atom=goal_atom_list,
+        )
 
     if reasoning_context is not None and getattr(reasoning_context, "strict_domain_enforcement", False):
         pol = policy_from_context(reasoning_context)
@@ -155,12 +290,23 @@ def run_forward_path(
             s_goal = s_retry
             ufail = None
     if s_goal is None:
+        failure_reason: FailureReason = "unification_broken"
+        failure_detail = ufail or "goal_does_not_unify_with_head"
+        if ufail == "predicate_mismatch":
+            gf = _semantic_family(goal.get("predicate"))
+            hf = _semantic_family(rr.goal_atom[0] if rr.goal_atom else "")
+            if gf and hf and gf != hf:
+                failure_reason = "predicate_family_mismatch"
+                failure_detail = f"goal_family={gf}, head_family={hf}"
+        if ufail in {"term_unification_failed", "arity_mismatch"} and _actor_role_mismatch(goal, rr.goal_atom):
+            failure_reason = "actor_role_mismatch"
+            failure_detail = "goal actor role does not match rule head actor"
         return ForwardPathResult(
             rule_id=rule.rule_id,
             global_rule_key=global_rule_key(rule),
             goal_reached=False,
-            failure_reason="unification_broken",
-            failure_detail=ufail or "goal_does_not_unify_with_head",
+            failure_reason=failure_reason,
+            failure_detail=failure_detail,
             substitution=dict(subst.mapping),
             goal_atom=goal_atom_list,
         )

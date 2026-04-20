@@ -27,6 +27,8 @@ BACKWARD_CODES = frozenset(
     {
         "backward_rule_selection_error",
         "backward_unification_error",
+        "backward_semantic_family_mismatch",
+        "backward_weak_grounding",
         "requirement_construction_error",
         "missing_fact_error",
     }
@@ -62,7 +64,7 @@ def repair_target_for_code(code: str) -> str:
         return "parser"
     if code in RULE_CODES:
         return "legal_frame_extractor_or_rule_builder"
-    if code == "backward_rule_selection_error":
+    if code in {"backward_rule_selection_error", "backward_semantic_family_mismatch", "backward_weak_grounding"}:
         return "selected_rule_ranking"
     if code in {"backward_unification_error", "missing_fact_error", "requirement_construction_error"}:
         return "backward_requirement_extraction"

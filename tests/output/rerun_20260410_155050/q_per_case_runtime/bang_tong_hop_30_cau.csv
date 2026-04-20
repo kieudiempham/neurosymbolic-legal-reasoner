@@ -1,0 +1,60 @@
+﻿Phan A - Tong hop so lieu chung
+Chi so,Gia tri
+Tong so cau,30
+Cau co parser backend llm_real,30
+Cau co layer1 usable,30
+Cau co layer2 usable,30
+Cau mat top-level layer1/layer2,13
+Cau co action_text rong,7
+Cau parse final = REJECT,15
+Cau parse final = REPAIR,15
+Cau parse final = ACCEPT,0
+Cau material_gain = true,0
+Cau di toi retrieval,15
+Cau co selected_rule,0
+Cau co proof,0
+Cau co answer,15
+Cau generation_mode = degraded_honest,15
+Cau reason = no_grounded_rule_found,15
+
+Phan B - Phan bo loi/chan doan chinh
+Nhom loi chinh,So cau,Cau minh hoa
+action_text rong,7,"q_3, q_9, q_11, q_13, q_14, q_23, q_29"
+parse_rejected,15,"q_3, q_6, q_8, q_9, q_10, q_11, q_13, q_14, q_15, q_18, q_19, q_23, q_26, q_27, q_29"
+drift sang obligation,3,"q_4, q_9, q_18"
+condition fallback stated_condition(...),17,"q_1, q_2, q_4, q_6, q_7, q_8, q_12, q_16, q_17, q_18, q_19, q_20, q_21, q_25, q_26, q_28, q_30"
+retrieval khong grounded,15,"q_1, q_2, q_4, q_5, q_7, q_12, q_16, q_17, q_20, q_21, q_22, q_24, q_25, q_28, q_30"
+answer degraded,15,"q_1, q_2, q_4, q_5, q_7, q_12, q_16, q_17, q_20, q_21, q_22, q_24, q_25, q_28, q_30"
+
+Phu luc - Chi tiet 30 cau
+q,query_text,layer1_usable,layer2_usable,top_level_layer_missing,question_focus,goal_predicate,action_text_empty,debug_error,parse_final_decision,parse_repair_final_decision,material_gain,has_retrieval,has_selected_rule,has_proof,has_answer,answer_generation_mode,degraded,reason,parse_backend_mode
+q_1,"Để mở công ty TNHH một thành viên, cá nhân hoặc tổ chức cần đáp ứng các điều kiện pháp lý nào?",True,True,True,obligation,obligation,False,no_grounded_rule_found,REPAIR,REPAIR,False,True,False,False,True,degraded_honest,True,no_grounded_rule_found,llm_real
+q_2,Nếu đăng ký thành lập công ty cổ phần thì bộ hồ sơ phải chuẩn bị gồm những tài liệu gì?,True,True,True,obligation,obligation,False,no_grounded_rule_found,REPAIR,REPAIR,False,True,False,False,True,degraded_honest,True,no_grounded_rule_found,llm_real
+q_3,"Sau lúc được cấp Giấy chứng nhận đăng ký doanh nghiệp, trong bao nhiêu ngày doanh nghiệp phải công khai nội dung đăng ký?",True,True,False,deadline,deadline,True,parse_rejected,REJECT,REJECT,False,False,False,False,False,,False,,llm_real
+q_4,Tên doanh nghiệp dự kiến có được phép giống hoặc dễ gây nhầm với tên của doanh nghiệp đã tồn tại hay không?,True,True,True,obligation,obligation,False,no_grounded_rule_found,REPAIR,REPAIR,False,True,False,False,True,degraded_honest,True,no_grounded_rule_found,llm_real
+q_5,Doanh nghiệp đổi người đại diện theo pháp luật thì phải thực hiện những bước thủ tục nào?,True,True,False,procedure,obligation,False,no_grounded_rule_found,REPAIR,REPAIR,False,True,False,False,True,degraded_honest,True,no_grounded_rule_found,llm_real
+q_6,"Kể từ khi có thay đổi nội dung đăng ký doanh nghiệp, công ty phải gửi thông báo trong thời hạn mấy ngày?",True,True,False,deadline,deadline,False,parse_rejected,REJECT,REJECT,False,False,False,False,False,,False,,llm_real
+q_7,Những trường hợp nào có thể dẫn đến việc doanh nghiệp bị thu hồi giấy chứng nhận đăng ký doanh nghiệp?,True,True,True,obligation,obligation,False,no_grounded_rule_found,REPAIR,REPAIR,False,True,False,False,True,degraded_honest,True,no_grounded_rule_found,llm_real
+q_8,Hộ kinh doanh muốn chuyển lên thành doanh nghiệp thì pháp luật cho phép trong trường hợp nào và cần đáp ứng gì?,True,True,False,applicability,applies_if,False,parse_rejected,REJECT,REJECT,False,False,False,False,False,,False,,llm_real
+q_9,"Trụ sở chính của doanh nghiệp có bắt buộc phải xác định được địa chỉ cụ thể, rõ ràng hay không?",True,True,False,obligation,obligation,True,parse_rejected,REJECT,REJECT,False,False,False,False,False,,False,,llm_real
+q_10,Nếu doanh nghiệp dự định tạm ngừng hoạt động thì phải báo cho cơ quan đăng ký kinh doanh trước bao nhiêu ngày?,True,True,False,deadline,deadline,False,parse_rejected,REJECT,REJECT,False,False,False,False,False,,False,,llm_real
+q_11,Công ty mới thành lập thì nghĩa vụ đăng ký thuế phát sinh vào thời điểm nào?,True,True,False,obligation,obligation,True,parse_rejected,REJECT,REJECT,False,False,False,False,False,,False,,llm_real
+q_12,Doanh nghiệp có quy mô doanh thu thấp thì có phải kê khai thuế giá trị gia tăng hay thuộc trường hợp ngoại lệ?,True,True,True,obligation,obligation,False,no_grounded_rule_found,REPAIR,REPAIR,False,True,False,False,True,degraded_honest,True,no_grounded_rule_found,llm_real
+q_13,Tờ khai thuế theo tháng phải nộp chậm nhất vào ngày nào của kỳ tiếp theo?,True,True,False,deadline,deadline,True,parse_rejected,REJECT,REJECT,False,False,False,False,False,,False,,llm_real
+q_14,Đối với khai thuế theo quý thì hạn cuối để nộp hồ sơ là thời điểm nào?,True,True,False,deadline,deadline,True,parse_rejected,REJECT,REJECT,False,False,False,False,False,,False,,llm_real
+q_15,Nếu nộp tiền thuế trễ hạn thì doanh nghiệp có thể bị áp dụng những hậu quả pháp lý gì?,True,True,False,legal_consequence,legal_effect,False,parse_rejected,REJECT,REJECT,False,False,False,False,False,,False,,llm_real
+q_16,Trong các trường hợp nào doanh nghiệp được giải quyết hoàn thuế giá trị gia tăng?,True,True,True,obligation,obligation,False,no_grounded_rule_found,REPAIR,REPAIR,False,True,False,False,True,degraded_honest,True,no_grounded_rule_found,llm_real
+q_17,Hiện nay doanh nghiệp có bắt buộc phải lập và sử dụng hóa đơn điện tử không?,True,True,True,obligation,obligation,False,no_grounded_rule_found,REPAIR,REPAIR,False,True,False,False,True,degraded_honest,True,no_grounded_rule_found,llm_real
+q_18,Doanh nghiệp đã kê khai sai số thuế thì sau đó có được nộp hồ sơ khai bổ sung hay không?,True,True,False,obligation,obligation,False,parse_rejected,REJECT,REJECT,False,False,False,False,False,,False,,llm_real
+q_19,Khoản chi tiền lương muốn được tính là chi phí được trừ khi xác định thu nhập chịu thuế thì phải thỏa mãn điều kiện nào?,True,True,False,obligation,obligation,False,parse_rejected,REJECT,REJECT,False,False,False,False,False,,False,,llm_real
+q_20,Trong kỳ không phát sinh doanh thu thì doanh nghiệp còn phải nộp tờ khai thuế nữa không?,True,True,True,obligation,obligation,False,no_grounded_rule_found,REPAIR,REPAIR,False,True,False,False,True,degraded_honest,True,no_grounded_rule_found,llm_real
+q_21,Người sử dụng lao động có luôn phải ký hợp đồng lao động bằng văn bản với người lao động không?,True,True,True,obligation,obligation,False,no_grounded_rule_found,REPAIR,REPAIR,False,True,False,False,True,degraded_honest,True,no_grounded_rule_found,llm_real
+q_22,Pháp luật cho phép giao kết hợp đồng lao động bằng lời nói trong những tình huống nào?,True,True,True,obligation,obligation,False,no_grounded_rule_found,REPAIR,REPAIR,False,True,False,False,True,degraded_honest,True,no_grounded_rule_found,llm_real
+q_23,"Với công việc cần trình độ chuyên môn hoặc kỹ thuật, thời gian thử việc tối đa là bao nhiêu ngày?",True,True,False,deadline,deadline,True,parse_rejected,REJECT,REJECT,False,False,False,False,False,,False,,llm_real
+q_24,"Trong giai đoạn thử việc thì người lao động có được hưởng lương không, nếu có thì mức thấp nhất là bao nhiêu phần trăm?",True,True,False,obligation,obligation,False,no_grounded_rule_found,REPAIR,REPAIR,False,True,False,False,True,degraded_honest,True,no_grounded_rule_found,llm_real
+q_25,Người sử dụng lao động có nghĩa vụ tham gia bảo hiểm xã hội cho người lao động trong trường hợp nào?,True,True,True,obligation,obligation,False,no_grounded_rule_found,REPAIR,REPAIR,False,True,False,False,True,degraded_honest,True,no_grounded_rule_found,llm_real
+q_26,"Khi hợp đồng lao động chấm dứt, doanh nghiệp phải hoàn tất việc thanh toán các khoản có liên quan trong bao lâu?",True,True,False,deadline,deadline,False,parse_rejected,REJECT,REJECT,False,False,False,False,False,,False,,llm_real
+q_27,Nếu người lao động tự mình chấm dứt hợp đồng thì phải báo trước cho người sử dụng lao động mấy ngày?,True,True,False,deadline,deadline,False,parse_rejected,REJECT,REJECT,False,False,False,False,False,,False,,llm_real
+q_28,Người lao động đang nghỉ ốm hoặc điều trị thì doanh nghiệp có được quyền đơn phương chấm dứt hợp đồng với họ không?,True,True,True,obligation,obligation,False,no_grounded_rule_found,REPAIR,REPAIR,False,True,False,False,True,degraded_honest,True,no_grounded_rule_found,llm_real
+q_29,Tiền lương làm thêm giờ của người lao động được tính theo mức nào so với giờ làm việc bình thường?,True,True,False,obligation,obligation,True,parse_rejected,REJECT,REJECT,False,False,False,False,False,,False,,llm_real
+q_30,Người sử dụng lao động chỉ được áp dụng hình thức kỷ luật sa thải khi rơi vào các trường hợp nào?,True,True,True,obligation,obligation,False,no_grounded_rule_found,REPAIR,REPAIR,False,True,False,False,True,degraded_honest,True,no_grounded_rule_found,llm_real

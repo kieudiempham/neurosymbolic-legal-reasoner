@@ -16,6 +16,7 @@ _VALID_GOAL_PREDS = frozenset(
         "prohibition",
         "deadline",
         "threshold",
+        "legal_effect",
         "unknown",
         "applies_if",
         "dossier",
@@ -32,12 +33,48 @@ _FOCUS_TO_PRED = {
     "exception": "exception",
     "applicability": "applies_if",
     "dossier": "dossier",
-    "legal_effect": "unknown",
+    "legal_effect": "legal_effect",
     "authority": "unknown",
     "procedure": "obligation",
-    "legal_consequence": "obligation",
+    "legal_consequence": "legal_effect",
     "unknown": "unknown",
 }
+
+_SEMANTIC_FAMILY_BY_TOKEN = {
+    "obligation": "obligation",
+    "must": "obligation",
+    "permission": "permission",
+    "prohibition": "prohibition",
+    "deadline": "deadline",
+    "regulatory_deadline": "deadline",
+    "regulatory_deadline_requirement": "deadline",
+    "threshold": "threshold",
+    "applicability": "applicability",
+    "applies_if": "applicability",
+    "legal_effect": "legal_effect",
+    "dossier": "dossier",
+    "procedure_step": "procedure",
+    "procedure": "procedure",
+    "unknown": "unknown",
+}
+
+_FAMILY_IMPOSSIBLE_PAIRS = {
+    ("permission", "deadline"),
+    ("permission", "threshold"),
+    ("permission", "dossier"),
+    ("permission", "procedure"),
+    ("obligation", "dossier"),
+    ("obligation", "procedure"),
+    ("prohibition", "deadline"),
+    ("prohibition", "threshold"),
+}
+
+
+def _semantic_family(token: Any) -> str:
+    raw = str(token or "").strip().lower()
+    if not raw:
+        return ""
+    return _SEMANTIC_FAMILY_BY_TOKEN.get(raw, raw)
 
 
 def _dedupe_codes(codes: list[str]) -> list[str]:
@@ -63,7 +100,9 @@ def symbolic_parse(question_text: str, layer1: Layer1Parse, layer2: Layer2Parse)
         r.add("subject_presence", "pass", "", "subject")
 
     act_ok = bool((layer1.action_text or "").strip())
-    if not act_ok and layer1.question_focus not in ("unknown", "exception"):
+    if not act_ok and layer1.question_focus in ("deadline",):
+        r.add("action_presence", "skip", "Thiếu action_text ở câu hỏi deadline; cho phép repair/backfill", "action_text")
+    elif not act_ok and layer1.question_focus not in ("unknown", "exception"):
         r.add("action_presence", "fail", "Thiếu action_text khi focus không phải unknown", "action_text", code="parse_slot_error")
     else:
         r.add("action_presence", "pass" if act_ok or layer1.question_focus == "unknown" else "skip", "", "action_text")
@@ -265,6 +304,66 @@ def symbolic_backward(
             r.add("goal_vs_plan_atom", "fail", "goal predicate khác goal_atom đầu trong plan", "goal", code="backward_unification_error")
         else:
             r.add("goal_vs_plan_atom", "pass", "", "goal")
+
+    selected_cand = next(
+        (
+            c
+            for c in cands
+            if isinstance(c, dict) and str(c.get("rule_id") or "") == str(selected_rule_id or "")
+        ),
+        {},
+    )
+    goal_family = _semantic_family(gpred)
+    rule_family = _semantic_family(
+        selected_cand.get("rule_head_predicate")
+        or selected_cand.get("rule_logic_form")
+        or (requirement_artifact or {}).get("goal_predicate")
+    )
+    if goal_family and rule_family and goal_family != "unknown" and rule_family != "unknown":
+        if goal_family != rule_family:
+            r.add(
+                "semantic_family_alignment",
+                "fail",
+                f"goal family={goal_family} nhưng selected rule family={rule_family}",
+                "backward_plan.candidates",
+                code="backward_semantic_family_mismatch",
+            )
+        else:
+            r.add("semantic_family_alignment", "pass", "", "backward_plan.candidates")
+
+    sem_comp = float(selected_cand.get("semantic_compatibility") or 0.0)
+    if sem_comp < -0.25:
+        r.add(
+            "retrieval_semantic_compatibility",
+            "fail",
+            f"semantic_compatibility={sem_comp:.2f} thấp hơn ngưỡng",
+            "backward_plan.candidates",
+            code="backward_semantic_family_mismatch",
+        )
+    else:
+        r.add("retrieval_semantic_compatibility", "pass", "", "backward_plan.candidates")
+
+    weak_grounding = bool(selected_cand.get("weak_grounding"))
+    shared_generic = bool(selected_cand.get("shared_generic_candidate"))
+    if weak_grounding or (shared_generic and (goal_family in {"", "unknown"} or rule_family in {"", "unknown"})):
+        r.add(
+            "shared_generic_weak_grounding",
+            "fail",
+            "selected rule là shared/generic và thiếu grounding đủ mạnh",
+            "backward_plan.candidates",
+            code="backward_weak_grounding",
+        )
+    else:
+        r.add("shared_generic_weak_grounding", "pass", "", "backward_plan.candidates")
+
+    if goal_family and rule_family and (goal_family, rule_family) in _FAMILY_IMPOSSIBLE_PAIRS:
+        r.add(
+            "semantic_family_impossible_pair",
+            "fail",
+            f"semantic pair không hợp lệ: {goal_family} vs {rule_family}",
+            "backward_plan.candidates",
+            code="backward_semantic_family_mismatch",
+        )
 
     failed = [c for c in r.checks if c.get("status") == "fail"]
     r.ok = len(failed) == 0

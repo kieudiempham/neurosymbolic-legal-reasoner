@@ -356,7 +356,15 @@ def build_evaluation_log_artifact(
     if backend_modes is None:
         parse_meta = (l1 or {}).get("parse_metadata") if isinstance(l1, dict) else {}
         parse_meta = parse_meta if isinstance(parse_meta, dict) else {}
-        parse_mode = "fallback" if bool(parse_meta.get("fallback_used")) or str(parse_meta.get("parser_backend") or "") == "heuristic" else "real"
+        parse_mode_raw = str(parse_meta.get("actual_mode") or parse_meta.get("parser_backend_mode") or "").strip().lower()
+        if parse_mode_raw in {"llm_real", "heuristic_fallback", "parse_unavailable"}:
+            parse_mode = parse_mode_raw
+        else:
+            parse_backend = str(parse_meta.get("parser_backend") or "").strip().lower()
+            if parse_backend == "heuristic":
+                parse_mode = "heuristic_fallback"
+            else:
+                parse_mode = "llm_real" if bool(parse_meta.get("parser_available", False)) else "parse_unavailable"
         answer_mode_raw = str((ans or {}).get("generation_mode") or "") if isinstance(ans, dict) else ""
         answer_mode = "real" if answer_mode_raw == "llm_grounded" else ("fallback" if answer_mode_raw else "none")
         verifier_mode = "none"
@@ -378,8 +386,8 @@ def build_evaluation_log_artifact(
             retrieval_mode = "fallback" if "fallback" in low else ("degraded" if "degraded" in low else ("mock" if "mock" in low else "real"))
         backend_modes = {
             "parse_backend": {
-                "provider": parse_meta.get("parser_backend"),
-                "model": parse_meta.get("parser_model"),
+                "provider": parse_meta.get("provider") or parse_meta.get("parser_provider"),
+                "model": parse_meta.get("model") or parse_meta.get("parser_model"),
                 "mode": parse_mode,
             },
             "answer_backend": {

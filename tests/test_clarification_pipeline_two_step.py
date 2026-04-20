@@ -39,6 +39,16 @@ def _reasoning_state(missing: list[str]) -> ReasoningState:
     )
 
 
+def _reasoning_state_threshold(missing: list[str]) -> ReasoningState:
+    req = RequirementItem(key="constraint:threshold::::", description="", requirement_kind="constraint")
+    return ReasoningState(
+        requirement_set=[req],
+        missing_facts=list(missing),
+        covered_requirements=[],
+        backward_plan={"candidates": [{"rule_id": "RULE_CLARIFY_01"}]},
+    )
+
+
 class _Selector:
     def select(self, *_args, **_kwargs):
         return {
@@ -252,3 +262,164 @@ def test_filter_clarification_targets_skips_known_and_parse() -> None:
         parse_layer2=l2,
     )
     assert out == ["other(x)"]
+
+
+def test_clarify_invalid_typed_answer_does_not_merge_known_fact(monkeypatch) -> None:
+    import runtime.qa_orchestrator as q
+
+    rule = _rule()
+    _patch_common(monkeypatch, rule=rule)
+
+    monkeypatch.setattr(
+        q,
+        "gate_rule_and_backward",
+        lambda *_a, **_k: RuleBackwardGateOutcome(
+            ok=True,
+            clarification_needed=True,
+            selected=rule,
+            bstate=_reasoning_state_threshold(["constraint:threshold::::"]),
+            v_back=_ok_ver("backward_verification"),
+        ),
+    )
+
+    svc = SessionService()
+    st = svc.create_session("q", [])
+    st.reasoning = _reasoning_state_threshold(["constraint:threshold::::"])
+    st.missing_facts = ["constraint:threshold::::"]
+    st.clarification_questions = [
+        {
+            "fact_key": "threshold_value",
+            "source_fact_key": "constraint:threshold::::",
+            "question_text": "?",
+            "target_kind": "missing_numeric_input",
+            "expected_type": "number",
+            "reason": "need_input",
+        }
+    ]
+    svc.save(st)
+
+    resp = run_clarify(
+        session_id=st.session_id,
+        answers=[{"fact_key": "threshold_value", "value": "co"}],
+        session_svc=svc,
+        domain_selector=_Selector(),
+        evidence_retriever=_Evidence(),
+        rule_index=RulebaseIndex([rule]),
+    )
+
+    saved = svc.get(st.session_id)
+    assert saved is not None
+    assert "constraint:threshold::::" not in saved.known_facts
+    dbg = resp.debug_trace or {}
+    assert dbg.get("invalid_clarification_answer") is True
+    assert (dbg.get("invalid_clarification_answers") or [])[0].get("expected_type") == "number"
+
+
+def test_clarify_no_grounded_rule_found_returns_honest_degraded_answer(monkeypatch) -> None:
+    import runtime.qa_orchestrator as q
+
+    rule = _rule()
+    _patch_common(monkeypatch, rule=rule)
+
+    monkeypatch.setattr(
+        q,
+        "gate_rule_and_backward",
+        lambda *_a, **_k: RuleBackwardGateOutcome(
+            ok=False,
+            error="no_grounded_rule_found",
+            tried_rule_ids=["shared_motif_deadline_1"],
+        ),
+    )
+
+    svc = SessionService()
+    st = svc.create_session("q", [])
+    st.reasoning = _reasoning_state(["applies_if(a, eligible)"])
+    st.missing_facts = ["applies_if(a, eligible)"]
+    st.clarification_questions = [
+        {
+            "fact_key": "applies_if(a, eligible)",
+            "question_text": "?",
+            "target_kind": "missing_fact",
+            "expected_type": "yes_no",
+            "reason": "need_input",
+        }
+    ]
+    svc.save(st)
+
+    resp = run_clarify(
+        session_id=st.session_id,
+        answers=[{"fact_key": "applies_if(a, eligible)", "value": True}],
+        session_svc=svc,
+        domain_selector=_Selector(),
+        evidence_retriever=_Evidence(),
+        rule_index=RulebaseIndex([rule]),
+    )
+
+    assert resp.answer is not None
+    assert resp.answer.generation_mode == "degraded_honest"
+    assert "chưa tìm được quy tắc pháp lý đủ khớp" in resp.answer.answer_text.lower()
+    assert "Kết luận tạm thời theo quy tắc" not in resp.answer.answer_text
+
+
+def test_clarify_forward_unification_fail_uses_honest_degraded_not_pseudo_grounded(monkeypatch) -> None:
+    import runtime.qa_orchestrator as q
+
+    rule = RuleRecord(
+        rule_id="shared_motif_deadline_1",
+        logic_form="deadline",
+        head=RuleHead(predicate="unknown", args=["X"]),
+        body=[],
+        metadata={"domain": "shared", "layer": "shared"},
+    )
+    _patch_common(monkeypatch, rule=rule)
+
+    monkeypatch.setattr(
+        q,
+        "gate_rule_and_backward",
+        lambda *_a, **_k: RuleBackwardGateOutcome(
+            ok=True,
+            clarification_needed=False,
+            selected=rule,
+            bstate=_reasoning_state([]),
+            v_back=_ok_ver("backward_verification"),
+        ),
+    )
+    monkeypatch.setattr(
+        q,
+        "gate_forward_reasoning",
+        lambda *_a, **_k: ForwardGateOutcome(
+            ok=False,
+            error="forward_unification_fail",
+            fstate=ReasoningState(missing_facts=[]),
+            proof_obj=None,
+        ),
+    )
+
+    svc = SessionService()
+    st = svc.create_session("q", [])
+    st.reasoning = _reasoning_state(["applies_if(a, eligible)"])
+    st.missing_facts = ["applies_if(a, eligible)"]
+    st.clarification_questions = [
+        {
+            "fact_key": "applies_if(a, eligible)",
+            "question_text": "?",
+            "target_kind": "missing_fact",
+            "expected_type": "yes_no",
+            "reason": "need_input",
+        }
+    ]
+    svc.save(st)
+
+    resp = run_clarify(
+        session_id=st.session_id,
+        answers=[{"fact_key": "applies_if(a, eligible)", "value": True}],
+        session_svc=svc,
+        domain_selector=_Selector(),
+        evidence_retriever=_Evidence(),
+        rule_index=RulebaseIndex([rule]),
+    )
+
+    assert resp.answer is not None
+    assert resp.answer.generation_mode == "degraded_honest"
+    assert "suy luận chưa hoàn tất" in resp.answer.answer_text.lower()
+    assert "Kết luận tạm thời theo quy tắc" not in resp.answer.answer_text

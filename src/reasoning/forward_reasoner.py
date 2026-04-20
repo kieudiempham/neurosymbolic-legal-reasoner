@@ -10,7 +10,7 @@ from schemas.rule import RuleRecord
 from reasoning.backward_reasoner import body_to_requirements
 from reasoning.requirement_artifact import build_requirement_set_artifact
 from reasoning.internal.mapper import map_rule_record_to_reasoning_rule
-from reasoning.semantics.forward_engine import run_forward_best_path, run_forward_path
+from reasoning.semantics.forward_engine import assess_forward_runtime_quality, run_forward_best_path, run_forward_path
 from runtime.domain_reasoning_policy import policy_from_context
 from reasoning.semantics.plan_models import BackwardPlan, ForwardPathResult
 from runtime.temporal_policy import rule_temporally_valid
@@ -124,6 +124,38 @@ def run_forward(
                 # If all candidates rejected, keep original but log
                 trace.append("temporal_reject_forward: all candidates rejected, proceeding with original")
 
+        quality_rejected: list[tuple[str, str, str]] = []
+        quality_eligible: list[tuple[RuleRecord, float, dict[str, Any]]] = []
+        for r, score, meta in cand_use:
+            ok_q, q_reason, q_detail = assess_forward_runtime_quality(r, goal)
+            if ok_q:
+                quality_eligible.append((r, score, meta))
+            else:
+                quality_rejected.append((r.rule_id, str(q_reason or "forward_quality_reject"), q_detail))
+                trace.append(f"forward_quality_reject:{r.rule_id}:{q_reason}:{q_detail}")
+        if quality_eligible:
+            cand_use = quality_eligible
+        else:
+            reason = quality_rejected[0][1] if quality_rejected else "goal_not_derived"
+            detail = quality_rejected[0][2] if quality_rejected else "no_forward_eligible_candidate"
+            reqs = body_to_requirements(rule)
+            fwd = ForwardPathResult(
+                rule_id=rule.rule_id,
+                global_rule_key=global_rule_key(rule),
+                goal_reached=False,
+                failure_reason=reason,
+                failure_detail=detail,
+                goal_atom=[str(goal.get("predicate") or "unknown"), *list(goal.get("args") or [])],
+            )
+            st = _state_from_forward(
+                rule,
+                reqs,
+                fwd,
+                trace + ["forward_quality_gate_blocked"],
+                base_requirement_artifact=requirement_artifact,
+            )
+            return "", False, st, trace
+
         bp = BackwardPlan.model_validate(backward_plan)
         fwd = run_forward_best_path(
             plan=bp,
@@ -153,6 +185,25 @@ def run_forward(
         return fwd.conclusion, fwd.goal_reached, st, trace
 
     reqs = body_to_requirements(rule)
+    ok_q, q_reason, q_detail = assess_forward_runtime_quality(rule, goal)
+    if not ok_q:
+        fwd = ForwardPathResult(
+            rule_id=rule.rule_id,
+            global_rule_key=global_rule_key(rule),
+            goal_reached=False,
+            failure_reason=str(q_reason or "goal_not_derived"),
+            failure_detail=q_detail,
+            goal_atom=[str(goal.get("predicate") or "unknown"), *list(goal.get("args") or [])],
+        )
+        st = _state_from_forward(
+            rule,
+            reqs,
+            fwd,
+            trace + ["forward_quality_gate_single"],
+            base_requirement_artifact=requirement_artifact,
+        )
+        return "", False, st, trace
+
     rr = map_rule_record_to_reasoning_rule(rule)
     cand_sub = substitution
     if cand_sub is None:

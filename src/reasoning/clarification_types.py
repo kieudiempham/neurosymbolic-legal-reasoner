@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from typing import Any
 
 # target_kind values (API-stable strings)
@@ -39,12 +40,12 @@ def expected_answer_type(target_kind: str) -> str:
     return {
         MISSING_FACT: "yes_no",
         MISSING_NUMERIC_INPUT: "number",
-        MISSING_TIME_INPUT: "time",
+        MISSING_TIME_INPUT: "date",
         MISSING_EXCEPTION_CHECK: "yes_no",
-        MISSING_DOCUMENT_INPUT: "document",
-        MISSING_CONSTRAINT_INPUT: "text",
+        MISSING_DOCUMENT_INPUT: "short_text",
+        MISSING_CONSTRAINT_INPUT: "short_text",
         AMBIGUOUS_SUBJECT_OR_CONDITION: "choice",
-    }.get(target_kind, "text")
+    }.get(target_kind, "short_text")
 
 
 def priority_for_kind(target_kind: str, *, is_blocking_parse: bool = False) -> int:
@@ -109,6 +110,171 @@ def clarification_question_for_kind(
     if "thay_doi_nguoi_dai_dien" in fk or "change_legal_representative" in fk:
         return "Doanh nghiệp của bạn có đang (hoặc sẽ) thay đổi người đại diện theo pháp luật không?"
     return f"Vui lòng xác nhận thông tin liên quan tới: {fk}"
+
+
+def _constraint_parts(fact_key: str) -> tuple[str, str, str, str]:
+    """Parse `constraint:<type>:<metric>:<operator>:<value>:<unit>` style keys safely."""
+    low = fact_key.strip().lower()
+    if not low.startswith("constraint:"):
+        return "", "", "", ""
+    rest = low[len("constraint:") :]
+    parts = (rest.split(":") + ["", "", "", "", ""])[:5]
+    ctype = parts[0]
+    metric = parts[1]
+    op = parts[2]
+    val = parts[3]
+    unit = parts[4]
+    return ctype, metric, op, f"{val}:{unit}".strip(":")
+
+
+def materialize_clarification_target(
+    fact_key: str,
+    *,
+    requirement_kind: str | None = None,
+    fallback_text: str = "",
+) -> dict[str, Any]:
+    """
+    Convert internal/placeholder requirement keys to user-grounded clarification targets.
+
+    Returns dict with keys:
+      - fact_key: user-facing key
+      - source_fact_key: internal key used by reasoner
+      - target_kind / expected_type / question_text / options / is_placeholder
+    """
+    src = str(fact_key or "").strip()
+    low = src.lower()
+    rk = (requirement_kind or "").strip().lower()
+
+    # Default behavior keeps existing key.
+    kind = infer_target_kind(src, requirement_kind)
+    out: dict[str, Any] = {
+        "fact_key": src,
+        "source_fact_key": src,
+        "target_kind": kind,
+        "expected_type": expected_answer_type(kind),
+        "question_text": clarification_question_for_kind(kind, src, requirement_kind=requirement_kind, fallback_text=fallback_text),
+        "options": [],
+        "is_placeholder": False,
+    }
+
+    if low in {"condition()", "condition"}:
+        out.update(
+            {
+                "fact_key": "legal_ground",
+                "target_kind": MISSING_CONSTRAINT_INPUT,
+                "expected_type": "short_text",
+                "question_text": "Anh/chị có thể mô tả rõ căn cứ pháp lý hoặc bối cảnh áp dụng mà mình đang hỏi không?",
+                "is_placeholder": True,
+            }
+        )
+        return out
+
+    ctype, metric, _op, value_unit = _constraint_parts(src)
+    if ctype == "deadline":
+        # `constraint:deadline:X` and similar should become concrete temporal targets.
+        if any(x in low for x in ("bao_lau", "thoi_gian", "thu_viec", "toi_da")):
+            out.update(
+                {
+                    "fact_key": "duration_limit",
+                    "target_kind": MISSING_TIME_INPUT,
+                    "expected_type": "duration",
+                    "question_text": "Anh/chị muốn hỏi mốc thời lượng cụ thể là bao nhiêu ngày/tháng?",
+                    "is_placeholder": True,
+                }
+            )
+        elif "x" in low or not value_unit:
+            out.update(
+                {
+                    "fact_key": "deadline_anchor_event",
+                    "target_kind": MISSING_TIME_INPUT,
+                    "expected_type": "short_text",
+                    "question_text": "Anh/chị muốn tính thời hạn kể từ sự kiện nào (ví dụ: ngày ký, ngày thông báo, ngày chấm dứt)?",
+                    "is_placeholder": True,
+                }
+            )
+        else:
+            out.update(
+                {
+                    "fact_key": "deadline_date",
+                    "target_kind": MISSING_TIME_INPUT,
+                    "expected_type": "date",
+                    "question_text": "Anh/chị có thể cung cấp ngày/mốc thời gian cụ thể để áp dụng quy định không?",
+                    "is_placeholder": True,
+                }
+            )
+        return out
+
+    if ctype == "threshold":
+        if any(x in metric for x in ("thoi_gian", "thu_viec", "duration")):
+            out.update(
+                {
+                    "fact_key": "duration_limit",
+                    "target_kind": MISSING_NUMERIC_INPUT,
+                    "expected_type": "duration",
+                    "question_text": "Anh/chị muốn ngưỡng thời lượng tối đa là bao nhiêu ngày/tháng?",
+                    "is_placeholder": True,
+                }
+            )
+            return out
+        if any(x in low for x in ("luong", "salary", "toi_thieu")):
+            out.update(
+                {
+                    "fact_key": "salary_minimum_basis",
+                    "target_kind": MISSING_NUMERIC_INPUT,
+                    "expected_type": "choice",
+                    "options": ["luong_toi_thieu_vung", "luong_hop_dong", "muc_luong_thoa_thuan"],
+                    "question_text": "Anh/chị muốn lấy căn cứ mức lương tối thiểu theo phương án nào?",
+                    "is_placeholder": True,
+                }
+            )
+            return out
+        out.update(
+            {
+                "fact_key": "threshold_value",
+                "target_kind": MISSING_NUMERIC_INPUT,
+                "expected_type": "number",
+                "question_text": "Anh/chị vui lòng cung cấp giá trị ngưỡng cụ thể (số) để hệ thống kiểm tra điều kiện.",
+                "is_placeholder": True,
+            }
+        )
+        return out
+
+    if ctype == "dossier":
+        out.update(
+            {
+                "fact_key": "legal_ground",
+                "target_kind": MISSING_DOCUMENT_INPUT,
+                "expected_type": "short_text",
+                "question_text": "Anh/chị đang nói tới bộ hồ sơ/tài liệu cụ thể nào?",
+                "is_placeholder": True,
+            }
+        )
+        return out
+
+    # Non-constraint placeholders: keep semantic keys but avoid internal jargon in question text.
+    if src.endswith("()") and re.match(r"^[a-z_]+\(\)$", low):
+        out.update(
+            {
+                "fact_key": "legal_ground",
+                "target_kind": MISSING_CONSTRAINT_INPUT,
+                "expected_type": "short_text",
+                "question_text": "Anh/chị có thể nêu rõ bối cảnh pháp lý cụ thể của trường hợp này không?",
+                "is_placeholder": True,
+            }
+        )
+        return out
+
+    if rk == "constraint" and ("constraint:" in low):
+        out.update(
+            {
+                "fact_key": "legal_ground",
+                "target_kind": MISSING_CONSTRAINT_INPUT,
+                "expected_type": "short_text",
+                "question_text": "Anh/chị vui lòng bổ sung thông tin pháp lý cốt lõi để hệ thống áp dụng đúng ràng buộc.",
+                "is_placeholder": True,
+            }
+        )
+    return out
 
 
 def merge_priority(parse_priority: int, backward_priority: int) -> int:

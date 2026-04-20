@@ -1,0 +1,46 @@
+[
+  {
+    "qid": "n19",
+    "needs_clarification": true,
+    "selected_rule_present": false,
+    "proof_present": false,
+    "error": null,
+    "answer_present": false,
+    "answer_generation_mode": null,
+    "answer_has_missing_facts_list": false,
+    "answer_has_if_then_disclaimer": false,
+    "answer_has_non_final_disclaimer": false,
+    "rescued_fallback_flow": null,
+    "missing_facts": null,
+    "debug_trace_keys": [
+      "stage",
+      "query_text",
+      "backend_modes",
+      "run_config",
+      "parser_status",
+      "parse_repair"
+    ]
+  },
+  {
+    "qid": "n21",
+    "needs_clarification": true,
+    "selected_rule_present": false,
+    "proof_present": false,
+    "error": null,
+    "answer_present": false,
+    "answer_generation_mode": null,
+    "answer_has_missing_facts_list": false,
+    "answer_has_if_then_disclaimer": false,
+    "answer_has_non_final_disclaimer": false,
+    "rescued_fallback_flow": null,
+    "missing_facts": null,
+    "debug_trace_keys": [
+      "stage",
+      "query_text",
+      "backend_modes",
+      "run_config",
+      "parser_status",
+      "parse_repair"
+    ]
+  }
+]

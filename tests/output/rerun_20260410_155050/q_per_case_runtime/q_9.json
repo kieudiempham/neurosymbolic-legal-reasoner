@@ -1,0 +1,1310 @@
+{
+  "query_text": "Trụ sở chính của doanh nghiệp có bắt buộc phải xác định được địa chỉ cụ thể, rõ ràng hay không?",
+  "layer1": {
+    "utterance_type": "direct_question",
+    "subject_text": "Trụ sở chính của doanh nghiệp",
+    "condition_text": "",
+    "action_text": "",
+    "modality_text": "",
+    "time_text": "",
+    "deadline_text": "",
+    "exception_text": "",
+    "question_focus": "obligation",
+    "assertion_status": "asserted",
+    "raw_notes": [
+      "llm_layer1_json"
+    ],
+    "parse_metadata": {
+      "parser_backend": "llm",
+      "parser_provider": "api.groq.com",
+      "parser_model": "llama-3.1-8b-instant",
+      "requested_mode": "llm_required",
+      "actual_mode": "llm_real",
+      "provider": "api.groq.com",
+      "model": "llama-3.1-8b-instant",
+      "parser_available": true,
+      "parser_error": null,
+      "parser_prompt_version": "v5_layer1_slot_prompt_1",
+      "parser_latency_ms": 712.35,
+      "parser_backend_mode": "llm_real",
+      "fallback_used": false,
+      "raw_llm_output": "{\n  \"utterance_type\": \"direct_question\",\n  \"subject_text\": \"Trụ sở chính của doanh nghiệp\",\n  \"condition_text\": \"\",\n  \"action_text\": \"\",\n  \"modality_text\": \"\",\n  \"time_text\": \"\",\n  \"deadline_text\": \"\",\n  \"exception_text\": \"\",\n  \"question_focus\": \"obligation\",\n  \"assertion_status\": \"asserted\"\n}",
+      "fallback_reason": null
+    }
+  },
+  "layer2": {
+    "subject_normalized": "company_x",
+    "subject_type_guess": "company",
+    "condition_atoms": [],
+    "facts": [],
+    "goal": {
+      "predicate": "obligation",
+      "args": [
+        "company_x",
+        "unknown",
+        "doi_tuong"
+      ]
+    },
+    "query_rule_candidate": "ut=direct_question|subj=company_x|role=company|focus=obligation|pred=obligation|atoms=_|goal=obligation:company_x,unknown,doi_tuong",
+    "diagnostics": {
+      "normalizer": "v3_registry_condition",
+      "focus": "obligation",
+      "assertion_status_normalized": "asserted",
+      "hypothetical_condition_refs": [],
+      "condition_normalization": {
+        "frame": {
+          "event_type": "unknown",
+          "actor_entity_id": "company_x",
+          "actor_role": "company",
+          "time_hint": null,
+          "exception_hint": null,
+          "status": "asserted",
+          "source_text": ""
+        },
+        "primary_atom": "",
+        "alternative_atoms": [],
+        "confidence": 1.0,
+        "canonical_predicate": "",
+        "domain": "",
+        "ambiguity_reason": ""
+      },
+      "ambiguities": [
+        {
+          "type": "ambiguous_action",
+          "field": "action_text",
+          "source_text": "",
+          "candidates": [
+            "unknown",
+            "hanh_vi"
+          ],
+          "confidence_gap": 0.12,
+          "blocking": false,
+          "priority": 7,
+          "blocking_reason": "action_canonical_mapping_low_confidence"
+        }
+      ],
+      "entity_registry": {
+        "primary_subject_id": "company_x",
+        "records": {
+          "company_x": {
+            "entity_id": "company_x",
+            "entity_role": "company",
+            "mention_texts": [
+              "doanh nghiệp"
+            ],
+            "owner_entity_id": null,
+            "confidence": 0.82
+          }
+        },
+        "mentions": [
+          {
+            "surface": "doanh nghiệp",
+            "start": 17,
+            "end": 31,
+            "role_guess": "company"
+          }
+        ]
+      },
+      "goal_canonicalization": {
+        "action_canonical": "unknown",
+        "object_canonical": "doi_tuong",
+        "action_confidence": 0.52,
+        "archetype_confidence": 0.0,
+        "archetype_candidates": []
+      },
+      "intent_structure": {
+        "has_multi_intent": false,
+        "intent_units": [],
+        "sub_goals": [],
+        "primary_intent": {
+          "focus": "obligation"
+        },
+        "secondary_intents": [],
+        "selection_policy": "primary_for_reasoning_secondary_preserved"
+      }
+    }
+  },
+  "clarification_questions": [],
+  "selected_rule": null,
+  "retrieved_rules": [],
+  "reasoning": null,
+  "backward_plan": null,
+  "forward_result": null,
+  "verification_trace": [
+    {
+      "mode": "parse_verification",
+      "symbolic_result": "failed",
+      "symbolic_ok": false,
+      "nli_result": {
+        "label": "neutral",
+        "score": 0.638671875,
+        "scores": {
+          "entailment": 0.1708984375,
+          "neutral": 0.638671875,
+          "contradiction": 0.1904296875
+        }
+      },
+      "final_decision": "REJECT",
+      "diagnostics": [
+        "action_presence: Thiếu action_text khi focus không phải unknown",
+        "symbolic_failed"
+      ],
+      "repair_target": null,
+      "extra": {
+        "verbalization_meta": {
+          "template": "parse_v2_question_layer1_vs_goal_facts",
+          "guardrails": [
+            "guardrail:missing_modality_layer1",
+            "guardrail:empty_bracket_placeholder"
+          ],
+          "premise": "Câu hỏi gốc (verbatim): Trụ sở chính của doanh nghiệp có bắt buộc phải xác định được địa chỉ cụ thể, rõ ràng hay không? | Layer1: utterance=[direct_question], subject=[Trụ sở chính của doanh nghiệp], condition=[], action=[], modality=[], time=[], deadline=[], focus=[obligation], assertion=[asserted].",
+          "hypothesis": "Chủ thể [company_x] có nghĩa vụ thực hiện hành vi [unknown] đối với [doi_tuong]. Modality: bắt buộc. | Sự kiện người dùng (0): . Điều kiện (0): ."
+        },
+        "nli_trace": {
+          "mode": "parse_verification",
+          "nli_enabled": true,
+          "nli_status": "ok",
+          "nli_provider": "HuggingFaceNLIVerifier",
+          "nli_model_name": "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7",
+          "premise": "Câu hỏi gốc (verbatim): Trụ sở chính của doanh nghiệp có bắt buộc phải xác định được địa chỉ cụ thể, rõ ràng hay không? | Layer1: utterance=[direct_question], subject=[Trụ sở chính của doanh nghiệp], condition=[], action=[], modality=[], time=[], deadline=[], focus=[obligation], assertion=[asserted].",
+          "hypothesis": "Chủ thể [company_x] có nghĩa vụ thực hiện hành vi [unknown] đối với [doi_tuong]. Modality: bắt buộc. | Sự kiện người dùng (0): . Điều kiện (0): .",
+          "nli_decision": "neutral",
+          "entailment": 0.1708984375,
+          "contradiction": 0.1904296875,
+          "neutral": 0.638671875
+        }
+      },
+      "diagnostic_errors": [
+        "parse_slot_error"
+      ],
+      "repair_target_module": "parser",
+      "repair_hint": "[parse_verification] parse_slot_error → inspect module `parser`.",
+      "repair_payload": {
+        "mode": "parse_verification",
+        "diagnostic_errors": [
+          "parse_slot_error"
+        ],
+        "repair_targets": [
+          "parser"
+        ]
+      },
+      "decision": "REJECT",
+      "reasons": [
+        "action_presence: Thiếu action_text khi focus không phải unknown",
+        "symbolic_failed"
+      ],
+      "repair_hints": [
+        "[parse_verification] parse_slot_error → inspect module `parser`."
+      ],
+      "repair_applied": false,
+      "rerun_stage": null,
+      "repair_diagnostics": {
+        "decision": "REJECT",
+        "reasons": [
+          "action_presence: Thiếu action_text khi focus không phải unknown",
+          "symbolic_failed"
+        ],
+        "repair_target": null,
+        "repair_hints": [
+          "[parse_verification] parse_slot_error → inspect module `parser`."
+        ],
+        "repair_applied": false,
+        "rerun_stage": null,
+        "root_cause": "parse_slot_error",
+        "before_after": {
+          "parse_before": {
+            "goal": {
+              "predicate": "obligation",
+              "args": [
+                "company_x",
+                "unknown",
+                "doi_tuong"
+              ]
+            },
+            "layer1_focus": "obligation"
+          },
+          "parse_after": {
+            "goal": {
+              "predicate": "obligation",
+              "args": [
+                "company_x",
+                "unknown",
+                "doi_tuong"
+              ]
+            },
+            "layer1": {
+              "utterance_type": "direct_question",
+              "subject_text": "Trụ sở chính của doanh nghiệp",
+              "condition_text": "",
+              "action_text": "",
+              "modality_text": "",
+              "time_text": "",
+              "deadline_text": "",
+              "exception_text": "",
+              "question_focus": "obligation",
+              "assertion_status": "asserted",
+              "raw_notes": [
+                "llm_layer1_json"
+              ],
+              "parse_metadata": {
+                "parser_backend": "llm",
+                "parser_provider": "api.groq.com",
+                "parser_model": "llama-3.1-8b-instant",
+                "requested_mode": "llm_required",
+                "actual_mode": "llm_real",
+                "provider": "api.groq.com",
+                "model": "llama-3.1-8b-instant",
+                "parser_available": true,
+                "parser_error": null,
+                "parser_prompt_version": "v5_layer1_slot_prompt_1",
+                "parser_latency_ms": 712.35,
+                "parser_backend_mode": "llm_real",
+                "fallback_used": false,
+                "raw_llm_output": "{\n  \"utterance_type\": \"direct_question\",\n  \"subject_text\": \"Trụ sở chính của doanh nghiệp\",\n  \"condition_text\": \"\",\n  \"action_text\": \"\",\n  \"modality_text\": \"\",\n  \"time_text\": \"\",\n  \"deadline_text\": \"\",\n  \"exception_text\": \"\",\n  \"question_focus\": \"obligation\",\n  \"assertion_status\": \"asserted\"\n}",
+                "fallback_reason": null
+              }
+            }
+          },
+          "verification_before": "REJECT",
+          "verification_after": "REJECT"
+        },
+        "post_repair_gain": {
+          "parse_improved": false,
+          "final_status_before": "REJECT",
+          "final_status_after": "REJECT",
+          "goal_changed": false,
+          "repair_attempted": false,
+          "material_gain": false,
+          "fields_changed": []
+        }
+      },
+      "semantic_scores": {
+        "entailment": 0.1708984375,
+        "neutral": 0.638671875,
+        "contradiction": 0.1904296875
+      },
+      "symbolic_checks": {
+        "ok": false,
+        "issues": [
+          "action_presence: Thiếu action_text khi focus không phải unknown"
+        ],
+        "codes": [
+          "parse_slot_error"
+        ],
+        "checks": [
+          {
+            "name": "question_text_length",
+            "status": "pass",
+            "message": "",
+            "field": "question_text"
+          },
+          {
+            "name": "subject_presence",
+            "status": "pass",
+            "message": "",
+            "field": "subject"
+          },
+          {
+            "name": "action_presence",
+            "status": "fail",
+            "message": "Thiếu action_text khi focus không phải unknown",
+            "field": "action_text"
+          },
+          {
+            "name": "modality_presence",
+            "status": "skip",
+            "message": "Không có modality_text (có thể chấp nhận)",
+            "field": "modality_text"
+          },
+          {
+            "name": "goal_predicate_schema",
+            "status": "pass",
+            "message": "",
+            "field": "layer2.goal.predicate"
+          },
+          {
+            "name": "goal_arity",
+            "status": "pass",
+            "message": "",
+            "field": "layer2.goal.args"
+          },
+          {
+            "name": "focus_goal_alignment",
+            "status": "pass",
+            "message": "",
+            "field": "layer1.question_focus"
+          },
+          {
+            "name": "facts_shape",
+            "status": "pass",
+            "message": "",
+            "field": "layer2.facts"
+          }
+        ]
+      },
+      "normalized_inputs": {
+        "question_text": "Trụ sở chính của doanh nghiệp có bắt buộc phải xác định được địa chỉ cụ thể, rõ ràng hay không?",
+        "layer1": {
+          "utterance_type": "direct_question",
+          "subject_text": "Trụ sở chính của doanh nghiệp",
+          "condition_text": "",
+          "action_text": "",
+          "modality_text": "",
+          "time_text": "",
+          "deadline_text": "",
+          "exception_text": "",
+          "question_focus": "obligation",
+          "assertion_status": "asserted",
+          "raw_notes": [
+            "llm_layer1_json"
+          ],
+          "parse_metadata": {
+            "parser_backend": "llm",
+            "parser_provider": "api.groq.com",
+            "parser_model": "llama-3.1-8b-instant",
+            "requested_mode": "llm_required",
+            "actual_mode": "llm_real",
+            "provider": "api.groq.com",
+            "model": "llama-3.1-8b-instant",
+            "parser_available": true,
+            "parser_error": null,
+            "parser_prompt_version": "v5_layer1_slot_prompt_1",
+            "parser_latency_ms": 712.35,
+            "parser_backend_mode": "llm_real",
+            "fallback_used": false,
+            "raw_llm_output": "{\n  \"utterance_type\": \"direct_question\",\n  \"subject_text\": \"Trụ sở chính của doanh nghiệp\",\n  \"condition_text\": \"\",\n  \"action_text\": \"\",\n  \"modality_text\": \"\",\n  \"time_text\": \"\",\n  \"deadline_text\": \"\",\n  \"exception_text\": \"\",\n  \"question_focus\": \"obligation\",\n  \"assertion_status\": \"asserted\"\n}",
+            "fallback_reason": null
+          }
+        },
+        "layer2": {
+          "subject_normalized": "company_x",
+          "subject_type_guess": "company",
+          "condition_atoms": [],
+          "facts": [],
+          "goal": {
+            "predicate": "obligation",
+            "args": [
+              "company_x",
+              "unknown",
+              "doi_tuong"
+            ]
+          },
+          "query_rule_candidate": "ut=direct_question|subj=company_x|role=company|focus=obligation|pred=obligation|atoms=_|goal=obligation:company_x,unknown,doi_tuong",
+          "diagnostics": {
+            "normalizer": "v3_registry_condition",
+            "focus": "obligation",
+            "assertion_status_normalized": "asserted",
+            "hypothetical_condition_refs": [],
+            "condition_normalization": {
+              "frame": {
+                "event_type": "unknown",
+                "actor_entity_id": "company_x",
+                "actor_role": "company",
+                "time_hint": null,
+                "exception_hint": null,
+                "status": "asserted",
+                "source_text": ""
+              },
+              "primary_atom": "",
+              "alternative_atoms": [],
+              "confidence": 1.0,
+              "canonical_predicate": "",
+              "domain": "",
+              "ambiguity_reason": ""
+            },
+            "ambiguities": [
+              {
+                "type": "ambiguous_action",
+                "field": "action_text",
+                "source_text": "",
+                "candidates": [
+                  "unknown",
+                  "hanh_vi"
+                ],
+                "confidence_gap": 0.12,
+                "blocking": false,
+                "priority": 7,
+                "blocking_reason": "action_canonical_mapping_low_confidence"
+              }
+            ],
+            "entity_registry": {
+              "primary_subject_id": "company_x",
+              "records": {
+                "company_x": {
+                  "entity_id": "company_x",
+                  "entity_role": "company",
+                  "mention_texts": [
+                    "doanh nghiệp"
+                  ],
+                  "owner_entity_id": null,
+                  "confidence": 0.82
+                }
+              },
+              "mentions": [
+                {
+                  "surface": "doanh nghiệp",
+                  "start": 17,
+                  "end": 31,
+                  "role_guess": "company"
+                }
+              ]
+            },
+            "goal_canonicalization": {
+              "action_canonical": "unknown",
+              "object_canonical": "doi_tuong",
+              "action_confidence": 0.52,
+              "archetype_confidence": 0.0,
+              "archetype_candidates": []
+            },
+            "intent_structure": {
+              "has_multi_intent": false,
+              "intent_units": [],
+              "sub_goals": [],
+              "primary_intent": {
+                "focus": "obligation"
+              },
+              "secondary_intents": [],
+              "selection_policy": "primary_for_reasoning_secondary_preserved"
+            }
+          }
+        }
+      },
+      "verbalized_texts": {
+        "premise": "Câu hỏi gốc (verbatim): Trụ sở chính của doanh nghiệp có bắt buộc phải xác định được địa chỉ cụ thể, rõ ràng hay không? | Layer1: utterance=[direct_question], subject=[Trụ sở chính của doanh nghiệp], condition=[], action=[], modality=[], time=[], deadline=[], focus=[obligation], assertion=[asserted].",
+        "hypothesis": "Chủ thể [company_x] có nghĩa vụ thực hiện hành vi [unknown] đối với [doi_tuong]. Modality: bắt buộc. | Sự kiện người dùng (0): . Điều kiện (0): .",
+        "premise_alignment": "Câu hỏi gốc (verbatim): Trụ sở chính của doanh nghiệp có bắt buộc phải xác định được địa chỉ cụ thể, rõ ràng hay không? | Layer1: utterance=[direct_question], subject=[Trụ sở chính của doanh nghiệp], condition=[], action=[], modality=[], time=[], deadline=[], focus=[obligation], assertion=[asserted].",
+        "hypothesis_goal": "Chủ thể [company_x] có nghĩa vụ thực hiện hành vi [unknown] đối với [doi_tuong]. Modality: bắt buộc. | Sự kiện người dùng (0): . Điều kiện (0): .",
+        "layer1_subject": "Subject (chủ thể câu hỏi): [Trụ sở chính của doanh nghiệp]."
+      },
+      "trace": [
+        "symbolic_parse_done",
+        "nli_parse"
+      ]
+    }
+  ],
+  "proof": null,
+  "answer": null,
+  "debug_trace": {
+    "stage": [
+      "parse_done"
+    ],
+    "query_text": "Trụ sở chính của doanh nghiệp có bắt buộc phải xác định được địa chỉ cụ thể, rõ ràng hay không?",
+    "backend_modes": {
+      "parse_backend": {
+        "provider": "api.groq.com",
+        "model": "llama-3.1-8b-instant",
+        "mode": "llm_real"
+      },
+      "answer_backend": {
+        "provider": null,
+        "model": null,
+        "mode": "none"
+      },
+      "verifier_backend": {
+        "provider": "HuggingFaceNLIVerifier",
+        "model": "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7",
+        "mode": "real"
+      },
+      "retrieval_backend": {
+        "provider": null,
+        "model": null,
+        "mode": "none"
+      }
+    },
+    "run_config": {
+      "profile_name": "custom",
+      "enable_shared_layer": true,
+      "enable_clarification": true,
+      "enable_repair_loop": true,
+      "enable_backward_chaining": true,
+      "enable_nli_verifier": true,
+      "enable_cross_domain_jump": true,
+      "config_source": null
+    },
+    "parser_status": {
+      "parser_backend": "llm",
+      "parser_provider": "api.groq.com",
+      "parser_model": "llama-3.1-8b-instant",
+      "requested_mode": "llm_required",
+      "actual_mode": "llm_real",
+      "provider": "api.groq.com",
+      "model": "llama-3.1-8b-instant",
+      "parser_available": true,
+      "parser_error": null,
+      "parser_prompt_version": "v5_layer1_slot_prompt_1",
+      "parser_latency_ms": 712.35,
+      "parser_backend_mode": "llm_real",
+      "fallback_used": false,
+      "raw_llm_output": "{\n  \"utterance_type\": \"direct_question\",\n  \"subject_text\": \"Trụ sở chính của doanh nghiệp\",\n  \"condition_text\": \"\",\n  \"action_text\": \"\",\n  \"modality_text\": \"\",\n  \"time_text\": \"\",\n  \"deadline_text\": \"\",\n  \"exception_text\": \"\",\n  \"question_focus\": \"obligation\",\n  \"assertion_status\": \"asserted\"\n}",
+      "fallback_reason": null
+    },
+    "parse_repair": [
+      {
+        "phase": "parse",
+        "attempt": 0,
+        "decision": "REJECT",
+        "repair_target_module": "parser",
+        "input_snapshot": {
+          "goal": {
+            "predicate": "obligation",
+            "args": [
+              "company_x",
+              "unknown",
+              "doi_tuong"
+            ]
+          },
+          "layer1_focus": "obligation"
+        },
+        "diagnostic_errors": [
+          "parse_slot_error"
+        ],
+        "auto_repair_eligible": false,
+        "verifier_mode": "parse_verification",
+        "verdict": "REJECT",
+        "issue_type": "parse_slot_error",
+        "repair_target": "parser",
+        "repair_action": "initial_verify",
+        "rerun_result": "not_rerun"
+      },
+      {
+        "phase": "parse",
+        "final_decision": "REJECT",
+        "attempts_used": 0,
+        "post_repair_gain": {
+          "parse_improved": false,
+          "final_status_before": "REJECT",
+          "final_status_after": "REJECT",
+          "goal_changed": false,
+          "repair_attempted": false,
+          "material_gain": false,
+          "fields_changed": []
+        },
+        "repair_attempted": false,
+        "material_gain": false,
+        "fields_changed": [],
+        "root_cause": "parse_slot_error",
+        "verifier_mode": "parse_verification",
+        "verdict": "REJECT",
+        "issue_type": "parse_slot_error",
+        "repair_target": "parser",
+        "repair_action": "stop_after_controlled_repair",
+        "rerun_result": "failed"
+      }
+    ],
+    "error": "parse_rejected"
+  },
+  "evaluation_log": {
+    "sample_id": "sess_1775811093190_f4d16295",
+    "query_text": "Trụ sở chính của doanh nghiệp có bắt buộc phải xác định được địa chỉ cụ thể, rõ ràng hay không?",
+    "parsed_layer1": {
+      "utterance_type": "direct_question",
+      "subject_text": "Trụ sở chính của doanh nghiệp",
+      "condition_text": "",
+      "action_text": "",
+      "modality_text": "",
+      "time_text": "",
+      "deadline_text": "",
+      "exception_text": "",
+      "question_focus": "obligation",
+      "assertion_status": "asserted",
+      "raw_notes": [
+        "llm_layer1_json"
+      ],
+      "parse_metadata": {
+        "parser_backend": "llm",
+        "parser_provider": "api.groq.com",
+        "parser_model": "llama-3.1-8b-instant",
+        "requested_mode": "llm_required",
+        "actual_mode": "llm_real",
+        "provider": "api.groq.com",
+        "model": "llama-3.1-8b-instant",
+        "parser_available": true,
+        "parser_error": null,
+        "parser_prompt_version": "v5_layer1_slot_prompt_1",
+        "parser_latency_ms": 712.35,
+        "parser_backend_mode": "llm_real",
+        "fallback_used": false,
+        "raw_llm_output": "{\n  \"utterance_type\": \"direct_question\",\n  \"subject_text\": \"Trụ sở chính của doanh nghiệp\",\n  \"condition_text\": \"\",\n  \"action_text\": \"\",\n  \"modality_text\": \"\",\n  \"time_text\": \"\",\n  \"deadline_text\": \"\",\n  \"exception_text\": \"\",\n  \"question_focus\": \"obligation\",\n  \"assertion_status\": \"asserted\"\n}",
+        "fallback_reason": null
+      }
+    },
+    "parsed_layer2": {
+      "subject_normalized": "company_x",
+      "subject_type_guess": "company",
+      "condition_atoms": [],
+      "facts": [],
+      "goal": {
+        "predicate": "obligation",
+        "args": [
+          "company_x",
+          "unknown",
+          "doi_tuong"
+        ]
+      },
+      "query_rule_candidate": "ut=direct_question|subj=company_x|role=company|focus=obligation|pred=obligation|atoms=_|goal=obligation:company_x,unknown,doi_tuong",
+      "diagnostics": {
+        "normalizer": "v3_registry_condition",
+        "focus": "obligation",
+        "assertion_status_normalized": "asserted",
+        "hypothetical_condition_refs": [],
+        "condition_normalization": {
+          "frame": {
+            "event_type": "unknown",
+            "actor_entity_id": "company_x",
+            "actor_role": "company",
+            "time_hint": null,
+            "exception_hint": null,
+            "status": "asserted",
+            "source_text": ""
+          },
+          "primary_atom": "",
+          "alternative_atoms": [],
+          "confidence": 1.0,
+          "canonical_predicate": "",
+          "domain": "",
+          "ambiguity_reason": ""
+        },
+        "ambiguities": [
+          {
+            "type": "ambiguous_action",
+            "field": "action_text",
+            "source_text": "",
+            "candidates": [
+              "unknown",
+              "hanh_vi"
+            ],
+            "confidence_gap": 0.12,
+            "blocking": false,
+            "priority": 7,
+            "blocking_reason": "action_canonical_mapping_low_confidence"
+          }
+        ],
+        "entity_registry": {
+          "primary_subject_id": "company_x",
+          "records": {
+            "company_x": {
+              "entity_id": "company_x",
+              "entity_role": "company",
+              "mention_texts": [
+                "doanh nghiệp"
+              ],
+              "owner_entity_id": null,
+              "confidence": 0.82
+            }
+          },
+          "mentions": [
+            {
+              "surface": "doanh nghiệp",
+              "start": 17,
+              "end": 31,
+              "role_guess": "company"
+            }
+          ]
+        },
+        "goal_canonicalization": {
+          "action_canonical": "unknown",
+          "object_canonical": "doi_tuong",
+          "action_confidence": 0.52,
+          "archetype_confidence": 0.0,
+          "archetype_candidates": []
+        },
+        "intent_structure": {
+          "has_multi_intent": false,
+          "intent_units": [],
+          "sub_goals": [],
+          "primary_intent": {
+            "focus": "obligation"
+          },
+          "secondary_intents": [],
+          "selection_policy": "primary_for_reasoning_secondary_preserved"
+        }
+      }
+    },
+    "predicted_domains": null,
+    "activated_domains": null,
+    "bridge_rules_used": null,
+    "cross_domain_jumps_attempted": 0,
+    "cross_domain_jumps_success": 0,
+    "cross_domain_jumps_blocked": 0,
+    "retrieved_topk": null,
+    "selected_rule": null,
+    "requirement_set": null,
+    "missing_facts": null,
+    "clarification_question": [],
+    "clarification_answer": null,
+    "proof": null,
+    "proof_domains": null,
+    "final_statute_grounding": null,
+    "verification_reports": [
+      {
+        "mode": "parse_verification",
+        "symbolic_result": "failed",
+        "symbolic_ok": false,
+        "nli_result": {
+          "label": "neutral",
+          "score": 0.638671875,
+          "scores": {
+            "entailment": 0.1708984375,
+            "neutral": 0.638671875,
+            "contradiction": 0.1904296875
+          }
+        },
+        "final_decision": "REJECT",
+        "diagnostics": [
+          "action_presence: Thiếu action_text khi focus không phải unknown",
+          "symbolic_failed"
+        ],
+        "repair_target": null,
+        "extra": {
+          "verbalization_meta": {
+            "template": "parse_v2_question_layer1_vs_goal_facts",
+            "guardrails": [
+              "guardrail:missing_modality_layer1",
+              "guardrail:empty_bracket_placeholder"
+            ],
+            "premise": "Câu hỏi gốc (verbatim): Trụ sở chính của doanh nghiệp có bắt buộc phải xác định được địa chỉ cụ thể, rõ ràng hay không? | Layer1: utterance=[direct_question], subject=[Trụ sở chính của doanh nghiệp], condition=[], action=[], modality=[], time=[], deadline=[], focus=[obligation], assertion=[asserted].",
+            "hypothesis": "Chủ thể [company_x] có nghĩa vụ thực hiện hành vi [unknown] đối với [doi_tuong]. Modality: bắt buộc. | Sự kiện người dùng (0): . Điều kiện (0): ."
+          },
+          "nli_trace": {
+            "mode": "parse_verification",
+            "nli_enabled": true,
+            "nli_status": "ok",
+            "nli_provider": "HuggingFaceNLIVerifier",
+            "nli_model_name": "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7",
+            "premise": "Câu hỏi gốc (verbatim): Trụ sở chính của doanh nghiệp có bắt buộc phải xác định được địa chỉ cụ thể, rõ ràng hay không? | Layer1: utterance=[direct_question], subject=[Trụ sở chính của doanh nghiệp], condition=[], action=[], modality=[], time=[], deadline=[], focus=[obligation], assertion=[asserted].",
+            "hypothesis": "Chủ thể [company_x] có nghĩa vụ thực hiện hành vi [unknown] đối với [doi_tuong]. Modality: bắt buộc. | Sự kiện người dùng (0): . Điều kiện (0): .",
+            "nli_decision": "neutral",
+            "entailment": 0.1708984375,
+            "contradiction": 0.1904296875,
+            "neutral": 0.638671875
+          }
+        },
+        "diagnostic_errors": [
+          "parse_slot_error"
+        ],
+        "repair_target_module": "parser",
+        "repair_hint": "[parse_verification] parse_slot_error → inspect module `parser`.",
+        "repair_payload": {
+          "mode": "parse_verification",
+          "diagnostic_errors": [
+            "parse_slot_error"
+          ],
+          "repair_targets": [
+            "parser"
+          ]
+        },
+        "decision": "REJECT",
+        "reasons": [
+          "action_presence: Thiếu action_text khi focus không phải unknown",
+          "symbolic_failed"
+        ],
+        "repair_hints": [
+          "[parse_verification] parse_slot_error → inspect module `parser`."
+        ],
+        "repair_applied": false,
+        "rerun_stage": null,
+        "repair_diagnostics": {
+          "decision": "REJECT",
+          "reasons": [
+            "action_presence: Thiếu action_text khi focus không phải unknown",
+            "symbolic_failed"
+          ],
+          "repair_target": null,
+          "repair_hints": [
+            "[parse_verification] parse_slot_error → inspect module `parser`."
+          ],
+          "repair_applied": false,
+          "rerun_stage": null,
+          "root_cause": "parse_slot_error",
+          "before_after": {
+            "parse_before": {
+              "goal": {
+                "predicate": "obligation",
+                "args": [
+                  "company_x",
+                  "unknown",
+                  "doi_tuong"
+                ]
+              },
+              "layer1_focus": "obligation"
+            },
+            "parse_after": {
+              "goal": {
+                "predicate": "obligation",
+                "args": [
+                  "company_x",
+                  "unknown",
+                  "doi_tuong"
+                ]
+              },
+              "layer1": {
+                "utterance_type": "direct_question",
+                "subject_text": "Trụ sở chính của doanh nghiệp",
+                "condition_text": "",
+                "action_text": "",
+                "modality_text": "",
+                "time_text": "",
+                "deadline_text": "",
+                "exception_text": "",
+                "question_focus": "obligation",
+                "assertion_status": "asserted",
+                "raw_notes": [
+                  "llm_layer1_json"
+                ],
+                "parse_metadata": {
+                  "parser_backend": "llm",
+                  "parser_provider": "api.groq.com",
+                  "parser_model": "llama-3.1-8b-instant",
+                  "requested_mode": "llm_required",
+                  "actual_mode": "llm_real",
+                  "provider": "api.groq.com",
+                  "model": "llama-3.1-8b-instant",
+                  "parser_available": true,
+                  "parser_error": null,
+                  "parser_prompt_version": "v5_layer1_slot_prompt_1",
+                  "parser_latency_ms": 712.35,
+                  "parser_backend_mode": "llm_real",
+                  "fallback_used": false,
+                  "raw_llm_output": "{\n  \"utterance_type\": \"direct_question\",\n  \"subject_text\": \"Trụ sở chính của doanh nghiệp\",\n  \"condition_text\": \"\",\n  \"action_text\": \"\",\n  \"modality_text\": \"\",\n  \"time_text\": \"\",\n  \"deadline_text\": \"\",\n  \"exception_text\": \"\",\n  \"question_focus\": \"obligation\",\n  \"assertion_status\": \"asserted\"\n}",
+                  "fallback_reason": null
+                }
+              }
+            },
+            "verification_before": "REJECT",
+            "verification_after": "REJECT"
+          },
+          "post_repair_gain": {
+            "parse_improved": false,
+            "final_status_before": "REJECT",
+            "final_status_after": "REJECT",
+            "goal_changed": false,
+            "repair_attempted": false,
+            "material_gain": false,
+            "fields_changed": []
+          }
+        },
+        "semantic_scores": {
+          "entailment": 0.1708984375,
+          "neutral": 0.638671875,
+          "contradiction": 0.1904296875
+        },
+        "symbolic_checks": {
+          "ok": false,
+          "issues": [
+            "action_presence: Thiếu action_text khi focus không phải unknown"
+          ],
+          "codes": [
+            "parse_slot_error"
+          ],
+          "checks": [
+            {
+              "name": "question_text_length",
+              "status": "pass",
+              "message": "",
+              "field": "question_text"
+            },
+            {
+              "name": "subject_presence",
+              "status": "pass",
+              "message": "",
+              "field": "subject"
+            },
+            {
+              "name": "action_presence",
+              "status": "fail",
+              "message": "Thiếu action_text khi focus không phải unknown",
+              "field": "action_text"
+            },
+            {
+              "name": "modality_presence",
+              "status": "skip",
+              "message": "Không có modality_text (có thể chấp nhận)",
+              "field": "modality_text"
+            },
+            {
+              "name": "goal_predicate_schema",
+              "status": "pass",
+              "message": "",
+              "field": "layer2.goal.predicate"
+            },
+            {
+              "name": "goal_arity",
+              "status": "pass",
+              "message": "",
+              "field": "layer2.goal.args"
+            },
+            {
+              "name": "focus_goal_alignment",
+              "status": "pass",
+              "message": "",
+              "field": "layer1.question_focus"
+            },
+            {
+              "name": "facts_shape",
+              "status": "pass",
+              "message": "",
+              "field": "layer2.facts"
+            }
+          ]
+        },
+        "normalized_inputs": {
+          "question_text": "Trụ sở chính của doanh nghiệp có bắt buộc phải xác định được địa chỉ cụ thể, rõ ràng hay không?",
+          "layer1": {
+            "utterance_type": "direct_question",
+            "subject_text": "Trụ sở chính của doanh nghiệp",
+            "condition_text": "",
+            "action_text": "",
+            "modality_text": "",
+            "time_text": "",
+            "deadline_text": "",
+            "exception_text": "",
+            "question_focus": "obligation",
+            "assertion_status": "asserted",
+            "raw_notes": [
+              "llm_layer1_json"
+            ],
+            "parse_metadata": {
+              "parser_backend": "llm",
+              "parser_provider": "api.groq.com",
+              "parser_model": "llama-3.1-8b-instant",
+              "requested_mode": "llm_required",
+              "actual_mode": "llm_real",
+              "provider": "api.groq.com",
+              "model": "llama-3.1-8b-instant",
+              "parser_available": true,
+              "parser_error": null,
+              "parser_prompt_version": "v5_layer1_slot_prompt_1",
+              "parser_latency_ms": 712.35,
+              "parser_backend_mode": "llm_real",
+              "fallback_used": false,
+              "raw_llm_output": "{\n  \"utterance_type\": \"direct_question\",\n  \"subject_text\": \"Trụ sở chính của doanh nghiệp\",\n  \"condition_text\": \"\",\n  \"action_text\": \"\",\n  \"modality_text\": \"\",\n  \"time_text\": \"\",\n  \"deadline_text\": \"\",\n  \"exception_text\": \"\",\n  \"question_focus\": \"obligation\",\n  \"assertion_status\": \"asserted\"\n}",
+              "fallback_reason": null
+            }
+          },
+          "layer2": {
+            "subject_normalized": "company_x",
+            "subject_type_guess": "company",
+            "condition_atoms": [],
+            "facts": [],
+            "goal": {
+              "predicate": "obligation",
+              "args": [
+                "company_x",
+                "unknown",
+                "doi_tuong"
+              ]
+            },
+            "query_rule_candidate": "ut=direct_question|subj=company_x|role=company|focus=obligation|pred=obligation|atoms=_|goal=obligation:company_x,unknown,doi_tuong",
+            "diagnostics": {
+              "normalizer": "v3_registry_condition",
+              "focus": "obligation",
+              "assertion_status_normalized": "asserted",
+              "hypothetical_condition_refs": [],
+              "condition_normalization": {
+                "frame": {
+                  "event_type": "unknown",
+                  "actor_entity_id": "company_x",
+                  "actor_role": "company",
+                  "time_hint": null,
+                  "exception_hint": null,
+                  "status": "asserted",
+                  "source_text": ""
+                },
+                "primary_atom": "",
+                "alternative_atoms": [],
+                "confidence": 1.0,
+                "canonical_predicate": "",
+                "domain": "",
+                "ambiguity_reason": ""
+              },
+              "ambiguities": [
+                {
+                  "type": "ambiguous_action",
+                  "field": "action_text",
+                  "source_text": "",
+                  "candidates": [
+                    "unknown",
+                    "hanh_vi"
+                  ],
+                  "confidence_gap": 0.12,
+                  "blocking": false,
+                  "priority": 7,
+                  "blocking_reason": "action_canonical_mapping_low_confidence"
+                }
+              ],
+              "entity_registry": {
+                "primary_subject_id": "company_x",
+                "records": {
+                  "company_x": {
+                    "entity_id": "company_x",
+                    "entity_role": "company",
+                    "mention_texts": [
+                      "doanh nghiệp"
+                    ],
+                    "owner_entity_id": null,
+                    "confidence": 0.82
+                  }
+                },
+                "mentions": [
+                  {
+                    "surface": "doanh nghiệp",
+                    "start": 17,
+                    "end": 31,
+                    "role_guess": "company"
+                  }
+                ]
+              },
+              "goal_canonicalization": {
+                "action_canonical": "unknown",
+                "object_canonical": "doi_tuong",
+                "action_confidence": 0.52,
+                "archetype_confidence": 0.0,
+                "archetype_candidates": []
+              },
+              "intent_structure": {
+                "has_multi_intent": false,
+                "intent_units": [],
+                "sub_goals": [],
+                "primary_intent": {
+                  "focus": "obligation"
+                },
+                "secondary_intents": [],
+                "selection_policy": "primary_for_reasoning_secondary_preserved"
+              }
+            }
+          }
+        },
+        "verbalized_texts": {
+          "premise": "Câu hỏi gốc (verbatim): Trụ sở chính của doanh nghiệp có bắt buộc phải xác định được địa chỉ cụ thể, rõ ràng hay không? | Layer1: utterance=[direct_question], subject=[Trụ sở chính của doanh nghiệp], condition=[], action=[], modality=[], time=[], deadline=[], focus=[obligation], assertion=[asserted].",
+          "hypothesis": "Chủ thể [company_x] có nghĩa vụ thực hiện hành vi [unknown] đối với [doi_tuong]. Modality: bắt buộc. | Sự kiện người dùng (0): . Điều kiện (0): .",
+          "premise_alignment": "Câu hỏi gốc (verbatim): Trụ sở chính của doanh nghiệp có bắt buộc phải xác định được địa chỉ cụ thể, rõ ràng hay không? | Layer1: utterance=[direct_question], subject=[Trụ sở chính của doanh nghiệp], condition=[], action=[], modality=[], time=[], deadline=[], focus=[obligation], assertion=[asserted].",
+          "hypothesis_goal": "Chủ thể [company_x] có nghĩa vụ thực hiện hành vi [unknown] đối với [doi_tuong]. Modality: bắt buộc. | Sự kiện người dùng (0): . Điều kiện (0): .",
+          "layer1_subject": "Subject (chủ thể câu hỏi): [Trụ sở chính của doanh nghiệp]."
+        },
+        "trace": [
+          "symbolic_parse_done",
+          "nli_parse"
+        ]
+      }
+    ],
+    "repair_actions": [
+      {
+        "stage": [
+          "parse_done"
+        ],
+        "query_text": "Trụ sở chính của doanh nghiệp có bắt buộc phải xác định được địa chỉ cụ thể, rõ ràng hay không?",
+        "backend_modes": {
+          "parse_backend": {
+            "provider": "api.groq.com",
+            "model": "llama-3.1-8b-instant",
+            "mode": "llm_real"
+          },
+          "answer_backend": {
+            "provider": null,
+            "model": null,
+            "mode": "none"
+          },
+          "verifier_backend": {
+            "provider": "HuggingFaceNLIVerifier",
+            "model": "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7",
+            "mode": "real"
+          },
+          "retrieval_backend": {
+            "provider": null,
+            "model": null,
+            "mode": "none"
+          }
+        },
+        "run_config": {
+          "profile_name": "custom",
+          "enable_shared_layer": true,
+          "enable_clarification": true,
+          "enable_repair_loop": true,
+          "enable_backward_chaining": true,
+          "enable_nli_verifier": true,
+          "enable_cross_domain_jump": true,
+          "config_source": null
+        },
+        "parser_status": {
+          "parser_backend": "llm",
+          "parser_provider": "api.groq.com",
+          "parser_model": "llama-3.1-8b-instant",
+          "requested_mode": "llm_required",
+          "actual_mode": "llm_real",
+          "provider": "api.groq.com",
+          "model": "llama-3.1-8b-instant",
+          "parser_available": true,
+          "parser_error": null,
+          "parser_prompt_version": "v5_layer1_slot_prompt_1",
+          "parser_latency_ms": 712.35,
+          "parser_backend_mode": "llm_real",
+          "fallback_used": false,
+          "raw_llm_output": "{\n  \"utterance_type\": \"direct_question\",\n  \"subject_text\": \"Trụ sở chính của doanh nghiệp\",\n  \"condition_text\": \"\",\n  \"action_text\": \"\",\n  \"modality_text\": \"\",\n  \"time_text\": \"\",\n  \"deadline_text\": \"\",\n  \"exception_text\": \"\",\n  \"question_focus\": \"obligation\",\n  \"assertion_status\": \"asserted\"\n}",
+          "fallback_reason": null
+        },
+        "parse_repair": [
+          {
+            "phase": "parse",
+            "attempt": 0,
+            "decision": "REJECT",
+            "repair_target_module": "parser",
+            "input_snapshot": {
+              "goal": {
+                "predicate": "obligation",
+                "args": [
+                  "company_x",
+                  "unknown",
+                  "doi_tuong"
+                ]
+              },
+              "layer1_focus": "obligation"
+            },
+            "diagnostic_errors": [
+              "parse_slot_error"
+            ],
+            "auto_repair_eligible": false,
+            "verifier_mode": "parse_verification",
+            "verdict": "REJECT",
+            "issue_type": "parse_slot_error",
+            "repair_target": "parser",
+            "repair_action": "initial_verify",
+            "rerun_result": "not_rerun"
+          },
+          {
+            "phase": "parse",
+            "final_decision": "REJECT",
+            "attempts_used": 0,
+            "post_repair_gain": {
+              "parse_improved": false,
+              "final_status_before": "REJECT",
+              "final_status_after": "REJECT",
+              "goal_changed": false,
+              "repair_attempted": false,
+              "material_gain": false,
+              "fields_changed": []
+            },
+            "repair_attempted": false,
+            "material_gain": false,
+            "fields_changed": [],
+            "root_cause": "parse_slot_error",
+            "verifier_mode": "parse_verification",
+            "verdict": "REJECT",
+            "issue_type": "parse_slot_error",
+            "repair_target": "parser",
+            "repair_action": "stop_after_controlled_repair",
+            "rerun_result": "failed"
+          }
+        ],
+        "error": "parse_rejected"
+      },
+      {
+        "profile_name": "custom",
+        "enable_shared_layer": true,
+        "enable_clarification": true,
+        "enable_repair_loop": true,
+        "enable_backward_chaining": true,
+        "enable_nli_verifier": true,
+        "enable_cross_domain_jump": true,
+        "config_source": null
+      },
+      {
+        "phase": "parse",
+        "attempt": 0,
+        "decision": "REJECT",
+        "repair_target_module": "parser",
+        "input_snapshot": {
+          "goal": {
+            "predicate": "obligation",
+            "args": [
+              "company_x",
+              "unknown",
+              "doi_tuong"
+            ]
+          },
+          "layer1_focus": "obligation"
+        },
+        "diagnostic_errors": [
+          "parse_slot_error"
+        ],
+        "auto_repair_eligible": false,
+        "verifier_mode": "parse_verification",
+        "verdict": "REJECT",
+        "issue_type": "parse_slot_error",
+        "repair_target": "parser",
+        "repair_action": "initial_verify",
+        "rerun_result": "not_rerun"
+      },
+      {
+        "phase": "parse",
+        "final_decision": "REJECT",
+        "attempts_used": 0,
+        "post_repair_gain": {
+          "parse_improved": false,
+          "final_status_before": "REJECT",
+          "final_status_after": "REJECT",
+          "goal_changed": false,
+          "repair_attempted": false,
+          "material_gain": false,
+          "fields_changed": []
+        },
+        "repair_attempted": false,
+        "material_gain": false,
+        "fields_changed": [],
+        "root_cause": "parse_slot_error",
+        "verifier_mode": "parse_verification",
+        "verdict": "REJECT",
+        "issue_type": "parse_slot_error",
+        "repair_target": "parser",
+        "repair_action": "stop_after_controlled_repair",
+        "rerun_result": "failed"
+      },
+      {
+        "parse_improved": false,
+        "final_status_before": "REJECT",
+        "final_status_after": "REJECT",
+        "goal_changed": false,
+        "repair_attempted": false,
+        "material_gain": false,
+        "fields_changed": []
+      }
+    ],
+    "evidence_snippets": null,
+    "legal_citations": null,
+    "final_answer": null,
+    "final_status": "failed",
+    "error_stage_first": null,
+    "error_stage_final": "parse_rejected",
+    "run_config": {
+      "profile_name": "custom",
+      "enable_shared_layer": true,
+      "enable_clarification": true,
+      "enable_repair_loop": true,
+      "enable_backward_chaining": true,
+      "enable_nli_verifier": true,
+      "enable_cross_domain_jump": true,
+      "config_source": null
+    },
+    "backend_modes": {
+      "parse_backend": {
+        "provider": "api.groq.com",
+        "model": "llama-3.1-8b-instant",
+        "mode": "llm_real"
+      },
+      "answer_backend": {
+        "provider": null,
+        "model": null,
+        "mode": "none"
+      },
+      "verifier_backend": {
+        "provider": "HuggingFaceNLIVerifier",
+        "model": "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7",
+        "mode": "real"
+      },
+      "retrieval_backend": {
+        "provider": null,
+        "model": null,
+        "mode": "none"
+      }
+    }
+  }
+}

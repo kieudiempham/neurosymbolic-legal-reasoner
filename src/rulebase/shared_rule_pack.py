@@ -65,6 +65,17 @@ def validate_shared_rule(rule: RuleRecord) -> bool:
         return False
     if rule.metadata.get('layer') not in ["shared"]:
         return False
+    head_pred = str(rule.head.predicate or "").strip().lower()
+    logic_form = str(rule.logic_form or "").strip().lower()
+    if not head_pred or head_pred == "unknown":
+        return False
+    if not logic_form or logic_form == "unknown":
+        return False
+    body = [c for c in (rule.body or []) if isinstance(c, dict)]
+    meaningful_body = any(str(c.get("predicate") or "").strip().lower() not in {"", "unknown"} for c in body)
+    has_head_args = any(str(a or "").strip() for a in (rule.head.args or []))
+    if not meaningful_body and not has_head_args:
+        return False
     return True
 
 

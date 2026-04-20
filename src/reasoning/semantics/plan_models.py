@@ -7,6 +7,13 @@ from typing import Any, Literal
 from pydantic import BaseModel, Field, computed_field
 
 FailureReason = Literal[
+    "unknown_goal_atom",
+    "unknown_rule_head",
+    "predicate_family_mismatch",
+    "actor_role_mismatch",
+    "constraint_schema_missing",
+    "noncanonical_goal_surface",
+    "weak_shared_template",
     "positive_condition_missing",
     "negative_condition_blocked",
     "unless_condition_unknown",
@@ -165,6 +172,12 @@ class BackwardCandidate(BaseModel):
     missing_fact_keys: list[str] = Field(default_factory=list)
     status: Literal["ready", "blocked", "needs_input"] = "needs_input"
     unification_failure: str | None = None
+    rule_head_predicate: str = ""
+    rule_logic_form: str = ""
+    semantic_compatibility: float = 0.0
+    shared_generic_candidate: bool = False
+    weak_grounding: bool = False
+    grounding_reasons: list[str] = Field(default_factory=list)
 
 
 class BackwardPlan(BaseModel):

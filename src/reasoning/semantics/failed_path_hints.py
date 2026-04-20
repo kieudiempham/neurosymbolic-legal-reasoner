@@ -12,6 +12,13 @@ from schemas.rule import RuleRecord
 def clarification_priority_for_failure(reason: FailureReason) -> int:
     """Lower = clarify sooner (missing input); higher = explain-only / blocked."""
     order: dict[str, int] = {
+        "unknown_goal_atom": 6,
+        "noncanonical_goal_surface": 7,
+        "unknown_rule_head": 9,
+        "constraint_schema_missing": 10,
+        "weak_shared_template": 11,
+        "predicate_family_mismatch": 14,
+        "actor_role_mismatch": 16,
         "constraint_missing_input": 8,
         "unless_condition_unknown": 12,
         "positive_condition_missing": 18,
@@ -54,6 +61,20 @@ def build_user_message_hint(res: ForwardPathResult, rule: RuleRecord | None = No
         )
     if r == "constraint_failed":
         return f"Quy tắc {rid} không thỏa điều kiện ngưỡng ({detail})."
+    if r == "unknown_goal_atom":
+        return f"Mục tiêu suy luận chưa canonical đủ để chạy forward ({detail or 'unknown_goal_atom'})."
+    if r == "noncanonical_goal_surface":
+        return f"Mục tiêu suy luận còn ở dạng surface-form, cần chuẩn hóa thêm trước khi chứng minh ({detail})."
+    if r == "unknown_rule_head":
+        return f"Quy tắc {rid} có head chưa usable cho forward ({detail})."
+    if r == "predicate_family_mismatch":
+        return f"Quy tắc {rid} lệch semantic family với goal nên bị chặn sớm ({detail})."
+    if r == "actor_role_mismatch":
+        return f"Quy tắc {rid} không khớp vai trò chủ thể với goal ({detail})."
+    if r == "constraint_schema_missing":
+        return f"Quy tắc {rid} thiếu schema ràng buộc cần thiết cho suy luận tiến ({detail})."
+    if r == "weak_shared_template":
+        return f"Shared rule {rid} chỉ là template yếu, không đủ chất lượng để sinh proof ({detail})."
     if r == "positive_condition_missing":
         return f"Quy tắc {rid} chưa áp dụng được vì còn thiếu điều kiện áp dụng ({detail})."
     if r == "exception_unknown":
