@@ -15,6 +15,7 @@ from law_side.law_rulebase_models import RuleSeed
 from law_side.rulebase_logic_ir import RULE_TYPE_TO_LOGIC_FORM
 from schemas.canonical_rule import CanonicalRuleArtifact
 from utils.logger import get_logger
+from utils.semantic_families import normalize_family
 
 logger = get_logger(__name__)
 
@@ -41,10 +42,18 @@ def rule_seed_to_canonical(
     # Map rule type to logic form
     logic_form = _rule_type_to_logic_form(seed.rule_type, seed.tinh_chat_phap_ly)
     
+    # Keep one reasoning-level predicate family in head to avoid family drift across rules.
+    semantic_family = normalize_family(seed.predicate_family) or normalize_family(logic_form)
+    canonical_predicate = (seed.canonical_predicate or "").strip()
+    head_predicate = semantic_family or canonical_predicate or logic_form
+    canonical_head_args: list[str] = ["X"]
+    if canonical_predicate and canonical_predicate != head_predicate:
+        canonical_head_args.append(canonical_predicate)
+
     # Build canonical head/body from predicate info
     canonical_head = {
-        "predicate": seed.canonical_predicate,
-        "args": ["X"],  # Primary argument
+        "predicate": head_predicate,
+        "args": canonical_head_args,
     }
     
     canonical_body: list[dict[str, Any]] = []
@@ -91,7 +100,7 @@ def rule_seed_to_canonical(
         predicate_candidates={
             "surface": seed.hanh_vi_phap_ly,
             "normalized": seed.canonical_predicate,
-            "family": seed.predicate_family,
+            "family": semantic_family or seed.predicate_family,
         },
         
         # Document metadata
@@ -133,7 +142,7 @@ def _rule_type_to_logic_form(rule_type: str, tinh_chat: str) -> str:
     if "ngoai_le" in tinh_chat_lower:
         return "exception"
     if "dieu_kien" in tinh_chat_lower:
-        return "applicability_condition"
+        return "applicability"
     if "co_quan" in tinh_chat_lower or "co_trach_nhiem" in tinh_chat_lower:
         return "authority_action"
     if "ket_qua" in tinh_chat_lower:

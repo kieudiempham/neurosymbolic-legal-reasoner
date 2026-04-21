@@ -8,6 +8,7 @@ from typing import Any
 from pydantic import BaseModel, Field
 
 from question_side.condition_lexicon import ENTRIES
+from utils.semantic_families import CANONICAL_FAMILIES, normalize_family
 from utils.text import lower_fold, slug_token
 
 
@@ -93,60 +94,55 @@ _FOCUS_TO_FAMILY: dict[str, str] = {
     "deadline": "deadline",
     "threshold": "threshold",
     "exception": "exception",
-    "legal_effect": "legal_effect_trigger",
-    "legal_consequence": "legal_effect_trigger",
-    "obligation": "obligation_trigger",
-    "prohibition": "prohibition_trigger",
+    "legal_effect": "legal_effect",
+    "legal_consequence": "legal_effect",
+    "obligation": "obligation",
+    "prohibition": "prohibition",
     "permission": "applicability",
     "applicability": "applicability",
-    "procedure": "applicability",
-    "dossier": "applicability",
-    "authority": "applicability",
+    "procedure": "procedure",
+    "dossier": "dossier",
+    "authority": "authority_action",
 }
 
-_FAMILY_BUCKETS: tuple[str, ...] = (
-    "applicability",
-    "threshold",
-    "deadline",
-    "exception",
-    "eligibility",
-    "obligation_trigger",
-    "prohibition_trigger",
-    "legal_effect_trigger",
-)
+_FAMILY_BUCKETS: tuple[str, ...] = CANONICAL_FAMILIES
 
 _PREDICATE_FAMILY_EXPLICIT: dict[str, str] = {
     "truong_hop_ngoai_le": "exception",
     "qua_thoi_han": "deadline",
     "trong_thoi_han": "deadline",
     "dang_ky_thay_doi_trong_thoi_han": "deadline",
-    "xu_phat_hanh_chinh": "legal_effect_trigger",
-    "tu_choi_ho_so": "legal_effect_trigger",
-    "phat_sinh_nghia_vu": "obligation_trigger",
+    "xu_phat_hanh_chinh": "legal_effect",
+    "tu_choi_ho_so": "legal_effect",
+    "phat_sinh_nghia_vu": "obligation",
 }
 
 _DOMAIN_FAMILY_EXPLICIT: dict[str, str] = {
     "exception": "exception",
     "deadline": "deadline",
-    "legal_effect": "legal_effect_trigger",
+    "legal_effect": "legal_effect",
 }
 
 _FAMILY_SIGNAL_PATTERNS: dict[str, tuple[str, ...]] = {
     "exception": ("ngoai le", "tru truong hop", "mien tru"),
     "deadline": ("thoi han", "qua han", "dung han", "trong vong", "cham nhat"),
     "threshold": ("tu bao nhieu", "it nhat", "toi thieu", "muc", "nguong", "%", "phan tram"),
-    "eligibility": (
+    "applicability": (
         "du dieu kien",
         "dieu kien",
         "duoc khau tru",
         "khau tru thue",
         "duoc huong",
         "ap dung doi voi",
+        "truong hop",
+        "ap dung",
+        "khi",
+        "neu",
+        "doi voi",
     ),
-    "obligation_trigger": ("phat sinh nghia vu", "phai", "bat buoc", "co nghia vu"),
-    "prohibition_trigger": ("khong duoc", "bi cam", "cam", "khong cho phep"),
-    "legal_effect_trigger": ("xu phat", "che tai", "hau qua", "tu choi", "vo hieu"),
-    "applicability": ("truong hop", "ap dung", "khi", "neu", "doi voi"),
+    "obligation": ("phat sinh nghia vu", "phai", "bat buoc", "co nghia vu"),
+    "prohibition": ("khong duoc", "bi cam", "cam", "khong cho phep"),
+    "legal_effect": ("xu phat", "che tai", "hau qua", "tu choi", "vo hieu"),
 }
 
 
@@ -165,11 +161,15 @@ def _candidate_family(entry: dict[str, Any]) -> str:
 
     # Strongest signal: explicit predicate mapping.
     if pred in _PREDICATE_FAMILY_EXPLICIT:
-        return _PREDICATE_FAMILY_EXPLICIT[pred]
+        fam = normalize_family(_PREDICATE_FAMILY_EXPLICIT[pred])
+        if fam:
+            return fam
 
     # Next: explicit domain-level families.
     if domain in _DOMAIN_FAMILY_EXPLICIT:
-        return _DOMAIN_FAMILY_EXPLICIT[domain]
+        fam = normalize_family(_DOMAIN_FAMILY_EXPLICIT[domain])
+        if fam:
+            return fam
 
     # Entry-wide signal (predicate + trigger_patterns + synonyms + domain text).
     text_parts = [pred, domain]
@@ -181,7 +181,7 @@ def _candidate_family(entry: dict[str, Any]) -> str:
 
     # Domain prior for unresolved families.
     if domain in ("procedure", "registration", "enterprise", "tax", "labor"):
-        votes["applicability"] += 0.7
+        votes["applicability"] += 0.45
 
     for family, cues in _FAMILY_SIGNAL_PATTERNS.items():
         for cue in cues:
@@ -190,11 +190,11 @@ def _candidate_family(entry: dict[str, Any]) -> str:
 
     # Predicate-token cues remain useful, but weaker than explicit mapping.
     if "dieu_kien" in pred:
-        votes["eligibility"] += 0.8
+        votes["applicability"] += 0.8
     if "cam" in pred:
-        votes["prohibition_trigger"] += 0.8
+        votes["prohibition"] += 0.8
     if "nghia_vu" in pred:
-        votes["obligation_trigger"] += 0.8
+        votes["obligation"] += 0.8
     if "thoi_han" in pred:
         votes["deadline"] += 0.8
     if "ngoai_le" in pred:
@@ -202,22 +202,20 @@ def _candidate_family(entry: dict[str, Any]) -> str:
 
     winner = max(votes.items(), key=lambda kv: kv[1])
     if winner[1] >= 1.0:
-        return winner[0]
-
-    # Weak fallback only when no strong signal exists.
-    if domain in ("corporate", "corporate_governance", "enterprise", "registration", "procedure", "tax", "labor"):
-        return "applicability"
-    return "applicability"
+        fam = normalize_family(winner[0])
+        if fam:
+            return fam
+    return ""
 
 
 def _hinted_family(question_focus: str | None, condition_family_hint: str | None) -> str | None:
-    fam = _norm_key(condition_family_hint)
+    fam = normalize_family(condition_family_hint)
     if fam and fam != "unknown":
         return fam
     qf = _norm_key(question_focus)
     if not qf or qf == "unknown":
         return None
-    return _FOCUS_TO_FAMILY.get(qf)
+    return normalize_family(_FOCUS_TO_FAMILY.get(qf)) or None
 
 
 def _entry_pattern_blob(entry: dict[str, Any]) -> str:
@@ -262,11 +260,13 @@ def _family_score(entry: dict[str, Any], expected_family: str | None) -> tuple[f
         return 0.0, False
     fam = _candidate_family(entry)
     if fam == expected_family:
-        return 0.16, False
+        return 0.28, False
     # Keep threshold neutral for now because lexicon coverage for threshold is sparse.
     if expected_family == "threshold":
-        return -0.04, True
-    return -0.2, True
+        return -0.03, True
+    if not fam:
+        return 0.0, True
+    return -0.28, True
 
 
 def _rerank_score(

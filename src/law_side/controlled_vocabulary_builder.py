@@ -15,6 +15,8 @@ from typing import Any
 
 import pandas as pd
 
+from utils.semantic_families import normalize_family
+
 
 def _cell(v: Any) -> str | None:
     if v is None or (isinstance(v, float) and pd.isna(v)):
@@ -197,7 +199,9 @@ def build_predicate_vocab(df: pd.DataFrame) -> pd.DataFrame:
             continue
         fam = g["predicate_family"].dropna().astype(str).str.strip()
         fam = fam[fam != ""]
-        predicate_family = fam.mode().iloc[0] if len(fam) else _infer_family(str(canon))
+        normalized_fam = [normalize_family(x) for x in fam.tolist()]
+        normalized_fam = [x for x in normalized_fam if x]
+        predicate_family = normalized_fam[0] if normalized_fam else _infer_family(str(canon))
 
         typed_modes = g["typed_predicate"].dropna().astype(str).str.strip()
         typed_modes = typed_modes[typed_modes != ""]
@@ -248,16 +252,18 @@ def build_predicate_vocab(df: pd.DataFrame) -> pd.DataFrame:
 
 def _infer_family(canon: str) -> str:
     for prefix, fam in (
-        ("dang_ky", "dang_ky"),
-        ("cap_giay", "cap_giay"),
-        ("thu_hoi", "thu_hoi"),
-        ("thong_bao", "thong_bao"),
-        ("cap_nhat", "cap_nhat"),
-        ("nop_ho_so", "nop_ho_so"),
-        ("ap_dung", "ap_dung"),
+        ("dang_ky", "procedure"),
+        ("cap_giay", "authority_action"),
+        ("thu_hoi", "authority_action"),
+        ("thong_bao", "procedure"),
+        ("cap_nhat", "procedure"),
+        ("nop_ho_so", "dossier"),
+        ("ap_dung", "applicability"),
     ):
         if prefix in canon:
-            return fam
+            normalized = normalize_family(fam)
+            if normalized:
+                return normalized
     return "khac"
 
 

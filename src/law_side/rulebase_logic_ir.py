@@ -15,6 +15,7 @@ import pandas as pd
 from law_side.controlled_vocabulary_builder import to_snake_id
 from law_side.refine_controlled_vocabulary import split_effect_exception_condition
 from law_side.rulebase_vocab_index import NormalizedVocab
+from utils.semantic_families import normalize_family
 
 RULE_TYPE_TO_LOGIC_FORM: dict[str, str] = {
     "quy_tac_nghia_vu": "obligation",
@@ -26,8 +27,8 @@ RULE_TYPE_TO_LOGIC_FORM: dict[str, str] = {
     "quy_tac_ngoai_le": "exception",
     "quy_tac_nguong_dinh_luong": "threshold",
     "quy_tac_ket_qua_phap_ly": "legal_effect",
-    "quy_tac_dieu_kien": "applicability_condition",
-    "quy_tac_thu_tuc": "procedure_step",
+    "quy_tac_dieu_kien": "applicability",
+    "quy_tac_thu_tuc": "procedure",
 }
 
 
@@ -346,6 +347,9 @@ def infer_predicate_anchor(
             return s, "inferred_from_context"
 
     if pf:
+        fam = normalize_family(pf)
+        if fam:
+            return fam, "fallback_family_level"
         return to_snake_id(pf), "fallback_family_level"
 
     return None, "unresolved"
@@ -500,7 +504,7 @@ def infer_nonquant_logic_form_for_threshold(row: pd.Series) -> str | None:
     if _cell(row.get("he_qua_phap_ly")) or _cell(row.get("ket_qua_thu_tuc")):
         return "legal_effect"
     if _cell(row.get("dieu_kien_ap_dung")) or _cell(row.get("bieu_thuc_dieu_kien")):
-        return "applicability_condition"
+        return "applicability"
     return "authority_action"
 
 
@@ -525,7 +529,7 @@ def infer_logic_form(
         return "dossier", notes
 
     # Điều kiện nhưng biểu hiện thực chất là ngoại lệ.
-    if base == "applicability_condition":
+    if base == "applicability":
         dk = _cell(row.get("dieu_kien_ap_dung"))
         nl = _cell(row.get("ngoai_le"))
         if (not dk) and nl:
@@ -929,7 +933,7 @@ def build_logic_ir_record(
             e_arg = _short_anchor_slug(e_arg, max_len=80)
             head_cleanup_notes.append("capped_long_effect_in_head")
         head = _term_clean("legal_effect", [ent, e_arg])
-    elif logic_form == "applicability_condition":
+    elif logic_form == "applicability":
         anchor = pred_anchor or norm.scope_canonical
         if not anchor or anchor in ("truong_hop", "trường_hợp") or len(anchor) < 6:
             anchor = (
@@ -943,9 +947,9 @@ def build_logic_ir_record(
             anchor = _short_anchor_slug(anchor, max_len=80)
         if cond_raw and len(str(cond_raw)) > 90:
             head_cleanup_notes.append("shortened_condition_anchor_in_head")
-        head = _term_clean("applicability_condition", [anchor, cond_anchor])
-    elif logic_form == "procedure_step":
-        step_pred = pred_anchor or "unresolved_procedure_step"
+        head = _term_clean("applicability", [anchor, cond_anchor])
+    elif logic_form == "procedure":
+        step_pred = pred_anchor or "unresolved_procedure"
         step_obj = (
             norm.object_canonical
             or (_short_anchor_slug(doi_raw, max_len=80) if doi_raw else "unresolved_object_atom")
@@ -954,7 +958,7 @@ def build_logic_ir_record(
             step_pred = _short_anchor_slug(step_pred, max_len=80)
         if isinstance(step_obj, str):
             step_obj = _short_anchor_slug(step_obj, max_len=80)
-        head = _term_clean("procedure_step", [step_pred, step_obj])
+        head = _term_clean("procedure", [step_pred, step_obj])
     else:
         head = _term_clean("generic_rule", [rule_type_source, rule_id])
 
@@ -966,7 +970,7 @@ def build_logic_ir_record(
     if hpred in ("obligation", "permission", "prohibition", "authority_action") and len(hargs) >= 3:
         if hargs[2] == "unresolved_object_atom":
             fallback_kind = fallback_kind or "unresolved_object"
-    if hpred == "procedure_step" and len(hargs) >= 2:
+    if hpred == "procedure" and len(hargs) >= 2:
         if hargs[1] == "unresolved_object_atom":
             fallback_kind = fallback_kind or "unresolved_object"
     if hpred == "exception" and len(hargs) >= 2 and hargs[1] == "unresolved_exception_atom":
@@ -1004,7 +1008,7 @@ def build_logic_ir_record(
         inferred_object_canonical = head_args[2]
     elif head_pred == "authority_action" and len(head_args) >= 3:
         inferred_object_canonical = head_args[2]
-    elif head_pred == "procedure_step" and len(head_args) >= 2:
+    elif head_pred == "procedure" and len(head_args) >= 2:
         inferred_object_canonical = head_args[1]
     elif head_pred == "dossier" and len(head_args) >= 2:
         # dossier head arg2 is list(items); we keep object_canonical as-is

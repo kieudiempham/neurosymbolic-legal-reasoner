@@ -542,7 +542,9 @@ def parse_question_layer1_heuristic(question: str) -> Layer1Parse:
     meta = {
         "parser_backend": "heuristic",
         "parser_model": "",
+        "parse_mode": "heuristic_native",
         "fallback_used": False,
+        "parser_fallback_mode": None,
         "archetype_confidence": focus_confidence,
         "archetype_candidates": focus_candidates,
         "has_multi_intent": has_multi_intent,

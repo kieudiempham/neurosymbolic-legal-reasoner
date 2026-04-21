@@ -12,6 +12,7 @@ from schemas.rule import RuleRecord
 from retrieval.hybrid_rule_ranker import bm25_scores_for_documents, normalize_scores
 from retrieval.retrieval_query import build_rule_retrieval_query
 from retrieval.rulebase_loader import RulebaseIndex, get_rulebase_index
+from utils.semantic_families import normalize_predicate_family
 from utils.text import lower_fold
 
 logger = logging.getLogger(__name__)
@@ -24,18 +25,6 @@ _GENERIC_BODY_PREDICATES = {
     "subject",
     "fact",
     "context",
-}
-
-_GOAL_FAMILY_BY_PREDICATE: dict[str, str] = {
-    "obligation": "obligation",
-    "permission": "permission",
-    "prohibition": "prohibition",
-    "deadline": "deadline",
-    "regulatory_deadline": "deadline",
-    "regulatory_deadline_requirement": "deadline",
-    "threshold": "threshold",
-    "applicability": "applicability",
-    "legal_effect": "legal_effect",
 }
 
 _REGISTRATION_CHANGE_ATOM = "dang_ky_thay_doi_noi_dung_dang_ky_doanh_nghiep"
@@ -179,6 +168,74 @@ def _layer2_action_object(layer2: Layer2Parse, goal: dict[str, Any]) -> tuple[st
     if not obj and len(args) >= 3:
         obj = _norm_predicate_token(args[2])
     return action, obj
+
+
+def map_action_group(action: str) -> str:
+    if not action:
+        return "other"
+    a = action.lower()
+    if "thong_bao" in a or "gui" in a:
+        return "notification"
+    if "dang_ky" in a or "cap_nhat" in a:
+        return "registration"
+    if "nop" in a or "bo_sung" in a or "ho_so" in a:
+        return "submission"
+    if "thue" in a or "le_phi" in a or "tien" in a:
+        return "payment"
+    if "cuong_che" in a or "xu_phat" in a:
+        return "enforcement"
+    return "other"
+
+
+def _is_action_group_conflict(query_group: str, rule_group: str) -> bool:
+    if not query_group or not rule_group:
+        return False
+    if query_group == rule_group:
+        return False
+    return (query_group, rule_group) in {
+        ("notification", "payment"),
+        ("notification", "enforcement"),
+        ("notification", "submission"),
+        ("registration", "payment"),
+        ("registration", "enforcement"),
+        ("registration", "submission"),
+        ("payment", "notification"),
+        ("payment", "registration"),
+        ("payment", "submission"),
+        ("enforcement", "notification"),
+        ("enforcement", "registration"),
+        ("enforcement", "submission"),
+        ("submission", "notification"),
+        ("submission", "registration"),
+        ("submission", "payment"),
+    }
+
+
+def _infer_rule_action_token(rule: RuleRecord) -> str:
+    head = _norm_predicate_token(str(rule.head.predicate or ""))
+    if head:
+        return head
+    for atom in rule.body or []:
+        pred = _extract_atom_predicate(atom)
+        if pred:
+            return pred
+    return ""
+
+
+def _is_strong_action_group_conflict(query_group: str, rule_group: str) -> bool:
+    if not query_group or not rule_group:
+        return False
+    pair = (query_group, rule_group)
+    return pair in {
+        ("notification", "payment"),
+        ("notification", "enforcement"),
+        ("registration", "payment"),
+        ("registration", "enforcement"),
+        ("payment", "notification"),
+        ("enforcement", "notification"),
+        ("payment", "registration"),
+        ("enforcement", "registration"),
+    }
 
 
 def _rule_action_object_blob(rule: RuleRecord) -> str:
@@ -326,23 +383,23 @@ def _is_shared_rule(rule: RuleRecord) -> bool:
 def _goal_semantic_family(layer1: Layer1Parse, goal: dict[str, Any]) -> str:
     gp = str(goal.get("predicate") or "").strip().lower()
     if gp and gp != "unknown":
-        return _GOAL_FAMILY_BY_PREDICATE.get(gp, gp)
+        return normalize_predicate_family(gp)
     qf = str(layer1.question_focus or "").strip().lower()
     if qf and qf != "unknown":
-        return _GOAL_FAMILY_BY_PREDICATE.get(qf, qf)
+        return normalize_predicate_family(qf)
     return ""
 
 
 def _rule_semantic_family(rule: RuleRecord) -> str:
     hp = str(rule.head.predicate or "").strip().lower()
     if hp and hp != "unknown":
-        return _GOAL_FAMILY_BY_PREDICATE.get(hp, hp)
+        return normalize_predicate_family(hp)
     lf = str(rule.logic_form or "").strip().lower()
     if lf and lf != "unknown":
-        return _GOAL_FAMILY_BY_PREDICATE.get(lf, lf)
+        return normalize_predicate_family(lf)
     motif = str((rule.metadata or {}).get("motif") or "").strip().lower()
     if motif:
-        return _GOAL_FAMILY_BY_PREDICATE.get(motif, motif)
+        return normalize_predicate_family(motif)
     return ""
 
 
@@ -423,6 +480,9 @@ def structured_score_rule(
     matched: list[str] = []
     comp: dict[str, float] = {}
     score = 0.0
+    q_action, q_object = _layer2_action_object(layer2, goal)
+    rule_action_token = _infer_rule_action_token(rule)
+    rule_action_blob = _rule_action_object_blob(rule)
 
     gf = goal.get("predicate")
     if gf == rule.head.predicate:
@@ -442,7 +502,7 @@ def structured_score_rule(
     # Prevent dossier/procedure forms from dominating permission-style questions.
     if layer1.question_focus == "permission" and rule.logic_form in {
         "dossier",
-        "procedure_step",
+        "procedure",
         "deadline",
         "threshold",
     }:
@@ -566,20 +626,38 @@ def structured_score_rule(
     goal_family_score = 0.0
     if goal_family and rule_family:
         if goal_family == rule_family:
-            goal_family_score = 3.0
+            goal_family_score = 3.5
+            if goal_family == "deadline":
+                deadline_action_overlap = _token_overlap(q_action.replace("_", " "), rule_action_token) if q_action and rule_action_token else 0.0
+                deadline_object_overlap = _token_overlap(q_object.replace("_", " "), rule_action_blob) if q_object else 0.0
+                deadline_anchor = max(deadline_action_overlap, deadline_object_overlap)
+                comp["deadline_action_overlap"] = deadline_action_overlap
+                comp["deadline_object_overlap"] = deadline_object_overlap
+                if deadline_anchor < 0.35:
+                    goal_family_score -= 2.5
+                    comp["deadline_event_action_mismatch"] = -2.5
+                    comp["deadline_event_action_reason"] = "deadline_family_but_event_action_mismatch"
+                    matched.append("deadline_event_action_mismatch")
+                else:
+                    comp["deadline_event_action_mismatch"] = 0.0
+                    comp["deadline_event_action_reason"] = "deadline_family_and_event_anchor"
+            else:
+                comp["deadline_action_overlap"] = 0.0
+                comp["deadline_object_overlap"] = 0.0
+                comp["deadline_event_action_mismatch"] = 0.0
             score += goal_family_score
             matched.append("semantic_family")
         else:
-            mismatch_penalty = 2.0
+            mismatch_penalty = 3.5
             if _is_shared_rule(rule):
-                mismatch_penalty += 1.5
+                mismatch_penalty += 2.0
             if goal_family in {"permission", "obligation", "prohibition", "applicability", "legal_effect"} and rule_family in {
                 "deadline",
                 "threshold",
                 "dossier",
                 "procedure",
             }:
-                mismatch_penalty += 1.5
+                mismatch_penalty += 2.5
             score -= mismatch_penalty
             goal_family_score = -mismatch_penalty
     else:
@@ -588,18 +666,25 @@ def structured_score_rule(
     # Keep legacy key for downstream diagnostics compatibility.
     comp["semantic_compatibility"] = goal_family_score
 
-    q_action, q_object = _layer2_action_object(layer2, goal)
-    rule_action_obj_blob = _rule_action_object_blob(rule)
     action_obj_score = 0.0
     if q_action:
-        action_obj_score += 2.0 * _token_overlap(q_action.replace("_", " "), rule_action_obj_blob)
+        action_obj_score += 2.2 * _token_overlap(q_action.replace("_", " "), rule_action_blob)
     if q_object:
-        action_obj_score += 1.6 * _token_overlap(q_object.replace("_", " "), rule_action_obj_blob)
+        action_obj_score += 1.8 * _token_overlap(q_object.replace("_", " "), rule_action_blob)
     if action_obj_score > 0.0:
         score += action_obj_score
         matched.append("action_object")
     comp["action_object_similarity"] = action_obj_score
     comp["action_object_match"] = action_obj_score
+
+    action_group_score = 0.0
+    query_action_group = map_action_group(q_action)
+    rule_action_group = map_action_group(rule_action_token)
+    if query_action_group == rule_action_group and query_action_group != "other":
+        action_group_score = 2.0
+    elif _is_action_group_conflict(query_action_group, rule_action_group):
+        action_group_score = -3.5
+    comp["action_group_score"] = action_group_score
 
     query_context_blob = _query_context_blob(layer1, layer2, goal)
     rule_context_blob = _rule_context_blob(rule)
@@ -679,8 +764,8 @@ def structured_score_rule(
             )
         )
         if not has_anchor:
-            score -= 1.5
-            comp["shared_generic_anchor_penalty"] = -1.5
+            score -= 3.5
+            comp["shared_generic_anchor_penalty"] = -3.5
         else:
             comp["shared_generic_anchor_penalty"] = 0.0
     else:
@@ -703,6 +788,8 @@ def structured_score_rule(
         attractor_penalty = 0.0
         if anchor_strength < 2.0:
             attractor_penalty += 1.8
+        if anchor_strength < 4.0:
+            attractor_penalty += 0.8
         if lexical_shortcut:
             attractor_penalty += 0.7
         if comp.get("semantic_compatibility", 0.0) < 0:
@@ -793,9 +880,12 @@ def retrieve_rules(
 
     ranked: list[tuple[RuleRecord, float, dict[str, Any]]] = []
     semantic_rows: list[dict[str, Any]] = []
+    query_action_canonical, _ = _layer2_action_object(layer2, goal)
+    query_action_group = map_action_group(query_action_canonical)
     for i, rule in enumerate(pool):
         br, sr = bm25_raw[i], struct_raw[i]
         comp, mf = struct_diags[i]
+        rule_family = _rule_semantic_family(rule)
 
         domain_match = 1.0 if comp.get("metadata_domain", 0.0) > 0.0 else 0.0
         event_type_match = 1.0 if comp.get("event_type_match", 0.0) > 0.0 else 0.0
@@ -804,16 +894,29 @@ def retrieve_rules(
         action_object_match = min(1.0, max(0.0, float(comp.get("action_object_match", 0.0))) / 2.0)
         context_penalty_signal = max(0.0, -float(comp.get("context_mismatch_penalty", 0.0)))
 
+        rule_action_token = _infer_rule_action_token(rule)
+        rule_action_group = map_action_group(rule_action_token)
+        action_group_score = 0.0
+        if query_action_group == rule_action_group and query_action_group != "other":
+            action_group_score = 2.0
+        elif _is_strong_action_group_conflict(query_action_group, rule_action_group):
+            action_group_score = -3.5
+
         semantic_total = (
-            0.5 * domain_match
-            + 2.5 * event_type_match
-            + 2.0 * condition_atom_signal
-            + 1.0 * goal_family_match
-            + 1.5 * action_object_match
-            - 2.0 * context_penalty_signal
+            0.75 * domain_match
+            + 2.75 * event_type_match
+            + 2.25 * condition_atom_signal
+            + 2.0 * goal_family_match
+            + 1.75 * action_object_match
+            - 2.25 * context_penalty_signal
+            + action_group_score
         )
 
-        lexical_tie_bonus = 0.15 * bm25_norm[i]
+        lexical_tie_bonus = 0.05 * bm25_norm[i]
+        if goal_family and rule_family and goal_family != rule_family:
+            lexical_tie_bonus *= 0.2
+        if comp.get("deadline_event_action_mismatch", 0.0) < 0.0:
+            lexical_tie_bonus *= 0.4
         total = semantic_total + lexical_tie_bonus
 
         semantic_rows.append(
@@ -823,6 +926,7 @@ def retrieve_rules(
                 "event_type_match": event_type_match,
                 "condition_atom_signal": condition_atom_signal,
                 "bm25_norm": bm25_norm[i],
+                "action_group_score": action_group_score,
             }
         )
 
@@ -843,7 +947,13 @@ def retrieve_rules(
                 "goal_family_match": goal_family_match,
                 "action_object_match": action_object_match,
                 "context_mismatch_penalty": context_penalty_signal,
+                "action_group_score": action_group_score,
+                "deadline_event_action_mismatch": float(comp.get("deadline_event_action_mismatch", 0.0) or 0.0),
+                "deadline_event_action_overlap": float(comp.get("deadline_event_action_overlap", 0.0) or 0.0),
             },
+            "action_group_query": query_action_group,
+            "action_group_rule": rule_action_group,
+            "action_group_score": action_group_score,
             "score_components": comp,
             "matched_features": mf,
             "retrieval_query_preview": query[:500],
@@ -880,7 +990,29 @@ def retrieve_rules(
             -float(x[2].get("bm25_norm") or 0.0),
         )
     )
-    return ranked[:top_k]
+
+    top_candidates = ranked[:top_k]
+    if top_candidates:
+        top1_group = str((top_candidates[0][2] or {}).get("action_group_rule") or "other")
+        if top1_group != query_action_group:
+            matching = [
+                item
+                for item in top_candidates
+                if str((item[2] or {}).get("action_group_rule") or "other") == query_action_group
+            ]
+            if matching:
+                preferred = max(matching, key=lambda x: x[1])
+                reordered = [preferred] + [item for item in top_candidates if item is not preferred]
+                top_candidates = reordered
+                pref_diag = dict(top_candidates[0][2] or {})
+                pref_diag["action_group_selection_override"] = {
+                    "active": True,
+                    "query_group": query_action_group,
+                    "original_top1_group": top1_group,
+                }
+                top_candidates[0] = (top_candidates[0][0], top_candidates[0][1], pref_diag)
+
+    return top_candidates
 
 
 class RuleRetriever:

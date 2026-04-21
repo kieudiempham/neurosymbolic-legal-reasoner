@@ -23,6 +23,7 @@ from schemas.question_parse import (
     QuestionFocus,
     UtteranceType,
 )
+from utils.semantic_families import CANONICAL_FAMILIES, normalize_family
 
 logger = logging.getLogger(__name__)
 
@@ -100,7 +101,7 @@ Parse policy theo fine family:
       Typical signals: "hậu quả pháp lý gì", "bị xử lý thế nào", "bị áp dụng gì",
       "có bị vô hiệu không", "có giá trị pháp lý không".
       Policy:
-        ưu tiên question_focus = legal_consequence hoặc legal_effect;
+        ưu tiên question_focus = legal_effect;
         không cho phép action_text rỗng;
         nếu không có legal verb trực tiếp, dùng fallback có nghĩa pháp lý:
         hau_qua_phap_ly | che_tai_ap_dung | gia_tri_phap_ly.
@@ -131,7 +132,7 @@ Parse policy theo fine family:
           "cách xác định thuế", "truy thu", "xử phạt thuế".
           Policy:
             nếu hỏi có phải nộp/đóng thuế không -> ưu tiên question_focus = obligation;
-            nếu hỏi hậu quả/chế tài/truy thu -> ưu tiên question_focus = legal_consequence;
+            nếu hỏi hậu quả/chế tài/truy thu -> ưu tiên question_focus = legal_effect;
             nếu hỏi cách tính/xác định thuế -> ưu tiên procedure hoặc applicability tùy wording;
             cho phép fallback action đặc thù thuế:
             nghia_vu_thue | dong_thue | xac_dinh_thue | hau_qua_thue.
@@ -232,7 +233,7 @@ Ràng buộc:
   question_focus_hint: một trong các giá trị question_focus, hoặc unknown.
   domain_hint: enterprise | tax | labor | registration | procedure | unknown.
   subject_type_hint: company | employer | employee | taxpayer | business_household | individual | authority | unknown.
-  condition_family_hint: applicability | threshold | deadline | exception | eligibility | obligation_trigger | prohibition_trigger | legal_effect_trigger | unknown.
+    condition_family_hint: applicability | threshold | deadline | exception | obligation | prohibition | legal_effect | unknown.
     macro_family: obligation_like | permission_like | effect_like | procedure_like | applicability_like | mixed_or_other.
     question_family: legal_consequence_or_legal_effect | eligibility_or_applicability | procedure_or_dossier | permission | obligation | tax_obligation_or_tax_effect | status_or_identity_or_explanatory | long_conditional | multi_intent | condition_ambiguity_risk | other.
     family_confidence: số trong [0,1].
@@ -247,7 +248,7 @@ Ràng buộc:
 
 [Example 1 — legal consequence]
 Q: "Nếu nộp tiền thuế trễ hạn thì doanh nghiệp có thể bị áp dụng những hậu quả pháp lý gì?"
-{"utterance_type":"conditional_legal_question","subject_text":"doanh nghiệp","condition_text":"nộp tiền thuế trễ hạn","action_text":"hau_qua_phap_ly","modality_text":"có thể bị áp dụng","time_text":"","deadline_text":"","exception_text":"","question_focus":"legal_consequence","assertion_status":"hypothetical","question_focus_confidence":0.90,"action_confidence":0.83,"subject_confidence":0.95,"used_fallback_label":"hau_qua_phap_ly","parse_rationale":"Family legal_consequence_or_legal_effect: hỏi hậu quả pháp lý; dùng fallback action hợp lệ.","macro_family":"effect_like","question_family":"legal_consequence_or_legal_effect","family_confidence":0.92,"family_reason":"Cụm hỏi hậu quả pháp lý và bị áp dụng.","primary_intent_family":"legal_consequence_or_legal_effect","secondary_intent_families":[],"parse_policy_applied":"C1_no_empty_action_use_effect_fallback"}
+{"utterance_type":"conditional_legal_question","subject_text":"doanh nghiệp","condition_text":"nộp tiền thuế trễ hạn","action_text":"hau_qua_phap_ly","modality_text":"có thể bị áp dụng","time_text":"","deadline_text":"","exception_text":"","question_focus":"legal_effect","assertion_status":"hypothetical","question_focus_confidence":0.90,"action_confidence":0.83,"subject_confidence":0.95,"used_fallback_label":"hau_qua_phap_ly","parse_rationale":"Family legal_consequence_or_legal_effect: hỏi hậu quả pháp lý; dùng fallback action hợp lệ.","macro_family":"effect_like","question_family":"legal_consequence_or_legal_effect","family_confidence":0.92,"family_reason":"Cụm hỏi hậu quả pháp lý và bị áp dụng.","primary_intent_family":"legal_consequence_or_legal_effect","secondary_intent_families":[],"parse_policy_applied":"C1_no_empty_action_use_effect_fallback"}
 
 [Example 2 — conditional obligation]
 Q: "Nếu chưa đăng ký thay đổi thì có phải bổ sung hồ sơ không?"
@@ -276,7 +277,7 @@ utterance_type (chọn một):
 
 question_focus (chọn một):
   obligation | permission | prohibition | deadline | threshold | exception | procedure
-  | legal_consequence | applicability | dossier | legal_effect | authority | unknown
+    | legal_effect | applicability | dossier | authority | unknown
 
 assertion_status (chọn một):
   asserted | hypothetical | ambiguous
@@ -436,14 +437,7 @@ _SUBJECT_TYPE_HINTS: tuple[str, ...] = (
     "unknown",
 )
 _CONDITION_FAMILY_HINTS: tuple[str, ...] = (
-    "applicability",
-    "threshold",
-    "deadline",
-    "exception",
-    "eligibility",
-    "obligation_trigger",
-    "prohibition_trigger",
-    "legal_effect_trigger",
+    *CANONICAL_FAMILIES,
     "unknown",
 )
 _MACRO_FAMILIES: tuple[str, ...] = (
@@ -540,18 +534,22 @@ _CONDITION_FAMILY_HINT_ALIASES: dict[str, str] = {
     "exception": "exception",
     "ngoai_le": "exception",
     "mien_tru": "exception",
-    "eligibility": "eligibility",
-    "du_dieu_kien": "eligibility",
-    "dieu_kien_huong": "eligibility",
-    "obligation_trigger": "obligation_trigger",
-    "dieu_kien_phat_sinh_nghia_vu": "obligation_trigger",
-    "kich_hoat_nghia_vu": "obligation_trigger",
-    "prohibition_trigger": "prohibition_trigger",
-    "dieu_kien_cam": "prohibition_trigger",
-    "kich_hoat_cam_doan": "prohibition_trigger",
-    "legal_effect_trigger": "legal_effect_trigger",
-    "dieu_kien_phat_sinh_hieu_luc": "legal_effect_trigger",
-    "hau_qua_phap_ly": "legal_effect_trigger",
+    "eligibility": "applicability",
+    "du_dieu_kien": "applicability",
+    "dieu_kien_huong": "applicability",
+    "obligation_trigger": "obligation",
+    "dieu_kien_phat_sinh_nghia_vu": "obligation",
+    "kich_hoat_nghia_vu": "obligation",
+    "prohibition_trigger": "prohibition",
+    "dieu_kien_cam": "prohibition",
+    "kich_hoat_cam_doan": "prohibition",
+    "legal_effect_trigger": "legal_effect",
+    "dieu_kien_phat_sinh_hieu_luc": "legal_effect",
+    "hau_qua_phap_ly": "legal_effect",
+    "legal_consequence": "legal_effect",
+    "legal_consequence_or_legal_effect": "legal_effect",
+    "condition_based": "applicability",
+    "applicability_condition": "applicability",
 }
 _QUESTION_FOCUS_HINT_ALIASES: dict[str, str] = {
     "obligation": "obligation",
@@ -570,8 +568,8 @@ _QUESTION_FOCUS_HINT_ALIASES: dict[str, str] = {
     "ngoai_le": "exception",
     "procedure": "procedure",
     "thu_tuc": "procedure",
-    "legal_consequence": "legal_consequence",
-    "hau_qua_phap_ly": "legal_consequence",
+    "legal_consequence": "legal_effect",
+    "hau_qua_phap_ly": "legal_effect",
     "applicability": "applicability",
     "ap_dung": "applicability",
     "dossier": "dossier",
@@ -611,7 +609,7 @@ def _semantic_fallback_action(question: str, focus: str) -> tuple[str, str | Non
 
     # Legal consequence / sanction style questions.
     if has_any(r"hau\s*qua\s*phap\s*ly", r"bi\s*ap\s*dung", r"bi\s*xu\s*ly\s*the\s*nao") or (
-        focus_key == "legal_consequence" and has_any(r"phat", r"che\s*tai")
+        focus_key == "legal_effect" and has_any(r"phat", r"che\s*tai")
     ):
         if has_any(r"phat", r"xu\s*phat", r"che\s*tai"):
             return (
@@ -642,8 +640,8 @@ def _semantic_fallback_action(question: str, focus: str) -> tuple[str, str | Non
         )
     if focus_key in {"dossier", "procedure"}:
         return (
-            "thu_tuc_thuc_hien",
-            "thu_tuc_thuc_hien",
+            "thuc_hien_hanh_vi",
+            "thuc_hien_hanh_vi",
             "Backfill action theo question_focus thủ tục/hồ sơ.",
         )
 
@@ -670,15 +668,33 @@ def _semantic_fallback_action(question: str, focus: str) -> tuple[str, str | Non
     # Explicit focus but weak lexical action: keep parser usable with a stable fallback.
     if focus_key == "obligation":
         return (
-            "thu_tuc_thuc_hien",
-            "thu_tuc_thuc_hien",
+            "nghia_vu_thuc_hien",
+            "nghia_vu_thuc_hien",
             "Backfill action mặc định cho câu hỏi nghĩa vụ có tín hiệu ngữ nghĩa nhưng thiếu verb rõ.",
         )
     if focus_key == "permission":
         return (
-            "thu_tuc_thuc_hien",
-            "thu_tuc_thuc_hien",
+            "hanh_vi_duoc_phep",
+            "hanh_vi_duoc_phep",
             "Backfill action mặc định cho câu hỏi quyền/được phép có tín hiệu ngữ nghĩa.",
+        )
+    if focus_key == "prohibition":
+        return (
+            "hanh_vi_bi_cam",
+            "hanh_vi_bi_cam",
+            "Backfill action mặc định cho câu hỏi cấm đoán có tín hiệu ngữ nghĩa.",
+        )
+    if focus_key == "legal_effect":
+        return (
+            "hau_qua_phap_ly",
+            "hau_qua_phap_ly",
+            "Backfill action mặc định cho câu hỏi hậu quả/pháp lý có tín hiệu ngữ nghĩa.",
+        )
+    if focus_key == "deadline":
+        return (
+            "thuc_hien_hanh_vi",
+            "thuc_hien_hanh_vi",
+            "Backfill action mặc định cho câu hỏi thời hạn.",
         )
 
     return "", None, None
@@ -750,7 +766,7 @@ def _backfill_action_text(
 
     if (focus or "").strip().lower() == "deadline":
         if return_meta:
-            return "thực hiện nghĩa vụ theo thời hạn", "thu_tuc_thuc_hien", "Backfill action theo focus deadline.", True
+            return "thực hiện nghĩa vụ theo thời hạn", "thuc_hien_hanh_vi", "Backfill action theo focus deadline.", True
         return "thực hiện nghĩa vụ theo thời hạn"
     if return_meta:
         return "", None, None, False
@@ -766,6 +782,8 @@ def _coerce_ut(s: str) -> UtteranceType:
 
 def _coerce_focus(s: str) -> QuestionFocus:
     t = (s or "").strip().lower().replace(" ", "_")
+    if t == "legal_consequence":
+        t = "legal_effect"
     if t in _FOCUS:
         return t  # type: ignore[return-value]
     return "unknown"
@@ -840,6 +858,19 @@ def _normalize_action_canonical_hint(raw: str | None) -> str | None:
     return key
 
 
+def _normalize_condition_family_hint(raw: str | None) -> str | None:
+    key = _norm_hint_key(raw)
+    if key in _NOISY_HINT_TOKENS:
+        return None
+    mapped = _CONDITION_FAMILY_HINT_ALIASES.get(key, key)
+    fam = normalize_family(mapped)
+    if fam:
+        return fam
+    if mapped == "unknown":
+        return "unknown"
+    return None
+
+
 def _build_normalized_hints(parsed: _LLMJsonLayer1) -> dict[str, str | None]:
     return {
         "question_focus_hint": _normalize_question_focus_hint(parsed.question_focus_hint),
@@ -855,9 +886,9 @@ def _build_normalized_hints(parsed: _LLMJsonLayer1) -> dict[str, str | None]:
             aliases=_DOMAIN_HINT_ALIASES,
         ),
         "condition_family_hint": _normalize_vocab_hint(
-            parsed.condition_family_hint,
+            _normalize_condition_family_hint(parsed.condition_family_hint),
             allowed=_CONDITION_FAMILY_HINTS,
-            aliases=_CONDITION_FAMILY_HINT_ALIASES,
+            aliases={},
         ),
     }
 
@@ -924,6 +955,10 @@ def _merge_best_effort_fields(
         out["parse_rationale"] = derived_parse_rationale
     if out.get("action_confidence") is None and action_backfilled:
         out["action_confidence"] = 0.55
+    if action_backfilled:
+        out["action_fallback_used"] = True
+        out["action_fallback_label"] = out.get("used_fallback_label") or derived_fallback_label
+        out["action_fallback_rationale"] = derived_parse_rationale
     return out
 
 
@@ -1008,6 +1043,7 @@ def parse_layer1_llm(
             "parser_model": mdl,
             "requested_mode": "llm_real",
             "actual_mode": "llm_real",
+            "parse_mode": "llm_real",
             "provider": provider,
             "model": mdl,
             "parser_available": True,
@@ -1108,6 +1144,7 @@ def repair_layer1_slots_llm(
             "parser_model": mdl,
             "requested_mode": "llm_real",
             "actual_mode": "llm_real",
+            "parse_mode": "llm_real",
             "provider": provider,
             "model": mdl,
             "parser_available": True,

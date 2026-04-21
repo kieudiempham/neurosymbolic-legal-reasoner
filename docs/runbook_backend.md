@@ -33,6 +33,30 @@ try {
 }
 ```
 
+# Standard ask test artifact (Script-only policy)
+
+Team policy:
+- Always use `tests/run_test.ps1` to run manual `/ask` checks and write output artifacts.
+- Do not manually pipe API responses with `Invoke-RestMethod | Out-File` for QA artifacts.
+  Reason: this often produces wrong encoding (UTF-16) or zero-byte files when request fails.
+
+Run standard test script (backend running on port 8000):
+```powershell
+cd neurosymbolic-legal-reasoner
+.\.venv\Scripts\Activate.ps1
+powershell -ExecutionPolicy Bypass -File tests/run_test.ps1
+```
+
+If backend runs on another URL (example 8001):
+```powershell
+cd neurosymbolic-legal-reasoner
+.\.venv\Scripts\Activate.ps1
+powershell -ExecutionPolicy Bypass -File tests/run_test.ps1 -ApiUrl "http://127.0.0.1:8001/ask"
+```
+
+Expected artifact path:
+- `tests/output/case_tax_delay_after_layer1_prompt_patch.json` (UTF-8, written atomically)
+
 Alternative convenience script:
 ```powershell
 cd neurosymbolic-legal-reasoner

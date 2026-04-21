@@ -1,6 +1,11 @@
 ﻿import requests
 import json
 import os
+from pathlib import Path
+
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+OUTPUT_PATH = REPO_ROOT / 'tests' / 'output' / 'case_tax_delay_after_layer1_prompt_patch.json'
 
 url = 'http://127.0.0.1:8000/ask'
 payload = {
@@ -15,9 +20,10 @@ try:
     response.raise_for_status()
     data = response.json()
     
-    os.makedirs('tests/output', exist_ok=True)
-    with open('tests/output/case_tax_delay_after_layer1_prompt_patch.json', 'w', encoding='utf-8') as f:
+    OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with OUTPUT_PATH.open('w', encoding='utf-8', newline='\n') as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
+    print('saved_output:', str(OUTPUT_PATH))
     
     print('needs_clarification:', data.get('needs_clarification'))
     print('evaluation_log.final_status:', data.get('evaluation_log', {}).get('final_status'))

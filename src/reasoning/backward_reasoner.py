@@ -16,30 +16,11 @@ from reasoning.semantics.unification import Substitution, apply_substitution_to_
 from schemas.reasoning import ReasoningState, RequirementItem
 from schemas.rule import RuleRecord
 from runtime.rule_selection_policy import select_best_candidates_with_policy
-
-
-_SEMANTIC_FAMILY_BY_TOKEN = {
-    "obligation": "obligation",
-    "must": "obligation",
-    "permission": "permission",
-    "prohibition": "prohibition",
-    "deadline": "deadline",
-    "regulatory_deadline": "deadline",
-    "regulatory_deadline_requirement": "deadline",
-    "threshold": "threshold",
-    "applicability": "applicability",
-    "applies_if": "applicability",
-    "legal_effect": "legal_effect",
-    "procedure": "obligation",
-    "legal_consequence": "legal_effect",
-}
+from utils.semantic_families import normalize_predicate_family
 
 
 def _semantic_family(value: Any) -> str:
-    raw = str(value or "").strip().lower()
-    if not raw:
-        return ""
-    return _SEMANTIC_FAMILY_BY_TOKEN.get(raw, raw)
+    return normalize_predicate_family(value)
 
 
 def _is_variable_like(token: Any) -> bool:

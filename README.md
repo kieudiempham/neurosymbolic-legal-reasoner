@@ -37,6 +37,24 @@ python tests/run_30_case_audit.py --base-url http://127.0.0.1:8001 --input tests
 
 Detailed runbook: `docs/runbook_backend.md`
 
+### QA Artifact Policy (Team Standard)
+
+- Always use `tests/run_test.ps1` to run manual `/ask` checks and save JSON artifacts.
+- Do not use manual `Invoke-RestMethod | Out-File` for QA artifacts.
+	This avoids UTF-16 encoding drift and zero-byte files when requests fail.
+
+Run standard artifact script:
+
+```powershell
+cd neurosymbolic-legal-reasoner
+.\.venv\Scripts\Activate.ps1
+powershell -ExecutionPolicy Bypass -File tests/run_test.ps1 -ApiUrl "http://127.0.0.1:8001/ask"
+```
+
+Canonical output path:
+
+- `tests/output/case_tax_delay_after_layer1_prompt_patch.json`
+
 ## Manual QA FE + BE (Docker Compose)
 
 ### Start both services

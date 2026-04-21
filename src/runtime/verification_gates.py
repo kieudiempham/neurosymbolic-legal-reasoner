@@ -32,34 +32,97 @@ from schemas.reasoning import ReasoningState
 from schemas.rule import RuleRecord
 from schemas.session import SessionState
 from schemas.verification import VerificationRecord
+from utils.semantic_families import normalize_predicate_family
+from utils.text import lower_fold
 from verification.engine import NeSyEngine
 from verification.repair_loop import run_backward_repair_loop, run_forward_repair_loop, run_rule_repair_loop
 
 logger = logging.getLogger(__name__)
 
 
-_SEMANTIC_FAMILY_BY_TOKEN = {
-    "obligation": "obligation",
-    "must": "obligation",
-    "permission": "permission",
-    "prohibition": "prohibition",
-    "deadline": "deadline",
-    "regulatory_deadline": "deadline",
-    "regulatory_deadline_requirement": "deadline",
-    "threshold": "threshold",
-    "applicability": "applicability",
-    "applies_if": "applicability",
-    "legal_effect": "legal_effect",
-    "procedure": "obligation",
-    "legal_consequence": "legal_effect",
-}
-
-
 def _semantic_family(value: Any) -> str:
-    raw = str(value or "").strip().lower()
-    if not raw:
+    return normalize_predicate_family(value)
+
+
+def _rule_semantic_blob(rule: RuleRecord | None) -> str:
+    if rule is None:
         return ""
-    return _SEMANTIC_FAMILY_BY_TOKEN.get(raw, raw)
+    md = rule.metadata or {}
+    prov = md.get("provenance") or {}
+    parts = [
+        str(rule.logic_form or ""),
+        str(rule.head.predicate if rule.head else ""),
+        " ".join(str(x or "") for x in (rule.head.args if rule.head else []) or []),
+        " ".join(str((x or {}).get("predicate") or "") for x in (rule.body or [])),
+        str(md.get("domain") or ""),
+        str(md.get("layer") or ""),
+        str(md.get("source_doc") or ""),
+        str(md.get("source_article") or ""),
+        str(prov.get("source_ref_full") or ""),
+        str(prov.get("source_ref") or ""),
+        str(prov.get("surface_text") or ""),
+    ]
+    return lower_fold(" ".join(part for part in parts if part))
+
+
+def _rule_has_anchor(rule: RuleRecord | None, cues: tuple[str, ...]) -> bool:
+    blob = _rule_semantic_blob(rule)
+    if not blob:
+        return False
+    return any(cue in blob for cue in cues)
+
+
+def _semantic_soft_match_info(
+    *,
+    goal: dict[str, Any] | None,
+    rule: RuleRecord | None,
+) -> tuple[bool, str, dict[str, Any]]:
+    goal_family = _semantic_family((goal or {}).get("predicate"))
+    rule_head_family = _semantic_family(rule.head.predicate if rule and rule.head else "")
+    rule_logic_family = _semantic_family(getattr(rule, "logic_form", "") if rule else "")
+    candidate_families = [f for f in (rule_head_family, rule_logic_family) if f]
+
+    meta = {
+        "goal_family": goal_family,
+        "rule_head_family": rule_head_family,
+        "rule_logic_family": rule_logic_family,
+    }
+    if not goal_family or not candidate_families:
+        return False, "missing_semantic_family", meta
+
+    if goal_family in candidate_families:
+        return True, "same_family", meta
+
+    if goal_family == "legal_effect" and any(f in {"obligation", "prohibition"} for f in candidate_families):
+        if _rule_has_anchor(rule, ("sanction", "xu_phat", "phat", "vo_hieu", "hieu_luc", "ket_qua", "hau_qua")):
+            return True, "legal_effect_related_family", meta
+
+    if goal_family in {"obligation", "prohibition"} and "legal_effect" in candidate_families:
+        if _rule_has_anchor(rule, ("sanction", "xu_phat", "phat", "vo_hieu", "hieu_luc", "ket_qua", "hau_qua")):
+            return True, "legal_effect_related_family", meta
+
+    if goal_family == "permission" and "obligation" in candidate_families:
+        if _rule_has_anchor(rule, ("duoc_phep", "co_quyen", "permission", "allow", "permit")) and _rule_has_anchor(
+            rule,
+            ("phai", "must", "nghia_vu", "obligation"),
+        ):
+            return True, "permission_obligation_inverse", meta
+
+    return False, "unrelated_family", meta
+
+
+def _semantic_match_tier(
+    *,
+    goal: dict[str, Any] | None,
+    rule: RuleRecord | None,
+) -> tuple[str, float, str, dict[str, Any]]:
+    """Return semantic tier and scoring hint: exact > soft > mismatch."""
+    ok, reason, meta = _semantic_soft_match_info(goal=goal, rule=rule)
+    if ok and reason == "same_family":
+        return "exact", 2.0, reason, meta
+    if ok:
+        return "soft", 1.0, reason, meta
+    return "mismatch", -2.0, reason, meta
 
 
 def _repair_material_gain(rec: VerificationRecord | None) -> bool:
@@ -393,6 +456,34 @@ def gate_rule_and_backward(
             }
         )
 
+    # Semantic-first candidate preference for survivor selection.
+    if candidate_queue:
+        annotated_queue: list[tuple[int, int, dict[str, Any]]] = []
+        for idx, item in enumerate(candidate_queue):
+            rid = str(item.get("rule_id") or "")
+            gkey = item.get("global_rule_key")
+            rule = by_gid.get(gkey) if gkey else by_id.get(rid)
+            tier, bonus, reason, meta = _semantic_match_tier(goal=planner_goal, rule=rule)
+            rank = 2 if tier == "exact" else 1 if tier == "soft" else 0
+            item["semantic_family_match_tier"] = tier
+            item["semantic_soft_match_bonus"] = bonus
+            item["semantic_soft_match_reason"] = reason
+            item["semantic_soft_match_meta"] = meta
+            annotated_queue.append((rank, idx, item))
+
+        reordered = [it for _rank, _idx, it in sorted(annotated_queue, key=lambda x: (-x[0], x[1]))]
+        if [str(x.get("rule_id") or "") for x in reordered] != [str(x.get("rule_id") or "") for x in candidate_queue]:
+            out.trace.append(
+                {
+                    "stage": "candidate_semantic_priority_reorder",
+                    "goal": planner_goal,
+                    "ordering_policy": "exact_then_soft_then_mismatch",
+                    "before": [str(x.get("rule_id") or "") for x in candidate_queue],
+                    "after": [str(x.get("rule_id") or "") for x in reordered],
+                }
+            )
+        candidate_queue = reordered
+
     if not candidate_queue and ranked:
         top_retrieved = [r.rule_id for r, _, _ in ranked[:3]]
         for rid in top_retrieved:
@@ -439,6 +530,11 @@ def gate_rule_and_backward(
         out.tried_rule_ids.append(rid)
 
         cand_diag = ranked_diag.get(rid, {})
+        semantic_family_match_tier = str(item.get("semantic_family_match_tier") or "mismatch")
+        semantic_soft_match_bonus = float(item.get("semantic_soft_match_bonus") or 0.0)
+        semantic_soft_match_reason = str(item.get("semantic_soft_match_reason") or "")
+        semantic_soft_match_meta = dict(item.get("semantic_soft_match_meta") or {})
+        semantic_hard_mismatch_penalty = -2.0 if semantic_family_match_tier == "mismatch" else 0.0
         cand_ok, cand_reason, cand_meta = _candidate_semantic_guard(
             cand_diag,
             goal=planner_goal,
@@ -457,6 +553,9 @@ def gate_rule_and_backward(
                 "repair_hints": ["rerank_with_semantic_constraints", "avoid_attractor_rule"],
                 "admission_source": admission_source,
                 "semantic_guard_meta": cand_meta,
+                "semantic_soft_match_bonus": semantic_soft_match_bonus,
+                "semantic_family_match_tier": semantic_family_match_tier,
+                "semantic_hard_mismatch_penalty": semantic_hard_mismatch_penalty,
             }
             out.trace.append(
                 {
@@ -467,6 +566,9 @@ def gate_rule_and_backward(
                     "reason": cand_reason,
                     "score_components": cand_diag.get("score_components") or {},
                     "guard_meta": cand_meta,
+                    "semantic_soft_match_bonus": semantic_soft_match_bonus,
+                    "semantic_family_match_tier": semantic_family_match_tier,
+                    "semantic_hard_mismatch_penalty": semantic_hard_mismatch_penalty,
                 }
             )
             continue
@@ -509,7 +611,16 @@ def gate_rule_and_backward(
         )
         fallback_rule_relaxation_triggered = False
         fallback_rule_relaxation_reason = ""
+        family_soft_match_triggered = False
+        family_soft_match_reason = ""
+        family_soft_match_meta: dict[str, Any] = {}
         catastrophic_rule_incompatibility = _is_catastrophic_rule_incompatibility(v_rule)
+        if has_head_goal_mismatch:
+            family_soft_match_triggered, family_soft_match_reason, family_soft_match_meta = _semantic_soft_match_info(
+                goal=planner_goal,
+                rule=rule,
+            )
+
         if (
             admission_source == "fallback_top_retrieved"
             and bool(cand_meta.get("fallback_relaxation_applied"))
@@ -537,6 +648,12 @@ def gate_rule_and_backward(
                 "rejection_reason": list(v_rule.diagnostics),
                 "fallback_rule_verification_relaxation_triggered": fallback_rule_relaxation_triggered,
                 "fallback_rule_verification_relaxation_reason": fallback_rule_relaxation_reason,
+                "semantic_family_soft_match_triggered": family_soft_match_triggered,
+                "semantic_family_soft_match_reason": family_soft_match_reason,
+                "semantic_family_soft_match_meta": family_soft_match_meta,
+                "semantic_soft_match_bonus": semantic_soft_match_bonus,
+                "semantic_family_match_tier": semantic_family_match_tier,
+                "semantic_hard_mismatch_penalty": semantic_hard_mismatch_penalty,
                 "original_reject_reason": original_rule_reasons,
                 "original_final_decision": original_rule_decision,
                 "relaxed_final_decision": effective_rule_decision,
@@ -560,6 +677,9 @@ def gate_rule_and_backward(
                     "original_reject_reason": original_rule_reasons,
                     "relaxed_final_decision": effective_rule_decision,
                     "semantic_guard_meta": cand_meta,
+                    "semantic_family_soft_match_triggered": family_soft_match_triggered,
+                    "semantic_family_soft_match_reason": family_soft_match_reason,
+                    "semantic_family_soft_match_meta": family_soft_match_meta,
                     "catastrophic_rule_incompatibility": catastrophic_rule_incompatibility,
                 }
             )
@@ -578,6 +698,12 @@ def gate_rule_and_backward(
             "verification_level": level.value,
             "rejection_reason": list(v_rule.diagnostics),
             "fallback_rule_verification_relaxation_triggered": fallback_rule_relaxation_triggered,
+            "semantic_family_soft_match_triggered": family_soft_match_triggered,
+            "semantic_family_soft_match_reason": family_soft_match_reason,
+            "semantic_family_soft_match_meta": family_soft_match_meta,
+            "semantic_soft_match_bonus": semantic_soft_match_bonus,
+            "semantic_family_match_tier": semantic_family_match_tier,
+            "semantic_hard_mismatch_penalty": semantic_hard_mismatch_penalty,
             "original_reject_reason": original_rule_reasons,
             "original_final_decision": original_rule_decision,
             "relaxed_final_decision": effective_rule_decision,
@@ -609,6 +735,9 @@ def gate_rule_and_backward(
                 "rule_gate_decision": effective_rule_decision,
                 "rule_gate_level": level.value,
                 "fallback_rule_verification_relaxation_triggered": fallback_rule_relaxation_triggered,
+                "semantic_soft_match_bonus": semantic_soft_match_bonus,
+                "semantic_family_match_tier": semantic_family_match_tier,
+                "semantic_hard_mismatch_penalty": semantic_hard_mismatch_penalty,
             }
         )
 
@@ -915,10 +1044,25 @@ def gate_forward_reasoning(
     cross_domain_policy: CrossDomainPolicy | None = None,
     phase3_proof_context: dict[str, Any] | None = None,
     rescued_fallback_flow: bool = False,
+    semantic_match_context: dict[str, Any] | None = None,
 ) -> ForwardGateOutcome:
     """Run forward + proof, then ``verify_forward`` with optional repair (re-run forward + rebuild proof)."""
     out = ForwardGateOutcome(ok=False)
     sf = dict(session.structured_facts) if session.structured_facts else None
+    sem_ctx = dict(semantic_match_context or {})
+    semantic_family_match_tier = str(sem_ctx.get("semantic_family_match_tier") or "mismatch")
+    semantic_soft_match_triggered = bool(sem_ctx.get("semantic_soft_match_triggered"))
+    semantic_soft_match_reason = str(sem_ctx.get("semantic_soft_match_reason") or "")
+    out.trace.append(
+        {
+            "stage": "forward_semantic_context",
+            "semantic_family_match_tier": semantic_family_match_tier,
+            "semantic_soft_match_triggered": semantic_soft_match_triggered,
+            "semantic_soft_match_reason": semantic_soft_match_reason,
+            "forward_soft_match_relaxation_triggered": False,
+            "forward_soft_match_relaxation_reason": "",
+        }
+    )
 
     candidate_rules: dict[str, RuleRecord] = {}
     for r, _, _ in ranked:
@@ -998,6 +1142,24 @@ def gate_forward_reasoning(
         out.ok = True
         return out
 
+    fail_reason = (fst.forward_result or {}).get("failure_reason") if fst and fst.forward_result else None
+    if (
+        v_fwd.final_decision == "REJECT"
+        and str(fail_reason or "") == "predicate_family_mismatch"
+        and semantic_family_match_tier == "soft"
+    ):
+        out.trace.append(
+            {
+                "stage": "forward_soft_match_relaxation",
+                "semantic_family_match_tier": semantic_family_match_tier,
+                "forward_soft_match_relaxation_triggered": False,
+                "forward_soft_match_relaxation_reason": "predicate_family_mismatch_soft_semantic_compatibility_rejected",
+                "failure_reason": fail_reason,
+                "decision": "retain_reject",
+                "partial_forward_soft_match": False,
+            }
+        )
+
     if rescued_fallback_flow and v_fwd.final_decision == "REJECT":
         out.trace.append(
             {
@@ -1016,7 +1178,6 @@ def gate_forward_reasoning(
     if fst and fst.forward_result and fst.forward_result.get("rule_id"):
         by_id = {r.rule_id: r for r, _, _ in ranked}
         fail_rule = by_id.get(str(fst.forward_result.get("rule_id")), selected)
-    fail_reason = (fst.forward_result or {}).get("failure_reason") if fst and fst.forward_result else None
     quality_failures = {
         "unknown_goal_atom",
         "unknown_rule_head",

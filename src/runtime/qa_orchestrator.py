@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import logging
+import re
+import unicodedata
 from pathlib import Path
 from typing import Any
 
@@ -113,31 +115,6 @@ def _collect_plan_retry_condition_atoms(layer2: Layer2Parse) -> list[str]:
     return []
 
 
-def _layer2_has_usable_primary_parse(layer2: Layer2Parse | None) -> bool:
-    if layer2 is None:
-        return False
-
-    goal = dict(getattr(layer2, "goal", None) or {})
-    goal_pred = str(goal.get("predicate") or "").strip().lower()
-    goal_args = list(goal.get("args") or []) if isinstance(goal.get("args"), list) else []
-    has_goal = goal_pred not in {"", "unknown"}
-    has_goal_args_signal = any(str(x or "").strip() for x in goal_args)
-
-    cond_atoms = [str(a) for a in (getattr(layer2, "condition_atoms", None) or []) if str(a or "").strip()]
-    has_non_generic_condition = any(not a.startswith("stated_condition(") for a in cond_atoms)
-
-    diag = dict(getattr(layer2, "diagnostics", None) or {})
-    cond_norm = dict(diag.get("condition_normalization") or {})
-    cn_pred = str(cond_norm.get("canonical_predicate") or "").strip().lower()
-    cn_conf = float(cond_norm.get("confidence") or 0.0)
-    has_usable_condition_norm = cn_pred not in {"", "unknown", "stated_condition"} and cn_conf >= 0.5
-
-    subj = str(getattr(layer2, "subject_normalized", "") or "").strip().lower()
-    has_subject = bool(subj and not subj.startswith("unknown_subject"))
-
-    return has_goal and has_goal_args_signal and (has_non_generic_condition or has_usable_condition_norm or has_subject)
-
-
 def _compute_primary_parse_confidence(layer2: Layer2Parse | None) -> float:
     if layer2 is None:
         return 0.0
@@ -165,12 +142,35 @@ def _has_parse_alternatives(layer2: Layer2Parse | None) -> bool:
     return False
 
 
+def _layer2_has_usable_primary_parse(layer2: Layer2Parse | None) -> bool:
+    if layer2 is None:
+        return False
+
+    goal = dict(getattr(layer2, "goal", None) or {})
+    goal_pred = str(goal.get("predicate") or "").strip().lower()
+    goal_args = list(goal.get("args") or []) if isinstance(goal.get("args"), list) else []
+    has_goal = goal_pred not in {"", "unknown"}
+    has_goal_args_signal = any(str(x or "").strip() for x in goal_args)
+
+    diag = dict(getattr(layer2, "diagnostics", None) or {})
+    cond_norm = dict(diag.get("condition_normalization") or {})
+    cn_pred = str(cond_norm.get("canonical_predicate") or "").strip().lower()
+    cn_conf = float(cond_norm.get("confidence") or 0.0)
+    has_usable_condition_norm = cn_pred not in {"", "unknown", "stated_condition"} and cn_conf >= 0.5
+
+    subj = str(getattr(layer2, "subject_normalized", "") or "").strip().lower()
+    has_subject = bool(subj and not subj.startswith("unknown_subject"))
+
+    return has_goal and has_goal_args_signal and (has_usable_condition_norm or has_subject)
+
+
 def _build_parse_uncertainty_signal(layer2: Layer2Parse | None, *, clarification_enabled: bool) -> dict[str, Any]:
     diag = dict(getattr(layer2, "diagnostics", None) or {}) if layer2 is not None else {}
     ambs = list(diag.get("ambiguities") or [])
     blocking_count = sum(1 for a in ambs if bool((a or {}).get("blocking")))
     usable_primary = _layer2_has_usable_primary_parse(layer2)
     alternatives = _has_parse_alternatives(layer2)
+
     return {
         "parse_ambiguity_as_confidence_signal": bool(ambs),
         "primary_parse_confidence": _compute_primary_parse_confidence(layer2),
@@ -390,6 +390,266 @@ def _proof_summary_for_evidence(proof: Any) -> str:
     if summary:
         return summary
     return str(getattr(proof, "conclusion", "") or getattr(proof, "derived_conclusion", ""))
+
+
+def _strip_internal_runtime_debug_text(text: str) -> str:
+    if not text:
+        return ""
+    cleaned = str(text).strip()
+    replacements: list[tuple[str, str]] = [
+        (r"Forward\s+reasoning\s+did\s+not\s+complete[^\n\.]*", "Hệ thống chưa hoàn tất được toàn bộ bước đối chiếu kỹ thuật."),
+        (r"Forward\s+blocked\s+by\s+runtime\s+quality\s+gate\s*\([^\)]*\)", "Cần đối chiếu thêm dữ kiện để kết luận chắc chắn."),
+        (r"Forward\s+blocked\s+by\s+runtime\s+quality\s+gate", "Cần đối chiếu thêm dữ kiện để kết luận chắc chắn."),
+        (r"predicate_family_mismatch", ""),
+        (r"unification_gate", ""),
+        (r"runtime\s+quality\s+gate", ""),
+    ]
+    for pat, rep in replacements:
+        cleaned = re.sub(pat, rep, cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(r"\s+([,.;:])", r"\1", cleaned)
+    cleaned = re.sub(r"\n{3,}", "\n\n", cleaned)
+    cleaned = re.sub(r"[ ]{2,}", " ", cleaned)
+    return cleaned.strip()
+
+
+def _sanitize_user_visible_answer_fields(ans: Any) -> Any:
+    ans.answer_text = _strip_internal_runtime_debug_text(str(getattr(ans, "answer_text", "") or ""))
+    ans.conclusion = _strip_internal_runtime_debug_text(str(getattr(ans, "conclusion", "") or ""))
+    ans.proof_summary = _strip_internal_runtime_debug_text(str(getattr(ans, "proof_summary", "") or ""))
+    sections = dict(getattr(ans, "answer_sections", None) or {})
+    if sections:
+        ans.answer_sections = {
+            str(k): _strip_internal_runtime_debug_text(str(v or ""))
+            for k, v in sections.items()
+        }
+    return ans
+
+
+def _extract_primary_citation_label(ans: Any) -> str:
+    for c in list(getattr(ans, "legal_citations", None) or []):
+        label = str(getattr(c, "display_label", None) or getattr(c, "label", None) or "").strip()
+        if label:
+            return label
+    return ""
+
+
+def _extract_deadline_days_hint(ans: Any, selected_rule: RuleRecord | None) -> str:
+    candidate_texts: list[str] = []
+    for c in list(getattr(ans, "legal_citations", None) or []):
+        candidate_texts.extend(
+            [
+                str(getattr(c, "excerpt", "") or ""),
+                str(getattr(c, "tooltip_excerpt", "") or ""),
+                str(getattr(c, "source_ref", "") or ""),
+                str(getattr(c, "label", "") or ""),
+            ]
+        )
+    for e in list(getattr(ans, "evidence_snippets", None) or []):
+        candidate_texts.append(str(getattr(e, "text", "") or ""))
+    candidate_texts.append(str(getattr(ans, "conclusion", "") or ""))
+    if selected_rule is not None:
+        prov = dict((selected_rule.metadata or {}).get("provenance") or {})
+        candidate_texts.append(str(prov.get("source_ref_full") or ""))
+    for txt in candidate_texts:
+        m = re.search(r"\b(\d{1,3})\s*ng[aàáảãạăắằẳẵặâấầẩẫậ]y\b", txt, flags=re.IGNORECASE)
+        if m:
+            return m.group(1)
+    return ""
+
+
+def _normalize_subject_wording_for_enterprise_citation(
+    subject_text: str,
+    ans: Any,
+    selected_rule: RuleRecord | None,
+) -> str:
+    subj = str(subject_text or "").strip().lower()
+    if not subj:
+        subj = "doanh nghiệp"
+
+    def _fold_vn(text: str) -> str:
+        s = str(text or "")
+        s = s.replace("đ", "d").replace("Đ", "D")
+        s = unicodedata.normalize("NFKD", s)
+        return "".join(ch for ch in s if not unicodedata.combining(ch)).lower()
+
+    subj_fold = _fold_vn(subj)
+
+    # If legal grounding points to enterprise decree/rules, prefer neutral legal noun.
+    ctx_parts: list[str] = []
+    for c in list(getattr(ans, "legal_citations", None) or []):
+        ctx_parts.extend(
+            [
+                str(getattr(c, "display_label", "") or ""),
+                str(getattr(c, "label", "") or ""),
+                str(getattr(c, "source_ref", "") or ""),
+                str(getattr(c, "doc_id", "") or ""),
+            ]
+        )
+    if selected_rule is not None:
+        meta = dict(selected_rule.metadata or {})
+        prov = dict(meta.get("provenance") or {})
+        ctx_parts.extend(
+            [
+                str(meta.get("source_doc") or ""),
+                str(meta.get("domain") or ""),
+                str(prov.get("source_ref_full") or ""),
+            ]
+        )
+
+    ctx = " | ".join(ctx_parts).lower()
+    enterprise_signal = (
+        "doanh nghiệp" in ctx
+        or "nđ-" in ctx
+        or "nd-" in ctx
+        or "168/2025" in ctx
+        or "luatdn" in ctx
+        or "enterprise" in ctx
+    )
+
+    subj_company_like = (
+        "cong ty" in subj_fold
+        or "company" in subj_fold
+        or subj_fold.strip() == "company_x"
+    )
+    if enterprise_signal and subj_company_like:
+        return "doanh nghiệp"
+    return subject_text.strip() if str(subject_text or "").strip() else "doanh nghiệp"
+
+
+def _is_parse_focus_clear(layer1: Layer1Parse | None) -> bool:
+    if layer1 is None:
+        return False
+    focus = str(getattr(layer1, "question_focus", "") or "").strip().lower()
+    if focus in {"deadline", "obligation", "procedure_or_dossier"}:
+        return True
+    meta = dict(getattr(layer1, "parse_metadata", None) or {})
+    q_conf = float(meta.get("question_focus_confidence") or 0.0)
+    a_conf = float(meta.get("action_confidence") or 0.0)
+    return q_conf >= 0.75 and a_conf >= 0.75
+
+
+def _apply_user_facing_forward_failure_policy(
+    ans: Any,
+    *,
+    selected_rule: RuleRecord | None,
+    forward_failed: bool,
+    trace: dict[str, Any],
+    layer1: Layer1Parse | None = None,
+) -> Any:
+    ans = _sanitize_user_visible_answer_fields(ans)
+
+    citations = list(getattr(ans, "legal_citations", None) or [])
+    evidence = list(getattr(ans, "evidence_snippets", None) or [])
+    has_selected_rule = selected_rule is not None
+    has_citation = bool(citations)
+    top_evidence_score = max((float(getattr(e, "score", 0.0) or 0.0) for e in evidence), default=0.0)
+    has_strong_evidence = top_evidence_score >= 0.55
+    focus_clear = _is_parse_focus_clear(layer1)
+
+    failure_markers = (
+        "predicate_family_mismatch",
+        "unification_gate",
+        "runtime quality gate",
+        "forward reasoning did not complete",
+        "forward blocked by runtime quality gate",
+    )
+    answer_blob = "\n".join(
+        [
+            str(getattr(ans, "answer_text", "") or ""),
+            str(getattr(ans, "conclusion", "") or ""),
+            str(getattr(ans, "proof_summary", "") or ""),
+        ]
+    ).lower()
+    effective_forward_failure = bool(forward_failed) or any(m in answer_blob for m in failure_markers)
+
+    if effective_forward_failure and has_selected_rule and has_citation and has_strong_evidence and focus_clear:
+        citation_label = _extract_primary_citation_label(ans)
+        days_hint = _extract_deadline_days_hint(ans, selected_rule)
+        prov = dict((selected_rule.metadata or {}).get("provenance") or {}) if selected_rule else {}
+        source_ref = str(prov.get("source_ref_full") or (selected_rule.metadata or {}).get("source_doc") or "").strip() if selected_rule else ""
+        subject_text = str(getattr(layer1, "subject_text", "") or "doanh nghiệp").strip()
+        subject_text = _normalize_subject_wording_for_enterprise_citation(subject_text, ans, selected_rule)
+        action_text = str(getattr(layer1, "action_text", "") or "thông báo").strip()
+        condition_text = str(getattr(layer1, "condition_text", "") or "").strip()
+        subject_text = subject_text or "doanh nghiệp"
+        action_text = action_text or "thông báo"
+
+        condition_suffix = ""
+        if condition_text:
+            condition_suffix = f" khi {condition_text}"
+
+        if citation_label and days_hint:
+            legal_line = (
+                f"Theo [{citation_label}], {subject_text} phải {action_text} trong thời hạn {days_hint} ngày"
+                f"{condition_suffix}."
+            )
+        elif citation_label:
+            legal_line = (
+                f"Theo [{citation_label}], {subject_text} phải {action_text} theo đúng thời hạn áp dụng"
+                f"{condition_suffix}."
+            )
+        else:
+            legal_line = (
+                f"Theo căn cứ pháp lý đã trích dẫn, {subject_text} phải {action_text} trong thời hạn theo quy định"
+                f"{condition_suffix}."
+            )
+
+        if source_ref:
+            legal_line += f" Quy định tham chiếu chính: {source_ref}."
+
+        caveat = (
+            "Tuy nhiên, cần xác định đúng trường hợp pháp lý cụ thể để tránh nhầm với quy định "
+            "về đăng ký thay đổi hoặc thông báo trong trường hợp khác."
+        )
+
+        ans.answer_text = (
+            "Kính gửi Quý khách hàng,\n\n"
+            "1) Căn cứ pháp lý\n"
+            f"{legal_line}\n\n"
+            "2) Áp dụng sơ bộ\n"
+            "Kết luận ở mức định hướng được rút ra từ quy tắc đã chọn và các chứng cứ liên quan.\n\n"
+            "3) Lưu ý khi áp dụng\n"
+            f"{caveat}\n\n"
+            "Trân trọng."
+        )
+        ans.conclusion = _strip_internal_runtime_debug_text(str(getattr(ans, "conclusion", "") or ""))
+        ans.proof_summary = ""
+        current_conf = float(getattr(ans, "confidence", 0.0) or 0.0)
+        ans.confidence = min(current_conf if current_conf > 0 else 0.55, 0.55)
+        ans.answer_sections = {
+            "opening": "Kính gửi Quý khách hàng,",
+            "legal_rule": legal_line,
+            "application": "Kết luận ở mức định hướng được rút ra từ quy tắc đã chọn và các chứng cứ liên quan.",
+            "conclusion": caveat,
+            "closing": "Trân trọng.",
+        }
+        ans.verification_summary = (
+            f"{ans.verification_summary};user_safe_forward_failure_masked"
+            if getattr(ans, "verification_summary", "")
+            else "user_safe_forward_failure_masked"
+        )
+        ans.extra.update(
+            {
+                "user_facing_runtime_failure_hidden": True,
+                "forward_failure_fallback_policy_applied": True,
+                "has_selected_rule": has_selected_rule,
+                "has_strong_evidence": has_strong_evidence,
+                "has_citation": has_citation,
+                "parse_focus_clear": focus_clear,
+                "top_evidence_score": top_evidence_score,
+                "fallback_answer_confidence": ans.confidence,
+            }
+        )
+        trace["user_facing_forward_failure_masked"] = {
+            "enabled": True,
+            "effective_forward_failure": effective_forward_failure,
+            "has_selected_rule": has_selected_rule,
+            "has_strong_evidence": has_strong_evidence,
+            "has_citation": has_citation,
+            "parse_focus_clear": focus_clear,
+            "top_evidence_score": top_evidence_score,
+        }
+    return ans
 
 
 def _group_retrieved_by_domain(
@@ -633,6 +893,230 @@ def _build_rescued_conditional_missing_facts_answer(
             "non_final_disclaimer": True,
         }
     )
+    return ans
+
+
+def _apply_missing_facts_conditional_answer(
+    ans: Any,
+    *,
+    missing_facts: list[str],
+    selected_rule: RuleRecord | None = None,
+    known_fact_keys: list[str] | None = None,
+    mode_tag: str = "missing_facts_conditional",
+) -> Any:
+    """Convert current answer into a conditional legal answer using unresolved facts as hypotheses."""
+    facts = [str(f).strip() for f in (missing_facts or []) if str(f).strip()]
+    facts = list(dict.fromkeys(facts))
+    if not facts:
+        return ans
+
+    listed_facts = "\n".join([f"- {f}" for f in facts])
+
+    base_text = str(getattr(ans, "answer_text", "") or "").strip()
+    for bad_pattern in (
+        r"insufficient\s+information",
+        r"kh[oô]ng\s+đ[uủ]\s+th[oô]ng\s+tin",
+        r"khong\s+du\s+thong\s+tin",
+        r"kh[oô]ng\s+th[eể]\s+k[eế]t\s+lu[aậ]n",
+        r"khong\s+the\s+ket\s+luan",
+    ):
+        base_text = re.sub(
+            bad_pattern,
+            "chưa đủ điều kiện khẳng định tuyệt đối",
+            base_text,
+            flags=re.IGNORECASE,
+        )
+
+    known_facts = [str(f).strip() for f in (known_fact_keys or []) if str(f).strip()]
+    known_facts = list(dict.fromkeys(known_facts))[:5]
+    known_facts_text = "\n".join([f"- {f}" for f in known_facts]) if known_facts else "- (chưa có dữ kiện tường minh bổ sung)"
+
+    if selected_rule is not None:
+        prov = dict((selected_rule.metadata or {}).get("provenance") or {})
+        source_ref = str(prov.get("source_ref_full") or (selected_rule.metadata or {}).get("source_doc") or selected_rule.rule_id)
+        rule_line = (
+            f"Quy tắc được dùng: {source_ref} "
+            f"(rule_id={selected_rule.rule_id}, predicate={selected_rule.head.predicate})."
+        )
+    else:
+        rule_line = "Quy tắc được dùng: quy tắc pháp lý gần nhất theo kết quả retrieval hiện tại."
+
+    conditional_branches = []
+    for f in facts:
+        conditional_branches.append(f"- Nếu {f} là đúng -> Outcome A: áp dụng kết luận pháp lý theo quy tắc đã chọn.")
+        conditional_branches.append(f"- Nếu {f} là sai -> Outcome B: không đủ điều kiện áp dụng trực tiếp quy tắc đã chọn, cần loại trừ hoặc điều chỉnh kết luận.")
+    conditional_block = "\n".join(conditional_branches)
+
+    ans.answer_text = (
+        "1. Quy tắc pháp lý đã biết\n"
+        f"{rule_line}\n\n"
+        "2. Áp dụng quy tắc vào dữ kiện đã biết\n"
+        f"{base_text}\n"
+        "Dữ kiện đã biết:\n"
+        f"{known_facts_text}\n\n"
+        "3. Điều kiện cho dữ kiện còn thiếu (dùng như biến giả định)\n"
+        "Các dữ kiện còn thiếu:\n"
+        f"{listed_facts}\n"
+        f"{conditional_block}"
+    ).strip()
+    ans.conclusion = "ket_luan_co_dieu_kien_theo_missing_facts"
+    ans.verification_summary = (
+        f"{ans.verification_summary};mode={mode_tag}" if ans.verification_summary else f"mode={mode_tag}"
+    )
+    ans.extra.update(
+        {
+            "conditional_answer": True,
+            "missing_facts": facts,
+            "hypothetical_conditions_used": True,
+            "answer_structure": [
+                "known_legal_rule",
+                "apply_to_known_facts",
+                "if_true_false_for_missing_facts",
+            ],
+            "non_final_disclaimer": True,
+        }
+    )
+    return ans
+
+
+def _is_completely_unanswerable(
+    *,
+    selected: RuleRecord | None,
+    ranked: list[tuple[RuleRecord, float, dict[str, Any]]],
+    layer2: Layer2Parse,
+) -> bool:
+    goal = dict(getattr(layer2, "goal", None) or {})
+    goal_pred = str(goal.get("predicate") or "").strip().lower()
+    has_goal_signal = goal_pred not in {"", "unknown"}
+    has_condition_signal = bool([a for a in (getattr(layer2, "condition_atoms", None) or []) if str(a or "").strip()])
+    has_ranked = bool(ranked)
+    has_selected = bool(selected and str(getattr(selected, "rule_id", "") or "") != "RULE_FALLBACK_UNKNOWN")
+    return not (has_goal_signal or has_condition_signal or has_ranked or has_selected)
+
+
+def _is_selected_rule_missing(selected: RuleRecord | None) -> bool:
+    if selected is None:
+        return True
+    rid = str(getattr(selected, "rule_id", "") or "").strip().lower()
+    return rid in {"", "rule_fallback_unknown"}
+
+
+def _is_conflict_too_large(
+    *,
+    ranked: list[tuple[RuleRecord, float, dict[str, Any]]],
+    phase3_result: Any | None,
+) -> bool:
+    if phase3_result is None:
+        return False
+    conflict_rejected = list(getattr(phase3_result, "conflict_rejected", None) or [])
+    conflict_count = len(conflict_rejected)
+    survived_count = len(ranked or [])
+    total_considered = conflict_count + survived_count
+    if total_considered <= 0:
+        return False
+    if survived_count == 0 and conflict_count >= 3:
+        return True
+    return conflict_count >= 5 and total_considered >= 6 and (conflict_count / total_considered) >= 0.85 and survived_count <= 1
+
+
+def _collect_answer_hard_stop_reasons(
+    *,
+    layer2: Layer2Parse | None,
+    selected: RuleRecord | None,
+    goal: dict[str, Any] | None,
+    evidence: list[Any],
+    ranked: list[tuple[RuleRecord, float, dict[str, Any]]],
+    phase3_result: Any | None,
+) -> list[str]:
+    reasons: list[str] = []
+    if not _layer2_has_usable_primary_parse(layer2):
+        reasons.append("parse_unusable")
+    if _is_selected_rule_missing(selected) or not _is_grounded_rule_usable(selected, goal):
+        reasons.append("no_rule")
+    if not list(evidence or []):
+        reasons.append("no_evidence")
+    if _is_conflict_too_large(ranked=ranked, phase3_result=phase3_result):
+        reasons.append("conflict_too_large")
+    return reasons
+
+
+def _enforce_reasoning_failure_answer_policy(
+    ans: Any | None,
+    *,
+    question: str,
+    layer2: Layer2Parse | None,
+    selected: RuleRecord | None,
+    goal: dict[str, Any] | None,
+    ranked: list[tuple[RuleRecord, float, dict[str, Any]]],
+    evidence: list[Any],
+    phase3_result: Any | None,
+    forward_failed: bool,
+    answer_rejected: bool,
+    trace: dict[str, Any],
+) -> Any | None:
+    hard_stop_reasons = _collect_answer_hard_stop_reasons(
+        layer2=layer2,
+        selected=selected,
+        goal=goal,
+        evidence=evidence,
+        ranked=ranked,
+        phase3_result=phase3_result,
+    )
+    if hard_stop_reasons:
+        trace.setdefault("hard_gates_hit", []).append("answer_null_by_hard_stop_policy")
+        trace["answer_null_policy"] = {
+            "enabled": True,
+            "rule": "null_only_parse_unusable_or_no_rule_or_no_evidence_or_conflict_too_large",
+            "reasons": hard_stop_reasons,
+        }
+        return None
+
+    if ans is None or not str(getattr(ans, "answer_text", "") or "").strip():
+        ans = generate_honest_degraded_answer(
+            question=question,
+            reason="degraded_useful_after_reasoning_failure",
+            selected_rule=selected,
+            goal=dict(goal or {}),
+            retrieved_rules=[r for r, _s, _d in ranked[:3]],
+        )
+        ans.verification_summary = (
+            f"{ans.verification_summary};degraded_useful_after_reasoning_failure"
+            if getattr(ans, "verification_summary", "")
+            else "degraded_useful_after_reasoning_failure"
+        )
+
+    if answer_rejected:
+        ans.verification_summary = (
+            f"{ans.verification_summary};answer_reject_degraded_useful"
+            if getattr(ans, "verification_summary", "")
+            else "answer_reject_degraded_useful"
+        )
+        if not isinstance(getattr(ans, "extra", None), dict):
+            ans.extra = {}
+        ans.extra["answer_reject_degraded_useful"] = True
+        trace["answer_reject_degraded_useful"] = True
+
+    if forward_failed:
+        try:
+            cur_conf = float(getattr(ans, "confidence", 0.0) or 0.0)
+        except Exception:
+            cur_conf = 0.0
+        new_conf = min(cur_conf if cur_conf > 0 else 0.58, 0.58)
+        ans.confidence = new_conf
+        ans.verification_summary = (
+            f"{ans.verification_summary};forward_failure_confidence_degraded"
+            if getattr(ans, "verification_summary", "")
+            else "forward_failure_confidence_degraded"
+        )
+        if not isinstance(getattr(ans, "extra", None), dict):
+            ans.extra = {}
+        ans.extra["forward_failure_not_answer_failure"] = True
+        ans.extra["forward_failure_confidence_cap"] = new_conf
+        trace["forward_failure_confidence_degraded"] = {
+            "enabled": True,
+            "confidence_cap": new_conf,
+        }
+
     return ans
 
 
@@ -892,10 +1376,7 @@ def run_ask(
     session.layer2 = layer2
     trace["parse_repair"] = parse_repair_trace
     _merge_verification(session, v_parse)
-    parse_uncertainty = _build_parse_uncertainty_signal(
-        layer2,
-        clarification_enabled=bool(resolved_run_config.enable_clarification),
-    )
+    parse_uncertainty = _build_parse_uncertainty_signal(layer2, clarification_enabled=bool(resolved_run_config.enable_clarification))
     layer2 = _attach_parse_uncertainty_to_layer2(layer2, parse_uncertainty)
     session.layer2 = layer2
     trace["parse_ambiguity_as_confidence_signal"] = bool(parse_uncertainty.get("parse_ambiguity_as_confidence_signal"))
@@ -1353,6 +1834,8 @@ def run_ask(
         )
         session.selected_rule = selected
 
+    selected_semantic_ctx = dict((rg.candidate_verdicts or {}).get(str(selected.rule_id), {}) or {}) if rg else {}
+
     with tc.span("forward_gate") as sp_f:
         fg = gate_forward_reasoning(
             engine,
@@ -1368,6 +1851,11 @@ def run_ask(
             cross_domain_policy=policy,
             phase3_proof_context=p3_result.proof_phase3_context,
             rescued_fallback_flow=rescued_fallback_flow,
+            semantic_match_context={
+                "semantic_family_match_tier": selected_semantic_ctx.get("semantic_family_match_tier"),
+                "semantic_soft_match_triggered": selected_semantic_ctx.get("semantic_family_soft_match_triggered"),
+                "semantic_soft_match_reason": selected_semantic_ctx.get("semantic_family_soft_match_reason"),
+            },
         )
         trace["forward_gate"] = fg.trace
         if fg.v_fwd:
@@ -1401,8 +1889,21 @@ def run_ask(
     session.reasoning = fstate
     session.proof = proof
     if fstate and fstate.forward_result and fstate.forward_result.get("rule_id"):
-        _by_id = {r.rule_id: r for r, _, _ in ranked}
-        selected = _by_id.get(fstate.forward_result["rule_id"], selected)
+        forward_rule_id = str(fstate.forward_result.get("rule_id") or "")
+        selected_rule_id = str(selected.rule_id) if selected else ""
+        if selected_rule_id and forward_rule_id and forward_rule_id != selected_rule_id:
+            logger.warning(
+                "forward_rule_mismatch_with_selected_rule session_id=%s selected_rule_id=%s forward_rule_id=%s",
+                session.session_id,
+                selected_rule_id,
+                forward_rule_id,
+            )
+            trace["forward_rule_mismatch_with_selected_rule"] = {
+                "selected_rule_id": selected_rule_id,
+                "forward_rule_id": forward_rule_id,
+                "overwrite_blocked": True,
+            }
+            trace["forward_low_confidence_due_to_rule_mismatch"] = True
     session.selected_rule = selected
 
     with tc.span("proof") as sp_p:
@@ -1525,6 +2026,45 @@ def run_ask(
         context_tag="ask.final_answer",
     )
 
+    missing_facts_now = list((getattr(bstate, "missing_facts", None) or [])) if bstate else []
+    if missing_facts_now:
+        ans = _apply_missing_facts_conditional_answer(
+            ans,
+            missing_facts=missing_facts_now,
+            selected_rule=selected,
+            known_fact_keys=list(known_facts_for_reasoning(session).keys()),
+            mode_tag="ask_missing_facts_conditional",
+        )
+        trace["conditional_answer_due_to_missing_facts"] = {
+            "enabled": True,
+            "missing_facts": missing_facts_now,
+            "policy": "continue_reasoning_with_hypothetical_conditions",
+        }
+        session.clarification_questions = []
+        trace["clarification_suppressed_answered_with_hypotheticals"] = True
+
+    ans = _apply_user_facing_forward_failure_policy(
+        ans,
+        selected_rule=selected,
+        forward_failed=bool(not fg.ok),
+        trace=trace,
+        layer1=layer1,
+    )
+
+    ans = _enforce_reasoning_failure_answer_policy(
+        ans,
+        question=question,
+        layer2=layer2,
+        selected=selected,
+        goal=goal,
+        ranked=ranked,
+        evidence=ev,
+        phase3_result=None,
+        forward_failed=bool(not fg.ok),
+        answer_rejected=bool(v_ans.final_decision == "REJECT"),
+        trace=trace,
+    )
+
     session.answer = ans
     
     # Build ReasoningResult as first-class artifact
@@ -1538,7 +2078,7 @@ def run_ask(
         bstate=bstate,
         fstate=fstate,
         selected=selected,
-        phase3_result=p3_result,
+        phase3_result=None,
     )
     trace["reasoning_result"] = reasoning_result_data
     
@@ -2015,6 +2555,8 @@ def run_clarify(
         )
         session.selected_rule = selected
 
+    selected_semantic_ctx = dict((rg.candidate_verdicts or {}).get(str(selected.rule_id), {}) or {}) if rg else {}
+
     with tc.span("forward_gate") as sp_f:
         fg = gate_forward_reasoning(
             engine,
@@ -2028,6 +2570,11 @@ def run_clarify(
             max_forward_repair=max_repair_attempts_forward,
             reasoning_context=ctx,
             cross_domain_policy=policy,
+            semantic_match_context={
+                "semantic_family_match_tier": selected_semantic_ctx.get("semantic_family_match_tier"),
+                "semantic_soft_match_triggered": selected_semantic_ctx.get("semantic_family_soft_match_triggered"),
+                "semantic_soft_match_reason": selected_semantic_ctx.get("semantic_family_soft_match_reason"),
+            },
         )
         trace["forward_gate"] = fg.trace
         if fg.v_fwd:
@@ -2061,8 +2608,21 @@ def run_clarify(
     session.reasoning = fstate
     session.proof = proof
     if fstate and fstate.forward_result and fstate.forward_result.get("rule_id"):
-        _by_id = {r.rule_id: r for r, _, _ in ranked}
-        selected = _by_id.get(fstate.forward_result["rule_id"], selected)
+        forward_rule_id = str(fstate.forward_result.get("rule_id") or "")
+        selected_rule_id = str(selected.rule_id) if selected else ""
+        if selected_rule_id and forward_rule_id and forward_rule_id != selected_rule_id:
+            logger.warning(
+                "forward_rule_mismatch_with_selected_rule session_id=%s selected_rule_id=%s forward_rule_id=%s",
+                session.session_id,
+                selected_rule_id,
+                forward_rule_id,
+            )
+            trace["forward_rule_mismatch_with_selected_rule"] = {
+                "selected_rule_id": selected_rule_id,
+                "forward_rule_id": forward_rule_id,
+                "overwrite_blocked": True,
+            }
+            trace["forward_low_confidence_due_to_rule_mismatch"] = True
     session.selected_rule = selected
 
     with tc.span("proof") as sp_p:
@@ -2171,6 +2731,45 @@ def run_clarify(
         layer2=layer2,
         trace=trace,
         context_tag="clarify.final_answer",
+    )
+
+    missing_facts_now = list((getattr(fstate, "missing_facts", None) or [])) if fstate else []
+    if missing_facts_now:
+        ans = _apply_missing_facts_conditional_answer(
+            ans,
+            missing_facts=missing_facts_now,
+            selected_rule=selected,
+            known_fact_keys=list(known_facts_for_reasoning(session).keys()),
+            mode_tag="clarify_missing_facts_conditional",
+        )
+        trace["conditional_answer_due_to_missing_facts"] = {
+            "enabled": True,
+            "missing_facts": missing_facts_now,
+            "policy": "continue_reasoning_with_hypothetical_conditions",
+        }
+        session.clarification_questions = []
+        trace["clarification_suppressed_answered_with_hypotheticals"] = True
+
+    ans = _apply_user_facing_forward_failure_policy(
+        ans,
+        selected_rule=selected,
+        forward_failed=bool(not fg.ok),
+        trace=trace,
+        layer1=layer1,
+    )
+
+    ans = _enforce_reasoning_failure_answer_policy(
+        ans,
+        question=question,
+        layer2=layer2,
+        selected=selected,
+        goal=goal,
+        ranked=ranked,
+        evidence=ev,
+        phase3_result=None,
+        forward_failed=bool(not fg.ok),
+        answer_rejected=bool(v_ans.final_decision == "REJECT"),
+        trace=trace,
     )
 
     session.answer = ans

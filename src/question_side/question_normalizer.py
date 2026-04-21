@@ -153,6 +153,8 @@ def _focus_from_condition_family_hint(condition_family_hint: str) -> str:
         return "threshold"
     if fam == "exception":
         return "exception"
+    if fam == "legal_consequence":
+        return "legal_effect"
     if fam == "legal_effect_trigger":
         return "legal_effect"
     if fam == "prohibition_trigger":
@@ -172,6 +174,8 @@ def _choose_effective_focus(
     condition_family_hint: str,
 ) -> str:
     cur = _norm_hint_token(focus)
+    if cur == "legal_consequence":
+        cur = "legal_effect"
     qhint = _norm_hint_token(question_focus_hint)
     fam_focus = _focus_from_condition_family_hint(condition_family_hint)
     mod = lower_fold(modality_text or "")

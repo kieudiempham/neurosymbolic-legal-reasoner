@@ -27,21 +27,7 @@ from reasoning.semantics.unification import (
 from runtime.domain_reasoning_policy import policy_from_context
 from rulebase.rule_identity import global_rule_key
 from schemas.rule import RuleRecord
-
-_SEMANTIC_FAMILY_BY_PREDICATE: dict[str, str] = {
-    "obligation": "obligation",
-    "must": "obligation",
-    "permission": "permission",
-    "prohibition": "prohibition",
-    "deadline": "deadline",
-    "regulatory_deadline": "deadline",
-    "regulatory_deadline_requirement": "deadline",
-    "threshold": "threshold",
-    "applies_if": "applicability",
-    "applicability": "applicability",
-    "legal_effect": "legal_effect",
-}
-
+from utils.semantic_families import normalize_predicate_family
 
 def _is_variable_like(value: Any) -> bool:
     if not isinstance(value, str):
@@ -56,10 +42,7 @@ def _is_unknown_token(value: Any) -> bool:
 
 
 def _semantic_family(value: Any) -> str:
-    t = str(value or "").strip().lower()
-    if not t:
-        return ""
-    return _SEMANTIC_FAMILY_BY_PREDICATE.get(t, t)
+    return normalize_predicate_family(value)
 
 
 def _is_noncanonical_surface(value: Any) -> bool:

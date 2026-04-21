@@ -10,6 +10,7 @@ from typing import TYPE_CHECKING, Any
 from schemas.question_parse import Layer1Parse
 from question_side.heuristic_layer1 import parse_question_layer1_heuristic
 from question_side.llm_layer1_parser import parse_layer1_llm
+from utils.semantic_families import normalize_family
 
 if TYPE_CHECKING:
     from app.config import Settings
@@ -112,6 +113,7 @@ def _build_parse_meta(
     model: str | None,
     parser_backend: str,
     actual_mode: str,
+    parser_fallback_mode: str | None,
     fallback_used: bool,
     fallback_reason: str | None,
     parser_available: bool,
@@ -119,11 +121,13 @@ def _build_parse_meta(
 ) -> dict[str, Any]:
     meta = {
         "requested_mode": requested_mode,
+        "parse_mode": actual_mode,
         "actual_mode": actual_mode,
         "provider": provider,
         "model": model,
         "fallback_used": fallback_used,
         "fallback_reason": fallback_reason,
+        "parser_fallback_mode": parser_fallback_mode,
         "parser_available": parser_available,
         "parser_error": parser_error,
         "parser_backend": parser_backend,
@@ -132,6 +136,18 @@ def _build_parse_meta(
         "parser_backend_mode": actual_mode,
     }
     return meta
+
+
+def _normalize_semantic_parse_metadata(parsed: Layer1Parse) -> Layer1Parse:
+    meta = dict(parsed.parse_metadata or {})
+    raw_focus = meta.get("question_focus_hint")
+    if raw_focus is not None and str(raw_focus).strip().lower() == "legal_consequence":
+        meta["question_focus_hint"] = "legal_effect"
+    raw_condition_family = meta.get("condition_family_hint")
+    if raw_condition_family is not None:
+        normalized = normalize_family(raw_condition_family)
+        meta["condition_family_hint"] = normalized or "unknown"
+    return parsed.model_copy(update={"parse_metadata": meta})
 
 
 def parse_question_layer1(
@@ -177,6 +193,7 @@ def parse_question_layer1(
             model="heuristic_layer1_v2",
             parser_backend="heuristic",
             actual_mode="heuristic_fallback",
+            parser_fallback_mode=reason,
             fallback_used=fallback_used,
             fallback_reason=reason,
             parser_available=False,
@@ -185,7 +202,7 @@ def parse_question_layer1(
         # Keep attempted LLM target visible without pretending it was the actual parser.
         h_meta["attempted_provider"] = provider
         h_meta["attempted_model"] = model
-        return h.model_copy(update={"parse_metadata": h_meta})
+        return _normalize_semantic_parse_metadata(h.model_copy(update={"parse_metadata": h_meta}))
 
     if requested_mode == _PARSER_MODE_HEURISTIC:
         return _heuristic_result(
@@ -207,6 +224,7 @@ def parse_question_layer1(
             model=model,
             parser_backend="unavailable",
             actual_mode="parse_unavailable",
+            parser_fallback_mode=None,
             fallback_used=False,
             fallback_reason=None,
             parser_available=False,
@@ -226,6 +244,7 @@ def parse_question_layer1(
             model=model,
             parser_backend="unavailable",
             actual_mode="parse_unavailable",
+            parser_fallback_mode=None,
             fallback_used=False,
             fallback_reason=None,
             parser_available=False,
@@ -245,6 +264,7 @@ def parse_question_layer1(
             model=model,
             parser_backend="unavailable",
             actual_mode="parse_unavailable",
+            parser_fallback_mode=None,
             fallback_used=False,
             fallback_reason=None,
             parser_available=False,
@@ -264,6 +284,7 @@ def parse_question_layer1(
             model=None,
             parser_backend="unavailable",
             actual_mode="parse_unavailable",
+            parser_fallback_mode=None,
             fallback_used=False,
             fallback_reason=None,
             parser_available=False,
@@ -295,6 +316,7 @@ def parse_question_layer1(
             model=model,
             parser_backend="unavailable",
             actual_mode="parse_unavailable",
+            parser_fallback_mode=None,
             fallback_used=False,
             fallback_reason=None,
             parser_available=False,
@@ -310,10 +332,11 @@ def parse_question_layer1(
             model=model,
             parser_backend="llm",
             actual_mode="llm_real",
+            parser_fallback_mode=None,
             fallback_used=False,
             fallback_reason=None,
             parser_available=True,
             parser_error=None,
         )
     )
-    return l1.model_copy(update={"parse_metadata": meta})
+    return _normalize_semantic_parse_metadata(l1.model_copy(update={"parse_metadata": meta}))

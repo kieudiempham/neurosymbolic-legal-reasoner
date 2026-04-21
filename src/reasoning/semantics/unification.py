@@ -16,6 +16,7 @@ from reasoning.internal.models import (
     ThresholdConstraint,
     ThresholdNoteConstraint,
 )
+from utils.semantic_families import CANONICAL_FAMILIES, normalize_predicate_family
 from utils.text import lower_fold
 
 
@@ -103,6 +104,34 @@ _ACTION_OBJECT_NOISE = {
     "so",
 }
 
+_ACTION_GROUP_HINTS = {
+    "notification": ("thong_bao", "gui"),
+    "registration": ("dang_ky", "cap_nhat"),
+    "submission": ("nop", "bo_sung", "ho_so"),
+    "payment": ("thue", "le_phi", "tien"),
+    "enforcement": ("cuong_che", "xu_phat"),
+}
+
+_ACTION_GROUP_CONFLICTS = {
+    ("notification", "payment"),
+    ("notification", "enforcement"),
+    ("notification", "submission"),
+    ("registration", "payment"),
+    ("registration", "enforcement"),
+    ("registration", "submission"),
+    ("payment", "notification"),
+    ("payment", "registration"),
+    ("payment", "submission"),
+    ("enforcement", "notification"),
+    ("enforcement", "registration"),
+    ("enforcement", "submission"),
+    ("submission", "notification"),
+    ("submission", "registration"),
+    ("submission", "payment"),
+}
+
+_CANONICAL_PREDICATE_FAMILIES = set(CANONICAL_FAMILIES)
+
 
 def _is_symbolic_placeholder(value: Any) -> bool:
     if not isinstance(value, str):
@@ -133,8 +162,26 @@ def _action_object_equivalent(a: Any, b: Any) -> bool:
     union = len(ta | tb)
     if inter == 0:
         return False
-    # Accept when core lexical intent overlaps even if one side is a verbose question-like phrase.
-    return (inter / max(1, union) >= 0.2) or (inter >= 2)
+    # Require a stronger overlap so generic prefixes like "nop" do not over-unify.
+    return (inter / max(1, union) >= 0.45) or (inter >= 2 and inter / max(1, union) >= 0.4)
+
+
+def _action_group(value: Any) -> str:
+    token = _normalize_predicate_token(value)
+    if not token:
+        return ""
+    for group, cues in _ACTION_GROUP_HINTS.items():
+        if any(cue in token for cue in cues):
+            return group
+    return "other"
+
+
+def _action_group_conflict(goal_action: Any, head_action: Any) -> bool:
+    goal_group = _action_group(goal_action)
+    head_group = _action_group(head_action)
+    if not goal_group or not head_group or goal_group == "other" or head_group == "other":
+        return False
+    return (goal_group, head_group) in _ACTION_GROUP_CONFLICTS
 
 
 def _unify_terms_for_slot(
@@ -163,28 +210,11 @@ def _normalize_predicate_token(value: Any) -> str:
     return folded.strip("_")
 
 
-_PREDICATE_FAMILY: dict[str, str] = {
-    "obligation": "obligation",
-    "must": "obligation",
-    "permission": "permission",
-    "prohibition": "prohibition",
-    "deadline": "deadline",
-    "regulatory_deadline": "deadline",
-    "regulatory_deadline_requirement": "deadline",
-    "threshold": "threshold",
-    "applicability": "applicability",
-    "applies_if": "applicability",
-    "legal_effect": "legal_effect",
-    "procedure": "obligation",
-    "legal_consequence": "legal_effect",
-}
-
-
 def _predicate_family(value: Any) -> str:
     token = _normalize_predicate_token(value)
     if not token:
         return ""
-    return _PREDICATE_FAMILY.get(token, token)
+    return normalize_predicate_family(token)
 
 
 def _is_empty_arg(value: Any) -> bool:
@@ -336,8 +366,17 @@ def unify_goal_dict_with_goal_atom(
     ha = _trim_trailing_empty_args(list(goal_atom[1:]))
     goal_pred = _normalize_predicate_token(gp)
     head_pred = _normalize_predicate_token(goal_atom[0])
-    if goal_pred != head_pred and _predicate_family(goal_pred) != _predicate_family(head_pred):
-        return None, "predicate_mismatch"
+    if goal_pred != head_pred:
+        goal_family = _predicate_family(goal_pred)
+        head_family = _predicate_family(head_pred)
+        if not goal_family or goal_family != head_family:
+            return None, "predicate_mismatch"
+        goal_action = ga[1] if len(ga) > 1 else None
+        head_action = ha[1] if len(ha) > 1 else None
+        if _action_group_conflict(goal_action, head_action):
+            return None, "action_group_conflict"
+        if len(ga) > 1 and len(ha) > 1 and not _action_object_equivalent(goal_action, head_action):
+            return None, "event_mismatch"
     if len(ga) != len(ha):
         return None, "arity_mismatch"
     family = _predicate_family(goal_pred)

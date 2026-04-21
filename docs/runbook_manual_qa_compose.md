@@ -26,6 +26,20 @@ try {
 }
 ```
 
+## Script-only API artifact rule
+- For API output artifacts, always use `tests/run_test.ps1`.
+- Do not manually save `/ask` responses via `Invoke-RestMethod | Out-File`.
+- This avoids UTF-16/empty artifact issues and keeps one canonical output path.
+
+Run it against compose backend (8001):
+```powershell
+cd D:\IT\THI\PAPER\project\neurosymbolic-legal-reasoner
+powershell -ExecutionPolicy Bypass -File tests/run_test.ps1 -ApiUrl "http://127.0.0.1:8001/ask"
+```
+
+Expected artifact path:
+- `tests/output/case_tax_delay_after_layer1_prompt_patch.json`
+
 ## Manual test flow on FE
 1. Open http://localhost:3000
 2. Input a Vietnamese legal question in Question Input.
