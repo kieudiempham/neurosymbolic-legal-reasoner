@@ -266,6 +266,47 @@ def _object_from_action_hint(action_hint: str) -> str:
     return "doi_tuong"
 
 
+_EVENT_SCOPE_ALIASES: dict[str, set[str]] = {
+    "thay_doi_noi_dung_dang_ky_doanh_nghiep": {
+        "thay_doi_noi_dung_dang_ky_doanh_nghiep",
+        "dang_ky_thay_doi_noi_dung_dang_ky_doanh_nghiep",
+        "thong_bao_thay_doi_noi_dung_dang_ky_doanh_nghiep",
+    },
+}
+
+
+def _normalize_event_scope(value: Any) -> str:
+    tok = _norm_hint_token(value)
+    if not tok:
+        return ""
+    for canonical, aliases in _EVENT_SCOPE_ALIASES.items():
+        if tok == canonical or tok in aliases:
+            return canonical
+    return ""
+
+
+def _goal_procedural_subtype(action_canonical: str) -> str:
+    a = _norm_hint_token(action_canonical)
+    if not a:
+        return ""
+    if "thong_bao" in a or a.startswith("gui_thong_bao"):
+        return "notification"
+    if a.startswith("dang_ky"):
+        return "registration"
+    return ""
+
+
+def _derive_goal_event_scope(condition_event_type: str, action_canonical: str) -> str:
+    scope = _normalize_event_scope(condition_event_type)
+    if scope:
+        return scope
+    # Generic `gui_thong_bao` must not imply a global scope by itself.
+    action_tok = _norm_hint_token(action_canonical)
+    if action_tok == "gui_thong_bao":
+        return ""
+    return _normalize_event_scope(action_tok)
+
+
 def _prefer_action_hint_over_compact(compact: str, action_hint: str) -> bool:
     ah = _norm_hint_token(action_hint)
     c = _norm_hint_token(compact)
@@ -824,6 +865,14 @@ def build_layer2(
             )
         )
 
+    condition_event_type = str((cn.frame.event_type if cn and cn.frame else "") or "")
+    goal_scope = _derive_goal_event_scope(condition_event_type, act)
+    goal_subtype = _goal_procedural_subtype(act)
+    if goal_scope:
+        goal["event_scope"] = goal_scope
+    if goal_subtype:
+        goal["procedural_subtype"] = goal_subtype
+
     base_facts = list(user_facts)
     hypothetical_refs: list[str] = []
     if ast == "asserted" and layer1.condition_text.strip():
@@ -857,6 +906,8 @@ def build_layer2(
         "goal_canonicalization": {
             "action_canonical": act,
             "object_canonical": obj,
+            "event_scope": goal_scope,
+            "procedural_subtype": goal_subtype,
             "action_confidence": action_conf,
             "effective_focus": focus,
             "focus_hint": question_focus_hint,

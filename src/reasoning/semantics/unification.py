@@ -377,8 +377,6 @@ def unify_goal_dict_with_goal_atom(
         head_action = ha[1] if len(ha) > 1 else None
         if _action_group_conflict(goal_action, head_action):
             return None, "action_group_conflict"
-        if len(ga) > 1 and len(ha) > 1 and not _action_object_equivalent(goal_action, head_action):
-            return None, "event_mismatch"
     if len(ga) != len(ha):
         return None, "arity_mismatch"
     family = _predicate_family(goal_pred)

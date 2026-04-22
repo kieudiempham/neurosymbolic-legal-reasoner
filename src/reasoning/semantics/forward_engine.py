@@ -52,9 +52,46 @@ def _event_bridge_token(value: Any) -> str:
     return s.strip("_")
 
 
+_EVENT_SCOPE_ALIASES: dict[str, set[str]] = {
+    "thay_doi_noi_dung_dang_ky_doanh_nghiep": {
+        "thay_doi_noi_dung_dang_ky_doanh_nghiep",
+        "dang_ky_thay_doi_noi_dung_dang_ky_doanh_nghiep",
+        "thong_bao_thay_doi_noi_dung_dang_ky_doanh_nghiep",
+    },
+}
+
+_EXPLICIT_SCOPE_LOCKED_BRIDGES: set[tuple[str, str]] = {
+    ("gui_thong_bao", "thong_bao_thay_doi_noi_dung_dang_ky_doanh_nghiep"),
+    ("thong_bao_thay_doi_noi_dung_dang_ky_doanh_nghiep", "gui_thong_bao"),
+}
+
+
+def _normalize_event_scope(value: Any) -> str:
+    tok = _event_bridge_token(value)
+    if not tok:
+        return ""
+    for canonical, aliases in _EVENT_SCOPE_ALIASES.items():
+        if tok == canonical or tok in aliases:
+            return canonical
+    return ""
+
+
+def _procedural_subtype(value: Any) -> str:
+    tok = _event_bridge_token(value)
+    if not tok:
+        return ""
+    if "thong_bao" in tok or tok.startswith("gui_thong_bao"):
+        return "notification"
+    if tok.startswith("dang_ky"):
+        return "registration"
+    return ""
+
+
 def _semantic_goal_head_bridge_failure(
     semantic_goal_atom: tuple[Any, ...] | list[Any],
     head_atom: tuple[Any, ...] | list[Any],
+    *,
+    goal_context: dict[str, Any] | None = None,
 ) -> str | None:
     if not semantic_goal_atom or not head_atom:
         return "semantic_goal_vs_head_mismatch"
@@ -65,7 +102,9 @@ def _semantic_goal_head_bridge_failure(
     head_family = _semantic_family(head_pred)
 
     # Directly compatible predicate/family bridge.
-    if goal_pred == head_pred or (goal_family and head_family and goal_family == head_family):
+    # if goal_pred == head_pred or (goal_family and head_family and goal_family == head_family):
+    #     return None
+    if goal_pred == head_pred:
         return None
 
     # Explicit deadline/event bridge:
@@ -73,9 +112,36 @@ def _semantic_goal_head_bridge_failure(
     if goal_family == "deadline":
         goal_args = list(semantic_goal_atom[1:])
         event_anchor = goal_args[0] if goal_args else None
+        goal_action = _event_bridge_token(event_anchor)
+        head_action = _event_bridge_token(head_pred)
+        goal_scope = _normalize_event_scope((goal_context or {}).get("event_scope"))
+        head_scope = _normalize_event_scope(head_pred)
+        goal_subtype = _event_bridge_token((goal_context or {}).get("procedural_subtype")) or _procedural_subtype(event_anchor)
+        head_subtype = _procedural_subtype(head_pred)
+
+        # Scope-locked bridge for procedural deadline notifications.
+        if (goal_action, head_action) in _EXPLICIT_SCOPE_LOCKED_BRIDGES:
+            if goal_subtype and head_subtype and goal_subtype != head_subtype:
+                return "event_mismatch"
+            if goal_subtype and goal_subtype != "notification":
+                return "event_mismatch"
+            if head_subtype and head_subtype != "notification":
+                return "event_mismatch"
+            if not goal_scope or not head_scope or goal_scope != head_scope:
+                return "event_mismatch"
+            return None
+
         event_family = _semantic_family(event_anchor)
         if event_family and event_family != head_family:
             return "event_mismatch"
+
+        # When scope/subtype exists, require exact compatibility; do not fall back to broad token match.
+        if goal_scope or head_scope:
+            if not goal_scope or not head_scope or goal_scope != head_scope:
+                return "event_mismatch"
+        if goal_subtype or head_subtype:
+            if not goal_subtype or not head_subtype or goal_subtype != head_subtype:
+                return "event_mismatch"
 
         # If family mapping is not available, fall back to conservative token containment.
         ev = _event_bridge_token(event_anchor)
@@ -139,17 +205,6 @@ def assess_forward_runtime_quality(rule: RuleRecord, goal: dict[str, Any]) -> tu
         if _is_shared_rule(rule):
             return False, "weak_shared_template", "shared rule has unknown logic_form"
         return False, "unknown_rule_head", "rule logic_form unknown"
-
-    bridge_fail = _semantic_goal_head_bridge_failure(
-        [str(goal.get("predicate") or "unknown"), *list(goal.get("args") or [])],
-        [str(rule.head.predicate or "unknown"), *list(rule.head.args or [])],
-    )
-    if bridge_fail is not None:
-        if bridge_fail == "event_mismatch":
-            return False, "predicate_family_mismatch", "event_mismatch"
-        if bridge_fail == "predicate_mismatch":
-            return False, "predicate_family_mismatch", "predicate_mismatch"
-        return False, "predicate_family_mismatch", "semantic_goal_vs_head_mismatch"
 
     if _is_shared_rule(rule):
         body = [c for c in (rule.body or []) if isinstance(c, dict)]
@@ -330,7 +385,7 @@ def run_forward_path(
 
     # Explicit bridge policy: selected rule head may differ from semantic goal,
     # but must pass semantic-family / event realization checks.
-    bridge_fail = _semantic_goal_head_bridge_failure(rr.goal_atom, rr.head_atom)
+    bridge_fail = _semantic_goal_head_bridge_failure(rr.goal_atom, rr.head_atom, goal_context=goal)
     if bridge_fail is not None:
         detail = "semantic_goal_vs_head_mismatch"
         if bridge_fail in {"predicate_mismatch", "event_mismatch"}:
