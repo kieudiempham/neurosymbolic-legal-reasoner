@@ -50,6 +50,69 @@ _TAX_ATTRACTOR_TERMS = (
     "cuong_che",
 )
 
+_SUBTYPE_PATTERNS: dict[str, tuple[str, ...]] = {
+    "notification": (
+        "thong bao thay doi noi dung dang ky doanh nghiep",
+        "gui thong bao thay doi",
+        "gui thong bao",
+        "thong_bao_thay_doi_noi_dung_dang_ky_doanh_nghiep",
+    ),
+    "registration": (
+        "dang ky thay doi noi dung giay chung nhan dang ky doanh nghiep",
+        "dang ky thay doi noi dung dang ky doanh nghiep",
+        "dang ky thay doi",
+    ),
+    "dossier": (
+        "nop ho so",
+        "gui ho so",
+        "ho so bao gom",
+        "thanh phan ho so",
+    ),
+    "issuance_update": (
+        "cap giay chung nhan",
+        "cap nhat",
+        "cung cap thong tin",
+    ),
+    "amendment": (
+        "sua doi",
+        "bo sung",
+    ),
+    "legal_effect": (
+        "hau qua phap ly",
+        "che tai",
+        "xu phat",
+        "thu hoi",
+        "vo hieu",
+    ),
+}
+
+_EVENT_SCOPE_PATTERNS: dict[str, tuple[str, ...]] = {
+    "thay_doi_noi_dung_dang_ky_doanh_nghiep": (
+        "thay doi noi dung dang ky doanh nghiep",
+        "thong bao thay doi noi dung dang ky doanh nghiep",
+    ),
+    "lap_dia_diem_kinh_doanh": (
+        "lap dia diem kinh doanh",
+        "thong bao lap dia diem kinh doanh",
+        "dia diem kinh doanh",
+    ),
+    "tam_ngung": (
+        "tam ngung kinh doanh",
+        "tam_ngung",
+    ),
+    "giai_the": (
+        "giai the",
+        "cham dut hoat dong",
+    ),
+}
+
+_GENERIC_CHUNK_HINTS = (
+    "thoi han",
+    "deadline",
+    "thong bao",
+    "dang ky",
+)
+
 _CONTEXT_SIGNAL_KEYWORDS: dict[str, tuple[str, ...]] = {
     "inheritance": (
         "thua ke",
@@ -279,6 +342,112 @@ def _rule_context_blob(rule: RuleRecord) -> str:
         str(prov.get("surface_text") or ""),
     ]
     return lower_fold(" ".join(p for p in parts if p))
+
+
+def _rule_evidence_blob(rule: RuleRecord) -> str:
+    """Prefer grounded provenance text; fallback to semantic blob when needed."""
+    md = rule.metadata or {}
+    prov = md.get("provenance") or {}
+    parts: list[str] = [
+        str(prov.get("surface_text") or ""),
+        str(prov.get("source_text") or ""),
+        str(prov.get("verbalized_vi") or ""),
+        str(md.get("surface_text") or ""),
+        str(md.get("verbalized_vi") or ""),
+        str(prov.get("source_ref_full") or ""),
+        str(prov.get("source_ref") or ""),
+    ]
+    text = lower_fold(" ".join(p for p in parts if p))
+    if text.strip():
+        return text
+    return _rule_semantic_blob(rule)
+
+
+def _detect_labels(text_blob: str, patterns: dict[str, tuple[str, ...]]) -> set[str]:
+    labels: set[str] = set()
+    for label, keys in patterns.items():
+        if any(k in text_blob for k in keys):
+            labels.add(label)
+    return labels
+
+
+def _query_signal_blob(*, layer1: Layer1Parse, layer2: Layer2Parse, goal: dict[str, Any]) -> str:
+    parts: list[str] = [
+        str(layer1.subject_text or ""),
+        str(layer1.action_text or ""),
+        str(layer1.condition_text or ""),
+        str(layer1.modality_text or ""),
+        str(layer1.time_text or ""),
+        str(layer1.deadline_text or ""),
+        str(goal.get("predicate") or ""),
+        " ".join(str(x or "") for x in (goal.get("args") or [])),
+        " ".join(str(x or "") for x in (layer2.condition_atoms or [])),
+    ]
+    return lower_fold(" ".join(p for p in parts if p))
+
+
+def _has_specific_scope(signal_blob: str) -> bool:
+    return bool(_detect_labels(signal_blob, _EVENT_SCOPE_PATTERNS) or _detect_labels(signal_blob, _SUBTYPE_PATTERNS))
+
+
+def _chunk_rerank_adjustment(
+    *,
+    layer1: Layer1Parse,
+    layer2: Layer2Parse,
+    goal: dict[str, Any],
+    rule: RuleRecord,
+) -> tuple[float, dict[str, Any]]:
+    query_blob = _query_signal_blob(layer1=layer1, layer2=layer2, goal=goal)
+    evidence_blob = _rule_evidence_blob(rule)
+
+    q_action = lower_fold(str(layer1.action_text or "").strip())
+    action_exact = 1.0 if q_action and q_action in evidence_blob else 0.0
+    action_near = _token_overlap(q_action, evidence_blob) if q_action else 0.0
+    action_score = 2.2 * action_exact + 1.8 * action_near
+
+    q_subtypes = _detect_labels(query_blob, _SUBTYPE_PATTERNS)
+    c_subtypes = _detect_labels(evidence_blob, _SUBTYPE_PATTERNS)
+    subtype_overlap = len(q_subtypes & c_subtypes)
+    subtype_match_score = 1.6 * float(subtype_overlap)
+
+    q_scopes = _detect_labels(query_blob, _EVENT_SCOPE_PATTERNS)
+    c_scopes = _detect_labels(evidence_blob, _EVENT_SCOPE_PATTERNS)
+    scope_overlap = len(q_scopes & c_scopes)
+    scope_match_score = 2.0 * float(scope_overlap)
+
+    generic_penalty = 0.0
+    if _has_specific_scope(query_blob):
+        chunk_has_only_generic = any(k in evidence_blob for k in _GENERIC_CHUNK_HINTS) and not c_scopes
+        if chunk_has_only_generic:
+            generic_penalty = -1.4
+
+    conflict_penalty = 0.0
+    if "notification" in q_subtypes and "registration" in c_subtypes and "notification" not in c_subtypes:
+        conflict_penalty -= 2.4
+    if "registration" in q_subtypes and "notification" in c_subtypes and "registration" not in c_subtypes:
+        conflict_penalty -= 2.0
+    if "dossier" in q_subtypes and "issuance_update" in c_subtypes:
+        conflict_penalty -= 1.2
+    if "amendment" in q_subtypes and "issuance_update" in c_subtypes:
+        conflict_penalty -= 1.2
+    if q_scopes and c_scopes and not (q_scopes & c_scopes):
+        conflict_penalty -= 1.8
+
+    final_adjustment = action_score + subtype_match_score + scope_match_score + generic_penalty + conflict_penalty
+    diagnostics: dict[str, Any] = {
+        "chunk_action_match": action_score,
+        "chunk_subtype_match": subtype_match_score,
+        "chunk_event_scope_match": scope_match_score,
+        "chunk_generic_penalty": generic_penalty,
+        "chunk_conflict_penalty": conflict_penalty,
+        "final_chunk_rerank_adjustment": final_adjustment,
+        "chunk_query_subtypes": sorted(q_subtypes),
+        "chunk_candidate_subtypes": sorted(c_subtypes),
+        "chunk_query_event_scopes": sorted(q_scopes),
+        "chunk_candidate_event_scopes": sorted(c_scopes),
+        "chunk_evidence_preview": evidence_blob[:220],
+    }
+    return final_adjustment, diagnostics
 
 
 def _query_context_blob(layer1: Layer1Parse, layer2: Layer2Parse, goal: dict[str, Any]) -> str:
@@ -1011,6 +1180,35 @@ def retrieve_rules(
                     "original_top1_group": top1_group,
                 }
                 top_candidates[0] = (top_candidates[0][0], top_candidates[0][1], pref_diag)
+
+    # Late-stage rerank on already selected candidates using grounded chunk/provenance text.
+    reranked: list[tuple[RuleRecord, float, dict[str, Any]]] = []
+    for rule, score, diag in top_candidates:
+        adj, chunk_diag = _chunk_rerank_adjustment(
+            layer1=layer1,
+            layer2=layer2,
+            goal=goal,
+            rule=rule,
+        )
+        new_score = score + adj
+        d2 = dict(diag or {})
+        d2["score_total_pre_chunk_rerank"] = score
+        d2["chunk_rerank_bonus"] = max(0.0, adj)
+        d2["chunk_rerank_penalty"] = min(0.0, adj)
+        d2.update(chunk_diag)
+        d2["score_total"] = new_score
+        d2["final_score"] = new_score
+        reranked.append((rule, new_score, d2))
+
+    reranked.sort(
+        key=lambda x: (
+            -float((x[2] or {}).get("final_chunk_rerank_adjustment") or 0.0),
+            -x[1],
+            -float((x[2] or {}).get("bm25_norm") or 0.0),
+        )
+    )
+
+    top_candidates = reranked
 
     return top_candidates
 

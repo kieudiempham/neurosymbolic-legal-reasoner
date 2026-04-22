@@ -318,6 +318,7 @@ def apply_substitution_to_constraint(c: Any, subst: Substitution) -> Any:
 
 def apply_substitution_to_reasoning_rule(rr: ReasoningRule, subst: Substitution) -> ReasoningRule:
     ga = apply_substitution_to_goal_tuple(rr.goal_atom, subst)
+    ha = apply_substitution_to_goal_tuple(rr.head_atom, subst)
     pos = apply_substitution_to_conditions(rr.positive_conditions, subst)
     neg = apply_substitution_to_conditions(rr.negative_conditions, subst)
     exc = apply_substitution_to_conditions(rr.exception_conditions, subst)
@@ -325,6 +326,7 @@ def apply_substitution_to_reasoning_rule(rr: ReasoningRule, subst: Substitution)
     return rr.model_copy(
         update={
             "goal_atom": ga,
+            "head_atom": ha,
             "positive_conditions": pos,
             "negative_conditions": neg,
             "exception_conditions": exc,

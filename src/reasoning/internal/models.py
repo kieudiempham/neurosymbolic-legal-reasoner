@@ -69,7 +69,8 @@ class AuxiliaryRecord(BaseModel):
 class ReasoningRule(BaseModel):
     """
     Rule thuần cho reasoner: tách positive / negative / exception / constraint / auxiliary.
-    `goal_atom` = (head.predicate, *head.args) — không đổi vocabulary gốc.
+    `goal_atom` represents the anchored user goal for reasoning.
+    `head_atom` represents the selected rule head.
     """
 
     model_config = ConfigDict(frozen=True)
@@ -77,6 +78,7 @@ class ReasoningRule(BaseModel):
     rule_id: str
     logic_form: str
     goal_atom: tuple[Any, ...]
+    head_atom: tuple[Any, ...] = Field(default_factory=tuple)
     positive_conditions: tuple[Atom, ...] = Field(default_factory=tuple)
     negative_conditions: tuple[Atom, ...] = Field(default_factory=tuple)
     exception_conditions: tuple[Atom, ...] = Field(default_factory=tuple)

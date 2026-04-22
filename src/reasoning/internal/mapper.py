@@ -128,12 +128,22 @@ def _constraints_from_head(rule: RuleRecord) -> list[Any]:
     return out
 
 
-def map_rule_record_to_reasoning_rule(rule: RuleRecord) -> ReasoningRule:
+def map_rule_record_to_reasoning_rule(
+    rule: RuleRecord,
+    *,
+    semantic_goal: dict[str, Any] | None = None,
+) -> ReasoningRule:
     """
     Không đọc/ghi file JSON — chỉ chiếu từ `RuleRecord` đã load.
-    Head -> `goal_atom`; body -> positive / negative / exception / constraints; auxiliary giữ có kiểm soát.
+    Head -> `head_atom`; body -> positive / negative / exception / constraints; auxiliary giữ có kiểm soát.
+    `goal_atom` now represents the anchored user goal for reasoning.
+    `head_atom` represents the selected rule head.
     """
-    goal_atom = (rule.head.predicate, *list(rule.head.args or []))
+    head_atom = (rule.head.predicate, *list(rule.head.args or []))
+    goal_atom = (
+        str(semantic_goal.get("predicate") or "unknown"),
+        *list(semantic_goal.get("args") or []),
+    ) if semantic_goal else head_atom
 
     positive: list[Atom] = []
     negative: list[Atom] = []
@@ -157,6 +167,7 @@ def map_rule_record_to_reasoning_rule(rule: RuleRecord) -> ReasoningRule:
         rule_id=rule.rule_id,
         logic_form=rule.logic_form,
         goal_atom=goal_atom,
+        head_atom=head_atom,
         positive_conditions=tuple(positive),
         negative_conditions=tuple(negative),
         exception_conditions=tuple(exception),

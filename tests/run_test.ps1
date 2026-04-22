@@ -2,7 +2,8 @@ param(
     [string]$Question = "",
     [string]$SessionId = "",
     [string]$Domain = "tax",
-    [string]$ApiUrl = "http://127.0.0.1:8000/ask"
+    [string]$ApiUrl = "http://127.0.0.1:8000/ask",
+    [string]$OutputPath = ""
 )
 
 Set-StrictMode -Version Latest
@@ -43,7 +44,15 @@ function Get-ObjectPropertyValue {
 }
 
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
-$outputPath = Join-Path $repoRoot "tests/output/case_tax_delay_after_layer1_prompt_patch.json"
+$outputPath = if ([string]::IsNullOrWhiteSpace($OutputPath)) {
+    Join-Path $repoRoot "tests/output/case_tax_delay_after_layer1_prompt_patch.json"
+} else {
+    if ([System.IO.Path]::IsPathRooted($OutputPath)) {
+        $OutputPath
+    } else {
+        Join-Path $repoRoot $OutputPath
+    }
+}
 $tmpPath = "$outputPath.tmp"
 
 $payload = @{

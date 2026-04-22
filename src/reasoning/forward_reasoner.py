@@ -21,6 +21,7 @@ def _state_from_forward(
     reqs: list[RequirementItem],
     fwd: ForwardPathResult,
     trace: list[str],
+    semantic_goal_predicate: str | None = None,
     base_requirement_artifact: dict[str, Any] | None = None,
 ) -> ReasoningState:
     derived = [f"derived:{fwd.conclusion}"] if fwd.conclusion else []
@@ -33,7 +34,7 @@ def _state_from_forward(
             missing_keys = [str(detail)]
     artifact = build_requirement_set_artifact(
         selected_rule=rule,
-        goal_predicate=str(fwd.goal_atom[0] if fwd.goal_atom else rule.head.predicate),
+        goal_predicate=semantic_goal_predicate,
         requirement_items=reqs,
         missing_keys=missing_keys,
     )
@@ -152,6 +153,7 @@ def run_forward(
                 reqs,
                 fwd,
                 trace + ["forward_quality_gate_blocked"],
+                semantic_goal_predicate=str(goal.get("predicate") or ""),
                 base_requirement_artifact=requirement_artifact,
             )
             return "", False, st, trace
@@ -180,6 +182,7 @@ def run_forward(
             reqs,
             fwd,
             trace + ["forward_multi_path"],
+            semantic_goal_predicate=str(goal.get("predicate") or ""),
             base_requirement_artifact=requirement_artifact,
         )
         return fwd.conclusion, fwd.goal_reached, st, trace
@@ -200,11 +203,12 @@ def run_forward(
             reqs,
             fwd,
             trace + ["forward_quality_gate_single"],
+            semantic_goal_predicate=str(goal.get("predicate") or ""),
             base_requirement_artifact=requirement_artifact,
         )
         return "", False, st, trace
 
-    rr = map_rule_record_to_reasoning_rule(rule)
+    rr = map_rule_record_to_reasoning_rule(rule, semantic_goal=goal)
     cand_sub = substitution
     if cand_sub is None:
         from reasoning.semantics.unification import unify_goal_dict_with_goal_atom
@@ -238,6 +242,7 @@ def run_forward(
         reqs,
         fwd,
         trace + ["forward_single_path"],
+        semantic_goal_predicate=str(goal.get("predicate") or ""),
         base_requirement_artifact=requirement_artifact,
     )
     return fwd.conclusion, fwd.goal_reached, st, trace

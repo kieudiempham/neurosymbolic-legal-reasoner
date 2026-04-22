@@ -32,9 +32,10 @@ def _predicate_for_requirement(req: RequirementItem) -> str:
 def build_requirement_set_artifact(
     *,
     selected_rule: RuleRecord,
-    goal_predicate: str,
+    goal_predicate: str | None,
     requirement_items: list[RequirementItem],
     missing_keys: list[str],
+    strict_goal_predicate: bool = False,
 ) -> RequirementSetArtifact:
     """
     Normalize requirement-set for one selected rule.
@@ -78,10 +79,13 @@ def build_requirement_set_artifact(
     unmet_optional = [k for k in _dedupe_keep_order(optional_keys) if k in missing]
     all_keys = _dedupe_keep_order([r.key for r in requirement_items])
     satisfied = [k for k in all_keys if k not in missing]
+    goal_predicate_norm = str(goal_predicate or "").strip() or "unknown_goal"
+    if strict_goal_predicate and goal_predicate_norm == "unknown_goal":
+        raise ValueError("missing semantic goal_predicate for requirement artifact")
 
     return RequirementSetArtifact(
         rule_id=selected_rule.rule_id,
-        goal_predicate=str(goal_predicate or selected_rule.head.predicate or "unknown"),
+        goal_predicate=goal_predicate_norm,
         required_predicates=_dedupe_keep_order(required_preds),
         optional_predicates=_dedupe_keep_order(optional_preds),
         exception_predicates=_dedupe_keep_order(exception_preds),

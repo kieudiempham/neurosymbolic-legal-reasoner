@@ -323,7 +323,7 @@ def run_backward(
         ]
     artifact = build_requirement_set_artifact(
         selected_rule=selected,
-        goal_predicate=str(goal.get("predicate") or selected.head.predicate or "unknown"),
+        goal_predicate=str(goal.get("predicate") or ""),
         requirement_items=reqs,
         missing_keys=missing_raw,
     )

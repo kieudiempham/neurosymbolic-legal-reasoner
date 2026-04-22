@@ -45,6 +45,48 @@ def _semantic_family(value: Any) -> str:
     return normalize_predicate_family(value)
 
 
+def _event_bridge_token(value: Any) -> str:
+    s = str(value or "").strip().lower().replace("-", "_").replace(" ", "_")
+    while "__" in s:
+        s = s.replace("__", "_")
+    return s.strip("_")
+
+
+def _semantic_goal_head_bridge_failure(
+    semantic_goal_atom: tuple[Any, ...] | list[Any],
+    head_atom: tuple[Any, ...] | list[Any],
+) -> str | None:
+    if not semantic_goal_atom or not head_atom:
+        return "semantic_goal_vs_head_mismatch"
+
+    goal_pred = str(semantic_goal_atom[0] or "")
+    head_pred = str(head_atom[0] or "")
+    goal_family = _semantic_family(goal_pred)
+    head_family = _semantic_family(head_pred)
+
+    # Directly compatible predicate/family bridge.
+    if goal_pred == head_pred or (goal_family and head_family and goal_family == head_family):
+        return None
+
+    # Explicit deadline/event bridge:
+    # semantic goal may be deadline(event, ...), while rule head is the event realization predicate.
+    if goal_family == "deadline":
+        goal_args = list(semantic_goal_atom[1:])
+        event_anchor = goal_args[0] if goal_args else None
+        event_family = _semantic_family(event_anchor)
+        if event_family and event_family != head_family:
+            return "event_mismatch"
+
+        # If family mapping is not available, fall back to conservative token containment.
+        ev = _event_bridge_token(event_anchor)
+        hp = _event_bridge_token(head_pred)
+        if ev and hp and ev not in hp and hp not in ev:
+            return "event_mismatch"
+        return None
+
+    return "predicate_mismatch"
+
+
 def _is_noncanonical_surface(value: Any) -> bool:
     if not isinstance(value, str):
         return False
@@ -98,10 +140,16 @@ def assess_forward_runtime_quality(rule: RuleRecord, goal: dict[str, Any]) -> tu
             return False, "weak_shared_template", "shared rule has unknown logic_form"
         return False, "unknown_rule_head", "rule logic_form unknown"
 
-    gf = _semantic_family(gp)
-    hf = _semantic_family(hp)
-    if gf and hf and gf != hf:
-        return False, "predicate_family_mismatch", f"goal_family={gf}, head_family={hf}"
+    bridge_fail = _semantic_goal_head_bridge_failure(
+        [str(goal.get("predicate") or "unknown"), *list(goal.get("args") or [])],
+        [str(rule.head.predicate or "unknown"), *list(rule.head.args or [])],
+    )
+    if bridge_fail is not None:
+        if bridge_fail == "event_mismatch":
+            return False, "predicate_family_mismatch", "event_mismatch"
+        if bridge_fail == "predicate_mismatch":
+            return False, "predicate_family_mismatch", "predicate_mismatch"
+        return False, "predicate_family_mismatch", "semantic_goal_vs_head_mismatch"
 
     if _is_shared_rule(rule):
         body = [c for c in (rule.body or []) if isinstance(c, dict)]
@@ -171,6 +219,7 @@ def run_forward_path(
     structured_facts: dict[str, dict[str, Any]] | None = None,
 ) -> ForwardPathResult:
     """Single rule path: positive → negative (unless) → exception → constraints → derive goal."""
+    goal_atom_list = [str(goal.get("predicate") or "unknown"), *list(goal.get("args") or [])]
     quality_ok, quality_reason, quality_detail = assess_forward_runtime_quality(rule, goal)
     if not quality_ok:
         return ForwardPathResult(
@@ -179,21 +228,20 @@ def run_forward_path(
             goal_reached=False,
             failure_reason=quality_reason or "goal_not_derived",
             failure_detail=quality_detail,
-            goal_atom=[str(goal.get("predicate") or "unknown"), *list(goal.get("args") or [])],
+            goal_atom=goal_atom_list,
         )
 
-    rr0 = map_rule_record_to_reasoning_rule(rule)
+    rr0 = map_rule_record_to_reasoning_rule(rule, semantic_goal=goal)
     subst = Substitution(mapping=dict(substitution or {}))
     rr = apply_substitution_to_reasoning_rule(rr0, subst)
-    goal_atom_list = list(rr.goal_atom)
 
-    if _is_unknown_token(rr.goal_atom[0] if rr.goal_atom else ""):
+    if _is_unknown_token(rr.head_atom[0] if rr.head_atom else ""):
         return ForwardPathResult(
             rule_id=rule.rule_id,
             global_rule_key=global_rule_key(rule),
             goal_reached=False,
             failure_reason="unknown_rule_head",
-            failure_detail="mapped goal_atom predicate unknown",
+            failure_detail="mapped head_atom predicate unknown",
             substitution=dict(subst.mapping),
             goal_atom=goal_atom_list,
         )
@@ -250,6 +298,7 @@ def run_forward_path(
         )
 
     pol_u = policy_from_context(reasoning_context) if reasoning_context is not None else None
+    # Primary unify target is the anchored semantic goal atom.
     s_goal, ufail = unify_goal_dict_with_goal_atom(
         goal,
         rr.goal_atom,
@@ -257,24 +306,9 @@ def run_forward_path(
         rule=rule,
         domain_policy=pol_u,
     )
-    if s_goal is None and subst.mapping:
-        # Guard: backward-provided substitution can be stale for this forward attempt.
-        # Retry unification against original rule head to reduce false unification_broken.
-        s_retry, _retry_fail = unify_goal_dict_with_goal_atom(
-            goal,
-            rr0.goal_atom,
-            reasoning_context=reasoning_context,
-            rule=rule,
-            domain_policy=pol_u,
-        )
-        if s_retry is not None:
-            rr = apply_substitution_to_reasoning_rule(rr0, s_retry)
-            goal_atom_list = list(rr.goal_atom)
-            s_goal = s_retry
-            ufail = None
     if s_goal is None:
         failure_reason: FailureReason = "unification_broken"
-        failure_detail = ufail or "goal_does_not_unify_with_head"
+        failure_detail = ufail or "goal_does_not_unify_with_semantic_goal"
         if ufail == "predicate_mismatch":
             gf = _semantic_family(goal.get("predicate"))
             hf = _semantic_family(rr.goal_atom[0] if rr.goal_atom else "")
@@ -290,6 +324,23 @@ def run_forward_path(
             goal_reached=False,
             failure_reason=failure_reason,
             failure_detail=failure_detail,
+            substitution=dict(subst.mapping),
+            goal_atom=goal_atom_list,
+        )
+
+    # Explicit bridge policy: selected rule head may differ from semantic goal,
+    # but must pass semantic-family / event realization checks.
+    bridge_fail = _semantic_goal_head_bridge_failure(rr.goal_atom, rr.head_atom)
+    if bridge_fail is not None:
+        detail = "semantic_goal_vs_head_mismatch"
+        if bridge_fail in {"predicate_mismatch", "event_mismatch"}:
+            detail = bridge_fail
+        return ForwardPathResult(
+            rule_id=rule.rule_id,
+            global_rule_key=global_rule_key(rule),
+            goal_reached=False,
+            failure_reason="unification_broken",
+            failure_detail=detail,
             substitution=dict(subst.mapping),
             goal_atom=goal_atom_list,
         )
@@ -378,7 +429,7 @@ def run_forward_path(
                 supporting=supporting,
             )
 
-    ga = rr.goal_atom
+    ga = goal_atom_list
     atom = Atom(predicate=str(ga[0]), args=tuple(ga[1:]))
     conclusion = serialize_atom(canonicalize_atom(atom))
     derived = [conclusion]
