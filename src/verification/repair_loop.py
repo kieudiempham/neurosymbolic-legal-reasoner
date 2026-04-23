@@ -262,6 +262,128 @@ def run_parse_repair_loop(
     return l1, current, last_rec, trace
 
 
+def run_forward_repair_loop(
+    engine: NeSyEngine,
+    *,
+    goal: dict[str, Any],
+    conclusion: str,
+    goal_achieved: bool,
+    known_facts: dict[str, Any],
+    forward_state: Any,
+    proof_obj: Any,
+    forward_retry_fn: Callable[[], tuple[str, bool, Any, Any]],
+    max_attempts: int,
+    requirement_artifact: dict[str, Any] | None = None,
+    selected_rule_id: str | None = None,
+) -> tuple[str, bool, Any, Any, VerificationRecord, list[dict[str, Any]]]:
+    """
+    Re-verify forward + proof after REPAIR. For incomplete proofs in fact_application mode.
+    """
+    trace: list[dict[str, Any]] = []
+    conc = conclusion
+    gok = goal_achieved
+    fst = forward_state
+    pobj = proof_obj
+    last_rec = engine.verify_forward(
+        goal=goal,
+        conclusion=conc,
+        goal_achieved=gok,
+        known_facts=known_facts,
+        forward_result=fst.forward_result.model_dump(mode="json") if fst and fst.forward_result else None,
+        proof=pobj.model_dump(mode="json") if pobj else None,
+        requirement_artifact=requirement_artifact,
+        selected_rule_id=selected_rule_id,
+    )
+    trace.append(
+        {
+            "phase": "forward",
+            "attempt": 0,
+            "decision": last_rec.final_decision,
+            "repair_target_module": last_rec.repair_target_module,
+            "input_snapshot": {"conclusion": conc[:200], "goal_achieved": gok},
+            "diagnostic_errors": list(last_rec.diagnostic_errors),
+            "auto_repair_eligible": False,
+        }
+    )
+
+    attempt = 0
+    while last_rec.final_decision == "REPAIR" and attempt < max_attempts:
+        code = _first_error_code(last_rec)
+        target = repair_target_for_code(code or "")
+        eligible = bool(code) and target in FORWARD_HANDLER_TARGETS  # Assume defined
+        trace[-1]["auto_repair_eligible"] = eligible
+        if not eligible:
+            trace[-1]["note"] = "no_auto_repair_handler_or_wrong_target"
+            break
+
+        attempt += 1
+        before = {"conclusion": conc, "goal_achieved": gok}
+        # For forward, retry the forward computation
+        conc, gok, fst, pobj = forward_retry_fn()
+        last_rec = engine.verify_forward(
+            goal=goal,
+            conclusion=conc,
+            goal_achieved=gok,
+            known_facts=known_facts,
+            forward_result=fst.forward_result.model_dump(mode="json") if fst and fst.forward_result else None,
+            proof=pobj.model_dump(mode="json") if pobj else None,
+            requirement_artifact=requirement_artifact,
+            selected_rule_id=selected_rule_id,
+        )
+        trace.append(
+            {
+                "phase": "forward",
+                "attempt": attempt,
+                "decision": last_rec.final_decision,
+                "repair_target_module": last_rec.repair_target_module,
+                "input_snapshot": before,
+                "output_snapshot": {"conclusion": conc[:200], "goal_achieved": gok},
+                "diagnostic_errors": list(last_rec.diagnostic_errors),
+            }
+        )
+        if last_rec.final_decision in ("ACCEPT", "REJECT"):
+            break
+
+    final_gain = {
+        "forward_improved": last_rec.final_decision != trace[0].get("decision"),
+        "final_status_before": trace[0].get("decision"),
+        "final_status_after": last_rec.final_decision,
+        "repair_attempted": attempt > 0,
+    }
+    root_cause = str(_first_error_code(last_rec) or "unknown")
+    trace.append(
+        {
+            "phase": "forward",
+            "final_decision": last_rec.final_decision,
+            "attempts_used": attempt,
+            "post_repair_gain": final_gain,
+            "root_cause": root_cause,
+        }
+    )
+    last_rec = _with_repair_metadata(
+        last_rec,
+        repair_applied=attempt > 0,
+        rerun_stage="forward_verification" if attempt > 0 else None,
+        repair_diagnostics={
+            "decision": last_rec.final_decision,
+            "reasons": list(last_rec.diagnostics),
+            "repair_target": last_rec.repair_target,
+            "repair_hints": [last_rec.repair_hint] if last_rec.repair_hint else [],
+            "repair_applied": attempt > 0,
+            "rerun_stage": "forward_verification" if attempt > 0 else None,
+            "root_cause": root_cause,
+            "before_after": {
+                "forward_before": trace[0].get("input_snapshot"),
+                "forward_after": {"conclusion": conc, "goal_achieved": gok},
+                "verification_before": trace[0].get("decision"),
+                "verification_after": last_rec.final_decision,
+            },
+            "post_repair_gain": final_gain,
+        },
+    )
+    return conc, gok, fst, pobj, last_rec, trace
+
+
 def run_answer_repair_loop(
     engine: NeSyEngine,
     *,
@@ -274,6 +396,8 @@ def run_answer_repair_loop(
     max_repair_attempts_answer: int,
     evidence_bundle: dict[str, Any] | None = None,
     regenerate_fn: Callable[[int, str, dict[str, Any]], str] | None = None,
+    question_mode: str = "hybrid",
+    missing_facts: list[str] | None = None,
 ) -> tuple[str, VerificationRecord, list[dict[str, Any]]]:
     trace: list[dict[str, Any]] = []
     text = answer_text
@@ -285,6 +409,8 @@ def run_answer_repair_loop(
         modality_expected=modality_expected,
         goal_action=goal_action,
         action_token_in_answer=action_token_in_answer or text,
+        question_mode=question_mode,
+        missing_facts=missing_facts,
     )
     regen = regenerate_fn or (lambda a, h, p: default_answer_regenerate(conclusion, a, h, p))
 
@@ -331,6 +457,8 @@ def run_answer_repair_loop(
             modality_expected=modality_expected,
             goal_action=goal_action,
             action_token_in_answer=text,
+            question_mode=question_mode,
+            missing_facts=missing_facts,
         )
         trace.append(
             {

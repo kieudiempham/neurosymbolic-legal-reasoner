@@ -1,0 +1,40 @@
+{
+  "tests": [
+    {
+      "test_id": "Q1",
+      "question": "Thời hạn thông báo thay đổi nội dung đăng ký doanh nghiệp là bao nhiêu ngày?",
+      "question_mode": "unknown",
+      "application_status": "unknown",
+      "final_decision": "",
+      "answer_text": "{'answer_text': 'Kính gửi Quý khách hàng,\\n\\n1) Căn cứ pháp lý\\nTheo [Điều 31 khoản 2 — 67/VBHN-VPQH], doanh nghiệp phải thong_bao_thay_doi trong thời hạn 10 ngày khi thay đổi nội dung đăng ký. Quy đị",
+      "selected_rule_id": "RULE_LUATDN_D31_K2_E000064_HEB5F8BE4AE14__dcae868f17a380",
+      "legal_citations": [],
+      "proof_present": false,
+      "missing_facts": [],
+      "needs_clarification": false,
+      "error_stage_final": "",
+      "forward_failure_reason": "",
+      "verification_summary": ""
+    },
+    {
+      "test_id": "Q2",
+      "question": "Công ty tôi thay đổi nội dung đăng ký nhưng chưa rõ thời điểm gửi thông báo, vậy có bị quá hạn không?",
+      "question_mode": "unknown",
+      "application_status": "unknown",
+      "final_decision": "",
+      "answer_text": "{'answer_text': 'Kính gửi Quý khách hàng,\\n\\n1) Căn cứ pháp lý\\nTheo [Điều 31 khoản 2 — 67/VBHN-VPQH], doanh nghiệp phải qua_han trong thời hạn 10 ngày khi thay đổi nội dung đăng ký. Quy định tham chi",
+      "selected_rule_id": "RULE_LUATDN_D31_K2_E000064_HEB5F8BE4AE14__dcae868f17a380",
+      "legal_citations": [],
+      "proof_present": false,
+      "missing_facts": [],
+      "needs_clarification": false,
+      "error_stage_final": "",
+      "forward_failure_reason": "",
+      "verification_summary": ""
+    }
+  ],
+  "summary": {
+    "total": 2,
+    "timestamp": 1776921770.541518
+  }
+}

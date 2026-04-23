@@ -356,6 +356,7 @@ def build_backward_plan_only(
     reasoning_context: Any | None = None,
     cross_domain_policy: Any | None = None,
     structured_facts: dict[str, dict[str, Any]] | None = None,
+    question_mode: str = "hybrid",
 ) -> BackwardPlan:
     """Expose plan builder for tests / tooling."""
     cand_in = list(candidates)
@@ -382,4 +383,5 @@ def build_backward_plan_only(
         max_paths=max_paths,
         structured_facts=structured_facts,
         reasoning_context=reasoning_context,
+        question_mode=question_mode,
     )

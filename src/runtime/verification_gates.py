@@ -17,7 +17,7 @@ class VerificationLevel(Enum):
     SOFT_REJECT = "soft_reject"  # Can proceed with warning
     HARD_REJECT = "hard_reject"  # Must block and try next
 
-from reasoning.backward_reasoner import build_backward_plan_only, run_backward
+from reasoning.backward_reasoner import build_backward_plan_only, run_backward, body_to_requirements, fact_satisfies_requirement
 from reasoning.forward_reasoner import run_forward
 from reasoning.proof_builder import build_partial_proof, build_proof
 from retrieval.rulebase_loader import RulebaseIndex
@@ -360,6 +360,7 @@ def gate_rule_and_backward(
     reasoning_context: ReasoningContext | None = None,
     cross_domain_policy: CrossDomainPolicy | None = None,
     structured_facts: dict[str, dict[str, Any]] | None = None,
+    question_mode: str = "hybrid",
 ) -> RuleBackwardGateOutcome:
     """
     For each backward-plan candidate: ``verify_rule`` (with repair), then ``run_backward`` + ``verify_backward``.
@@ -383,6 +384,7 @@ def gate_rule_and_backward(
         reasoning_context=reasoning_context,
         cross_domain_policy=cross_domain_policy,
         structured_facts=structured_facts,
+        question_mode=question_mode,
     )
     goal_rescue_attempted = False
     if not plan.candidates and ranked:
@@ -398,6 +400,7 @@ def gate_rule_and_backward(
                 reasoning_context=reasoning_context,
                 cross_domain_policy=cross_domain_policy,
                 structured_facts=structured_facts,
+                question_mode=question_mode,
             )
             rescue_trace.append(
                 {
@@ -632,7 +635,23 @@ def gate_rule_and_backward(
             fallback_rule_relaxation_triggered = True
             fallback_rule_relaxation_reason = "rescued_fallback_bounded_rule_verification_relaxation"
 
-        effective_rule_decision = "REPAIR" if fallback_rule_relaxation_triggered else original_rule_decision
+        # For fact_application mode, relax rule verification for semantically related rules
+        fact_application_relaxation_triggered = False
+        fact_application_relaxation_reason = ""
+        if (
+            question_mode == "fact_application"
+            and original_rule_decision == "REJECT"
+            and (has_head_goal_mismatch or has_nli_contradiction_high)
+            and not catastrophic_rule_incompatibility
+            and family_soft_match_triggered
+        ):
+            fact_application_relaxation_triggered = True
+            fact_application_relaxation_reason = "fact_application_semantic_rule_relaxation"
+
+        effective_rule_decision = (
+            "REPAIR" if fallback_rule_relaxation_triggered or fact_application_relaxation_triggered
+            else original_rule_decision
+        )
         out.trace.append(
             {
                 "stage": "rule_gate",
@@ -648,6 +667,8 @@ def gate_rule_and_backward(
                 "rejection_reason": list(v_rule.diagnostics),
                 "fallback_rule_verification_relaxation_triggered": fallback_rule_relaxation_triggered,
                 "fallback_rule_verification_relaxation_reason": fallback_rule_relaxation_reason,
+                "fact_application_rule_relaxation_triggered": fact_application_relaxation_triggered,
+                "fact_application_rule_relaxation_reason": fact_application_relaxation_reason,
                 "semantic_family_soft_match_triggered": family_soft_match_triggered,
                 "semantic_family_soft_match_reason": family_soft_match_reason,
                 "semantic_family_soft_match_meta": family_soft_match_meta,
@@ -701,6 +722,7 @@ def gate_rule_and_backward(
             "semantic_family_soft_match_triggered": family_soft_match_triggered,
             "semantic_family_soft_match_reason": family_soft_match_reason,
             "semantic_family_soft_match_meta": family_soft_match_meta,
+            "fact_application_rule_relaxation_triggered": fact_application_relaxation_triggered,
             "semantic_soft_match_bonus": semantic_soft_match_bonus,
             "semantic_family_match_tier": semantic_family_match_tier,
             "semantic_hard_mismatch_penalty": semantic_hard_mismatch_penalty,
@@ -926,6 +948,33 @@ def gate_rule_and_backward(
             backward_ok_for_clarify = v_back.final_decision in ("ACCEPT", "REPAIR") and (
                 v_back.final_decision == "ACCEPT" or _repair_material_gain(v_back)
             )
+            # For fact_application mode, allow missing facts to proceed to conditional reasoning
+            if question_mode in ("fact_application", "hybrid") and not backward_ok_for_clarify:
+                rescued_materiality_keepalive = bool(
+                    rescued_flow_active
+                    and effective_back_decision in ("ACCEPT", "REPAIR")
+                    and not _has_catastrophic_contradiction(v_back.diagnostics)
+                )
+                if rescued_materiality_keepalive or question_mode == "fact_application":
+                    out.trace.append(
+                        {
+                            "stage": "backward_materiality_guard_rescued_keepalive",
+                            "rule_id": sel.rule_id if sel else rid,
+                            "decision": "KEEP_FOR_CONDITIONAL_REASONING",
+                            "reason": "fact_application_mode_missing_facts_allowed" if question_mode == "fact_application" else "rescued_fallback_missing_facts_without_catastrophic_contradiction",
+                            "missing_facts": list(st.missing_facts or []),
+                            "repair_diagnostics": getattr(v_back, "repair_diagnostics", {}),
+                        }
+                    )
+                    out.ok = True
+                    out.clarification_needed = False  # Don't require clarification for fact_application
+                    out.selected = sel
+                    out.bstate = st
+                    out.v_rule = v_rule
+                    out.v_back = v_back
+                    out.rescued_fallback_flow = True
+                    out.rescued_missing_facts_materiality_hold = True
+                    return out
             if not backward_ok_for_clarify:
                 rescued_materiality_keepalive = bool(
                     rescued_flow_active
@@ -976,7 +1025,7 @@ def gate_rule_and_backward(
                 )
             st = st.model_copy(update={"missing_facts": list(critical_missing), "can_continue_forward": (st.can_continue_forward or not critical_missing)})
             out.ok = True
-            out.clarification_needed = bool(critical_missing)
+            out.clarification_needed = bool(critical_missing) and question_mode not in ("fact_application", "hybrid")  # Don't require clarification for fact_application
             out.selected = sel
             out.bstate = st
             out.v_rule = v_rule
@@ -1045,6 +1094,7 @@ def gate_forward_reasoning(
     phase3_proof_context: dict[str, Any] | None = None,
     rescued_fallback_flow: bool = False,
     semantic_match_context: dict[str, Any] | None = None,
+    question_mode: str = "hybrid",
 ) -> ForwardGateOutcome:
     """Run forward + proof, then ``verify_forward`` with optional repair (re-run forward + rebuild proof)."""
     out = ForwardGateOutcome(ok=False)
@@ -1096,6 +1146,7 @@ def gate_forward_reasoning(
                 if backward_state and backward_state.requirement_artifact
                 else None
             ),
+            question_mode=question_mode,
         )
         win_rule = selected
         fr = fstate.forward_result or {}
@@ -1173,6 +1224,24 @@ def gate_forward_reasoning(
         )
         out.ok = True
         return out
+
+    # For fact_application mode, allow incomplete forward proofs to proceed to conditional reasoning
+    if question_mode in ("fact_application", "hybrid") and v_fwd.final_decision == "REJECT":
+        fail_reason = (fst.forward_result or {}).get("failure_reason") if fst and fst.forward_result else None
+        if str(fail_reason or "") in {"unification_failure", "missing_input", "constraint_missing_input"}:
+            out.trace.append(
+                {
+                    "stage": "forward_gate_conditional_relaxation",
+                    "triggered": True,
+                    "original_final_decision": "REJECT",
+                    "original_reject_reason": list(v_fwd.diagnostics),
+                    "relaxed_final_decision": "CONDITIONAL",
+                    "reason": "fact_application_mode_incomplete_proof_allowed",
+                    "failure_reason": fail_reason,
+                }
+            )
+            out.ok = True
+            return out
 
     fail_rule = selected
     if fst and fst.forward_result and fst.forward_result.get("rule_id"):

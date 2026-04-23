@@ -104,6 +104,7 @@ def _classify_rule(
     *,
     structured_facts: dict[str, dict[str, Any]] | None = None,
     reasoning_context: Any | None = None,
+    question_mode: str = "hybrid",
 ) -> tuple[
     list[dict[str, Any]],
     list[MissingAtom],
@@ -168,10 +169,13 @@ def _classify_rule(
             )
             miss_keys.append(serialize_atom(atom))
 
+    # Gate constraint evaluation: only evaluate for fact_application/hybrid modes
+    enable_fact_check = question_mode != "rule_reading"
     for c in rr.constraints:
         ev = evaluate_constraint(c, known_facts)
         cons_checks.append({"type": type(c).__name__, "result": ev.model_dump(mode="json")})
-        if ev.status == "missing_input":
+        # Only collect missing constraints if fact mode is enabled
+        if enable_fact_check and ev.status == "missing_input":
             sk = ev.session_key or ""
             miss_cons.append(
                 MissingConstraintInput(
@@ -206,6 +210,7 @@ def build_backward_plan(
     structured_facts: dict[str, dict[str, Any]] | None = None,
     reasoning_context: Any | None = None,
     domain_policy: DomainReasoningPolicy | None = None,
+    question_mode: str = "hybrid",
 ) -> BackwardPlan:
     goal_atom_list: list[Any] = [goal.get("predicate"), *list(goal.get("args") or [])]
     unified_ok: list[BackwardCandidate] = []
@@ -248,6 +253,7 @@ def build_backward_plan(
             rule.rule_id,
             structured_facts=structured_facts,
             reasoning_context=reasoning_context,
+            question_mode=question_mode,
         )
         pos_n = len(rr.positive_conditions)
         pos_g = sum(

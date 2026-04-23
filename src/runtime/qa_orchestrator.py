@@ -74,7 +74,7 @@ from schemas.verification import VerificationRecord
 from session.session_service import SessionService, get_session_service
 from verification.engine import NeSyEngine
 from verification.nli_verifier import NLIVerifier
-from verification.repair_loop import run_answer_repair_loop, run_parse_repair_loop, run_retrieval_repair_loop
+from verification.repair_loop import run_answer_repair_loop, run_parse_repair_loop, run_retrieval_repair_loop, run_forward_repair_loop
 from runtime.verification_gates import gate_forward_reasoning, gate_rule_and_backward
 from runtime.pipeline_tracing import (
     TraceCollector,
@@ -979,6 +979,134 @@ def _apply_missing_facts_conditional_answer(
     return ans
 
 
+def _infer_question_mode(layer1: Layer1Parse | None, layer2: Layer2Parse | None) -> str:
+    if layer1 is None and layer2 is None:
+        return "hybrid"
+
+    focus = str(getattr(layer1, "question_focus", "") or "").strip().lower() if layer1 is not None else ""
+    utterance_type = str(getattr(layer1, "utterance_type", "") or "").strip().lower() if layer1 is not None else ""
+
+    # HIGH PRIORITY: missing-fact + application-outcome override.
+    # "chưa rõ / không rõ / chưa biết" phrases are dropped by the LLM parser, so we
+    # use their surviving proxies in Layer1 structured fields:
+    #   - missing-fact proxy: assertion_status==hypothetical OR utterance_type==conditional_legal_question
+    #   - application-outcome proxy: modality_text contains an application modal ("có bị", "có phải", …)
+    # Both must be present to avoid reclassifying pure rule-reading deadline questions.
+    if layer1 is not None:
+        _modality = str(getattr(layer1, "modality_text", "") or "").lower()
+        _application_modals = [
+            "có bị", "có được", "có hợp lệ", "có vi phạm",
+            "có quá hạn", "có phải", "có cần",
+        ]
+        _has_application_modal = any(m in _modality for m in _application_modals)
+        _assertion = str(getattr(layer1, "assertion_status", "") or "").lower()
+        _utype = str(getattr(layer1, "utterance_type", "") or "").lower()
+        _has_missing_fact_proxy = (
+            _assertion == "hypothetical"
+            or _utype == "conditional_legal_question"
+        )
+        if _has_application_modal and _has_missing_fact_proxy:
+            return "fact_application"
+
+    pure_rule_focuses = {
+        "deadline",
+        "obligation",
+        "procedure_or_dossier",
+        "authority",
+        "legal_effect",
+        "legal_consequence",
+    }
+    # Utterance types that signal specific-case application intent, overriding a rule-reading focus
+    application_utterance_types = {"yes_no", "yes_no_question", "fact_check", "application", "specific_case"}
+
+    # PRIMARY: question_focus is the authoritative signal.
+    # condition_atoms/facts from Layer2 are only consulted when focus is ambiguous.
+    if focus in pure_rule_focuses:
+        if utterance_type in application_utterance_types:
+            return "hybrid"
+        return "rule_reading"
+
+    # SECONDARY: focus is unknown/generic — fall back to condition_atoms / facts
+    cond_atoms = [str(a) for a in (getattr(layer2, "condition_atoms", None) or []) if str(a or "").strip()]
+    facts = list(getattr(layer2, "facts", None) or []) if layer2 is not None else []
+    has_fact_signal = bool(cond_atoms or facts)
+
+    if not has_fact_signal:
+        return "rule_reading"
+    if focus in {"", "unknown"}:
+        return "hybrid"
+    return "fact_application"
+
+
+def _build_missing_facts_stage_trace(
+    *,
+    question_mode: str,
+    bstate: ReasoningState | None,
+    fstate: ReasoningState | None,
+    fg_ok: bool,
+    v_ans_decision: str,
+) -> dict[str, Any]:
+    b_missing = list(getattr(bstate, "missing_facts", None) or []) if bstate is not None else []
+    f_missing = list(getattr(fstate, "missing_facts", None) or []) if fstate is not None else []
+    missing_now = list(dict.fromkeys([*b_missing, *f_missing]))
+    fr = dict(getattr(fstate, "forward_result", None) or {}) if fstate is not None else {}
+    fr_reason = str(fr.get("failure_reason") or "")
+    has_constraint_presence = bool(fr.get("applied_constraints") or fr.get("constraint_traces"))
+
+    stages = [
+        {
+            "stage": "parse",
+            "missing_facts_introduced": False,
+            "missing_facts_blocking": False,
+            "missing_facts_to_reject": False,
+        },
+        {
+            "stage": "retrieval",
+            "missing_facts_introduced": False,
+            "missing_facts_blocking": False,
+            "missing_facts_to_reject": False,
+        },
+        {
+            "stage": "constraint_eval",
+            "missing_facts_introduced": fr_reason == "constraint_missing_input",
+            "missing_facts_blocking": fr_reason == "constraint_missing_input",
+            "missing_facts_to_reject": v_ans_decision == "REJECT" and fr_reason == "constraint_missing_input",
+        },
+        {
+            "stage": "forward_engine",
+            "missing_facts_introduced": bool(missing_now),
+            "missing_facts_blocking": bool((not fg_ok) and missing_now),
+            "missing_facts_to_reject": bool(v_ans_decision == "REJECT" and missing_now),
+        },
+        {
+            "stage": "verifier",
+            "missing_facts_introduced": False,
+            "missing_facts_blocking": False,
+            "missing_facts_to_reject": bool(v_ans_decision == "REJECT" and missing_now),
+        },
+        {
+            "stage": "answer",
+            "missing_facts_introduced": False,
+            "missing_facts_blocking": False,
+            "missing_facts_to_reject": bool(v_ans_decision == "REJECT" and missing_now),
+        },
+    ]
+
+    return {
+        "question_mode": str(question_mode),
+        "ordered_stages": ["parse", "retrieval", "constraint_eval", "forward_engine", "verifier", "answer"],
+        "stages": stages,
+        "mismatch_highlights": {
+            "missing_input_used_as_hard_failure_instead_of_conditional": bool(
+                v_ans_decision == "REJECT" and (fr_reason == "constraint_missing_input" or bool(missing_now))
+            ),
+            "constraint_presence_automatically_triggering_fact_check": bool(
+                has_constraint_presence and (fr_reason == "constraint_missing_input" or bool(missing_now))
+            ),
+        },
+    }
+
+
 def _is_completely_unanswerable(
     *,
     selected: RuleRecord | None,
@@ -1356,6 +1484,8 @@ def run_ask(
     apply_parse_backend(trace["backend_modes"], layer1)
     trace["parser_status"] = dict(getattr(layer1, "parse_metadata", None) or {})
     trace["stage"].append("parse_done")
+    question_mode = _infer_question_mode(layer1, layer2)
+    trace["question_mode"] = question_mode
 
     with tc.span("parse_repair") as sp_pr:
         layer1, layer2, v_parse, parse_repair_trace = run_parse_repair_loop(
@@ -1638,6 +1768,7 @@ def run_ask(
             reasoning_context=ctx,
             cross_domain_policy=policy,
             structured_facts=structured_facts_for_reasoning(session),
+            question_mode=question_mode,
         )
 
         trace["rule_backward_gate"] = rg.trace
@@ -1688,6 +1819,7 @@ def run_ask(
                         reasoning_context=ctx,
                         cross_domain_policy=policy,
                         structured_facts=structured_facts_for_reasoning(session),
+                        question_mode=question_mode,
                     )
                     trace["rule_backward_gate_condition_retry"] = rg.trace
                     trace["verification_diagnostics_condition_retry"] = list(rg.candidate_verdicts.values())
@@ -1736,6 +1868,7 @@ def run_ask(
                     reasoning_context=ctx,
                     cross_domain_policy=policy,
                     structured_facts=structured_facts_for_reasoning(session),
+                    question_mode=question_mode,
                 )
                 trace["rule_backward_gate_rerun"] = rg.trace
                 trace["verification_diagnostics_after_repair"] = list(rg.candidate_verdicts.values())
@@ -1777,7 +1910,7 @@ def run_ask(
     session.reasoning = bstate
     session.selected_rule = selected
 
-    if rg.clarification_needed and bstate:
+    if rg.clarification_needed and bstate and question_mode not in {"rule_reading"}:
         trace.setdefault("hard_gates_hit", []).append("needs_clarification")
         with tc.span("clarification_non_blocking") as sp_cl:
             parse_ambs = (layer2.diagnostics or {}).get("ambiguities") or []
@@ -1856,6 +1989,7 @@ def run_ask(
                 "semantic_soft_match_triggered": selected_semantic_ctx.get("semantic_family_soft_match_triggered"),
                 "semantic_soft_match_reason": selected_semantic_ctx.get("semantic_family_soft_match_reason"),
             },
+            question_mode=question_mode,
         )
         trace["forward_gate"] = fg.trace
         if fg.v_fwd:
@@ -1955,6 +2089,32 @@ def run_ask(
         apply_answer_backend(trace["backend_modes"], ans)
         sp_ga.output_summary = summarize_answer_trace(ans)
 
+    # Apply conditional answer BEFORE repair so verifier validates the final form (policy A+B)
+    missing_facts_now = list((getattr(bstate, "missing_facts", None) or [])) if bstate else []
+    if question_mode in {"fact_application", "hybrid"} and missing_facts_now:
+        ans = _apply_missing_facts_conditional_answer(
+            ans,
+            missing_facts=missing_facts_now,
+            selected_rule=selected,
+            known_fact_keys=list(known_facts_for_reasoning(session).keys()),
+            mode_tag="ask_missing_facts_conditional",
+        )
+        trace["conditional_answer_due_to_missing_facts"] = {
+            "enabled": True,
+            "missing_facts": missing_facts_now,
+            "policy": "continue_reasoning_with_hypothetical_conditions",
+            "question_mode": question_mode,
+        }
+        session.clarification_questions = []
+        trace["clarification_suppressed_answered_with_hypotheticals"] = True
+        trace["application_status"] = "conditional"
+    elif question_mode == "rule_reading":
+        trace["question_mode_answer_policy"] = {"mode": question_mode, "policy": "A_only"}
+        trace["application_status"] = "none"
+    else:
+        trace["question_mode_answer_policy"] = {"mode": question_mode, "policy": "A_plus_C_grounded_final"}
+        trace["application_status"] = "final"
+
     with tc.span("answer_repair") as sp_ar:
         ans_text, v_ans, answer_repair_trace = run_answer_repair_loop(
             engine,
@@ -1965,6 +2125,8 @@ def run_ask(
             modality_expected=layer1.modality_text or "",
             goal_action=str(goal.get("args", ["", "", ""])[1] if len(goal.get("args", [])) > 1 else ""),
             action_token_in_answer=ans.answer_text,
+            question_mode=question_mode,
+            missing_facts=missing_facts_now,
             max_repair_attempts_answer=max_repair_attempts_answer,
         )
         apply_answer_text_and_refresh_citations(ans, ans_text)
@@ -2026,23 +2188,6 @@ def run_ask(
         context_tag="ask.final_answer",
     )
 
-    missing_facts_now = list((getattr(bstate, "missing_facts", None) or [])) if bstate else []
-    if missing_facts_now:
-        ans = _apply_missing_facts_conditional_answer(
-            ans,
-            missing_facts=missing_facts_now,
-            selected_rule=selected,
-            known_fact_keys=list(known_facts_for_reasoning(session).keys()),
-            mode_tag="ask_missing_facts_conditional",
-        )
-        trace["conditional_answer_due_to_missing_facts"] = {
-            "enabled": True,
-            "missing_facts": missing_facts_now,
-            "policy": "continue_reasoning_with_hypothetical_conditions",
-        }
-        session.clarification_questions = []
-        trace["clarification_suppressed_answered_with_hypotheticals"] = True
-
     ans = _apply_user_facing_forward_failure_policy(
         ans,
         selected_rule=selected,
@@ -2063,6 +2208,14 @@ def run_ask(
         forward_failed=bool(not fg.ok),
         answer_rejected=bool(v_ans.final_decision == "REJECT"),
         trace=trace,
+    )
+
+    trace["flow_trace"] = _build_missing_facts_stage_trace(
+        question_mode=question_mode,
+        bstate=bstate,
+        fstate=fstate,
+        fg_ok=bool(fg.ok),
+        v_ans_decision=str(v_ans.final_decision),
     )
 
     session.answer = ans
@@ -2208,6 +2361,8 @@ def run_clarify(
     session.layer1 = layer1
     session.layer2 = layer2
     trace["parser_status"] = dict(getattr(layer1, "parse_metadata", None) or {})
+    question_mode = _infer_question_mode(layer1, layer2)
+    trace["question_mode"] = question_mode
 
     with tc.span("parse_repair") as sp_pr:
         layer1, layer2, _v_parse_cl, parse_repair_trace = run_parse_repair_loop(
@@ -2458,6 +2613,7 @@ def run_clarify(
             reasoning_context=ctx,
             cross_domain_policy=policy,
             structured_facts=structured_facts_for_reasoning(session),
+            question_mode=question_mode,
         )
         trace["rule_backward_gate"] = rg.trace
         if rg.v_rule:
@@ -2492,7 +2648,7 @@ def run_clarify(
     session.reasoning = bstate
     session.selected_rule = selected
 
-    if rg.clarification_needed and bstate:
+    if rg.clarification_needed and bstate and question_mode not in {"rule_reading"}:
         trace.setdefault("hard_gates_hit", []).append("needs_clarification")
         with tc.span("clarification_non_blocking") as sp_cl:
             parse_ambs = (layer2.diagnostics or {}).get("ambiguities") or []
@@ -2575,6 +2731,7 @@ def run_clarify(
                 "semantic_soft_match_triggered": selected_semantic_ctx.get("semantic_family_soft_match_triggered"),
                 "semantic_soft_match_reason": selected_semantic_ctx.get("semantic_family_soft_match_reason"),
             },
+            question_mode=question_mode,
         )
         trace["forward_gate"] = fg.trace
         if fg.v_fwd:
@@ -2674,6 +2831,32 @@ def run_clarify(
         apply_answer_backend(trace["backend_modes"], ans)
         sp_ga.output_summary = summarize_answer_trace(ans)
 
+    # Apply conditional answer BEFORE repair so verifier validates the final form (policy A+B)
+    missing_facts_now = list((getattr(fstate, "missing_facts", None) or [])) if fstate else []
+    if question_mode in {"fact_application", "hybrid"} and missing_facts_now:
+        ans = _apply_missing_facts_conditional_answer(
+            ans,
+            missing_facts=missing_facts_now,
+            selected_rule=selected,
+            known_fact_keys=list(known_facts_for_reasoning(session).keys()),
+            mode_tag="clarify_missing_facts_conditional",
+        )
+        trace["conditional_answer_due_to_missing_facts"] = {
+            "enabled": True,
+            "missing_facts": missing_facts_now,
+            "policy": "continue_reasoning_with_hypothetical_conditions",
+            "question_mode": question_mode,
+        }
+        session.clarification_questions = []
+        trace["clarification_suppressed_answered_with_hypotheticals"] = True
+        trace["application_status"] = "conditional"
+    elif question_mode == "rule_reading":
+        trace["question_mode_answer_policy"] = {"mode": question_mode, "policy": "A_only"}
+        trace["application_status"] = "none"
+    else:
+        trace["question_mode_answer_policy"] = {"mode": question_mode, "policy": "A_plus_C_grounded_final"}
+        trace["application_status"] = "final"
+
     with tc.span("answer_repair") as sp_ar:
         ans_text, v_ans, answer_repair_trace = run_answer_repair_loop(
             engine,
@@ -2684,6 +2867,8 @@ def run_clarify(
             modality_expected=layer1.modality_text or "",
             goal_action=str(goal.get("args", ["", "", ""])[1] if len(goal.get("args", [])) > 1 else ""),
             action_token_in_answer=ans.answer_text,
+            question_mode=question_mode,
+            missing_facts=missing_facts_now,
             max_repair_attempts_answer=max_repair_attempts_answer,
         )
         apply_answer_text_and_refresh_citations(ans, ans_text)
@@ -2733,23 +2918,6 @@ def run_clarify(
         context_tag="clarify.final_answer",
     )
 
-    missing_facts_now = list((getattr(fstate, "missing_facts", None) or [])) if fstate else []
-    if missing_facts_now:
-        ans = _apply_missing_facts_conditional_answer(
-            ans,
-            missing_facts=missing_facts_now,
-            selected_rule=selected,
-            known_fact_keys=list(known_facts_for_reasoning(session).keys()),
-            mode_tag="clarify_missing_facts_conditional",
-        )
-        trace["conditional_answer_due_to_missing_facts"] = {
-            "enabled": True,
-            "missing_facts": missing_facts_now,
-            "policy": "continue_reasoning_with_hypothetical_conditions",
-        }
-        session.clarification_questions = []
-        trace["clarification_suppressed_answered_with_hypotheticals"] = True
-
     ans = _apply_user_facing_forward_failure_policy(
         ans,
         selected_rule=selected,
@@ -2770,6 +2938,14 @@ def run_clarify(
         forward_failed=bool(not fg.ok),
         answer_rejected=bool(v_ans.final_decision == "REJECT"),
         trace=trace,
+    )
+
+    trace["flow_trace"] = _build_missing_facts_stage_trace(
+        question_mode=question_mode,
+        bstate=bstate,
+        fstate=fstate,
+        fg_ok=bool(fg.ok),
+        v_ans_decision=str(v_ans.final_decision),
     )
 
     session.answer = ans

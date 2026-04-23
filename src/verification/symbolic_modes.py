@@ -483,29 +483,46 @@ def symbolic_answer_checks(
     answer_text: str = "",
     conclusion: str = "",
     proof: dict[str, Any] | None = None,
+    application_status: str = "final",
 ) -> SymbolicCheckResult:
     r = SymbolicCheckResult(ok=symbolic_ok, issues=list(diag_from_validator))
+
+    # Conditional (A+B) and rule-reading (A) answers hedge explicitly.
+    # Action/modality mismatch and verbatim conclusion checks do not apply —
+    # the conditional structure embeds conclusion inside if-branches, not as a direct assertion.
+    _relaxed = application_status in {"conditional", "none"}
+
     for d in diag_from_validator:
         if "action" in d:
-            r.add("action_vs_goal", "fail", d, "answer", code="answer_subject_action_mismatch")
+            if _relaxed:
+                r.add("action_vs_goal", "skip", d, "answer")
+            else:
+                r.add("action_vs_goal", "fail", d, "answer", code="answer_subject_action_mismatch")
         if "modality" in d:
-            r.add("modality_vs_expected", "fail", d, "answer", code="answer_time_quantity_mismatch")
+            if _relaxed:
+                r.add("modality_vs_expected", "skip", d, "answer")
+            else:
+                r.add("modality_vs_expected", "fail", d, "answer", code="answer_time_quantity_mismatch")
 
-    if conclusion and conclusion.strip() and conclusion.strip() not in answer_text and answer_text:
-        r.add("answer_entails_conclusion", "fail", "answer không nhắc kết luận chính", "answer_text", code="answer_semantic_drift")
-    elif conclusion:
-        r.add("answer_entails_conclusion", "pass", "", "answer_text")
+    if _relaxed:
+        if conclusion:
+            r.add("answer_entails_conclusion", "skip", "conditional/rule_reading: conclusion embedded in structure", "answer_text")
+    else:
+        if conclusion and conclusion.strip() and conclusion.strip() not in answer_text and answer_text:
+            r.add("answer_entails_conclusion", "fail", "answer không nhắc kết luận chính", "answer_text", code="answer_semantic_drift")
+        elif conclusion:
+            r.add("answer_entails_conclusion", "pass", "", "answer_text")
 
     ps = (proof or {}).get("proof_steps") or []
     if len(ps) > 3 and len(answer_text) < 40:
         r.add("answer_vs_proof_depth", "fail", "answer quá ngắn so với proof phức tạp", "answer_text", code="answer_overclaim")
 
-    if not symbolic_ok and not r.error_codes:
+    if not symbolic_ok and not r.error_codes and not _relaxed:
         r.add("answer_generic", "fail", "symbolic check_answer_vs_goal failed", "answer", code="answer_semantic_drift")
 
     failed = [c for c in r.checks if c.get("status") == "fail"]
     r.ok = len(failed) == 0
-    if not symbolic_ok:
+    if not symbolic_ok and not _relaxed:
         for d in diag_from_validator:
             if "action" in d:
                 r.error_codes.append("answer_subject_action_mismatch")

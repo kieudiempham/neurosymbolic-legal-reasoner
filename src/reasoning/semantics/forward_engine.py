@@ -272,6 +272,7 @@ def run_forward_path(
     substitution: dict[str, Any] | None = None,
     reasoning_context: Any | None = None,
     structured_facts: dict[str, dict[str, Any]] | None = None,
+    question_mode: str = "hybrid",
 ) -> ForwardPathResult:
     """Single rule path: positive → negative (unless) → exception → constraints → derive goal."""
     goal_atom_list = [str(goal.get("predicate") or "unknown"), *list(goal.get("args") or [])]
@@ -467,14 +468,19 @@ def run_forward_path(
                 known_snap=known_snap,
                 supporting=supporting,
             )
+        # Gate missing_input: only fail for fact_application/hybrid modes
+        # For rule_reading mode, missing constraint input does not block reasoning
         if ev.status == "missing_input":
-            return _fail(
-                "constraint_missing_input",
-                ev.session_key,
-                traces=traces,
-                known_snap=known_snap,
-                supporting=supporting,
-            )
+            enable_fact_check = question_mode != "rule_reading"
+            if enable_fact_check:
+                return _fail(
+                    "constraint_missing_input",
+                    ev.session_key,
+                    traces=traces,
+                    known_snap=known_snap,
+                    supporting=supporting,
+                )
+            # else: continue without failing for rule_reading mode
         if ev.status == "unknown":
             return _fail(
                 "constraint_unknown",
@@ -529,6 +535,7 @@ def run_forward_best_path(
     known_facts: dict[str, Any],
     reasoning_context: Any | None = None,
     structured_facts: dict[str, dict[str, Any]] | None = None,
+    question_mode: str = "hybrid",
 ) -> ForwardPathResult:
     """Try candidate paths in plan order until one reaches the goal."""
     from reasoning.semantics.plan_models import BackwardPlan
@@ -551,6 +558,7 @@ def run_forward_best_path(
             substitution=c.substitution,
             reasoning_context=reasoning_context,
             structured_facts=structured_facts,
+            question_mode=question_mode,
         )
         last = res
         if res.goal_reached:

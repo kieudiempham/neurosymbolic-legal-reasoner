@@ -23,6 +23,7 @@ class ReasoningContext:
     phase3_conflict_policy: bool = True
     namespacing_mode: str = "global_rule_key_v1"
     strict_domain_enforcement: bool = False
+    question_mode: str = "rule_reading"
 
     def to_trace_dict(self) -> dict[str, Any]:
         out: dict[str, Any] = {
@@ -38,6 +39,7 @@ class ReasoningContext:
             "phase3_conflict_policy": self.phase3_conflict_policy,
             "namespacing_mode": self.namespacing_mode,
             "strict_domain_enforcement": self.strict_domain_enforcement,
+            "question_mode": self.question_mode,
         }
         if self.cross_domain_policy:
             out["cross_domain_policy"] = self.cross_domain_policy.to_trace_dict()

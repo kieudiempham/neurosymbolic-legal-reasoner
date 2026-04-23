@@ -92,6 +92,7 @@ def run_forward(
     cross_domain_policy: Any | None = None,
     structured_facts: dict[str, dict[str, Any]] | None = None,
     requirement_artifact: dict[str, Any] | None = None,
+    question_mode: str = "hybrid",
 ) -> tuple[str, bool, ReasoningState, list[str]]:
     """
     If `backward_plan` + `candidates` are set, try candidate paths in order.
@@ -166,6 +167,7 @@ def run_forward(
             known_facts=known_facts,
             reasoning_context=reasoning_context,
             structured_facts=structured_facts,
+            question_mode=question_mode,
         )
         win_rule = next(
             (
@@ -236,6 +238,7 @@ def run_forward(
         substitution=cand_sub,
         reasoning_context=reasoning_context,
         structured_facts=structured_facts,
+        question_mode=question_mode,
     )
     st = _state_from_forward(
         rule,

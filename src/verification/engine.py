@@ -83,6 +83,7 @@ def _fuse_with_policy(
     parse_action: str | None = None,
     parse_action_hint: str | None = None,
     parse_goal_action: str | None = None,
+    application_status: str = "final",
 ) -> tuple[FusionDecision, list[str]]:
     decision, fusion_diag = fuse_ne_sy_v5(
         symbolic_ok=symbolic_ok,
@@ -157,9 +158,37 @@ def _fuse_with_policy(
         decision = "REJECT"
 
     if mode == "forward_verification" and "forward_proof_error" in error_codes:
-        if decision != "REJECT":
-            diag.append("fusion_policy_forward_proof_guard_reject")
-        decision = "REJECT"
+        # Conditional answers legitimately have incomplete proofs (missing facts not yet resolved).
+        if application_status == "conditional":
+            if decision == "ACCEPT":
+                decision = "REPAIR"
+            diag.append("fusion_policy_forward_proof_conditional_soft_repair")
+        else:
+            if decision != "REJECT":
+                diag.append("fusion_policy_forward_proof_guard_reject")
+            decision = "REJECT"
+
+    # Grounded conditional (A+B) and rule-reading (A) answers are valid end states.
+    # Only reject them for true NLI contradiction or hallucination — not for missing-fact failures.
+    # answer_semantic_drift is NOT a missing-fact code: it means the conclusion is absent from the
+    # answer text entirely, which is a genuine content problem even for conditional answers.
+    _missing_fact_codes = {
+        "answer_subject_action_mismatch",
+        "answer_time_quantity_mismatch",
+    }
+    _has_non_missing_fact_error = bool(
+        set(error_codes) - _missing_fact_codes
+    ) if error_codes else False
+    if (
+        mode == "answer_verification"
+        and decision == "REJECT"
+        and application_status in {"conditional", "none"}
+        and not contradiction_flag
+        and not _has_non_missing_fact_error
+        and (symbolic_ok or (not error_codes or set(error_codes) <= _missing_fact_codes))
+    ):
+        decision = "ACCEPT"
+        diag.append("fusion_policy_conditional_answer_grounded_accept")
 
     return decision, diag
 
@@ -557,7 +586,18 @@ class NeSyEngine:
         modality_expected: str = "",
         goal_action: str = "",
         action_token_in_answer: str | None = None,
+        question_mode: str = "hybrid",
+        missing_facts: list[str] | None = None,
     ) -> VerificationRecord:
+        # Derive application_status from question_mode and missing_facts so downstream
+        # fusion policy can distinguish A / A+B / A+C without schema changes.
+        if question_mode == "rule_reading":
+            application_status = "none"
+        elif missing_facts:
+            application_status = "conditional"
+        else:
+            application_status = "final"
+
         sym_extra, diag_sym = check_answer_vs_goal(
             modality_expected=modality_expected,
             action_token_in_answer=action_token_in_answer or answer_text,
@@ -569,6 +609,7 @@ class NeSyEngine:
             answer_text=answer_text,
             conclusion=conclusion,
             proof=proof,
+            application_status=application_status,
         )
         sym_ok = sym_sa.ok
         trace = ["symbolic_answer_done"]
@@ -592,6 +633,7 @@ class NeSyEngine:
             nli=nli,
             entailment_threshold=self._entailment_threshold,
             contradiction_threshold=self._contradiction_threshold,
+            application_status=application_status,
         )
         issues = list(sym_sa.issues)
         return _finalize_record(
