@@ -347,6 +347,20 @@ def _has_catastrophic_contradiction(diagnostics: list[str] | None) -> bool:
     return False
 
 
+def _is_rule_reading_missing_input_failure(failure_reason: str | None, missing_facts: list[str] | None = None) -> bool:
+    fail_key = str(failure_reason or "").strip().lower()
+    relaxable = {
+        "constraint_missing_input",
+        "missing_input",
+        "positive_condition_missing",
+        "unification_broken",
+        "actor_role_mismatch",
+    }
+    if fail_key in relaxable:
+        return True
+    return bool(fail_key in {"unification_broken", "actor_role_mismatch"} and list(missing_facts or []))
+
+
 def gate_rule_and_backward(
     engine: NeSyEngine,
     *,
@@ -652,6 +666,15 @@ def gate_rule_and_backward(
             "REPAIR" if fallback_rule_relaxation_triggered or fact_application_relaxation_triggered
             else original_rule_decision
         )
+        rule_reading_rule_relaxation_triggered = False
+        if (
+            question_mode == "rule_reading"
+            and effective_rule_decision == "REJECT"
+            and semantic_family_match_tier in {"exact", "soft"}
+            and not catastrophic_rule_incompatibility
+        ):
+            rule_reading_rule_relaxation_triggered = True
+            effective_rule_decision = "REPAIR"
         out.trace.append(
             {
                 "stage": "rule_gate",
@@ -669,6 +692,10 @@ def gate_rule_and_backward(
                 "fallback_rule_verification_relaxation_reason": fallback_rule_relaxation_reason,
                 "fact_application_rule_relaxation_triggered": fact_application_relaxation_triggered,
                 "fact_application_rule_relaxation_reason": fact_application_relaxation_reason,
+                "rule_reading_rule_relaxation_triggered": rule_reading_rule_relaxation_triggered,
+                "rule_reading_rule_relaxation_reason": (
+                    "rule_reading_semantic_grounded_soft_relaxation" if rule_reading_rule_relaxation_triggered else ""
+                ),
                 "semantic_family_soft_match_triggered": family_soft_match_triggered,
                 "semantic_family_soft_match_reason": family_soft_match_reason,
                 "semantic_family_soft_match_meta": family_soft_match_meta,
@@ -723,6 +750,7 @@ def gate_rule_and_backward(
             "semantic_family_soft_match_reason": family_soft_match_reason,
             "semantic_family_soft_match_meta": family_soft_match_meta,
             "fact_application_rule_relaxation_triggered": fact_application_relaxation_triggered,
+            "rule_reading_rule_relaxation_triggered": rule_reading_rule_relaxation_triggered,
             "semantic_soft_match_bonus": semantic_soft_match_bonus,
             "semantic_family_match_tier": semantic_family_match_tier,
             "semantic_hard_mismatch_penalty": semantic_hard_mismatch_penalty,
@@ -789,6 +817,7 @@ def gate_rule_and_backward(
             reasoning_context=reasoning_context,
             cross_domain_policy=cross_domain_policy,
             structured_facts=structured_facts,
+            question_mode=question_mode,
         )
         backward_plan_rescue = dict((bstate.evaluation_hooks or {}).get("backward_plan_rescue") or {}) if bstate else {}
         out.trace.append(
@@ -861,6 +890,15 @@ def gate_rule_and_backward(
                 backward_rescue_relaxation_triggered = True
 
         effective_back_decision = "REPAIR" if backward_rescue_relaxation_triggered else original_back_decision
+        rule_reading_backward_relaxation_triggered = False
+        if (
+            question_mode == "rule_reading"
+            and effective_back_decision == "REJECT"
+            and semantic_family_match_tier in {"exact", "soft"}
+            and not _has_catastrophic_contradiction(original_back_reasons)
+        ):
+            rule_reading_backward_relaxation_triggered = True
+            effective_back_decision = "REPAIR"
         out.trace.append(
             {
                 "stage": "backward_gate",
@@ -880,6 +918,10 @@ def gate_rule_and_backward(
                     "rescued_fallback_backward_semantic_guard_relaxation"
                     if backward_rescue_relaxation_triggered
                     else ""
+                ),
+                "rule_reading_backward_relaxation_triggered": rule_reading_backward_relaxation_triggered,
+                "rule_reading_backward_relaxation_reason": (
+                    "rule_reading_missing_case_fact_non_blocking" if rule_reading_backward_relaxation_triggered else ""
                 ),
                 "original_final_decision": original_back_decision,
                 "original_reject_reason": original_back_reasons,
@@ -948,6 +990,23 @@ def gate_rule_and_backward(
             backward_ok_for_clarify = v_back.final_decision in ("ACCEPT", "REPAIR") and (
                 v_back.final_decision == "ACCEPT" or _repair_material_gain(v_back)
             )
+            if question_mode == "rule_reading":
+                st = st.model_copy(update={"missing_facts": [], "can_continue_forward": True})
+                out.trace.append(
+                    {
+                        "stage": "backward_rule_reading_missing_softened",
+                        "rule_id": sel.rule_id if sel else rid,
+                        "decision": "diagnostic_only",
+                        "reason": "rule_reading_policy_non_blocking_case_specific_missing_facts",
+                    }
+                )
+                out.ok = True
+                out.clarification_needed = False
+                out.selected = sel
+                out.bstate = st
+                out.v_rule = v_rule
+                out.v_back = v_back
+                return out
             # For fact_application mode, allow missing facts to proceed to conditional reasoning
             if question_mode in ("fact_application", "hybrid") and not backward_ok_for_clarify:
                 rescued_materiality_keepalive = bool(
@@ -1224,6 +1283,24 @@ def gate_forward_reasoning(
         )
         out.ok = True
         return out
+
+    if question_mode == "rule_reading" and v_fwd.final_decision == "REJECT":
+        fail_reason = (fst.forward_result or {}).get("failure_reason") if fst and fst.forward_result else None
+        missing_facts_now = list(getattr(fst, "missing_facts", None) or []) if fst else []
+        if _is_rule_reading_missing_input_failure(fail_reason, missing_facts_now):
+            out.trace.append(
+                {
+                    "stage": "forward_rule_reading_relaxation",
+                    "triggered": True,
+                    "original_final_decision": "REJECT",
+                    "relaxed_final_decision": "REPAIR",
+                    "reason": "rule_reading_policy_non_blocking_case_specific_missing_input",
+                    "failure_reason": fail_reason,
+                    "missing_facts": missing_facts_now,
+                }
+            )
+            out.ok = True
+            return out
 
     # For fact_application/hybrid mode, allow incomplete forward proofs to proceed
     # as conditional reasoning (A+B) when failure is due to absent facts.

@@ -555,6 +555,55 @@ def _canonical_threshold_goal(cue_blob: str) -> dict[str, Any]:
     return {"predicate": "threshold", "args": ["threshold_value", op, "nguong_gia_tri", "don_vi"]}
 
 
+def _is_case_application_noise_blob(blob: str) -> bool:
+    cues = (
+        "neu",
+        "nếu",
+        "truong hop",
+        "trường hợp",
+        "cong ty toi",
+        "công ty tôi",
+        "doanh nghiep toi",
+        "doanh nghiệp tôi",
+        "co bi",
+        "có bị",
+        "co phai",
+        "có phải",
+        "co duoc",
+        "có được",
+        "qua han",
+        "quá hạn",
+    )
+    return any(c in blob for c in cues)
+
+
+def _is_pure_rule_reading_deadline_query(*, focus: str, cue_blob: str, utterance_type: str, assertion_status: str) -> bool:
+    if focus != "deadline":
+        return False
+    if utterance_type in {"conditional_legal_question", "hypothetical_question"}:
+        return False
+    if assertion_status == "hypothetical":
+        return False
+    if _is_case_application_noise_blob(cue_blob):
+        return False
+
+    has_rule_reading_cue = any(
+        x in cue_blob
+        for x in (
+            "thoi han",
+            "thời hạn",
+            "bao lau",
+            "bao lâu",
+            "bao nhieu ngay",
+            "trong may ngay",
+            "trong mấy ngày",
+            "may ngay",
+            "mấy ngày",
+        )
+    )
+    return has_rule_reading_cue
+
+
 def build_layer2(
     layer1: Layer1Parse,
     user_facts: list[str],
@@ -695,7 +744,7 @@ def build_layer2(
     action_hint_blob = lower_fold((action_canonical_hint or "").replace("_", " "))
     cue_blob = (
         f"{lower_fold(layer1.subject_text)} {lower_fold(layer1.action_text)} {rescued_action_blob} {action_hint_blob} "
-        f"{lower_fold(layer1.condition_text)} {lower_fold(layer1.time_text)} {lower_fold(layer1.deadline_text)}"
+        f"{lower_fold(layer1.condition_text)} {lower_fold(layer1.time_text)} {lower_fold(layer1.deadline_text)} {lower_fold(layer1.modality_text)}"
     )
     has_bao_lau = "bao lau" in cue_blob
     has_bao_nhieu = "bao nhieu" in cue_blob
@@ -741,11 +790,18 @@ def build_layer2(
 
     intent_units = [u for u in (l1_meta.get("intent_units") or []) if isinstance(u, dict)]
     has_multi_intent = bool(l1_meta.get("has_multi_intent", False) and len(intent_units) > 1)
+    rule_reading_deadline_locked = _is_pure_rule_reading_deadline_query(
+        focus=focus,
+        cue_blob=cue_blob,
+        utterance_type=str(layer1.utterance_type or ""),
+        assertion_status=ast,
+    )
     if has_multi_intent:
-        primary_focus = str((intent_units[0] or {}).get("focus") or focus)
-        if primary_focus and primary_focus != "unknown":
-            focus = primary_focus
-            pred = _modality_to_goal_predicate(focus, layer1.modality_text)
+        if not rule_reading_deadline_locked:
+            primary_focus = str((intent_units[0] or {}).get("focus") or focus)
+            if primary_focus and primary_focus != "unknown":
+                focus = primary_focus
+                pred = _modality_to_goal_predicate(focus, layer1.modality_text)
 
     if (
         focus == "obligation"
@@ -835,8 +891,16 @@ def build_layer2(
                     "is_primary": idx == 0,
                 }
             )
-        if sub_goals:
+        if sub_goals and not rule_reading_deadline_locked:
             goal = dict(sub_goals[0].get("goal") or goal)
+
+    if rule_reading_deadline_locked:
+        focus = "deadline"
+        pred = "deadline"
+        goal = {
+            "predicate": "deadline",
+            "args": [act or "hanh_dong", 0, "ngay", "moc_thoi_gian"],
+        }
 
     if focus == "unknown" and archetype_candidates:
         ambiguities.append(
@@ -925,6 +989,7 @@ def build_layer2(
             "primary_intent": (intent_units[0] if intent_units else {"focus": focus}),
             "secondary_intents": (intent_units[1:] if len(intent_units) > 1 else []),
             "selection_policy": "primary_for_reasoning_secondary_preserved",
+            "rule_reading_deadline_locked": rule_reading_deadline_locked,
         },
     }
     if ast == "ambiguous":

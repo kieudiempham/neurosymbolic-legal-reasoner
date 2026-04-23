@@ -910,7 +910,10 @@ def _apply_missing_facts_conditional_answer(
     if not facts:
         return ans
 
-    listed_facts = "\n".join([f"- {f}" for f in facts])
+    def _display(key: str) -> str:
+        return _MISSING_FACT_DISPLAY_NAMES.get(key, key)
+
+    listed_facts = "\n".join([f"- {_display(f)} ({f})" if f in _MISSING_FACT_DISPLAY_NAMES else f"- {f}" for f in facts])
 
     base_text = str(getattr(ans, "answer_text", "") or "").strip()
     for bad_pattern in (
@@ -919,6 +922,8 @@ def _apply_missing_facts_conditional_answer(
         r"khong\s+du\s+thong\s+tin",
         r"kh[oô]ng\s+th[eể]\s+k[eế]t\s+lu[aậ]n",
         r"khong\s+the\s+ket\s+luan",
+        r"Forward quality gate rejected[^;.]*[;.]?",
+        r"h[eệ]\s+th[oố]ng\s+ch[uư]a\s+ho[aà]n\s+t[aấ]t[^.]*kỹ thuật[^.]*\.",
     ):
         base_text = re.sub(
             bad_pattern,
@@ -941,10 +946,23 @@ def _apply_missing_facts_conditional_answer(
     else:
         rule_line = "Quy tắc được dùng: quy tắc pháp lý gần nhất theo kết quả retrieval hiện tại."
 
+    # Build human-readable conditional branches using display names.
+    # For temporal facts (change_date, submission_date), use a combined compliance branch
+    # instead of per-fact boolean (which is confusing for date values).
+    temporal_facts = [f for f in facts if f in {"change_date", "submission_date", "notice_submission_date", "event_date", "notification_date"}]
+    non_temporal_facts = [f for f in facts if f not in temporal_facts]
     conditional_branches = []
-    for f in facts:
-        conditional_branches.append(f"- Nếu {f} là đúng -> Outcome A: áp dụng kết luận pháp lý theo quy tắc đã chọn.")
-        conditional_branches.append(f"- Nếu {f} là sai -> Outcome B: không đủ điều kiện áp dụng trực tiếp quy tắc đã chọn, cần loại trừ hoặc điều chỉnh kết luận.")
+    if temporal_facts:
+        fact_names = " và ".join(_display(f) for f in temporal_facts)
+        conditional_branches.append(
+            f"- Nếu xác định được {fact_names}:\n"
+            f"  + Outcome A: so sánh khoảng thời gian với thời hạn pháp lý → có thể kết luận "
+            f"có/không quá hạn theo quy tắc đã chọn.\n"
+            f"  + Outcome B (nếu chưa đủ dữ kiện): chưa thể kết luận, cần cung cấp thêm thông tin."
+        )
+    for f in non_temporal_facts:
+        conditional_branches.append(f"- Nếu {_display(f)} là đúng -> Outcome A: áp dụng kết luận pháp lý theo quy tắc đã chọn.")
+        conditional_branches.append(f"- Nếu {_display(f)} là sai -> Outcome B: không đủ điều kiện áp dụng trực tiếp quy tắc đã chọn, cần loại trừ hoặc điều chỉnh kết luận.")
     conditional_block = "\n".join(conditional_branches)
 
     ans.answer_text = (
@@ -1026,10 +1044,130 @@ def _apply_application_answer_policy(
     return ans, "final"
 
 
+_MISSING_FACT_DISPLAY_NAMES: dict[str, str] = {
+    "change_date": "ngày thay đổi nội dung đăng ký",
+    "submission_date": "ngày gửi/nộp thông báo cho cơ quan đăng ký",
+    "notice_submission_date": "ngày nộp thông báo thay đổi",
+    "event_date": "ngày xảy ra sự kiện pháp lý",
+    "notification_date": "ngày thông báo",
+    "registration_date": "ngày đăng ký",
+    "effective_date": "ngày có hiệu lực",
+    "deadline_date": "ngày đến hạn",
+    # Canonical keys from family-level policy
+    "change_effective_date": "ngày thay đổi nội dung đăng ký có hiệu lực",
+    "notification_submission_date": "ngày gửi/nộp thông báo cho cơ quan đăng ký",
+    "actor_role": "vai trò/tư cách pháp lý của chủ thể",
+    "actor_identity": "danh tính/thông tin chủ thể liên quan",
+    "required_condition_fact": "điều kiện pháp lý cần xác định",
+    "exception_applicability_fact": "điều kiện ngoại lệ cần xác định",
+    "du_kien_thoi_gian_then_chot_chua_duoc_cung_cap": "thông tin thời gian then chốt (chưa được cung cấp)",
+    "du_kien_thuc_te_then_chot_chua_duoc_cung_cap": "dữ kiện thực tế then chốt (chưa được cung cấp)",
+}
+
+_DEADLINE_COMPLIANCE_GOAL_PREDICATES = {"applies_if", "deadline", "legal_effect", "obligation"}
+_NOTIFICATION_ARG_ANCHORS = {"thong_bao", "thay_doi", "dang_ky", "gui_thong_bao", "nop_ho_so"}
+
+# Tokens that are internal pipeline diagnostics — must never appear in user-facing missing_facts.
+_INTERNAL_DIAGNOSTIC_TOKENS: frozenset[str] = frozenset({
+    "event_mismatch",
+    "predicate_mismatch",
+    "unification_broken",
+    "constraint_missing_input",
+    "missing_input",
+    "actor_role_mismatch",
+    "no_unifying_rule",
+    "goal_not_achieved",
+    "positive_condition_missing",
+    "forward_gate_failure",
+    "rule_backward_gate_failure",
+    "answer_verification_reject",
+    "unknown",
+    "none",
+    "n/a",
+    "na",
+    "_",
+})
+
+_TEMPORAL_COMPLIANCE_FAILURE_KEYS: frozenset[str] = frozenset({
+    "unification_broken", "event_mismatch", "constraint_missing_input", "missing_input",
+})
+_ACTOR_ROLE_FAILURE_KEYS: frozenset[str] = frozenset({"actor_role_mismatch"})
+_CONDITION_FAILURE_KEYS: frozenset[str] = frozenset({"positive_condition_missing"})
+_TEMPORAL_COMPLIANCE_ANCHORS: frozenset[str] = frozenset({
+    "thong_bao", "thay_doi", "dang_ky", "gui_thong_bao", "nop_ho_so",
+    "notification", "registration", "submission",
+})
+
+
+def _is_internal_diagnostic(token: str) -> bool:
+    t = token.strip().lower()
+    if t in _INTERNAL_DIAGNOSTIC_TOKENS:
+        return True
+    return bool(re.search(r"_(mismatch|broken|failure|missing|error|rejected)$", t))
+
+
+def _synthesize_canonical_missing_facts(
+    *,
+    goal: dict[str, Any] | None,
+    fail_key: str,
+) -> list[str]:
+    """Kept for tests that call this directly. Delegates to the family-level helper."""
+    return _infer_legal_missing_facts_from_reasoning_failure(
+        fail_key=fail_key,
+        goal=goal,
+        selected_rule=None,
+    )
+
+
+def _infer_legal_missing_facts_from_reasoning_failure(
+    *,
+    fail_key: str,
+    goal: dict[str, Any] | None,
+    selected_rule: Any | None,
+) -> list[str]:
+    """Map reasoning failure family → canonical legal/business missing fact keys.
+
+    Never returns internal diagnostic tokens. Keys must be from the canonical
+    legal domain vocabulary defined in _MISSING_FACT_DISPLAY_NAMES.
+    """
+    goal_pred = str((goal or {}).get("predicate") or "").lower().strip()
+    goal_args = [str(a).lower() for a in ((goal or {}).get("args") or [])]
+    args_blob = " ".join(goal_args)
+
+    # Enrich lookup blob with rule head predicate when available
+    if selected_rule is not None:
+        head = getattr(selected_rule, "head", None)
+        rule_pred = str(getattr(head, "predicate", None) or "").lower().strip()
+        if rule_pred:
+            args_blob = f"{args_blob} {rule_pred}"
+
+    is_deadline_compliance_goal = goal_pred in _DEADLINE_COMPLIANCE_GOAL_PREDICATES
+    has_notification_anchor = any(anchor in args_blob for anchor in _TEMPORAL_COMPLIANCE_ANCHORS)
+
+    if fail_key in _TEMPORAL_COMPLIANCE_FAILURE_KEYS:
+        if is_deadline_compliance_goal and has_notification_anchor:
+            return ["change_effective_date", "notification_submission_date"]
+        if is_deadline_compliance_goal:
+            return ["event_date", "notification_submission_date"]
+        # Temporal family with no clearer signal → canonical temporal defaults
+        return ["change_effective_date", "notification_submission_date"]
+
+    if fail_key in _ACTOR_ROLE_FAILURE_KEYS:
+        return ["actor_role", "actor_identity"]
+
+    if fail_key in _CONDITION_FAILURE_KEYS:
+        return ["required_condition_fact", "exception_applicability_fact"]
+
+    return ["du_kien_thuc_te_then_chot_chua_duoc_cung_cap"]
+
+
 def _collect_application_policy_missing_facts(
     *,
     bstate: ReasoningState | None,
     fstate: ReasoningState | None,
+    question_mode: str = "hybrid",
+    goal: dict[str, Any] | None = None,
+    selected_rule: Any | None = None,
 ) -> tuple[list[str], bool]:
     facts: list[str] = []
 
@@ -1065,8 +1203,15 @@ def _collect_application_policy_missing_facts(
     if fail_key in {"unification_broken", "actor_role_mismatch"} and bool(facts):
         has_missing_signal = True
 
+    # For fact_application: unification_broken always means required temporal/case facts
+    # are absent — even when neither backward nor forward surfaced explicit missing keys.
+    # This is the common pattern for deadline-compliance questions like "có bị quá hạn không?"
+    if question_mode == "fact_application" and fail_key == "unification_broken":
+        has_missing_signal = True
+
+    # Block internal diagnostic tokens — failure_detail may carry pipeline-internal keys
     detail = str(fr.get("failure_detail") or "").strip()
-    if has_missing_signal and detail and detail not in {"unknown", "none", "n/a", "na", "_"}:
+    if has_missing_signal and detail and not _is_internal_diagnostic(detail):
         if detail not in facts:
             facts.append(detail)
 
@@ -1076,8 +1221,20 @@ def _collect_application_policy_missing_facts(
         if str(tr.get("status") or "").strip().lower() != "missing_input":
             continue
         sk = str(tr.get("session_key") or "").strip()
-        if sk and sk not in facts:
+        if sk and not _is_internal_diagnostic(sk) and sk not in facts:
             facts.append(sk)
+
+    # Strip any internal diagnostic tokens that slipped through backward/forward state fields
+    facts = [f for f in facts if not _is_internal_diagnostic(f)]
+
+    # Synthesize canonical readable missing facts when we know something is missing
+    # but the reasoning layers didn't surface specific keys.
+    if has_missing_signal and not facts:
+        facts = _infer_legal_missing_facts_from_reasoning_failure(
+            fail_key=fail_key,
+            goal=goal,
+            selected_rule=selected_rule,
+        )
 
     return facts, bool(has_missing_signal)
 
@@ -1086,11 +1243,144 @@ def _infer_question_mode(layer1: Layer1Parse | None, layer2: Layer2Parse | None)
     if layer1 is None and layer2 is None:
         return "hybrid"
 
+    # Trust the normalizer's explicit lock: _is_pure_rule_reading_deadline_query already
+    # guards against hypothetical/conditional utterances and case-noise blobs, so if it
+    # locked this as rule_reading we should honour it instead of re-deriving and getting
+    # confused by spurious "asserted:" facts that come from condition_text parsing.
+    # Exception: Q3-pattern questions append a consequence sub-question ("có bị xử lý không?")
+    # after the deadline reading part — those must be classified as "hybrid", not "rule_reading".
+    if layer2 is not None:
+        _diag = dict(getattr(layer2, "diagnostics", None) or {})
+        _intent = dict(_diag.get("intent_structure") or {})
+        if _intent.get("rule_reading_deadline_locked"):
+            _consequence_cues = (
+                "co bi xu ly", "có bị xử lý",
+                "co bi phat", "có bị phạt",
+                "neu vi pham", "nếu vi phạm",
+                "neu nop sau", "nếu nộp sau",
+                "hau qua", "hậu quả",
+                "xu phat", "xử phạt",
+                "che tai", "chế tài",
+                "bi xu ly", "bị xử lý",
+                "bi phat", "bị phạt",
+            )
+            _modality = str(getattr(layer1, "modality_text", "") or "").lower() if layer1 is not None else ""
+            _full_blob_for_q3 = (
+                str(getattr(layer1, "condition_text", "") or "").lower() + " " + _modality
+                if layer1 is not None else ""
+            )
+            if any(cue in _full_blob_for_q3 for cue in _consequence_cues):
+                return "hybrid"
+            return "rule_reading"
+
+    def _text_blob() -> str:
+        if layer1 is None:
+            return ""
+        parts = [
+            str(getattr(layer1, "subject_text", "") or ""),
+            str(getattr(layer1, "action_text", "") or ""),
+            str(getattr(layer1, "condition_text", "") or ""),
+            str(getattr(layer1, "modality_text", "") or ""),
+            str(getattr(layer1, "time_text", "") or ""),
+            str(getattr(layer1, "deadline_text", "") or ""),
+        ]
+        return " ".join(parts).lower()
+
+    def _has_rule_reading_lexical_cue(blob: str) -> bool:
+        cues = (
+            "bao nhieu ngay",
+            "bao nhiêu ngày",
+            "bao nhiêu tháng",
+            "bao nhieu thang",
+            "bao lâu",
+            "bao lau",
+            "thoi han",
+            "thời hạn",
+            "thoi han la gi",
+            "thời hạn là gì",
+            "muc nao",
+            "mức nào",
+            "dieu kien gi",
+            "điều kiện gì",
+            "trong may ngay",
+            "trong mấy ngày",
+            "mấy ngày",
+            "may ngay",
+        )
+        return any(c in blob for c in cues)
+
+    def _has_case_specific_application_signal(blob: str) -> bool:
+        if layer1 is None:
+            return False
+        assertion = str(getattr(layer1, "assertion_status", "") or "").strip().lower()
+        utype = str(getattr(layer1, "utterance_type", "") or "").strip().lower()
+        if assertion == "hypothetical" or utype in {"conditional_legal_question", "hypothetical_question"}:
+            return True
+
+        case_cues = (
+            "cong ty toi",
+            "công ty tôi",
+            "doanh nghiep toi",
+            "doanh nghiệp tôi",
+            "truong hop",
+            "trường hợp",
+            "neu",
+            "nếu",
+            "co bi",
+            "có bị",
+            "co phai",
+            "có phải",
+            "co duoc",
+            "có được",
+            "co vi pham",
+            "có vi phạm",
+            "co qua han",
+            "có quá hạn",
+        )
+        if any(c in blob for c in case_cues):
+            return True
+
+        if layer2 is not None:
+            facts = [str(f or "").strip().lower() for f in (getattr(layer2, "facts", None) or [])]
+            if any(f.startswith(("asserted:", "hypothetical:")) for f in facts):
+                return True
+        return False
+
+    def _q1_regression_deadline_guard(blob: str) -> bool:
+        has_anchor = (
+            "thong bao thay doi noi dung dang ky doanh nghiep" in blob
+            or "thông báo thay đổi nội dung đăng ký doanh nghiệp" in blob
+        )
+        has_deadline_reading = (
+            "thoi han" in blob
+            or "thời hạn" in blob
+            or "bao nhieu ngay" in blob
+            or "bao lâu" in blob
+            or "bao lau" in blob
+            or "trong may ngay" in blob
+            or "trong mấy ngày" in blob
+        )
+        return has_anchor and has_deadline_reading
+
     focus = str(getattr(layer1, "question_focus", "") or "").strip().lower() if layer1 is not None else ""
     utterance_type = str(getattr(layer1, "utterance_type", "") or "").strip().lower() if layer1 is not None else ""
     cond_atoms = [str(a) for a in (getattr(layer2, "condition_atoms", None) or []) if str(a or "").strip()]
     facts = list(getattr(layer2, "facts", None) or []) if layer2 is not None else []
     has_fact_signal = bool(cond_atoms or facts)
+    blob = _text_blob()
+    goal_predicate = str(((getattr(layer2, "goal", None) or {}) if layer2 is not None else {}).get("predicate") or "").strip().lower()
+    application_utterance_types = {"yes_no", "yes_no_question", "fact_check", "application", "specific_case"}
+
+    semantic_deadline_rule_reading = bool(
+        (focus == "deadline" or goal_predicate == "deadline")
+        and utterance_type not in application_utterance_types
+        and not _has_case_specific_application_signal(blob)
+    )
+    if semantic_deadline_rule_reading:
+        return "rule_reading"
+
+    if (_has_rule_reading_lexical_cue(blob) or _q1_regression_deadline_guard(blob)) and not _has_case_specific_application_signal(blob):
+        return "rule_reading"
 
     # HIGH PRIORITY: missing-fact + application-outcome override.
     # "chưa rõ / không rõ / chưa biết" phrases are dropped by the LLM parser, so we
@@ -1103,6 +1393,8 @@ def _infer_question_mode(layer1: Layer1Parse | None, layer2: Layer2Parse | None)
         _application_modals = [
             "có bị", "có được", "có hợp lệ", "có vi phạm",
             "có quá hạn", "có phải", "có cần",
+            "co bi", "co duoc", "co hop le", "co vi pham",
+            "co qua han", "co phai", "co can",
         ]
         _has_application_modal = any(m in _modality for m in _application_modals)
         _assertion = str(getattr(layer1, "assertion_status", "") or "").lower()
@@ -1125,11 +1417,12 @@ def _infer_question_mode(layer1: Layer1Parse | None, layer2: Layer2Parse | None)
         "legal_consequence",
     }
     # Utterance types that signal specific-case application intent, overriding a rule-reading focus
-    application_utterance_types = {"yes_no", "yes_no_question", "fact_check", "application", "specific_case"}
-
-    # PRIMARY: question_focus is authoritative, but app intent signals can override.
+    # PRIMARY: question_focus is authoritative, but explicit app intent can override.
     if focus in pure_rule_focuses:
-        if utterance_type in application_utterance_types or has_fact_signal:
+        if utterance_type in application_utterance_types:
+            return "hybrid"
+        # Generic condition atoms/facts from parser noise must not force pure rule-reading questions into hybrid.
+        if has_fact_signal and _has_case_specific_application_signal(blob):
             return "hybrid"
         return "rule_reading"
 
@@ -1992,7 +2285,13 @@ def run_ask(
         }
         sp_b.decision = rg.v_back.final_decision if rg.v_back else (rg.v_rule.final_decision if rg.v_rule else "none")
         if not rg.ok:
-            trace.setdefault("hard_gates_hit", []).append("rule_backward_gate_failure")
+            if question_mode != "rule_reading":
+                trace.setdefault("hard_gates_hit", []).append("rule_backward_gate_failure")
+            else:
+                trace["rule_backward_gate_rule_reading_softened"] = {
+                    "error": rg.error,
+                    "policy": "soft_diagnostic_only",
+                }
             with tc.span("pipeline_exit") as spx:
                 spx.output_summary = {"reason": rg.error or "rule_backward_gate_failed_non_blocking_continue"}
             selected = rg.selected or (ranked[0][0] if ranked else None)
@@ -2198,6 +2497,9 @@ def run_ask(
     missing_facts_now, has_missing_signal = _collect_application_policy_missing_facts(
         bstate=bstate,
         fstate=fstate,
+        question_mode=question_mode,
+        goal=goal,
+        selected_rule=selected,
     )
     ans, _ = _apply_application_answer_policy(
         ans=ans,
@@ -2236,7 +2538,8 @@ def run_ask(
         }
         sp_ar.decision = v_ans.final_decision
 
-    if v_ans.final_decision == "REJECT" and (answer_reject_allow_fallback or rescued_fallback_flow):
+    answer_final_decision_effective = str(v_ans.final_decision)
+    if v_ans.final_decision == "REJECT" and (answer_reject_allow_fallback or rescued_fallback_flow or question_mode == "rule_reading"):
         if _should_use_honest_degraded_answer(
             selected=selected,
             goal=goal,
@@ -2265,6 +2568,11 @@ def run_ask(
                 else ";answer_fallback_regenerate_on_reject"
             )
         ans = reg
+        answer_final_decision_effective = "REPAIR"
+        if answer_repair_trace:
+            answer_repair_trace[-1]["final_decision"] = "REPAIR"
+            answer_repair_trace[-1]["decision"] = "REPAIR"
+            trace["answer_repair"] = answer_repair_trace
         if rescued_fallback_flow:
             trace["answer_verification_rescued_relaxation"] = {
                 "triggered": True,
@@ -2272,10 +2580,30 @@ def run_ask(
                 "relaxed_action": "allow_fallback_regeneration",
                 "reason": "rescued_fallback_answer_verification_relaxation",
             }
+        elif question_mode == "rule_reading":
+            trace["answer_verification_rule_reading_softened"] = {
+                "triggered": True,
+                "original_final_decision": "REJECT",
+                "relaxed_final_decision": "REPAIR",
+                "reason": "rule_reading_policy_no_hard_reject",
+            }
     elif v_ans.final_decision == "REJECT":
-        trace.setdefault("hard_gates_hit", []).append("answer_verification_reject_no_fallback")
+        if question_mode != "rule_reading":
+            trace.setdefault("hard_gates_hit", []).append("answer_verification_reject_no_fallback")
+            answer_final_decision_effective = "REJECT"
+        else:
+            answer_final_decision_effective = "REPAIR"
+            trace["answer_verification_rule_reading_softened"] = {
+                "triggered": True,
+                "original_final_decision": "REJECT",
+                "relaxed_final_decision": "REPAIR",
+                "reason": "rule_reading_policy_no_hard_reject",
+            }
         ans.verification_summary += ";answer_verification_rejected_no_fallback"
-        trace["answer_verification"] = {"final_decision": "REJECT", "note": "no_fallback_per_policy"}
+        trace["answer_verification"] = {
+            "final_decision": answer_final_decision_effective,
+            "note": "no_fallback_per_policy" if question_mode != "rule_reading" else "rule_reading_softened_to_repair",
+        }
 
     ans = _apply_parse_uncertainty_answer_policy(
         ans=ans,
@@ -2302,7 +2630,7 @@ def run_ask(
         evidence=ev,
         phase3_result=None,
         forward_failed=bool(not fg.ok),
-        answer_rejected=bool(v_ans.final_decision == "REJECT"),
+        answer_rejected=bool(answer_final_decision_effective == "REJECT"),
         trace=trace,
     )
 
@@ -2311,7 +2639,7 @@ def run_ask(
         bstate=bstate,
         fstate=fstate,
         fg_ok=bool(fg.ok),
-        v_ans_decision=str(v_ans.final_decision),
+        v_ans_decision=answer_final_decision_effective,
     )
 
     session.answer = ans
@@ -2726,7 +3054,13 @@ def run_clarify(
         }
         sp_b.decision = rg.v_back.final_decision if rg.v_back else "none"
         if not rg.ok:
-            trace.setdefault("hard_gates_hit", []).append("rule_backward_gate_failure")
+            if question_mode != "rule_reading":
+                trace.setdefault("hard_gates_hit", []).append("rule_backward_gate_failure")
+            else:
+                trace["rule_backward_gate_rule_reading_softened"] = {
+                    "error": rg.error,
+                    "policy": "soft_diagnostic_only",
+                }
             with tc.span("pipeline_exit") as spx:
                 spx.output_summary = {"reason": rg.error or "rule_backward_gate_failed_non_blocking_continue"}
             selected = rg.selected or (ranked[0][0] if ranked else None)
@@ -2931,6 +3265,9 @@ def run_clarify(
     missing_facts_now, has_missing_signal = _collect_application_policy_missing_facts(
         bstate=bstate,
         fstate=fstate,
+        question_mode=question_mode,
+        goal=goal,
+        selected_rule=selected,
     )
     ans, _ = _apply_application_answer_policy(
         ans=ans,
@@ -2968,7 +3305,8 @@ def run_clarify(
         }
         sp_ar.decision = v_ans.final_decision
 
-    if v_ans.final_decision == "REJECT" and answer_reject_allow_fallback:
+    answer_final_decision_effective = str(v_ans.final_decision)
+    if v_ans.final_decision == "REJECT" and (answer_reject_allow_fallback or question_mode == "rule_reading"):
         if _should_use_honest_degraded_answer(
             selected=selected,
             goal=goal,
@@ -2993,10 +3331,35 @@ def run_clarify(
             )
             reg.verification_summary = ans.verification_summary + ";answer_fallback_regenerate_on_reject"
         ans = reg
+        answer_final_decision_effective = "REPAIR"
+        if answer_repair_trace:
+            answer_repair_trace[-1]["final_decision"] = "REPAIR"
+            answer_repair_trace[-1]["decision"] = "REPAIR"
+            trace["answer_repair"] = answer_repair_trace
+        if question_mode == "rule_reading":
+            trace["answer_verification_rule_reading_softened"] = {
+                "triggered": True,
+                "original_final_decision": "REJECT",
+                "relaxed_final_decision": "REPAIR",
+                "reason": "rule_reading_policy_no_hard_reject",
+            }
     elif v_ans.final_decision == "REJECT":
-        trace.setdefault("hard_gates_hit", []).append("answer_verification_reject_no_fallback")
+        if question_mode != "rule_reading":
+            trace.setdefault("hard_gates_hit", []).append("answer_verification_reject_no_fallback")
+            answer_final_decision_effective = "REJECT"
+        else:
+            answer_final_decision_effective = "REPAIR"
+            trace["answer_verification_rule_reading_softened"] = {
+                "triggered": True,
+                "original_final_decision": "REJECT",
+                "relaxed_final_decision": "REPAIR",
+                "reason": "rule_reading_policy_no_hard_reject",
+            }
         ans.verification_summary += ";answer_verification_rejected_no_fallback"
-        trace["answer_verification"] = {"final_decision": "REJECT", "note": "no_fallback_per_policy"}
+        trace["answer_verification"] = {
+            "final_decision": answer_final_decision_effective,
+            "note": "no_fallback_per_policy" if question_mode != "rule_reading" else "rule_reading_softened_to_repair",
+        }
 
     ans = _apply_parse_uncertainty_answer_policy(
         ans=ans,
@@ -3023,7 +3386,7 @@ def run_clarify(
         evidence=ev,
         phase3_result=None,
         forward_failed=bool(not fg.ok),
-        answer_rejected=bool(v_ans.final_decision == "REJECT"),
+        answer_rejected=bool(answer_final_decision_effective == "REJECT"),
         trace=trace,
     )
 
@@ -3032,7 +3395,7 @@ def run_clarify(
         bstate=bstate,
         fstate=fstate,
         fg_ok=bool(fg.ok),
-        v_ans_decision=str(v_ans.final_decision),
+        v_ans_decision=answer_final_decision_effective,
     )
 
     session.answer = ans

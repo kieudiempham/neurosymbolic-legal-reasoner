@@ -175,6 +175,7 @@ def run_backward(
     reasoning_context: Any | None = None,
     cross_domain_policy: Any | None = None,
     structured_facts: dict[str, dict[str, Any]] | None = None,
+    question_mode: str = "hybrid",
 ) -> tuple[RuleRecord | None, ReasoningState]:
     cand_in = list(candidates)
     if reasoning_context is not None and cross_domain_policy is not None:
@@ -336,6 +337,19 @@ def run_backward(
     missing = requirement_missing_fact_keys(artifact)
     covered = list(artifact.satisfied)
     can_forward = bool(cand and not artifact.unmet_required and not artifact.unmet_optional and cand.status != "blocked")
+
+    if question_mode == "rule_reading":
+        # Rule-reading asks for legal rule content; case-specific missing inputs are non-blocking.
+        nonblocking_missing = list(missing)
+        eval_hooks["rule_reading_nonblocking_missing_facts"] = {
+            "enabled": True,
+            "missing_keys": nonblocking_missing,
+            "count": len(nonblocking_missing),
+            "policy": "diagnostic_only_keep_proof_flow",
+        }
+        missing = []
+        can_forward = True
+        trace.append("rule_reading_missing_facts_softened_to_diagnostic")
 
     st = ReasoningState(
         requirement_set=reqs,

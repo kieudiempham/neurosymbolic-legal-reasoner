@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re as _re
 from typing import Any, Callable
 
 from generation.legal_citations import (
@@ -41,6 +42,25 @@ def _proof_sketch(proof: ProofObject | None, *, max_chars: int = 420) -> str:
     return s if len(s) <= max_chars else s[: max_chars - 1] + "…"
 
 
+# Patterns in conclusion text that indicate internal pipeline errors, not legal findings.
+_TECHNICAL_CONCLUSION_PATTERNS = (
+    r"Forward quality gate rejected[^.;]*[.;]?",
+    r"rule_backward_gate[^.;]*[.;]?",
+    r"unification_broken[^.;]*[.;]?",
+    r"constraint_missing_input[^.;]*[.;]?",
+    r"RULE_[A-Z0-9_]+[^.;]*[.;]?",
+)
+
+
+def _sanitize_conclusion(conclusion: str) -> str:
+    """Replace internal pipeline error strings with a user-facing message."""
+    text = (conclusion or "").strip()
+    for pat in _TECHNICAL_CONCLUSION_PATTERNS:
+        text = _re.sub(pat, "", text, flags=_re.IGNORECASE).strip(" ;,.")
+    text = text.strip()
+    return text or "chưa đủ căn cứ để kết luận chắc chắn"
+
+
 def _build_template_grounded(
     *,
     question: str,
@@ -55,6 +75,9 @@ def _build_template_grounded(
     pl = _proof_lines(proof)
     proof_summary = " ".join(pl) if pl else ((proof.conclusion or proof.derived_conclusion) if proof else "")
     citations = build_legal_citations_from_evidence(evidence, rule=rule, max_citations=6)
+
+    # Sanitize any internal pipeline error text from the conclusion before displaying.
+    clean_conclusion = _sanitize_conclusion(conclusion)
 
     opening = "Kính gửi Quý khách hàng,"
 
@@ -85,20 +108,21 @@ def _build_template_grounded(
             "thông tin đã cung cấp.)"
         )
 
-    # Build conclusion with conditional logic if missing facts
+    # Build conclusion with conditional logic if missing facts.
+    # Note: _apply_missing_facts_conditional_answer in the orchestrator will REPLACE this
+    # entire answer with a proper A+B structure, so this block handles standalone cases only.
     if missing_facts and len(missing_facts) > 0:
-        # Conditional legal answer format: state missing facts, then conditional branches
         missing_facts_str = "; ".join(str(f).strip() for f in missing_facts[:3] if f)
         conclusion_line = (
-            f"Về nguyên tắc, kết luận: {conclusion}. "
-            f"(Kết luận này có điều kiện do còn thiếu thông tin: {missing_facts_str}. "
-            f"Nếu xác nhận các thông tin trên, kết luận này sẽ chính thức hơn.)"
+            f"Về nguyên tắc, kết luận: {clean_conclusion}. "
+            f"(Kết luận có điều kiện — còn thiếu thông tin: {missing_facts_str}. "
+            f"Khi xác nhận được các thông tin trên, có thể kết luận chắc chắn hơn.)"
         )
     else:
         conclusion_line = (
-            f"Về nguyên tắc, kết luận: {conclusion}."
+            f"Về nguyên tắc, kết luận: {clean_conclusion}."
             if goal_achieved
-            else f"Về nguyên tắc, kết luận: {conclusion or 'chưa đủ căn cứ kết luận chắc chắn'}; cần xác định thêm tình tiết còn thiếu."
+            else f"Về nguyên tắc, kết luận: {clean_conclusion}; cần xác định thêm tình tiết còn thiếu."
         )
 
     analysis = "\n\n".join(analysis_parts)
