@@ -287,9 +287,15 @@ def run_backward(
     eval_hooks = plan.evaluation.model_dump(mode="json")
     eval_hooks["backward_plan_rescue"] = rescue_meta
     if not selected:
+        unresolved_keys: list[str] = []
+        for c in list(plan.candidates or []):
+            for key in list(getattr(c, "missing_fact_keys", None) or []):
+                sk = str(key or "").strip()
+                if sk and sk not in unresolved_keys:
+                    unresolved_keys.append(sk)
         return None, ReasoningState(
             requirement_set=[],
-            missing_facts=[],
+            missing_facts=unresolved_keys,
             selected_rule_ids=[],
             requirement_artifact=None,
             trace=trace + ["no_unifying_rule"],

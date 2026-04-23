@@ -979,12 +979,118 @@ def _apply_missing_facts_conditional_answer(
     return ans
 
 
+def _apply_application_answer_policy(
+    *,
+    ans: Any,
+    trace: dict[str, Any],
+    session: SessionState,
+    question_mode: str,
+    selected_rule: RuleRecord | None,
+    known_fact_keys: list[str],
+    missing_facts: list[str],
+    has_missing_signal: bool = False,
+    mode_tag: str,
+) -> tuple[Any, str]:
+    facts = [str(f).strip() for f in (missing_facts or []) if str(f).strip()]
+    facts = list(dict.fromkeys(facts))
+
+    if question_mode in {"fact_application", "hybrid"} and (facts or has_missing_signal):
+        if not facts:
+            facts = ["du_kien_thuc_te_then_chot_chua_duoc_cung_cap"]
+        ans = _apply_missing_facts_conditional_answer(
+            ans,
+            missing_facts=facts,
+            selected_rule=selected_rule,
+            known_fact_keys=known_fact_keys,
+            mode_tag=mode_tag,
+        )
+        trace["conditional_answer_due_to_missing_facts"] = {
+            "enabled": True,
+            "missing_facts": facts,
+            "missing_signal_without_explicit_keys": bool(has_missing_signal and facts == ["du_kien_thuc_te_then_chot_chua_duoc_cung_cap"]),
+            "policy": "continue_reasoning_with_hypothetical_conditions",
+            "question_mode": question_mode,
+        }
+        session.clarification_questions = []
+        trace["clarification_suppressed_answered_with_hypotheticals"] = True
+        trace["application_status"] = "conditional"
+        return ans, "conditional"
+
+    if question_mode == "rule_reading":
+        trace["question_mode_answer_policy"] = {"mode": question_mode, "policy": "A_only"}
+        trace["application_status"] = "none"
+        return ans, "none"
+
+    trace["question_mode_answer_policy"] = {"mode": question_mode, "policy": "A_plus_C_grounded_final"}
+    trace["application_status"] = "final"
+    return ans, "final"
+
+
+def _collect_application_policy_missing_facts(
+    *,
+    bstate: ReasoningState | None,
+    fstate: ReasoningState | None,
+) -> tuple[list[str], bool]:
+    facts: list[str] = []
+
+    def _add(values: list[Any] | None) -> None:
+        for raw in list(values or []):
+            key = str(raw or "").strip()
+            if key and key not in facts:
+                facts.append(key)
+
+    def _artifact_values(st: ReasoningState | None) -> tuple[list[str], list[str]]:
+        if st is None:
+            return [], []
+        art = getattr(st, "requirement_artifact", None)
+        if art is None:
+            return [], []
+        if isinstance(art, dict):
+            return list(art.get("unmet_required") or []), list(art.get("unmet_optional") or [])
+        return list(getattr(art, "unmet_required", None) or []), list(getattr(art, "unmet_optional", None) or [])
+
+    _add(list(getattr(bstate, "missing_facts", None) or []) if bstate is not None else [])
+    _add(list(getattr(fstate, "missing_facts", None) or []) if fstate is not None else [])
+    b_req, b_opt = _artifact_values(bstate)
+    f_req, f_opt = _artifact_values(fstate)
+    _add([*b_req, *b_opt, *f_req, *f_opt])
+
+    fr = dict(getattr(fstate, "forward_result", None) or {}) if fstate is not None else {}
+    fail_key = str(fr.get("failure_reason") or "").strip().lower()
+    has_missing_signal = fail_key in {
+        "constraint_missing_input",
+        "missing_input",
+        "positive_condition_missing",
+    }
+    if fail_key in {"unification_broken", "actor_role_mismatch"} and bool(facts):
+        has_missing_signal = True
+
+    detail = str(fr.get("failure_detail") or "").strip()
+    if has_missing_signal and detail and detail not in {"unknown", "none", "n/a", "na", "_"}:
+        if detail not in facts:
+            facts.append(detail)
+
+    for tr in list(fr.get("constraint_traces") or []):
+        if not isinstance(tr, dict):
+            continue
+        if str(tr.get("status") or "").strip().lower() != "missing_input":
+            continue
+        sk = str(tr.get("session_key") or "").strip()
+        if sk and sk not in facts:
+            facts.append(sk)
+
+    return facts, bool(has_missing_signal)
+
+
 def _infer_question_mode(layer1: Layer1Parse | None, layer2: Layer2Parse | None) -> str:
     if layer1 is None and layer2 is None:
         return "hybrid"
 
     focus = str(getattr(layer1, "question_focus", "") or "").strip().lower() if layer1 is not None else ""
     utterance_type = str(getattr(layer1, "utterance_type", "") or "").strip().lower() if layer1 is not None else ""
+    cond_atoms = [str(a) for a in (getattr(layer2, "condition_atoms", None) or []) if str(a or "").strip()]
+    facts = list(getattr(layer2, "facts", None) or []) if layer2 is not None else []
+    has_fact_signal = bool(cond_atoms or facts)
 
     # HIGH PRIORITY: missing-fact + application-outcome override.
     # "chưa rõ / không rõ / chưa biết" phrases are dropped by the LLM parser, so we
@@ -1007,6 +1113,8 @@ def _infer_question_mode(layer1: Layer1Parse | None, layer2: Layer2Parse | None)
         )
         if _has_application_modal and _has_missing_fact_proxy:
             return "fact_application"
+        if _has_application_modal and utterance_type in {"yes_no", "yes_no_question", "fact_check", "application", "specific_case"}:
+            return "fact_application"
 
     pure_rule_focuses = {
         "deadline",
@@ -1019,23 +1127,20 @@ def _infer_question_mode(layer1: Layer1Parse | None, layer2: Layer2Parse | None)
     # Utterance types that signal specific-case application intent, overriding a rule-reading focus
     application_utterance_types = {"yes_no", "yes_no_question", "fact_check", "application", "specific_case"}
 
-    # PRIMARY: question_focus is the authoritative signal.
-    # condition_atoms/facts from Layer2 are only consulted when focus is ambiguous.
+    # PRIMARY: question_focus is authoritative, but app intent signals can override.
     if focus in pure_rule_focuses:
-        if utterance_type in application_utterance_types:
+        if utterance_type in application_utterance_types or has_fact_signal:
             return "hybrid"
         return "rule_reading"
 
-    # SECONDARY: focus is unknown/generic — fall back to condition_atoms / facts
-    cond_atoms = [str(a) for a in (getattr(layer2, "condition_atoms", None) or []) if str(a or "").strip()]
-    facts = list(getattr(layer2, "facts", None) or []) if layer2 is not None else []
-    has_fact_signal = bool(cond_atoms or facts)
-
-    if not has_fact_signal:
-        return "rule_reading"
+    # SECONDARY: generic/unknown focus should not be forced to pure rule reading.
     if focus in {"", "unknown"}:
         return "hybrid"
-    return "fact_application"
+    if utterance_type in application_utterance_types:
+        return "fact_application"
+    if has_fact_signal:
+        return "fact_application"
+    return "hybrid"
 
 
 def _build_missing_facts_stage_trace(
@@ -2090,30 +2195,21 @@ def run_ask(
         sp_ga.output_summary = summarize_answer_trace(ans)
 
     # Apply conditional answer BEFORE repair so verifier validates the final form (policy A+B)
-    missing_facts_now = list((getattr(bstate, "missing_facts", None) or [])) if bstate else []
-    if question_mode in {"fact_application", "hybrid"} and missing_facts_now:
-        ans = _apply_missing_facts_conditional_answer(
-            ans,
-            missing_facts=missing_facts_now,
-            selected_rule=selected,
-            known_fact_keys=list(known_facts_for_reasoning(session).keys()),
-            mode_tag="ask_missing_facts_conditional",
-        )
-        trace["conditional_answer_due_to_missing_facts"] = {
-            "enabled": True,
-            "missing_facts": missing_facts_now,
-            "policy": "continue_reasoning_with_hypothetical_conditions",
-            "question_mode": question_mode,
-        }
-        session.clarification_questions = []
-        trace["clarification_suppressed_answered_with_hypotheticals"] = True
-        trace["application_status"] = "conditional"
-    elif question_mode == "rule_reading":
-        trace["question_mode_answer_policy"] = {"mode": question_mode, "policy": "A_only"}
-        trace["application_status"] = "none"
-    else:
-        trace["question_mode_answer_policy"] = {"mode": question_mode, "policy": "A_plus_C_grounded_final"}
-        trace["application_status"] = "final"
+    missing_facts_now, has_missing_signal = _collect_application_policy_missing_facts(
+        bstate=bstate,
+        fstate=fstate,
+    )
+    ans, _ = _apply_application_answer_policy(
+        ans=ans,
+        trace=trace,
+        session=session,
+        question_mode=question_mode,
+        selected_rule=selected,
+        known_fact_keys=list(known_facts_for_reasoning(session).keys()),
+        missing_facts=missing_facts_now,
+        has_missing_signal=has_missing_signal,
+        mode_tag="ask_missing_facts_conditional",
+    )
 
     with tc.span("answer_repair") as sp_ar:
         ans_text, v_ans, answer_repair_trace = run_answer_repair_loop(
@@ -2832,30 +2928,21 @@ def run_clarify(
         sp_ga.output_summary = summarize_answer_trace(ans)
 
     # Apply conditional answer BEFORE repair so verifier validates the final form (policy A+B)
-    missing_facts_now = list((getattr(fstate, "missing_facts", None) or [])) if fstate else []
-    if question_mode in {"fact_application", "hybrid"} and missing_facts_now:
-        ans = _apply_missing_facts_conditional_answer(
-            ans,
-            missing_facts=missing_facts_now,
-            selected_rule=selected,
-            known_fact_keys=list(known_facts_for_reasoning(session).keys()),
-            mode_tag="clarify_missing_facts_conditional",
-        )
-        trace["conditional_answer_due_to_missing_facts"] = {
-            "enabled": True,
-            "missing_facts": missing_facts_now,
-            "policy": "continue_reasoning_with_hypothetical_conditions",
-            "question_mode": question_mode,
-        }
-        session.clarification_questions = []
-        trace["clarification_suppressed_answered_with_hypotheticals"] = True
-        trace["application_status"] = "conditional"
-    elif question_mode == "rule_reading":
-        trace["question_mode_answer_policy"] = {"mode": question_mode, "policy": "A_only"}
-        trace["application_status"] = "none"
-    else:
-        trace["question_mode_answer_policy"] = {"mode": question_mode, "policy": "A_plus_C_grounded_final"}
-        trace["application_status"] = "final"
+    missing_facts_now, has_missing_signal = _collect_application_policy_missing_facts(
+        bstate=bstate,
+        fstate=fstate,
+    )
+    ans, _ = _apply_application_answer_policy(
+        ans=ans,
+        trace=trace,
+        session=session,
+        question_mode=question_mode,
+        selected_rule=selected,
+        known_fact_keys=list(known_facts_for_reasoning(session).keys()),
+        missing_facts=missing_facts_now,
+        has_missing_signal=has_missing_signal,
+        mode_tag="clarify_missing_facts_conditional",
+    )
 
     with tc.span("answer_repair") as sp_ar:
         ans_text, v_ans, answer_repair_trace = run_answer_repair_loop(

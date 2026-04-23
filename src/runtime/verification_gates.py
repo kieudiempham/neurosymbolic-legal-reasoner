@@ -635,18 +635,18 @@ def gate_rule_and_backward(
             fallback_rule_relaxation_triggered = True
             fallback_rule_relaxation_reason = "rescued_fallback_bounded_rule_verification_relaxation"
 
-        # For fact_application mode, relax rule verification for semantically related rules
+        # For fact_application/hybrid mode, relax rule verification for semantically related rules
         fact_application_relaxation_triggered = False
         fact_application_relaxation_reason = ""
         if (
-            question_mode == "fact_application"
+            question_mode in ("fact_application", "hybrid")
             and original_rule_decision == "REJECT"
             and (has_head_goal_mismatch or has_nli_contradiction_high)
             and not catastrophic_rule_incompatibility
             and family_soft_match_triggered
         ):
             fact_application_relaxation_triggered = True
-            fact_application_relaxation_reason = "fact_application_semantic_rule_relaxation"
+            fact_application_relaxation_reason = "fact_application_or_hybrid_semantic_rule_relaxation"
 
         effective_rule_decision = (
             "REPAIR" if fallback_rule_relaxation_triggered or fact_application_relaxation_triggered
@@ -1225,10 +1225,20 @@ def gate_forward_reasoning(
         out.ok = True
         return out
 
-    # For fact_application mode, allow incomplete forward proofs to proceed to conditional reasoning
+    # For fact_application/hybrid mode, allow incomplete forward proofs to proceed
+    # as conditional reasoning (A+B) when failure is due to absent facts.
     if question_mode in ("fact_application", "hybrid") and v_fwd.final_decision == "REJECT":
         fail_reason = (fst.forward_result or {}).get("failure_reason") if fst and fst.forward_result else None
-        if str(fail_reason or "") in {"unification_failure", "missing_input", "constraint_missing_input"}:
+        missing_facts_now = list(getattr(fst, "missing_facts", None) or []) if fst else []
+        fail_key = str(fail_reason or "").strip().lower()
+        conditional_failures = {
+            "unification_broken",
+            "missing_input",
+            "constraint_missing_input",
+            "positive_condition_missing",
+        }
+        unification_from_absent_facts = fail_key in {"unification_broken", "actor_role_mismatch"} and bool(missing_facts_now)
+        if fail_key in conditional_failures or unification_from_absent_facts:
             out.trace.append(
                 {
                     "stage": "forward_gate_conditional_relaxation",
@@ -1238,6 +1248,7 @@ def gate_forward_reasoning(
                     "relaxed_final_decision": "CONDITIONAL",
                     "reason": "fact_application_mode_incomplete_proof_allowed",
                     "failure_reason": fail_reason,
+                    "missing_facts": missing_facts_now,
                 }
             )
             out.ok = True
