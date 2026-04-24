@@ -1,0 +1,122 @@
+[
+  {
+    "test_id": "Q1",
+    "question_type": "rule_reading",
+    "subtype": "deadline",
+    "question": "Doanh nghiệp phải thông báo thay đổi nội dung đăng ký doanh nghiệp trong bao nhiêu ngày?"
+  },
+  {
+    "test_id": "Q2",
+    "question_type": "rule_reading",
+    "subtype": "deadline",
+    "question": "Thời hạn thông báo thay đổi đăng ký doanh nghiệp là bao lâu?"
+  },
+  {
+    "test_id": "Q3",
+    "question_type": "rule_reading",
+    "subtype": "generic_rule",
+    "question": "Theo luật, doanh nghiệp có nghĩa vụ thông báo khi thay đổi nội dung đăng ký không?"
+  },
+  {
+    "test_id": "Q4",
+    "question_type": "rule_reading",
+    "subtype": "generic_rule",
+    "question": "Quy định pháp luật về việc thay đổi nội dung đăng ký doanh nghiệp là gì?"
+  },
+  {
+    "test_id": "Q5",
+    "question_type": "rule_reading",
+    "subtype": "deadline",
+    "question": "Sau khi thay đổi nội dung đăng ký, doanh nghiệp phải gửi thông báo trong thời hạn nào?"
+  },
+  {
+    "test_id": "Q6",
+    "question_type": "rule_reading",
+    "subtype": "legal_consequence",
+    "question": "Nếu doanh nghiệp không thông báo thay đổi nội dung đăng ký đúng hạn thì hậu quả pháp lý là gì?"
+  },
+  {
+    "test_id": "Q7",
+    "question_type": "rule_reading",
+    "subtype": "legal_consequence",
+    "question": "Việc nộp thông báo thay đổi đăng ký doanh nghiệp trễ hạn có thể dẫn đến hậu quả gì?"
+  },
+  {
+    "test_id": "Q8",
+    "question_type": "rule_reading",
+    "subtype": "obligation",
+    "question": "Doanh nghiệp có bắt buộc phải cập nhật thông tin đăng ký khi có thay đổi không?"
+  },
+  {
+    "test_id": "Q9",
+    "question_type": "rule_reading",
+    "subtype": "deadline",
+    "question": "Thời hạn thực hiện thủ tục thông báo thay đổi thông tin đăng ký doanh nghiệp được quy định như thế nào?"
+  },
+  {
+    "test_id": "Q10",
+    "question_type": "rule_reading",
+    "subtype": "generic_rule",
+    "question": "Doanh nghiệp cần thực hiện nghĩa vụ pháp lý nào khi thay đổi nội dung đăng ký?"
+  },
+  {
+    "test_id": "Q11",
+    "question_type": "fact_application",
+    "subtype": "conditional",
+    "question": "Công ty tôi đã thay đổi nội dung đăng ký nhưng chưa rõ ngày gửi thông báo, vậy có bị quá hạn không?"
+  },
+  {
+    "test_id": "Q12",
+    "question_type": "fact_application",
+    "subtype": "conditional",
+    "question": "Nếu công ty đã thay đổi thông tin đăng ký nhưng chưa biết ngày nộp thông báo thì có kết luận được vi phạm không?"
+  },
+  {
+    "test_id": "Q13",
+    "question_type": "fact_application",
+    "subtype": "legal_consequence",
+    "question": "Công ty tôi nộp thông báo thay đổi đăng ký sau thời hạn thì có thể bị xử lý như thế nào?"
+  },
+  {
+    "test_id": "Q14",
+    "question_type": "fact_application",
+    "subtype": "conditional",
+    "question": "Nếu doanh nghiệp chưa xác định được ngày phát sinh thay đổi thì có thể kết luận quá hạn thông báo không?"
+  },
+  {
+    "test_id": "Q15",
+    "question_type": "fact_application",
+    "subtype": "legal_consequence",
+    "question": "Công ty không gửi thông báo thay đổi nội dung đăng ký thì có thể bị hậu quả pháp lý gì?"
+  },
+  {
+    "test_id": "Q16",
+    "question_type": "fact_application",
+    "subtype": "conditional",
+    "question": "Doanh nghiệp đã thay đổi nội dung đăng ký nhưng thiếu thông tin về ngày nộp hồ sơ, vậy câu trả lời pháp lý nên kết luận như thế nào?"
+  },
+  {
+    "test_id": "Q17",
+    "question_type": "fact_application",
+    "subtype": "deadline_application",
+    "question": "Công ty thay đổi nội dung đăng ký vào một ngày chưa xác định và nộp thông báo sau đó, vậy cần kiểm tra thông tin gì để biết có quá hạn không?"
+  },
+  {
+    "test_id": "Q18",
+    "question_type": "fact_application",
+    "subtype": "conditional",
+    "question": "Nếu chỉ biết doanh nghiệp đã thay đổi đăng ký nhưng chưa biết thời điểm thông báo, hệ thống có nên kết luận vi phạm ngay không?"
+  },
+  {
+    "test_id": "Q19",
+    "question_type": "fact_application",
+    "subtype": "legal_consequence",
+    "question": "Doanh nghiệp thay đổi nội dung đăng ký nhưng không thông báo thì có thể bị xử lý theo quy định nào?"
+  },
+  {
+    "test_id": "Q20",
+    "question_type": "fact_application",
+    "subtype": "conditional",
+    "question": "Công ty tôi đã thay đổi thông tin đăng ký, nhưng chưa có dữ kiện về ngày thay đổi và ngày thông báo, vậy có thể kết luận gì?"
+  }
+]
