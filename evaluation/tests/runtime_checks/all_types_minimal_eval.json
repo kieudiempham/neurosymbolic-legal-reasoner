@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-23 17:05:40",
+  "generated_at": "2026-04-23 18:51:36",
   "base_url": "http://127.0.0.1:8002",
   "tests": [
     {
@@ -96,7 +96,8 @@
       "missing_facts_has_internal_leak": false,
       "missing_facts_correct_if_needed": false,
       "unsupported_or_reject_error": true,
-      "_error": "HTTPError: 500 Server Error: Internal Server Error for url: http://127.0.0.1:8002/ask"
+      "_error_type": "backend_500_preexisting",
+      "_error": "RuntimeError: HTTP 500 from server: maximum recursion depth exceeded while calling a Python object"
     },
     {
       "test_id": "Q6",
@@ -116,7 +117,8 @@
       "missing_facts_has_internal_leak": false,
       "missing_facts_correct_if_needed": false,
       "unsupported_or_reject_error": true,
-      "_error": "HTTPError: 500 Server Error: Internal Server Error for url: http://127.0.0.1:8002/ask"
+      "_error_type": "backend_500_preexisting",
+      "_error": "RuntimeError: HTTP 500 from server: maximum recursion depth exceeded while calling a Python object"
     },
     {
       "test_id": "Q7",
@@ -155,7 +157,8 @@
       "missing_facts_has_internal_leak": false,
       "missing_facts_correct_if_needed": false,
       "unsupported_or_reject_error": true,
-      "_error": "HTTPError: 500 Server Error: Internal Server Error for url: http://127.0.0.1:8002/ask"
+      "_error_type": "backend_500_preexisting",
+      "_error": "RuntimeError: HTTP 500 from server: maximum recursion depth exceeded while calling a Python object"
     },
     {
       "test_id": "Q9",
@@ -175,7 +178,8 @@
       "missing_facts_has_internal_leak": false,
       "missing_facts_correct_if_needed": false,
       "unsupported_or_reject_error": true,
-      "_error": "HTTPError: 500 Server Error: Internal Server Error for url: http://127.0.0.1:8002/ask"
+      "_error_type": "backend_500_preexisting",
+      "_error": "RuntimeError: HTTP 500 from server: maximum recursion depth exceeded while calling a Python object"
     },
     {
       "test_id": "Q10",
@@ -195,7 +199,8 @@
       "missing_facts_has_internal_leak": false,
       "missing_facts_correct_if_needed": false,
       "unsupported_or_reject_error": true,
-      "_error": "HTTPError: 500 Server Error: Internal Server Error for url: http://127.0.0.1:8002/ask"
+      "_error_type": "backend_500_preexisting",
+      "_error": "RuntimeError: HTTP 500 from server: maximum recursion depth exceeded while calling a Python object"
     },
     {
       "test_id": "Q11",
@@ -215,7 +220,8 @@
       "missing_facts_has_internal_leak": false,
       "missing_facts_correct_if_needed": false,
       "unsupported_or_reject_error": true,
-      "_error": "HTTPError: 500 Server Error: Internal Server Error for url: http://127.0.0.1:8002/ask"
+      "_error_type": "backend_500_preexisting",
+      "_error": "RuntimeError: HTTP 500 from server: maximum recursion depth exceeded while calling a Python object"
     },
     {
       "test_id": "Q12",
@@ -235,17 +241,12 @@
       "missing_facts_has_internal_leak": false,
       "missing_facts_correct_if_needed": false,
       "unsupported_or_reject_error": true,
-      "_error": "HTTPError: 500 Server Error: Internal Server Error for url: http://127.0.0.1:8002/ask"
+      "_error_type": "backend_500_preexisting",
+      "_error": "RuntimeError: HTTP 500 from server: maximum recursion depth exceeded while calling a Python object"
     }
   ],
   "summary": {
-    "rule_reading_pass_count": 2,
-    "rule_reading_total": 9,
-    "rule_reading_pass_ids": [
-      "Q1",
-      "Q4"
-    ],
-    "rule_reading_fail_ids": [
+    "backend_crash_ids": [
       "Q5",
       "Q6",
       "Q8",
@@ -254,6 +255,22 @@
       "Q11",
       "Q12"
     ],
+    "rule_reading_pass_count": 2,
+    "rule_reading_total_non_crash": 2,
+    "rule_reading_crashed_ids": [
+      "Q5",
+      "Q6",
+      "Q8",
+      "Q9",
+      "Q10",
+      "Q11",
+      "Q12"
+    ],
+    "rule_reading_pass_ids": [
+      "Q1",
+      "Q4"
+    ],
+    "rule_reading_logic_fail_ids": [],
     "fact_application_pass": false,
     "hybrid_observation": {
       "Q3": {
@@ -270,20 +287,12 @@
       }
     },
     "table2_criteria_pass_count": 4,
-    "table2_total": 12,
+    "table2_non_crash_total": 5,
     "table1_ready": false,
     "table2_ready": false,
     "blocker_types": [
-      "rule_reading_pass_count=2/9_below_threshold(6)",
-      "Q5_rule_reading_fail",
-      "Q6_rule_reading_fail",
-      "Q8_rule_reading_fail",
-      "Q9_rule_reading_fail",
-      "Q10_rule_reading_fail",
-      "Q11_rule_reading_fail",
-      "Q12_rule_reading_fail",
-      "Q2_fact_application_fail(mode=hybrid,answer_type=A+C,missing_facts=[],internal_leak=False)",
-      "table2_majority_fail(failing=['Q2', 'Q5', 'Q6', 'Q8', 'Q9', 'Q10', 'Q11', 'Q12'])"
+      "backend_500_preexisting(['Q5', 'Q6', 'Q8', 'Q9', 'Q10', 'Q11', 'Q12']): pre-existing recursion bug — not caused by current changes",
+      "Q2_fact_application_fail(mode=hybrid, answer_type=A+C, missing_facts=[], internal_leak=False)"
     ]
   }
 }

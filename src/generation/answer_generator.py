@@ -61,6 +61,26 @@ def _sanitize_conclusion(conclusion: str) -> str:
     return text or "chưa đủ căn cứ để kết luận chắc chắn"
 
 
+def _rule_surface_text(rule: RuleRecord | None) -> str:
+    if rule is None:
+        return ""
+    head = rule.head
+    head_text = f"{head.predicate}({', '.join(str(x) for x in (head.args or []))})"
+    body_preds = [str((x or {}).get("predicate") or "").strip() for x in (rule.body or [])]
+    body_text = ", ".join(p for p in body_preds if p)[:140]
+    md = rule.metadata or {}
+    prov = md.get("provenance") or {}
+    source_ref = str(prov.get("source_ref_full") or prov.get("source_ref") or md.get("source_doc") or "").strip()
+    parts = [f"rule_id={rule.rule_id}", f"head={head_text}"]
+    if rule.logic_form:
+        parts.append(f"logic_form={rule.logic_form}")
+    if body_text:
+        parts.append(f"body={body_text}")
+    if source_ref:
+        parts.append(f"source={source_ref}")
+    return "; ".join(parts)
+
+
 def _build_template_grounded(
     *,
     question: str,
@@ -185,6 +205,7 @@ def generate_answer(
     llm_generate: Callable[..., str] | None = None,
     rule: RuleRecord | None = None,
     missing_facts: list[str] | None = None,
+    question_mode: str | None = None,
 ) -> FinalAnswer:
     """
     Grounded answer: conclusion + proof + evidence; citations chỉ từ evidence/provenance rule.
@@ -198,9 +219,30 @@ def generate_answer(
         # Keep a stable attachment to first-class evidence stage for downstream audit.
         evidence = list(evidence)
 
+    proof_lines = _proof_lines(proof)
+    if rule is not None and not proof_lines:
+        template_mode = "rule_grounded_justification"
+        if question_mode == "rule_reading":
+            template_mode = "rule_reading"
+        elif missing_facts:
+            template_mode = "conditional_legal_answer"
+        fallback = safe_regenerate_final_answer(
+            conclusion,
+            proof=proof,
+            evidence=evidence,
+            rule=rule,
+            goal_achieved=goal_achieved,
+            template_mode=template_mode,
+            question_mode=question_mode,
+            missing_facts=missing_facts,
+        )
+        fallback.extra["proof_mode"] = "justification"
+        fallback.extra["proof_present"] = True
+        return fallback
+
     if mode == "llm_grounded" and llm_generate is not None:
         citations = build_legal_citations_from_evidence(evidence, rule=rule, max_citations=6)
-        plines = _proof_lines(proof)
+        plines = proof_lines
         proof_summary = " ".join(plines) if plines else ((proof.conclusion or proof.derived_conclusion) if proof else "")
         llm_body = _llm_grounded_answer(
             question=question,
@@ -285,17 +327,42 @@ def safe_regenerate_final_answer(
     evidence: list[EvidenceSnippet] | None = None,
     rule: RuleRecord | None = None,
     goal_achieved: bool = True,
+    template_mode: str = "rule_grounded_justification",
+    question_mode: str | None = None,
+    missing_facts: list[str] | None = None,
 ) -> FinalAnswer:
     """Shorter template when verification rejects — vẫn grounded, giữ citation package."""
     ev = evidence or []
     citations = build_legal_citations_from_evidence(ev, rule=rule, max_citations=5)
-    ps = " ".join(_proof_lines(proof, max_steps=3)) if proof else ""
+    proof_lines = _proof_lines(proof, max_steps=3) if proof else []
+    ps = " ".join(proof_lines) if proof_lines else ""
+    rule_text = _rule_surface_text(rule)
+    proof_mode = "forward" if proof_lines else "justification"
+    fallback_mode = template_mode or "rule_grounded_justification"
+    if not ps and rule_text:
+        ps = rule_text
     opening = "Kính gửi,"
     issue = "Vấn đề pháp lý: xác định quyền/nghĩa vụ theo dữ kiện đã cung cấp."
-    core = f"Quy tắc trọng tâm: {conclusion}."
-    tail = ""
-    if ps:
-        tail += f" Cơ sở luận giải rút gọn: {ps[:280]}"
+    missing_bits = [str(f).strip() for f in (missing_facts or []) if str(f or "").strip()]
+    if fallback_mode == "rule_reading":
+        core = f"Quy tắc pháp lý trọng tâm: {rule_text or conclusion}."
+        tail = f"Cơ sở quy tắc rút gọn: {ps[:280]}" if ps else "Cơ sở quy tắc rút gọn: quy tắc đã chọn là nền tảng trả lời trực tiếp cho câu hỏi này."
+        conclusion_line = f"Về nguyên tắc, kết luận: {conclusion}."
+    elif fallback_mode == "conditional_legal_answer":
+        core = f"Quy tắc pháp lý trọng tâm: {rule_text or conclusion}."
+        if missing_bits:
+            missing_text = "; ".join(missing_bits[:3])
+            tail = f"Cơ sở luận giải có điều kiện: {(ps[:280] if ps else 'quy tắc đã chọn')}; cần xác nhận thêm: {missing_text}."
+            conclusion_line = (
+                f"Về nguyên tắc, kết luận có điều kiện: {conclusion}. "
+                f"Khi xác nhận được các dữ kiện còn thiếu ({missing_text}), có thể chốt kết luận chắc chắn hơn."
+            )
+        else:
+            tail = f"Cơ sở luận giải có điều kiện: {(ps[:280] if ps else 'quy tắc đã chọn')}; cần xác nhận thêm dữ kiện thực tế."
+            conclusion_line = f"Về nguyên tắc, kết luận có điều kiện: {conclusion}."
+    else:
+        core = f"Quy tắc trọng tâm: {rule_text or conclusion}."
+        tail = f" Cơ sở luận giải rút gọn: {ps[:280]}" if ps else " Cơ sở luận giải rút gọn: cần đối chiếu thêm dữ kiện để áp dụng chính xác."
     cite_bits = []
     for c in citations[:2]:
         if c.display_label.strip():
@@ -303,7 +370,6 @@ def safe_regenerate_final_answer(
     if cite_bits:
         tail += " Tham chiếu: " + ", ".join(cite_bits) + "."
     application = f"Áp dụng: {tail.strip() or 'cần đối chiếu thêm dữ kiện để áp dụng chính xác.'}"
-    conclusion_line = f"Về nguyên tắc, kết luận: {conclusion}."
     answer_text = (
         f"{opening}\n\n"
         f"1) {issue}\n"
@@ -334,6 +400,14 @@ def safe_regenerate_final_answer(
         legal_citations=citations,
         citation_spans=spans,
         answer_sections=sections,
+        extra={
+            "proof_mode": proof_mode,
+            "proof_present": bool(proof_lines or rule_text),
+            "grounded_rule_id": rule.rule_id if rule else None,
+            "rule_text": rule_text or None,
+            "fallback_mode": fallback_mode,
+            "question_mode": question_mode,
+        },
     )
 
 

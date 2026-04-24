@@ -1331,6 +1331,26 @@ def gate_forward_reasoning(
             out.ok = True
             return out
 
+    fail_key = str(fail_reason or "").strip().lower()
+    if selected is not None and v_fwd.final_decision == "REJECT":
+        out.trace.append(
+            {
+                "stage": "forward_gate_selected_rule_soft_repair",
+                "triggered": True,
+                "original_final_decision": "REJECT",
+                "relaxed_final_decision": "REPAIR",
+                "reason": "selected_rule_grounded_missing_input_relaxation",
+                "failure_reason": fail_reason,
+                "selected_rule_id": selected.rule_id,
+            }
+        )
+        v_fwd.final_decision = "REPAIR"
+        if hasattr(v_fwd, "decision"):
+            v_fwd.decision = "REPAIR"
+        v_fwd.repair_applied = True
+        out.ok = True
+        return out
+
     fail_rule = selected
     if fst and fst.forward_result and fst.forward_result.get("rule_id"):
         by_id = {r.rule_id: r for r, _, _ in ranked}

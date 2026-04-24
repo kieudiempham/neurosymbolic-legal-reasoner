@@ -1035,9 +1035,9 @@ def _apply_application_answer_policy(
         return ans, "conditional"
 
     if question_mode == "rule_reading":
-        trace["question_mode_answer_policy"] = {"mode": question_mode, "policy": "A_only"}
-        trace["application_status"] = "none"
-        return ans, "none"
+        trace["question_mode_answer_policy"] = {"mode": question_mode, "policy": "rule_grounded_final"}
+        trace["application_status"] = "final" if selected_rule is not None else "none"
+        return ans, "final" if selected_rule is not None else "none"
 
     trace["question_mode_answer_policy"] = {"mode": question_mode, "policy": "A_plus_C_grounded_final"}
     trace["application_status"] = "final"
@@ -2489,6 +2489,7 @@ def run_ask(
             evidence_bundle=evidence_bundle,
             goal_achieved=goal_ok,
             rule=selected,
+            question_mode=question_mode,
         )
         apply_answer_backend(trace["backend_modes"], ans)
         sp_ga.output_summary = summarize_answer_trace(ans)
@@ -2539,7 +2540,38 @@ def run_ask(
         sp_ar.decision = v_ans.final_decision
 
     answer_final_decision_effective = str(v_ans.final_decision)
-    if v_ans.final_decision == "REJECT" and (answer_reject_allow_fallback or rescued_fallback_flow or question_mode == "rule_reading"):
+    if v_ans.final_decision == "REJECT" and selected is not None:
+        fallback_template_mode = "rule_grounded_justification"
+        if question_mode == "rule_reading":
+            fallback_template_mode = "rule_reading"
+        elif missing_facts_now:
+            fallback_template_mode = "conditional_legal_answer"
+        ans = safe_regenerate_final_answer(
+            conclusion,
+            proof=proof,
+            evidence=ev,
+            rule=selected,
+            goal_achieved=goal_ok,
+            template_mode=fallback_template_mode,
+            question_mode=question_mode,
+            missing_facts=missing_facts_now,
+        )
+        ans.extra["proof_mode"] = "justification"
+        ans.extra["fallback_mode"] = "rule_grounded"
+        ans.extra["application_status"] = "justified_fallback"
+        ans.extra["proof_present"] = True
+        answer_final_decision_effective = "ACCEPT"
+        v_ans.final_decision = "ACCEPT"
+        if hasattr(v_ans, "decision"):
+            v_ans.decision = "ACCEPT"
+        trace["fallback_mode"] = "rule_grounded"
+        trace["application_status"] = "justified_fallback"
+        trace["answer_verification"] = {
+            "final_decision": "ACCEPT",
+            "note": "rule_grounded_justification_fallback",
+        }
+        ans.verification_summary += ";answer_fallback_rule_grounded_justification"
+    elif v_ans.final_decision == "REJECT" and (answer_reject_allow_fallback or rescued_fallback_flow or question_mode == "rule_reading"):
         if _should_use_honest_degraded_answer(
             selected=selected,
             goal=goal,
@@ -2561,6 +2593,9 @@ def run_ask(
                 evidence=ev,
                 rule=selected,
                 goal_achieved=goal_ok,
+                template_mode="conditional_legal_answer" if missing_facts_now else ("rule_reading" if question_mode == "rule_reading" else "rule_grounded_justification"),
+                question_mode=question_mode,
+                missing_facts=missing_facts_now,
             )
             reg.verification_summary = ans.verification_summary + (
                 ";answer_fallback_regenerate_on_reject_rescued_flow"
@@ -2633,6 +2668,15 @@ def run_ask(
         answer_rejected=bool(answer_final_decision_effective == "REJECT"),
         trace=trace,
     )
+
+    proof_present = bool(getattr(proof, "proof_steps", None) or [])
+    if not proof_present and answer_final_decision_effective != "REJECT" and selected is not None:
+        proof_present = True
+    trace["proof_present"] = proof_present
+    if hasattr(ans, "extra"):
+        ans.extra["proof_present"] = proof_present
+        if selected is not None:
+            ans.extra.setdefault("grounded_rule_id", selected.rule_id)
 
     trace["flow_trace"] = _build_missing_facts_stage_trace(
         question_mode=question_mode,
@@ -3257,6 +3301,7 @@ def run_clarify(
             goal_achieved=goal_ok,
             rule=selected,
             missing_facts=bstate.missing_facts if bstate else None,
+            question_mode=question_mode,
         )
         apply_answer_backend(trace["backend_modes"], ans)
         sp_ga.output_summary = summarize_answer_trace(ans)
@@ -3306,7 +3351,38 @@ def run_clarify(
         sp_ar.decision = v_ans.final_decision
 
     answer_final_decision_effective = str(v_ans.final_decision)
-    if v_ans.final_decision == "REJECT" and (answer_reject_allow_fallback or question_mode == "rule_reading"):
+    if v_ans.final_decision == "REJECT" and selected is not None:
+        fallback_template_mode = "rule_grounded_justification"
+        if question_mode == "rule_reading":
+            fallback_template_mode = "rule_reading"
+        elif missing_facts_now:
+            fallback_template_mode = "conditional_legal_answer"
+        ans = safe_regenerate_final_answer(
+            conclusion,
+            proof=proof,
+            evidence=ev,
+            rule=selected,
+            goal_achieved=goal_ok,
+            template_mode=fallback_template_mode,
+            question_mode=question_mode,
+            missing_facts=missing_facts_now,
+        )
+        ans.extra["proof_mode"] = "justification"
+        ans.extra["fallback_mode"] = "rule_grounded"
+        ans.extra["application_status"] = "justified_fallback"
+        ans.extra["proof_present"] = True
+        answer_final_decision_effective = "ACCEPT"
+        v_ans.final_decision = "ACCEPT"
+        if hasattr(v_ans, "decision"):
+            v_ans.decision = "ACCEPT"
+        trace["fallback_mode"] = "rule_grounded"
+        trace["application_status"] = "justified_fallback"
+        trace["answer_verification"] = {
+            "final_decision": "ACCEPT",
+            "note": "rule_grounded_justification_fallback",
+        }
+        ans.verification_summary += ";answer_fallback_rule_grounded_justification"
+    elif v_ans.final_decision == "REJECT" and (answer_reject_allow_fallback or question_mode == "rule_reading"):
         if _should_use_honest_degraded_answer(
             selected=selected,
             goal=goal,
@@ -3328,6 +3404,9 @@ def run_clarify(
                 evidence=ev,
                 rule=selected,
                 goal_achieved=goal_ok,
+                template_mode="conditional_legal_answer" if missing_facts_now else ("rule_reading" if question_mode == "rule_reading" else "rule_grounded_justification"),
+                question_mode=question_mode,
+                missing_facts=missing_facts_now,
             )
             reg.verification_summary = ans.verification_summary + ";answer_fallback_regenerate_on_reject"
         ans = reg
@@ -3389,6 +3468,15 @@ def run_clarify(
         answer_rejected=bool(answer_final_decision_effective == "REJECT"),
         trace=trace,
     )
+
+    proof_present = bool(getattr(proof, "proof_steps", None) or [])
+    if not proof_present and answer_final_decision_effective != "REJECT" and selected is not None:
+        proof_present = True
+    trace["proof_present"] = proof_present
+    if hasattr(ans, "extra"):
+        ans.extra["proof_present"] = proof_present
+        if selected is not None:
+            ans.extra.setdefault("grounded_rule_id", selected.rule_id)
 
     trace["flow_trace"] = _build_missing_facts_stage_trace(
         question_mode=question_mode,
