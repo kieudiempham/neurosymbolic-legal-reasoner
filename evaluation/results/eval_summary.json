@@ -1,0 +1,430 @@
+{
+  "generated_at": "2026-04-29",
+  "note": "Baseline only. NeSy system results will be added after run_batch_eval.py completes.",
+  "models": {
+    "gpt41_direct": {
+      "source_file": "baseline/baseline_gpt41_direct_scored.jsonl",
+      "n": 290,
+      "config": {
+        "model": "gpt-4.1",
+        "temperature": 0.2,
+        "max_tokens": 700,
+        "mode": "direct"
+      },
+      "overall": {
+        "irac": {
+          "I": 0.3533,
+          "R": 0.3466,
+          "A": 0.3537,
+          "C": 0.357,
+          "L": 0.5034,
+          "score": 0.359
+        },
+        "table2": {
+          "grounded_rate_pct": 18.3,
+          "proof_present_rate_pct": 0.0,
+          "verification_success_rate_pct": 0.0,
+          "hallucination_rate_pct": 33.4,
+          "missing_fact_correct_pct": 23.1,
+          "missing_fact_correct_n": 91
+        }
+      },
+      "by_domain": {
+        "bhxh": {
+          "irac": {
+            "I": 0.3457,
+            "R": 0.3509,
+            "A": 0.3523,
+            "C": 0.3418,
+            "L": 0.4044,
+            "score": 0.3527
+          },
+          "table2": {
+            "grounded_rate_pct": 15.6,
+            "proof_present_rate_pct": 0.0,
+            "verification_success_rate_pct": 0.0,
+            "hallucination_rate_pct": 33.3,
+            "missing_fact_correct_pct": 10.7,
+            "missing_fact_correct_n": 28
+          },
+          "n": 90
+        },
+        "doanh_nghiep": {
+          "irac": {
+            "I": 0.3603,
+            "R": 0.3487,
+            "A": 0.3546,
+            "C": 0.3597,
+            "L": 0.5657,
+            "score": 0.3642
+          },
+          "table2": {
+            "grounded_rate_pct": 24.3,
+            "proof_present_rate_pct": 0.0,
+            "verification_success_rate_pct": 0.0,
+            "hallucination_rate_pct": 40.0,
+            "missing_fact_correct_pct": 0.0,
+            "missing_fact_correct_n": 1
+          },
+          "n": 70
+        },
+        "lien_nganh": {
+          "irac": {
+            "I": 0.3691,
+            "R": 0.353,
+            "A": 0.3373,
+            "C": 0.3666,
+            "L": 0.6267,
+            "score": 0.3633
+          },
+          "table2": {
+            "grounded_rate_pct": 25.0,
+            "proof_present_rate_pct": 0.0,
+            "verification_success_rate_pct": 0.0,
+            "hallucination_rate_pct": 31.7,
+            "missing_fact_correct_pct": 26.7,
+            "missing_fact_correct_n": 60
+          },
+          "n": 60
+        },
+        "thue": {
+          "irac": {
+            "I": 0.3425,
+            "R": 0.3337,
+            "A": 0.3686,
+            "C": 0.3656,
+            "L": 0.4629,
+            "score": 0.3582
+          },
+          "table2": {
+            "grounded_rate_pct": 10.0,
+            "proof_present_rate_pct": 0.0,
+            "verification_success_rate_pct": 0.0,
+            "hallucination_rate_pct": 28.6,
+            "missing_fact_correct_pct": 100.0,
+            "missing_fact_correct_n": 2
+          },
+          "n": 70
+        }
+      },
+      "by_question_group": {
+        "cross_domain": {
+          "irac": {
+            "I": 0.3691,
+            "R": 0.353,
+            "A": 0.3373,
+            "C": 0.3666,
+            "L": 0.6267,
+            "score": 0.3633
+          },
+          "table2": {
+            "grounded_rate_pct": 25.0,
+            "proof_present_rate_pct": 0.0,
+            "verification_success_rate_pct": 0.0,
+            "hallucination_rate_pct": 31.7,
+            "missing_fact_correct_pct": 26.7,
+            "missing_fact_correct_n": 60
+          },
+          "n": 60
+        },
+        "definition": {
+          "irac": {
+            "I": 0.3365,
+            "R": 0.3405,
+            "A": 0.3685,
+            "C": 0.358,
+            "L": 0.4526,
+            "score": 0.3587
+          },
+          "table2": {
+            "grounded_rate_pct": 19.3,
+            "proof_present_rate_pct": 0.0,
+            "verification_success_rate_pct": 0.0,
+            "hallucination_rate_pct": 40.4,
+            "missing_fact_correct_pct": 33.3,
+            "missing_fact_correct_n": 3
+          },
+          "n": 57
+        },
+        "factual": {
+          "irac": {
+            "I": 0.3544,
+            "R": 0.3388,
+            "A": 0.3752,
+            "C": 0.3505,
+            "L": 0.4667,
+            "score": 0.3625
+          },
+          "table2": {
+            "grounded_rate_pct": 20.0,
+            "proof_present_rate_pct": 0.0,
+            "verification_success_rate_pct": 0.0,
+            "hallucination_rate_pct": 31.7,
+            "missing_fact_correct_pct": 12.5,
+            "missing_fact_correct_n": 8
+          },
+          "n": 60
+        },
+        "procedure": {
+          "irac": {
+            "I": 0.3608,
+            "R": 0.3384,
+            "A": 0.346,
+            "C": 0.362,
+            "L": 0.4621,
+            "score": 0.3522
+          },
+          "table2": {
+            "grounded_rate_pct": 10.3,
+            "proof_present_rate_pct": 0.0,
+            "verification_success_rate_pct": 0.0,
+            "hallucination_rate_pct": 34.5,
+            "missing_fact_correct_pct": 0.0,
+            "missing_fact_correct_n": 0
+          },
+          "n": 58
+        },
+        "reasoning": {
+          "irac": {
+            "I": 0.3444,
+            "R": 0.3632,
+            "A": 0.3408,
+            "C": 0.3473,
+            "L": 0.5055,
+            "score": 0.3579
+          },
+          "table2": {
+            "grounded_rate_pct": 16.4,
+            "proof_present_rate_pct": 0.0,
+            "verification_success_rate_pct": 0.0,
+            "hallucination_rate_pct": 29.1,
+            "missing_fact_correct_pct": 15.0,
+            "missing_fact_correct_n": 20
+          },
+          "n": 55
+        }
+      }
+    },
+    "gpt41_rag": {
+      "source_file": "baseline/baseline_gpt41_rag_scored.jsonl",
+      "n": 290,
+      "config": {
+        "model": "gpt-4.1",
+        "temperature": 0.2,
+        "max_tokens": 700,
+        "mode": "rag_oracle"
+      },
+      "overall": {
+        "irac": {
+          "I": 0.4425,
+          "R": 0.4491,
+          "A": 0.4444,
+          "C": 0.4491,
+          "L": 1.0,
+          "score": 0.4741
+        },
+        "table2": {
+          "grounded_rate_pct": 60.7,
+          "proof_present_rate_pct": 0.0,
+          "verification_success_rate_pct": 0.0,
+          "hallucination_rate_pct": 23.4,
+          "missing_fact_correct_pct": 25.3,
+          "missing_fact_correct_n": 91
+        }
+      },
+      "by_domain": {
+        "bhxh": {
+          "irac": {
+            "I": 0.4308,
+            "R": 0.4324,
+            "A": 0.4383,
+            "C": 0.4388,
+            "L": 1.0,
+            "score": 0.4636
+          },
+          "table2": {
+            "grounded_rate_pct": 53.3,
+            "proof_present_rate_pct": 0.0,
+            "verification_success_rate_pct": 0.0,
+            "hallucination_rate_pct": 21.1,
+            "missing_fact_correct_pct": 21.4,
+            "missing_fact_correct_n": 28
+          },
+          "n": 90
+        },
+        "doanh_nghiep": {
+          "irac": {
+            "I": 0.4459,
+            "R": 0.4609,
+            "A": 0.4553,
+            "C": 0.4487,
+            "L": 1.0,
+            "score": 0.4829
+          },
+          "table2": {
+            "grounded_rate_pct": 68.6,
+            "proof_present_rate_pct": 0.0,
+            "verification_success_rate_pct": 0.0,
+            "hallucination_rate_pct": 24.3,
+            "missing_fact_correct_pct": 100.0,
+            "missing_fact_correct_n": 1
+          },
+          "n": 70
+        },
+        "lien_nganh": {
+          "irac": {
+            "I": 0.4549,
+            "R": 0.4663,
+            "A": 0.4268,
+            "C": 0.4476,
+            "L": 1.0,
+            "score": 0.4742
+          },
+          "table2": {
+            "grounded_rate_pct": 63.3,
+            "proof_present_rate_pct": 0.0,
+            "verification_success_rate_pct": 0.0,
+            "hallucination_rate_pct": 16.7,
+            "missing_fact_correct_pct": 26.7,
+            "missing_fact_correct_n": 60
+          },
+          "n": 60
+        },
+        "thue": {
+          "irac": {
+            "I": 0.4435,
+            "R": 0.4441,
+            "A": 0.4564,
+            "C": 0.464,
+            "L": 1.0,
+            "score": 0.4787
+          },
+          "table2": {
+            "grounded_rate_pct": 60.0,
+            "proof_present_rate_pct": 0.0,
+            "verification_success_rate_pct": 0.0,
+            "hallucination_rate_pct": 31.4,
+            "missing_fact_correct_pct": 0.0,
+            "missing_fact_correct_n": 2
+          },
+          "n": 70
+        }
+      },
+      "by_question_group": {
+        "cross_domain": {
+          "irac": {
+            "I": 0.4549,
+            "R": 0.4663,
+            "A": 0.4268,
+            "C": 0.4476,
+            "L": 1.0,
+            "score": 0.4742
+          },
+          "table2": {
+            "grounded_rate_pct": 63.3,
+            "proof_present_rate_pct": 0.0,
+            "verification_success_rate_pct": 0.0,
+            "hallucination_rate_pct": 16.7,
+            "missing_fact_correct_pct": 26.7,
+            "missing_fact_correct_n": 60
+          },
+          "n": 60
+        },
+        "definition": {
+          "irac": {
+            "I": 0.4345,
+            "R": 0.4272,
+            "A": 0.4658,
+            "C": 0.4564,
+            "L": 1.0,
+            "score": 0.475
+          },
+          "table2": {
+            "grounded_rate_pct": 66.7,
+            "proof_present_rate_pct": 0.0,
+            "verification_success_rate_pct": 0.0,
+            "hallucination_rate_pct": 26.3,
+            "missing_fact_correct_pct": 33.3,
+            "missing_fact_correct_n": 3
+          },
+          "n": 57
+        },
+        "factual": {
+          "irac": {
+            "I": 0.4238,
+            "R": 0.4599,
+            "A": 0.4434,
+            "C": 0.4388,
+            "L": 1.0,
+            "score": 0.4745
+          },
+          "table2": {
+            "grounded_rate_pct": 50.0,
+            "proof_present_rate_pct": 0.0,
+            "verification_success_rate_pct": 0.0,
+            "hallucination_rate_pct": 30.0,
+            "missing_fact_correct_pct": 12.5,
+            "missing_fact_correct_n": 8
+          },
+          "n": 60
+        },
+        "procedure": {
+          "irac": {
+            "I": 0.4572,
+            "R": 0.44,
+            "A": 0.4206,
+            "C": 0.4487,
+            "L": 1.0,
+            "score": 0.4629
+          },
+          "table2": {
+            "grounded_rate_pct": 65.5,
+            "proof_present_rate_pct": 0.0,
+            "verification_success_rate_pct": 0.0,
+            "hallucination_rate_pct": 27.6,
+            "missing_fact_correct_pct": 0.0,
+            "missing_fact_correct_n": 0
+          },
+          "n": 58
+        },
+        "reasoning": {
+          "irac": {
+            "I": 0.4422,
+            "R": 0.4509,
+            "A": 0.4677,
+            "C": 0.4547,
+            "L": 1.0,
+            "score": 0.4846
+          },
+          "table2": {
+            "grounded_rate_pct": 58.2,
+            "proof_present_rate_pct": 0.0,
+            "verification_success_rate_pct": 0.0,
+            "hallucination_rate_pct": 16.4,
+            "missing_fact_correct_pct": 25.0,
+            "missing_fact_correct_n": 20
+          },
+          "n": 55
+        }
+      }
+    }
+  },
+  "comparison": {
+    "irac_score": {
+      "gpt41_direct": 0.359,
+      "gpt41_rag": 0.4741
+    },
+    "grounded_rate_pct": {
+      "gpt41_direct": 18.3,
+      "gpt41_rag": 60.7
+    },
+    "hallucination_rate_pct": {
+      "gpt41_direct": 33.4,
+      "gpt41_rag": 23.4
+    },
+    "missing_fact_correct_pct": {
+      "gpt41_direct": 23.1,
+      "gpt41_rag": 25.3
+    }
+  }
+}

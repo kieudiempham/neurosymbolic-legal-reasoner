@@ -138,6 +138,7 @@ class LawRulebasePipeline:
         documents: list[LegalDocument] = loader.load_documents(
             self._config.input_dir,
             self._config.doc_files,
+            domain=domain_ns,
         )
         self._log.info("Loaded %d documents", len(documents))
 

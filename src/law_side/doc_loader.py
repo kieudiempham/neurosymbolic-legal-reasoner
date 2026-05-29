@@ -21,14 +21,14 @@ class DocLoader:
         self._converter = DocToTextConverter(config=self._config.get("doc_to_text", {}))
         self._log = get_logger(self.__class__.__name__)
 
-    def load_documents(self, doc_dir: Path, doc_files: list[str]) -> list[LegalDocument]:
+    def load_documents(self, doc_dir: Path, doc_files: list[str], domain: str = "") -> list[LegalDocument]:
         """Load documents in the given order."""
         docs: list[LegalDocument] = []
         for fname in doc_files:
             doc_path = doc_dir / fname
             raw_text, cleaned_text = self._converter.convert(doc_path)
 
-            meta = self._parse_metadata_from_filename(fname, cleaned_text)
+            meta = self._parse_metadata_from_filename(fname, cleaned_text, domain)
             docs.append(
                 LegalDocument(
                     raw_text=raw_text,
@@ -38,7 +38,7 @@ class DocLoader:
             )
         return docs
 
-    def _parse_metadata_from_filename(self, filename: str, cleaned_text: str) -> dict[str, Any]:
+    def _parse_metadata_from_filename(self, filename: str, cleaned_text: str, domain: str = "") -> dict[str, Any]:
         stem = Path(filename).stem
         parts = stem.split("_")
         filename_key = filename.lower()
@@ -86,7 +86,19 @@ class DocLoader:
         }
 
         # Defaults for unknown filenames.
-        doc_id = f"DOC_{parts[0]}" if parts and parts[0].isdigit() else stem
+        # Create domain-prefixed doc_id to avoid conflicts between domains
+        if parts and parts[0].isdigit():
+            doc_num = parts[0]
+            if domain and domain.lower() in ["labor", "lao_dong"]:
+                doc_id = f"DOC_LABOR_{doc_num}"
+            elif domain and domain.lower() in ["tax", "thue"]:
+                doc_id = f"DOC_TAX_{doc_num}"
+            elif domain and domain.lower() in ["enterprise", "doanh_nghiep"]:
+                doc_id = f"DOC_ENTERPRISE_{doc_num}"
+            else:
+                doc_id = f"DOC_{doc_num}"
+        else:
+            doc_id = stem
         doc_code = "_".join(parts[1:]) if len(parts) >= 2 else stem
         doc_title = stem.replace("_", " ")
         doc_type = "decree" if "nghi_dinh" in filename_key else "law" if "luat" in filename_key else ""

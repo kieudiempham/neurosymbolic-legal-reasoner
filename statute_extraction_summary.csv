@@ -1,0 +1,13 @@
+Metric,Quantity,Notes
+Total Documents,18,18 documents from 3 domains
+"(Doc, Chapter) Pairs",107,"Chapter I in Doc A = (Doc_A, I), Chapter I in Doc B = (Doc_B, I) = 2 pairs"
+"(Doc, Article) Pairs",1160,"Article 1 in Doc A = (Doc_A, 1), Article 1 in Doc B = (Doc_B, 1) = 2 pairs"
+"(Doc, Article, Clause) TRIPLES - CORRECT!",4417,"✓ CORRECT: (DocA, Article2, Clause1) ≠ (DocA, Article3, Clause1)"
+"(Doc, Article, Clause, Point) QUADS - CORRECT!",4167,"✓ CORRECT: (DocA, Article2, Clause1, a) ≠ (DocA, Article2, Clause1, b)"
+Chapters Unique Values,17,"Unique chapters (I, II, III, ...)"
+Articles Unique Values,282,"Unique article numbers (1, 2, 3, ...282)"
+Clauses Unique Values,40,"Unique clause numbers (1, 2, 3, ...40)"
+Points Unique Values,21,"Unique point letters (a, b, c, ...đ)"
+Articles (Domain Sum),500,220 (Labor) + 62 (Tax) + 218 (Enterprise)
+Clauses (Domain Sum),98,24 (Labor) + 40 (Tax) + 34 (Enterprise)
+Points (Domain Sum),50,13 (Labor) + 21 (Tax) + 16 (Enterprise)

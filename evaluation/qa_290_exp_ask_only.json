@@ -1,0 +1,1778 @@
+{
+  "metadata": {
+    "name": "qa_290_bhxh_doanhnghiep_thue",
+    "source_file": "qa_290_bhxh_doanhnghiep_thue.xlsx",
+    "created_at": "2026-04-29",
+    "num_cases": 290,
+    "domains": {
+      "bhxh": 90,
+      "doanh_nghiep": 70,
+      "thue": 70,
+      "lien_nganh": 60
+    },
+    "question_groups": {
+      "definition": 57,
+      "procedure": 58,
+      "reasoning": 55,
+      "factual": 60,
+      "cross_domain": 60
+    },
+    "schema_version": "exp_qa_v1",
+    "fields": {
+      "id": "Mã câu hỏi",
+      "source_row": "Excel row number",
+      "index": "STT tổng",
+      "domain": "Lĩnh vực",
+      "question_group": "Nhóm câu hỏi",
+      "question": "Câu hỏi",
+      "gold_answer": "Câu trả lời tham chiếu",
+      "legal_source": "Tên luật + số hiệu",
+      "legal_reference": "Điều/khoản tham chiếu",
+      "evidence_text": "Nội dung trích dẫn từ văn bản",
+      "baseline_outputs": "Các cột output ChatGPT/ChatGPT+RAG/NeSy AI nếu đã có",
+      "verifiability_labels": "Các cột Grounded/Proof/Verification/Missing fact nếu đã có"
+    }
+  },
+  "cases": [
+    {
+      "id": "BHXH-001",
+      "domain": "bhxh",
+      "question_group": "definition",
+      "question": "Xin hỏi luật sư, tôi thường nghe nói đến bảo hiểm xã hội bắt buộc. Vậy cụ thể BHXH bắt buộc là gì? BHXH bắt buộc có khác gì so với người dân tự đi đóng BHXH không?"
+    },
+    {
+      "id": "BHXH-002",
+      "domain": "bhxh",
+      "question_group": "definition",
+      "question": "Tôi muốn hỏi những ai thì thuộc diện phải tham gia BHXH bắt buộc theo luật mới?"
+    },
+    {
+      "id": "BHXH-003",
+      "domain": "bhxh",
+      "question_group": "definition",
+      "question": "Tôi mới đi làm và ký hợp đồng ngắn hạn. Xin hỏi hợp đồng lao động phải từ mấy tháng trở lên thì mới thuộc diện đóng BHXH bắt buộc?"
+    },
+    {
+      "id": "BHXH-004",
+      "domain": "bhxh",
+      "question_group": "definition",
+      "question": "Tôi làm việc thời vụ chưa tới 01 tháng, công ty bảo chưa phải đóng BHXH. Như vậy có đúng không?"
+    },
+    {
+      "id": "BHXH-005",
+      "domain": "bhxh",
+      "question_group": "definition",
+      "question": "Tôi làm bán thời gian cho một công ty, tháng nào cũng có lương nhưng không làm đủ 8 tiếng/ngày. Trường hợp làm part-time như tôi có phải đóng BHXH bắt buộc không?"
+    },
+    {
+      "id": "BHXH-006",
+      "domain": "bhxh",
+      "question_group": "definition",
+      "question": "Tôi đang trong thời gian thử việc, chưa ký hợp đồng lao động chính thức. Vậy thời gian thử việc có phải đóng BHXH bắt buộc không?"
+    },
+    {
+      "id": "BHXH-007",
+      "domain": "bhxh",
+      "question_group": "definition",
+      "question": "Tôi ký hợp đồng cộng tác viên, bên công ty có trả tiền cho tôi theo tháng. Xin hỏi người làm cộng tác viên như tôi có bắt buộc phải đóng BHXH không?"
+    },
+    {
+      "id": "BHXH-008",
+      "domain": "bhxh",
+      "question_group": "definition",
+      "question": "Tôi thấy có trường hợp giám đốc, người quản lý công ty vẫn phải đóng BHXH. Tôi xin hỏi người quản lý doanh nghiệp có hưởng tiền lương được hiểu thế nào?"
+    },
+    {
+      "id": "BHXH-009",
+      "domain": "bhxh",
+      "question_group": "definition",
+      "question": "Tôi đứng tên quản lý công ty gia đình nhưng thực tế không nhận lương hằng tháng. Trường hợp như vậy có còn là đối tượng đóng BHXH bắt buộc không?"
+    },
+    {
+      "id": "BHXH-010",
+      "domain": "bhxh",
+      "question_group": "definition",
+      "question": "Tôi làm cùng lúc 2 công ty. Xin hỏi trong trường hợp người lao động ký nhiều hợp đồng lao động một lúc thì pháp luật sẽ xử lý việc tham gia BHXH bắt buộc như thế nào?"
+    },
+    {
+      "id": "BHXH-011",
+      "domain": "bhxh",
+      "question_group": "definition",
+      "question": "Tôi thấy trên bảng lương có rất nhiều khoản khác nhau. Xin hỏi vậy tiền lương dùng làm căn cứ đóng BHXH bắt buộc là khoản nào trong bảng lượng?"
+    },
+    {
+      "id": "BHXH-012",
+      "domain": "bhxh",
+      "question_group": "definition",
+      "question": "Công ty tôi có thưởng theo doanh số và thưởng thêm vào các dịp lễ, Tết. Các khoản thưởng này có tính vào việc đóng BHXH bắt buộc không?"
+    },
+    {
+      "id": "BHXH-013",
+      "domain": "bhxh",
+      "question_group": "definition",
+      "question": "Ngoài lương chính, tôi còn có phụ cấp trách nhiệm và phụ cấp chức vụ. Vậy phụ cấp có phải tính vào tiền lương đóng BHXH không?"
+    },
+    {
+      "id": "BHXH-014",
+      "domain": "bhxh",
+      "question_group": "definition",
+      "question": "Nếu tôi xin nghỉ không lương một thời gian thì trong thời gian đó tôi có còn bị tính là người đang tham gia BHXH bắt buộc không?"
+    },
+    {
+      "id": "BHXH-015",
+      "domain": "bhxh",
+      "question_group": "definition",
+      "question": "Tôi nghe công ty nói việc tạm hoãn hợp đồng khác với nghỉ việc hẳn. Vậy cho tôi hỏi nhận định này có đúng không? Về mặt BHXH thì tạm hoãn hợp đồng được hiểu thế nào?"
+    },
+    {
+      "id": "BHXH-016",
+      "domain": "bhxh",
+      "question_group": "definition",
+      "question": "Tôi đã nghỉ việc ở công ty cũ. Xin hỏi nghĩa vụ đóng BHXH bắt buộc của tôi được xem là chấm dứt từ thời điểm nào?"
+    },
+    {
+      "id": "BHXH-017",
+      "domain": "bhxh",
+      "question_group": "definition",
+      "question": "Nếu tôi không còn làm công ty nữa thì có thể chuyển sang đóng BHXH tự nguyện không? BHXH tự nguyện được hiểu thế nào?"
+    },
+    {
+      "id": "BHXH-018",
+      "domain": "bhxh",
+      "question_group": "definition",
+      "question": "Tôi thấy ai đi làm cũng nhắc tới sổ BHXH. Xin hỏi sổ BHXH có ý nghĩa gì đối với quyền lợi của người lao động?"
+    },
+    {
+      "id": "BHXH-019",
+      "domain": "bhxh",
+      "question_group": "definition",
+      "question": "Tôi đọc luật BHXH thấy có nhắc đến mức tham chiếu mà chưa hiểu rõ. Xin hỏi mức tham chiếu trong BHXH dùng để làm gì?"
+    },
+    {
+      "id": "BHXH-020",
+      "domain": "bhxh",
+      "question_group": "definition",
+      "question": "Lương tôi hiện tại khá cao vậy tôi có bị khống chế mức tối đa khi đóng BHXH không?"
+    },
+    {
+      "id": "BHXH-021",
+      "domain": "bhxh",
+      "question_group": "definition",
+      "question": "Tôi muốn tự tìm hiểu trước khi hỏi luật sư. Xin hỏi muốn xem quy định về BHXH bắt buộc thì nên tra những văn bản nào?"
+    },
+    {
+      "id": "BHXH-022",
+      "domain": "bhxh",
+      "question_group": "procedure",
+      "question": "Tôi muốn tự kiểm tra xem mình có thuộc diện phải đóng BHXH bắt buộc hay không thì phải làm sao?"
+    },
+    {
+      "id": "BHXH-023",
+      "domain": "bhxh",
+      "question_group": "procedure",
+      "question": "Tôi mới ký hợp đồng lao động chính thức. Xin hỏi sau khi ký hợp đồng thì công ty phải làm thủ tục BHXH cho tôi theo quy trình như thế nào?"
+    },
+    {
+      "id": "BHXH-024",
+      "domain": "bhxh",
+      "question_group": "procedure",
+      "question": "Tôi sợ công ty nói đã đóng BHXH nhưng thực tế lại chưa đóng. Vậy tôi có thể kiểm tra bằng cách nào?"
+    },
+    {
+      "id": "BHXH-025",
+      "domain": "bhxh",
+      "question_group": "procedure",
+      "question": "Nếu tôi phát hiện công ty chưa đóng BHXH cho mình thì tôi nên làm gì để bảo vệ quyền lợi của mình?"
+    },
+    {
+      "id": "BHXH-026",
+      "domain": "bhxh",
+      "question_group": "procedure",
+      "question": "Tôi chuẩn bị nghỉ việc nên muốn hỏi về thủ tục chốt sổ BHXH. Thủ tục này thường sẽ tiến hành như thế nào"
+    },
+    {
+      "id": "BHXH-027",
+      "domain": "bhxh",
+      "question_group": "procedure",
+      "question": "Tôi sắp sang công ty khác làm việc. Xin hỏi khi chuyển nơi làm việc thì tôi có phải làm sổ BHXH mới không?"
+    },
+    {
+      "id": "BHXH-028",
+      "domain": "bhxh",
+      "question_group": "procedure",
+      "question": "Tôi đang làm đồng thời cho hai công ty. Xin hỏi về thủ tục thì tôi phải đóng BHXH ở công ty nào trước?"
+    },
+    {
+      "id": "BHXH-029",
+      "domain": "bhxh",
+      "question_group": "procedure",
+      "question": "Hồ sơ BHXH của tôi đang bị sai họ tên so với căn cước công dân. Trường hợp này tôi nên xử lý như thế nào?"
+    },
+    {
+      "id": "BHXH-030",
+      "domain": "bhxh",
+      "question_group": "procedure",
+      "question": "Tôi phát hiện mình đang có hai mã số BHXH do trước đây công ty cũ làm sai. Xin hỏi trong trường này, tôi phải xử lý như thế nào?"
+    },
+    {
+      "id": "BHXH-031",
+      "domain": "bhxh",
+      "question_group": "procedure",
+      "question": "Tôi làm việc thực tế đã lâu nhưng công ty mới đóng BHXH gần đây. Nếu tôi yêu cầu truy đóng cho thời gian trước thì cần chuẩn bị gì?"
+    },
+    {
+      "id": "BHXH-032",
+      "domain": "bhxh",
+      "question_group": "procedure",
+      "question": "Công ty tôi cho tạm hoãn hợp đồng vài tháng. Xin hỏi trường hợp này doanh nghiệp có phải làm thủ tục gì với cơ quan BHXH không?"
+    },
+    {
+      "id": "BHXH-033",
+      "domain": "bhxh",
+      "question_group": "procedure",
+      "question": "Tôi xin nghỉ không lương khá lâu vì việc gia đình. Về thủ tục thì công ty phải xử lý hồ sơ BHXH của tôi như thế nào?"
+    },
+    {
+      "id": "BHXH-034",
+      "domain": "bhxh",
+      "question_group": "procedure",
+      "question": "Tôi nghi ngờ công ty kê mức lương đóng BHXH thấp hơn lương thực trả. Tôi nên kiểm tra theo cách nào?"
+    },
+    {
+      "id": "BHXH-035",
+      "domain": "bhxh",
+      "question_group": "procedure",
+      "question": "Nếu công ty chây ì không đóng BHXH cho tôi thì tôi nên nộp đơn ở đâu để được giải quyết?"
+    },
+    {
+      "id": "BHXH-036",
+      "domain": "bhxh",
+      "question_group": "procedure",
+      "question": "Sau khi nghỉ việc, tôi đang tính làm hồ sơ BHXH một lần. Xin hỏi có bắt buộc phải chốt sổ xong mới làm được không?"
+    },
+    {
+      "id": "BHXH-037",
+      "domain": "bhxh",
+      "question_group": "procedure",
+      "question": "Tôi vừa đổi từ CMND sang căn cước công dân gắn chip. Trường hợp này có cần cập nhật lại thông tin BHXH không?"
+    },
+    {
+      "id": "BHXH-038",
+      "domain": "bhxh",
+      "question_group": "procedure",
+      "question": "Tôi cần chứng minh đã tham gia BHXH ở công ty cũ để làm thủ tục khác. Xin hỏi xin xác nhận quá trình tham gia bằng cách nào?"
+    },
+    {
+      "id": "BHXH-039",
+      "domain": "bhxh",
+      "question_group": "procedure",
+      "question": "Tôi ở xa nên không tiện trực tiếp đi làm thủ tục BHXH. Vậy tôi có thể ủy quyền cho người thân đi làm thay được không?"
+    },
+    {
+      "id": "BHXH-040",
+      "domain": "bhxh",
+      "question_group": "procedure",
+      "question": "Tôi muốn công ty đưa cho tôi tài liệu chứng minh là đã đóng BHXH hằng tháng. Tôi có quyền yêu cầu không?"
+    },
+    {
+      "id": "BHXH-041",
+      "domain": "bhxh",
+      "question_group": "procedure",
+      "question": "Công ty tôi đổi tên và đổi người đại diện pháp luật. Xin hỏi người lao động có phải làm lại toàn bộ hồ sơ BHXH không?"
+    },
+    {
+      "id": "BHXH-042",
+      "domain": "bhxh",
+      "question_group": "procedure",
+      "question": "Tôi chuẩn bị nhận việc ở một công ty mới nhưng lo công ty nợ BHXH. Có cách nào kiểm tra trước không?"
+    },
+    {
+      "id": "BHXH-043",
+      "domain": "bhxh",
+      "question_group": "procedure",
+      "question": "Tôi nghỉ việc một thời gian nhưng chưa muốn rút BHXH một lần. Xin hỏi muốn bảo lưu thời gian đã đóng thì có phải làm thủ tục gì riêng không?"
+    },
+    {
+      "id": "BHXH-044",
+      "domain": "bhxh",
+      "question_group": "reasoning",
+      "question": "Tôi ký giấy tờ ghi là hợp đồng khoán việc 2 tháng, nhưng thực tế vẫn đi làm giờ hành chính và chịu sự quản lý của công ty. Trong trường hợp này có phải đóng BHXH bắt buộc không?"
+    },
+    {
+      "id": "BHXH-045",
+      "domain": "bhxh",
+      "question_group": "reasoning",
+      "question": "Tôi chỉ làm 3 buổi một tuần nhưng lương tháng lại khá cao. Vậy trường hợp làm không trọn thời gian như tôi có phải tham gia BHXH bắt buộc không?"
+    },
+    {
+      "id": "BHXH-046",
+      "domain": "bhxh",
+      "question_group": "reasoning",
+      "question": "Công ty tôi cứ ký với người lao động nhiều hợp đồng dưới 1 tháng nối tiếp nhau để không đóng BHXH. Cách làm này có hợp pháp không?"
+    },
+    {
+      "id": "BHXH-047",
+      "domain": "bhxh",
+      "question_group": "reasoning",
+      "question": "Tôi vào làm đầu tháng nhưng nghỉ việc giữa tháng. Trường hợp như vậy tháng đó có phải đóng BHXH bắt buộc không?"
+    },
+    {
+      "id": "BHXH-048",
+      "domain": "bhxh",
+      "question_group": "reasoning",
+      "question": "Nếu người lao động đang nghỉ thai sản mà công ty cho nghỉ việc hoặc chấm dứt hợp đồng thì quyền lợi BHXH bắt buộc có bị mất không?"
+    },
+    {
+      "id": "BHXH-049",
+      "domain": "bhxh",
+      "question_group": "reasoning",
+      "question": "Công ty ghi trong hợp đồng mức lương thấp nhưng thực tế chuyển khoản cho tôi cao hơn nhiều. Vậy tiền lương đóng BHXH phải tính theo mức nào?"
+    },
+    {
+      "id": "BHXH-050",
+      "domain": "bhxh",
+      "question_group": "reasoning",
+      "question": "Tôi chỉ đứng tên giám đốc cho người khác nhưng thực chất làm công ăn lương. Trường hợp này BHXH sẽ xác định như thế nào?"
+    },
+    {
+      "id": "BHXH-051",
+      "domain": "bhxh",
+      "question_group": "reasoning",
+      "question": "Tôi làm việc tại nhà, công ty giao KPI và chấm công online hằng ngày. Vì không đến văn phòng nên công ty bảo không phải đóng BHXH. Lập luận đó có đúng không?"
+    },
+    {
+      "id": "BHXH-052",
+      "domain": "bhxh",
+      "question_group": "reasoning",
+      "question": "Tôi được trả lương theo sản phẩm, không có lương cố định. Vậy hình thức trả lương như vậy có làm tôi không phải đóng BHXH không?"
+    },
+    {
+      "id": "BHXH-053",
+      "domain": "bhxh",
+      "question_group": "reasoning",
+      "question": "Tôi được công ty yêu cầu ký hợp đồng học việc nhiều tháng dù đã làm việc như nhân viên chính thức. Trường hợp này có phải là cách né BHXH không?"
+    },
+    {
+      "id": "BHXH-054",
+      "domain": "bhxh",
+      "question_group": "reasoning",
+      "question": "Tôi đã hưởng lương hưu nhưng nay đi làm lại cho doanh nghiệp tư nhân. Trường hợp này có tiếp tục phải đóng BHXH bắt buộc nữa không?"
+    },
+    {
+      "id": "BHXH-055",
+      "domain": "bhxh",
+      "question_group": "reasoning",
+      "question": "Tôi ký hợp đồng với công ty A trước, nhưng hiện nay thu nhập chính lại ở công ty B. Vậy BHXH bắt buộc phải đóng ở nơi nào?"
+    },
+    {
+      "id": "BHXH-056",
+      "domain": "bhxh",
+      "question_group": "reasoning",
+      "question": "Nếu công ty vừa nợ lương vừa không đóng BHXH rồi ngừng hoạt động thì người lao động có bị mất hết quyền lợi không?"
+    },
+    {
+      "id": "BHXH-057",
+      "domain": "bhxh",
+      "question_group": "reasoning",
+      "question": "Tôi ký hợp đồng dịch vụ nhưng công ty vẫn chấm công, giao ca làm, phạt đi muộn như nhân viên. Vậy trường hợp này có thể bị xem là quan hệ lao động để đóng BHXH không?"
+    },
+    {
+      "id": "BHXH-058",
+      "domain": "bhxh",
+      "question_group": "reasoning",
+      "question": "Tôi làm theo mùa vụ khoảng 45 ngày, năm nào cũng quay lại cùng một công ty. Trường hợp này có bắt buộc đóng BHXH không?"
+    },
+    {
+      "id": "BHXH-059",
+      "domain": "bhxh",
+      "question_group": "reasoning",
+      "question": "Công ty nói phải làm đủ 2 tháng mới được đóng BHXH. Trong khi tôi đã ký hợp đồng lao động 12 tháng từ ngày đầu tiên. Công ty nói vậy có đúng không?"
+    },
+    {
+      "id": "BHXH-060",
+      "domain": "bhxh",
+      "question_group": "reasoning",
+      "question": "Dù lương mỗi người khác nhau nhưng công ty tôi đều đóng BHXH theo một mức gần tối thiểu. Cách làm này có đúng pháp luật không?"
+    },
+    {
+      "id": "BHXH-061",
+      "domain": "bhxh",
+      "question_group": "reasoning",
+      "question": "Tôi là lao động nước ngoài đang làm việc tại Việt Nam. Xin hỏi tôi có thuộc diện tham gia BHXH bắt buộc không?"
+    },
+    {
+      "id": "BHXH-062",
+      "domain": "bhxh",
+      "question_group": "reasoning",
+      "question": "Tôi ký lương net với công ty nên công ty bảo sẽ tự cân đối để đóng BHXH ở mức thấp hơn. Như vậy có được không?"
+    },
+    {
+      "id": "BHXH-063",
+      "domain": "bhxh",
+      "question_group": "reasoning",
+      "question": "Tôi không được ký hợp đồng bằng văn bản nhưng làm việc ổn định đã hơn 6 tháng và nhận lương đều hằng tháng. Trường hợp này có thể yêu cầu đóng BHXH không?"
+    },
+    {
+      "id": "BHXH-064",
+      "domain": "bhxh",
+      "question_group": "reasoning",
+      "question": "Tôi đã nghỉ việc một thời gian rồi mới biết công ty chưa đóng BHXH cho mình. Trường hợp này còn yêu cầu truy đóng được không?"
+    },
+    {
+      "id": "BHXH-065",
+      "domain": "bhxh",
+      "question_group": "reasoning",
+      "question": "Công ty đề nghị tôi ký hợp đồng cộng tác viên thay vì hợp đồng lao động để đỡ phải đóng BHXH cho cả hai bên. Cách này có ổn không?"
+    },
+    {
+      "id": "BHXH-066",
+      "domain": "bhxh",
+      "question_group": "reasoning",
+      "question": "Tôi vừa góp vốn vào công ty, vừa trực tiếp làm việc và nhận lương hằng tháng. Vậy BHXH của tôi được xác định theo tư cách nào?"
+    },
+    {
+      "id": "BHXH-067",
+      "domain": "bhxh",
+      "question_group": "reasoning",
+      "question": "Nếu sau này tòa xác định công ty cho tôi nghỉ việc trái pháp luật thì thời gian bị cho nghỉ có được truy đóng BHXH không?"
+    },
+    {
+      "id": "BHXH-068",
+      "domain": "bhxh",
+      "question_group": "factual",
+      "question": "Tôi ký hợp đồng lao động 12 tháng với công ty tư nhân. Xin hỏi trường hợp này có bắt buộc phải tham gia BHXH không?"
+    },
+    {
+      "id": "BHXH-069",
+      "domain": "bhxh",
+      "question_group": "factual",
+      "question": "Tôi chỉ ký hợp đồng lao động 20 ngày để làm việc ngắn hạn. Vậy tôi có phải đóng BHXH bắt buộc không?"
+    },
+    {
+      "id": "BHXH-070",
+      "domain": "bhxh",
+      "question_group": "factual",
+      "question": "Tôi ký hợp đồng với công ty A trước, sau đó mới ký thêm với công ty B. Xin hỏi tôi phải đóng BHXH bắt buộc ở đâu?"
+    },
+    {
+      "id": "BHXH-071",
+      "domain": "bhxh",
+      "question_group": "factual",
+      "question": "Tôi làm bán thời gian nhưng lương tháng vẫn cao. Trường hợp này có phải đóng BHXH bắt buộc không?"
+    },
+    {
+      "id": "BHXH-072",
+      "domain": "bhxh",
+      "question_group": "factual",
+      "question": "Tôi đã chấm dứt hợp đồng lao động với công ty. Sau khi nghỉ việc thì tôi còn phải đóng BHXH bắt buộc nữa không?"
+    },
+    {
+      "id": "BHXH-073",
+      "domain": "bhxh",
+      "question_group": "factual",
+      "question": "Tôi là giám đốc công ty và có nhận lương hằng tháng. Tôi có phải đóng BHXH bắt buộc không?"
+    },
+    {
+      "id": "BHXH-074",
+      "domain": "bhxh",
+      "question_group": "factual",
+      "question": "Tôi đứng tên giám đốc nhưng không hưởng lương. Vậy tôi có bắt buộc phải đóng BHXH không?"
+    },
+    {
+      "id": "BHXH-075",
+      "domain": "bhxh",
+      "question_group": "factual",
+      "question": "Công ty thưởng Tết cho tôi một khoản khá lớn. Tiền này có phải cộng vào để đóng BHXH không?"
+    },
+    {
+      "id": "BHXH-076",
+      "domain": "bhxh",
+      "question_group": "factual",
+      "question": "Tôi đang hưởng phụ cấp chức vụ. Khoản này có tính vào tiền lương đóng BHXH không?"
+    },
+    {
+      "id": "BHXH-077",
+      "domain": "bhxh",
+      "question_group": "factual",
+      "question": "Thu nhập của tôi cao hơn rất nhiều so với mặt bằng chung. Vậy đóng BHXH có bị giới hạn mức tối đa không?"
+    },
+    {
+      "id": "BHXH-078",
+      "domain": "bhxh",
+      "question_group": "factual",
+      "question": "Tôi làm việc 6 tháng, nhận lương đều nhưng công ty không ký hợp đồng bằng văn bản. Tôi có thể yêu cầu đóng BHXH được không?"
+    },
+    {
+      "id": "BHXH-079",
+      "domain": "bhxh",
+      "question_group": "factual",
+      "question": "Tôi chỉ ký hợp đồng thử việc riêng, chưa ký hợp đồng lao động. Trường hợp này có phải đóng BHXH không?"
+    },
+    {
+      "id": "BHXH-080",
+      "domain": "bhxh",
+      "question_group": "factual",
+      "question": "Tôi đã nhận lương hưu, nay đi làm lại cho doanh nghiệp. Tôi có phải đóng BHXH bắt buộc nữa không?"
+    },
+    {
+      "id": "BHXH-081",
+      "domain": "bhxh",
+      "question_group": "factual",
+      "question": "Tôi là người nước ngoài làm việc tại Việt Nam theo hợp đồng lao động. Tôi có phải tham gia BHXH bắt buộc không?"
+    },
+    {
+      "id": "BHXH-082",
+      "domain": "bhxh",
+      "question_group": "factual",
+      "question": "Tôi đang tạm hoãn hợp đồng lao động. Vậy trong thời gian này tôi có còn đóng BHXH bắt buộc như bình thường không?"
+    },
+    {
+      "id": "BHXH-083",
+      "domain": "bhxh",
+      "question_group": "factual",
+      "question": "Tôi ký hợp đồng cộng tác viên nhưng bị quản lý giờ giấc và KPI như nhân viên chính thức. Vậy tôi có phải đóng BHXH không?"
+    },
+    {
+      "id": "BHXH-084",
+      "domain": "bhxh",
+      "question_group": "factual",
+      "question": "Tôi ký hợp đồng 1 năm nhưng công ty bảo làm qua 2 tháng mới đóng BHXH. Công ty làm vậy có đúng không?"
+    },
+    {
+      "id": "BHXH-085",
+      "domain": "bhxh",
+      "question_group": "factual",
+      "question": "Tôi đang nghỉ không lương nên muốn tự đóng tiếp để không bị đứt quãng thời gian. Tôi có thể chuyển sang BHXH tự nguyện không?"
+    },
+    {
+      "id": "BHXH-086",
+      "domain": "bhxh",
+      "question_group": "factual",
+      "question": "Tôi nghi công ty đang nợ BHXH. Tôi có quyền yêu cầu biết tình trạng đóng của mình không?"
+    },
+    {
+      "id": "BHXH-087",
+      "domain": "bhxh",
+      "question_group": "factual",
+      "question": "Tôi thỏa thuận lương net với công ty. Như vậy công ty có được đóng BHXH cho tôi ở mức thấp đi không?"
+    },
+    {
+      "id": "BHXH-088",
+      "domain": "bhxh",
+      "question_group": "factual",
+      "question": "Tôi làm việc online tại nhà cho công ty trong nước và nhận lương hằng tháng. Trường hợp này có phải đóng BHXH không?"
+    },
+    {
+      "id": "BHXH-089",
+      "domain": "bhxh",
+      "question_group": "factual",
+      "question": "Tôi ký hợp đồng lao động 45 ngày. Xin hỏi trường hợp này có phải đóng BHXH bắt buộc không?"
+    },
+    {
+      "id": "BHXH-090",
+      "domain": "bhxh",
+      "question_group": "factual",
+      "question": "Tôi nghỉ việc nhưng chưa muốn hưởng BHXH một lần. Sau khi chốt sổ xong tôi có được giữ lại thời gian đã đóng không?"
+    },
+    {
+      "id": "DOANH_NGHIEP-001",
+      "domain": "doanh_nghiep",
+      "question_group": "definition",
+      "question": "Tôi đang tìm hiểu để mở công ty nên còn khá mơ hồ. Xin luật sư cho tôi hỏi doanh nghiệp là gì được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "DOANH_NGHIEP-002",
+      "domain": "doanh_nghiep",
+      "question_group": "definition",
+      "question": "Tôi đang tìm hiểu để mở công ty nên còn khá mơ hồ. Xin luật sư cho tôi hỏi ngành nghề kinh doanh có điều kiện là gì được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "DOANH_NGHIEP-003",
+      "domain": "doanh_nghiep",
+      "question_group": "definition",
+      "question": "Tôi đang tìm hiểu để mở công ty nên còn khá mơ hồ. Xin luật sư cho tôi hỏi vốn điều lệ là gì được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "DOANH_NGHIEP-004",
+      "domain": "doanh_nghiep",
+      "question_group": "definition",
+      "question": "Tôi đang tìm hiểu để mở công ty nên còn khá mơ hồ. Xin luật sư cho tôi hỏi người đại diện theo pháp luật là gì được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "DOANH_NGHIEP-005",
+      "domain": "doanh_nghiep",
+      "question_group": "definition",
+      "question": "Tôi đang tìm hiểu để mở công ty nên còn khá mơ hồ. Xin luật sư cho tôi hỏi công ty TNHH một thành viên là gì được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "DOANH_NGHIEP-006",
+      "domain": "doanh_nghiep",
+      "question_group": "definition",
+      "question": "Tôi đang tìm hiểu để mở công ty nên còn khá mơ hồ. Xin luật sư cho tôi hỏi công ty TNHH hai thành viên trở lên là gì được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "DOANH_NGHIEP-007",
+      "domain": "doanh_nghiep",
+      "question_group": "definition",
+      "question": "Tôi đang tìm hiểu để mở công ty nên còn khá mơ hồ. Xin luật sư cho tôi hỏi công ty cổ phần là gì được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "DOANH_NGHIEP-008",
+      "domain": "doanh_nghiep",
+      "question_group": "definition",
+      "question": "Tôi đang tìm hiểu để mở công ty nên còn khá mơ hồ. Xin luật sư cho tôi hỏi doanh nghiệp tư nhân là gì được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "DOANH_NGHIEP-009",
+      "domain": "doanh_nghiep",
+      "question_group": "definition",
+      "question": "Tôi đang tìm hiểu để mở công ty nên còn khá mơ hồ. Xin luật sư cho tôi hỏi công ty hợp danh là gì được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "DOANH_NGHIEP-010",
+      "domain": "doanh_nghiep",
+      "question_group": "definition",
+      "question": "Tôi đang tìm hiểu để mở công ty nên còn khá mơ hồ. Xin luật sư cho tôi hỏi thành viên góp vốn khác gì thành viên hợp danh được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "DOANH_NGHIEP-011",
+      "domain": "doanh_nghiep",
+      "question_group": "definition",
+      "question": "Tôi đang tìm hiểu để mở công ty nên còn khá mơ hồ. Xin luật sư cho tôi hỏi cổ đông sáng lập là ai được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "DOANH_NGHIEP-012",
+      "domain": "doanh_nghiep",
+      "question_group": "definition",
+      "question": "Tôi đang tìm hiểu để mở công ty nên còn khá mơ hồ. Xin luật sư cho tôi hỏi trụ sở chính của doanh nghiệp được hiểu thế nào được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "DOANH_NGHIEP-013",
+      "domain": "doanh_nghiep",
+      "question_group": "definition",
+      "question": "Tôi đang tìm hiểu để mở công ty nên còn khá mơ hồ. Xin luật sư cho tôi hỏi chi nhánh khác gì văn phòng đại diện được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "DOANH_NGHIEP-014",
+      "domain": "doanh_nghiep",
+      "question_group": "definition",
+      "question": "Tôi đang tìm hiểu để mở công ty nên còn khá mơ hồ. Xin luật sư cho tôi hỏi hộ kinh doanh khác gì doanh nghiệp được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "DOANH_NGHIEP-015",
+      "domain": "doanh_nghiep",
+      "question_group": "definition",
+      "question": "Tôi đang tìm hiểu để mở công ty nên còn khá mơ hồ. Xin luật sư cho tôi hỏi con dấu doanh nghiệp hiện nay được hiểu ra sao được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "DOANH_NGHIEP-016",
+      "domain": "doanh_nghiep",
+      "question_group": "definition",
+      "question": "Tôi đang tìm hiểu để mở công ty nên còn khá mơ hồ. Xin luật sư cho tôi hỏi góp vốn bằng tài sản là gì được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "DOANH_NGHIEP-017",
+      "domain": "doanh_nghiep",
+      "question_group": "definition",
+      "question": "Tôi đang tìm hiểu để mở công ty nên còn khá mơ hồ. Xin luật sư cho tôi hỏi tên doanh nghiệp bị coi là gây nhầm lẫn khi nào được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "DOANH_NGHIEP-018",
+      "domain": "doanh_nghiep",
+      "question_group": "definition",
+      "question": "Tôi đang tìm hiểu để mở công ty nên còn khá mơ hồ. Xin luật sư cho tôi hỏi người quản lý doanh nghiệp gồm những ai được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "DOANH_NGHIEP-019",
+      "domain": "doanh_nghiep",
+      "question_group": "procedure",
+      "question": "Tôi đang chuẩn bị làm thủ tục cho công ty. Xin luật sư hướng dẫn giúp tôi về thủ tục thành lập công ty TNHH."
+    },
+    {
+      "id": "DOANH_NGHIEP-020",
+      "domain": "doanh_nghiep",
+      "question_group": "procedure",
+      "question": "Tôi đang chuẩn bị làm thủ tục cho công ty. Xin luật sư hướng dẫn giúp tôi về thủ tục thành lập công ty cổ phần."
+    },
+    {
+      "id": "DOANH_NGHIEP-021",
+      "domain": "doanh_nghiep",
+      "question_group": "procedure",
+      "question": "Tôi đang chuẩn bị làm thủ tục cho công ty. Xin luật sư hướng dẫn giúp tôi về thủ tục thay đổi người đại diện theo pháp luật."
+    },
+    {
+      "id": "DOANH_NGHIEP-022",
+      "domain": "doanh_nghiep",
+      "question_group": "procedure",
+      "question": "Tôi đang chuẩn bị làm thủ tục cho công ty. Xin luật sư hướng dẫn giúp tôi về thủ tục đổi tên doanh nghiệp."
+    },
+    {
+      "id": "DOANH_NGHIEP-023",
+      "domain": "doanh_nghiep",
+      "question_group": "procedure",
+      "question": "Tôi đang chuẩn bị làm thủ tục cho công ty. Xin luật sư hướng dẫn giúp tôi về thủ tục chuyển địa chỉ trụ sở sang tỉnh khác."
+    },
+    {
+      "id": "DOANH_NGHIEP-024",
+      "domain": "doanh_nghiep",
+      "question_group": "procedure",
+      "question": "Tôi đang chuẩn bị làm thủ tục cho công ty. Xin luật sư hướng dẫn giúp tôi về thủ tục tạm ngừng kinh doanh."
+    },
+    {
+      "id": "DOANH_NGHIEP-025",
+      "domain": "doanh_nghiep",
+      "question_group": "procedure",
+      "question": "Tôi đang chuẩn bị làm thủ tục cho công ty. Xin luật sư hướng dẫn giúp tôi về thủ tục hoạt động trở lại."
+    },
+    {
+      "id": "DOANH_NGHIEP-026",
+      "domain": "doanh_nghiep",
+      "question_group": "procedure",
+      "question": "Tôi đang chuẩn bị làm thủ tục cho công ty. Xin luật sư hướng dẫn giúp tôi về thủ tục tăng vốn điều lệ."
+    },
+    {
+      "id": "DOANH_NGHIEP-027",
+      "domain": "doanh_nghiep",
+      "question_group": "procedure",
+      "question": "Tôi đang chuẩn bị làm thủ tục cho công ty. Xin luật sư hướng dẫn giúp tôi về thủ tục giảm vốn điều lệ."
+    },
+    {
+      "id": "DOANH_NGHIEP-028",
+      "domain": "doanh_nghiep",
+      "question_group": "procedure",
+      "question": "Tôi đang chuẩn bị làm thủ tục cho công ty. Xin luật sư hướng dẫn giúp tôi về thủ tục lập chi nhánh."
+    },
+    {
+      "id": "DOANH_NGHIEP-029",
+      "domain": "doanh_nghiep",
+      "question_group": "procedure",
+      "question": "Tôi đang chuẩn bị làm thủ tục cho công ty. Xin luật sư hướng dẫn giúp tôi về thủ tục lập văn phòng đại diện."
+    },
+    {
+      "id": "DOANH_NGHIEP-030",
+      "domain": "doanh_nghiep",
+      "question_group": "procedure",
+      "question": "Tôi đang chuẩn bị làm thủ tục cho công ty. Xin luật sư hướng dẫn giúp tôi về thủ tục chấm dứt hoạt động chi nhánh."
+    },
+    {
+      "id": "DOANH_NGHIEP-031",
+      "domain": "doanh_nghiep",
+      "question_group": "procedure",
+      "question": "Tôi đang chuẩn bị làm thủ tục cho công ty. Xin luật sư hướng dẫn giúp tôi về thủ tục giải thể công ty."
+    },
+    {
+      "id": "DOANH_NGHIEP-032",
+      "domain": "doanh_nghiep",
+      "question_group": "procedure",
+      "question": "Tôi đang chuẩn bị làm thủ tục cho công ty. Xin luật sư hướng dẫn giúp tôi về thủ tục chuyển đổi loại hình doanh nghiệp."
+    },
+    {
+      "id": "DOANH_NGHIEP-033",
+      "domain": "doanh_nghiep",
+      "question_group": "procedure",
+      "question": "Tôi đang chuẩn bị làm thủ tục cho công ty. Xin luật sư hướng dẫn giúp tôi về thủ tục bổ sung ngành nghề kinh doanh."
+    },
+    {
+      "id": "DOANH_NGHIEP-034",
+      "domain": "doanh_nghiep",
+      "question_group": "procedure",
+      "question": "Tôi đang chuẩn bị làm thủ tục cho công ty. Xin luật sư hướng dẫn giúp tôi về thủ tục thay đổi thành viên góp vốn."
+    },
+    {
+      "id": "DOANH_NGHIEP-035",
+      "domain": "doanh_nghiep",
+      "question_group": "procedure",
+      "question": "Tôi đang chuẩn bị làm thủ tục cho công ty. Xin luật sư hướng dẫn giúp tôi về thủ tục chuyển nhượng phần vốn góp."
+    },
+    {
+      "id": "DOANH_NGHIEP-036",
+      "domain": "doanh_nghiep",
+      "question_group": "procedure",
+      "question": "Tôi đang chuẩn bị làm thủ tục cho công ty. Xin luật sư hướng dẫn giúp tôi về thủ tục cập nhật thông tin đăng ký doanh nghiệp."
+    },
+    {
+      "id": "DOANH_NGHIEP-037",
+      "domain": "doanh_nghiep",
+      "question_group": "reasoning",
+      "question": "Công ty tôi đang gặp một vướng mắc thực tế. Cụ thể, tôi muốn hỏi góp vốn chậm có bị xử lý không. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "DOANH_NGHIEP-038",
+      "domain": "doanh_nghiep",
+      "question_group": "reasoning",
+      "question": "Công ty tôi đang gặp một vướng mắc thực tế. Cụ thể, tôi muốn hỏi đăng ký ngành nghề sai thì có được xuất hóa đơn không. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "DOANH_NGHIEP-039",
+      "domain": "doanh_nghiep",
+      "question_group": "reasoning",
+      "question": "Công ty tôi đang gặp một vướng mắc thực tế. Cụ thể, tôi muốn hỏi một người có được đứng tên nhiều công ty không. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "DOANH_NGHIEP-040",
+      "domain": "doanh_nghiep",
+      "question_group": "reasoning",
+      "question": "Công ty tôi đang gặp một vướng mắc thực tế. Cụ thể, tôi muốn hỏi đặt trụ sở tại căn hộ chung cư có được không. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "DOANH_NGHIEP-041",
+      "domain": "doanh_nghiep",
+      "question_group": "reasoning",
+      "question": "Công ty tôi đang gặp một vướng mắc thực tế. Cụ thể, tôi muốn hỏi có nên chọn công ty TNHH hay công ty cổ phần. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "DOANH_NGHIEP-042",
+      "domain": "doanh_nghiep",
+      "question_group": "reasoning",
+      "question": "Công ty tôi đang gặp một vướng mắc thực tế. Cụ thể, tôi muốn hỏi không góp đủ vốn thì trách nhiệm đến đâu. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "DOANH_NGHIEP-043",
+      "domain": "doanh_nghiep",
+      "question_group": "reasoning",
+      "question": "Công ty tôi đang gặp một vướng mắc thực tế. Cụ thể, tôi muốn hỏi công ty không hoạt động có nên tạm ngừng hay giải thể. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "DOANH_NGHIEP-044",
+      "domain": "doanh_nghiep",
+      "question_group": "reasoning",
+      "question": "Công ty tôi đang gặp một vướng mắc thực tế. Cụ thể, tôi muốn hỏi mượn người thân đứng tên công ty có rủi ro gì. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "DOANH_NGHIEP-045",
+      "domain": "doanh_nghiep",
+      "question_group": "reasoning",
+      "question": "Công ty tôi đang gặp một vướng mắc thực tế. Cụ thể, tôi muốn hỏi văn phòng đại diện có được ký hợp đồng không. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "DOANH_NGHIEP-046",
+      "domain": "doanh_nghiep",
+      "question_group": "reasoning",
+      "question": "Công ty tôi đang gặp một vướng mắc thực tế. Cụ thể, tôi muốn hỏi chi nhánh có được hạch toán độc lập không. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "DOANH_NGHIEP-047",
+      "domain": "doanh_nghiep",
+      "question_group": "reasoning",
+      "question": "Công ty tôi đang gặp một vướng mắc thực tế. Cụ thể, tôi muốn hỏi có bắt buộc phải có kế toán ngay khi mới thành lập không. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "DOANH_NGHIEP-048",
+      "domain": "doanh_nghiep",
+      "question_group": "reasoning",
+      "question": "Công ty tôi đang gặp một vướng mắc thực tế. Cụ thể, tôi muốn hỏi doanh nghiệp bị khóa mã số thuế có ảnh hưởng đăng ký kinh doanh không. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "DOANH_NGHIEP-049",
+      "domain": "doanh_nghiep",
+      "question_group": "reasoning",
+      "question": "Công ty tôi đang gặp một vướng mắc thực tế. Cụ thể, tôi muốn hỏi bán công ty có cần đổi người đại diện không. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "DOANH_NGHIEP-050",
+      "domain": "doanh_nghiep",
+      "question_group": "reasoning",
+      "question": "Công ty tôi đang gặp một vướng mắc thực tế. Cụ thể, tôi muốn hỏi chuyển địa chỉ công ty có phải chốt thuế không. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "DOANH_NGHIEP-051",
+      "domain": "doanh_nghiep",
+      "question_group": "reasoning",
+      "question": "Công ty tôi đang gặp một vướng mắc thực tế. Cụ thể, tôi muốn hỏi nên đăng ký vốn điều lệ cao hay thấp. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "DOANH_NGHIEP-052",
+      "domain": "doanh_nghiep",
+      "question_group": "factual",
+      "question": "Xin luật sư cho biết thời hạn góp vốn trong công ty cổ phần theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "DOANH_NGHIEP-053",
+      "domain": "doanh_nghiep",
+      "question_group": "factual",
+      "question": "Xin luật sư cho biết giới hạn số lượng thành viên công ty TNHH hai thành viên theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "DOANH_NGHIEP-054",
+      "domain": "doanh_nghiep",
+      "question_group": "factual",
+      "question": "Xin luật sư cho biết doanh nghiệp tư nhân có được phát hành chứng khoán không theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "DOANH_NGHIEP-055",
+      "domain": "doanh_nghiep",
+      "question_group": "factual",
+      "question": "Xin luật sư cho biết một cá nhân có được lập nhiều doanh nghiệp tư nhân không theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "DOANH_NGHIEP-056",
+      "domain": "doanh_nghiep",
+      "question_group": "factual",
+      "question": "Xin luật sư cho biết doanh nghiệp nhà nước được xác định thế nào theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "DOANH_NGHIEP-057",
+      "domain": "doanh_nghiep",
+      "question_group": "factual",
+      "question": "Xin luật sư cho biết thời hạn xử lý hồ sơ đăng ký doanh nghiệp theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "DOANH_NGHIEP-058",
+      "domain": "doanh_nghiep",
+      "question_group": "factual",
+      "question": "Xin luật sư cho biết công ty có thể có mấy người đại diện theo pháp luật theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "DOANH_NGHIEP-059",
+      "domain": "doanh_nghiep",
+      "question_group": "factual",
+      "question": "Xin luật sư cho biết có được tự do kinh doanh mọi ngành nghề không theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "DOANH_NGHIEP-060",
+      "domain": "doanh_nghiep",
+      "question_group": "factual",
+      "question": "Xin luật sư cho biết ai không được quyền thành lập và quản lý doanh nghiệp theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "DOANH_NGHIEP-061",
+      "domain": "doanh_nghiep",
+      "question_group": "factual",
+      "question": "Xin luật sư cho biết cổ đông có chịu trách nhiệm bằng tài sản riêng không theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "DOANH_NGHIEP-062",
+      "domain": "doanh_nghiep",
+      "question_group": "factual",
+      "question": "Xin luật sư cho biết thành viên công ty TNHH có được rút vốn trực tiếp không theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "DOANH_NGHIEP-063",
+      "domain": "doanh_nghiep",
+      "question_group": "factual",
+      "question": "Xin luật sư cho biết chi nhánh có mã số riêng không theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "DOANH_NGHIEP-064",
+      "domain": "doanh_nghiep",
+      "question_group": "factual",
+      "question": "Xin luật sư cho biết văn phòng đại diện có chức năng kinh doanh trực tiếp không theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "DOANH_NGHIEP-065",
+      "domain": "doanh_nghiep",
+      "question_group": "factual",
+      "question": "Xin luật sư cho biết tên doanh nghiệp bằng tiếng nước ngoài có được đăng ký không theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "DOANH_NGHIEP-066",
+      "domain": "doanh_nghiep",
+      "question_group": "factual",
+      "question": "Xin luật sư cho biết có phải thông báo mẫu dấu không theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "DOANH_NGHIEP-067",
+      "domain": "doanh_nghiep",
+      "question_group": "factual",
+      "question": "Xin luật sư cho biết doanh nghiệp mới thành lập có bắt buộc treo biển hiệu không theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "DOANH_NGHIEP-068",
+      "domain": "doanh_nghiep",
+      "question_group": "factual",
+      "question": "Xin luật sư cho biết doanh nghiệp có thể có nhiều trụ sở chính không theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "DOANH_NGHIEP-069",
+      "domain": "doanh_nghiep",
+      "question_group": "factual",
+      "question": "Xin luật sư cho biết doanh nghiệp có được thuê người khác làm giám đốc không theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "DOANH_NGHIEP-070",
+      "domain": "doanh_nghiep",
+      "question_group": "factual",
+      "question": "Xin luật sư cho biết có bắt buộc phải mở tài khoản ngân hàng không theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "THUE-071",
+      "domain": "thue",
+      "question_group": "definition",
+      "question": "Xin luật sư cho tôi hỏi mã số thuế doanh nghiệp là gì được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "THUE-072",
+      "domain": "thue",
+      "question_group": "definition",
+      "question": "Xin luật sư cho tôi hỏi khai thuế là gì được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "THUE-073",
+      "domain": "thue",
+      "question_group": "definition",
+      "question": "Xin luật sư cho tôi hỏi quyết toán thuế là gì được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "THUE-074",
+      "domain": "thue",
+      "question_group": "definition",
+      "question": "Xin luật sư cho tôi hỏi thuế giá trị gia tăng là gì được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "THUE-075",
+      "domain": "thue",
+      "question_group": "definition",
+      "question": "Xin luật sư cho tôi hỏi phương pháp khấu trừ thuế GTGT là gì được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "THUE-076",
+      "domain": "thue",
+      "question_group": "definition",
+      "question": "Xin luật sư cho tôi hỏi phương pháp trực tiếp thuế GTGT là gì được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "THUE-077",
+      "domain": "thue",
+      "question_group": "definition",
+      "question": "Xin luật sư cho tôi hỏi thuế thu nhập doanh nghiệp là gì được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "THUE-078",
+      "domain": "thue",
+      "question_group": "definition",
+      "question": "Xin luật sư cho tôi hỏi chi phí được trừ khi tính thuế TNDN là gì được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "THUE-079",
+      "domain": "thue",
+      "question_group": "definition",
+      "question": "Xin luật sư cho tôi hỏi chi phí không được trừ là gì được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "THUE-080",
+      "domain": "thue",
+      "question_group": "definition",
+      "question": "Xin luật sư cho tôi hỏi thuế thu nhập cá nhân từ tiền lương là gì được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "THUE-081",
+      "domain": "thue",
+      "question_group": "definition",
+      "question": "Xin luật sư cho tôi hỏi khấu trừ thuế tại nguồn là gì được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "THUE-082",
+      "domain": "thue",
+      "question_group": "definition",
+      "question": "Xin luật sư cho tôi hỏi hóa đơn điện tử là gì được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "THUE-083",
+      "domain": "thue",
+      "question_group": "definition",
+      "question": "Xin luật sư cho tôi hỏi thời điểm lập hóa đơn được hiểu thế nào được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "THUE-084",
+      "domain": "thue",
+      "question_group": "definition",
+      "question": "Xin luật sư cho tôi hỏi hoàn thuế GTGT là gì được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "THUE-085",
+      "domain": "thue",
+      "question_group": "definition",
+      "question": "Xin luật sư cho tôi hỏi người nộp thuế theo Luật Quản lý thuế là ai được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "THUE-086",
+      "domain": "thue",
+      "question_group": "definition",
+      "question": "Xin luật sư cho tôi hỏi đăng ký thuế là gì được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "THUE-087",
+      "domain": "thue",
+      "question_group": "definition",
+      "question": "Xin luật sư cho tôi hỏi thanh tra thuế khác kiểm tra thuế thế nào được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "THUE-088",
+      "domain": "thue",
+      "question_group": "definition",
+      "question": "Xin luật sư cho tôi hỏi ấn định thuế là gì được hiểu như thế nào theo quy định hiện hành?"
+    },
+    {
+      "id": "THUE-089",
+      "domain": "thue",
+      "question_group": "procedure",
+      "question": "Xin luật sư hướng dẫn giúp tôi về thủ tục đăng ký thuế ban đầu cho doanh nghiệp."
+    },
+    {
+      "id": "THUE-090",
+      "domain": "thue",
+      "question_group": "procedure",
+      "question": "Xin luật sư hướng dẫn giúp tôi về thủ tục khai thuế GTGT theo quý."
+    },
+    {
+      "id": "THUE-091",
+      "domain": "thue",
+      "question_group": "procedure",
+      "question": "Xin luật sư hướng dẫn giúp tôi về thủ tục khai thuế GTGT theo tháng."
+    },
+    {
+      "id": "THUE-092",
+      "domain": "thue",
+      "question_group": "procedure",
+      "question": "Xin luật sư hướng dẫn giúp tôi về thủ tục quyết toán thuế TNDN cuối năm."
+    },
+    {
+      "id": "THUE-093",
+      "domain": "thue",
+      "question_group": "procedure",
+      "question": "Xin luật sư hướng dẫn giúp tôi về thủ tục quyết toán thuế TNCN cho người lao động."
+    },
+    {
+      "id": "THUE-094",
+      "domain": "thue",
+      "question_group": "procedure",
+      "question": "Xin luật sư hướng dẫn giúp tôi về thủ tục đăng ký sử dụng hóa đơn điện tử."
+    },
+    {
+      "id": "THUE-095",
+      "domain": "thue",
+      "question_group": "procedure",
+      "question": "Xin luật sư hướng dẫn giúp tôi về thủ tục xử lý hóa đơn lập sai."
+    },
+    {
+      "id": "THUE-096",
+      "domain": "thue",
+      "question_group": "procedure",
+      "question": "Xin luật sư hướng dẫn giúp tôi về thủ tục kê khai thuế khi tạm ngừng kinh doanh."
+    },
+    {
+      "id": "THUE-097",
+      "domain": "thue",
+      "question_group": "procedure",
+      "question": "Xin luật sư hướng dẫn giúp tôi về thủ tục hoàn thuế GTGT."
+    },
+    {
+      "id": "THUE-098",
+      "domain": "thue",
+      "question_group": "procedure",
+      "question": "Xin luật sư hướng dẫn giúp tôi về thủ tục điều chỉnh tờ khai bổ sung."
+    },
+    {
+      "id": "THUE-099",
+      "domain": "thue",
+      "question_group": "procedure",
+      "question": "Xin luật sư hướng dẫn giúp tôi về thủ tục đăng ký người phụ thuộc giảm trừ gia cảnh."
+    },
+    {
+      "id": "THUE-100",
+      "domain": "thue",
+      "question_group": "procedure",
+      "question": "Xin luật sư hướng dẫn giúp tôi về thủ tục chấm dứt hiệu lực mã số thuế."
+    },
+    {
+      "id": "THUE-101",
+      "domain": "thue",
+      "question_group": "procedure",
+      "question": "Xin luật sư hướng dẫn giúp tôi về thủ tục khấu trừ và nộp thay thuế TNCN."
+    },
+    {
+      "id": "THUE-102",
+      "domain": "thue",
+      "question_group": "procedure",
+      "question": "Xin luật sư hướng dẫn giúp tôi về thủ tục nộp lệ phí môn bài."
+    },
+    {
+      "id": "THUE-103",
+      "domain": "thue",
+      "question_group": "procedure",
+      "question": "Xin luật sư hướng dẫn giúp tôi về thủ tục khai thuế nhà thầu trong trường hợp có nhà cung cấp nước ngoài."
+    },
+    {
+      "id": "THUE-104",
+      "domain": "thue",
+      "question_group": "procedure",
+      "question": "Xin luật sư hướng dẫn giúp tôi về thủ tục đối chiếu nghĩa vụ thuế trước khi giải thể."
+    },
+    {
+      "id": "THUE-105",
+      "domain": "thue",
+      "question_group": "procedure",
+      "question": "Xin luật sư hướng dẫn giúp tôi về thủ tục phát hành hóa đơn cho hàng khuyến mại."
+    },
+    {
+      "id": "THUE-106",
+      "domain": "thue",
+      "question_group": "procedure",
+      "question": "Xin luật sư hướng dẫn giúp tôi về thủ tục xử lý hàng biếu tặng về thuế GTGT."
+    },
+    {
+      "id": "THUE-107",
+      "domain": "thue",
+      "question_group": "reasoning",
+      "question": "Trong quá trình hoạt động, công ty tôi phát sinh một vướng mắc về thuế. Cụ thể, tôi muốn hỏi không có doanh thu có phải nộp tờ khai thuế không. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "THUE-108",
+      "domain": "thue",
+      "question_group": "reasoning",
+      "question": "Trong quá trình hoạt động, công ty tôi phát sinh một vướng mắc về thuế. Cụ thể, tôi muốn hỏi mới thành lập chưa phát sinh hóa đơn có phải khai thuế không. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "THUE-109",
+      "domain": "thue",
+      "question_group": "reasoning",
+      "question": "Trong quá trình hoạt động, công ty tôi phát sinh một vướng mắc về thuế. Cụ thể, tôi muốn hỏi chi phí không có hóa đơn có được tính vào chi phí hợp lý không. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "THUE-110",
+      "domain": "thue",
+      "question_group": "reasoning",
+      "question": "Trong quá trình hoạt động, công ty tôi phát sinh một vướng mắc về thuế. Cụ thể, tôi muốn hỏi mượn hóa đơn đầu vào có rủi ro gì. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "THUE-111",
+      "domain": "thue",
+      "question_group": "reasoning",
+      "question": "Trong quá trình hoạt động, công ty tôi phát sinh một vướng mắc về thuế. Cụ thể, tôi muốn hỏi trả lương tiền mặt có được tính chi phí không. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "THUE-112",
+      "domain": "thue",
+      "question_group": "reasoning",
+      "question": "Trong quá trình hoạt động, công ty tôi phát sinh một vướng mắc về thuế. Cụ thể, tôi muốn hỏi chậm nộp tờ khai có bị phạt không. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "THUE-113",
+      "domain": "thue",
+      "question_group": "reasoning",
+      "question": "Trong quá trình hoạt động, công ty tôi phát sinh một vướng mắc về thuế. Cụ thể, tôi muốn hỏi khai sai thuế nhưng tự phát hiện trước có bị xử lý thế nào. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "THUE-114",
+      "domain": "thue",
+      "question_group": "reasoning",
+      "question": "Trong quá trình hoạt động, công ty tôi phát sinh một vướng mắc về thuế. Cụ thể, tôi muốn hỏi tạm ngừng kinh doanh có phải nộp lệ phí môn bài không. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "THUE-115",
+      "domain": "thue",
+      "question_group": "reasoning",
+      "question": "Trong quá trình hoạt động, công ty tôi phát sinh một vướng mắc về thuế. Cụ thể, tôi muốn hỏi hàng biếu tặng có phải xuất hóa đơn không. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "THUE-116",
+      "domain": "thue",
+      "question_group": "reasoning",
+      "question": "Trong quá trình hoạt động, công ty tôi phát sinh một vướng mắc về thuế. Cụ thể, tôi muốn hỏi thu tiền trước nhưng chưa giao hàng có phải lập hóa đơn không. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "THUE-117",
+      "domain": "thue",
+      "question_group": "reasoning",
+      "question": "Trong quá trình hoạt động, công ty tôi phát sinh một vướng mắc về thuế. Cụ thể, tôi muốn hỏi chi phí tiếp khách có bị khống chế không. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "THUE-118",
+      "domain": "thue",
+      "question_group": "reasoning",
+      "question": "Trong quá trình hoạt động, công ty tôi phát sinh một vướng mắc về thuế. Cụ thể, tôi muốn hỏi khấu hao tài sản mua không đủ hồ sơ có được trừ không. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "THUE-119",
+      "domain": "thue",
+      "question_group": "reasoning",
+      "question": "Trong quá trình hoạt động, công ty tôi phát sinh một vướng mắc về thuế. Cụ thể, tôi muốn hỏi doanh nghiệp lỗ có phải quyết toán thuế không. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "THUE-120",
+      "domain": "thue",
+      "question_group": "reasoning",
+      "question": "Trong quá trình hoạt động, công ty tôi phát sinh một vướng mắc về thuế. Cụ thể, tôi muốn hỏi mua hàng của cá nhân không kinh doanh thì xử lý chứng từ thế nào. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "THUE-121",
+      "domain": "thue",
+      "question_group": "reasoning",
+      "question": "Trong quá trình hoạt động, công ty tôi phát sinh một vướng mắc về thuế. Cụ thể, tôi muốn hỏi nhân viên nghỉ việc giữa năm ai quyết toán thuế TNCN. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "THUE-122",
+      "domain": "thue",
+      "question_group": "reasoning",
+      "question": "Trong quá trình hoạt động, công ty tôi phát sinh một vướng mắc về thuế. Cụ thể, tôi muốn hỏi ủy quyền quyết toán thuế TNCN khi nào được. Trường hợp như vậy thì rủi ro pháp lý thường nằm ở đâu, doanh nghiệp nên xử lý theo hướng nào để vừa đúng luật vừa hạn chế bị xử phạt?"
+    },
+    {
+      "id": "THUE-123",
+      "domain": "thue",
+      "question_group": "factual",
+      "question": "Tôi cần hỏi ngắn gọn một vấn đề cụ thể về thuế. Xin luật sư cho biết ai là người nộp thuế GTGT theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "THUE-124",
+      "domain": "thue",
+      "question_group": "factual",
+      "question": "Tôi cần hỏi ngắn gọn một vấn đề cụ thể về thuế. Xin luật sư cho biết căn cứ tính thuế TNDN gồm những gì theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "THUE-125",
+      "domain": "thue",
+      "question_group": "factual",
+      "question": "Tôi cần hỏi ngắn gọn một vấn đề cụ thể về thuế. Xin luật sư cho biết thời hạn góp thuế theo thông báo của cơ quan thuế theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "THUE-126",
+      "domain": "thue",
+      "question_group": "factual",
+      "question": "Tôi cần hỏi ngắn gọn một vấn đề cụ thể về thuế. Xin luật sư cho biết thời hạn nộp hồ sơ khai thuế theo tháng theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "THUE-127",
+      "domain": "thue",
+      "question_group": "factual",
+      "question": "Tôi cần hỏi ngắn gọn một vấn đề cụ thể về thuế. Xin luật sư cho biết thời hạn nộp hồ sơ khai thuế theo quý theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "THUE-128",
+      "domain": "thue",
+      "question_group": "factual",
+      "question": "Tôi cần hỏi ngắn gọn một vấn đề cụ thể về thuế. Xin luật sư cho biết đối tượng không chịu thuế GTGT là gì theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "THUE-129",
+      "domain": "thue",
+      "question_group": "factual",
+      "question": "Tôi cần hỏi ngắn gọn một vấn đề cụ thể về thuế. Xin luật sư cho biết điều kiện khấu trừ thuế GTGT đầu vào là gì theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "THUE-130",
+      "domain": "thue",
+      "question_group": "factual",
+      "question": "Tôi cần hỏi ngắn gọn một vấn đề cụ thể về thuế. Xin luật sư cho biết điều kiện hoàn thuế GTGT là gì theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "THUE-131",
+      "domain": "thue",
+      "question_group": "factual",
+      "question": "Tôi cần hỏi ngắn gọn một vấn đề cụ thể về thuế. Xin luật sư cho biết ai phải khấu trừ thuế TNCN theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "THUE-132",
+      "domain": "thue",
+      "question_group": "factual",
+      "question": "Tôi cần hỏi ngắn gọn một vấn đề cụ thể về thuế. Xin luật sư cho biết thu nhập nào từ tiền lương phải chịu thuế TNCN theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "THUE-133",
+      "domain": "thue",
+      "question_group": "factual",
+      "question": "Tôi cần hỏi ngắn gọn một vấn đề cụ thể về thuế. Xin luật sư cho biết chi phí nào thường không được trừ khi tính thuế TNDN theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "THUE-134",
+      "domain": "thue",
+      "question_group": "factual",
+      "question": "Tôi cần hỏi ngắn gọn một vấn đề cụ thể về thuế. Xin luật sư cho biết có bắt buộc dùng hóa đơn điện tử không theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "THUE-135",
+      "domain": "thue",
+      "question_group": "factual",
+      "question": "Tôi cần hỏi ngắn gọn một vấn đề cụ thể về thuế. Xin luật sư cho biết khi nào phải lập hóa đơn theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "THUE-136",
+      "domain": "thue",
+      "question_group": "factual",
+      "question": "Tôi cần hỏi ngắn gọn một vấn đề cụ thể về thuế. Xin luật sư cho biết hóa đơn sai mã số thuế người mua xử lý thế nào theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "THUE-137",
+      "domain": "thue",
+      "question_group": "factual",
+      "question": "Tôi cần hỏi ngắn gọn một vấn đề cụ thể về thuế. Xin luật sư cho biết có được hủy hóa đơn điện tử đã lập không theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "THUE-138",
+      "domain": "thue",
+      "question_group": "factual",
+      "question": "Tôi cần hỏi ngắn gọn một vấn đề cụ thể về thuế. Xin luật sư cho biết doanh nghiệp ngừng hoạt động có bị kiểm tra thuế không theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "THUE-139",
+      "domain": "thue",
+      "question_group": "factual",
+      "question": "Tôi cần hỏi ngắn gọn một vấn đề cụ thể về thuế. Xin luật sư cho biết kỳ tính thuế TNDN là năm hay quý theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "THUE-140",
+      "domain": "thue",
+      "question_group": "factual",
+      "question": "Tôi cần hỏi ngắn gọn một vấn đề cụ thể về thuế. Xin luật sư cho biết có được chuyển lỗ khi tính thuế TNDN không theo quy định hiện nay được xác định ra sao?"
+    },
+    {
+      "id": "LIEN_NGANH-141",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Hiện tôi đang vận hành doanh nghiệp và đang gặp một vài vấn đề đăng ký kinh doanh và thuế. Xin luật sư cho tôi hỏi: mở công ty xong thì phải làm những việc gì về thuế ngay trong tháng đầu? Xử lý theo trình tự nào để hồ sơ doanh nghiệp và nghĩa vụ thuế khớp nhau, tránh phát sinh sai sót về sau?"
+    },
+    {
+      "id": "LIEN_NGANH-142",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: đăng ký vốn điều lệ cao nhưng doanh thu thấp có ảnh hưởng gì đến nghĩa vụ thuế không?"
+    },
+    {
+      "id": "LIEN_NGANH-143",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: khi công ty đổi địa chỉ sang quận khác thì hồ sơ doanh nghiệp và hồ sơ thuế cần làm gì?"
+    },
+    {
+      "id": "LIEN_NGANH-144",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: khi tôi tạm ngừng kinh doanh rồi thì có phải nộp tờ khai thuế và lệ phí môn bài nữa không?"
+    },
+    {
+      "id": "LIEN_NGANH-145",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: khi giải thể công ty thì phải chốt những nghĩa vụ thuế nào trước khi nộp hồ sơ giải thể?"
+    },
+    {
+      "id": "LIEN_NGANH-146",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: mua lại công ty đang hoạt động thì người nhận chuyển nhượng cần kiểm tra rủi ro thuế gì?"
+    },
+    {
+      "id": "LIEN_NGANH-147",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: chi nhánh bán hàng trực tiếp thì phải đăng ký và kê khai thuế như thế nào?"
+    },
+    {
+      "id": "LIEN_NGANH-148",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: văn phòng đại diện không kinh doanh có phát sinh nghĩa vụ thuế nào không?"
+    },
+    {
+      "id": "LIEN_NGANH-149",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: công ty mới thành lập chưa có doanh thu nhưng đã thuê nhân viên thì phải khai những loại thuế nào?"
+    },
+    {
+      "id": "LIEN_NGANH-150",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: góp vốn bằng tài sản vào công ty có phát sinh hóa đơn hoặc nghĩa vụ thuế gì không?"
+    },
+    {
+      "id": "LIEN_NGANH-151",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: chuyển nhượng phần vốn góp trong công ty thì cá nhân chuyển nhượng có phải nộp thuế không?"
+    },
+    {
+      "id": "LIEN_NGANH-152",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: công ty thuê giám đốc ngoài không góp vốn thì tiền lương trả cho giám đốc xử lý thuế ra sao?"
+    },
+    {
+      "id": "LIEN_NGANH-153",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: đặt trụ sở tại nhà thuê của cá nhân thì cần hồ sơ gì để vừa hợp lệ về doanh nghiệp vừa hợp lệ về thuế?"
+    },
+    {
+      "id": "LIEN_NGANH-154",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: kinh doanh thêm ngành nghề mới nhưng chưa cập nhật đăng ký doanh nghiệp thì có rủi ro gì về thuế và hóa đơn?"
+    },
+    {
+      "id": "LIEN_NGANH-155",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: công ty dùng căn hộ chung cư làm địa chỉ đăng ký thì có thể gặp rủi ro gì đồng thời về đăng ký doanh nghiệp và thuế?"
+    },
+    {
+      "id": "LIEN_NGANH-156",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: thay đổi người đại diện theo pháp luật có làm thay đổi tài khoản giao dịch với cơ quan thuế không?"
+    },
+    {
+      "id": "LIEN_NGANH-157",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: doanh nghiệp tạm ngừng rồi quay lại hoạt động thì việc dùng tiếp hóa đơn điện tử xử lý thế nào?"
+    },
+    {
+      "id": "LIEN_NGANH-158",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: sáp nhập hoặc chuyển đổi loại hình doanh nghiệp có ảnh hưởng gì tới mã số thuế và nghĩa vụ kê khai đang dở dang?"
+    },
+    {
+      "id": "LIEN_NGANH-159",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: doanh nghiệp thuê cộng tác viên thường xuyên thì nên ký loại hợp đồng nào để vừa đúng luật doanh nghiệp vừa đúng thuế?"
+    },
+    {
+      "id": "LIEN_NGANH-160",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: công ty không treo biển hiệu tại trụ sở thì có thể bị ảnh hưởng gì khi cơ quan thuế kiểm tra địa chỉ hoạt động?"
+    },
+    {
+      "id": "LIEN_NGANH-161",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: bổ sung ngành nghề kinh doanh rồi mới xuất hóa đơn có an toàn hơn không?"
+    },
+    {
+      "id": "LIEN_NGANH-162",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: doanh nghiệp bị cơ quan thuế khóa mã số thuế thì có làm được thủ tục thay đổi đăng ký doanh nghiệp không?"
+    },
+    {
+      "id": "LIEN_NGANH-163",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: công ty có nhiều người đại diện theo pháp luật thì ai chịu trách nhiệm ký hồ sơ thuế?"
+    },
+    {
+      "id": "LIEN_NGANH-164",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: chuyển trụ sở sang tỉnh khác thì việc chốt nghĩa vụ thuế và thay đổi đăng ký doanh nghiệp làm trước hay sau?"
+    },
+    {
+      "id": "LIEN_NGANH-165",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: mua xe ô tô đứng tên công ty thì hồ sơ doanh nghiệp và điều kiện chi phí thuế cần chuẩn bị thế nào?"
+    },
+    {
+      "id": "LIEN_NGANH-166",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: chủ công ty rút tiền công ty dùng việc riêng có ảnh hưởng gì về quản trị doanh nghiệp và thuế không?"
+    },
+    {
+      "id": "LIEN_NGANH-167",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: công ty TNHH một thành viên do cá nhân làm chủ có phải nộp thuế TNCN khi rút lợi nhuận không?"
+    },
+    {
+      "id": "LIEN_NGANH-168",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: doanh nghiệp mở thêm địa điểm kinh doanh ở tỉnh khác thì khai thuế và quản lý hóa đơn ra sao?"
+    },
+    {
+      "id": "LIEN_NGANH-169",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: đổi tên công ty thì hóa đơn điện tử đang dùng có phải chỉnh sửa hay phát hành lại không?"
+    },
+    {
+      "id": "LIEN_NGANH-170",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: bán toàn bộ công ty cho người khác thì nghĩa vụ thuế cũ có chuyển sang người mua không?"
+    },
+    {
+      "id": "LIEN_NGANH-171",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: doanh nghiệp giải thể nhưng còn hóa đơn chưa sử dụng thì xử lý thế nào?"
+    },
+    {
+      "id": "LIEN_NGANH-172",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: thành viên góp vốn chưa góp đủ vốn mà công ty vẫn hoạt động và xuất hóa đơn thì có rủi ro gì?"
+    },
+    {
+      "id": "LIEN_NGANH-173",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: công ty có doanh thu online trên sàn thương mại điện tử thì cần lưu ý gì đồng thời về đăng ký ngành nghề và thuế?"
+    },
+    {
+      "id": "LIEN_NGANH-174",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: doanh nghiệp thuê nhà của giám đốc làm trụ sở thì chi phí thuê nhà có được trừ không?"
+    },
+    {
+      "id": "LIEN_NGANH-175",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: công ty trả lương cho người thân của chủ doanh nghiệp thì cần hồ sơ gì để chi phí được chấp nhận?"
+    },
+    {
+      "id": "LIEN_NGANH-176",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: đóng cửa công ty nhưng không làm thủ tục tạm ngừng hoặc giải thể thì có thể bị xử lý gì về thuế?"
+    },
+    {
+      "id": "LIEN_NGANH-177",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: tách doanh nghiệp thành nhiều công ty nhỏ có làm giảm nghĩa vụ thuế một cách hợp pháp không?"
+    },
+    {
+      "id": "LIEN_NGANH-178",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: doanh nghiệp thay đổi vốn điều lệ có phải thông báo gì với cơ quan thuế không?"
+    },
+    {
+      "id": "LIEN_NGANH-179",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: công ty phát sinh doanh thu trước khi hoàn tất đủ các thủ tục thuế ban đầu có bị phạt không?"
+    },
+    {
+      "id": "LIEN_NGANH-180",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: văn phòng đại diện ký hợp đồng lao động và trả lương thì phần thuế TNCN kê khai ở đâu?"
+    },
+    {
+      "id": "LIEN_NGANH-181",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: doanh nghiệp nhận góp vốn bằng quyền sử dụng đất thì cần lưu ý gì về hồ sơ pháp lý và thuế?"
+    },
+    {
+      "id": "LIEN_NGANH-182",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: công ty ngừng kinh doanh một thời gian dài rồi quay lại thì có cần rà soát lại hóa đơn và sổ thuế không?"
+    },
+    {
+      "id": "LIEN_NGANH-183",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: chuyển đổi từ hộ kinh doanh lên công ty thì cần lưu ý gì về đăng ký doanh nghiệp và chuyển tiếp nghĩa vụ thuế?"
+    },
+    {
+      "id": "LIEN_NGANH-184",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: doanh nghiệp nước ngoài góp vốn vào công ty Việt Nam thì cần lưu ý gì về thủ tục doanh nghiệp và nghĩa vụ thuế?"
+    },
+    {
+      "id": "LIEN_NGANH-185",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: chi phí thành lập doanh nghiệp có được hạch toán và tính thuế hay không?"
+    },
+    {
+      "id": "LIEN_NGANH-186",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: công ty cổ phần phát hành thêm cổ phần thì có phát sinh nghĩa vụ thuế gì ngay tại thời điểm phát hành không?"
+    },
+    {
+      "id": "LIEN_NGANH-187",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: thay đổi thành viên góp vốn nhưng chưa sửa hồ sơ doanh nghiệp thì lợi nhuận chia và nghĩa vụ thuế xác định theo ai?"
+    },
+    {
+      "id": "LIEN_NGANH-188",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: công ty thuê dịch vụ kế toán ngoài thì trách nhiệm pháp lý về doanh nghiệp và thuế vẫn thuộc về ai?"
+    },
+    {
+      "id": "LIEN_NGANH-189",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: công ty có người đại diện theo pháp luật ở nước ngoài thường xuyên thì giao dịch với cơ quan thuế xử lý ra sao?"
+    },
+    {
+      "id": "LIEN_NGANH-190",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: chuyển nhượng doanh nghiệp khi còn nợ thuế có làm được không?"
+    },
+    {
+      "id": "LIEN_NGANH-191",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: doanh nghiệp lập chi nhánh hạch toán phụ thuộc thì thuế GTGT và TNCN kê khai tập trung hay riêng?"
+    },
+    {
+      "id": "LIEN_NGANH-192",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: công ty sử dụng hóa đơn điện tử sai tên do vừa đổi tên doanh nghiệp thì xử lý thế nào?"
+    },
+    {
+      "id": "LIEN_NGANH-193",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: doanh nghiệp cho mượn pháp nhân để xuất hóa đơn có thể bị rủi ro gì đồng thời về doanh nghiệp và thuế?"
+    },
+    {
+      "id": "LIEN_NGANH-194",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: thành lập công ty để giữ tài sản nhưng không kinh doanh có phải làm đầy đủ nghĩa vụ thuế không?"
+    },
+    {
+      "id": "LIEN_NGANH-195",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: công ty gia đình chia lợi nhuận cho các thành viên có cần xem xét thuế TNCN không?"
+    },
+    {
+      "id": "LIEN_NGANH-196",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: doanh nghiệp có vốn đầu tư nước ngoài ngừng hoạt động tạm thời thì thủ tục với cơ quan đăng ký kinh doanh và cơ quan thuế khác gì nhau?"
+    },
+    {
+      "id": "LIEN_NGANH-197",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: doanh nghiệp bị thu hồi giấy chứng nhận đăng ký doanh nghiệp thì nghĩa vụ thuế còn lại xử lý thế nào?"
+    },
+    {
+      "id": "LIEN_NGANH-198",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: gộp nhiều hoạt động kinh doanh vào một công ty có lợi hơn hay tách ra nhiều công ty xét trên góc độ pháp lý và thuế?"
+    },
+    {
+      "id": "LIEN_NGANH-199",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: khi chuyển nhượng cổ phần cho người nước ngoài thì cần lưu ý gì về hồ sơ doanh nghiệp và thuế chuyển nhượng?"
+    },
+    {
+      "id": "LIEN_NGANH-200",
+      "domain": "lien_nganh",
+      "question_group": "cross_domain",
+      "question": "Xin luật sư cho tôi hỏi: doanh nghiệp thay đổi chủ sở hữu rồi mới phát hiện sai phạm thuế cũ thì ai chịu trách nhiệm chính?"
+    }
+  ]
+}

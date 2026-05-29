@@ -1,22 +1,22 @@
 {
   "registry_type": "shared_predicates",
   "predicates": [
-    "thanh_phan_ho_so",
     "condition",
-    "nop_bo_sung_tien_ky_quy_bao_dam",
-    "",
-    "thu_hoi",
-    "cap_giay_phep",
+    "deadline",
+    "dossier",
+    "legal_effect",
+    "threshold",
+    "applicability",
     "uy_quyen_bang_van_ban",
     "ky_quy"
   ],
   "counts": {
-    "thanh_phan_ho_so": 66,
-    "condition": 39,
-    "nop_bo_sung_tien_ky_quy_bao_dam": 2,
-    "": 3,
-    "thu_hoi": 4,
-    "cap_giay_phep": 17,
+    "condition": 35,
+    "deadline": 7,
+    "dossier": 52,
+    "legal_effect": 15,
+    "threshold": 9,
+    "applicability": 3,
     "uy_quyen_bang_van_ban": 4,
     "ky_quy": 4
   },
