@@ -1,60 +1,207 @@
-# Neuro-Symbolic Legal Reasoner
+# ⚖️ Verification-Centric Neuro-Symbolic Legal Reasoner
 
-## Running Backend Evaluation
+> Building reliable AI systems through requirement-driven reasoning, proof construction, and multi-stage verification.
 
-This evaluation is batch API-based (calls backend HTTP endpoints), not manual UI testing.
+<p align="center">
 
-### 1) Start backend
+![Research](https://img.shields.io/badge/AI-Engineering-blue)
+![Validation](https://img.shields.io/badge/AI-Validation-green)
+![LLM](https://img.shields.io/badge/LLM-Powered-orange)
+![Python](https://img.shields.io/badge/Python-3.11-yellow)
+![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green)
+![Paper](https://img.shields.io/badge/Paper-Under%20Submission-success)
 
-```bash
-python -m uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8001
-```
+</p>
 
-### 2) Run the 20-case evaluation
+---
 
-```bash
-python tests/runtime_checks/run_20case_eval.py
-```
+## Why This Project?
 
-### 3) Paths
+Large Language Models can generate convincing answers.
 
-- Input dataset: tests/runtime_checks/20case_eval_dataset.json
-- Output JSON: tests/runtime_checks/20case_eval_results.json
-- Output tables: tests/runtime_checks/20case_eval_tables.md
+The real challenge is determining:
 
-### 4) Create a new evaluation set
+* Is the answer actually correct?
+* Are all required conditions satisfied?
+* Is the reasoning process complete?
+* Can the conclusion be verified?
 
-1. Copy tests/runtime_checks/20case_eval_dataset.json.
-2. Edit questions and labels (test_id, question_type, subtype, question).
-3. Run with a custom dataset path if needed:
+These challenges become critical in enterprise environments where AI-generated outputs directly affect business processes, compliance, and decision making.
 
-```bash
-python tests/runtime_checks/run_20case_eval.py --dataset tests/runtime_checks/your_dataset.json
-```
+This project explores a verification-centric approach for improving AI reliability through structured reasoning and validation mechanisms.
 
-### 5) Crash handling and denominator policy
+---
 
-- If a case returns backend 500 or crashes, it is recorded with backend_error=true and retained in the per-case JSON.
-- Crash cases are excluded from percentage denominators in Table 1 and Table 2.
-- Crash count is reported separately for each question type in both tables.
-- If backend is unreachable, the script prints a clear startup instruction and exits.
+## Enterprise AI Perspective
 
-### 6) Table metrics summary
+Although developed in the legal domain, the core ideas are applicable to many enterprise AI systems:
 
-- Table 1 (IRAC-based answer quality):
-  - Useful Answer (%): answer_useful=true / non-crash count.
-  - Clear Legal Rule (%): answer_has_clear_legal_rule=true / non-crash count.
-  - Case Application (%):
-    - rule_reading: N/A.
-    - fact_application: answer_has_case_application=true / non-crash count.
-  - Estimated IRAC Score proxy:
-    - IRAC_proxy = 0.35*clear_legal_rule + 0.40*case_application_or_analysis + 0.10*useful_answer + 0.15*grounded.
-    - For rule_reading, clear_legal_rule is used as analysis proxy.
+| Enterprise AI Problem       | This Project                |
+| --------------------------- | --------------------------- |
+| AI-generated workflows      | Requirement verification    |
+| AI-generated business logic | Rule validation             |
+| Agent decision making       | Proof construction          |
+| Hallucinated outputs        | Multi-stage verification    |
+| Reliability engineering     | Verification & repair loops |
+| Explainability              | Traceable reasoning         |
 
-- Table 2 (Verifiability and faithfulness):
-  - Grounded (%): answer_grounded_to_rule=true / non-crash count.
-  - Proof Present (%): proof_present=true / non-crash count.
-  - Verification Success (%): verification_success=true / non-crash count.
-  - Missing Fact Correctness (%):
-    - rule_reading: N/A.
-    - fact_application: missing_facts_correct_if_needed=true / non-crash count.
+The project treats AI generation as a process that must be validated before execution, rather than trusted by default.
+
+---
+
+## System Overview
+
+The framework combines:
+
+* GraphRAG Retrieval
+* Symbolic Reasoning
+* Backward Chaining
+* Forward Chaining
+* Multi-Stage Verification
+* Entailment-Based Validation
+
+Instead of directly generating answers, the system follows:
+
+Question
+→ Goal
+→ Requirement Set
+→ Proof
+→ Verification
+→ Answer
+
+This design improves reliability and reduces unsupported conclusions.
+
+---
+
+## Key Engineering Contributions
+
+### Requirement-Driven Reasoning
+
+Transforms user questions into explicit requirement sets.
+
+Benefits:
+
+* Detect missing information
+* Prevent premature conclusions
+* Improve controllability of AI outputs
+
+---
+
+### Proof Construction
+
+The system builds reasoning chains before generating conclusions.
+
+Benefits:
+
+* Explainable decisions
+* Traceable reasoning paths
+* Better debugging and analysis
+
+---
+
+### Multi-Stage Verification
+
+Verification is applied at multiple stages:
+
+* Parse Verification
+* Rule Verification
+* Requirement Verification
+* Proof Verification
+* Answer Verification
+
+This acts as a reliability layer for AI-generated outputs.
+
+---
+
+### Repair-Oriented Architecture
+
+Instead of restarting the entire pipeline when errors occur, the system identifies failing components and performs targeted repair.
+
+Benefits:
+
+* Reduced error propagation
+* Faster recovery
+* More robust AI behavior
+
+---
+
+## Technical Stack
+
+### AI & NLP
+
+* Large Language Models
+* GraphRAG
+* Natural Language Inference
+* Semantic Retrieval
+
+### Backend
+
+* Python
+* FastAPI
+
+### Knowledge & Reasoning
+
+* Knowledge Graphs
+* Rule-Based Systems
+* Symbolic Reasoning
+* Backward Chaining
+* Forward Chaining
+
+### Engineering
+
+* Docker
+* Git
+* Evaluation Pipelines
+
+---
+
+## Evaluation
+
+The framework was evaluated on 141 Vietnamese legal questions spanning multiple legal domains.
+
+Results demonstrate:
+
+* Higher answer quality compared to retrieval-based and generation-based baselines
+* Improved groundedness
+* Better proof construction
+* Strong missing-fact detection capability
+* Reduced unsupported conclusions
+
+---
+
+## Research Paper
+
+### A Verification-Centric Neuro-Symbolic Framework for Vietnamese Legal Question Answering
+
+Status:
+
+📄 Conference Submission in Preparation
+
+---
+
+## What I Learned
+
+Through this project I gained hands-on experience in:
+
+* Designing reliable AI systems
+* Validation engineering for AI outputs
+* Building reasoning pipelines
+* Failure analysis and error handling
+* Evaluation framework design
+* LLM system architecture
+* Retrieval-Augmented Generation (RAG)
+* Explainable AI systems
+
+---
+
+## Future Work
+
+* Agentic AI validation
+* Workflow generation validation
+* Enterprise AI reliability engineering
+* Multi-domain reasoning systems
+* AI-assisted software engineering
+
+---
+
+> AI systems should not only generate outputs — they should verify them.
