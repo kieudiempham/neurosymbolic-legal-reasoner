@@ -1,0 +1,165 @@
+# Diagnostic Legal KB — Bảo hiểm xã hội (curated, manually encoded).
+# Nguồn chính: Luật Bảo hiểm xã hội số 41/2024/QH15 (data/raw/legal_corpus/labor/10_*).
+# Premise: "pred" (phải đúng) hoặc "~pred" (phải sai). Conclusion: "pred" hoặc "~pred".
+# basis: explicit = luật nói thẳng; a_contrario = suy ngược từ điều kiện luật (diễn giải, cần lưu ý).
+# Quan hệ chỉ được ghi khi văn bản nguồn thể hiện rõ (nguyên tắc bảo thủ).
+
+rules:
+  - id: R01
+    premises: [paid_wage, under_management]
+    conclusion: labor_relation
+    source: "Luật BHXH 41/2024, Điều 2 khoản 1 điểm a (thỏa thuận bằng tên gọi khác nhưng có trả công, tiền lương và sự quản lý, điều hành, giám sát)"
+    basis: explicit
+  - id: R02
+    premises: [signed_labor_contract]
+    conclusion: labor_relation
+    source: "Luật BHXH 41/2024, Điều 2 khoản 1 điểm a"
+    basis: explicit
+  - id: R03
+    premises: [probation_only]
+    conclusion: ~labor_relation
+    source: "Bộ luật Lao động 45/2019, Điều 24 (hợp đồng thử việc tách khỏi hợp đồng lao động)"
+    basis: explicit
+  - id: R04
+    premises: [labor_relation, term_at_least_1_month]
+    conclusion: covered_point_a
+    source: "Luật BHXH 41/2024, Điều 2 khoản 1 điểm a (hợp đồng có thời hạn từ đủ 01 tháng trở lên)"
+    basis: explicit
+  - id: R05
+    premises: [~term_at_least_1_month]
+    conclusion: ~covered_point_a
+    source: "Luật BHXH 41/2024, Điều 2 khoản 1 điểm a"
+    basis: a_contrario
+  - id: R05b
+    premises: [~labor_relation]
+    conclusion: ~covered_point_a
+    source: "Luật BHXH 41/2024, Điều 2 khoản 1 điểm a"
+    basis: a_contrario
+  - id: R06
+    premises: [covered_point_a, ~foreign_citizen, ~part_time]
+    conclusion: compulsory_si
+    source: "Luật BHXH 41/2024, Điều 2 khoản 1 điểm a"
+    basis: explicit
+  - id: R07
+    premises: [covered_point_a, ~foreign_citizen, part_time, wage_at_least_min_base]
+    conclusion: compulsory_si
+    source: "Luật BHXH 41/2024, Điều 2 khoản 1 điểm l"
+    basis: explicit
+  - id: R08
+    premises: [covered_point_a, ~foreign_citizen, part_time, ~wage_at_least_min_base]
+    conclusion: ~compulsory_si
+    source: "Luật BHXH 41/2024, Điều 2 khoản 1 điểm l"
+    basis: a_contrario
+  - id: R09
+    premises: [enterprise_manager, receives_salary]
+    conclusion: compulsory_si
+    source: "Luật BHXH 41/2024, Điều 2 khoản 1 điểm i"
+    basis: explicit
+  - id: R10
+    premises: [enterprise_manager, ~receives_salary]
+    conclusion: compulsory_si
+    source: "Luật BHXH 41/2024, Điều 2 khoản 1 điểm n"
+    basis: explicit
+  - id: R11
+    premises: [foreign_citizen, labor_relation, term_at_least_12_months]
+    conclusion: compulsory_si
+    source: "Luật BHXH 41/2024, Điều 2 khoản 2"
+    basis: explicit
+  - id: R12
+    premises: [foreign_citizen, intra_company_transfer]
+    conclusion: ~compulsory_si
+    source: "Luật BHXH 41/2024, Điều 2 khoản 2 điểm a"
+    basis: explicit
+  - id: R13
+    premises: [foreign_citizen, retirement_age_at_signing]
+    conclusion: ~compulsory_si
+    source: "Luật BHXH 41/2024, Điều 2 khoản 2 điểm b"
+    basis: explicit
+  - id: R14
+    premises: [receiving_pension]
+    conclusion: ~compulsory_si
+    source: "Luật BHXH 41/2024, Điều 2 khoản 7 điểm a"
+    basis: explicit
+  - id: R15
+    premises: [domestic_worker]
+    conclusion: ~compulsory_si
+    source: "Luật BHXH 41/2024, Điều 2 khoản 7 điểm b"
+    basis: explicit
+  - id: R16
+    premises: [~covered_point_a, ~enterprise_manager]
+    conclusion: ~compulsory_si
+    source: "Luật BHXH 41/2024, Điều 2 khoản 1"
+    basis: a_contrario
+  - id: R17
+    premises: [foreign_citizen, labor_relation, ~term_at_least_12_months]
+    conclusion: ~compulsory_si
+    source: "Luật BHXH 41/2024, Điều 2 khoản 2"
+    basis: a_contrario
+  - id: R18
+    premises: [compulsory_si, unpaid_14_days, ~agreed_contribution]
+    conclusion: ~must_contribute_month
+    source: "Luật BHXH 41/2024, Điều 33 khoản 5"
+    basis: explicit
+  - id: R19
+    premises: [compulsory_si, ~unpaid_14_days, ~contract_suspended]
+    conclusion: must_contribute_month
+    source: "Luật BHXH 41/2024, Điều 33"
+    basis: explicit
+  - id: R20
+    premises: [covered_point_a, contract_suspended, ~agreed_contribution]
+    conclusion: voluntary_si_eligible
+    source: "Luật BHXH 41/2024, Điều 2 khoản 4 điểm b"
+    basis: explicit
+  - id: R21
+    premises: [compulsory_si, contract_suspended, ~agreed_contribution]
+    conclusion: ~must_contribute_month
+    source: "Luật BHXH 41/2024, Điều 2 khoản 4 điểm b"
+    basis: a_contrario
+  - id: R22
+    premises: [covered_point_a, multiple_contracts]
+    conclusion: contribute_at_first_contract
+    source: "Luật BHXH 41/2024, Điều 2 khoản 5 điểm a"
+    basis: explicit
+  - id: R23
+    premises: [stopped_working, contribution_15_years, reached_retirement_age]
+    conclusion: entitled_pension
+    source: "Luật BHXH 41/2024, Điều 64 khoản 1 điểm a"
+    basis: explicit
+  - id: R24
+    premises: [terminated_participation, requested_lump_sum, reached_retirement_age, ~contribution_15_years]
+    conclusion: entitled_lump_sum
+    source: "Luật BHXH 41/2024, Điều 70 khoản 1 điểm a"
+    basis: explicit
+  - id: R25
+    premises: [terminated_participation, requested_lump_sum, emigrating]
+    conclusion: entitled_lump_sum
+    source: "Luật BHXH 41/2024, Điều 70 khoản 1 điểm b"
+    basis: explicit
+  - id: R26
+    premises: [terminated_participation, requested_lump_sum, serious_illness]
+    conclusion: entitled_lump_sum
+    source: "Luật BHXH 41/2024, Điều 70 khoản 1 điểm c"
+    basis: explicit
+  - id: R27
+    premises: [terminated_participation, requested_lump_sum, ~reached_retirement_age, ~emigrating, ~serious_illness]
+    conclusion: ~entitled_lump_sum
+    source: "Luật BHXH 41/2024, Điều 70 khoản 1 (ngoài các trường hợp a-c; đơn giản hóa, bỏ qua điểm d, đ, e)"
+    basis: a_contrario
+
+# exception_of: [A, B] = A là ngoại lệ của B (A thắng khi cả hai cùng áp dụng).
+exception_of:
+  - [R12, R11]
+  - [R13, R11]
+  - [R14, R06]
+  - [R14, R07]
+  - [R14, R09]
+  - [R14, R10]
+  - [R14, R11]
+  - [R15, R06]
+  - [R15, R07]
+
+# priority_over: chỉ ghi khi có căn cứ rõ; hiện chưa có cặp nào trong phạm vi KB này.
+priority_over: []
+
+# Hai kết luận incompatible khi cùng predicate, cùng chủ thể, khác dấu (pred vs ~pred).
+incompatibility: same_predicate_opposite_polarity

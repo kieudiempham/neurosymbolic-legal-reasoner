@@ -1,0 +1,9 @@
+28 rules, 40 gold cases, 125 instances
+instances by category: {'Normal': 27, 'ParserMisinterpretation': 20, 'MissingCaseInformation': 27, 'ParserOmission': 20, 'UnsupportedParserFact': 20, 'ResolvableRuleOverlap': 5, 'UnresolvedKBConflict': 6}
+  [no_mbd] 25/125 (0s)
+  [no_mbd] 50/125 (0s)
+  [no_mbd] 75/125 (0s)
+  [no_mbd] 100/125 (0s)
+  [no_mbd] 125/125 (0s)
+[no_mbd] done in 0.1s: {'final_answer_acc': 0.664, 'nli_calls_per_query': 0.0, 'kb_checks_per_query': 0.0, 'measurements_per_query': 0.0, 'final_answer_acc_faulty': 0.5714285714285714, 'diagnosis_acc': 0.48, 'ambiguous_rate': 0.0, 'recovery_success_rate': 0.336734693877551, 'recovery_success_given_correct_diag': 1.0, 'seconds': 0.1}
+wrote D:\note\neurosymbolic-legal-reasoner\experiments\diag\results_no_mbd.json

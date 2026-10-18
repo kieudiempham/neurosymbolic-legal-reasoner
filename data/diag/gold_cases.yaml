@@ -1,0 +1,371 @@
+# Gold cases cho diagnostic benchmark (BHXH).
+# source: id trong evaluation/qa_290_exp_cases_gold_mode.jsonl, hoặc "synthetic" (tự viết, đủ dữ kiện).
+# facts: dữ kiện câu hỏi thực sự nêu; value true/false; span = chuỗi con nguyên văn trong câu hỏi.
+# expected: kết luận đúng theo KB (true / false / unknown / abstain). Script tự kiểm tra lại bằng reasoner.
+
+cases:
+  # ---------------- Câu thật, đủ dữ kiện ----------------
+  - id: BHXH-068
+    source: BHXH-068
+    question: "Tôi ký hợp đồng lao động 12 tháng với công ty tư nhân. Xin hỏi trường hợp này có bắt buộc phải tham gia BHXH không?"
+    goal: compulsory_si
+    facts:
+      - {pred: signed_labor_contract, value: true, span: "ký hợp đồng lao động"}
+      - {pred: term_at_least_1_month, value: true, span: "12 tháng"}
+    expected: true
+  - id: BHXH-069
+    source: BHXH-069
+    question: "Tôi chỉ ký hợp đồng lao động 20 ngày để làm việc ngắn hạn. Vậy tôi có phải đóng BHXH bắt buộc không?"
+    goal: compulsory_si
+    facts:
+      - {pred: signed_labor_contract, value: true, span: "ký hợp đồng lao động"}
+      - {pred: term_at_least_1_month, value: false, span: "20 ngày"}
+    expected: false
+  - id: BHXH-089
+    source: BHXH-089
+    question: "Tôi ký hợp đồng lao động 45 ngày. Xin hỏi trường hợp này có phải đóng BHXH bắt buộc không?"
+    goal: compulsory_si
+    facts:
+      - {pred: signed_labor_contract, value: true, span: "ký hợp đồng lao động"}
+      - {pred: term_at_least_1_month, value: true, span: "45 ngày"}
+    expected: true
+  - id: BHXH-004
+    source: BHXH-004
+    question: "Tôi làm việc thời vụ chưa tới 01 tháng, công ty bảo chưa phải đóng BHXH. Như vậy có đúng không?"
+    goal: compulsory_si
+    facts:
+      - {pred: term_at_least_1_month, value: false, span: "chưa tới 01 tháng"}
+    expected: false
+  - id: BHXH-059
+    source: BHXH-059
+    question: "Công ty nói phải làm đủ 2 tháng mới được đóng BHXH. Trong khi tôi đã ký hợp đồng lao động 12 tháng từ ngày đầu tiên. Công ty nói vậy có đúng không?"
+    goal: compulsory_si
+    facts:
+      - {pred: signed_labor_contract, value: true, span: "đã ký hợp đồng lao động"}
+      - {pred: term_at_least_1_month, value: true, span: "12 tháng"}
+    expected: true
+  - id: BHXH-084
+    source: BHXH-084
+    question: "Tôi ký hợp đồng 1 năm nhưng công ty bảo làm qua 2 tháng mới đóng BHXH. Công ty làm vậy có đúng không?"
+    goal: compulsory_si
+    facts:
+      - {pred: signed_labor_contract, value: true, span: "ký hợp đồng"}
+      - {pred: term_at_least_1_month, value: true, span: "1 năm"}
+    expected: true
+  - id: BHXH-073
+    source: BHXH-073
+    question: "Tôi là giám đốc công ty và có nhận lương hằng tháng. Tôi có phải đóng BHXH bắt buộc không?"
+    goal: compulsory_si
+    facts:
+      - {pred: enterprise_manager, value: true, span: "là giám đốc công ty"}
+      - {pred: receives_salary, value: true, span: "có nhận lương hằng tháng"}
+    expected: true
+  - id: BHXH-074
+    source: BHXH-074
+    question: "Tôi đứng tên giám đốc nhưng không hưởng lương. Vậy tôi có bắt buộc phải đóng BHXH không?"
+    goal: compulsory_si
+    facts:
+      - {pred: enterprise_manager, value: true, span: "đứng tên giám đốc"}
+      - {pred: receives_salary, value: false, span: "không hưởng lương"}
+    expected: true
+  - id: BHXH-079
+    source: BHXH-079
+    question: "Tôi chỉ ký hợp đồng thử việc riêng, chưa ký hợp đồng lao động. Trường hợp này có phải đóng BHXH không?"
+    goal: compulsory_si
+    facts:
+      - {pred: probation_only, value: true, span: "chỉ ký hợp đồng thử việc riêng"}
+      - {pred: signed_labor_contract, value: false, span: "chưa ký hợp đồng lao động"}
+    expected: false
+  - id: BHXH-080
+    source: BHXH-080
+    question: "Tôi đã nhận lương hưu, nay đi làm lại cho doanh nghiệp. Tôi có phải đóng BHXH bắt buộc nữa không?"
+    goal: compulsory_si
+    facts:
+      - {pred: receiving_pension, value: true, span: "đã nhận lương hưu"}
+    expected: false
+  - id: BHXH-054
+    source: BHXH-054
+    question: "Tôi đã hưởng lương hưu nhưng nay đi làm lại cho doanh nghiệp tư nhân. Trường hợp này có tiếp tục phải đóng BHXH bắt buộc nữa không?"
+    goal: compulsory_si
+    facts:
+      - {pred: receiving_pension, value: true, span: "đã hưởng lương hưu"}
+    expected: false
+
+  # ---------------- Câu thật, thiếu dữ kiện (Missing Case Information tự nhiên) ----------------
+  - id: BHXH-078
+    source: BHXH-078
+    question: "Tôi làm việc 6 tháng, nhận lương đều nhưng công ty không ký hợp đồng bằng văn bản. Tôi có thể yêu cầu đóng BHXH được không?"
+    goal: compulsory_si
+    facts:
+      - {pred: term_at_least_1_month, value: true, span: "làm việc 6 tháng"}
+      - {pred: paid_wage, value: true, span: "nhận lương đều"}
+      - {pred: signed_labor_contract, value: false, span: "không ký hợp đồng bằng văn bản"}
+    expected: unknown
+    natural_missing: [under_management]
+  - id: BHXH-063
+    source: BHXH-063
+    question: "Tôi không được ký hợp đồng bằng văn bản nhưng làm việc ổn định đã hơn 6 tháng và nhận lương đều hằng tháng. Trường hợp này có thể yêu cầu đóng BHXH không?"
+    goal: compulsory_si
+    facts:
+      - {pred: signed_labor_contract, value: false, span: "không được ký hợp đồng bằng văn bản"}
+      - {pred: term_at_least_1_month, value: true, span: "hơn 6 tháng"}
+      - {pred: paid_wage, value: true, span: "nhận lương đều hằng tháng"}
+    expected: unknown
+    natural_missing: [under_management]
+  - id: BHXH-044
+    source: BHXH-044
+    question: "Tôi ký giấy tờ ghi là hợp đồng khoán việc 2 tháng, nhưng thực tế vẫn đi làm giờ hành chính và chịu sự quản lý của công ty. Trong trường hợp này có phải đóng BHXH bắt buộc không?"
+    goal: compulsory_si
+    facts:
+      - {pred: term_at_least_1_month, value: true, span: "2 tháng"}
+      - {pred: under_management, value: true, span: "chịu sự quản lý của công ty"}
+    expected: unknown
+    natural_missing: [paid_wage]
+  - id: BHXH-083
+    source: BHXH-083
+    question: "Tôi ký hợp đồng cộng tác viên nhưng bị quản lý giờ giấc và KPI như nhân viên chính thức. Vậy tôi có phải đóng BHXH không?"
+    goal: compulsory_si
+    facts:
+      - {pred: under_management, value: true, span: "bị quản lý giờ giấc và KPI"}
+    expected: unknown
+    natural_missing: [paid_wage, term_at_least_1_month]
+  - id: BHXH-081
+    source: BHXH-081
+    question: "Tôi là người nước ngoài làm việc tại Việt Nam theo hợp đồng lao động. Tôi có phải tham gia BHXH bắt buộc không?"
+    goal: compulsory_si
+    facts:
+      - {pred: foreign_citizen, value: true, span: "là người nước ngoài"}
+      - {pred: signed_labor_contract, value: true, span: "theo hợp đồng lao động"}
+    expected: unknown
+    natural_missing: [term_at_least_12_months]
+  - id: BHXH-071
+    source: BHXH-071
+    question: "Tôi làm bán thời gian nhưng lương tháng vẫn cao. Trường hợp này có phải đóng BHXH bắt buộc không?"
+    goal: compulsory_si
+    facts:
+      - {pred: part_time, value: true, span: "làm bán thời gian"}
+      - {pred: wage_at_least_min_base, value: true, span: "lương tháng vẫn cao"}
+    expected: unknown
+    natural_missing: [signed_labor_contract, paid_wage, under_management, term_at_least_1_month]
+  - id: BHXH-088
+    source: BHXH-088
+    question: "Tôi làm việc online tại nhà cho công ty trong nước và nhận lương hằng tháng. Trường hợp này có phải đóng BHXH không?"
+    goal: compulsory_si
+    facts:
+      - {pred: paid_wage, value: true, span: "nhận lương hằng tháng"}
+    expected: unknown
+    natural_missing: [under_management, signed_labor_contract, term_at_least_1_month]
+
+  # ---------------- Câu tự viết, đủ dữ kiện ----------------
+  - id: S01
+    source: synthetic
+    question: "Tôi ký hợp đồng lao động thời hạn 24 tháng với công ty, làm toàn thời gian. Tôi có thuộc diện đóng BHXH bắt buộc không?"
+    goal: compulsory_si
+    facts:
+      - {pred: signed_labor_contract, value: true, span: "ký hợp đồng lao động"}
+      - {pred: term_at_least_1_month, value: true, span: "thời hạn 24 tháng"}
+      - {pred: part_time, value: false, span: "làm toàn thời gian"}
+    expected: true
+  - id: S02
+    source: synthetic
+    question: "Tôi làm bán thời gian theo hợp đồng lao động 6 tháng, lương mỗi tháng cao hơn mức lương thấp nhất đóng BHXH. Tôi có phải đóng BHXH bắt buộc không?"
+    goal: compulsory_si
+    facts:
+      - {pred: part_time, value: true, span: "làm bán thời gian"}
+      - {pred: signed_labor_contract, value: true, span: "theo hợp đồng lao động"}
+      - {pred: term_at_least_1_month, value: true, span: "6 tháng"}
+      - {pred: wage_at_least_min_base, value: true, span: "lương mỗi tháng cao hơn mức lương thấp nhất đóng BHXH"}
+    expected: true
+  - id: S03
+    source: synthetic
+    question: "Tôi làm bán thời gian theo hợp đồng lao động 6 tháng, lương mỗi tháng thấp hơn mức lương thấp nhất đóng BHXH. Tôi có phải đóng BHXH bắt buộc không?"
+    goal: compulsory_si
+    facts:
+      - {pred: part_time, value: true, span: "làm bán thời gian"}
+      - {pred: signed_labor_contract, value: true, span: "theo hợp đồng lao động"}
+      - {pred: term_at_least_1_month, value: true, span: "6 tháng"}
+      - {pred: wage_at_least_min_base, value: false, span: "lương mỗi tháng thấp hơn mức lương thấp nhất đóng BHXH"}
+    expected: false
+  - id: S04
+    source: synthetic
+    question: "Tôi không ký hợp đồng nhưng được công ty trả lương hằng tháng và chịu sự quản lý, chấm công như nhân viên; công việc kéo dài 8 tháng. Tôi có thuộc diện BHXH bắt buộc không?"
+    goal: compulsory_si
+    facts:
+      - {pred: signed_labor_contract, value: false, span: "không ký hợp đồng"}
+      - {pred: paid_wage, value: true, span: "được công ty trả lương hằng tháng"}
+      - {pred: under_management, value: true, span: "chịu sự quản lý, chấm công như nhân viên"}
+      - {pred: term_at_least_1_month, value: true, span: "kéo dài 8 tháng"}
+    expected: true
+  - id: S05
+    source: synthetic
+    question: "Tôi đang hưởng lương hưu và vừa ký hợp đồng lao động 12 tháng với một công ty, làm toàn thời gian. Tôi có phải đóng BHXH bắt buộc không?"
+    goal: compulsory_si
+    facts:
+      - {pred: receiving_pension, value: true, span: "đang hưởng lương hưu"}
+      - {pred: signed_labor_contract, value: true, span: "ký hợp đồng lao động"}
+      - {pred: term_at_least_1_month, value: true, span: "12 tháng"}
+      - {pred: part_time, value: false, span: "làm toàn thời gian"}
+    expected: false
+  - id: S06
+    source: synthetic
+    question: "Tôi là người nước ngoài, ký hợp đồng lao động 2 năm với công ty tại Việt Nam. Tôi có phải tham gia BHXH bắt buộc không?"
+    goal: compulsory_si
+    facts:
+      - {pred: foreign_citizen, value: true, span: "là người nước ngoài"}
+      - {pred: signed_labor_contract, value: true, span: "ký hợp đồng lao động"}
+      - {pred: term_at_least_12_months, value: true, span: "2 năm"}
+    expected: true
+  - id: S07
+    source: synthetic
+    question: "Tôi là người nước ngoài được điều chuyển nội bộ doanh nghiệp sang Việt Nam, ký hợp đồng lao động 2 năm. Tôi có phải đóng BHXH bắt buộc không?"
+    goal: compulsory_si
+    facts:
+      - {pred: foreign_citizen, value: true, span: "là người nước ngoài"}
+      - {pred: intra_company_transfer, value: true, span: "được điều chuyển nội bộ doanh nghiệp"}
+      - {pred: signed_labor_contract, value: true, span: "ký hợp đồng lao động"}
+      - {pred: term_at_least_12_months, value: true, span: "2 năm"}
+    expected: false
+  - id: S08
+    source: synthetic
+    question: "Tôi là người nước ngoài, khi ký hợp đồng lao động 18 tháng thì đã đủ tuổi nghỉ hưu. Tôi có phải đóng BHXH bắt buộc không?"
+    goal: compulsory_si
+    facts:
+      - {pred: foreign_citizen, value: true, span: "là người nước ngoài"}
+      - {pred: signed_labor_contract, value: true, span: "ký hợp đồng lao động"}
+      - {pred: term_at_least_12_months, value: true, span: "18 tháng"}
+      - {pred: retirement_age_at_signing, value: true, span: "đã đủ tuổi nghỉ hưu"}
+    expected: false
+  - id: S09
+    source: synthetic
+    question: "Tôi là người nước ngoài, ký hợp đồng lao động 6 tháng với công ty Việt Nam. Tôi có phải đóng BHXH bắt buộc không?"
+    goal: compulsory_si
+    facts:
+      - {pred: foreign_citizen, value: true, span: "là người nước ngoài"}
+      - {pred: signed_labor_contract, value: true, span: "ký hợp đồng lao động"}
+      - {pred: term_at_least_12_months, value: false, span: "6 tháng"}
+    expected: false
+  - id: S10
+    source: synthetic
+    question: "Tôi ký hợp đồng lao động 12 tháng, làm toàn thời gian, nhưng tháng này tôi nghỉ không lương 16 ngày làm việc và không có thỏa thuận gì với công ty. Tháng này tôi có phải đóng BHXH không?"
+    goal: must_contribute_month
+    facts:
+      - {pred: signed_labor_contract, value: true, span: "ký hợp đồng lao động"}
+      - {pred: term_at_least_1_month, value: true, span: "12 tháng"}
+      - {pred: part_time, value: false, span: "làm toàn thời gian"}
+      - {pred: unpaid_14_days, value: true, span: "nghỉ không lương 16 ngày làm việc"}
+      - {pred: agreed_contribution, value: false, span: "không có thỏa thuận gì với công ty"}
+    expected: false
+  - id: S11
+    source: synthetic
+    question: "Tôi ký hợp đồng lao động không xác định thời hạn, làm toàn thời gian và tháng này hưởng lương đủ tháng. Tháng này tôi có phải đóng BHXH bắt buộc không?"
+    goal: must_contribute_month
+    facts:
+      - {pred: signed_labor_contract, value: true, span: "ký hợp đồng lao động"}
+      - {pred: term_at_least_1_month, value: true, span: "không xác định thời hạn"}
+      - {pred: part_time, value: false, span: "làm toàn thời gian"}
+      - {pred: unpaid_14_days, value: false, span: "hưởng lương đủ tháng"}
+    expected: true
+  - id: S12
+    source: synthetic
+    question: "Tôi ký hợp đồng lao động 12 tháng, làm toàn thời gian, hiện hợp đồng đang tạm hoãn và hai bên không thỏa thuận đóng BHXH trong thời gian này. Tôi có phải đóng BHXH tháng này không?"
+    goal: must_contribute_month
+    facts:
+      - {pred: signed_labor_contract, value: true, span: "ký hợp đồng lao động"}
+      - {pred: term_at_least_1_month, value: true, span: "12 tháng"}
+      - {pred: part_time, value: false, span: "làm toàn thời gian"}
+      - {pred: contract_suspended, value: true, span: "hợp đồng đang tạm hoãn"}
+      - {pred: agreed_contribution, value: false, span: "hai bên không thỏa thuận đóng BHXH trong thời gian này"}
+    expected: false
+  - id: S13
+    source: synthetic
+    question: "Tôi ký hợp đồng lao động 1 năm với công ty A, sau đó ký thêm hợp đồng lao động với công ty B. Tôi có tham gia BHXH bắt buộc theo hợp đồng ký đầu tiên không?"
+    goal: contribute_at_first_contract
+    facts:
+      - {pred: signed_labor_contract, value: true, span: "ký hợp đồng lao động"}
+      - {pred: term_at_least_1_month, value: true, span: "1 năm"}
+      - {pred: multiple_contracts, value: true, span: "ký thêm hợp đồng lao động với công ty B"}
+    expected: true
+  - id: S14
+    source: synthetic
+    question: "Tôi đã nghỉ việc, đã đủ tuổi nghỉ hưu và đóng BHXH bắt buộc được 18 năm. Tôi có được hưởng lương hưu không?"
+    goal: entitled_pension
+    facts:
+      - {pred: stopped_working, value: true, span: "đã nghỉ việc"}
+      - {pred: reached_retirement_age, value: true, span: "đã đủ tuổi nghỉ hưu"}
+      - {pred: contribution_15_years, value: true, span: "đóng BHXH bắt buộc được 18 năm"}
+    expected: true
+  - id: S15
+    source: synthetic
+    question: "Tôi đã nghỉ việc và đủ tuổi nghỉ hưu nhưng mới đóng BHXH được 10 năm. Tôi có được hưởng lương hưu không?"
+    goal: entitled_pension
+    facts:
+      - {pred: stopped_working, value: true, span: "đã nghỉ việc"}
+      - {pred: reached_retirement_age, value: true, span: "đủ tuổi nghỉ hưu"}
+      - {pred: contribution_15_years, value: false, span: "mới đóng BHXH được 10 năm"}
+    expected: false
+  - id: S16
+    source: synthetic
+    question: "Tôi đã nghỉ việc và chốt sổ BHXH, đã đủ tuổi nghỉ hưu nhưng mới đóng BHXH được 10 năm. Tôi muốn nhận BHXH một lần thì có được không?"
+    goal: entitled_lump_sum
+    facts:
+      - {pred: terminated_participation, value: true, span: "chốt sổ BHXH"}
+      - {pred: reached_retirement_age, value: true, span: "đã đủ tuổi nghỉ hưu"}
+      - {pred: contribution_15_years, value: false, span: "mới đóng BHXH được 10 năm"}
+      - {pred: requested_lump_sum, value: true, span: "muốn nhận BHXH một lần"}
+    expected: true
+  - id: S17
+    source: synthetic
+    question: "Tôi 40 tuổi, chưa đủ tuổi nghỉ hưu, đã nghỉ việc và chốt sổ BHXH, muốn nhận BHXH một lần. Tôi không định cư nước ngoài và không mắc bệnh hiểm nghèo. Tôi có được nhận không?"
+    goal: entitled_lump_sum
+    facts:
+      - {pred: reached_retirement_age, value: false, span: "chưa đủ tuổi nghỉ hưu"}
+      - {pred: terminated_participation, value: true, span: "chốt sổ BHXH"}
+      - {pred: requested_lump_sum, value: true, span: "muốn nhận BHXH một lần"}
+      - {pred: emigrating, value: false, span: "không định cư nước ngoài"}
+      - {pred: serious_illness, value: false, span: "không mắc bệnh hiểm nghèo"}
+    expected: false
+  - id: S18
+    source: synthetic
+    question: "Tôi đã chấm dứt hợp đồng, chốt sổ BHXH và sắp ra nước ngoài định cư. Tôi muốn hưởng BHXH một lần có được không?"
+    goal: entitled_lump_sum
+    facts:
+      - {pred: terminated_participation, value: true, span: "chốt sổ BHXH"}
+      - {pred: emigrating, value: true, span: "sắp ra nước ngoài định cư"}
+      - {pred: requested_lump_sum, value: true, span: "muốn hưởng BHXH một lần"}
+    expected: true
+  - id: S19
+    source: synthetic
+    question: "Tôi là người giúp việc gia đình, ký hợp đồng lao động 12 tháng với chủ nhà, làm toàn thời gian. Tôi có phải đóng BHXH bắt buộc không?"
+    goal: compulsory_si
+    facts:
+      - {pred: domestic_worker, value: true, span: "là người giúp việc gia đình"}
+      - {pred: signed_labor_contract, value: true, span: "ký hợp đồng lao động"}
+      - {pred: term_at_least_1_month, value: true, span: "12 tháng"}
+      - {pred: part_time, value: false, span: "làm toàn thời gian"}
+    expected: false
+  - id: S20
+    source: synthetic
+    question: "Tôi đang thử việc, chỉ ký hợp đồng thử việc 2 tháng, công ty vẫn trả lương và quản lý, chấm công như nhân viên. Tôi có được xem là có quan hệ lao động không?"
+    goal: labor_relation
+    facts:
+      - {pred: probation_only, value: true, span: "chỉ ký hợp đồng thử việc"}
+      - {pred: paid_wage, value: true, span: "công ty vẫn trả lương"}
+      - {pred: under_management, value: true, span: "quản lý, chấm công như nhân viên"}
+    expected: abstain
+  - id: S21
+    source: synthetic
+    question: "Tôi ký hợp đồng lao động 3 tuần với một cửa hàng. Tôi có phải đóng BHXH bắt buộc không?"
+    goal: compulsory_si
+    facts:
+      - {pred: signed_labor_contract, value: true, span: "ký hợp đồng lao động"}
+      - {pred: term_at_least_1_month, value: false, span: "3 tuần"}
+    expected: false
+  - id: S22
+    source: synthetic
+    question: "Tôi làm giám đốc và nhận lương hằng tháng, đồng thời đã đủ tuổi nghỉ hưu và đang hưởng lương hưu. Tôi có phải đóng BHXH bắt buộc không?"
+    goal: compulsory_si
+    facts:
+      - {pred: enterprise_manager, value: true, span: "làm giám đốc"}
+      - {pred: receives_salary, value: true, span: "nhận lương hằng tháng"}
+      - {pred: receiving_pension, value: true, span: "đang hưởng lương hưu"}
+    expected: false

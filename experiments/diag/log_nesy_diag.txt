@@ -1,0 +1,9 @@
+28 rules, 40 gold cases, 125 instances
+instances by category: {'Normal': 27, 'ParserMisinterpretation': 20, 'MissingCaseInformation': 27, 'ParserOmission': 20, 'UnsupportedParserFact': 20, 'ResolvableRuleOverlap': 5, 'UnresolvedKBConflict': 6}
+  [nesy_diag] 25/125 (26s)
+  [nesy_diag] 50/125 (52s)
+  [nesy_diag] 75/125 (73s)
+  [nesy_diag] 100/125 (92s)
+  [nesy_diag] 125/125 (112s)
+[nesy_diag] done in 112.7s: {'final_answer_acc': 0.872, 'nli_calls_per_query': 3.736, 'kb_checks_per_query': 0.224, 'measurements_per_query': 3.96, 'final_answer_acc_faulty': 0.8673469387755102, 'diagnosis_acc': 0.664, 'ambiguous_rate': 0.0, 'recovery_success_rate': 0.5714285714285714, 'recovery_success_given_correct_diag': 0.9333333333333333, 'seconds': 112.7}
+wrote D:\note\neurosymbolic-legal-reasoner\experiments\diag\results_nesy_diag.json

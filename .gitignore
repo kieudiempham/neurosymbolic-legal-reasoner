@@ -23,3 +23,6 @@ paper/notes/
 
 frontend/node_modules/
 frontend/.next/
+# diagnosis experiment local envs
+.venv_diag/
+.tools/

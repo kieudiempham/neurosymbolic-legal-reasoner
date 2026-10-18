@@ -1,0 +1,8026 @@
+{
+ "results": {
+  "nesy_diag": {
+   "final_answer_acc": 0.872,
+   "nli_calls_per_query": 3.736,
+   "kb_checks_per_query": 0.224,
+   "measurements_per_query": 3.96,
+   "final_answer_acc_faulty": 0.8673469387755102,
+   "diagnosis_acc": 0.664,
+   "ambiguous_rate": 0.0,
+   "recovery_success_rate": 0.5714285714285714,
+   "recovery_success_given_correct_diag": 0.9333333333333333,
+   "per_category": {
+    "Normal": {
+     "precision": 1.0,
+     "recall": 0.8518518518518519,
+     "f1": 0.92,
+     "support": 27
+    },
+    "MissingCaseInformation": {
+     "precision": 0.6538461538461539,
+     "recall": 0.6296296296296297,
+     "f1": 0.6415094339622641,
+     "support": 27
+    },
+    "ParserOmission": {
+     "precision": 0.6470588235294118,
+     "recall": 0.55,
+     "f1": 0.5945945945945946,
+     "support": 20
+    },
+    "ParserMisinterpretation": {
+     "precision": 0.6551724137931034,
+     "recall": 0.95,
+     "f1": 0.7755102040816326,
+     "support": 20
+    },
+    "UnsupportedParserFact": {
+     "precision": 0.5555555555555556,
+     "recall": 0.5,
+     "f1": 0.5263157894736842,
+     "support": 20
+    },
+    "ResolvableRuleOverlap": {
+     "precision": 0.8333333333333334,
+     "recall": 1.0,
+     "f1": 0.9090909090909091,
+     "support": 5
+    },
+    "UnresolvedKBConflict": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "support": 6
+    }
+   },
+   "per_category_acc": {
+    "Normal": 0.8518518518518519,
+    "MissingCaseInformation": 0.3333333333333333,
+    "ParserOmission": 0.6,
+    "ParserMisinterpretation": 0.9,
+    "UnsupportedParserFact": 0.5,
+    "ResolvableRuleOverlap": 1.0,
+    "UnresolvedKBConflict": 1.0
+   },
+   "confusion": {
+    "Normal": {
+     "Normal": 23,
+     "ParserMisinterpretation": 2,
+     "UnsupportedParserFact": 2
+    },
+    "ParserMisinterpretation": {
+     "ParserMisinterpretation": 19,
+     "UnsupportedParserFact": 1
+    },
+    "MissingCaseInformation": {
+     "MissingCaseInformation": 17,
+     "ParserOmission": 6,
+     "UnsupportedParserFact": 4
+    },
+    "ParserOmission": {
+     "ParserOmission": 11,
+     "MissingCaseInformation": 8,
+     "UnsupportedParserFact": 1
+    },
+    "UnsupportedParserFact": {
+     "ParserMisinterpretation": 8,
+     "UnsupportedParserFact": 10,
+     "ResolvableRuleOverlap": 1,
+     "MissingCaseInformation": 1
+    },
+    "ResolvableRuleOverlap": {
+     "ResolvableRuleOverlap": 5
+    },
+    "UnresolvedKBConflict": {
+     "UnresolvedKBConflict": 6
+    }
+   },
+   "nli": {
+    "n": 467,
+    "accuracy": 0.860813704496788,
+    "macro_f1": 0.8097057293793304,
+    "per_label": {
+     "entail": {
+      "precision": 0.8769716088328076,
+      "recall": 0.972027972027972,
+      "f1": 0.9220563847429518,
+      "support": 286
+     },
+     "neutral": {
+      "precision": 0.76,
+      "recall": 0.5816326530612245,
+      "f1": 0.6589595375722543,
+      "support": 98
+     },
+     "contra": {
+      "precision": 0.8933333333333333,
+      "recall": 0.8072289156626506,
+      "f1": 0.8481012658227848,
+      "support": 83
+     }
+    },
+    "confusion": {
+     "entail": {
+      "entail": 278,
+      "neutral": 8
+     },
+     "neutral": {
+      "neutral": 57,
+      "entail": 33,
+      "contra": 8
+     },
+     "contra": {
+      "entail": 6,
+      "contra": 67,
+      "neutral": 10
+     }
+    }
+   },
+   "seconds": 112.7
+  }
+ },
+ "per_instance": {
+  "nesy_diag": [
+   {
+    "iid": "BHXH-068#normal",
+    "case": "BHXH-068",
+    "origin": "natural",
+    "gold_category": "Normal",
+    "gold_fault": "",
+    "pred_category": "Normal",
+    "first_diagnosis": [],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 2,
+    "kb_checks": 0,
+    "rounds": 1,
+    "recovery": [],
+    "nli_log": [
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.99609375,
+       "neutral": 0.0023174285888671875,
+       "contra": 0.0015478134155273438
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.5380859375,
+       "neutral": 0.0098419189453125,
+       "contra": 0.451904296875
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-068#misinterp:signed_labor_contract",
+    "case": "BHXH-068",
+    "origin": "injected",
+    "gold_category": "ParserMisinterpretation",
+    "gold_fault": "ParserMisinterpretation(signed_labor_contract)",
+    "pred_category": "ParserMisinterpretation",
+    "first_diagnosis": [
+     "ParserMisinterpretation(signed_labor_contract)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 2,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserMisinterpretation(signed_labor_contract)"
+    ],
+    "nli_log": [
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.99609375,
+       "neutral": 0.0023174285888671875,
+       "contra": 0.0015478134155273438
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.5380859375,
+       "neutral": 0.0098419189453125,
+       "contra": 0.451904296875
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-068#missing:term_at_least_1_month",
+    "case": "BHXH-068",
+    "origin": "injected",
+    "gold_category": "MissingCaseInformation",
+    "gold_fault": "MissingCaseInformation(term_at_least_1_month)",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(term_at_least_1_month)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 2,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "MissingCaseInformation(term_at_least_1_month)"
+    ],
+    "nli_log": [
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.99658203125,
+       "neutral": 0.00231170654296875,
+       "contra": 0.0010747909545898438
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.003017425537109375,
+       "neutral": 0.99658203125,
+       "contra": 0.0005393028259277344
+      },
+      "gold": "neutral"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-069#normal",
+    "case": "BHXH-069",
+    "origin": "natural",
+    "gold_category": "Normal",
+    "gold_fault": "",
+    "pred_category": "ParserMisinterpretation",
+    "first_diagnosis": [
+     "ParserMisinterpretation(term_at_least_1_month)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "true",
+    "expected": "false",
+    "answer_ok": false,
+    "nli_calls": 2,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserMisinterpretation(term_at_least_1_month)"
+    ],
+    "nli_log": [
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.99365234375,
+       "neutral": 0.0037994384765625,
+       "contra": 0.00250244140625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.76953125,
+       "neutral": 0.044525146484375,
+       "contra": 0.1859130859375
+      },
+      "gold": "contra"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-069#missing:term_at_least_1_month",
+    "case": "BHXH-069",
+    "origin": "injected",
+    "gold_category": "MissingCaseInformation",
+    "gold_fault": "MissingCaseInformation(term_at_least_1_month)",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(term_at_least_1_month)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 2,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "MissingCaseInformation(term_at_least_1_month)"
+    ],
+    "nli_log": [
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.99462890625,
+       "neutral": 0.0036678314208984375,
+       "contra": 0.0017480850219726562
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.0066375732421875,
+       "neutral": 0.99267578125,
+       "contra": 0.0008306503295898438
+      },
+      "gold": "neutral"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-069#omission:term_at_least_1_month",
+    "case": "BHXH-069",
+    "origin": "injected",
+    "gold_category": "ParserOmission",
+    "gold_fault": "ParserOmission(term_at_least_1_month)",
+    "pred_category": "ParserOmission",
+    "first_diagnosis": [
+     "ParserOmission(term_at_least_1_month)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "false",
+    "answer_ok": false,
+    "nli_calls": 2,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserOmission(term_at_least_1_month)"
+    ],
+    "nli_log": [
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.99365234375,
+       "neutral": 0.0037994384765625,
+       "contra": 0.00250244140625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.76953125,
+       "neutral": 0.044525146484375,
+       "contra": 0.1859130859375
+      },
+      "gold": "contra"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-069#unsupported:enterprise_manager=True",
+    "case": "BHXH-069",
+    "origin": "injected",
+    "gold_category": "UnsupportedParserFact",
+    "gold_fault": "UnsupportedParserFact(enterprise_manager)",
+    "pred_category": "ParserMisinterpretation",
+    "first_diagnosis": [
+     "ParserMisinterpretation(term_at_least_1_month)",
+     "UnsupportedParserFact(enterprise_manager)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "true",
+    "expected": "false",
+    "answer_ok": false,
+    "nli_calls": 3,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserMisinterpretation(term_at_least_1_month)",
+     "UnsupportedParserFact(enterprise_manager)"
+    ],
+    "nli_log": [
+     {
+      "prop": "enterprise_manager",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.0726318359375,
+       "neutral": 0.91796875,
+       "contra": 0.00946807861328125
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.99365234375,
+       "neutral": 0.0037994384765625,
+       "contra": 0.00250244140625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.76953125,
+       "neutral": 0.044525146484375,
+       "contra": 0.1859130859375
+      },
+      "gold": "contra"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-089#normal",
+    "case": "BHXH-089",
+    "origin": "natural",
+    "gold_category": "Normal",
+    "gold_fault": "",
+    "pred_category": "Normal",
+    "first_diagnosis": [],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 2,
+    "kb_checks": 0,
+    "rounds": 1,
+    "recovery": [],
+    "nli_log": [
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9970703125,
+       "neutral": 0.00165557861328125,
+       "contra": 0.0014410018920898438
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9384765625,
+       "neutral": 0.00879669189453125,
+       "contra": 0.052886962890625
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-089#omission:term_at_least_1_month",
+    "case": "BHXH-089",
+    "origin": "injected",
+    "gold_category": "ParserOmission",
+    "gold_fault": "ParserOmission(term_at_least_1_month)",
+    "pred_category": "ParserOmission",
+    "first_diagnosis": [
+     "ParserOmission(term_at_least_1_month)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 2,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserOmission(term_at_least_1_month)"
+    ],
+    "nli_log": [
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9970703125,
+       "neutral": 0.00165557861328125,
+       "contra": 0.0014410018920898438
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9384765625,
+       "neutral": 0.00879669189453125,
+       "contra": 0.052886962890625
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-004#normal",
+    "case": "BHXH-004",
+    "origin": "natural",
+    "gold_category": "Normal",
+    "gold_fault": "",
+    "pred_category": "ParserMisinterpretation",
+    "first_diagnosis": [
+     "ParserMisinterpretation(term_at_least_1_month)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "true",
+    "expected": "false",
+    "answer_ok": false,
+    "nli_calls": 4,
+    "kb_checks": 0,
+    "rounds": 3,
+    "recovery": [
+     "ParserMisinterpretation(term_at_least_1_month)",
+     "MissingCaseInformation(paid_wage)",
+     "MissingCaseInformation(under_management)",
+     "ParserOmission(signed_labor_contract)"
+    ],
+    "nli_log": [
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.463134765625,
+       "neutral": 0.08624267578125,
+       "contra": 0.450439453125
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "paid_wage",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.335693359375,
+       "neutral": 0.58154296875,
+       "contra": 0.0826416015625
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.64892578125,
+       "neutral": 0.322021484375,
+       "contra": 0.029052734375
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "under_management",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.190185546875,
+       "neutral": 0.671875,
+       "contra": 0.137939453125
+      },
+      "gold": "neutral"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-004#missing:term_at_least_1_month",
+    "case": "BHXH-004",
+    "origin": "injected",
+    "gold_category": "MissingCaseInformation",
+    "gold_fault": "MissingCaseInformation(term_at_least_1_month)",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(paid_wage)",
+     "MissingCaseInformation(term_at_least_1_month)",
+     "MissingCaseInformation(under_management)",
+     "ParserOmission(signed_labor_contract)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "MissingCaseInformation(paid_wage)",
+     "MissingCaseInformation(term_at_least_1_month)",
+     "MissingCaseInformation(under_management)",
+     "ParserOmission(signed_labor_contract)"
+    ],
+    "nli_log": [
+     {
+      "prop": "paid_wage",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.385009765625,
+       "neutral": 0.50390625,
+       "contra": 0.11083984375
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.6416015625,
+       "neutral": 0.34619140625,
+       "contra": 0.01239776611328125
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.006771087646484375,
+       "neutral": 0.990234375,
+       "contra": 0.0028476715087890625
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "under_management",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.14306640625,
+       "neutral": 0.5888671875,
+       "contra": 0.267822265625
+      },
+      "gold": "neutral"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-004#omission:term_at_least_1_month",
+    "case": "BHXH-004",
+    "origin": "injected",
+    "gold_category": "ParserOmission",
+    "gold_fault": "ParserOmission(term_at_least_1_month)",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(paid_wage)",
+     "MissingCaseInformation(under_management)",
+     "ParserOmission(signed_labor_contract)",
+     "ParserOmission(term_at_least_1_month)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "true",
+    "expected": "false",
+    "answer_ok": false,
+    "nli_calls": 4,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "MissingCaseInformation(paid_wage)",
+     "MissingCaseInformation(under_management)",
+     "ParserOmission(signed_labor_contract)",
+     "ParserOmission(term_at_least_1_month)"
+    ],
+    "nli_log": [
+     {
+      "prop": "paid_wage",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.335693359375,
+       "neutral": 0.58154296875,
+       "contra": 0.0826416015625
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.64892578125,
+       "neutral": 0.322021484375,
+       "contra": 0.029052734375
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.463134765625,
+       "neutral": 0.08624267578125,
+       "contra": 0.450439453125
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "under_management",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.190185546875,
+       "neutral": 0.671875,
+       "contra": 0.137939453125
+      },
+      "gold": "neutral"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-004#unsupported:enterprise_manager=True",
+    "case": "BHXH-004",
+    "origin": "injected",
+    "gold_category": "UnsupportedParserFact",
+    "gold_fault": "UnsupportedParserFact(enterprise_manager)",
+    "pred_category": "ParserMisinterpretation",
+    "first_diagnosis": [
+     "ParserMisinterpretation(term_at_least_1_month)",
+     "UnsupportedParserFact(enterprise_manager)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "true",
+    "expected": "false",
+    "answer_ok": false,
+    "nli_calls": 5,
+    "kb_checks": 0,
+    "rounds": 3,
+    "recovery": [
+     "ParserMisinterpretation(term_at_least_1_month)",
+     "UnsupportedParserFact(enterprise_manager)",
+     "MissingCaseInformation(paid_wage)",
+     "MissingCaseInformation(under_management)",
+     "ParserOmission(signed_labor_contract)"
+    ],
+    "nli_log": [
+     {
+      "prop": "enterprise_manager",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.2193603515625,
+       "neutral": 0.64404296875,
+       "contra": 0.136474609375
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.463134765625,
+       "neutral": 0.08624267578125,
+       "contra": 0.450439453125
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "paid_wage",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.335693359375,
+       "neutral": 0.58154296875,
+       "contra": 0.0826416015625
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.64892578125,
+       "neutral": 0.322021484375,
+       "contra": 0.029052734375
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "under_management",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.190185546875,
+       "neutral": 0.671875,
+       "contra": 0.137939453125
+      },
+      "gold": "neutral"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-059#normal",
+    "case": "BHXH-059",
+    "origin": "natural",
+    "gold_category": "Normal",
+    "gold_fault": "",
+    "pred_category": "Normal",
+    "first_diagnosis": [],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 2,
+    "kb_checks": 0,
+    "rounds": 1,
+    "recovery": [],
+    "nli_log": [
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9765625,
+       "neutral": 0.0117034912109375,
+       "contra": 0.01187896728515625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.68701171875,
+       "neutral": 0.0163726806640625,
+       "contra": 0.296875
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-059#missing:signed_labor_contract",
+    "case": "BHXH-059",
+    "origin": "injected",
+    "gold_category": "MissingCaseInformation",
+    "gold_fault": "MissingCaseInformation(signed_labor_contract)",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(paid_wage)",
+     "MissingCaseInformation(under_management)",
+     "ParserOmission(signed_labor_contract)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "MissingCaseInformation(paid_wage)",
+     "MissingCaseInformation(under_management)",
+     "ParserOmission(signed_labor_contract)"
+    ],
+    "nli_log": [
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.85205078125,
+       "neutral": 0.03814697265625,
+       "contra": 0.1097412109375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "paid_wage",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.328125,
+       "neutral": 0.61376953125,
+       "contra": 0.05804443359375
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.5205078125,
+       "neutral": 0.46240234375,
+       "contra": 0.0172271728515625
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "under_management",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.1456298828125,
+       "neutral": 0.8173828125,
+       "contra": 0.03680419921875
+      },
+      "gold": "neutral"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-059#misinterp:signed_labor_contract",
+    "case": "BHXH-059",
+    "origin": "injected",
+    "gold_category": "ParserMisinterpretation",
+    "gold_fault": "ParserMisinterpretation(signed_labor_contract)",
+    "pred_category": "ParserMisinterpretation",
+    "first_diagnosis": [
+     "ParserMisinterpretation(signed_labor_contract)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 2,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserMisinterpretation(signed_labor_contract)"
+    ],
+    "nli_log": [
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9765625,
+       "neutral": 0.0117034912109375,
+       "contra": 0.01187896728515625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.68701171875,
+       "neutral": 0.0163726806640625,
+       "contra": 0.296875
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-059#missing:term_at_least_1_month",
+    "case": "BHXH-059",
+    "origin": "injected",
+    "gold_category": "MissingCaseInformation",
+    "gold_fault": "MissingCaseInformation(term_at_least_1_month)",
+    "pred_category": "ParserOmission",
+    "first_diagnosis": [
+     "ParserOmission(term_at_least_1_month)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 2,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserOmission(term_at_least_1_month)"
+    ],
+    "nli_log": [
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.95947265625,
+       "neutral": 0.016937255859375,
+       "contra": 0.023712158203125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.8408203125,
+       "neutral": 0.0305633544921875,
+       "contra": 0.1285400390625
+      },
+      "gold": "neutral"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-059#omission:term_at_least_1_month",
+    "case": "BHXH-059",
+    "origin": "injected",
+    "gold_category": "ParserOmission",
+    "gold_fault": "ParserOmission(term_at_least_1_month)",
+    "pred_category": "ParserOmission",
+    "first_diagnosis": [
+     "ParserOmission(term_at_least_1_month)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 2,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserOmission(term_at_least_1_month)"
+    ],
+    "nli_log": [
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9765625,
+       "neutral": 0.0117034912109375,
+       "contra": 0.01187896728515625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.68701171875,
+       "neutral": 0.0163726806640625,
+       "contra": 0.296875
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-059#unsupported:foreign_citizen=True",
+    "case": "BHXH-059",
+    "origin": "injected",
+    "gold_category": "UnsupportedParserFact",
+    "gold_fault": "UnsupportedParserFact(foreign_citizen)",
+    "pred_category": "UnsupportedParserFact",
+    "first_diagnosis": [
+     "UnsupportedParserFact(foreign_citizen)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 3,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "UnsupportedParserFact(foreign_citizen)"
+    ],
+    "nli_log": [
+     {
+      "prop": "foreign_citizen",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.0008931159973144531,
+       "neutral": 0.99853515625,
+       "contra": 0.00037169456481933594
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9765625,
+       "neutral": 0.0117034912109375,
+       "contra": 0.01187896728515625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.68701171875,
+       "neutral": 0.0163726806640625,
+       "contra": 0.296875
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-084#normal",
+    "case": "BHXH-084",
+    "origin": "natural",
+    "gold_category": "Normal",
+    "gold_fault": "",
+    "pred_category": "Normal",
+    "first_diagnosis": [],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 2,
+    "kb_checks": 0,
+    "rounds": 1,
+    "recovery": [],
+    "nli_log": [
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.990234375,
+       "neutral": 0.0063934326171875,
+       "contra": 0.003265380859375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9443359375,
+       "neutral": 0.02581787109375,
+       "contra": 0.0298004150390625
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-084#missing:signed_labor_contract",
+    "case": "BHXH-084",
+    "origin": "injected",
+    "gold_category": "MissingCaseInformation",
+    "gold_fault": "MissingCaseInformation(signed_labor_contract)",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(paid_wage)",
+     "MissingCaseInformation(under_management)",
+     "ParserOmission(signed_labor_contract)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "MissingCaseInformation(paid_wage)",
+     "MissingCaseInformation(under_management)",
+     "ParserOmission(signed_labor_contract)"
+    ],
+    "nli_log": [
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.8125,
+       "neutral": 0.07843017578125,
+       "contra": 0.10931396484375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "paid_wage",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.426025390625,
+       "neutral": 0.50537109375,
+       "contra": 0.06842041015625
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.6923828125,
+       "neutral": 0.2861328125,
+       "contra": 0.0214691162109375
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "under_management",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.16259765625,
+       "neutral": 0.74755859375,
+       "contra": 0.089599609375
+      },
+      "gold": "neutral"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-084#unsupported:foreign_citizen=True",
+    "case": "BHXH-084",
+    "origin": "injected",
+    "gold_category": "UnsupportedParserFact",
+    "gold_fault": "UnsupportedParserFact(foreign_citizen)",
+    "pred_category": "UnsupportedParserFact",
+    "first_diagnosis": [
+     "UnsupportedParserFact(foreign_citizen)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 3,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "UnsupportedParserFact(foreign_citizen)"
+    ],
+    "nli_log": [
+     {
+      "prop": "foreign_citizen",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.001621246337890625,
+       "neutral": 0.998046875,
+       "contra": 0.0003647804260253906
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.990234375,
+       "neutral": 0.0063934326171875,
+       "contra": 0.003265380859375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9443359375,
+       "neutral": 0.02581787109375,
+       "contra": 0.0298004150390625
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-073#normal",
+    "case": "BHXH-073",
+    "origin": "natural",
+    "gold_category": "Normal",
+    "gold_fault": "",
+    "pred_category": "Normal",
+    "first_diagnosis": [],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 2,
+    "kb_checks": 0,
+    "rounds": 1,
+    "recovery": [],
+    "nli_log": [
+     {
+      "prop": "enterprise_manager",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98046875,
+       "neutral": 0.0150299072265625,
+       "contra": 0.004718780517578125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "receives_salary",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98291015625,
+       "neutral": 0.01346588134765625,
+       "contra": 0.0038394927978515625
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-073#unsupported:receiving_pension=True",
+    "case": "BHXH-073",
+    "origin": "injected",
+    "gold_category": "UnsupportedParserFact",
+    "gold_fault": "UnsupportedParserFact(receiving_pension)",
+    "pred_category": "ResolvableRuleOverlap",
+    "first_diagnosis": [
+     "ResolvableRuleOverlap(R09, R14)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "false",
+    "expected": "true",
+    "answer_ok": false,
+    "nli_calls": 3,
+    "kb_checks": 1,
+    "rounds": 2,
+    "recovery": [
+     "ResolvableRuleOverlap(R09, R14)"
+    ],
+    "nli_log": [
+     {
+      "prop": "enterprise_manager",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98046875,
+       "neutral": 0.0150299072265625,
+       "contra": 0.004718780517578125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "receives_salary",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98291015625,
+       "neutral": 0.01346588134765625,
+       "contra": 0.0038394927978515625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "receiving_pension",
+      "label": "entail",
+      "scores": {
+       "entail": 0.50634765625,
+       "neutral": 0.397705078125,
+       "contra": 0.0960693359375
+      },
+      "gold": "neutral"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-074#normal",
+    "case": "BHXH-074",
+    "origin": "natural",
+    "gold_category": "Normal",
+    "gold_fault": "",
+    "pred_category": "Normal",
+    "first_diagnosis": [],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 2,
+    "kb_checks": 0,
+    "rounds": 1,
+    "recovery": [],
+    "nli_log": [
+     {
+      "prop": "enterprise_manager",
+      "label": "entail",
+      "scores": {
+       "entail": 0.94189453125,
+       "neutral": 0.05511474609375,
+       "contra": 0.003215789794921875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "receives_salary",
+      "label": "contra",
+      "scores": {
+       "entail": 0.01506805419921875,
+       "neutral": 0.00809478759765625,
+       "contra": 0.97705078125
+      },
+      "gold": "contra"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-074#misinterp:enterprise_manager",
+    "case": "BHXH-074",
+    "origin": "injected",
+    "gold_category": "ParserMisinterpretation",
+    "gold_fault": "ParserMisinterpretation(enterprise_manager)",
+    "pred_category": "ParserMisinterpretation",
+    "first_diagnosis": [
+     "ParserMisinterpretation(enterprise_manager)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 2,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserMisinterpretation(enterprise_manager)"
+    ],
+    "nli_log": [
+     {
+      "prop": "enterprise_manager",
+      "label": "entail",
+      "scores": {
+       "entail": 0.94189453125,
+       "neutral": 0.05511474609375,
+       "contra": 0.003215789794921875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "receives_salary",
+      "label": "contra",
+      "scores": {
+       "entail": 0.01506805419921875,
+       "neutral": 0.00809478759765625,
+       "contra": 0.97705078125
+      },
+      "gold": "contra"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-079#normal",
+    "case": "BHXH-079",
+    "origin": "natural",
+    "gold_category": "Normal",
+    "gold_fault": "",
+    "pred_category": "Normal",
+    "first_diagnosis": [],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 2,
+    "kb_checks": 0,
+    "rounds": 1,
+    "recovery": [],
+    "nli_log": [
+     {
+      "prop": "probation_only",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9453125,
+       "neutral": 0.051422119140625,
+       "contra": 0.0030269622802734375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "contra",
+      "scores": {
+       "entail": 0.006076812744140625,
+       "neutral": 0.0070037841796875,
+       "contra": 0.98681640625
+      },
+      "gold": "contra"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-079#misinterp:signed_labor_contract",
+    "case": "BHXH-079",
+    "origin": "injected",
+    "gold_category": "ParserMisinterpretation",
+    "gold_fault": "ParserMisinterpretation(signed_labor_contract)",
+    "pred_category": "ParserMisinterpretation",
+    "first_diagnosis": [
+     "ParserMisinterpretation(signed_labor_contract)",
+     "UnresolvedKBConflict(R02, R03)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 2,
+    "kb_checks": 1,
+    "rounds": 2,
+    "recovery": [
+     "ParserMisinterpretation(signed_labor_contract)"
+    ],
+    "nli_log": [
+     {
+      "prop": "probation_only",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9453125,
+       "neutral": 0.051422119140625,
+       "contra": 0.0030269622802734375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "contra",
+      "scores": {
+       "entail": 0.006076812744140625,
+       "neutral": 0.0070037841796875,
+       "contra": 0.98681640625
+      },
+      "gold": "contra"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-079#unsupported:enterprise_manager=True",
+    "case": "BHXH-079",
+    "origin": "injected",
+    "gold_category": "UnsupportedParserFact",
+    "gold_fault": "UnsupportedParserFact(enterprise_manager)",
+    "pred_category": "UnsupportedParserFact",
+    "first_diagnosis": [
+     "UnsupportedParserFact(enterprise_manager)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 3,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "UnsupportedParserFact(enterprise_manager)"
+    ],
+    "nli_log": [
+     {
+      "prop": "enterprise_manager",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.11480712890625,
+       "neutral": 0.84130859375,
+       "contra": 0.043853759765625
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "probation_only",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9453125,
+       "neutral": 0.051422119140625,
+       "contra": 0.0030269622802734375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "contra",
+      "scores": {
+       "entail": 0.006076812744140625,
+       "neutral": 0.0070037841796875,
+       "contra": 0.98681640625
+      },
+      "gold": "contra"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-080#normal",
+    "case": "BHXH-080",
+    "origin": "natural",
+    "gold_category": "Normal",
+    "gold_fault": "",
+    "pred_category": "Normal",
+    "first_diagnosis": [],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 1,
+    "kb_checks": 0,
+    "rounds": 1,
+    "recovery": [],
+    "nli_log": [
+     {
+      "prop": "receiving_pension",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9921875,
+       "neutral": 0.00553131103515625,
+       "contra": 0.00244903564453125
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-054#normal",
+    "case": "BHXH-054",
+    "origin": "natural",
+    "gold_category": "Normal",
+    "gold_fault": "",
+    "pred_category": "Normal",
+    "first_diagnosis": [],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 1,
+    "kb_checks": 0,
+    "rounds": 1,
+    "recovery": [],
+    "nli_log": [
+     {
+      "prop": "receiving_pension",
+      "label": "entail",
+      "scores": {
+       "entail": 0.986328125,
+       "neutral": 0.0087890625,
+       "contra": 0.004650115966796875
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-078#natural",
+    "case": "BHXH-078",
+    "origin": "natural",
+    "gold_category": "MissingCaseInformation",
+    "gold_fault": "MissingCaseInformation(under_management)",
+    "pred_category": "UnsupportedParserFact",
+    "first_diagnosis": [
+     "UnsupportedParserFact(term_at_least_1_month)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "clarification_requested",
+    "expected": "clarification_requested",
+    "answer_ok": true,
+    "nli_calls": 3,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "UnsupportedParserFact(term_at_least_1_month)",
+     "MissingCaseInformation(term_at_least_1_month)",
+     "MissingCaseInformation(under_management)"
+    ],
+    "nli_log": [
+     {
+      "prop": "signed_labor_contract",
+      "label": "contra",
+      "scores": {
+       "entail": 0.0323486328125,
+       "neutral": 0.026824951171875,
+       "contra": 0.94091796875
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.27001953125,
+       "neutral": 0.52490234375,
+       "contra": 0.204833984375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "under_management",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.37109375,
+       "neutral": 0.56396484375,
+       "contra": 0.064697265625
+      },
+      "gold": "neutral"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-063#natural",
+    "case": "BHXH-063",
+    "origin": "natural",
+    "gold_category": "MissingCaseInformation",
+    "gold_fault": "MissingCaseInformation(under_management)",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(under_management)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "clarification_requested",
+    "expected": "clarification_requested",
+    "answer_ok": true,
+    "nli_calls": 3,
+    "kb_checks": 0,
+    "rounds": 1,
+    "recovery": [
+     "MissingCaseInformation(under_management)"
+    ],
+    "nli_log": [
+     {
+      "prop": "signed_labor_contract",
+      "label": "contra",
+      "scores": {
+       "entail": 0.293701171875,
+       "neutral": 0.08941650390625,
+       "contra": 0.61669921875
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.779296875,
+       "neutral": 0.071044921875,
+       "contra": 0.1497802734375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "under_management",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.312744140625,
+       "neutral": 0.59326171875,
+       "contra": 0.0938720703125
+      },
+      "gold": "neutral"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-044#natural",
+    "case": "BHXH-044",
+    "origin": "natural",
+    "gold_category": "MissingCaseInformation",
+    "gold_fault": "MissingCaseInformation(paid_wage)",
+    "pred_category": "ParserOmission",
+    "first_diagnosis": [
+     "ParserOmission(paid_wage)",
+     "ParserOmission(signed_labor_contract)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "true",
+    "expected": "clarification_requested",
+    "answer_ok": false,
+    "nli_calls": 4,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserOmission(paid_wage)",
+     "ParserOmission(signed_labor_contract)"
+    ],
+    "nli_log": [
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.97900390625,
+       "neutral": 0.00717926025390625,
+       "contra": 0.01401519775390625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "paid_wage",
+      "label": "entail",
+      "scores": {
+       "entail": 0.7373046875,
+       "neutral": 0.1884765625,
+       "contra": 0.07403564453125
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.994140625,
+       "neutral": 0.0031490325927734375,
+       "contra": 0.0026950836181640625
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "under_management",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9462890625,
+       "neutral": 0.049591064453125,
+       "contra": 0.004093170166015625
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-083#natural",
+    "case": "BHXH-083",
+    "origin": "natural",
+    "gold_category": "MissingCaseInformation",
+    "gold_fault": "MissingCaseInformation(paid_wage,term_at_least_1_month)",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(term_at_least_1_month)",
+     "ParserOmission(paid_wage)",
+     "ParserOmission(signed_labor_contract)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "clarification_requested",
+    "expected": "clarification_requested",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "MissingCaseInformation(term_at_least_1_month)",
+     "ParserOmission(paid_wage)",
+     "ParserOmission(signed_labor_contract)",
+     "MissingCaseInformation(term_at_least_1_month)"
+    ],
+    "nli_log": [
+     {
+      "prop": "paid_wage",
+      "label": "entail",
+      "scores": {
+       "entail": 0.78173828125,
+       "neutral": 0.1866455078125,
+       "contra": 0.03155517578125
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.99169921875,
+       "neutral": 0.004665374755859375,
+       "contra": 0.0036678314208984375
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.0005240440368652344,
+       "neutral": 0.9990234375,
+       "contra": 0.0005974769592285156
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "under_management",
+      "label": "entail",
+      "scores": {
+       "entail": 0.796875,
+       "neutral": 0.18701171875,
+       "contra": 0.015899658203125
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-081#natural",
+    "case": "BHXH-081",
+    "origin": "natural",
+    "gold_category": "MissingCaseInformation",
+    "gold_fault": "MissingCaseInformation(term_at_least_12_months)",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(term_at_least_12_months)",
+     "MissingCaseInformation(term_at_least_1_month)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "clarification_requested",
+    "expected": "clarification_requested",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 0,
+    "rounds": 1,
+    "recovery": [
+     "MissingCaseInformation(term_at_least_12_months)",
+     "MissingCaseInformation(term_at_least_1_month)"
+    ],
+    "nli_log": [
+     {
+      "prop": "foreign_citizen",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9248046875,
+       "neutral": 0.07342529296875,
+       "contra": 0.00202178955078125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.93408203125,
+       "neutral": 0.061981201171875,
+       "contra": 0.004001617431640625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_12_months",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.013641357421875,
+       "neutral": 0.98388671875,
+       "contra": 0.00267791748046875
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.00958251953125,
+       "neutral": 0.98779296875,
+       "contra": 0.0024166107177734375
+      },
+      "gold": "neutral"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-071#natural",
+    "case": "BHXH-071",
+    "origin": "natural",
+    "gold_category": "MissingCaseInformation",
+    "gold_fault": "MissingCaseInformation(signed_labor_contract,paid_wage,under_management,term_at_least_1_month)",
+    "pred_category": "UnsupportedParserFact",
+    "first_diagnosis": [
+     "UnsupportedParserFact(wage_at_least_min_base)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "clarification_requested",
+    "expected": "clarification_requested",
+    "answer_ok": true,
+    "nli_calls": 6,
+    "kb_checks": 0,
+    "rounds": 3,
+    "recovery": [
+     "UnsupportedParserFact(wage_at_least_min_base)",
+     "MissingCaseInformation(term_at_least_1_month)",
+     "MissingCaseInformation(under_management)",
+     "MissingCaseInformation(wage_at_least_min_base)",
+     "ParserOmission(paid_wage)",
+     "ParserOmission(signed_labor_contract)",
+     "MissingCaseInformation(term_at_least_1_month)",
+     "MissingCaseInformation(wage_at_least_min_base)"
+    ],
+    "nli_log": [
+     {
+      "prop": "part_time",
+      "label": "entail",
+      "scores": {
+       "entail": 0.994140625,
+       "neutral": 0.00449371337890625,
+       "contra": 0.0011529922485351562
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "wage_at_least_min_base",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.27685546875,
+       "neutral": 0.69970703125,
+       "contra": 0.0237884521484375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "paid_wage",
+      "label": "entail",
+      "scores": {
+       "entail": 0.654296875,
+       "neutral": 0.276123046875,
+       "contra": 0.0697021484375
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.52392578125,
+       "neutral": 0.439453125,
+       "contra": 0.0364990234375
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.41162109375,
+       "neutral": 0.5537109375,
+       "contra": 0.03472900390625
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "under_management",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.344482421875,
+       "neutral": 0.57763671875,
+       "contra": 0.0777587890625
+      },
+      "gold": "neutral"
+     }
+    ]
+   },
+   {
+    "iid": "BHXH-088#natural",
+    "case": "BHXH-088",
+    "origin": "natural",
+    "gold_category": "MissingCaseInformation",
+    "gold_fault": "MissingCaseInformation(under_management,signed_labor_contract,term_at_least_1_month)",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(signed_labor_contract)",
+     "MissingCaseInformation(under_management)",
+     "ParserOmission(term_at_least_1_month)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "clarification_requested",
+    "expected": "clarification_requested",
+    "answer_ok": true,
+    "nli_calls": 3,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "MissingCaseInformation(signed_labor_contract)",
+     "MissingCaseInformation(under_management)",
+     "ParserOmission(term_at_least_1_month)",
+     "MissingCaseInformation(signed_labor_contract)",
+     "MissingCaseInformation(under_management)"
+    ],
+    "nli_log": [
+     {
+      "prop": "signed_labor_contract",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.406005859375,
+       "neutral": 0.54736328125,
+       "contra": 0.04632568359375
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.68310546875,
+       "neutral": 0.2744140625,
+       "contra": 0.04229736328125
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "under_management",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.3740234375,
+       "neutral": 0.385009765625,
+       "contra": 0.2408447265625
+      },
+      "gold": "neutral"
+     }
+    ]
+   },
+   {
+    "iid": "S01#normal",
+    "case": "S01",
+    "origin": "natural",
+    "gold_category": "Normal",
+    "gold_fault": "",
+    "pred_category": "Normal",
+    "first_diagnosis": [],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 3,
+    "kb_checks": 0,
+    "rounds": 1,
+    "recovery": [],
+    "nli_log": [
+     {
+      "prop": "part_time",
+      "label": "contra",
+      "scores": {
+       "entail": 0.036895751953125,
+       "neutral": 0.1705322265625,
+       "contra": 0.79248046875
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9951171875,
+       "neutral": 0.003162384033203125,
+       "contra": 0.001567840576171875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.77587890625,
+       "neutral": 0.008636474609375,
+       "contra": 0.215576171875
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S01#omission:signed_labor_contract",
+    "case": "S01",
+    "origin": "injected",
+    "gold_category": "ParserOmission",
+    "gold_fault": "ParserOmission(signed_labor_contract)",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(under_management)",
+     "ParserOmission(paid_wage)",
+     "ParserOmission(signed_labor_contract)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 5,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "MissingCaseInformation(under_management)",
+     "ParserOmission(paid_wage)",
+     "ParserOmission(signed_labor_contract)"
+    ],
+    "nli_log": [
+     {
+      "prop": "part_time",
+      "label": "contra",
+      "scores": {
+       "entail": 0.036895751953125,
+       "neutral": 0.1705322265625,
+       "contra": 0.79248046875
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.77587890625,
+       "neutral": 0.008636474609375,
+       "contra": 0.215576171875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "paid_wage",
+      "label": "entail",
+      "scores": {
+       "entail": 0.521484375,
+       "neutral": 0.447265625,
+       "contra": 0.03131103515625
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9951171875,
+       "neutral": 0.003162384033203125,
+       "contra": 0.001567840576171875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "under_management",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.43505859375,
+       "neutral": 0.5537109375,
+       "contra": 0.01120758056640625
+      },
+      "gold": "neutral"
+     }
+    ]
+   },
+   {
+    "iid": "S01#missing:term_at_least_1_month",
+    "case": "S01",
+    "origin": "injected",
+    "gold_category": "MissingCaseInformation",
+    "gold_fault": "MissingCaseInformation(term_at_least_1_month)",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(term_at_least_1_month)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 3,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "MissingCaseInformation(term_at_least_1_month)"
+    ],
+    "nli_log": [
+     {
+      "prop": "part_time",
+      "label": "contra",
+      "scores": {
+       "entail": 0.021392822265625,
+       "neutral": 0.397705078125,
+       "contra": 0.5810546875
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9951171875,
+       "neutral": 0.004016876220703125,
+       "contra": 0.0009713172912597656
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.0026683807373046875,
+       "neutral": 0.99462890625,
+       "contra": 0.0026378631591796875
+      },
+      "gold": "neutral"
+     }
+    ]
+   },
+   {
+    "iid": "S02#normal",
+    "case": "S02",
+    "origin": "natural",
+    "gold_category": "Normal",
+    "gold_fault": "",
+    "pred_category": "Normal",
+    "first_diagnosis": [],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 0,
+    "rounds": 1,
+    "recovery": [],
+    "nli_log": [
+     {
+      "prop": "part_time",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98828125,
+       "neutral": 0.00882720947265625,
+       "contra": 0.002655029296875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.99169921875,
+       "neutral": 0.00563812255859375,
+       "contra": 0.00266265869140625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9267578125,
+       "neutral": 0.006740570068359375,
+       "contra": 0.06646728515625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "wage_at_least_min_base",
+      "label": "entail",
+      "scores": {
+       "entail": 0.94091796875,
+       "neutral": 0.050079345703125,
+       "contra": 0.00901031494140625
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S02#missing:signed_labor_contract",
+    "case": "S02",
+    "origin": "injected",
+    "gold_category": "MissingCaseInformation",
+    "gold_fault": "MissingCaseInformation(signed_labor_contract)",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(under_management)",
+     "ParserOmission(paid_wage)",
+     "ParserOmission(signed_labor_contract)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 6,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "MissingCaseInformation(under_management)",
+     "ParserOmission(paid_wage)",
+     "ParserOmission(signed_labor_contract)"
+    ],
+    "nli_log": [
+     {
+      "prop": "part_time",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9794921875,
+       "neutral": 0.01416015625,
+       "contra": 0.006435394287109375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.8564453125,
+       "neutral": 0.041168212890625,
+       "contra": 0.10247802734375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "wage_at_least_min_base",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9462890625,
+       "neutral": 0.04400634765625,
+       "contra": 0.00974273681640625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "paid_wage",
+      "label": "entail",
+      "scores": {
+       "entail": 0.8427734375,
+       "neutral": 0.1343994140625,
+       "contra": 0.0226898193359375
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.74951171875,
+       "neutral": 0.236572265625,
+       "contra": 0.01399993896484375
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "under_management",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.3466796875,
+       "neutral": 0.6142578125,
+       "contra": 0.039031982421875
+      },
+      "gold": "neutral"
+     }
+    ]
+   },
+   {
+    "iid": "S02#omission:signed_labor_contract",
+    "case": "S02",
+    "origin": "injected",
+    "gold_category": "ParserOmission",
+    "gold_fault": "ParserOmission(signed_labor_contract)",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(under_management)",
+     "ParserOmission(paid_wage)",
+     "ParserOmission(signed_labor_contract)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 6,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "MissingCaseInformation(under_management)",
+     "ParserOmission(paid_wage)",
+     "ParserOmission(signed_labor_contract)"
+    ],
+    "nli_log": [
+     {
+      "prop": "part_time",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98828125,
+       "neutral": 0.00882720947265625,
+       "contra": 0.002655029296875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9267578125,
+       "neutral": 0.006740570068359375,
+       "contra": 0.06646728515625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "wage_at_least_min_base",
+      "label": "entail",
+      "scores": {
+       "entail": 0.94091796875,
+       "neutral": 0.050079345703125,
+       "contra": 0.00901031494140625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "paid_wage",
+      "label": "entail",
+      "scores": {
+       "entail": 0.74951171875,
+       "neutral": 0.21435546875,
+       "contra": 0.0362548828125
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.99169921875,
+       "neutral": 0.00563812255859375,
+       "contra": 0.00266265869140625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "under_management",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.2587890625,
+       "neutral": 0.7177734375,
+       "contra": 0.0234375
+      },
+      "gold": "neutral"
+     }
+    ]
+   },
+   {
+    "iid": "S02#misinterp:signed_labor_contract",
+    "case": "S02",
+    "origin": "injected",
+    "gold_category": "ParserMisinterpretation",
+    "gold_fault": "ParserMisinterpretation(signed_labor_contract)",
+    "pred_category": "ParserMisinterpretation",
+    "first_diagnosis": [
+     "ParserMisinterpretation(signed_labor_contract)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserMisinterpretation(signed_labor_contract)"
+    ],
+    "nli_log": [
+     {
+      "prop": "part_time",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98828125,
+       "neutral": 0.00882720947265625,
+       "contra": 0.002655029296875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.99169921875,
+       "neutral": 0.00563812255859375,
+       "contra": 0.00266265869140625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9267578125,
+       "neutral": 0.006740570068359375,
+       "contra": 0.06646728515625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "wage_at_least_min_base",
+      "label": "entail",
+      "scores": {
+       "entail": 0.94091796875,
+       "neutral": 0.050079345703125,
+       "contra": 0.00901031494140625
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S02#missing:term_at_least_1_month",
+    "case": "S02",
+    "origin": "injected",
+    "gold_category": "MissingCaseInformation",
+    "gold_fault": "MissingCaseInformation(term_at_least_1_month)",
+    "pred_category": "ParserOmission",
+    "first_diagnosis": [
+     "ParserOmission(term_at_least_1_month)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserOmission(term_at_least_1_month)"
+    ],
+    "nli_log": [
+     {
+      "prop": "part_time",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98974609375,
+       "neutral": 0.00844573974609375,
+       "contra": 0.001995086669921875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.990234375,
+       "neutral": 0.007633209228515625,
+       "contra": 0.0023746490478515625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "wage_at_least_min_base",
+      "label": "entail",
+      "scores": {
+       "entail": 0.94189453125,
+       "neutral": 0.0509033203125,
+       "contra": 0.0069732666015625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.53564453125,
+       "neutral": 0.41015625,
+       "contra": 0.054290771484375
+      },
+      "gold": "neutral"
+     }
+    ]
+   },
+   {
+    "iid": "S02#misinterp:term_at_least_1_month",
+    "case": "S02",
+    "origin": "injected",
+    "gold_category": "ParserMisinterpretation",
+    "gold_fault": "ParserMisinterpretation(term_at_least_1_month)",
+    "pred_category": "ParserMisinterpretation",
+    "first_diagnosis": [
+     "ParserMisinterpretation(term_at_least_1_month)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserMisinterpretation(term_at_least_1_month)"
+    ],
+    "nli_log": [
+     {
+      "prop": "part_time",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98828125,
+       "neutral": 0.00882720947265625,
+       "contra": 0.002655029296875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.99169921875,
+       "neutral": 0.00563812255859375,
+       "contra": 0.00266265869140625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9267578125,
+       "neutral": 0.006740570068359375,
+       "contra": 0.06646728515625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "wage_at_least_min_base",
+      "label": "entail",
+      "scores": {
+       "entail": 0.94091796875,
+       "neutral": 0.050079345703125,
+       "contra": 0.00901031494140625
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S02#omission:wage_at_least_min_base",
+    "case": "S02",
+    "origin": "injected",
+    "gold_category": "ParserOmission",
+    "gold_fault": "ParserOmission(wage_at_least_min_base)",
+    "pred_category": "ParserOmission",
+    "first_diagnosis": [
+     "ParserOmission(wage_at_least_min_base)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserOmission(wage_at_least_min_base)"
+    ],
+    "nli_log": [
+     {
+      "prop": "part_time",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98828125,
+       "neutral": 0.00882720947265625,
+       "contra": 0.002655029296875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.99169921875,
+       "neutral": 0.00563812255859375,
+       "contra": 0.00266265869140625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9267578125,
+       "neutral": 0.006740570068359375,
+       "contra": 0.06646728515625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "wage_at_least_min_base",
+      "label": "entail",
+      "scores": {
+       "entail": 0.94091796875,
+       "neutral": 0.050079345703125,
+       "contra": 0.00901031494140625
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S02#unsupported:foreign_citizen=True",
+    "case": "S02",
+    "origin": "injected",
+    "gold_category": "UnsupportedParserFact",
+    "gold_fault": "UnsupportedParserFact(foreign_citizen)",
+    "pred_category": "UnsupportedParserFact",
+    "first_diagnosis": [
+     "UnsupportedParserFact(foreign_citizen)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 5,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "UnsupportedParserFact(foreign_citizen)"
+    ],
+    "nli_log": [
+     {
+      "prop": "foreign_citizen",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.0037784576416015625,
+       "neutral": 0.994140625,
+       "contra": 0.0021800994873046875
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "part_time",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98828125,
+       "neutral": 0.00882720947265625,
+       "contra": 0.002655029296875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.99169921875,
+       "neutral": 0.00563812255859375,
+       "contra": 0.00266265869140625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9267578125,
+       "neutral": 0.006740570068359375,
+       "contra": 0.06646728515625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "wage_at_least_min_base",
+      "label": "entail",
+      "scores": {
+       "entail": 0.94091796875,
+       "neutral": 0.050079345703125,
+       "contra": 0.00901031494140625
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S03#normal",
+    "case": "S03",
+    "origin": "natural",
+    "gold_category": "Normal",
+    "gold_fault": "",
+    "pred_category": "Normal",
+    "first_diagnosis": [],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 0,
+    "rounds": 1,
+    "recovery": [],
+    "nli_log": [
+     {
+      "prop": "part_time",
+      "label": "entail",
+      "scores": {
+       "entail": 0.99072265625,
+       "neutral": 0.00720977783203125,
+       "contra": 0.00220489501953125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9921875,
+       "neutral": 0.005290985107421875,
+       "contra": 0.0027065277099609375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.94287109375,
+       "neutral": 0.005809783935546875,
+       "contra": 0.051116943359375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "wage_at_least_min_base",
+      "label": "contra",
+      "scores": {
+       "entail": 0.42578125,
+       "neutral": 0.1026611328125,
+       "contra": 0.471435546875
+      },
+      "gold": "contra"
+     }
+    ]
+   },
+   {
+    "iid": "S03#misinterp:part_time",
+    "case": "S03",
+    "origin": "injected",
+    "gold_category": "ParserMisinterpretation",
+    "gold_fault": "ParserMisinterpretation(part_time)",
+    "pred_category": "ParserMisinterpretation",
+    "first_diagnosis": [
+     "ParserMisinterpretation(part_time)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserMisinterpretation(part_time)"
+    ],
+    "nli_log": [
+     {
+      "prop": "part_time",
+      "label": "entail",
+      "scores": {
+       "entail": 0.99072265625,
+       "neutral": 0.00720977783203125,
+       "contra": 0.00220489501953125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9921875,
+       "neutral": 0.005290985107421875,
+       "contra": 0.0027065277099609375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.94287109375,
+       "neutral": 0.005809783935546875,
+       "contra": 0.051116943359375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "wage_at_least_min_base",
+      "label": "contra",
+      "scores": {
+       "entail": 0.42578125,
+       "neutral": 0.1026611328125,
+       "contra": 0.471435546875
+      },
+      "gold": "contra"
+     }
+    ]
+   },
+   {
+    "iid": "S03#missing:signed_labor_contract",
+    "case": "S03",
+    "origin": "injected",
+    "gold_category": "MissingCaseInformation",
+    "gold_fault": "MissingCaseInformation(signed_labor_contract)",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(under_management)",
+     "ParserOmission(paid_wage)",
+     "ParserOmission(signed_labor_contract)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 6,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "MissingCaseInformation(under_management)",
+     "ParserOmission(paid_wage)",
+     "ParserOmission(signed_labor_contract)"
+    ],
+    "nli_log": [
+     {
+      "prop": "part_time",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98388671875,
+       "neutral": 0.01184844970703125,
+       "contra": 0.004329681396484375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.8544921875,
+       "neutral": 0.04180908203125,
+       "contra": 0.103515625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "wage_at_least_min_base",
+      "label": "contra",
+      "scores": {
+       "entail": 0.370849609375,
+       "neutral": 0.0966796875,
+       "contra": 0.53271484375
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "paid_wage",
+      "label": "entail",
+      "scores": {
+       "entail": 0.783203125,
+       "neutral": 0.1822509765625,
+       "contra": 0.03460693359375
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.67724609375,
+       "neutral": 0.304931640625,
+       "contra": 0.017791748046875
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "under_management",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.338134765625,
+       "neutral": 0.61865234375,
+       "contra": 0.043212890625
+      },
+      "gold": "neutral"
+     }
+    ]
+   },
+   {
+    "iid": "S03#omission:term_at_least_1_month",
+    "case": "S03",
+    "origin": "injected",
+    "gold_category": "ParserOmission",
+    "gold_fault": "ParserOmission(term_at_least_1_month)",
+    "pred_category": "ParserOmission",
+    "first_diagnosis": [
+     "ParserOmission(term_at_least_1_month)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserOmission(term_at_least_1_month)"
+    ],
+    "nli_log": [
+     {
+      "prop": "part_time",
+      "label": "entail",
+      "scores": {
+       "entail": 0.99072265625,
+       "neutral": 0.00720977783203125,
+       "contra": 0.00220489501953125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9921875,
+       "neutral": 0.005290985107421875,
+       "contra": 0.0027065277099609375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "wage_at_least_min_base",
+      "label": "contra",
+      "scores": {
+       "entail": 0.42578125,
+       "neutral": 0.1026611328125,
+       "contra": 0.471435546875
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.94287109375,
+       "neutral": 0.005809783935546875,
+       "contra": 0.051116943359375
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S03#unsupported:foreign_citizen=True",
+    "case": "S03",
+    "origin": "injected",
+    "gold_category": "UnsupportedParserFact",
+    "gold_fault": "UnsupportedParserFact(foreign_citizen)",
+    "pred_category": "UnsupportedParserFact",
+    "first_diagnosis": [
+     "UnsupportedParserFact(foreign_citizen)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 5,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "UnsupportedParserFact(foreign_citizen)"
+    ],
+    "nli_log": [
+     {
+      "prop": "foreign_citizen",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.0037841796875,
+       "neutral": 0.994140625,
+       "contra": 0.0020313262939453125
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "part_time",
+      "label": "entail",
+      "scores": {
+       "entail": 0.99072265625,
+       "neutral": 0.00720977783203125,
+       "contra": 0.00220489501953125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9921875,
+       "neutral": 0.005290985107421875,
+       "contra": 0.0027065277099609375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.94287109375,
+       "neutral": 0.005809783935546875,
+       "contra": 0.051116943359375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "wage_at_least_min_base",
+      "label": "contra",
+      "scores": {
+       "entail": 0.42578125,
+       "neutral": 0.1026611328125,
+       "contra": 0.471435546875
+      },
+      "gold": "contra"
+     }
+    ]
+   },
+   {
+    "iid": "S03#unsupported:probation_only=True",
+    "case": "S03",
+    "origin": "injected",
+    "gold_category": "UnsupportedParserFact",
+    "gold_fault": "UnsupportedParserFact(probation_only)",
+    "pred_category": "ParserMisinterpretation",
+    "first_diagnosis": [
+     "ParserMisinterpretation(probation_only)",
+     "UnresolvedKBConflict(R02, R03)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 5,
+    "kb_checks": 1,
+    "rounds": 2,
+    "recovery": [
+     "ParserMisinterpretation(probation_only)"
+    ],
+    "nli_log": [
+     {
+      "prop": "part_time",
+      "label": "entail",
+      "scores": {
+       "entail": 0.99072265625,
+       "neutral": 0.00720977783203125,
+       "contra": 0.00220489501953125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "probation_only",
+      "label": "contra",
+      "scores": {
+       "entail": 0.0654296875,
+       "neutral": 0.1630859375,
+       "contra": 0.771484375
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9921875,
+       "neutral": 0.005290985107421875,
+       "contra": 0.0027065277099609375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.94287109375,
+       "neutral": 0.005809783935546875,
+       "contra": 0.051116943359375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "wage_at_least_min_base",
+      "label": "contra",
+      "scores": {
+       "entail": 0.42578125,
+       "neutral": 0.1026611328125,
+       "contra": 0.471435546875
+      },
+      "gold": "contra"
+     }
+    ]
+   },
+   {
+    "iid": "S04#normal",
+    "case": "S04",
+    "origin": "natural",
+    "gold_category": "Normal",
+    "gold_fault": "",
+    "pred_category": "Normal",
+    "first_diagnosis": [],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 0,
+    "rounds": 1,
+    "recovery": [],
+    "nli_log": [
+     {
+      "prop": "paid_wage",
+      "label": "entail",
+      "scores": {
+       "entail": 0.92529296875,
+       "neutral": 0.0285797119140625,
+       "contra": 0.046051025390625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "contra",
+      "scores": {
+       "entail": 0.06353759765625,
+       "neutral": 0.0159454345703125,
+       "contra": 0.92041015625
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.8720703125,
+       "neutral": 0.044586181640625,
+       "contra": 0.0833740234375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "under_management",
+      "label": "entail",
+      "scores": {
+       "entail": 0.95556640625,
+       "neutral": 0.03350830078125,
+       "contra": 0.01103973388671875
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S04#omission:term_at_least_1_month",
+    "case": "S04",
+    "origin": "injected",
+    "gold_category": "ParserOmission",
+    "gold_fault": "ParserOmission(term_at_least_1_month)",
+    "pred_category": "ParserOmission",
+    "first_diagnosis": [
+     "ParserOmission(term_at_least_1_month)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserOmission(term_at_least_1_month)"
+    ],
+    "nli_log": [
+     {
+      "prop": "paid_wage",
+      "label": "entail",
+      "scores": {
+       "entail": 0.92529296875,
+       "neutral": 0.0285797119140625,
+       "contra": 0.046051025390625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "contra",
+      "scores": {
+       "entail": 0.06353759765625,
+       "neutral": 0.0159454345703125,
+       "contra": 0.92041015625
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "under_management",
+      "label": "entail",
+      "scores": {
+       "entail": 0.95556640625,
+       "neutral": 0.03350830078125,
+       "contra": 0.01103973388671875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.8720703125,
+       "neutral": 0.044586181640625,
+       "contra": 0.0833740234375
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S04#misinterp:term_at_least_1_month",
+    "case": "S04",
+    "origin": "injected",
+    "gold_category": "ParserMisinterpretation",
+    "gold_fault": "ParserMisinterpretation(term_at_least_1_month)",
+    "pred_category": "ParserMisinterpretation",
+    "first_diagnosis": [
+     "ParserMisinterpretation(term_at_least_1_month)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserMisinterpretation(term_at_least_1_month)"
+    ],
+    "nli_log": [
+     {
+      "prop": "paid_wage",
+      "label": "entail",
+      "scores": {
+       "entail": 0.92529296875,
+       "neutral": 0.0285797119140625,
+       "contra": 0.046051025390625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "contra",
+      "scores": {
+       "entail": 0.06353759765625,
+       "neutral": 0.0159454345703125,
+       "contra": 0.92041015625
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.8720703125,
+       "neutral": 0.044586181640625,
+       "contra": 0.0833740234375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "under_management",
+      "label": "entail",
+      "scores": {
+       "entail": 0.95556640625,
+       "neutral": 0.03350830078125,
+       "contra": 0.01103973388671875
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S04#unsupported:foreign_citizen=True",
+    "case": "S04",
+    "origin": "injected",
+    "gold_category": "UnsupportedParserFact",
+    "gold_fault": "UnsupportedParserFact(foreign_citizen)",
+    "pred_category": "UnsupportedParserFact",
+    "first_diagnosis": [
+     "UnsupportedParserFact(foreign_citizen)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 5,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "UnsupportedParserFact(foreign_citizen)"
+    ],
+    "nli_log": [
+     {
+      "prop": "foreign_citizen",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.0016603469848632812,
+       "neutral": 0.99755859375,
+       "contra": 0.0007586479187011719
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "paid_wage",
+      "label": "entail",
+      "scores": {
+       "entail": 0.92529296875,
+       "neutral": 0.0285797119140625,
+       "contra": 0.046051025390625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "contra",
+      "scores": {
+       "entail": 0.06353759765625,
+       "neutral": 0.0159454345703125,
+       "contra": 0.92041015625
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.8720703125,
+       "neutral": 0.044586181640625,
+       "contra": 0.0833740234375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "under_management",
+      "label": "entail",
+      "scores": {
+       "entail": 0.95556640625,
+       "neutral": 0.03350830078125,
+       "contra": 0.01103973388671875
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S04#unsupported:part_time=True",
+    "case": "S04",
+    "origin": "injected",
+    "gold_category": "UnsupportedParserFact",
+    "gold_fault": "UnsupportedParserFact(part_time)",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(wage_at_least_min_base)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "clarification_requested",
+    "expected": "true",
+    "answer_ok": false,
+    "nli_calls": 6,
+    "kb_checks": 0,
+    "rounds": 1,
+    "recovery": [
+     "MissingCaseInformation(wage_at_least_min_base)"
+    ],
+    "nli_log": [
+     {
+      "prop": "paid_wage",
+      "label": "entail",
+      "scores": {
+       "entail": 0.92529296875,
+       "neutral": 0.0285797119140625,
+       "contra": 0.046051025390625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "part_time",
+      "label": "entail",
+      "scores": {
+       "entail": 0.7470703125,
+       "neutral": 0.18994140625,
+       "contra": 0.06317138671875
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "contra",
+      "scores": {
+       "entail": 0.06353759765625,
+       "neutral": 0.0159454345703125,
+       "contra": 0.92041015625
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.8720703125,
+       "neutral": 0.044586181640625,
+       "contra": 0.0833740234375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "under_management",
+      "label": "entail",
+      "scores": {
+       "entail": 0.95556640625,
+       "neutral": 0.03350830078125,
+       "contra": 0.01103973388671875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "wage_at_least_min_base",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.1539306640625,
+       "neutral": 0.83984375,
+       "contra": 0.0063018798828125
+      },
+      "gold": "neutral"
+     }
+    ]
+   },
+   {
+    "iid": "S05#natural",
+    "case": "S05",
+    "origin": "natural",
+    "gold_category": "ResolvableRuleOverlap",
+    "gold_fault": "ResolvableRuleOverlap(R06, R14)",
+    "pred_category": "ResolvableRuleOverlap",
+    "first_diagnosis": [
+     "ResolvableRuleOverlap(R06, R14)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 1,
+    "rounds": 2,
+    "recovery": [
+     "ResolvableRuleOverlap(R06, R14)"
+    ],
+    "nli_log": [
+     {
+      "prop": "part_time",
+      "label": "contra",
+      "scores": {
+       "entail": 0.0711669921875,
+       "neutral": 0.23583984375,
+       "contra": 0.69287109375
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "receiving_pension",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9951171875,
+       "neutral": 0.0031280517578125,
+       "contra": 0.0015115737915039062
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9892578125,
+       "neutral": 0.005584716796875,
+       "contra": 0.005359649658203125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.65087890625,
+       "neutral": 0.00959014892578125,
+       "contra": 0.339599609375
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S05#kbconflict",
+    "case": "S05",
+    "origin": "injected",
+    "gold_category": "UnresolvedKBConflict",
+    "gold_fault": "UnresolvedKBConflict(R06, R14)",
+    "pred_category": "UnresolvedKBConflict",
+    "first_diagnosis": [
+     "UnresolvedKBConflict(R06, R14)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "abstain",
+    "expected": "abstain",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 1,
+    "rounds": 1,
+    "recovery": [
+     "UnresolvedKBConflict(R06, R14)"
+    ],
+    "nli_log": [
+     {
+      "prop": "part_time",
+      "label": "contra",
+      "scores": {
+       "entail": 0.0711669921875,
+       "neutral": 0.23583984375,
+       "contra": 0.69287109375
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "receiving_pension",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9951171875,
+       "neutral": 0.0031280517578125,
+       "contra": 0.0015115737915039062
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9892578125,
+       "neutral": 0.005584716796875,
+       "contra": 0.005359649658203125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.65087890625,
+       "neutral": 0.00959014892578125,
+       "contra": 0.339599609375
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S05#misinterp:receiving_pension",
+    "case": "S05",
+    "origin": "injected",
+    "gold_category": "ParserMisinterpretation",
+    "gold_fault": "ParserMisinterpretation(receiving_pension)",
+    "pred_category": "ParserMisinterpretation",
+    "first_diagnosis": [
+     "ParserMisinterpretation(receiving_pension)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 1,
+    "rounds": 3,
+    "recovery": [
+     "ParserMisinterpretation(receiving_pension)",
+     "ResolvableRuleOverlap(R06, R14)"
+    ],
+    "nli_log": [
+     {
+      "prop": "part_time",
+      "label": "contra",
+      "scores": {
+       "entail": 0.0711669921875,
+       "neutral": 0.23583984375,
+       "contra": 0.69287109375
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "receiving_pension",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9951171875,
+       "neutral": 0.0031280517578125,
+       "contra": 0.0015115737915039062
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9892578125,
+       "neutral": 0.005584716796875,
+       "contra": 0.005359649658203125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.65087890625,
+       "neutral": 0.00959014892578125,
+       "contra": 0.339599609375
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S05#unsupported:foreign_citizen=True",
+    "case": "S05",
+    "origin": "injected",
+    "gold_category": "UnsupportedParserFact",
+    "gold_fault": "UnsupportedParserFact(foreign_citizen)",
+    "pred_category": "UnsupportedParserFact",
+    "first_diagnosis": [
+     "UnsupportedParserFact(foreign_citizen)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 5,
+    "kb_checks": 1,
+    "rounds": 3,
+    "recovery": [
+     "UnsupportedParserFact(foreign_citizen)",
+     "ResolvableRuleOverlap(R06, R14)"
+    ],
+    "nli_log": [
+     {
+      "prop": "foreign_citizen",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.0075225830078125,
+       "neutral": 0.9873046875,
+       "contra": 0.005344390869140625
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "part_time",
+      "label": "contra",
+      "scores": {
+       "entail": 0.0711669921875,
+       "neutral": 0.23583984375,
+       "contra": 0.69287109375
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "receiving_pension",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9951171875,
+       "neutral": 0.0031280517578125,
+       "contra": 0.0015115737915039062
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9892578125,
+       "neutral": 0.005584716796875,
+       "contra": 0.005359649658203125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.65087890625,
+       "neutral": 0.00959014892578125,
+       "contra": 0.339599609375
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S05#unsupported:probation_only=True",
+    "case": "S05",
+    "origin": "injected",
+    "gold_category": "UnsupportedParserFact",
+    "gold_fault": "UnsupportedParserFact(probation_only)",
+    "pred_category": "ParserMisinterpretation",
+    "first_diagnosis": [
+     "ParserMisinterpretation(probation_only)",
+     "UnresolvedKBConflict(R02, R03)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 5,
+    "kb_checks": 2,
+    "rounds": 3,
+    "recovery": [
+     "ParserMisinterpretation(probation_only)",
+     "ResolvableRuleOverlap(R06, R14)"
+    ],
+    "nli_log": [
+     {
+      "prop": "part_time",
+      "label": "contra",
+      "scores": {
+       "entail": 0.0711669921875,
+       "neutral": 0.23583984375,
+       "contra": 0.69287109375
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "probation_only",
+      "label": "contra",
+      "scores": {
+       "entail": 0.007617950439453125,
+       "neutral": 0.005096435546875,
+       "contra": 0.9873046875
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "receiving_pension",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9951171875,
+       "neutral": 0.0031280517578125,
+       "contra": 0.0015115737915039062
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9892578125,
+       "neutral": 0.005584716796875,
+       "contra": 0.005359649658203125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.65087890625,
+       "neutral": 0.00959014892578125,
+       "contra": 0.339599609375
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S06#normal",
+    "case": "S06",
+    "origin": "natural",
+    "gold_category": "Normal",
+    "gold_fault": "",
+    "pred_category": "Normal",
+    "first_diagnosis": [],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 3,
+    "kb_checks": 0,
+    "rounds": 1,
+    "recovery": [],
+    "nli_log": [
+     {
+      "prop": "foreign_citizen",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9072265625,
+       "neutral": 0.090576171875,
+       "contra": 0.0024261474609375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98583984375,
+       "neutral": 0.01059722900390625,
+       "contra": 0.00337982177734375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_12_months",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9921875,
+       "neutral": 0.0031147003173828125,
+       "contra": 0.004909515380859375
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S06#omission:signed_labor_contract",
+    "case": "S06",
+    "origin": "injected",
+    "gold_category": "ParserOmission",
+    "gold_fault": "ParserOmission(signed_labor_contract)",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(paid_wage)",
+     "ParserOmission(signed_labor_contract)",
+     "ParserOmission(term_at_least_1_month)",
+     "ParserOmission(under_management)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 6,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "MissingCaseInformation(paid_wage)",
+     "ParserOmission(signed_labor_contract)",
+     "ParserOmission(term_at_least_1_month)",
+     "ParserOmission(under_management)"
+    ],
+    "nli_log": [
+     {
+      "prop": "foreign_citizen",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9072265625,
+       "neutral": 0.090576171875,
+       "contra": 0.0024261474609375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_12_months",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9921875,
+       "neutral": 0.0031147003173828125,
+       "contra": 0.004909515380859375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "paid_wage",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.292724609375,
+       "neutral": 0.69189453125,
+       "contra": 0.01561737060546875
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98583984375,
+       "neutral": 0.01059722900390625,
+       "contra": 0.00337982177734375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.6171875,
+       "neutral": 0.05487060546875,
+       "contra": 0.328125
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "under_management",
+      "label": "entail",
+      "scores": {
+       "entail": 0.5068359375,
+       "neutral": 0.47021484375,
+       "contra": 0.0229949951171875
+      },
+      "gold": "neutral"
+     }
+    ]
+   },
+   {
+    "iid": "S06#omission:term_at_least_12_months",
+    "case": "S06",
+    "origin": "injected",
+    "gold_category": "ParserOmission",
+    "gold_fault": "ParserOmission(term_at_least_12_months)",
+    "pred_category": "ParserOmission",
+    "first_diagnosis": [
+     "ParserOmission(term_at_least_12_months)",
+     "ParserOmission(term_at_least_1_month)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserOmission(term_at_least_12_months)",
+     "ParserOmission(term_at_least_1_month)"
+    ],
+    "nli_log": [
+     {
+      "prop": "foreign_citizen",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9072265625,
+       "neutral": 0.090576171875,
+       "contra": 0.0024261474609375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98583984375,
+       "neutral": 0.01059722900390625,
+       "contra": 0.00337982177734375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_12_months",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9921875,
+       "neutral": 0.0031147003173828125,
+       "contra": 0.004909515380859375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.6171875,
+       "neutral": 0.05487060546875,
+       "contra": 0.328125
+      },
+      "gold": "neutral"
+     }
+    ]
+   },
+   {
+    "iid": "S06#unsupported:intra_company_transfer=True",
+    "case": "S06",
+    "origin": "injected",
+    "gold_category": "UnsupportedParserFact",
+    "gold_fault": "UnsupportedParserFact(intra_company_transfer)",
+    "pred_category": "UnsupportedParserFact",
+    "first_diagnosis": [
+     "ResolvableRuleOverlap(R11, R12)",
+     "UnsupportedParserFact(intra_company_transfer)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 1,
+    "rounds": 2,
+    "recovery": [
+     "UnsupportedParserFact(intra_company_transfer)"
+    ],
+    "nli_log": [
+     {
+      "prop": "foreign_citizen",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9072265625,
+       "neutral": 0.090576171875,
+       "contra": 0.0024261474609375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "intra_company_transfer",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.313232421875,
+       "neutral": 0.62744140625,
+       "contra": 0.059234619140625
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98583984375,
+       "neutral": 0.01059722900390625,
+       "contra": 0.00337982177734375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_12_months",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9921875,
+       "neutral": 0.0031147003173828125,
+       "contra": 0.004909515380859375
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S07#natural",
+    "case": "S07",
+    "origin": "natural",
+    "gold_category": "ResolvableRuleOverlap",
+    "gold_fault": "ResolvableRuleOverlap(R11, R12)",
+    "pred_category": "ResolvableRuleOverlap",
+    "first_diagnosis": [
+     "ResolvableRuleOverlap(R11, R12)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 1,
+    "rounds": 2,
+    "recovery": [
+     "ResolvableRuleOverlap(R11, R12)"
+    ],
+    "nli_log": [
+     {
+      "prop": "foreign_citizen",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9599609375,
+       "neutral": 0.038299560546875,
+       "contra": 0.0018167495727539062
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "intra_company_transfer",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9609375,
+       "neutral": 0.0247344970703125,
+       "contra": 0.01410675048828125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9912109375,
+       "neutral": 0.005340576171875,
+       "contra": 0.0035610198974609375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_12_months",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98388671875,
+       "neutral": 0.004222869873046875,
+       "contra": 0.01165771484375
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S07#kbconflict",
+    "case": "S07",
+    "origin": "injected",
+    "gold_category": "UnresolvedKBConflict",
+    "gold_fault": "UnresolvedKBConflict(R11, R12)",
+    "pred_category": "UnresolvedKBConflict",
+    "first_diagnosis": [
+     "UnresolvedKBConflict(R11, R12)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "abstain",
+    "expected": "abstain",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 1,
+    "rounds": 1,
+    "recovery": [
+     "UnresolvedKBConflict(R11, R12)"
+    ],
+    "nli_log": [
+     {
+      "prop": "foreign_citizen",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9599609375,
+       "neutral": 0.038299560546875,
+       "contra": 0.0018167495727539062
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "intra_company_transfer",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9609375,
+       "neutral": 0.0247344970703125,
+       "contra": 0.01410675048828125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9912109375,
+       "neutral": 0.005340576171875,
+       "contra": 0.0035610198974609375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_12_months",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98388671875,
+       "neutral": 0.004222869873046875,
+       "contra": 0.01165771484375
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S07#misinterp:foreign_citizen",
+    "case": "S07",
+    "origin": "injected",
+    "gold_category": "ParserMisinterpretation",
+    "gold_fault": "ParserMisinterpretation(foreign_citizen)",
+    "pred_category": "ParserMisinterpretation",
+    "first_diagnosis": [
+     "ParserMisinterpretation(foreign_citizen)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 1,
+    "rounds": 3,
+    "recovery": [
+     "ParserMisinterpretation(foreign_citizen)",
+     "ResolvableRuleOverlap(R11, R12)"
+    ],
+    "nli_log": [
+     {
+      "prop": "foreign_citizen",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9599609375,
+       "neutral": 0.038299560546875,
+       "contra": 0.0018167495727539062
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9912109375,
+       "neutral": 0.005340576171875,
+       "contra": 0.0035610198974609375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_12_months",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98388671875,
+       "neutral": 0.004222869873046875,
+       "contra": 0.01165771484375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "intra_company_transfer",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9609375,
+       "neutral": 0.0247344970703125,
+       "contra": 0.01410675048828125
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S08#natural",
+    "case": "S08",
+    "origin": "natural",
+    "gold_category": "ResolvableRuleOverlap",
+    "gold_fault": "ResolvableRuleOverlap(R11, R13)",
+    "pred_category": "ResolvableRuleOverlap",
+    "first_diagnosis": [
+     "ResolvableRuleOverlap(R11, R13)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 1,
+    "rounds": 2,
+    "recovery": [
+     "ResolvableRuleOverlap(R11, R13)"
+    ],
+    "nli_log": [
+     {
+      "prop": "foreign_citizen",
+      "label": "entail",
+      "scores": {
+       "entail": 0.78662109375,
+       "neutral": 0.2109375,
+       "contra": 0.002384185791015625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "retirement_age_at_signing",
+      "label": "entail",
+      "scores": {
+       "entail": 0.92138671875,
+       "neutral": 0.04498291015625,
+       "contra": 0.03350830078125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9638671875,
+       "neutral": 0.0200653076171875,
+       "contra": 0.0162353515625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_12_months",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9794921875,
+       "neutral": 0.003673553466796875,
+       "contra": 0.016693115234375
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S08#kbconflict",
+    "case": "S08",
+    "origin": "injected",
+    "gold_category": "UnresolvedKBConflict",
+    "gold_fault": "UnresolvedKBConflict(R11, R13)",
+    "pred_category": "UnresolvedKBConflict",
+    "first_diagnosis": [
+     "UnresolvedKBConflict(R11, R13)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "abstain",
+    "expected": "abstain",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 1,
+    "rounds": 1,
+    "recovery": [
+     "UnresolvedKBConflict(R11, R13)"
+    ],
+    "nli_log": [
+     {
+      "prop": "foreign_citizen",
+      "label": "entail",
+      "scores": {
+       "entail": 0.78662109375,
+       "neutral": 0.2109375,
+       "contra": 0.002384185791015625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "retirement_age_at_signing",
+      "label": "entail",
+      "scores": {
+       "entail": 0.92138671875,
+       "neutral": 0.04498291015625,
+       "contra": 0.03350830078125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9638671875,
+       "neutral": 0.0200653076171875,
+       "contra": 0.0162353515625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_12_months",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9794921875,
+       "neutral": 0.003673553466796875,
+       "contra": 0.016693115234375
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S09#normal",
+    "case": "S09",
+    "origin": "natural",
+    "gold_category": "Normal",
+    "gold_fault": "",
+    "pred_category": "Normal",
+    "first_diagnosis": [],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 3,
+    "kb_checks": 0,
+    "rounds": 1,
+    "recovery": [],
+    "nli_log": [
+     {
+      "prop": "foreign_citizen",
+      "label": "entail",
+      "scores": {
+       "entail": 0.94677734375,
+       "neutral": 0.05133056640625,
+       "contra": 0.00199127197265625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98974609375,
+       "neutral": 0.00765228271484375,
+       "contra": 0.0028285980224609375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_12_months",
+      "label": "contra",
+      "scores": {
+       "entail": 0.1549072265625,
+       "neutral": 0.0167999267578125,
+       "contra": 0.828125
+      },
+      "gold": "contra"
+     }
+    ]
+   },
+   {
+    "iid": "S09#misinterp:foreign_citizen",
+    "case": "S09",
+    "origin": "injected",
+    "gold_category": "ParserMisinterpretation",
+    "gold_fault": "ParserMisinterpretation(foreign_citizen)",
+    "pred_category": "ParserMisinterpretation",
+    "first_diagnosis": [
+     "ParserMisinterpretation(foreign_citizen)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 3,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserMisinterpretation(foreign_citizen)"
+    ],
+    "nli_log": [
+     {
+      "prop": "foreign_citizen",
+      "label": "entail",
+      "scores": {
+       "entail": 0.94677734375,
+       "neutral": 0.05133056640625,
+       "contra": 0.00199127197265625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98974609375,
+       "neutral": 0.00765228271484375,
+       "contra": 0.0028285980224609375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_12_months",
+      "label": "contra",
+      "scores": {
+       "entail": 0.1549072265625,
+       "neutral": 0.0167999267578125,
+       "contra": 0.828125
+      },
+      "gold": "contra"
+     }
+    ]
+   },
+   {
+    "iid": "S09#unsupported:probation_only=True",
+    "case": "S09",
+    "origin": "injected",
+    "gold_category": "UnsupportedParserFact",
+    "gold_fault": "UnsupportedParserFact(probation_only)",
+    "pred_category": "ParserMisinterpretation",
+    "first_diagnosis": [
+     "ParserMisinterpretation(probation_only)",
+     "UnresolvedKBConflict(R02, R03)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 1,
+    "rounds": 2,
+    "recovery": [
+     "ParserMisinterpretation(probation_only)"
+    ],
+    "nli_log": [
+     {
+      "prop": "foreign_citizen",
+      "label": "entail",
+      "scores": {
+       "entail": 0.94677734375,
+       "neutral": 0.05133056640625,
+       "contra": 0.00199127197265625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "probation_only",
+      "label": "contra",
+      "scores": {
+       "entail": 0.0167388916015625,
+       "neutral": 0.09771728515625,
+       "contra": 0.8857421875
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98974609375,
+       "neutral": 0.00765228271484375,
+       "contra": 0.0028285980224609375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_12_months",
+      "label": "contra",
+      "scores": {
+       "entail": 0.1549072265625,
+       "neutral": 0.0167999267578125,
+       "contra": 0.828125
+      },
+      "gold": "contra"
+     }
+    ]
+   },
+   {
+    "iid": "S10#normal",
+    "case": "S10",
+    "origin": "natural",
+    "gold_category": "Normal",
+    "gold_fault": "",
+    "pred_category": "Normal",
+    "first_diagnosis": [],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 5,
+    "kb_checks": 0,
+    "rounds": 1,
+    "recovery": [],
+    "nli_log": [
+     {
+      "prop": "agreed_contribution",
+      "label": "contra",
+      "scores": {
+       "entail": 0.00418853759765625,
+       "neutral": 0.045806884765625,
+       "contra": 0.9501953125
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "part_time",
+      "label": "contra",
+      "scores": {
+       "entail": 0.214111328125,
+       "neutral": 0.1124267578125,
+       "contra": 0.67333984375
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.99560546875,
+       "neutral": 0.0022335052490234375,
+       "contra": 0.001972198486328125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.955078125,
+       "neutral": 0.00514984130859375,
+       "contra": 0.039794921875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "unpaid_14_days",
+      "label": "entail",
+      "scores": {
+       "entail": 0.86083984375,
+       "neutral": 0.012847900390625,
+       "contra": 0.126220703125
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S10#missing:signed_labor_contract",
+    "case": "S10",
+    "origin": "injected",
+    "gold_category": "MissingCaseInformation",
+    "gold_fault": "MissingCaseInformation(signed_labor_contract)",
+    "pred_category": "ParserOmission",
+    "first_diagnosis": [
+     "ParserOmission(paid_wage)",
+     "ParserOmission(signed_labor_contract)",
+     "ParserOmission(under_management)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 7,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserOmission(paid_wage)",
+     "ParserOmission(signed_labor_contract)",
+     "ParserOmission(under_management)"
+    ],
+    "nli_log": [
+     {
+      "prop": "part_time",
+      "label": "contra",
+      "scores": {
+       "entail": 0.390625,
+       "neutral": 0.12841796875,
+       "contra": 0.48095703125
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.693359375,
+       "neutral": 0.24267578125,
+       "contra": 0.06402587890625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "unpaid_14_days",
+      "label": "entail",
+      "scores": {
+       "entail": 0.8076171875,
+       "neutral": 0.0185699462890625,
+       "contra": 0.173828125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "paid_wage",
+      "label": "entail",
+      "scores": {
+       "entail": 0.493896484375,
+       "neutral": 0.414306640625,
+       "contra": 0.0919189453125
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "contra",
+      "scores": {
+       "entail": 0.2293701171875,
+       "neutral": 0.2919921875,
+       "contra": 0.478759765625
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "under_management",
+      "label": "entail",
+      "scores": {
+       "entail": 0.451416015625,
+       "neutral": 0.427001953125,
+       "contra": 0.1214599609375
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "agreed_contribution",
+      "label": "contra",
+      "scores": {
+       "entail": 0.006702423095703125,
+       "neutral": 0.0517578125,
+       "contra": 0.94140625
+      },
+      "gold": "contra"
+     }
+    ]
+   },
+   {
+    "iid": "S10#omission:signed_labor_contract",
+    "case": "S10",
+    "origin": "injected",
+    "gold_category": "ParserOmission",
+    "gold_fault": "ParserOmission(signed_labor_contract)",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(under_management)",
+     "ParserOmission(paid_wage)",
+     "ParserOmission(signed_labor_contract)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 7,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "MissingCaseInformation(under_management)",
+     "ParserOmission(paid_wage)",
+     "ParserOmission(signed_labor_contract)"
+    ],
+    "nli_log": [
+     {
+      "prop": "part_time",
+      "label": "contra",
+      "scores": {
+       "entail": 0.214111328125,
+       "neutral": 0.1124267578125,
+       "contra": 0.67333984375
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.955078125,
+       "neutral": 0.00514984130859375,
+       "contra": 0.039794921875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "unpaid_14_days",
+      "label": "entail",
+      "scores": {
+       "entail": 0.86083984375,
+       "neutral": 0.012847900390625,
+       "contra": 0.126220703125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "paid_wage",
+      "label": "entail",
+      "scores": {
+       "entail": 0.466796875,
+       "neutral": 0.411865234375,
+       "contra": 0.12152099609375
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.99560546875,
+       "neutral": 0.0022335052490234375,
+       "contra": 0.001972198486328125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "under_management",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.357421875,
+       "neutral": 0.53515625,
+       "contra": 0.10760498046875
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "agreed_contribution",
+      "label": "contra",
+      "scores": {
+       "entail": 0.00418853759765625,
+       "neutral": 0.045806884765625,
+       "contra": 0.9501953125
+      },
+      "gold": "contra"
+     }
+    ]
+   },
+   {
+    "iid": "S10#misinterp:unpaid_14_days",
+    "case": "S10",
+    "origin": "injected",
+    "gold_category": "ParserMisinterpretation",
+    "gold_fault": "ParserMisinterpretation(unpaid_14_days)",
+    "pred_category": "ParserMisinterpretation",
+    "first_diagnosis": [
+     "ParserMisinterpretation(unpaid_14_days)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 5,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserMisinterpretation(unpaid_14_days)"
+    ],
+    "nli_log": [
+     {
+      "prop": "part_time",
+      "label": "contra",
+      "scores": {
+       "entail": 0.214111328125,
+       "neutral": 0.1124267578125,
+       "contra": 0.67333984375
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.99560546875,
+       "neutral": 0.0022335052490234375,
+       "contra": 0.001972198486328125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.955078125,
+       "neutral": 0.00514984130859375,
+       "contra": 0.039794921875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "unpaid_14_days",
+      "label": "entail",
+      "scores": {
+       "entail": 0.86083984375,
+       "neutral": 0.012847900390625,
+       "contra": 0.126220703125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "agreed_contribution",
+      "label": "contra",
+      "scores": {
+       "entail": 0.00418853759765625,
+       "neutral": 0.045806884765625,
+       "contra": 0.9501953125
+      },
+      "gold": "contra"
+     }
+    ]
+   },
+   {
+    "iid": "S10#unsupported:receiving_pension=True",
+    "case": "S10",
+    "origin": "injected",
+    "gold_category": "UnsupportedParserFact",
+    "gold_fault": "UnsupportedParserFact(receiving_pension)",
+    "pred_category": "ParserMisinterpretation",
+    "first_diagnosis": [
+     "ParserMisinterpretation(receiving_pension)",
+     "ResolvableRuleOverlap(R06, R14)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 6,
+    "kb_checks": 1,
+    "rounds": 2,
+    "recovery": [
+     "ParserMisinterpretation(receiving_pension)"
+    ],
+    "nli_log": [
+     {
+      "prop": "part_time",
+      "label": "contra",
+      "scores": {
+       "entail": 0.214111328125,
+       "neutral": 0.1124267578125,
+       "contra": 0.67333984375
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "receiving_pension",
+      "label": "contra",
+      "scores": {
+       "entail": 0.14697265625,
+       "neutral": 0.171875,
+       "contra": 0.68115234375
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.99560546875,
+       "neutral": 0.0022335052490234375,
+       "contra": 0.001972198486328125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.955078125,
+       "neutral": 0.00514984130859375,
+       "contra": 0.039794921875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "unpaid_14_days",
+      "label": "entail",
+      "scores": {
+       "entail": 0.86083984375,
+       "neutral": 0.012847900390625,
+       "contra": 0.126220703125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "agreed_contribution",
+      "label": "contra",
+      "scores": {
+       "entail": 0.00418853759765625,
+       "neutral": 0.045806884765625,
+       "contra": 0.9501953125
+      },
+      "gold": "contra"
+     }
+    ]
+   },
+   {
+    "iid": "S11#normal",
+    "case": "S11",
+    "origin": "natural",
+    "gold_category": "Normal",
+    "gold_fault": "",
+    "pred_category": "Normal",
+    "first_diagnosis": [],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 0,
+    "rounds": 1,
+    "recovery": [],
+    "nli_log": [
+     {
+      "prop": "part_time",
+      "label": "contra",
+      "scores": {
+       "entail": 0.214111328125,
+       "neutral": 0.05352783203125,
+       "contra": 0.732421875
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.99609375,
+       "neutral": 0.001911163330078125,
+       "contra": 0.0021457672119140625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.82470703125,
+       "neutral": 0.04315185546875,
+       "contra": 0.1319580078125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "unpaid_14_days",
+      "label": "contra",
+      "scores": {
+       "entail": 0.155517578125,
+       "neutral": 0.048919677734375,
+       "contra": 0.79541015625
+      },
+      "gold": "contra"
+     }
+    ]
+   },
+   {
+    "iid": "S11#omission:signed_labor_contract",
+    "case": "S11",
+    "origin": "injected",
+    "gold_category": "ParserOmission",
+    "gold_fault": "ParserOmission(signed_labor_contract)",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(under_management)",
+     "ParserOmission(paid_wage)",
+     "ParserOmission(signed_labor_contract)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 6,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "MissingCaseInformation(under_management)",
+     "ParserOmission(paid_wage)",
+     "ParserOmission(signed_labor_contract)"
+    ],
+    "nli_log": [
+     {
+      "prop": "part_time",
+      "label": "contra",
+      "scores": {
+       "entail": 0.214111328125,
+       "neutral": 0.05352783203125,
+       "contra": 0.732421875
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.82470703125,
+       "neutral": 0.04315185546875,
+       "contra": 0.1319580078125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "unpaid_14_days",
+      "label": "contra",
+      "scores": {
+       "entail": 0.155517578125,
+       "neutral": 0.048919677734375,
+       "contra": 0.79541015625
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "paid_wage",
+      "label": "entail",
+      "scores": {
+       "entail": 0.853515625,
+       "neutral": 0.1231689453125,
+       "contra": 0.0234375
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.99609375,
+       "neutral": 0.001911163330078125,
+       "contra": 0.0021457672119140625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "under_management",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.26904296875,
+       "neutral": 0.60888671875,
+       "contra": 0.12188720703125
+      },
+      "gold": "neutral"
+     }
+    ]
+   },
+   {
+    "iid": "S12#normal",
+    "case": "S12",
+    "origin": "natural",
+    "gold_category": "Normal",
+    "gold_fault": "",
+    "pred_category": "Normal",
+    "first_diagnosis": [],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 5,
+    "kb_checks": 0,
+    "rounds": 1,
+    "recovery": [],
+    "nli_log": [
+     {
+      "prop": "agreed_contribution",
+      "label": "contra",
+      "scores": {
+       "entail": 0.0108795166015625,
+       "neutral": 0.038330078125,
+       "contra": 0.95068359375
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "contract_suspended",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98291015625,
+       "neutral": 0.01544189453125,
+       "contra": 0.0018787384033203125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "part_time",
+      "label": "contra",
+      "scores": {
+       "entail": 0.25,
+       "neutral": 0.1290283203125,
+       "contra": 0.62109375
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.99560546875,
+       "neutral": 0.0022907257080078125,
+       "contra": 0.002216339111328125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9013671875,
+       "neutral": 0.020416259765625,
+       "contra": 0.0780029296875
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S12#misinterp:signed_labor_contract",
+    "case": "S12",
+    "origin": "injected",
+    "gold_category": "ParserMisinterpretation",
+    "gold_fault": "ParserMisinterpretation(signed_labor_contract)",
+    "pred_category": "ParserMisinterpretation",
+    "first_diagnosis": [
+     "ParserMisinterpretation(signed_labor_contract)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 5,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserMisinterpretation(signed_labor_contract)"
+    ],
+    "nli_log": [
+     {
+      "prop": "contract_suspended",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98291015625,
+       "neutral": 0.01544189453125,
+       "contra": 0.0018787384033203125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "part_time",
+      "label": "contra",
+      "scores": {
+       "entail": 0.25,
+       "neutral": 0.1290283203125,
+       "contra": 0.62109375
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.99560546875,
+       "neutral": 0.0022907257080078125,
+       "contra": 0.002216339111328125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9013671875,
+       "neutral": 0.020416259765625,
+       "contra": 0.0780029296875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "agreed_contribution",
+      "label": "contra",
+      "scores": {
+       "entail": 0.0108795166015625,
+       "neutral": 0.038330078125,
+       "contra": 0.95068359375
+      },
+      "gold": "contra"
+     }
+    ]
+   },
+   {
+    "iid": "S12#misinterp:part_time",
+    "case": "S12",
+    "origin": "injected",
+    "gold_category": "ParserMisinterpretation",
+    "gold_fault": "ParserMisinterpretation(part_time)",
+    "pred_category": "ParserMisinterpretation",
+    "first_diagnosis": [
+     "ParserMisinterpretation(part_time)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 5,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserMisinterpretation(part_time)"
+    ],
+    "nli_log": [
+     {
+      "prop": "contract_suspended",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98291015625,
+       "neutral": 0.01544189453125,
+       "contra": 0.0018787384033203125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "part_time",
+      "label": "contra",
+      "scores": {
+       "entail": 0.25,
+       "neutral": 0.1290283203125,
+       "contra": 0.62109375
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.99560546875,
+       "neutral": 0.0022907257080078125,
+       "contra": 0.002216339111328125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9013671875,
+       "neutral": 0.020416259765625,
+       "contra": 0.0780029296875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "agreed_contribution",
+      "label": "contra",
+      "scores": {
+       "entail": 0.0108795166015625,
+       "neutral": 0.038330078125,
+       "contra": 0.95068359375
+      },
+      "gold": "contra"
+     }
+    ]
+   },
+   {
+    "iid": "S12#unsupported:foreign_citizen=True",
+    "case": "S12",
+    "origin": "injected",
+    "gold_category": "UnsupportedParserFact",
+    "gold_fault": "UnsupportedParserFact(foreign_citizen)",
+    "pred_category": "UnsupportedParserFact",
+    "first_diagnosis": [
+     "UnsupportedParserFact(foreign_citizen)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 6,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "UnsupportedParserFact(foreign_citizen)"
+    ],
+    "nli_log": [
+     {
+      "prop": "contract_suspended",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98291015625,
+       "neutral": 0.01544189453125,
+       "contra": 0.0018787384033203125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "foreign_citizen",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.003021240234375,
+       "neutral": 0.99560546875,
+       "contra": 0.0014362335205078125
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "part_time",
+      "label": "contra",
+      "scores": {
+       "entail": 0.25,
+       "neutral": 0.1290283203125,
+       "contra": 0.62109375
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.99560546875,
+       "neutral": 0.0022907257080078125,
+       "contra": 0.002216339111328125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9013671875,
+       "neutral": 0.020416259765625,
+       "contra": 0.0780029296875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "agreed_contribution",
+      "label": "contra",
+      "scores": {
+       "entail": 0.0108795166015625,
+       "neutral": 0.038330078125,
+       "contra": 0.95068359375
+      },
+      "gold": "contra"
+     }
+    ]
+   },
+   {
+    "iid": "S12#unsupported:receiving_pension=True",
+    "case": "S12",
+    "origin": "injected",
+    "gold_category": "UnsupportedParserFact",
+    "gold_fault": "UnsupportedParserFact(receiving_pension)",
+    "pred_category": "UnsupportedParserFact",
+    "first_diagnosis": [
+     "ResolvableRuleOverlap(R06, R14)",
+     "UnsupportedParserFact(receiving_pension)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 6,
+    "kb_checks": 1,
+    "rounds": 2,
+    "recovery": [
+     "UnsupportedParserFact(receiving_pension)"
+    ],
+    "nli_log": [
+     {
+      "prop": "contract_suspended",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98291015625,
+       "neutral": 0.01544189453125,
+       "contra": 0.0018787384033203125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "part_time",
+      "label": "contra",
+      "scores": {
+       "entail": 0.25,
+       "neutral": 0.1290283203125,
+       "contra": 0.62109375
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "receiving_pension",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.29345703125,
+       "neutral": 0.441162109375,
+       "contra": 0.26513671875
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.99560546875,
+       "neutral": 0.0022907257080078125,
+       "contra": 0.002216339111328125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9013671875,
+       "neutral": 0.020416259765625,
+       "contra": 0.0780029296875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "agreed_contribution",
+      "label": "contra",
+      "scores": {
+       "entail": 0.0108795166015625,
+       "neutral": 0.038330078125,
+       "contra": 0.95068359375
+      },
+      "gold": "contra"
+     }
+    ]
+   },
+   {
+    "iid": "S13#normal",
+    "case": "S13",
+    "origin": "natural",
+    "gold_category": "Normal",
+    "gold_fault": "",
+    "pred_category": "UnsupportedParserFact",
+    "first_diagnosis": [
+     "UnsupportedParserFact(multiple_contracts)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "false",
+    "expected": "true",
+    "answer_ok": false,
+    "nli_calls": 3,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "UnsupportedParserFact(multiple_contracts)"
+    ],
+    "nli_log": [
+     {
+      "prop": "multiple_contracts",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.260009765625,
+       "neutral": 0.72607421875,
+       "contra": 0.0139617919921875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.97412109375,
+       "neutral": 0.0170440673828125,
+       "contra": 0.00901031494140625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.62890625,
+       "neutral": 0.115966796875,
+       "contra": 0.2548828125
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S13#omission:signed_labor_contract",
+    "case": "S13",
+    "origin": "injected",
+    "gold_category": "ParserOmission",
+    "gold_fault": "ParserOmission(signed_labor_contract)",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(paid_wage)",
+     "MissingCaseInformation(under_management)",
+     "ParserOmission(signed_labor_contract)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "true",
+    "answer_ok": false,
+    "nli_calls": 5,
+    "kb_checks": 0,
+    "rounds": 3,
+    "recovery": [
+     "MissingCaseInformation(paid_wage)",
+     "MissingCaseInformation(under_management)",
+     "ParserOmission(signed_labor_contract)",
+     "UnsupportedParserFact(multiple_contracts)"
+    ],
+    "nli_log": [
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.62890625,
+       "neutral": 0.115966796875,
+       "contra": 0.2548828125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "paid_wage",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.426513671875,
+       "neutral": 0.5439453125,
+       "contra": 0.029510498046875
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.97412109375,
+       "neutral": 0.0170440673828125,
+       "contra": 0.00901031494140625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "under_management",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.35498046875,
+       "neutral": 0.62646484375,
+       "contra": 0.0186309814453125
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "multiple_contracts",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.260009765625,
+       "neutral": 0.72607421875,
+       "contra": 0.0139617919921875
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S13#missing:term_at_least_1_month",
+    "case": "S13",
+    "origin": "injected",
+    "gold_category": "MissingCaseInformation",
+    "gold_fault": "MissingCaseInformation(term_at_least_1_month)",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(term_at_least_1_month)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 3,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "MissingCaseInformation(term_at_least_1_month)"
+    ],
+    "nli_log": [
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9794921875,
+       "neutral": 0.0132904052734375,
+       "contra": 0.0071868896484375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.0016603469848632812,
+       "neutral": 0.99755859375,
+       "contra": 0.0006947517395019531
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "multiple_contracts",
+      "label": "entail",
+      "scores": {
+       "entail": 0.55517578125,
+       "neutral": 0.43603515625,
+       "contra": 0.0088958740234375
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S13#omission:term_at_least_1_month",
+    "case": "S13",
+    "origin": "injected",
+    "gold_category": "ParserOmission",
+    "gold_fault": "ParserOmission(term_at_least_1_month)",
+    "pred_category": "ParserOmission",
+    "first_diagnosis": [
+     "ParserOmission(term_at_least_1_month)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "true",
+    "answer_ok": false,
+    "nli_calls": 3,
+    "kb_checks": 0,
+    "rounds": 3,
+    "recovery": [
+     "ParserOmission(term_at_least_1_month)",
+     "UnsupportedParserFact(multiple_contracts)"
+    ],
+    "nli_log": [
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.97412109375,
+       "neutral": 0.0170440673828125,
+       "contra": 0.00901031494140625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.62890625,
+       "neutral": 0.115966796875,
+       "contra": 0.2548828125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "multiple_contracts",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.260009765625,
+       "neutral": 0.72607421875,
+       "contra": 0.0139617919921875
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S13#misinterp:term_at_least_1_month",
+    "case": "S13",
+    "origin": "injected",
+    "gold_category": "ParserMisinterpretation",
+    "gold_fault": "ParserMisinterpretation(term_at_least_1_month)",
+    "pred_category": "ParserMisinterpretation",
+    "first_diagnosis": [
+     "ParserMisinterpretation(term_at_least_1_month)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "true",
+    "answer_ok": false,
+    "nli_calls": 3,
+    "kb_checks": 0,
+    "rounds": 3,
+    "recovery": [
+     "ParserMisinterpretation(term_at_least_1_month)",
+     "UnsupportedParserFact(multiple_contracts)"
+    ],
+    "nli_log": [
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.97412109375,
+       "neutral": 0.0170440673828125,
+       "contra": 0.00901031494140625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.62890625,
+       "neutral": 0.115966796875,
+       "contra": 0.2548828125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "multiple_contracts",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.260009765625,
+       "neutral": 0.72607421875,
+       "contra": 0.0139617919921875
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S13#unsupported:probation_only=True",
+    "case": "S13",
+    "origin": "injected",
+    "gold_category": "UnsupportedParserFact",
+    "gold_fault": "UnsupportedParserFact(probation_only)",
+    "pred_category": "ParserMisinterpretation",
+    "first_diagnosis": [
+     "ParserMisinterpretation(probation_only)",
+     "UnresolvedKBConflict(R02, R03)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "false",
+    "expected": "true",
+    "answer_ok": false,
+    "nli_calls": 4,
+    "kb_checks": 1,
+    "rounds": 3,
+    "recovery": [
+     "ParserMisinterpretation(probation_only)",
+     "UnsupportedParserFact(multiple_contracts)"
+    ],
+    "nli_log": [
+     {
+      "prop": "probation_only",
+      "label": "contra",
+      "scores": {
+       "entail": 0.00341033935546875,
+       "neutral": 0.00492095947265625,
+       "contra": 0.99169921875
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.97412109375,
+       "neutral": 0.0170440673828125,
+       "contra": 0.00901031494140625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.62890625,
+       "neutral": 0.115966796875,
+       "contra": 0.2548828125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "multiple_contracts",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.260009765625,
+       "neutral": 0.72607421875,
+       "contra": 0.0139617919921875
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S14#normal",
+    "case": "S14",
+    "origin": "natural",
+    "gold_category": "Normal",
+    "gold_fault": "",
+    "pred_category": "Normal",
+    "first_diagnosis": [],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 3,
+    "kb_checks": 0,
+    "rounds": 1,
+    "recovery": [],
+    "nli_log": [
+     {
+      "prop": "contribution_15_years",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98388671875,
+       "neutral": 0.0024051666259765625,
+       "contra": 0.01369476318359375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "reached_retirement_age",
+      "label": "entail",
+      "scores": {
+       "entail": 0.69140625,
+       "neutral": 0.2890625,
+       "contra": 0.0197601318359375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "stopped_working",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98193359375,
+       "neutral": 0.0129547119140625,
+       "contra": 0.0053253173828125
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S14#missing:stopped_working",
+    "case": "S14",
+    "origin": "injected",
+    "gold_category": "MissingCaseInformation",
+    "gold_fault": "MissingCaseInformation(stopped_working)",
+    "pred_category": "ParserOmission",
+    "first_diagnosis": [
+     "ParserOmission(stopped_working)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 3,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserOmission(stopped_working)"
+    ],
+    "nli_log": [
+     {
+      "prop": "stopped_working",
+      "label": "entail",
+      "scores": {
+       "entail": 0.75244140625,
+       "neutral": 0.1859130859375,
+       "contra": 0.06170654296875
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "contribution_15_years",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9853515625,
+       "neutral": 0.0029468536376953125,
+       "contra": 0.0115966796875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "reached_retirement_age",
+      "label": "entail",
+      "scores": {
+       "entail": 0.84716796875,
+       "neutral": 0.1351318359375,
+       "contra": 0.0177764892578125
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S14#omission:stopped_working",
+    "case": "S14",
+    "origin": "injected",
+    "gold_category": "ParserOmission",
+    "gold_fault": "ParserOmission(stopped_working)",
+    "pred_category": "ParserOmission",
+    "first_diagnosis": [
+     "ParserOmission(stopped_working)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 3,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserOmission(stopped_working)"
+    ],
+    "nli_log": [
+     {
+      "prop": "stopped_working",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98193359375,
+       "neutral": 0.0129547119140625,
+       "contra": 0.0053253173828125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "contribution_15_years",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98388671875,
+       "neutral": 0.0024051666259765625,
+       "contra": 0.01369476318359375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "reached_retirement_age",
+      "label": "entail",
+      "scores": {
+       "entail": 0.69140625,
+       "neutral": 0.2890625,
+       "contra": 0.0197601318359375
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S14#omission:reached_retirement_age",
+    "case": "S14",
+    "origin": "injected",
+    "gold_category": "ParserOmission",
+    "gold_fault": "ParserOmission(reached_retirement_age)",
+    "pred_category": "ParserOmission",
+    "first_diagnosis": [
+     "ParserOmission(reached_retirement_age)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 3,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserOmission(reached_retirement_age)"
+    ],
+    "nli_log": [
+     {
+      "prop": "reached_retirement_age",
+      "label": "entail",
+      "scores": {
+       "entail": 0.69140625,
+       "neutral": 0.2890625,
+       "contra": 0.0197601318359375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "contribution_15_years",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98388671875,
+       "neutral": 0.0024051666259765625,
+       "contra": 0.01369476318359375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "stopped_working",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98193359375,
+       "neutral": 0.0129547119140625,
+       "contra": 0.0053253173828125
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S14#missing:contribution_15_years",
+    "case": "S14",
+    "origin": "injected",
+    "gold_category": "MissingCaseInformation",
+    "gold_fault": "MissingCaseInformation(contribution_15_years)",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(contribution_15_years)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 3,
+    "kb_checks": 0,
+    "rounds": 3,
+    "recovery": [
+     "MissingCaseInformation(contribution_15_years)",
+     "UnsupportedParserFact(reached_retirement_age)",
+     "MissingCaseInformation(reached_retirement_age)"
+    ],
+    "nli_log": [
+     {
+      "prop": "contribution_15_years",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.016448974609375,
+       "neutral": 0.9755859375,
+       "contra": 0.00812530517578125
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "reached_retirement_age",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.44775390625,
+       "neutral": 0.529296875,
+       "contra": 0.022918701171875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "stopped_working",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98583984375,
+       "neutral": 0.01192474365234375,
+       "contra": 0.0022258758544921875
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S15#normal",
+    "case": "S15",
+    "origin": "natural",
+    "gold_category": "Normal",
+    "gold_fault": "",
+    "pred_category": "Normal",
+    "first_diagnosis": [],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 1,
+    "kb_checks": 0,
+    "rounds": 1,
+    "recovery": [],
+    "nli_log": [
+     {
+      "prop": "contribution_15_years",
+      "label": "contra",
+      "scores": {
+       "entail": 0.06658935546875,
+       "neutral": 0.024444580078125,
+       "contra": 0.9091796875
+      },
+      "gold": "contra"
+     }
+    ]
+   },
+   {
+    "iid": "S15#omission:contribution_15_years",
+    "case": "S15",
+    "origin": "injected",
+    "gold_category": "ParserOmission",
+    "gold_fault": "ParserOmission(contribution_15_years)",
+    "pred_category": "ParserOmission",
+    "first_diagnosis": [
+     "ParserOmission(contribution_15_years)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 1,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserOmission(contribution_15_years)"
+    ],
+    "nli_log": [
+     {
+      "prop": "contribution_15_years",
+      "label": "contra",
+      "scores": {
+       "entail": 0.06658935546875,
+       "neutral": 0.024444580078125,
+       "contra": 0.9091796875
+      },
+      "gold": "contra"
+     }
+    ]
+   },
+   {
+    "iid": "S16#normal",
+    "case": "S16",
+    "origin": "natural",
+    "gold_category": "Normal",
+    "gold_fault": "",
+    "pred_category": "Normal",
+    "first_diagnosis": [],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 0,
+    "rounds": 1,
+    "recovery": [],
+    "nli_log": [
+     {
+      "prop": "contribution_15_years",
+      "label": "contra",
+      "scores": {
+       "entail": 0.09033203125,
+       "neutral": 0.02264404296875,
+       "contra": 0.88720703125
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "reached_retirement_age",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9921875,
+       "neutral": 0.0054168701171875,
+       "contra": 0.002536773681640625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "requested_lump_sum",
+      "label": "entail",
+      "scores": {
+       "entail": 0.79736328125,
+       "neutral": 0.1689453125,
+       "contra": 0.03387451171875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "terminated_participation",
+      "label": "entail",
+      "scores": {
+       "entail": 0.7568359375,
+       "neutral": 0.04833984375,
+       "contra": 0.1947021484375
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S16#missing:terminated_participation",
+    "case": "S16",
+    "origin": "injected",
+    "gold_category": "MissingCaseInformation",
+    "gold_fault": "MissingCaseInformation(terminated_participation)",
+    "pred_category": "ParserOmission",
+    "first_diagnosis": [
+     "ParserOmission(terminated_participation)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "false",
+    "expected": "true",
+    "answer_ok": false,
+    "nli_calls": 2,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserOmission(terminated_participation)"
+    ],
+    "nli_log": [
+     {
+      "prop": "reached_retirement_age",
+      "label": "entail",
+      "scores": {
+       "entail": 0.990234375,
+       "neutral": 0.006000518798828125,
+       "contra": 0.0035991668701171875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "terminated_participation",
+      "label": "contra",
+      "scores": {
+       "entail": 0.375,
+       "neutral": 0.1151123046875,
+       "contra": 0.509765625
+      },
+      "gold": "neutral"
+     }
+    ]
+   },
+   {
+    "iid": "S16#missing:reached_retirement_age",
+    "case": "S16",
+    "origin": "injected",
+    "gold_category": "MissingCaseInformation",
+    "gold_fault": "MissingCaseInformation(reached_retirement_age)",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(reached_retirement_age)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "MissingCaseInformation(reached_retirement_age)"
+    ],
+    "nli_log": [
+     {
+      "prop": "reached_retirement_age",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.15283203125,
+       "neutral": 0.63916015625,
+       "contra": 0.208251953125
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "contribution_15_years",
+      "label": "contra",
+      "scores": {
+       "entail": 0.1348876953125,
+       "neutral": 0.040740966796875,
+       "contra": 0.82421875
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "requested_lump_sum",
+      "label": "entail",
+      "scores": {
+       "entail": 0.81298828125,
+       "neutral": 0.156005859375,
+       "contra": 0.0311737060546875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "terminated_participation",
+      "label": "entail",
+      "scores": {
+       "entail": 0.86181640625,
+       "neutral": 0.038360595703125,
+       "contra": 0.09967041015625
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S16#missing:contribution_15_years",
+    "case": "S16",
+    "origin": "injected",
+    "gold_category": "MissingCaseInformation",
+    "gold_fault": "MissingCaseInformation(contribution_15_years)",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(contribution_15_years)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "MissingCaseInformation(contribution_15_years)"
+    ],
+    "nli_log": [
+     {
+      "prop": "reached_retirement_age",
+      "label": "entail",
+      "scores": {
+       "entail": 0.97607421875,
+       "neutral": 0.0173492431640625,
+       "contra": 0.00661468505859375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "contribution_15_years",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.03802490234375,
+       "neutral": 0.9453125,
+       "contra": 0.0165252685546875
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "requested_lump_sum",
+      "label": "entail",
+      "scores": {
+       "entail": 0.845703125,
+       "neutral": 0.128173828125,
+       "contra": 0.02606201171875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "terminated_participation",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9091796875,
+       "neutral": 0.028350830078125,
+       "contra": 0.06256103515625
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S17#normal",
+    "case": "S17",
+    "origin": "natural",
+    "gold_category": "Normal",
+    "gold_fault": "",
+    "pred_category": "UnsupportedParserFact",
+    "first_diagnosis": [
+     "UnsupportedParserFact(emigrating)",
+     "UnsupportedParserFact(serious_illness)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 5,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "UnsupportedParserFact(emigrating)",
+     "UnsupportedParserFact(serious_illness)"
+    ],
+    "nli_log": [
+     {
+      "prop": "emigrating",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.10931396484375,
+       "neutral": 0.46240234375,
+       "contra": 0.428466796875
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "reached_retirement_age",
+      "label": "contra",
+      "scores": {
+       "entail": 0.005596160888671875,
+       "neutral": 0.004367828369140625,
+       "contra": 0.990234375
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "requested_lump_sum",
+      "label": "entail",
+      "scores": {
+       "entail": 0.814453125,
+       "neutral": 0.103759765625,
+       "contra": 0.0819091796875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "serious_illness",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.0188446044921875,
+       "neutral": 0.720703125,
+       "contra": 0.260498046875
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "terminated_participation",
+      "label": "entail",
+      "scores": {
+       "entail": 0.8017578125,
+       "neutral": 0.049468994140625,
+       "contra": 0.14892578125
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S17#missing:reached_retirement_age",
+    "case": "S17",
+    "origin": "injected",
+    "gold_category": "MissingCaseInformation",
+    "gold_fault": "MissingCaseInformation(reached_retirement_age)",
+    "pred_category": "UnsupportedParserFact",
+    "first_diagnosis": [
+     "UnsupportedParserFact(emigrating)",
+     "UnsupportedParserFact(serious_illness)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "clarification_requested",
+    "expected": "false",
+    "answer_ok": false,
+    "nli_calls": 4,
+    "kb_checks": 0,
+    "rounds": 3,
+    "recovery": [
+     "UnsupportedParserFact(emigrating)",
+     "UnsupportedParserFact(serious_illness)",
+     "MissingCaseInformation(contribution_15_years)",
+     "ParserOmission(reached_retirement_age)",
+     "MissingCaseInformation(contribution_15_years)"
+    ],
+    "nli_log": [
+     {
+      "prop": "emigrating",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.090576171875,
+       "neutral": 0.53466796875,
+       "contra": 0.374755859375
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "serious_illness",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.0160064697265625,
+       "neutral": 0.77783203125,
+       "contra": 0.2061767578125
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "contribution_15_years",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.0295257568359375,
+       "neutral": 0.9580078125,
+       "contra": 0.01251220703125
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "reached_retirement_age",
+      "label": "entail",
+      "scores": {
+       "entail": 0.8193359375,
+       "neutral": 0.15576171875,
+       "contra": 0.025146484375
+      },
+      "gold": "neutral"
+     }
+    ]
+   },
+   {
+    "iid": "S17#missing:requested_lump_sum",
+    "case": "S17",
+    "origin": "injected",
+    "gold_category": "MissingCaseInformation",
+    "gold_fault": "MissingCaseInformation(requested_lump_sum)",
+    "pred_category": "UnsupportedParserFact",
+    "first_diagnosis": [
+     "UnsupportedParserFact(emigrating)",
+     "UnsupportedParserFact(serious_illness)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 5,
+    "kb_checks": 0,
+    "rounds": 3,
+    "recovery": [
+     "UnsupportedParserFact(emigrating)",
+     "UnsupportedParserFact(serious_illness)",
+     "MissingCaseInformation(requested_lump_sum)"
+    ],
+    "nli_log": [
+     {
+      "prop": "emigrating",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.1329345703125,
+       "neutral": 0.468017578125,
+       "contra": 0.399169921875
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "reached_retirement_age",
+      "label": "contra",
+      "scores": {
+       "entail": 0.00494384765625,
+       "neutral": 0.005527496337890625,
+       "contra": 0.98974609375
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "serious_illness",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.01399993896484375,
+       "neutral": 0.6552734375,
+       "contra": 0.330810546875
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "requested_lump_sum",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.302001953125,
+       "neutral": 0.583984375,
+       "contra": 0.11407470703125
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "terminated_participation",
+      "label": "entail",
+      "scores": {
+       "entail": 0.830078125,
+       "neutral": 0.0498046875,
+       "contra": 0.11993408203125
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S17#omission:requested_lump_sum",
+    "case": "S17",
+    "origin": "injected",
+    "gold_category": "ParserOmission",
+    "gold_fault": "ParserOmission(requested_lump_sum)",
+    "pred_category": "UnsupportedParserFact",
+    "first_diagnosis": [
+     "UnsupportedParserFact(emigrating)",
+     "UnsupportedParserFact(serious_illness)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 5,
+    "kb_checks": 0,
+    "rounds": 3,
+    "recovery": [
+     "UnsupportedParserFact(emigrating)",
+     "UnsupportedParserFact(serious_illness)",
+     "ParserOmission(requested_lump_sum)"
+    ],
+    "nli_log": [
+     {
+      "prop": "emigrating",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.10931396484375,
+       "neutral": 0.46240234375,
+       "contra": 0.428466796875
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "reached_retirement_age",
+      "label": "contra",
+      "scores": {
+       "entail": 0.005596160888671875,
+       "neutral": 0.004367828369140625,
+       "contra": 0.990234375
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "serious_illness",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.0188446044921875,
+       "neutral": 0.720703125,
+       "contra": 0.260498046875
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "requested_lump_sum",
+      "label": "entail",
+      "scores": {
+       "entail": 0.814453125,
+       "neutral": 0.103759765625,
+       "contra": 0.0819091796875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "terminated_participation",
+      "label": "entail",
+      "scores": {
+       "entail": 0.8017578125,
+       "neutral": 0.049468994140625,
+       "contra": 0.14892578125
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S17#misinterp:serious_illness",
+    "case": "S17",
+    "origin": "injected",
+    "gold_category": "ParserMisinterpretation",
+    "gold_fault": "ParserMisinterpretation(serious_illness)",
+    "pred_category": "UnsupportedParserFact",
+    "first_diagnosis": [
+     "UnsupportedParserFact(emigrating)",
+     "UnsupportedParserFact(serious_illness)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 5,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "UnsupportedParserFact(emigrating)",
+     "UnsupportedParserFact(serious_illness)"
+    ],
+    "nli_log": [
+     {
+      "prop": "emigrating",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.10931396484375,
+       "neutral": 0.46240234375,
+       "contra": 0.428466796875
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "reached_retirement_age",
+      "label": "contra",
+      "scores": {
+       "entail": 0.005596160888671875,
+       "neutral": 0.004367828369140625,
+       "contra": 0.990234375
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "requested_lump_sum",
+      "label": "entail",
+      "scores": {
+       "entail": 0.814453125,
+       "neutral": 0.103759765625,
+       "contra": 0.0819091796875
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "serious_illness",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.0188446044921875,
+       "neutral": 0.720703125,
+       "contra": 0.260498046875
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "terminated_participation",
+      "label": "entail",
+      "scores": {
+       "entail": 0.8017578125,
+       "neutral": 0.049468994140625,
+       "contra": 0.14892578125
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S18#normal",
+    "case": "S18",
+    "origin": "natural",
+    "gold_category": "Normal",
+    "gold_fault": "",
+    "pred_category": "Normal",
+    "first_diagnosis": [],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 3,
+    "kb_checks": 0,
+    "rounds": 1,
+    "recovery": [],
+    "nli_log": [
+     {
+      "prop": "emigrating",
+      "label": "entail",
+      "scores": {
+       "entail": 0.6806640625,
+       "neutral": 0.2626953125,
+       "contra": 0.056732177734375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "requested_lump_sum",
+      "label": "entail",
+      "scores": {
+       "entail": 0.849609375,
+       "neutral": 0.11016845703125,
+       "contra": 0.040069580078125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "terminated_participation",
+      "label": "entail",
+      "scores": {
+       "entail": 0.86181640625,
+       "neutral": 0.051025390625,
+       "contra": 0.08697509765625
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S18#missing:terminated_participation",
+    "case": "S18",
+    "origin": "injected",
+    "gold_category": "MissingCaseInformation",
+    "gold_fault": "MissingCaseInformation(terminated_participation)",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(contribution_15_years)",
+     "MissingCaseInformation(reached_retirement_age)",
+     "ParserOmission(terminated_participation)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 5,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "MissingCaseInformation(contribution_15_years)",
+     "MissingCaseInformation(reached_retirement_age)",
+     "ParserOmission(terminated_participation)"
+    ],
+    "nli_log": [
+     {
+      "prop": "emigrating",
+      "label": "entail",
+      "scores": {
+       "entail": 0.58544921875,
+       "neutral": 0.377197265625,
+       "contra": 0.0372314453125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "contribution_15_years",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.0033817291259765625,
+       "neutral": 0.9912109375,
+       "contra": 0.005496978759765625
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "reached_retirement_age",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.02459716796875,
+       "neutral": 0.51953125,
+       "contra": 0.4560546875
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "terminated_participation",
+      "label": "entail",
+      "scores": {
+       "entail": 0.85888671875,
+       "neutral": 0.072265625,
+       "contra": 0.06866455078125
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "requested_lump_sum",
+      "label": "entail",
+      "scores": {
+       "entail": 0.86669921875,
+       "neutral": 0.1156005859375,
+       "contra": 0.017578125
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S18#misinterp:terminated_participation",
+    "case": "S18",
+    "origin": "injected",
+    "gold_category": "ParserMisinterpretation",
+    "gold_fault": "ParserMisinterpretation(terminated_participation)",
+    "pred_category": "ParserMisinterpretation",
+    "first_diagnosis": [
+     "ParserMisinterpretation(terminated_participation)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 3,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserMisinterpretation(terminated_participation)"
+    ],
+    "nli_log": [
+     {
+      "prop": "emigrating",
+      "label": "entail",
+      "scores": {
+       "entail": 0.6806640625,
+       "neutral": 0.2626953125,
+       "contra": 0.056732177734375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "terminated_participation",
+      "label": "entail",
+      "scores": {
+       "entail": 0.86181640625,
+       "neutral": 0.051025390625,
+       "contra": 0.08697509765625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "requested_lump_sum",
+      "label": "entail",
+      "scores": {
+       "entail": 0.849609375,
+       "neutral": 0.11016845703125,
+       "contra": 0.040069580078125
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S18#misinterp:emigrating",
+    "case": "S18",
+    "origin": "injected",
+    "gold_category": "ParserMisinterpretation",
+    "gold_fault": "ParserMisinterpretation(emigrating)",
+    "pred_category": "ParserMisinterpretation",
+    "first_diagnosis": [
+     "ParserMisinterpretation(emigrating)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 3,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "ParserMisinterpretation(emigrating)"
+    ],
+    "nli_log": [
+     {
+      "prop": "emigrating",
+      "label": "entail",
+      "scores": {
+       "entail": 0.6806640625,
+       "neutral": 0.2626953125,
+       "contra": 0.056732177734375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "requested_lump_sum",
+      "label": "entail",
+      "scores": {
+       "entail": 0.849609375,
+       "neutral": 0.11016845703125,
+       "contra": 0.040069580078125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "terminated_participation",
+      "label": "entail",
+      "scores": {
+       "entail": 0.86181640625,
+       "neutral": 0.051025390625,
+       "contra": 0.08697509765625
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S18#omission:requested_lump_sum",
+    "case": "S18",
+    "origin": "injected",
+    "gold_category": "ParserOmission",
+    "gold_fault": "ParserOmission(requested_lump_sum)",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(contribution_15_years)",
+     "MissingCaseInformation(reached_retirement_age)",
+     "ParserOmission(requested_lump_sum)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "true",
+    "expected": "true",
+    "answer_ok": true,
+    "nli_calls": 5,
+    "kb_checks": 0,
+    "rounds": 2,
+    "recovery": [
+     "MissingCaseInformation(contribution_15_years)",
+     "MissingCaseInformation(reached_retirement_age)",
+     "ParserOmission(requested_lump_sum)"
+    ],
+    "nli_log": [
+     {
+      "prop": "emigrating",
+      "label": "entail",
+      "scores": {
+       "entail": 0.6806640625,
+       "neutral": 0.2626953125,
+       "contra": 0.056732177734375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "contribution_15_years",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.0043792724609375,
+       "neutral": 0.98681640625,
+       "contra": 0.0087890625
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "reached_retirement_age",
+      "label": "neutral",
+      "scores": {
+       "entail": 0.0309906005859375,
+       "neutral": 0.5390625,
+       "contra": 0.429931640625
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "requested_lump_sum",
+      "label": "entail",
+      "scores": {
+       "entail": 0.849609375,
+       "neutral": 0.11016845703125,
+       "contra": 0.040069580078125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "terminated_participation",
+      "label": "entail",
+      "scores": {
+       "entail": 0.86181640625,
+       "neutral": 0.051025390625,
+       "contra": 0.08697509765625
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S19#natural",
+    "case": "S19",
+    "origin": "natural",
+    "gold_category": "ResolvableRuleOverlap",
+    "gold_fault": "ResolvableRuleOverlap(R06, R15)",
+    "pred_category": "ResolvableRuleOverlap",
+    "first_diagnosis": [
+     "ResolvableRuleOverlap(R06, R15)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 1,
+    "rounds": 2,
+    "recovery": [
+     "ResolvableRuleOverlap(R06, R15)"
+    ],
+    "nli_log": [
+     {
+      "prop": "domestic_worker",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9580078125,
+       "neutral": 0.0408935546875,
+       "contra": 0.0013294219970703125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "part_time",
+      "label": "contra",
+      "scores": {
+       "entail": 0.047119140625,
+       "neutral": 0.11297607421875,
+       "contra": 0.83984375
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9931640625,
+       "neutral": 0.004726409912109375,
+       "contra": 0.00215911865234375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.68310546875,
+       "neutral": 0.00878143310546875,
+       "contra": 0.30810546875
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S19#kbconflict",
+    "case": "S19",
+    "origin": "injected",
+    "gold_category": "UnresolvedKBConflict",
+    "gold_fault": "UnresolvedKBConflict(R06, R15)",
+    "pred_category": "UnresolvedKBConflict",
+    "first_diagnosis": [
+     "UnresolvedKBConflict(R06, R15)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "abstain",
+    "expected": "abstain",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 1,
+    "rounds": 1,
+    "recovery": [
+     "UnresolvedKBConflict(R06, R15)"
+    ],
+    "nli_log": [
+     {
+      "prop": "domestic_worker",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9580078125,
+       "neutral": 0.0408935546875,
+       "contra": 0.0013294219970703125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "part_time",
+      "label": "contra",
+      "scores": {
+       "entail": 0.047119140625,
+       "neutral": 0.11297607421875,
+       "contra": 0.83984375
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9931640625,
+       "neutral": 0.004726409912109375,
+       "contra": 0.00215911865234375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.68310546875,
+       "neutral": 0.00878143310546875,
+       "contra": 0.30810546875
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S19#misinterp:signed_labor_contract",
+    "case": "S19",
+    "origin": "injected",
+    "gold_category": "ParserMisinterpretation",
+    "gold_fault": "ParserMisinterpretation(signed_labor_contract)",
+    "pred_category": "ParserMisinterpretation",
+    "first_diagnosis": [
+     "ParserMisinterpretation(signed_labor_contract)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 1,
+    "rounds": 3,
+    "recovery": [
+     "ParserMisinterpretation(signed_labor_contract)",
+     "ResolvableRuleOverlap(R06, R15)"
+    ],
+    "nli_log": [
+     {
+      "prop": "domestic_worker",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9580078125,
+       "neutral": 0.0408935546875,
+       "contra": 0.0013294219970703125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "part_time",
+      "label": "contra",
+      "scores": {
+       "entail": 0.047119140625,
+       "neutral": 0.11297607421875,
+       "contra": 0.83984375
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9931640625,
+       "neutral": 0.004726409912109375,
+       "contra": 0.00215911865234375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.68310546875,
+       "neutral": 0.00878143310546875,
+       "contra": 0.30810546875
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S19#misinterp:term_at_least_1_month",
+    "case": "S19",
+    "origin": "injected",
+    "gold_category": "ParserMisinterpretation",
+    "gold_fault": "ParserMisinterpretation(term_at_least_1_month)",
+    "pred_category": "ParserMisinterpretation",
+    "first_diagnosis": [
+     "ParserMisinterpretation(term_at_least_1_month)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 4,
+    "kb_checks": 1,
+    "rounds": 3,
+    "recovery": [
+     "ParserMisinterpretation(term_at_least_1_month)",
+     "ResolvableRuleOverlap(R06, R15)"
+    ],
+    "nli_log": [
+     {
+      "prop": "domestic_worker",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9580078125,
+       "neutral": 0.0408935546875,
+       "contra": 0.0013294219970703125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "part_time",
+      "label": "contra",
+      "scores": {
+       "entail": 0.047119140625,
+       "neutral": 0.11297607421875,
+       "contra": 0.83984375
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9931640625,
+       "neutral": 0.004726409912109375,
+       "contra": 0.00215911865234375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.68310546875,
+       "neutral": 0.00878143310546875,
+       "contra": 0.30810546875
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S19#unsupported:probation_only=True",
+    "case": "S19",
+    "origin": "injected",
+    "gold_category": "UnsupportedParserFact",
+    "gold_fault": "UnsupportedParserFact(probation_only)",
+    "pred_category": "ParserMisinterpretation",
+    "first_diagnosis": [
+     "ParserMisinterpretation(probation_only)",
+     "UnresolvedKBConflict(R02, R03)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": false,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 5,
+    "kb_checks": 2,
+    "rounds": 3,
+    "recovery": [
+     "ParserMisinterpretation(probation_only)",
+     "ResolvableRuleOverlap(R06, R15)"
+    ],
+    "nli_log": [
+     {
+      "prop": "domestic_worker",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9580078125,
+       "neutral": 0.0408935546875,
+       "contra": 0.0013294219970703125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "part_time",
+      "label": "contra",
+      "scores": {
+       "entail": 0.047119140625,
+       "neutral": 0.11297607421875,
+       "contra": 0.83984375
+      },
+      "gold": "contra"
+     },
+     {
+      "prop": "probation_only",
+      "label": "contra",
+      "scores": {
+       "entail": 0.0106658935546875,
+       "neutral": 0.01201629638671875,
+       "contra": 0.9775390625
+      },
+      "gold": "neutral"
+     },
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9931640625,
+       "neutral": 0.004726409912109375,
+       "contra": 0.00215911865234375
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "entail",
+      "scores": {
+       "entail": 0.68310546875,
+       "neutral": 0.00878143310546875,
+       "contra": 0.30810546875
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S20#natural",
+    "case": "S20",
+    "origin": "natural",
+    "gold_category": "UnresolvedKBConflict",
+    "gold_fault": "UnresolvedKBConflict(R01, R03)",
+    "pred_category": "UnresolvedKBConflict",
+    "first_diagnosis": [
+     "UnresolvedKBConflict(R01, R03)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "abstain",
+    "expected": "abstain",
+    "answer_ok": true,
+    "nli_calls": 3,
+    "kb_checks": 1,
+    "rounds": 1,
+    "recovery": [
+     "UnresolvedKBConflict(R01, R03)"
+    ],
+    "nli_log": [
+     {
+      "prop": "paid_wage",
+      "label": "entail",
+      "scores": {
+       "entail": 0.91650390625,
+       "neutral": 0.054534912109375,
+       "contra": 0.02886962890625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "probation_only",
+      "label": "entail",
+      "scores": {
+       "entail": 0.65185546875,
+       "neutral": 0.0274658203125,
+       "contra": 0.320556640625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "under_management",
+      "label": "entail",
+      "scores": {
+       "entail": 0.96435546875,
+       "neutral": 0.02032470703125,
+       "contra": 0.01541900634765625
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S21#normal",
+    "case": "S21",
+    "origin": "natural",
+    "gold_category": "Normal",
+    "gold_fault": "",
+    "pred_category": "Normal",
+    "first_diagnosis": [],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 2,
+    "kb_checks": 0,
+    "rounds": 1,
+    "recovery": [],
+    "nli_log": [
+     {
+      "prop": "signed_labor_contract",
+      "label": "entail",
+      "scores": {
+       "entail": 0.9892578125,
+       "neutral": 0.00728607177734375,
+       "contra": 0.0032367706298828125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "term_at_least_1_month",
+      "label": "contra",
+      "scores": {
+       "entail": 0.290771484375,
+       "neutral": 0.07720947265625,
+       "contra": 0.6318359375
+      },
+      "gold": "contra"
+     }
+    ]
+   },
+   {
+    "iid": "S22#natural",
+    "case": "S22",
+    "origin": "natural",
+    "gold_category": "ResolvableRuleOverlap",
+    "gold_fault": "ResolvableRuleOverlap(R09, R14)",
+    "pred_category": "ResolvableRuleOverlap",
+    "first_diagnosis": [
+     "ResolvableRuleOverlap(R09, R14)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
+    "expected": "false",
+    "answer_ok": true,
+    "nli_calls": 3,
+    "kb_checks": 1,
+    "rounds": 2,
+    "recovery": [
+     "ResolvableRuleOverlap(R09, R14)"
+    ],
+    "nli_log": [
+     {
+      "prop": "enterprise_manager",
+      "label": "entail",
+      "scores": {
+       "entail": 0.93701171875,
+       "neutral": 0.057861328125,
+       "contra": 0.004993438720703125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "receives_salary",
+      "label": "entail",
+      "scores": {
+       "entail": 0.97265625,
+       "neutral": 0.02520751953125,
+       "contra": 0.002079010009765625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "receiving_pension",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98486328125,
+       "neutral": 0.011322021484375,
+       "contra": 0.003665924072265625
+      },
+      "gold": "entail"
+     }
+    ]
+   },
+   {
+    "iid": "S22#kbconflict",
+    "case": "S22",
+    "origin": "injected",
+    "gold_category": "UnresolvedKBConflict",
+    "gold_fault": "UnresolvedKBConflict(R09, R14)",
+    "pred_category": "UnresolvedKBConflict",
+    "first_diagnosis": [
+     "UnresolvedKBConflict(R09, R14)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "abstain",
+    "expected": "abstain",
+    "answer_ok": true,
+    "nli_calls": 3,
+    "kb_checks": 1,
+    "rounds": 1,
+    "recovery": [
+     "UnresolvedKBConflict(R09, R14)"
+    ],
+    "nli_log": [
+     {
+      "prop": "enterprise_manager",
+      "label": "entail",
+      "scores": {
+       "entail": 0.93701171875,
+       "neutral": 0.057861328125,
+       "contra": 0.004993438720703125
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "receives_salary",
+      "label": "entail",
+      "scores": {
+       "entail": 0.97265625,
+       "neutral": 0.02520751953125,
+       "contra": 0.002079010009765625
+      },
+      "gold": "entail"
+     },
+     {
+      "prop": "receiving_pension",
+      "label": "entail",
+      "scores": {
+       "entail": 0.98486328125,
+       "neutral": 0.011322021484375,
+       "contra": 0.003665924072265625
+      },
+      "gold": "entail"
+     }
+    ]
+   }
+  ]
+ },
+ "n_instances": 125,
+ "by_category": {
+  "Normal": 27,
+  "ParserMisinterpretation": 20,
+  "MissingCaseInformation": 27,
+  "ParserOmission": 20,
+  "UnsupportedParserFact": 20,
+  "ResolvableRuleOverlap": 5,
+  "UnresolvedKBConflict": 6
+ },
+ "by_origin": {
+  "Normal/natural": 27,
+  "ParserMisinterpretation/injected": 20,
+  "MissingCaseInformation/injected": 20,
+  "ParserOmission/injected": 20,
+  "UnsupportedParserFact/injected": 20,
+  "MissingCaseInformation/natural": 7,
+  "ResolvableRuleOverlap/natural": 5,
+  "UnresolvedKBConflict/injected": 5,
+  "UnresolvedKBConflict/natural": 1
+ },
+ "kb_stats": {
+  "predicates": 34,
+  "input_predicates": 26,
+  "derived_predicates": 8,
+  "rules": 28,
+  "rules_multi_premise": 22,
+  "rules_explicit": 21,
+  "rules_a_contrario": 7,
+  "exception_of": 9,
+  "priority_over": 0,
+  "max_chain_depth": 4,
+  "source_documents": 2,
+  "gold_cases": 40,
+  "gold_cases_real": 18,
+  "gold_cases_synthetic": 22
+ }
+}
