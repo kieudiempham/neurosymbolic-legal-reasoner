@@ -107,9 +107,25 @@ def stratified_subset(insts: list[Instance], target: int, seed: int = 42) -> lis
     return sorted(keep, key=lambda i: order[i.iid])
 
 
-def run(configs: list[str], subset: int = 0) -> dict:
-    kb = load_kb()
-    cases = load_cases(kb=kb)
+def run(configs: list[str], subset: int = 0, dataset: list[str] | None = None, kb_file: str = "kb_bhxh.yaml") -> dict:
+    kb = load_kb(kb_file)
+    dataset_report = None
+    if dataset:
+        from .dataset import check_case, extend_kb_vocab, load_items, to_gold_cases
+
+        items = load_items(dataset)
+        kb = extend_kb_vocab(kb, items)
+        all_cases, skipped = to_gold_cases(items, kb)
+        checks = {c.id: check_case(kb, c) for c in all_cases}
+        # only questions whose gold conclusion the KB reproduces can yield labelled diagnostic instances
+        cases = [c for c in all_cases if checks[c.id]["verdict"] in ("ok", "ok_partial_missing")]
+        dataset_report = {"items": len(items), "application_cases": len(all_cases), "skipped": len(skipped),
+                          "kb_covered": len(cases),
+                          "not_covered": dict(Counter(v["verdict"] for v in checks.values()
+                                                      if v["verdict"] not in ("ok", "ok_partial_missing")))}
+        print("dataset:", dataset_report)
+    else:
+        cases = load_cases(kb=kb)
     insts = build_instances(kb, cases)
     if subset:
         insts = stratified_subset(insts, subset)
@@ -149,7 +165,7 @@ def run(configs: list[str], subset: int = 0) -> dict:
     return {"results": results, "per_instance": per_instance, "n_instances": len(insts),
             "by_category": dict(Counter(i.category for i in insts)),
             "by_origin": dict(Counter(f"{i.category}/{i.origin}" for i in insts)),
-            "kb_stats": kb_stats(kb, cases)}
+            "kb_stats": kb_stats(kb, cases), "dataset_report": dataset_report}
 
 
 def summarize(rows: list[dict], diagnosis: bool) -> dict:
@@ -238,12 +254,20 @@ def kb_stats(kb, cases) -> dict:
     }
 
 
-def main() -> None:
+def main() -> None:  # noqa: C901
     ap = argparse.ArgumentParser()
     ap.add_argument("--configs", default=",".join(CONFIGS))
     ap.add_argument("--subset", type=int, default=0, help="stratified subset size (0 = all instances)")
     ap.add_argument("--merge", action="store_true", help="merge results_<config>.json into results.json")
+    ap.add_argument("--dataset", nargs="*", help="GPT dataset jsonl files/globs (default: data/diag/gold_cases.yaml)")
+    ap.add_argument("--kb", default="kb_bhxh.yaml", help="KB yaml under data/diag")
+    ap.add_argument("--out", default="", help="output dir (default experiments/diag, or experiments/diag_dataset with --dataset)")
     args = ap.parse_args()
+    global OUT_DIR
+    if args.out:
+        OUT_DIR = Path(args.out)
+    elif args.dataset:  # never overwrite the curated-benchmark results
+        OUT_DIR = OUT_DIR.parent / "diag_dataset"
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     if args.merge:
         merged = None
@@ -261,7 +285,8 @@ def main() -> None:
         print("merged ->", OUT_DIR / "results.json", list(merged["results"]))
         return
     configs = args.configs.split(",")
-    out = run(configs, args.subset)
+    out = run(configs, args.subset, args.dataset, args.kb)
+
     name = configs[0] if len(configs) == 1 else "all"
     (OUT_DIR / f"results_{name}.json").write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
     print("wrote", OUT_DIR / f"results_{name}.json")
