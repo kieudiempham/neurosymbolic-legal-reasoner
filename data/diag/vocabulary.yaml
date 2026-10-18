@@ -153,6 +153,45 @@ predicates:
     template_neg: "Người lao động không mắc bệnh hiểm nghèo."
     ask: "Bạn có đang mắc bệnh hiểm nghèo (ung thư, bại liệt, xơ gan mất bù, lao nặng, AIDS) không?"
 
+  monthly_benefit:
+    kind: input
+    default: false
+    template_pos: "Người này đang hưởng trợ cấp BHXH hoặc trợ cấp hằng tháng."
+    template_neg: "Người này không hưởng trợ cấp BHXH hoặc trợ cấp hằng tháng."
+    ask: "Bạn có đang hưởng trợ cấp BHXH hoặc trợ cấp hằng tháng không?"
+  first_contract_suspended:
+    kind: input
+    default: false
+    template_pos: "Hợp đồng lao động đầu tiên đang tạm hoãn thực hiện."
+    template_neg: "Hợp đồng lao động đầu tiên không bị tạm hoãn."
+    ask: "Hợp đồng lao động ký đầu tiên của bạn có đang tạm hoãn không?"
+  second_contract_active:
+    kind: input
+    template_pos: "Có hợp đồng lao động thứ hai đang có hiệu lực."
+    template_neg: "Không có hợp đồng lao động thứ hai đang có hiệu lực."
+    ask: "Hợp đồng lao động thứ hai của bạn có đang có hiệu lực không?"
+  is_business_owner:
+    kind: input
+    default: false
+    template_pos: "Người này là chủ hộ kinh doanh."
+    template_neg: "Người này không phải là chủ hộ kinh doanh."
+    ask: "Bạn có phải là chủ hộ kinh doanh không?"
+  business_registered:
+    kind: input
+    template_pos: "Hộ kinh doanh đã đăng ký kinh doanh."
+    template_neg: "Hộ kinh doanh chưa đăng ký kinh doanh."
+    ask: "Hộ kinh doanh của bạn đã đăng ký kinh doanh chưa?"
+  declaration_tax_method:
+    kind: input
+    template_pos: "Hộ kinh doanh nộp thuế theo phương pháp kê khai."
+    template_neg: "Hộ kinh doanh không nộp thuế theo phương pháp kê khai."
+    ask: "Hộ kinh doanh của bạn nộp thuế theo phương pháp kê khai hay khoán?"
+  date_before_2029:
+    kind: input
+    template_pos: "Thời điểm áp dụng trước ngày 01/07/2029."
+    template_neg: "Thời điểm áp dụng từ ngày 01/07/2029 trở đi."
+    ask: "Bạn hỏi cho thời điểm trước hay sau ngày 01/07/2029?"
+
   # ---------- Kết luận pháp lý (derived) ----------
   labor_relation:
     kind: derived

@@ -30,6 +30,7 @@ class ReasoningState:
     proof_dependencies: dict[str, list[str]]  # derived pred -> premise preds of its deriving rule
     competing_pairs: list[tuple[str, str, str]]  # (rule1, rule2, pred) applicable with incompatible conclusions
     blocked_rules: set[str] = field(default_factory=set)
+    suspended: dict[str, str] = field(default_factory=dict)  # general rule -> partially established exception
 
     def parser_facts(self) -> dict[str, Fact]:
         return {p: f for p, f in self.facts.items() if f.origin in ("parser", "reparse")}
@@ -64,6 +65,25 @@ def forward_reason(
         if pred not in facts:
             facts[pred] = Fact(pred, val, "default")
 
+    # exceptions (and priority winners) that can defeat each rule
+    defeaters: dict[str, list[str]] = {}
+    for a, b in sorted(kb.exception_of | kb.priority_over):
+        defeaters.setdefault(b, []).append(a)
+
+    def suspended_by(rule_id: str) -> str | None:
+        """An exception applies only once established (open world); while it is partially established
+        (some premise satisfied, none contradicted, some unknown) the general rule is suspended."""
+        shared = {str(p) for p in kb.rules[rule_id].premises}
+        for e in defeaters.get(rule_id, []):
+            if e in blocked:
+                continue
+            st_e, ps_e = _rule_status(kb.rules[e], facts)
+            # only premises specific to the exception count; those shared with the general rule are
+            # satisfied whenever the general rule applies and say nothing about the exception
+            if st_e == UNDETERMINED and any(v == SATISFIED for k, v in ps_e.items() if k not in shared):
+                return e
+        return None
+
     applied: list[str] = []
     derived_by: dict[str, list[tuple[str, bool]]] = {}
     conflicted: set[str] = set()
@@ -74,7 +94,7 @@ def forward_reason(
             if rule.id in blocked or rule.id in applied:
                 continue
             st, _ = _rule_status(rule, facts)
-            if st != APPLICABLE:
+            if st != APPLICABLE or suspended_by(rule.id):
                 continue
             applied.append(rule.id)
             c = rule.conclusion
@@ -89,9 +109,13 @@ def forward_reason(
                 facts[c.pred] = Fact(c.pred, c.value, "derived", rule=rule.id)
             changed = True
 
-    rule_status, premise_status = {}, {}
+    rule_status, premise_status, suspended = {}, {}, {}
     for rule in kb.rules.values():
         st, ps = _rule_status(rule, facts)
+        if st == APPLICABLE and rule.id not in applied:
+            e = suspended_by(rule.id)
+            if e:
+                st, suspended[rule.id] = UNDETERMINED, e
         if rule.id in applied:
             st = APPLICABLE
         if rule.id in blocked:
@@ -117,13 +141,24 @@ def forward_reason(
     else:
         status = "false"  # no applicable rule establishes the goal
 
-    return ReasoningState(goal, status, facts, applied, rule_status, premise_status, deps, competing, blocked)
+    return ReasoningState(goal, status, facts, applied, rule_status, premise_status, deps, competing, blocked,
+                          suspended)
 
 
 def backward_trace_required(kb: KB, state: ReasoningState) -> list[str]:
     """Backward dependency tracing: unresolved input propositions blocking the goal (all relevant paths)."""
     required: list[str] = []
     seen: set[str] = set()
+
+    def unknown_premises(rule_id: str) -> None:
+        for lit in kb.rules[rule_id].premises:
+            if state.premise_status[rule_id][str(lit)] != UNKNOWN:
+                continue
+            if kb.vocab[lit.pred]["kind"] == "input":
+                if lit.pred not in required:
+                    required.append(lit.pred)
+            else:
+                visit(lit.pred)
 
     def visit(pred: str) -> None:
         if pred in seen:
@@ -132,14 +167,9 @@ def backward_trace_required(kb: KB, state: ReasoningState) -> list[str]:
         for rule in kb.rules_concluding(pred):
             if state.rule_status[rule.id] != UNDETERMINED:
                 continue
-            for lit in rule.premises:
-                if state.premise_status[rule.id][str(lit)] != UNKNOWN:
-                    continue
-                if kb.vocab[lit.pred]["kind"] == "input":
-                    if lit.pred not in required:
-                        required.append(lit.pred)
-                else:
-                    visit(lit.pred)
+            unknown_premises(rule.id)
+            if rule.id in state.suspended:  # blocked only by a partially established exception
+                unknown_premises(state.suspended[rule.id])
 
     if state.status in ("unknown",):
         visit(state.goal)

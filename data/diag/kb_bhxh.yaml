@@ -36,7 +36,7 @@ rules:
     source: "Luật BHXH 41/2024, Điều 2 khoản 1 điểm a"
     basis: a_contrario
   - id: R06
-    premises: [covered_point_a, ~foreign_citizen, ~part_time]
+    premises: [covered_point_a, ~foreign_citizen]
     conclusion: compulsory_si
     source: "Luật BHXH 41/2024, Điều 2 khoản 1 điểm a"
     basis: explicit
@@ -46,7 +46,7 @@ rules:
     source: "Luật BHXH 41/2024, Điều 2 khoản 1 điểm l"
     basis: explicit
   - id: R08
-    premises: [covered_point_a, ~foreign_citizen, part_time, ~wage_at_least_min_base]
+    premises: [covered_point_a, part_time, ~wage_at_least_min_base]
     conclusion: ~compulsory_si
     source: "Luật BHXH 41/2024, Điều 2 khoản 1 điểm l"
     basis: a_contrario
@@ -86,7 +86,7 @@ rules:
     source: "Luật BHXH 41/2024, Điều 2 khoản 7 điểm b"
     basis: explicit
   - id: R16
-    premises: [~covered_point_a, ~enterprise_manager]
+    premises: [~covered_point_a]
     conclusion: ~compulsory_si
     source: "Luật BHXH 41/2024, Điều 2 khoản 1"
     basis: a_contrario
@@ -101,7 +101,7 @@ rules:
     source: "Luật BHXH 41/2024, Điều 33 khoản 5"
     basis: explicit
   - id: R19
-    premises: [compulsory_si, ~unpaid_14_days, ~contract_suspended]
+    premises: [compulsory_si]
     conclusion: must_contribute_month
     source: "Luật BHXH 41/2024, Điều 33"
     basis: explicit
@@ -146,8 +146,56 @@ rules:
     source: "Luật BHXH 41/2024, Điều 70 khoản 1 (ngoài các trường hợp a-c; đơn giản hóa, bỏ qua điểm d, đ, e)"
     basis: a_contrario
 
+  # ---- bổ sung sau khi kiểm tra KB trên bộ gold BHXH v1 ----
+  - id: R14b
+    premises: [monthly_benefit]
+    conclusion: ~compulsory_si
+    source: "Luật BHXH 41/2024, Điều 2 khoản 7 điểm a (đang hưởng trợ cấp BHXH, trợ cấp hằng tháng)"
+    basis: explicit
+  - id: R18b
+    premises: [compulsory_si, unpaid_14_days, agreed_contribution]
+    conclusion: must_contribute_month
+    source: "Luật BHXH 41/2024, Điều 33 khoản 5 (trừ trường hợp có thỏa thuận đóng tháng đó)"
+    basis: explicit
+  - id: R22b
+    premises: [covered_point_a, multiple_contracts, first_contract_suspended, ~agreed_contribution]
+    conclusion: ~contribute_at_first_contract
+    source: "Luật BHXH 41/2024, Điều 2 khoản 5 điểm a (hợp đồng làm căn cứ đang tạm hoãn, không thỏa thuận đóng)"
+    basis: explicit
+  - id: R28
+    premises: [is_business_owner, business_registered, declaration_tax_method]
+    conclusion: compulsory_si
+    source: "Luật BHXH 41/2024, Điều 2 khoản 1 điểm m; NĐ 158/2025, Điều 3 khoản 2 điểm a"
+    basis: explicit
+  - id: R29
+    premises: [is_business_owner, business_registered, ~declaration_tax_method, date_before_2029]
+    conclusion: ~compulsory_si
+    source: "NĐ 158/2025, Điều 3 khoản 2 điểm b (tham gia từ ngày 01/7/2029)"
+    basis: a_contrario
+  - id: R30
+    premises: [is_business_owner, reached_retirement_age]
+    conclusion: ~compulsory_si
+    source: "Luật BHXH 41/2024, Điều 2 khoản 7 điểm c (bỏ qua trường hợp còn thiếu tối đa 06 tháng)"
+    basis: explicit
+
 # exception_of: [A, B] = A là ngoại lệ của B (A thắng khi cả hai cùng áp dụng).
 exception_of:
+  # ngoại lệ chỉ áp dụng khi đã xác lập; khi mới đúng một phần thì rule chung bị treo
+  - [R08, R06]
+  - [R09, R16]
+  - [R10, R16]
+  - [R28, R16]
+  - [R18, R19]
+  - [R21, R19]
+  - [R14b, R06]
+  - [R14b, R07]
+  - [R14b, R09]
+  - [R14b, R10]
+  - [R14b, R11]
+  - [R14b, R28]
+  - [R14, R28]
+  - [R22b, R22]
+  - [R30, R28]
   - [R12, R11]
   - [R13, R11]
   - [R14, R06]

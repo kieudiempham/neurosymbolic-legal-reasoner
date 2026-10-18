@@ -6,6 +6,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+import os
+
 import yaml
 
 DATA_DIR = Path(__file__).resolve().parents[2] / "data" / "diag"
@@ -50,6 +52,12 @@ class KB:
         return {p for p, v in self.vocab.items() if v.get("kind") == "input"}
 
     def defaults(self) -> dict[str, bool]:
+        """Closed-world defaults for statutory-exception predicates.
+
+        Off by default: case facts are open-world (unknown != false), as in the paper. Set
+        KB_EXCEPTION_DEFAULTS=1 only to reproduce the earlier curated benchmark, which assumed them."""
+        if os.environ.get("KB_EXCEPTION_DEFAULTS", "0") != "1":
+            return {}
         return {p: bool(v["default"]) for p, v in self.vocab.items() if "default" in v}
 
     def resolution(self, r1: str, r2: str) -> tuple[str, str] | None:
