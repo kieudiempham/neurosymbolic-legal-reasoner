@@ -2,16 +2,19 @@
 
 from __future__ import annotations
 
+import atexit
 import itertools
 import os
 import subprocess
 import tempfile
+import threading
 from dataclasses import dataclass, field
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 MBD_PL = Path(__file__).with_name("mbd.pl")
 SWIPL = os.environ.get("SWIPL", str(ROOT / ".tools" / "swipl" / "bin" / "swipl.exe"))
+PROLOG_MODE = os.environ.get("MBD_PROLOG_MODE", "server")  # "server" (persistent process) | "oneshot"
 
 FAULT_LAYER = {
     "missing": "user",
@@ -55,14 +58,17 @@ class Observations:
     competing: set[tuple[str, str]] = field(default_factory=set)
     resolution: dict[tuple[str, str], str] = field(default_factory=dict)  # pair -> yes | no
 
+    def to_terms(self) -> list[str]:
+        t = [f"required({_atom(c)})" for c in sorted(self.required)]
+        t += [f"checked({_atom(c)})" for c in sorted(self.checked)]
+        t += [f"parsed({_atom(c)}, {'pos' if v else 'neg'})" for c, v in sorted(self.parsed.items())]
+        t += [f"q({_atom(c)}, {lab})" for c, lab in sorted(self.q.items())]
+        t += [f"competing({_atom(a)}, {_atom(b)})" for a, b in sorted(self.competing)]
+        t += [f"resolution({_atom(a)}, {_atom(b)}, {o})" for (a, b), o in sorted(self.resolution.items())]
+        return t
+
     def to_prolog(self) -> str:
-        lines = [f"required({_atom(c)})." for c in sorted(self.required)]
-        lines += [f"checked({_atom(c)})." for c in sorted(self.checked)]
-        lines += [f"parsed({_atom(c)}, {'pos' if v else 'neg'})." for c, v in sorted(self.parsed.items())]
-        lines += [f"q({_atom(c)}, {lab})." for c, lab in sorted(self.q.items())]
-        lines += [f"competing({_atom(a)}, {_atom(b)})." for a, b in sorted(self.competing)]
-        lines += [f"resolution({_atom(a)}, {_atom(b)}, {o})." for (a, b), o in sorted(self.resolution.items())]
-        return "\n".join(lines)
+        return "\n".join(f"{x}." for x in self.to_terms())
 
 
 def _atom(x: str) -> str:
@@ -85,6 +91,57 @@ def fault_atoms(obs: Observations) -> list[Fault]:
 
 class PrologError(RuntimeError):
     pass
+
+
+class PrologServer:
+    """One long-lived SWI-Prolog process (mbd.pl serve/0) answering diagnosis requests over stdin/stdout.
+
+    Avoids starting a new process per MBD call (about 0.3-0.5 s each on Windows)."""
+
+    _instance: "PrologServer | None" = None
+
+    def __init__(self) -> None:
+        if not Path(SWIPL).exists():
+            raise PrologError(f"SWI-Prolog not found at {SWIPL} (set SWIPL env var)")
+        self.proc = subprocess.Popen(
+            [SWIPL, "-q", "-f", "none", "-g", "serve", "-t", "halt", str(MBD_PL)],
+            stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
+            text=True, encoding="utf-8", bufsize=1,
+        )
+        self.lock = threading.Lock()
+        atexit.register(self.close)
+
+    @classmethod
+    def get(cls) -> "PrologServer":
+        if cls._instance is None or cls._instance.proc.poll() is not None:
+            cls._instance = PrologServer()
+        return cls._instance
+
+    def request(self, obs: "Observations", atoms: list["Fault"], k: int) -> list[str]:
+        term = f"diag([{', '.join(obs.to_terms())}], [{', '.join(f.to_prolog() for f in atoms)}], {k}).\n"
+        with self.lock:
+            self.proc.stdin.write(term)
+            self.proc.stdin.flush()
+            lines = []
+            while True:
+                ln = self.proc.stdout.readline()
+                if not ln:
+                    raise PrologError("SWI-Prolog server terminated unexpectedly")
+                ln = ln.rstrip("\r\n")
+                if ln == "END":
+                    break
+                if ln.startswith("ERROR"):
+                    raise PrologError(ln)
+                lines.append(ln)
+        return [ln for ln in lines if ln.startswith("[")]
+
+    def close(self) -> None:
+        try:
+            if self.proc.poll() is None:
+                self.proc.stdin.close()
+                self.proc.wait(timeout=5)
+        except Exception:
+            self.proc.kill()
 
 
 def prolog_consistent(obs: Observations, candidates: list[Diagnosis]) -> list[bool]:
@@ -124,6 +181,10 @@ def minimal_diagnoses(obs: Observations, max_size: int = 3) -> list[Diagnosis]:
     The whole search runs in one SWI-Prolog call (mbd.pl: minimal_diagnoses/3)."""
     atoms = fault_atoms(obs)
     by_term = {_norm(f.to_prolog()): f for f in atoms}
+    if PROLOG_MODE == "server":
+        lines = PrologServer.get().request(obs, atoms, min(max_size, len(atoms)))
+        return [frozenset(by_term[_norm(p)] for p in (_split_terms(ln.strip()[1:-1]) if ln.strip() != "[]" else []))
+                for ln in lines]
     program = "\n".join(
         [
             f":- consult({_atom(MBD_PL.as_posix())}).",

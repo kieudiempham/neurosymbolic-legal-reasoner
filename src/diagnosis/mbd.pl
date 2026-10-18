@@ -109,3 +109,29 @@ component(kbconflict(A, B), kb(A, B)).
 
 one_mode_per_component(S) :-
     maplist(component, S, Keys), sort(Keys, U), length(Keys, N), length(U, N).
+
+% ---------------------------------------------------------------------------
+% Persistent server mode (used by mbd_engine.py): one SWI-Prolog process answers
+% many diagnosis requests. Each request replaces all observations, so requests are
+% independent. Protocol on stdin/stdout:
+%   request : diag(ObservationList, FaultAtoms, MaxK).
+%   response: one write_canonical'd diagnosis per line, then the line 'END'
+%             (or 'ERROR <message>' then 'END').
+serve :-
+    set_stream(user_output, buffer(line)),
+    repeat,
+    read_term(user_input, T, []),
+    (   T == end_of_file
+    ->  halt
+    ;   catch(handle(T), E, (message_to_codes(E, Msg), format("ERROR ~s~n", [Msg]))),
+        writeln('END'), flush_output, fail
+    ).
+
+message_to_codes(E, Codes) :- format(codes(Codes), "~q", [E]).
+
+handle(diag(Obs, Atoms, K)) :-
+    retractall(required(_)), retractall(checked(_)), retractall(parsed(_, _)),
+    retractall(q(_, _)), retractall(competing(_, _)), retractall(resolution(_, _, _)),
+    maplist(assertz, Obs),
+    minimal_diagnoses(Atoms, K, Ds),
+    forall(member(D, Ds), (write_canonical(D), nl)).

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 from functools import lru_cache
 from pathlib import Path
 
@@ -27,8 +28,8 @@ def verify(model: "NLIModel", question: str, vocab: dict, pred: str, tau: float 
     does not contradict it (entail on the positive reading must not also be entail on the negative one,
     and vice versa; neutral must be neutral on both). Otherwise the result is unverified (label None).
     """
-    pos_label, pos = model.predict(question, vocab[pred]["template_pos"])
-    neg_label, neg = model.predict(question, vocab[pred]["template_neg"])
+    pos, neg = model.predict_many([(question, vocab[pred]["template_pos"]), (question, vocab[pred]["template_neg"])])
+    pos_label, neg_label = max(pos, key=pos.get), max(neg, key=neg.get)
     expected_neg = {"entail": "contra", "contra": "entail", "neutral": "neutral"}[pos_label]
     confident = pos[pos_label] >= tau
     consistent = neg_label == expected_neg or (pos_label != "neutral" and neg_label == "neutral")
@@ -57,22 +58,30 @@ class NLIModel:
         tok = AutoTokenizer.from_pretrained(self.model_name)
         model = AutoModelForSequenceClassification.from_pretrained(self.model_name)
         model.eval()
-        torch.set_num_threads(max(1, torch.get_num_threads()))
+        torch.set_num_threads(int(os.environ.get("NLI_THREADS", os.cpu_count() or 4)))
         return tok, model
 
-    def predict(self, premise: str, hypothesis: str) -> tuple[str, dict[str, float]]:
-        self.calls += 1
-        key = premise + "␞" + hypothesis
-        if key not in self._cache:
+    def predict_many(self, pairs: list[tuple[str, str]], batch_size: int = 16) -> list[dict[str, float]]:
+        """Scores for many (premise, hypothesis) pairs; uncached pairs are run in padded batches."""
+        keys = [p + "␞" + h for p, h in pairs]
+        todo = list(dict.fromkeys(k for k in keys if k not in self._cache))
+        if todo:
             import torch
 
             tok, model = self._load()
-            enc = tok(premise, hypothesis, return_tensors="pt", truncation=True, max_length=256)
-            with torch.no_grad():
-                probs = torch.softmax(model(**enc).logits[0], dim=-1).tolist()
-            scores = {_LABEL[model.config.id2label[i].lower()]: p for i, p in enumerate(probs)}
-            self._cache[key] = scores
-        scores = self._cache[key]
+            for i in range(0, len(todo), batch_size):
+                chunk = todo[i : i + batch_size]
+                prem, hyp = zip(*(k.split("␞", 1) for k in chunk))
+                enc = tok(list(prem), list(hyp), return_tensors="pt", truncation=True, max_length=256, padding=True)
+                with torch.inference_mode():
+                    probs = torch.softmax(model(**enc).logits, dim=-1).tolist()
+                for k, row in zip(chunk, probs):
+                    self._cache[k] = {_LABEL[model.config.id2label[j].lower()]: p for j, p in enumerate(row)}
+        self.calls += len(pairs)
+        return [self._cache[k] for k in keys]
+
+    def predict(self, premise: str, hypothesis: str) -> tuple[str, dict[str, float]]:
+        scores = self.predict_many([(premise, hypothesis)])[0]
         return max(scores, key=scores.get), scores
 
     def save(self) -> None:
