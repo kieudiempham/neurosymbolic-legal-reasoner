@@ -26,3 +26,4 @@ frontend/.next/
 # diagnosis experiment local envs
 .venv_diag/
 .tools/
+experiments/kbx/

@@ -1,0 +1,3237 @@
+predicates:
+  adjusted_allowance:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Mức trợ cấp không được điều chỉnh.
+    template_pos: Mức trợ cấp được điều chỉnh.
+  adjusted_average_income_for_voluntary_si:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Mức bình quân thu nhập chưa được điều chỉnh theo chỉ số giá tiêu
+      dùng.
+    template_pos: Mức bình quân thu nhập đã được điều chỉnh theo chỉ số giá tiêu dùng.
+  adjusted_pension_based_on_cpi:
+    ask: Lương hưu có được điều chỉnh dựa trên chỉ số giá tiêu dùng không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Lương hưu không được điều chỉnh dựa trên chỉ số giá tiêu dùng.
+    template_pos: Lương hưu được điều chỉnh dựa trên chỉ số giá tiêu dùng.
+  adjusted_pension_for_low_income:
+    ask: Lương hưu có được điều chỉnh cho những người có mức lương hưu thấp không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Lương hưu không được điều chỉnh cho những người có mức lương hưu
+      thấp.
+    template_pos: Lương hưu được điều chỉnh cho những người có mức lương hưu thấp.
+  adjusted_reference_amount:
+    ask: Mức tham chiếu có được điều chỉnh không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Mức tham chiếu chưa được điều chỉnh.
+    template_pos: Mức tham chiếu đã được điều chỉnh.
+  adopted_child_under_6_months:
+    ask: Bạn có nhận nuôi con nuôi dưới 6 tháng tuổi không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không nhận nuôi con nuôi dưới 6 tháng tuổi.
+    template_pos: Người lao động nhận nuôi con nuôi dưới 6 tháng tuổi.
+  advise_on_policy_changes:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Tổ chức đại diện không kiến nghị, tham gia xây dựng, sửa đổi, bổ
+      sung chính sách về bảo hiểm xã hội.
+    template_pos: Tổ chức đại diện kiến nghị, tham gia xây dựng, sửa đổi, bổ sung
+      chính sách về bảo hiểm xã hội.
+  advise_si_policy_changes:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Công đoàn không kiến nghị sửa đổi chính sách bảo hiểm xã hội.
+    template_pos: Công đoàn kiến nghị sửa đổi chính sách bảo hiểm xã hội.
+  age_between_70_and_75:
+    ask: Người lao động có từ đủ 70 tuổi đến dưới 75 tuổi không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không trong độ tuổi này.
+    template_pos: Người lao động từ đủ 70 tuổi đến dưới 75 tuổi.
+  age_less_than_10_years:
+    ask: Người lao động có tuổi thấp hơn tối đa 10 tuổi so với tuổi quy định không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không có tuổi thấp hơn tối đa 10 tuổi so với tuổi
+      quy định.
+    template_pos: Người lao động có tuổi thấp hơn tối đa 10 tuổi so với tuổi quy định.
+  age_less_than_5_years:
+    ask: Người lao động có tuổi thấp hơn tối đa 05 tuổi so với tuổi quy định không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không có tuổi thấp hơn tối đa 05 tuổi so với tuổi
+      quy định.
+    template_pos: Người lao động có tuổi thấp hơn tối đa 05 tuổi so với tuổi quy định.
+  agencies_must_coordinate_with_ministries:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Các bộ, cơ quan ngang Bộ không có trách nhiệm phối hợp với Bộ Lao
+      động - Thương binh và Xã hội, Bộ Tài chính trong quản lý nhà nước về bảo hiểm
+      xã hội.
+    template_pos: Các bộ, cơ quan ngang Bộ có trách nhiệm phối hợp với Bộ Lao động
+      - Thương binh và Xã hội, Bộ Tài chính trong quản lý nhà nước về bảo hiểm xã
+      hội.
+  agreed_contribution:
+    ask: Bạn và công ty có thỏa thuận vẫn đóng BHXH trong thời gian này không?
+    default: false
+    domains:
+    - labor
+    kind: input
+    origin: curated
+    template_neg: Người lao động và công ty không có thỏa thuận về việc đóng bảo hiểm
+      xã hội trong thời gian này.
+    template_pos: Người lao động và công ty thỏa thuận vẫn đóng bảo hiểm xã hội trong
+      thời gian này.
+  annual_budget_transfer:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Không có chuyển khoản ngân sách hàng năm.
+    template_pos: Có chuyển khoản ngân sách hàng năm.
+  application_complete:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Hồ sơ chưa hoàn chỉnh.
+    template_pos: Hồ sơ đã hoàn chỉnh.
+  application_requirements_for_survivor_benefit:
+    ask: ''
+    domains:
+    - labor
+    kind: lookup
+    origin: llm_draft
+    template_neg: Hồ sơ đề nghị hưởng chế độ tử tuất không được quy định.
+    template_pos: Hồ sơ đề nghị hưởng chế độ tử tuất được quy định.
+  apply_previous_regulations:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Không áp dụng quy định trước đó.
+    template_pos: Áp dụng quy định trước đó.
+  audit_and_inspection_agencies_must_coordinate:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Cơ quan thanh tra và kiểm toán nhà nước không phải phối hợp xử lý.
+    template_pos: Cơ quan thanh tra và kiểm toán nhà nước phải phối hợp xử lý.
+  authorize_insurance:
+    ask: Người thụ hưởng chế độ bảo hiểm xã hội có quyền ủy quyền không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người thụ hưởng chế độ bảo hiểm xã hội không có quyền ủy quyền.
+    template_pos: Người thụ hưởng chế độ bảo hiểm xã hội có quyền ủy quyền.
+  average_income_for_voluntary_si:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Mức bình quân thu nhập làm căn cứ đóng bảo hiểm xã hội tự nguyện
+      chưa được xác định.
+    template_pos: Mức bình quân thu nhập làm căn cứ đóng bảo hiểm xã hội tự nguyện
+      đã được xác định.
+  benefit_calculation_based_on_contribution_time:
+    ask: Mức hưởng chế độ bảo hiểm xã hội có được tính theo thời gian đóng bảo hiểm
+      không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Mức hưởng chế độ bảo hiểm xã hội không được tính theo thời gian
+      đóng bảo hiểm.
+    template_pos: Mức hưởng chế độ bảo hiểm xã hội được tính theo thời gian đóng bảo
+      hiểm.
+  both_parents_insured:
+    ask: Cả cha và mẹ có tham gia bảo hiểm xã hội không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Một trong hai không tham gia bảo hiểm xã hội.
+    template_pos: Cả cha và mẹ đều tham gia bảo hiểm xã hội.
+  cam_co_so_bhxh:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Không có hành vi cầm cố sổ bảo hiểm xã hội.
+    template_pos: Hành vi cầm cố sổ bảo hiểm xã hội xảy ra.
+  can_file_complaint_si:
+    ask: Người sử dụng lao động có quyền khiếu nại về bảo hiểm xã hội không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người sử dụng lao động không có quyền khiếu nại về bảo hiểm xã hội.
+    template_pos: Người sử dụng lao động có quyền khiếu nại về bảo hiểm xã hội.
+  can_get_guidance_on_si_procedures:
+    ask: Người sử dụng lao động có quyền được hướng dẫn về thủ tục bảo hiểm xã hội
+      không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người sử dụng lao động không có quyền được hướng dẫn về thủ tục
+      bảo hiểm xã hội.
+    template_pos: Người sử dụng lao động có quyền được hướng dẫn về thủ tục bảo hiểm
+      xã hội.
+  can_preserve_contribution_time:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người lao động không được bảo lưu thời gian đóng bảo hiểm xã hội.
+    template_pos: Người lao động được bảo lưu thời gian đóng bảo hiểm xã hội.
+  can_promote_si_policy:
+    ask: Người sử dụng lao động có quyền tuyên truyền chính sách bảo hiểm xã hội không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người sử dụng lao động không có quyền tuyên truyền chính sách bảo
+      hiểm xã hội.
+    template_pos: Người sử dụng lao động có quyền tuyên truyền chính sách bảo hiểm
+      xã hội.
+  can_refuse_illegal_request:
+    ask: Người sử dụng lao động có quyền từ chối yêu cầu không đúng quy định không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người sử dụng lao động không có quyền từ chối yêu cầu không đúng
+      quy định.
+    template_pos: Người sử dụng lao động có quyền từ chối yêu cầu không đúng quy định.
+  can_suspend_compulsory_si_contribution:
+    ask: Người sử dụng lao động có quyền tạm dừng đóng bảo hiểm xã hội bắt buộc không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người sử dụng lao động không có quyền tạm dừng đóng bảo hiểm xã
+      hội bắt buộc.
+    template_pos: Người sử dụng lao động có quyền tạm dừng đóng bảo hiểm xã hội bắt
+      buộc.
+  can_take_health_recovery_leave:
+    ask: Người lao động có thể nghỉ dưỡng sức, phục hồi sức khỏe không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người lao động không thể nghỉ dưỡng sức, phục hồi sức khỏe.
+    template_pos: Người lao động có thể nghỉ dưỡng sức, phục hồi sức khỏe.
+  can_tro_quyen_loi:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Không có hành vi cản trở quyền lợi.
+    template_pos: Hành vi cản trở quyền lợi xảy ra.
+  cannot_verify_beneficiary_info:
+    ask: Thông tin người thụ hưởng có xác minh được không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Thông tin người thụ hưởng xác minh được.
+    template_pos: Thông tin người thụ hưởng không xác minh được.
+  cham_dong_bhxh:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Không có hành vi chậm đóng bảo hiểm xã hội.
+    template_pos: Hành vi chậm đóng bảo hiểm xã hội xảy ra.
+  chiem_dung_tien_bhxh:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Không có hành vi chiếm dụng tiền bảo hiểm xã hội.
+    template_pos: Hành vi chiếm dụng tiền bảo hiểm xã hội xảy ra.
+  child_age_between_3_and_7:
+    ask: Con của bạn bao nhiêu tuổi?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Con không trong độ tuổi này.
+    template_pos: Con từ đủ 3 tuổi đến dưới 7 tuổi.
+  child_age_under_3:
+    ask: Con của bạn bao nhiêu tuổi?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Con không dưới 3 tuổi.
+    template_pos: Con dưới 3 tuổi.
+  child_born_after_death:
+    ask: Có con sinh ra sau khi người cha/mẹ chết không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Không có con sinh ra sau khi người cha/mẹ chết.
+    template_pos: Có con sinh ra sau khi người cha/mẹ chết.
+  complaint_not_resolved_in_time:
+    ask: Khiếu nại có được giải quyết đúng thời hạn không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Khiếu nại được giải quyết đúng thời hạn.
+    template_pos: Khiếu nại không được giải quyết đúng thời hạn.
+  compulsory_si:
+    domains:
+    - labor
+    kind: derived
+    origin: curated
+    template_neg: Người lao động không thuộc đối tượng tham gia bảo hiểm xã hội bắt
+      buộc.
+    template_pos: Người lao động thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.
+  conduct_evaluation_and_awards:
+    ask: Cơ quan bảo hiểm xã hội có thực hiện sơ kết, tổng kết, khen thưởng về bảo
+      hiểm xã hội không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Cơ quan bảo hiểm xã hội không thực hiện sơ kết, tổng kết, khen thưởng
+      về bảo hiểm xã hội.
+    template_pos: Cơ quan bảo hiểm xã hội thực hiện sơ kết, tổng kết, khen thưởng
+      về bảo hiểm xã hội.
+  conduct_specialized_inspection:
+    ask: Cơ quan bảo hiểm xã hội có thực hiện thanh tra chuyên ngành không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Cơ quan bảo hiểm xã hội không thực hiện thanh tra chuyên ngành.
+    template_pos: Cơ quan bảo hiểm xã hội thực hiện thanh tra chuyên ngành.
+  contains_basic_info:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Sổ bảo hiểm xã hội không chứa đựng thông tin cơ bản.
+    template_pos: Sổ bảo hiểm xã hội chứa đựng thông tin cơ bản.
+  continue_authorized_reception:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Không tiếp tục thực hiện ủy quyền nhận trợ cấp.
+    template_pos: Tiếp tục thực hiện ủy quyền nhận trợ cấp.
+  continue_receive_allowance:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Không tiếp tục nhận phụ cấp.
+    template_pos: Tiếp tục nhận phụ cấp.
+  continue_sick_leave_benefits:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Không tiếp tục hưởng chế độ ốm đau.
+    template_pos: Tiếp tục hưởng chế độ ốm đau.
+  contract_suspended:
+    ask: Hợp đồng lao động của bạn có đang tạm hoãn không?
+    default: false
+    domains:
+    - labor
+    kind: input
+    origin: curated
+    template_neg: Hợp đồng lao động không bị tạm hoãn.
+    template_pos: Hợp đồng lao động đang tạm hoãn thực hiện.
+  contribute_at_first_contract:
+    domains:
+    - labor
+    kind: derived
+    origin: curated
+    template_neg: Người lao động không tham gia theo hợp đồng giao kết đầu tiên.
+    template_pos: Người lao động tham gia bảo hiểm xã hội bắt buộc theo hợp đồng lao
+      động giao kết đầu tiên.
+  contribution_15_years:
+    ask: Bạn đã đóng BHXH bắt buộc được bao nhiêu năm?
+    domains:
+    - labor
+    kind: input
+    origin: curated
+    template_neg: Người lao động đóng bảo hiểm xã hội chưa đủ 15 năm.
+    template_pos: Người lao động đã đóng bảo hiểm xã hội bắt buộc từ đủ 15 năm trở
+      lên.
+  contribution_20_years:
+    ask: Người lao động đã đóng bảo hiểm xã hội bắt buộc từ đủ 20 năm trở lên chưa?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động chưa đóng bảo hiểm xã hội bắt buộc đủ 20 năm.
+    template_pos: Người lao động đã đóng bảo hiểm xã hội bắt buộc từ đủ 20 năm trở
+      lên.
+  contribution_30_years:
+    ask: Người lao động đã đóng bảo hiểm xã hội bắt buộc từ đủ 30 năm chưa?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động chưa đóng bảo hiểm xã hội bắt buộc từ đủ 30 năm trở
+      lên.
+    template_pos: Người lao động đã đóng bảo hiểm xã hội bắt buộc từ đủ 30 năm trở
+      lên.
+  counted_contribution_time:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Thời gian đóng bảo hiểm xã hội không được tính.
+    template_pos: Thời gian đóng bảo hiểm xã hội được tính.
+  court_decision_cancel_missing_declaration:
+    ask: Có quyết định của Tòa án hủy bỏ tuyên bố mất tích không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Không có quyết định của Tòa án hủy bỏ tuyên bố mất tích.
+    template_pos: Có quyết định của Tòa án hủy bỏ tuyên bố mất tích.
+  court_declared_missing_then_dead:
+    ask: Người lao động có bị Tòa án tuyên bố mất tích rồi sau đó tuyên bố đã chết
+      không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không bị Tòa án tuyên bố mất tích rồi sau đó tuyên
+      bố đã chết.
+    template_pos: Người lao động bị Tòa án tuyên bố mất tích rồi sau đó tuyên bố đã
+      chết.
+  covered_point_a:
+    domains:
+    - labor
+    kind: derived
+    origin: curated
+    template_neg: Người lao động không thuộc diện quy định tại điểm a khoản 1 Điều
+      2 Luật BHXH.
+    template_pos: Người lao động thuộc diện quy định tại điểm a khoản 1 Điều 2 Luật
+      BHXH.
+  covered_point_b:
+    ask: Người lao động có thuộc diện quy định tại điểm b khoản 1 Điều 2 Luật BHXH
+      không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người lao động không thuộc diện quy định tại điểm b khoản 1 Điều
+      2 Luật BHXH.
+    template_pos: Người lao động thuộc diện quy định tại điểm b khoản 1 Điều 2 Luật
+      BHXH.
+  covered_point_d:
+    ask: Người lao động có thuộc diện quy định tại điểm d khoản 1 Điều 2 Luật BHXH
+      không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người lao động không thuộc diện quy định tại điểm d khoản 1 Điều
+      2 Luật BHXH.
+    template_pos: Người lao động thuộc diện quy định tại điểm d khoản 1 Điều 2 Luật
+      BHXH.
+  cpi_adjustment:
+    ask: Chỉ số giá tiêu dùng đã được điều chỉnh chưa?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Chỉ số giá tiêu dùng chưa được điều chỉnh.
+    template_pos: Chỉ số giá tiêu dùng đã được điều chỉnh.
+  dang_ky_bao_cao_sai_su_that:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Không có hành vi đăng ký báo cáo sai sự thật.
+    template_pos: Hành vi đăng ký báo cáo sai sự thật xảy ra.
+  data_updated_correctly:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Dữ liệu về sổ bảo hiểm xã hội không được cập nhật chính xác.
+    template_pos: Dữ liệu về sổ bảo hiểm xã hội được cập nhật chính xác.
+  deceased:
+    ask: Người lao động có chết không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động chưa chết.
+    template_pos: Người lao động đã chết.
+  deceased_beneficiary:
+    ask: Người lao động có chết không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động chưa chết.
+    template_pos: Người lao động đã chết.
+  deceased_person_count:
+    ask: Có bao nhiêu người đã chết?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Số người đã chết không đúng.
+    template_pos: Số người đã chết là đúng.
+  deceased_person_date:
+    ask: Ngày chết của người đã được xác định chưa?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Ngày chết của người chưa được xác định.
+    template_pos: Ngày chết của người đã được xác định.
+  decision_is_illegal:
+    ask: Quyết định có trái pháp luật không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Quyết định không trái pháp luật.
+    template_pos: Quyết định là trái pháp luật.
+  declared_missing_by_court:
+    ask: Người lao động có bị Tòa án tuyên bố mất tích không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không bị Tòa án tuyên bố mất tích.
+    template_pos: Người lao động bị Tòa án tuyên bố mất tích.
+  defend_worker_rights:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Công đoàn không bảo vệ quyền lợi hợp pháp của người lao động.
+    template_pos: Công đoàn bảo vệ quyền lợi hợp pháp của người lao động.
+  demand_employer_responsibility:
+    ask: Người tham gia bảo hiểm xã hội có quyền yêu cầu người sử dụng lao động thực
+      hiện trách nhiệm không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người tham gia bảo hiểm xã hội không có quyền yêu cầu người sử dụng
+      lao động thực hiện trách nhiệm.
+    template_pos: Người tham gia bảo hiểm xã hội có quyền yêu cầu người sử dụng lao
+      động thực hiện trách nhiệm.
+  disagree_with_first_decision:
+    ask: Người khiếu nại có đồng ý với quyết định lần đầu không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người khiếu nại đồng ý với quyết định lần đầu.
+    template_pos: Người khiếu nại không đồng ý với quyết định lần đầu.
+  disagree_with_provincial_decision:
+    ask: Người khiếu nại có đồng ý với quyết định của thủ trưởng cơ quan bảo hiểm
+      xã hội cấp tỉnh không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người khiếu nại đồng ý với quyết định của thủ trưởng cơ quan bảo
+      hiểm xã hội cấp tỉnh.
+    template_pos: Người khiếu nại không đồng ý với quyết định của thủ trưởng cơ quan
+      bảo hiểm xã hội cấp tỉnh.
+  document_copy:
+    ask: Bản sao các giấy tờ dùng để thực hiện bảo hiểm xã hội là gì?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Bản sao các giấy tờ dùng để thực hiện bảo hiểm xã hội không được
+      xác định.
+    template_pos: Bản sao các giấy tờ dùng để thực hiện bảo hiểm xã hội được xác định.
+  domestic_worker:
+    ask: Bạn có làm giúp việc gia đình không?
+    default: false
+    domains:
+    - labor
+    kind: input
+    origin: curated
+    template_neg: Người lao động không phải là người giúp việc gia đình.
+    template_pos: Người lao động là người giúp việc gia đình.
+  each_visit_not_exceed_2_days:
+    ask: Mỗi lần khám thai có được phép không quá 02 ngày không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Mỗi lần khám thai có thể quá 02 ngày.
+    template_pos: Mỗi lần khám thai không quá 02 ngày.
+  electronic_transaction:
+    ask: Có giao dịch điện tử trong lĩnh vực bảo hiểm xã hội không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Giao dịch điện tử trong lĩnh vực bảo hiểm xã hội không được thực
+      hiện.
+    template_pos: Giao dịch điện tử trong lĩnh vực bảo hiểm xã hội được thực hiện.
+  eligible_for_pension:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Không đủ điều kiện hưởng lương hưu.
+    template_pos: Đủ điều kiện hưởng lương hưu.
+  emigrating:
+    ask: Bạn có ra nước ngoài để định cư không?
+    default: false
+    domains:
+    - labor
+    kind: input
+    origin: curated
+    template_neg: Người lao động không ra nước ngoài định cư.
+    template_pos: Người lao động ra nước ngoài để định cư.
+  employee_participant:
+    ask: Người lao động có tham gia bảo hiểm hưu trí bổ sung không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không tham gia bảo hiểm hưu trí bổ sung.
+    template_pos: Người lao động tham gia bảo hiểm hưu trí bổ sung.
+  employer_participant:
+    ask: Người sử dụng lao động có tham gia bảo hiểm hưu trí bổ sung không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người sử dụng lao động không tham gia bảo hiểm hưu trí bổ sung.
+    template_pos: Người sử dụng lao động tham gia bảo hiểm hưu trí bổ sung.
+  encourage_compliance_with_law:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Tổ chức đại diện không vận động người sử dụng lao động chấp hành
+      chính sách về bảo hiểm xã hội.
+    template_pos: Tổ chức đại diện vận động người sử dụng lao động chấp hành chính
+      sách về bảo hiểm xã hội.
+  encourage_international_cooperation:
+    ask: Hợp tác quốc tế có được khuyến khích không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Hợp tác quốc tế không được khuyến khích.
+    template_pos: Hợp tác quốc tế được khuyến khích.
+  encourage_si_participation:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Mặt trận Tổ quốc không vận động tham gia bảo hiểm xã hội.
+    template_pos: Mặt trận Tổ quốc vận động tham gia bảo hiểm xã hội.
+  ensure_detection_and_handling_of_violations:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Cơ quan không phải đảm bảo phát hiện và xử lý vi phạm.
+    template_pos: Cơ quan phải đảm bảo phát hiện và xử lý vi phạm.
+  enterprise_manager:
+    ask: Bạn có giữ chức danh quản lý doanh nghiệp (giám đốc, thành viên HĐQT...)
+      không?
+    default: false
+    domains:
+    - labor
+    kind: input
+    origin: curated
+    template_neg: Người này không phải là người quản lý doanh nghiệp.
+    template_pos: Người này là người quản lý doanh nghiệp.
+  entitled_lump_sum:
+    domains:
+    - labor
+    kind: derived
+    origin: curated
+    template_neg: Người lao động không được hưởng bảo hiểm xã hội một lần.
+    template_pos: Người lao động được hưởng bảo hiểm xã hội một lần.
+  entitled_pension:
+    domains:
+    - labor
+    kind: derived
+    origin: curated
+    template_neg: Người lao động không đủ điều kiện hưởng lương hưu.
+    template_pos: Người lao động đủ điều kiện hưởng lương hưu.
+  failed_to_adjust_information:
+    ask: Cơ quan bảo hiểm xã hội có thực hiện điều chỉnh thông tin không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Cơ quan bảo hiểm xã hội đã thực hiện điều chỉnh thông tin.
+    template_pos: Cơ quan bảo hiểm xã hội không thực hiện điều chỉnh thông tin.
+  father_does_not_take_leave:
+    ask: Cha có nghỉ việc theo quy định không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Cha nghỉ việc theo quy định.
+    template_pos: Cha không nghỉ việc theo quy định.
+  female_worker_pregnant:
+    ask: Người lao động nữ có đang mang thai không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động nữ không mang thai.
+    template_pos: Người lao động nữ mang thai.
+  file_complaint:
+    ask: Người tham gia bảo hiểm xã hội có quyền khiếu nại không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người tham gia bảo hiểm xã hội không có quyền khiếu nại.
+    template_pos: Người tham gia bảo hiểm xã hội có quyền khiếu nại.
+  file_complaint_benefits:
+    ask: Người thụ hưởng chế độ bảo hiểm xã hội có quyền khiếu nại không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người thụ hưởng chế độ bảo hiểm xã hội không có quyền khiếu nại.
+    template_pos: Người thụ hưởng chế độ bảo hiểm xã hội có quyền khiếu nại.
+  file_lawsuit_si_violation:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Công đoàn không khởi kiện vi phạm pháp luật bảo hiểm xã hội.
+    template_pos: Công đoàn khởi kiện vi phạm pháp luật bảo hiểm xã hội.
+  financial_mechanism_social_insurance:
+    ask: Cơ chế tài chính, tài chính quỹ bảo hiểm xã hội có được quy định không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Cơ chế tài chính, tài chính quỹ bảo hiểm xã hội không được quy định.
+    template_pos: Cơ chế tài chính, tài chính quỹ bảo hiểm xã hội được quy định.
+  foreign_citizen:
+    ask: Bạn là công dân Việt Nam hay công dân nước ngoài?
+    default: false
+    domains:
+    - labor
+    kind: input
+    origin: curated
+    template_neg: Người lao động là công dân Việt Nam.
+    template_pos: Người lao động là công dân nước ngoài.
+  funeral_support:
+    ask: Người lao động có được hỗ trợ chi phí mai táng không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người lao động không được hỗ trợ chi phí mai táng.
+    template_pos: Người lao động được hỗ trợ chi phí mai táng.
+  gian_lan_hoso:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Không có hành vi gian lận hồ sơ.
+    template_pos: Hành vi gian lận hồ sơ xảy ra.
+  government_manages_social_insurance:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Chính phủ không quản lý bảo hiểm xã hội.
+    template_pos: Chính phủ quản lý bảo hiểm xã hội.
+  government_protects_worker_rights:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Chính phủ không bảo vệ quyền lợi của người lao động.
+    template_pos: Chính phủ bảo vệ quyền lợi của người lao động.
+  government_reforms_si_administration:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Chính phủ không thực hiện cải cách hành chính về bảo hiểm xã hội.
+    template_pos: Chính phủ thực hiện cải cách hành chính về bảo hiểm xã hội.
+  government_regulates_accounting:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Chính phủ không quy định việc lập quyết toán.
+    template_pos: Chính phủ quy định việc lập quyết toán.
+  government_regulates_agency_structure:
+    ask: Chính phủ có quy định chức năng và cơ cấu tổ chức của cơ quan bảo hiểm xã
+      hội không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Chính phủ không quy định chức năng và cơ cấu tổ chức của cơ quan
+      bảo hiểm xã hội.
+    template_pos: Chính phủ quy định chức năng và cơ cấu tổ chức của cơ quan bảo hiểm
+      xã hội.
+  government_regulates_council_operations:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Chính phủ không quy định về hoạt động của Hội đồng quản lý bảo hiểm
+      xã hội.
+    template_pos: Chính phủ quy định về hoạt động của Hội đồng quản lý bảo hiểm xã
+      hội.
+  government_regulates_details:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Không có quy định chi tiết từ Chính phủ.
+    template_pos: Có quy định chi tiết từ Chính phủ.
+  government_regulates_electronic_transaction_details:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Chính phủ không quy định chi tiết về giao dịch điện tử trong lĩnh
+      vực bảo hiểm xã hội.
+    template_pos: Chính phủ quy định chi tiết về giao dịch điện tử trong lĩnh vực
+      bảo hiểm xã hội.
+  government_regulates_foreign_benefits:
+    ask: Chính phủ có quy định về việc giải quyết hưởng chế độ tử tuất đối với người
+      nước ngoài không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Chính phủ không quy định về việc giải quyết hưởng chế độ tử tuất
+      đối với người nước ngoài.
+    template_pos: Chính phủ quy định về việc giải quyết hưởng chế độ tử tuất đối với
+      người nước ngoài.
+  government_regulates_investment_diversification:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Chính phủ không quy định về đa dạng hóa đầu tư quỹ bảo hiểm xã hội.
+    template_pos: Chính phủ quy định về đa dạng hóa đầu tư quỹ bảo hiểm xã hội.
+  government_regulates_pension_adjustment:
+    ask: Chính phủ có quy định về điều chỉnh lương hưu không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Chính phủ không quy định về điều chỉnh lương hưu.
+    template_pos: Chính phủ quy định về điều chỉnh lương hưu.
+  government_regulates_pension_procedures:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Chính phủ không quy định trình tự, thủ tục thực hiện trợ cấp hưu
+      trí xã hội.
+    template_pos: Chính phủ quy định trình tự, thủ tục thực hiện trợ cấp hưu trí xã
+      hội.
+  government_regulates_risk_management_process:
+    ask: Chính phủ có quy định quy trình kiểm soát, quản lý rủi ro đầu tư không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Chính phủ không quy định quy trình kiểm soát, quản lý rủi ro đầu
+      tư.
+    template_pos: Chính phủ quy định quy trình kiểm soát, quản lý rủi ro đầu tư.
+  government_regulates_si_calculation:
+    ask: Bộ trưởng Bộ Lao động - Thương binh và Xã hội có quy định gì về việc tính
+      trợ cấp thai sản không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Bộ trưởng Bộ Lao động - Thương binh và Xã hội không quy định việc
+      tính trợ cấp thai sản.
+    template_pos: Bộ trưởng Bộ Lao động - Thương binh và Xã hội quy định việc tính
+      trợ cấp thai sản.
+  government_regulates_si_financial_mechanism:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Chính phủ không quy định cơ chế tài chính về bảo hiểm xã hội.
+    template_pos: Chính phủ quy định cơ chế tài chính về bảo hiểm xã hội.
+  government_regulates_si_government_report:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Chính phủ không quy định báo cáo về tình hình bảo hiểm xã hội.
+    template_pos: Chính phủ quy định báo cáo về tình hình bảo hiểm xã hội.
+  government_regulates_si_investment_activity:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Chính phủ không quy định hoạt động đầu tư quỹ bảo hiểm xã hội.
+    template_pos: Chính phủ quy định hoạt động đầu tư quỹ bảo hiểm xã hội.
+  government_regulates_si_report_content:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Chính phủ không quy định nội dung báo cáo về quản lý và sử dụng
+      quỹ bảo hiểm xã hội.
+    template_pos: Chính phủ quy định nội dung báo cáo về quản lý và sử dụng quỹ bảo
+      hiểm xã hội.
+  government_regulates_supplementary_pension_policy:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Chính phủ không quy định chính sách về bảo hiểm hưu trí bổ sung.
+    template_pos: Chính phủ quy định chính sách về bảo hiểm hưu trí bổ sung.
+  government_regulation_detail:
+    ask: Có quy định chi tiết nào từ Chính phủ không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Không có quy định chi tiết từ Chính phủ.
+    template_pos: Có quy định chi tiết từ Chính phủ.
+  government_reports_to_national_assembly:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Chính phủ không báo cáo Quốc hội về bảo hiểm xã hội.
+    template_pos: Chính phủ báo cáo Quốc hội về bảo hiểm xã hội.
+  government_review_pension_amount:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Chính phủ không thực hiện rà soát, xem xét việc điều chỉnh mức trợ
+      cấp hưu trí xã hội.
+    template_pos: Chính phủ thực hiện rà soát, xem xét việc điều chỉnh mức trợ cấp
+      hưu trí xã hội.
+  hanh_vi_khac_theo_luat:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Không có hành vi khác theo quy định của luật.
+    template_pos: Có hành vi khác theo quy định của luật xảy ra.
+  has_child_birth:
+    ask: Người lao động đã sinh con chưa?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động chưa sinh con.
+    template_pos: Người lao động đã sinh con.
+  has_child_died_before_hand_over:
+    ask: Người lao động có con chết trước thời điểm giao không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không có con chết trước thời điểm giao.
+    template_pos: Người lao động đã có con chết trước thời điểm giao.
+  has_conditions_for_electronic_transaction:
+    ask: Cơ quan, tổ chức, cá nhân có đủ điều kiện thực hiện giao dịch điện tử không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Cơ quan, tổ chức, cá nhân không có đủ điều kiện thực hiện giao dịch
+      điện tử.
+    template_pos: Cơ quan, tổ chức, cá nhân có đủ điều kiện thực hiện giao dịch điện
+      tử.
+  has_direct_caregiver:
+    ask: Thân nhân có người trực tiếp nuôi dưỡng không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Thân nhân không có người trực tiếp nuôi dưỡng.
+    template_pos: Thân nhân có người trực tiếp nuôi dưỡng.
+  has_full_contribution_time:
+    ask: Người lao động có toàn bộ thời gian đóng bảo hiểm xã hội theo chế độ tiền
+      lương do Nhà nước quy định không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không có toàn bộ thời gian đóng bảo hiểm xã hội theo
+      chế độ tiền lương do Nhà nước quy định.
+    template_pos: Người lao động có toàn bộ thời gian đóng bảo hiểm xã hội theo chế
+      độ tiền lương do Nhà nước quy định.
+  has_full_contribution_time_by_employer:
+    ask: Người lao động có toàn bộ thời gian đóng bảo hiểm xã hội theo chế độ tiền
+      lương do người sử dụng lao động quyết định không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không có toàn bộ thời gian đóng bảo hiểm xã hội theo
+      chế độ tiền lương do người sử dụng lao động quyết định.
+    template_pos: Người lao động có toàn bộ thời gian đóng bảo hiểm xã hội theo chế
+      độ tiền lương do người sử dụng lao động quyết định.
+  has_full_contribution_time_by_state:
+    ask: Người lao động có thời gian đóng bảo hiểm xã hội thuộc đối tượng thực hiện
+      chế độ tiền lương do Nhà nước quy định không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không có thời gian đóng bảo hiểm xã hội thuộc đối
+      tượng thực hiện chế độ tiền lương do Nhà nước quy định.
+    template_pos: Người lao động có thời gian đóng bảo hiểm xã hội thuộc đối tượng
+      thực hiện chế độ tiền lương do Nhà nước quy định.
+  has_given_birth:
+    ask: Người lao động đã sinh con chưa?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động chưa sinh con.
+    template_pos: Người lao động đã sinh con.
+  has_legal_interest:
+    ask: Người khiếu nại có quyền lợi hợp pháp không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người khiếu nại không có quyền lợi hợp pháp.
+    template_pos: Người khiếu nại có quyền lợi hợp pháp.
+  has_legal_value_equivalent_to_paper_transaction:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Giao dịch điện tử không có giá trị pháp lý tương đương với giao
+      dịch bằng bản giấy.
+    template_pos: Giao dịch điện tử có giá trị pháp lý tương đương với giao dịch bằng
+      bản giấy.
+  has_medical_exam:
+    ask: Người lao động đã khám thai chưa?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động chưa khám thai.
+    template_pos: Người lao động đã khám thai.
+  has_members_from_various_agencies:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Hội đồng quản lý bảo hiểm xã hội không có thành viên từ nhiều cơ
+      quan khác nhau.
+    template_pos: Hội đồng quản lý bảo hiểm xã hội có thành viên từ nhiều cơ quan
+      khác nhau.
+  has_miscarriage_or_abortion:
+    ask: Người lao động có sảy thai hoặc phá thai không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động chưa sảy thai hoặc phá thai.
+    template_pos: Người lao động đã sảy thai hoặc phá thai.
+  has_multiple_births_with_stillbirth:
+    ask: Người lao động có thai đôi trở lên mà khi sinh có thai chết trong tử cung
+      không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không có thai đôi trở lên mà khi sinh có thai chết
+      trong tử cung.
+    template_pos: Người lao động có thai đôi trở lên mà khi sinh có thai chết trong
+      tử cung.
+  has_no_direct_caregiver:
+    ask: Thân nhân có người trực tiếp nuôi dưỡng không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Thân nhân có người trực tiếp nuôi dưỡng.
+    template_pos: Thân nhân không có người trực tiếp nuôi dưỡng.
+  has_not_taken_60_days_leave:
+    ask: Người lao động đã hưởng chế độ thai sản đủ 60 ngày chưa?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động đã hưởng chế độ thai sản đủ 60 ngày.
+    template_pos: Người lao động chưa hưởng chế độ thai sản đủ 60 ngày.
+  has_request_document:
+    ask: Người lao động có văn bản đề nghị hưởng trợ cấp không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không có văn bản đề nghị hưởng trợ cấp.
+    template_pos: Người lao động có văn bản đề nghị hưởng trợ cấp.
+  has_social_insurance_book:
+    ask: Người lao động có sổ bảo hiểm xã hội không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không có sổ bảo hiểm xã hội.
+    template_pos: Người lao động có sổ bảo hiểm xã hội.
+  has_term_of_5_years:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Thành viên Hội đồng quản lý bảo hiểm xã hội không có nhiệm kỳ 5
+      năm.
+    template_pos: Thành viên Hội đồng quản lý bảo hiểm xã hội có nhiệm kỳ 5 năm.
+  health_insurance_covered_by_state_budget:
+    ask: Người lao động có được hưởng bảo hiểm y tế do ngân sách nhà nước đóng không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người lao động không được hưởng bảo hiểm y tế do ngân sách nhà nước
+      đóng.
+    template_pos: Người lao động được hưởng bảo hiểm y tế do ngân sách nhà nước đóng.
+  health_not_recovered_above_81:
+    ask: Người lao động có bị suy giảm khả năng lao động từ 81% trở lên không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không bị suy giảm khả năng lao động từ 81% trở lên.
+    template_pos: Người lao động bị suy giảm khả năng lao động từ 81% trở lên.
+  health_not_recovered_after_long_illness:
+    ask: Người lao động sức khỏe chưa phục hồi sau thời gian ốm đau do mắc bệnh cần
+      chữa trị dài ngày không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động sức khỏe đã phục hồi sau thời gian ốm đau do mắc
+      bệnh cần chữa trị dài ngày.
+    template_pos: Người lao động sức khỏe chưa phục hồi sau thời gian ốm đau do mắc
+      bệnh cần chữa trị dài ngày.
+  health_not_recovered_after_surgery:
+    ask: Người lao động sức khỏe chưa phục hồi sau thời gian ốm đau do phải phẫu thuật
+      không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động sức khỏe đã phục hồi sau thời gian ốm đau do phải
+      phẫu thuật.
+    template_pos: Người lao động sức khỏe chưa phục hồi sau thời gian ốm đau do phải
+      phẫu thuật.
+  health_not_recovered_between_61_and_81:
+    ask: Người lao động có bị suy giảm khả năng lao động từ 61% đến dưới 81% không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không bị suy giảm khả năng lao động từ 61% đến dưới
+      81%.
+    template_pos: Người lao động bị suy giảm khả năng lao động từ 61% đến dưới 81%.
+  health_not_recovered_other_cases:
+    ask: Người lao động sức khỏe chưa phục hồi trong các trường hợp khác không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động sức khỏe đã phục hồi trong các trường hợp khác.
+    template_pos: Người lao động sức khỏe chưa phục hồi trong các trường hợp khác.
+  health_not_recovered_within_30_days:
+    ask: Người lao động sức khỏe chưa phục hồi trong 30 ngày không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động sức khỏe đã phục hồi trong 30 ngày.
+    template_pos: Người lao động sức khỏe chưa phục hồi trong 30 ngày.
+  higher_pension_benefit:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người hưởng trợ cấp xã hội hằng tháng không được hưởng chế độ trợ
+      cấp cao hơn.
+    template_pos: Người hưởng trợ cấp xã hội hằng tháng được hưởng chế độ trợ cấp
+      cao hơn.
+  illegal_emigration:
+    ask: Người lao động có xuất cảnh trái phép không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không xuất cảnh trái phép.
+    template_pos: Người lao động xuất cảnh trái phép.
+  includes_accident_insurance_fund:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Quỹ bảo hiểm xã hội không bao gồm quỹ bảo hiểm tai nạn lao động.
+    template_pos: Quỹ bảo hiểm xã hội bao gồm quỹ bảo hiểm tai nạn lao động.
+  includes_pension_and_survivor_fund:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Quỹ bảo hiểm xã hội không bao gồm quỹ hưu trí và tử tuất.
+    template_pos: Quỹ bảo hiểm xã hội bao gồm quỹ hưu trí và tử tuất.
+  includes_sickness_and_maternity_fund:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Quỹ bảo hiểm xã hội không bao gồm quỹ ốm đau và thai sản.
+    template_pos: Quỹ bảo hiểm xã hội bao gồm quỹ ốm đau và thai sản.
+  incorrect_benefit_decision:
+    ask: Kết luận hưởng bảo hiểm xã hội có đúng quy định không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Kết luận hưởng bảo hiểm xã hội đúng quy định.
+    template_pos: Kết luận hưởng bảo hiểm xã hội không đúng quy định.
+  information_changed:
+    ask: Thông tin đăng ký có thay đổi không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Thông tin đăng ký chưa thay đổi.
+    template_pos: Thông tin đăng ký đã thay đổi.
+  insurance_activity_regulated_by_si_law:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Chi tổ chức và hoạt động bảo hiểm tai nạn lao động, bệnh nghề nghiệp
+      không thực hiện theo quy định của Luật Bảo hiểm xã hội.
+    template_pos: Chi tổ chức và hoạt động bảo hiểm tai nạn lao động, bệnh nghề nghiệp
+      thực hiện theo quy định của Luật Bảo hiểm xã hội.
+  insurance_book_request:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người tham gia bảo hiểm xã hội không thể yêu cầu cấp sổ bảo hiểm
+      xã hội bằng bản giấy.
+    template_pos: Người tham gia bảo hiểm xã hội có thể yêu cầu cấp sổ bảo hiểm xã
+      hội bằng bản giấy.
+  insurance_book_validity:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Sổ bảo hiểm xã hội không có giá trị pháp lý như nhau.
+    template_pos: Sổ bảo hiểm xã hội có giá trị pháp lý như nhau.
+  insurance_time_counted:
+    ask: Thời gian tham gia bảo hiểm xã hội có được tính không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Thời gian tham gia bảo hiểm xã hội không được tính.
+    template_pos: Thời gian tham gia bảo hiểm xã hội được tính.
+  international_cooperation_social_insurance:
+    ask: Hợp tác quốc tế về bảo hiểm xã hội có được thực hiện không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Hợp tác quốc tế về bảo hiểm xã hội không được thực hiện.
+    template_pos: Hợp tác quốc tế về bảo hiểm xã hội được thực hiện.
+  intra_company_transfer:
+    ask: Bạn sang Việt Nam làm việc theo diện di chuyển nội bộ doanh nghiệp phải không?
+    default: false
+    domains:
+    - labor
+    kind: input
+    origin: curated
+    template_neg: Người lao động nước ngoài không di chuyển trong nội bộ doanh nghiệp.
+    template_pos: Người lao động nước ngoài di chuyển trong nội bộ doanh nghiệp.
+  invest_social_insurance_funds:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Quỹ bảo hiểm xã hội không được đầu tư để bảo toàn và tăng trưởng.
+    template_pos: Quỹ bảo hiểm xã hội được đầu tư để bảo toàn và tăng trưởng.
+  investment_profit_regulated_by_si_law:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Tiền sinh lời của hoạt động đầu tư từ quỹ không theo quy định tại
+      Điều 120 và Điều 121 của Luật Bảo hiểm xã hội.
+    template_pos: Tiền sinh lời của hoạt động đầu tư từ quỹ theo quy định tại Điều
+      120 và Điều 121 của Luật Bảo hiểm xã hội.
+  is_both_parents_insured:
+    ask: Cả cha và mẹ có tham gia bảo hiểm xã hội không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Cả cha và mẹ không đều tham gia bảo hiểm xã hội.
+    template_pos: Cả cha và mẹ đều tham gia bảo hiểm xã hội.
+  is_business_owner:
+    ask: Người lao động có phải là chủ hộ kinh doanh của hộ kinh doanh có đăng ký
+      kinh doanh không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không phải là chủ hộ kinh doanh của hộ kinh doanh
+      có đăng ký kinh doanh.
+    template_pos: Người lao động là chủ hộ kinh doanh của hộ kinh doanh có đăng ký
+      kinh doanh.
+  is_chairman_of_social_insurance_management_council:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người này không phải là Chủ tịch Hội đồng quản lý bảo hiểm xã hội.
+    template_pos: Người này là Chủ tịch Hội đồng quản lý bảo hiểm xã hội.
+  is_civil_servant:
+    ask: Người lao động có phải là cán bộ, công chức, viên chức không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không phải là cán bộ, công chức, viên chức.
+    template_pos: Người lao động là cán bộ, công chức, viên chức.
+  is_defense_worker:
+    ask: Người lao động có phải là công nhân và viên chức quốc phòng, công nhân công
+      an, người làm công tác khác trong tổ chức cơ yếu không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không phải là công nhân và viên chức quốc phòng,
+      công nhân công an, người làm công tác khác trong tổ chức cơ yếu.
+    template_pos: Người lao động là công nhân và viên chức quốc phòng, công nhân công
+      an, người làm công tác khác trong tổ chức cơ yếu.
+  is_electronic_transaction:
+    ask: Giao dịch này có phải là giao dịch điện tử không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Giao dịch không phải là giao dịch điện tử.
+    template_pos: Giao dịch là giao dịch điện tử.
+  is_employed:
+    ask: Người lao động có đang làm việc không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không đang làm việc.
+    template_pos: Người lao động đang làm việc.
+  is_enterprise_manager:
+    ask: Người lao động có phải là người quản lý doanh nghiệp không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không phải là người quản lý doanh nghiệp.
+    template_pos: Người lao động là người quản lý doanh nghiệp.
+  is_female_worker:
+    ask: Người lao động có phải là nữ không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không phải là nữ.
+    template_pos: Người lao động là nữ.
+  is_female_worker_with_surrogate_pregnancy:
+    ask: Người lao động có phải là nữ mang thai hộ không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động nữ không mang thai hộ.
+    template_pos: Người lao động nữ mang thai hộ.
+  is_first_time_complaint:
+    ask: Đây có phải là khiếu nại lần đầu không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Đây không phải là khiếu nại lần đầu.
+    template_pos: Đây là khiếu nại lần đầu.
+  is_government_debt_investment:
+    ask: Bạn có đầu tư vào công cụ nợ của Chính phủ không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Không đầu tư vào công cụ nợ của Chính phủ.
+    template_pos: Đầu tư vào công cụ nợ của Chính phủ.
+  is_head_of_agency:
+    ask: Người khiếu nại có phải là thủ trưởng cơ quan không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người khiếu nại không phải là thủ trưởng cơ quan.
+    template_pos: Người khiếu nại là thủ trưởng cơ quan.
+  is_head_of_provincial_agency:
+    ask: Người khiếu nại có phải là thủ trưởng cơ quan bảo hiểm xã hội cấp tỉnh không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người khiếu nại không phải là thủ trưởng cơ quan bảo hiểm xã hội
+      cấp tỉnh.
+    template_pos: Người khiếu nại là thủ trưởng cơ quan bảo hiểm xã hội cấp tỉnh.
+  is_local_government_bond_investment:
+    ask: Bạn có đầu tư vào trái phiếu chính quyền địa phương không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Không đầu tư vào trái phiếu chính quyền địa phương.
+    template_pos: Đầu tư vào trái phiếu chính quyền địa phương.
+  is_male_worker:
+    ask: Người lao động có phải là nam không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không phải là nam.
+    template_pos: Người lao động là nam.
+  is_member_international_agreement:
+    ask: Nước Cộng hòa xã hội chủ nghĩa Việt Nam có phải là thành viên điều ước quốc
+      tế không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Nước Cộng hòa xã hội chủ nghĩa Việt Nam không phải là thành viên
+      điều ước quốc tế.
+    template_pos: Nước Cộng hòa xã hội chủ nghĩa Việt Nam là thành viên điều ước quốc
+      tế.
+  is_military_officer:
+    ask: Người lao động có phải là sĩ quan, quân nhân chuyên nghiệp quân đội nhân
+      dân không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không phải là sĩ quan, quân nhân chuyên nghiệp quân
+      đội nhân dân.
+    template_pos: Người lao động là sĩ quan, quân nhân chuyên nghiệp quân đội nhân
+      dân.
+  is_national_social_insurance_management_council:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Hội đồng quản lý bảo hiểm xã hội không được tổ chức ở cấp quốc gia.
+    template_pos: Hội đồng quản lý bảo hiểm xã hội được tổ chức ở cấp quốc gia.
+  is_near_poor_household:
+    ask: Người lao động có thuộc hộ cận nghèo không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không thuộc hộ cận nghèo.
+    template_pos: Người lao động thuộc hộ cận nghèo.
+  is_non_professional_worker:
+    ask: Người lao động có phải là người hoạt động không chuyên trách ở cấp xã, ở
+      thôn, tổ dân phố không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không phải là người hoạt động không chuyên trách
+      ở cấp xã, ở thôn, tổ dân phố.
+    template_pos: Người lao động là người hoạt động không chuyên trách ở cấp xã, ở
+      thôn, tổ dân phố.
+  is_poor_household:
+    ask: Người lao động có thuộc hộ nghèo không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không thuộc hộ nghèo.
+    template_pos: Người lao động thuộc hộ nghèo.
+  is_regular_militia:
+    ask: Người lao động có phải là dân quân thường trực không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không phải là dân quân thường trực.
+    template_pos: Người lao động là dân quân thường trực.
+  is_responsible_for_decisions:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Thành viên Hội đồng quản lý bảo hiểm xã hội không chịu trách nhiệm
+      về quyết định của mình.
+    template_pos: Thành viên Hội đồng quản lý bảo hiểm xã hội chịu trách nhiệm về
+      quyết định của mình.
+  is_second_time_complaint:
+    ask: Đây có phải là khiếu nại lần hai không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Đây không phải là khiếu nại lần hai.
+    template_pos: Đây là khiếu nại lần hai.
+  is_spouse_of_female_worker_with_surrogate_pregnancy:
+    ask: Người lao động có phải là chồng của lao động nữ mang thai hộ không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không phải là chồng của lao động nữ mang thai hộ.
+    template_pos: Người lao động là chồng của lao động nữ mang thai hộ.
+  is_spouse_on_mission:
+    ask: Người lao động có phải là vợ hoặc chồng không hưởng lương từ ngân sách nhà
+      nước được cử đi công tác nhiệm kỳ không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không phải là vợ hoặc chồng không hưởng lương từ
+      ngân sách nhà nước được cử đi công tác nhiệm kỳ.
+    template_pos: Người lao động là vợ hoặc chồng không hưởng lương từ ngân sách nhà
+      nước được cử đi công tác nhiệm kỳ.
+  is_state_bank_investment:
+    ask: Bạn có đầu tư vào ngân hàng thương mại nhà nước không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Không đầu tư vào ngân hàng thương mại nhà nước.
+    template_pos: Đầu tư vào ngân hàng thương mại nhà nước.
+  is_superior_head:
+    ask: Người khiếu nại có phải là thủ trưởng cơ quan cấp trên không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người khiếu nại không phải là thủ trưởng cơ quan cấp trên.
+    template_pos: Người khiếu nại là thủ trưởng cơ quan cấp trên.
+  is_under_6_months_adoption:
+    ask: Người lao động có nhận nuôi con nuôi dưới 06 tháng tuổi không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không nhận nuôi con nuôi dưới 06 tháng tuổi.
+    template_pos: Người lao động nhận nuôi con nuôi dưới 06 tháng tuổi.
+  is_valid_document:
+    ask: Hồ sơ, chứng từ có hợp lệ không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Hồ sơ, chứng từ không hợp lệ.
+    template_pos: Hồ sơ, chứng từ là hợp lệ.
+  issued_insurance_book:
+    ask: Người tham gia bảo hiểm xã hội có được cấp sổ bảo hiểm xã hội không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người tham gia bảo hiểm xã hội không được cấp sổ bảo hiểm xã hội.
+    template_pos: Người tham gia bảo hiểm xã hội được cấp sổ bảo hiểm xã hội.
+  labor_relation:
+    domains:
+    - labor
+    kind: derived
+    origin: curated
+    template_neg: Giữa hai bên không tồn tại quan hệ lao động.
+    template_pos: Giữa hai bên tồn tại quan hệ lao động.
+  law_58_2014_repealed:
+    ask: Luật Bảo hiểm xã hội số 58/2014/QH13 còn hiệu lực không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Luật Bảo hiểm xã hội số 58/2014/QH13 chưa bị bãi bỏ.
+    template_pos: Luật Bảo hiểm xã hội số 58/2014/QH13 đã bị bãi bỏ.
+  law_effective_from:
+    ask: Luật này có hiệu lực thi hành từ khi nào?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Luật không có hiệu lực thi hành.
+    template_pos: Luật có hiệu lực thi hành.
+  leave_within_60_days_after_birth:
+    ask: Người lao động có nghỉ việc trong vòng 60 ngày kể từ ngày sinh con không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không nghỉ việc trong vòng 60 ngày kể từ ngày sinh
+      con.
+    template_pos: Người lao động nghỉ việc trong vòng 60 ngày kể từ ngày sinh con.
+  local_government:
+    ask: Có Ủy ban nhân dân cấp tỉnh không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Không có Ủy ban nhân dân cấp tỉnh.
+    template_pos: Có Ủy ban nhân dân cấp tỉnh.
+  local_government_responsible_for_management:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Ủy ban nhân dân các cấp không thực hiện quản lý nhà nước về bảo
+      hiểm xã hội tại địa phương.
+    template_pos: Ủy ban nhân dân các cấp thực hiện quản lý nhà nước về bảo hiểm xã
+      hội tại địa phương.
+  local_government_support_pension:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Ủy ban nhân dân cấp tỉnh không quyết định hỗ trợ thêm cho người
+      hưởng trợ cấp hưu trí xã hội.
+    template_pos: Ủy ban nhân dân cấp tỉnh quyết định hỗ trợ thêm cho người hưởng
+      trợ cấp hưu trí xã hội.
+  low_pension:
+    ask: Người lao động có mức lương hưu thấp không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không có mức lương hưu thấp.
+    template_pos: Người lao động có mức lương hưu thấp.
+  lump_sum_benefit_for_emigrants:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người đang hưởng trợ cấp tai nạn lao động, bệnh nghề nghiệp hằng
+      tháng khi ra nước ngoài để định cư không được giải quyết hưởng trợ cấp một lần.
+    template_pos: Người đang hưởng trợ cấp tai nạn lao động, bệnh nghề nghiệp hằng
+      tháng khi ra nước ngoài để định cư được giải quyết hưởng trợ cấp một lần.
+  manage_social_insurance_funds:
+    ask: Cơ quan bảo hiểm xã hội có quản lý và sử dụng các quỹ bảo hiểm xã hội không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Cơ quan bảo hiểm xã hội không quản lý và sử dụng các quỹ bảo hiểm
+      xã hội.
+    template_pos: Cơ quan bảo hiểm xã hội quản lý và sử dụng các quỹ bảo hiểm xã hội.
+  maternity_benefit:
+    ask: Người lao động có được hưởng trợ cấp thai sản không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người lao động không được hưởng trợ cấp thai sản.
+    template_pos: Người lao động được hưởng trợ cấp thai sản.
+  maximum_exam_visits:
+    ask: Người lao động nữ có được phép khám thai tối đa 05 lần không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động nữ không được phép khám thai tối đa 05 lần.
+    template_pos: Người lao động nữ được phép khám thai tối đa 05 lần.
+  medical_exam_payment:
+    ask: Người thụ hưởng chế độ bảo hiểm xã hội có được thanh toán phí giám định y
+      khoa không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người thụ hưởng chế độ bảo hiểm xã hội không được thanh toán phí
+      giám định y khoa.
+    template_pos: Người thụ hưởng chế độ bảo hiểm xã hội được thanh toán phí giám
+      định y khoa.
+  medical_exam_procedure:
+    ask: Hồ sơ, trình tự khám giám định mức suy giảm khả năng lao động đã được quy
+      định chưa?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Hồ sơ, trình tự khám giám định mức suy giảm khả năng lao động để
+      giải quyết chế độ bảo hiểm xã hội chưa được quy định.
+    template_pos: Hồ sơ, trình tự khám giám định mức suy giảm khả năng lao động để
+      giải quyết chế độ bảo hiểm xã hội đã được quy định.
+  medical_exam_right:
+    ask: Người tham gia bảo hiểm xã hội có quyền đi khám giám định y khoa không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người tham gia bảo hiểm xã hội không có quyền đi khám giám định
+      y khoa.
+    template_pos: Người tham gia bảo hiểm xã hội có quyền đi khám giám định y khoa.
+  meets_conditions_for_maternity_benefit:
+    ask: Người lao động có đáp ứng đủ điều kiện hưởng chế độ thai sản không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không đáp ứng đủ điều kiện hưởng chế độ thai sản.
+    template_pos: Người lao động đáp ứng đủ điều kiện hưởng chế độ thai sản.
+  minimum_pension_amount:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Mức lương hưu tối thiểu không được đảm bảo.
+    template_pos: Mức lương hưu tối thiểu được đảm bảo.
+  ministry_of_finance_responsible_for_management:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Bộ Tài chính không phải là cơ quan giúp Chính phủ thực hiện quản
+      lý nhà nước về tài chính bảo hiểm xã hội.
+    template_pos: Bộ Tài chính là cơ quan giúp Chính phủ thực hiện quản lý nhà nước
+      về tài chính bảo hiểm xã hội.
+  ministry_of_labor_responsible_for_management:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Bộ Lao động - Thương binh và Xã hội không phải là cơ quan đầu mối
+      giúp Chính phủ thực hiện quản lý nhà nước về bảo hiểm xã hội.
+    template_pos: Bộ Lao động - Thương binh và Xã hội là cơ quan đầu mối giúp Chính
+      phủ thực hiện quản lý nhà nước về bảo hiểm xã hội.
+  monitor_si_law:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Công đoàn không thực hiện giám sát pháp luật bảo hiểm xã hội.
+    template_pos: Công đoàn thực hiện giám sát pháp luật bảo hiểm xã hội.
+  monthly_income_contributed:
+    ask: Người lao động có thu nhập tháng đã đóng bảo hiểm xã hội không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động chưa có thu nhập tháng đã đóng bảo hiểm xã hội.
+    template_pos: Người lao động đã có thu nhập tháng đã đóng bảo hiểm xã hội.
+  monthly_info_benefits:
+    ask: Người thụ hưởng chế độ bảo hiểm xã hội có được cung cấp thông tin định kỳ
+      không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người thụ hưởng chế độ bảo hiểm xã hội không được cung cấp thông
+      tin định kỳ.
+    template_pos: Người thụ hưởng chế độ bảo hiểm xã hội được cung cấp thông tin định
+      kỳ.
+  monthly_info_provided:
+    ask: Người tham gia bảo hiểm xã hội có được cung cấp thông tin định kỳ hằng tháng
+      không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người tham gia bảo hiểm xã hội không được cung cấp thông tin định
+      kỳ hằng tháng.
+    template_pos: Người tham gia bảo hiểm xã hội được cung cấp thông tin định kỳ hằng
+      tháng.
+  mother_dies_after_birth:
+    ask: Mẹ có chết sau khi sinh con không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Mẹ không chết sau khi sinh con.
+    template_pos: Mẹ chết sau khi sinh con.
+  mother_unfit_to_care_for_child:
+    ask: Mẹ có đủ sức khỏe để chăm sóc con không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Mẹ đủ sức khỏe để chăm sóc con.
+    template_pos: Mẹ không đủ sức khỏe để chăm sóc con.
+  multiple_contracts:
+    ask: Bạn có đang ký hợp đồng lao động với nhiều công ty cùng lúc không?
+    default: false
+    domains:
+    - labor
+    kind: input
+    origin: curated
+    template_neg: Người lao động chỉ làm việc cho một người sử dụng lao động.
+    template_pos: Người lao động giao kết hợp đồng lao động với nhiều người sử dụng
+      lao động.
+  must_compensate_for_delayed_benefits:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người thụ hưởng chế độ bảo hiểm xã hội không phải bồi thường nếu
+      hưởng chế độ chậm.
+    template_pos: Người thụ hưởng chế độ bảo hiểm xã hội phải được bồi thường nếu
+      hưởng chế độ chậm.
+  must_contribute_month:
+    domains:
+    - labor
+    kind: derived
+    origin: curated
+    template_neg: Người lao động không phải đóng bảo hiểm xã hội bắt buộc trong tháng
+      đó.
+    template_pos: Người lao động phải đóng bảo hiểm xã hội bắt buộc trong tháng đó.
+  must_create_list_of_employees_on_sick_leave:
+    ask: Người sử dụng lao động có phải lập danh sách người lao động nghỉ việc hưởng
+      chế độ ốm đau không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người sử dụng lao động không phải lập danh sách người lao động nghỉ
+      việc hưởng chế độ ốm đau.
+    template_pos: Người sử dụng lao động phải lập danh sách người lao động nghỉ việc
+      hưởng chế độ ốm đau.
+  must_diversify_investment_portfolio:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Đầu tư quỹ bảo hiểm xã hội không đa dạng hóa danh mục đầu tư.
+    template_pos: Đầu tư quỹ bảo hiểm xã hội phải đa dạng hóa danh mục đầu tư.
+  must_ensure_conditions_for_electronic_transaction_by_2027:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Cơ quan bảo hiểm xã hội không cần bảo đảm điều kiện để thực hiện
+      giao dịch điện tử trước ngày 01 tháng 01 năm 2027.
+    template_pos: Cơ quan bảo hiểm xã hội phải bảo đảm điều kiện để thực hiện giao
+      dịch điện tử trước ngày 01 tháng 01 năm 2027.
+  must_ensure_conditions_for_medical_exam:
+    ask: Việc khám giám định mức suy giảm khả năng lao động có bảo đảm chính xác,
+      công khai, minh bạch không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Việc khám giám định mức suy giảm khả năng lao động không bảo đảm
+      chính xác, công khai, minh bạch.
+    template_pos: Việc khám giám định mức suy giảm khả năng lao động phải bảo đảm
+      chính xác, công khai, minh bạch.
+  must_ensure_investment_safety:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Hoạt động đầu tư quỹ bảo hiểm xã hội không bảo đảm an toàn.
+    template_pos: Hoạt động đầu tư quỹ bảo hiểm xã hội phải bảo đảm an toàn.
+  must_follow_long_term_investment_strategy:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Hoạt động đầu tư quỹ bảo hiểm xã hội không thực hiện theo chiến
+      lược đầu tư dài hạn.
+    template_pos: Hoạt động đầu tư quỹ bảo hiểm xã hội phải thực hiện theo chiến lược
+      đầu tư dài hạn.
+  must_monitor_si_compliance:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Cơ quan không phải kiểm tra, thanh tra và xử lý vi phạm pháp luật
+      về bảo hiểm xã hội.
+    template_pos: Cơ quan phải kiểm tra, thanh tra và xử lý vi phạm pháp luật về bảo
+      hiểm xã hội.
+  must_resolve_change_request:
+    ask: Cơ quan bảo hiểm xã hội có phải giải quyết hồ sơ thay đổi không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Cơ quan bảo hiểm xã hội không phải giải quyết hồ sơ thay đổi.
+    template_pos: Cơ quan bảo hiểm xã hội phải giải quyết hồ sơ thay đổi.
+  must_resolve_maternity_benefit_application:
+    ask: Cơ quan bảo hiểm xã hội có phải giải quyết hồ sơ hưởng trợ cấp thai sản không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Cơ quan bảo hiểm xã hội không phải giải quyết hồ sơ hưởng trợ cấp
+      thai sản.
+    template_pos: Cơ quan bảo hiểm xã hội phải giải quyết hồ sơ hưởng trợ cấp thai
+      sản.
+  must_resolve_pension_application:
+    ask: Cơ quan bảo hiểm xã hội có phải giải quyết hồ sơ hưởng lương hưu không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Cơ quan bảo hiểm xã hội không phải giải quyết hồ sơ hưởng lương
+      hưu.
+    template_pos: Cơ quan bảo hiểm xã hội phải giải quyết hồ sơ hưởng lương hưu.
+  must_resolve_sick_leave_application:
+    ask: Cơ quan bảo hiểm xã hội có phải giải quyết hồ sơ hưởng trợ cấp ốm đau không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Cơ quan bảo hiểm xã hội không phải giải quyết hồ sơ hưởng trợ cấp
+      ốm đau.
+    template_pos: Cơ quan bảo hiểm xã hội phải giải quyết hồ sơ hưởng trợ cấp ốm đau.
+  must_respond_in_writing_if_not_approved:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: ''
+    template_pos: Cơ quan bảo hiểm xã hội phải trả lời bằng văn bản nếu không giải
+      quyết.
+  must_submit_application_for_change:
+    ask: Người hưởng lương hưu, trợ cấp bảo hiểm xã hội hằng tháng có cần nộp hồ sơ
+      để thay đổi hình thức nhận hoặc nơi nhận không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người hưởng lương hưu, trợ cấp bảo hiểm xã hội hằng tháng không
+      cần nộp hồ sơ để thay đổi hình thức nhận hoặc nơi nhận.
+    template_pos: Người hưởng lương hưu, trợ cấp bảo hiểm xã hội hằng tháng phải nộp
+      hồ sơ để thay đổi hình thức nhận hoặc nơi nhận.
+  must_submit_application_for_lump_sum:
+    ask: Người lao động có phải nộp hồ sơ để hưởng bảo hiểm xã hội một lần không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người lao động không phải nộp hồ sơ để hưởng bảo hiểm xã hội một
+      lần.
+    template_pos: Người lao động phải nộp hồ sơ để hưởng bảo hiểm xã hội một lần.
+  must_submit_application_for_maternity_benefit:
+    ask: Người lao động có phải nộp hồ sơ để hưởng trợ cấp thai sản không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người lao động không phải nộp hồ sơ để hưởng trợ cấp thai sản.
+    template_pos: Người lao động phải nộp hồ sơ để hưởng trợ cấp thai sản.
+  must_submit_application_for_pension:
+    ask: Người lao động có phải nộp hồ sơ để hưởng lương hưu không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người lao động không phải nộp hồ sơ để hưởng lương hưu.
+    template_pos: Người lao động phải nộp hồ sơ để hưởng lương hưu.
+  must_submit_application_for_sick_leave:
+    ask: Người lao động có phải nộp hồ sơ để hưởng trợ cấp ốm đau không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người lao động không phải nộp hồ sơ để hưởng trợ cấp ốm đau.
+    template_pos: Người lao động phải nộp hồ sơ để hưởng trợ cấp ốm đau.
+  must_submit_application_within_45_days:
+    ask: Người lao động có phải nộp hồ sơ trong vòng 45 ngày không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người lao động không phải nộp hồ sơ trong vòng 45 ngày.
+    template_pos: Người lao động phải nộp hồ sơ trong vòng 45 ngày.
+  must_submit_application_within_7_days:
+    ask: Người sử dụng lao động có phải nộp hồ sơ trong vòng 07 ngày không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người sử dụng lao động không phải nộp hồ sơ trong vòng 07 ngày.
+    template_pos: Người sử dụng lao động phải nộp hồ sơ trong vòng 07 ngày.
+  must_submit_application_within_90_days:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Thân nhân không phải nộp hồ sơ trong vòng 90 ngày.
+    template_pos: Thân nhân phải nộp hồ sơ trong vòng 90 ngày.
+  national_database:
+    ask: Cơ sở dữ liệu quốc gia về bảo hiểm là gì?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Cơ sở dữ liệu quốc gia về bảo hiểm không được xác định.
+    template_pos: Cơ sở dữ liệu quốc gia về bảo hiểm được xác định.
+  not_entitled_lump_sum:
+    ask: Người lao động đã hưởng bảo hiểm xã hội một lần chưa?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động chưa hưởng bảo hiểm xã hội một lần.
+    template_pos: Người lao động đã hưởng bảo hiểm xã hội một lần.
+  not_entitled_monthly_allowance:
+    ask: Người lao động đã hưởng trợ cấp hằng tháng chưa?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động chưa hưởng trợ cấp hằng tháng.
+    template_pos: Người lao động đã hưởng trợ cấp hằng tháng.
+  not_entitled_pension:
+    ask: Người lao động có đủ điều kiện hưởng lương hưu không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không đủ điều kiện hưởng lương hưu.
+    template_pos: Người lao động đủ điều kiện hưởng lương hưu.
+  not_invest_in_special_control_bank:
+    ask: Bạn có đầu tư vào ngân hàng thương mại đang được kiểm soát đặc biệt không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Đầu tư vào ngân hàng thương mại đang được kiểm soát đặc biệt.
+    template_pos: Không đầu tư vào ngân hàng thương mại đang được kiểm soát đặc biệt.
+  not_paid_si_after_60_days:
+    ask: Người sử dụng lao động đã đóng bảo hiểm xã hội bắt buộc sau 60 ngày chưa?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người sử dụng lao động đã đóng bảo hiểm xã hội bắt buộc sau 60 ngày.
+    template_pos: Người sử dụng lao động không đóng bảo hiểm xã hội bắt buộc sau 60
+      ngày.
+  not_paid_ui_after_60_days:
+    ask: Người sử dụng lao động đã đóng bảo hiểm thất nghiệp sau 60 ngày chưa?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người sử dụng lao động đã đóng bảo hiểm thất nghiệp sau 60 ngày.
+    template_pos: Người sử dụng lao động không đóng bảo hiểm thất nghiệp sau 60 ngày.
+  not_receive_award:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người lao động được xem xét trao tặng các danh hiệu thi đua.
+    template_pos: Người lao động không được xem xét trao tặng các danh hiệu thi đua.
+  not_receive_awards:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người lao động được xem xét trao tặng các danh hiệu thi đua, hình
+      thức khen thưởng.
+    template_pos: Người lao động không được xem xét trao tặng các danh hiệu thi đua,
+      hình thức khen thưởng.
+  not_receiving_pension:
+    ask: Người lao động có đang hưởng lương hưu không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động đang hưởng lương hưu.
+    template_pos: Người lao động không hưởng lương hưu.
+  not_registered_si:
+    ask: Người sử dụng lao động đã đăng ký bảo hiểm xã hội bắt buộc chưa?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người sử dụng lao động đã đăng ký bảo hiểm xã hội bắt buộc.
+    template_pos: Người sử dụng lao động không đăng ký bảo hiểm xã hội bắt buộc.
+  not_registered_ui:
+    ask: Người sử dụng lao động đã đăng ký bảo hiểm thất nghiệp chưa?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người sử dụng lao động đã đăng ký bảo hiểm thất nghiệp.
+    template_pos: Người sử dụng lao động không đăng ký bảo hiểm thất nghiệp.
+  not_taken_leave:
+    ask: Bạn có nghỉ việc không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động đã nghỉ việc.
+    template_pos: Người lao động không nghỉ việc.
+  occupational_accident_insurance:
+    ask: Người lao động có được hưởng bảo hiểm tai nạn lao động không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người lao động không được hưởng bảo hiểm tai nạn lao động.
+    template_pos: Người lao động được hưởng bảo hiểm tai nạn lao động.
+  one_activity_only_subject_to_one_agency:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Một nội dung hoạt động không chỉ là đối tượng của một cơ quan.
+    template_pos: Một nội dung hoạt động chỉ là đối tượng của một cơ quan.
+  organize_social_insurance_agency:
+    ask: Cơ quan bảo hiểm xã hội có tổ chức bộ máy thực hiện bảo hiểm xã hội không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Cơ quan bảo hiểm xã hội không tổ chức bộ máy thực hiện bảo hiểm
+      xã hội.
+    template_pos: Cơ quan bảo hiểm xã hội tổ chức bộ máy thực hiện bảo hiểm xã hội.
+  other_cases_of_suspend_terminate_benefits:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Không có các trường hợp khác về tạm dừng, chấm dứt hưởng lương hưu.
+    template_pos: Có các trường hợp khác về tạm dừng, chấm dứt hưởng lương hưu.
+  paid_wage:
+    ask: Bạn có được trả lương hoặc tiền công cho công việc này không?
+    domains:
+    - labor
+    kind: input
+    origin: curated
+    template_neg: Người lao động không được trả lương cho công việc.
+    template_pos: Người lao động được trả lương hoặc tiền công cho công việc.
+  part_time:
+    ask: Bạn làm việc toàn thời gian hay bán thời gian?
+    default: false
+    domains:
+    - labor
+    kind: input
+    origin: curated
+    template_neg: Người lao động làm việc trọn thời gian.
+    template_pos: Người lao động làm việc không trọn thời gian.
+  participate_in_monitoring:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Tổ chức đại diện không tham gia kiểm tra, giám sát việc thực hiện
+      pháp luật về bảo hiểm xã hội.
+    template_pos: Tổ chức đại diện tham gia kiểm tra, giám sát việc thực hiện pháp
+      luật về bảo hiểm xã hội.
+  participate_in_si_inspection:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Công đoàn không tham gia thanh tra pháp luật bảo hiểm xã hội.
+    template_pos: Công đoàn tham gia thanh tra pháp luật bảo hiểm xã hội.
+  participate_in_si_policy_development:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Mặt trận Tổ quốc không tham gia xây dựng chính sách bảo hiểm xã
+      hội.
+    template_pos: Mặt trận Tổ quốc tham gia xây dựng chính sách bảo hiểm xã hội.
+  penalty_for_unpaid_contribution:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Không có xử lý vi phạm về đóng bảo hiểm xã hội.
+    template_pos: Có xử lý vi phạm về đóng bảo hiểm xã hội.
+  pension_benefit:
+    ask: Người lao động có được hưởng lương hưu không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người lao động không được hưởng lương hưu.
+    template_pos: Người lao động được hưởng lương hưu.
+  policy_awareness:
+    ask: Người tham gia bảo hiểm xã hội có được tuyên truyền chính sách không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người tham gia bảo hiểm xã hội không được tuyên truyền chính sách.
+    template_pos: Người tham gia bảo hiểm xã hội được tuyên truyền chính sách.
+  prioritize_government_bonds:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Đầu tư quỹ bảo hiểm xã hội không ưu tiên vào trái phiếu Chính phủ.
+    template_pos: Đầu tư quỹ bảo hiểm xã hội phải ưu tiên vào trái phiếu Chính phủ.
+  probation_only:
+    ask: Bạn chỉ đang ký hợp đồng thử việc phải không?
+    default: false
+    domains:
+    - labor
+    kind: input
+    origin: curated
+    template_neg: Người lao động không chỉ ký hợp đồng thử việc.
+    template_pos: Người lao động chỉ ký hợp đồng thử việc, chưa ký hợp đồng lao động.
+  processing_time_for_application:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: ''
+    template_pos: Thời gian xử lý hồ sơ là 5 ngày làm việc.
+  promote_international_agreements:
+    ask: Đàm phán và ký kết điều ước quốc tế có được thúc đẩy không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Đàm phán và ký kết điều ước quốc tế không được thúc đẩy.
+    template_pos: Đàm phán và ký kết điều ước quốc tế được thúc đẩy.
+  promote_si_policy:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Công đoàn không tuyên truyền chính sách bảo hiểm xã hội.
+    template_pos: Công đoàn tuyên truyền chính sách bảo hiểm xã hội.
+  promote_social_insurance_law:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Tổ chức đại diện không tuyên truyền, phổ biến chính sách về bảo
+      hiểm xã hội.
+    template_pos: Tổ chức đại diện tuyên truyền, phổ biến chính sách về bảo hiểm xã
+      hội.
+  protect_rights_of_employers:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Tổ chức đại diện không bảo vệ quyền và lợi ích hợp pháp của người
+      sử dụng lao động.
+    template_pos: Tổ chức đại diện bảo vệ quyền và lợi ích hợp pháp của người sử dụng
+      lao động.
+  provision_repealed:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Khoản 2 Điều 17 của Luật Người cao tuổi số 39/2009/QH12 không bị
+      bãi bỏ.
+    template_pos: Bãi bỏ khoản 2 Điều 17 của Luật Người cao tuổi số 39/2009/QH12.
+  reached_retirement_age:
+    ask: Bạn đã đủ tuổi nghỉ hưu chưa?
+    domains:
+    - labor
+    kind: input
+    origin: curated
+    template_neg: Người lao động chưa đủ tuổi nghỉ hưu.
+    template_pos: Người lao động đã đủ tuổi nghỉ hưu.
+  receive_full_benefits:
+    ask: Người thụ hưởng chế độ bảo hiểm xã hội có nhận đầy đủ chế độ không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người thụ hưởng chế độ bảo hiểm xã hội không nhận đầy đủ chế độ.
+    template_pos: Người thụ hưởng chế độ bảo hiểm xã hội nhận đầy đủ chế độ.
+  receive_health_insurance:
+    ask: Người thụ hưởng chế độ bảo hiểm xã hội có được hưởng bảo hiểm y tế không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người thụ hưởng chế độ bảo hiểm xã hội không được hưởng bảo hiểm
+      y tế.
+    template_pos: Người thụ hưởng chế độ bảo hiểm xã hội được hưởng bảo hiểm y tế.
+  receive_one_time_allowance:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Không được hưởng trợ cấp một lần.
+    template_pos: Được hưởng trợ cấp một lần.
+  receive_pension_at_residence:
+    ask: Người thụ hưởng chế độ bảo hiểm xã hội có được chi trả lương hưu tại nơi
+      cư trú không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người thụ hưởng chế độ bảo hiểm xã hội không được chi trả lương
+      hưu tại nơi cư trú.
+    template_pos: Người thụ hưởng chế độ bảo hiểm xã hội được chi trả lương hưu tại
+      nơi cư trú.
+  receive_pension_directly_from_agency:
+    ask: Người thụ hưởng chế độ bảo hiểm xã hội có chi trả lương hưu trực tiếp từ
+      cơ quan bảo hiểm xã hội không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người thụ hưởng chế độ bảo hiểm xã hội không được chi trả lương
+      hưu trực tiếp từ cơ quan bảo hiểm xã hội.
+    template_pos: Người thụ hưởng chế độ bảo hiểm xã hội được chi trả lương hưu trực
+      tiếp từ cơ quan bảo hiểm xã hội.
+  receive_pension_through_bank_account:
+    ask: Người thụ hưởng chế độ bảo hiểm xã hội có chi trả lương hưu qua tài khoản
+      ngân hàng không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người thụ hưởng chế độ bảo hiểm xã hội không được chi trả lương
+      hưu qua tài khoản ngân hàng.
+    template_pos: Người thụ hưởng chế độ bảo hiểm xã hội được chi trả lương hưu qua
+      tài khoản ngân hàng.
+  receive_pension_through_employer:
+    ask: Người thụ hưởng chế độ bảo hiểm xã hội có chi trả lương hưu qua người sử
+      dụng lao động không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người thụ hưởng chế độ bảo hiểm xã hội không được chi trả lương
+      hưu qua người sử dụng lao động.
+    template_pos: Người thụ hưởng chế độ bảo hiểm xã hội được chi trả lương hưu qua
+      người sử dụng lao động.
+  received_adjustment_documents:
+    ask: Cơ quan bảo hiểm xã hội đã nhận đủ tờ khai và giấy tờ chưa?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Cơ quan bảo hiểm xã hội chưa nhận đủ tờ khai và giấy tờ.
+    template_pos: Cơ quan bảo hiểm xã hội đã nhận đủ tờ khai và giấy tờ.
+  received_request_document:
+    ask: Cơ quan bảo hiểm xã hội đã nhận văn bản đề nghị chưa?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Cơ quan bảo hiểm xã hội chưa nhận văn bản đề nghị.
+    template_pos: Cơ quan bảo hiểm xã hội đã nhận văn bản đề nghị.
+  receives_salary:
+    ask: Bạn có nhận tiền lương hằng tháng từ doanh nghiệp không?
+    domains:
+    - labor
+    kind: input
+    origin: curated
+    template_neg: Người này không nhận tiền lương từ doanh nghiệp.
+    template_pos: Người này nhận tiền lương từ doanh nghiệp.
+  receiving_pension:
+    ask: Bạn có đang hưởng lương hưu hoặc trợ cấp BHXH hằng tháng không?
+    default: false
+    domains:
+    - labor
+    kind: input
+    origin: curated
+    template_neg: Người lao động không hưởng lương hưu.
+    template_pos: Người lao động đang hưởng lương hưu.
+  recommend_violation_handling:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Tổ chức đại diện không kiến nghị xử lý hành vi vi phạm pháp luật
+      về bảo hiểm xã hội.
+    template_pos: Tổ chức đại diện kiến nghị xử lý hành vi vi phạm pháp luật về bảo
+      hiểm xã hội.
+  reference_amount:
+    ask: Mức tham chiếu là gì?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Mức tham chiếu chưa được xác định.
+    template_pos: Mức tham chiếu đã được xác định.
+  reference_salary_base:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Mức tham chiếu không được xác định.
+    template_pos: Mức tham chiếu được xác định.
+  refuse_benefits:
+    ask: Người thụ hưởng chế độ bảo hiểm xã hội có quyền từ chối hưởng chế độ không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người thụ hưởng chế độ bảo hiểm xã hội không có quyền từ chối hưởng
+      chế độ.
+    template_pos: Người thụ hưởng chế độ bảo hiểm xã hội có quyền từ chối hưởng chế
+      độ.
+  refuse_benefits_in_writing:
+    ask: Người lao động có từ chối hưởng lương hưu bằng văn bản không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động chưa từ chối hưởng lương hưu bằng văn bản.
+    template_pos: Người lao động đã từ chối hưởng lương hưu bằng văn bản.
+  refused_benefits_in_writing:
+    ask: Người lao động có từ chối hưởng lương hưu bằng văn bản không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động chưa từ chối hưởng lương hưu bằng văn bản.
+    template_pos: Người lao động đã từ chối hưởng lương hưu bằng văn bản.
+  registered_participant:
+    ask: Người đăng ký đã kê khai tham gia bảo hiểm xã hội chưa?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người đăng ký chưa kê khai tham gia bảo hiểm xã hội.
+    template_pos: Người đăng ký đã kê khai tham gia bảo hiểm xã hội.
+  registered_wage_below_min:
+    ask: Tiền lương đăng ký có thấp hơn mức quy định không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Tiền lương đăng ký không thấp hơn mức quy định.
+    template_pos: Tiền lương đăng ký thấp hơn mức quy định.
+  registered_wage_below_ui_min:
+    ask: Tiền lương đăng ký bảo hiểm thất nghiệp có thấp hơn mức quy định không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Tiền lương đăng ký bảo hiểm thất nghiệp không thấp hơn mức quy định.
+    template_pos: Tiền lương đăng ký bảo hiểm thất nghiệp thấp hơn mức quy định.
+  reports_to_prime_minister:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Chủ tịch Hội đồng quản lý bảo hiểm xã hội không báo cáo Thủ tướng
+      Chính phủ.
+    template_pos: Chủ tịch Hội đồng quản lý bảo hiểm xã hội báo cáo Thủ tướng Chính
+      phủ.
+  request_information_si:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Công đoàn không yêu cầu cung cấp thông tin về bảo hiểm xã hội.
+    template_pos: Công đoàn yêu cầu cung cấp thông tin về bảo hiểm xã hội.
+  requested_lump_sum:
+    ask: Bạn có muốn đề nghị hưởng BHXH một lần không?
+    domains:
+    - labor
+    kind: input
+    origin: curated
+    template_neg: Người lao động không muốn hưởng bảo hiểm xã hội một lần.
+    template_pos: Người lao động đề nghị hưởng bảo hiểm xã hội một lần.
+  responsible_for_exam_accuracy:
+    ask: Hội đồng giám định y khoa có chịu trách nhiệm về tính chính xác của kết quả
+      giám định không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Hội đồng giám định y khoa không chịu trách nhiệm về tính chính xác
+      của kết quả giám định.
+    template_pos: Hội đồng giám định y khoa chịu trách nhiệm về tính chính xác của
+      kết quả giám định.
+  resume_pension_benefits_from_request_date:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người lao động không được hưởng lại lương hưu từ thời điểm đề nghị.
+    template_pos: Người lao động được hưởng lại lương hưu từ thời điểm đề nghị.
+  retired_before_1995:
+    ask: Người lao động có nghỉ hưu trước năm 1995 không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không nghỉ hưu trước năm 1995.
+    template_pos: Người lao động nghỉ hưu trước năm 1995.
+  retirement_age_at_signing:
+    ask: Khi ký hợp đồng, bạn đã đủ tuổi nghỉ hưu chưa?
+    default: false
+    domains:
+    - labor
+    kind: input
+    origin: curated
+    template_neg: Tại thời điểm ký hợp đồng, người lao động chưa đủ tuổi nghỉ hưu.
+    template_pos: Tại thời điểm ký hợp đồng, người lao động đã đủ tuổi nghỉ hưu.
+  returned_after_illegal_emigration:
+    ask: Người lao động có trở về sau khi xuất cảnh trái phép không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động chưa trở về sau khi xuất cảnh trái phép.
+    template_pos: Người lao động đã trở về sau khi xuất cảnh trái phép.
+  returns_to_work_before_maternity_leave_ends:
+    ask: Người lao động có trở lại làm việc trước khi hết thời gian nghỉ thai sản
+      không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không trở lại làm việc trước khi hết thời gian nghỉ
+      thai sản.
+    template_pos: Người lao động trở lại làm việc trước khi hết thời gian nghỉ thai
+      sản.
+  serious_illness:
+    ask: Bạn có đang mắc bệnh hiểm nghèo (ung thư, bại liệt, xơ gan mất bù, lao nặng,
+      AIDS) không?
+    default: false
+    domains:
+    - labor
+    kind: input
+    origin: curated
+    template_neg: Người lao động không mắc bệnh hiểm nghèo.
+    template_pos: Người lao động đang mắc bệnh ung thư, bại liệt, xơ gan mất bù, lao
+      nặng hoặc AIDS.
+  share_worker_data:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Mặt trận Tổ quốc không chia sẻ dữ liệu về người lao động.
+    template_pos: Mặt trận Tổ quốc chia sẻ dữ liệu về người lao động.
+  sickness_benefit:
+    ask: Người lao động có được hưởng trợ cấp ốm đau không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người lao động không được hưởng trợ cấp ốm đau.
+    template_pos: Người lao động được hưởng trợ cấp ốm đau.
+  signed_labor_contract:
+    ask: Bạn đã ký hợp đồng lao động với bên sử dụng lao động chưa?
+    domains:
+    - labor
+    kind: input
+    origin: curated
+    template_neg: Người lao động không ký hợp đồng lao động.
+    template_pos: Người lao động đã ký hợp đồng lao động.
+  social_insurance_agency:
+    ask: Cơ quan bảo hiểm xã hội có phải là cơ quan nhà nước không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Cơ quan bảo hiểm xã hội không phải là cơ quan nhà nước.
+    template_pos: Cơ quan bảo hiểm xã hội là cơ quan nhà nước.
+  social_insurance_agency_participates_in_management:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Bảo hiểm xã hội Việt Nam không tham gia, phối hợp trong quản lý
+      nhà nước về bảo hiểm xã hội.
+    template_pos: Bảo hiểm xã hội Việt Nam tham gia, phối hợp trong quản lý nhà nước
+      về bảo hiểm xã hội.
+  social_insurance_fund_can_be_audited_unexpectedly:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Quỹ bảo hiểm xã hội không thể được kiểm toán đột xuất.
+    template_pos: Quỹ bảo hiểm xã hội có thể được kiểm toán đột xuất.
+  social_insurance_fund_is_accounted:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Quỹ bảo hiểm xã hội không được hạch toán và kế toán theo quy định.
+    template_pos: Quỹ bảo hiểm xã hội được hạch toán và kế toán theo quy định.
+  social_insurance_fund_is_independent:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Quỹ bảo hiểm xã hội không phải là quỹ tài chính độc lập với ngân
+      sách nhà nước.
+    template_pos: Quỹ bảo hiểm xã hội là quỹ tài chính độc lập với ngân sách nhà nước.
+  social_insurance_funds_includes:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Quỹ bảo hiểm xã hội không bao gồm các quỹ thành phần.
+    template_pos: Quỹ bảo hiểm xã hội bao gồm các quỹ thành phần.
+  social_insurance_investment_includes_government_debt:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Quỹ bảo hiểm xã hội không bao gồm đầu tư vào công cụ nợ của Chính
+      phủ.
+    template_pos: Quỹ bảo hiểm xã hội bao gồm đầu tư vào công cụ nợ của Chính phủ.
+  social_insurance_investment_includes_international_government_bonds:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Quỹ bảo hiểm xã hội không bao gồm đầu tư vào trái phiếu Chính phủ
+      quốc tế.
+    template_pos: Quỹ bảo hiểm xã hội bao gồm đầu tư vào trái phiếu Chính phủ quốc
+      tế.
+  social_insurance_investment_includes_local_government_bonds:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Quỹ bảo hiểm xã hội không bao gồm đầu tư vào trái phiếu chính quyền
+      địa phương.
+    template_pos: Quỹ bảo hiểm xã hội bao gồm đầu tư vào trái phiếu chính quyền địa
+      phương.
+  social_insurance_investment_includes_state_bank_bonds:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Quỹ bảo hiểm xã hội không bao gồm đầu tư vào trái phiếu ngân hàng
+      thương mại nhà nước.
+    template_pos: Quỹ bảo hiểm xã hội bao gồm đầu tư vào trái phiếu ngân hàng thương
+      mại nhà nước.
+  social_insurance_investment_includes_state_banks:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Quỹ bảo hiểm xã hội không bao gồm đầu tư vào ngân hàng thương mại
+      nhà nước.
+    template_pos: Quỹ bảo hiểm xã hội bao gồm đầu tư vào ngân hàng thương mại nhà
+      nước.
+  social_insurance_investment_methods_includes_self_and_trust_investment:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Quỹ bảo hiểm xã hội không có phương thức đầu tư tự đầu tư và ủy
+      thác đầu tư.
+    template_pos: Quỹ bảo hiểm xã hội có phương thức đầu tư tự đầu tư và ủy thác đầu
+      tư.
+  social_insurance_management:
+    ask: Có cơ quan quản lý bảo hiểm xã hội không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Không có cơ quan quản lý bảo hiểm xã hội.
+    template_pos: Có cơ quan quản lý bảo hiểm xã hội.
+  special_job_15_years:
+    ask: Người lao động có từ đủ 15 năm trở lên làm nghề, công việc đặc biệt nặng
+      nhọc, độc hại, nguy hiểm không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không có từ đủ 15 năm trở lên làm nghề, công việc
+      đặc biệt nặng nhọc, độc hại, nguy hiểm.
+    template_pos: Người lao động có từ đủ 15 năm trở lên làm nghề, công việc đặc biệt
+      nặng nhọc, độc hại, nguy hiểm.
+  spouse_has_child_birth:
+    ask: Vợ của người lao động đã sinh con chưa?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Vợ của người lao động chưa sinh con.
+    template_pos: Vợ của người lao động đã sinh con.
+  spouse_has_triplets_or_more:
+    ask: Vợ của người lao động có sinh ba trở lên không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Vợ của người lao động không sinh ba trở lên.
+    template_pos: Vợ của người lao động sinh ba trở lên.
+  spouse_has_twins:
+    ask: Vợ của người lao động có sinh đôi không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Vợ của người lao động không sinh đôi.
+    template_pos: Vợ của người lao động sinh đôi.
+  spouse_undergoes_surgery:
+    ask: Vợ của người lao động có phải phẫu thuật không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Vợ của người lao động không phải phẫu thuật.
+    template_pos: Vợ của người lao động phải phẫu thuật.
+  started_si_after_2014:
+    ask: Người lao động có tham gia bảo hiểm xã hội từ năm 2014 trở đi không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động chưa tham gia bảo hiểm xã hội từ năm 2014 trở đi.
+    template_pos: Người lao động đã tham gia bảo hiểm xã hội từ năm 2014 trở đi.
+  started_si_after_2025:
+    ask: Người lao động có bắt đầu tham gia bảo hiểm xã hội từ ngày 01 tháng 01 năm
+      2025 trở đi không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không bắt đầu tham gia bảo hiểm xã hội từ ngày 01
+      tháng 01 năm 2025 trở đi.
+    template_pos: Người lao động bắt đầu tham gia bảo hiểm xã hội từ ngày 01 tháng
+      01 năm 2025 trở đi.
+  started_si_before_1995:
+    ask: Người lao động có bắt đầu tham gia bảo hiểm xã hội trước ngày 01 tháng 01
+      năm 1995 không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không bắt đầu tham gia bảo hiểm xã hội trước ngày
+      01 tháng 01 năm 1995.
+    template_pos: Người lao động bắt đầu tham gia bảo hiểm xã hội trước ngày 01 tháng
+      01 năm 1995.
+  started_si_before_2014:
+    ask: Người lao động có tham gia bảo hiểm xã hội trước năm 2014 không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động chưa tham gia bảo hiểm xã hội trước năm 2014.
+    template_pos: Người lao động đã tham gia bảo hiểm xã hội trước năm 2014.
+  started_si_between_1995_and_2000:
+    ask: Người lao động có bắt đầu tham gia bảo hiểm xã hội trong khoảng thời gian
+      từ ngày 01 tháng 01 năm 1995 đến ngày 31 tháng 12 năm 2000 không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không bắt đầu tham gia bảo hiểm xã hội trong khoảng
+      thời gian từ ngày 01 tháng 01 năm 1995 đến ngày 31 tháng 12 năm 2000.
+    template_pos: Người lao động bắt đầu tham gia bảo hiểm xã hội trong khoảng thời
+      gian từ ngày 01 tháng 01 năm 1995 đến ngày 31 tháng 12 năm 2000.
+  started_si_between_2001_and_2006:
+    ask: Người lao động có bắt đầu tham gia bảo hiểm xã hội trong khoảng thời gian
+      từ ngày 01 tháng 01 năm 2001 đến ngày 31 tháng 12 năm 2006 không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không bắt đầu tham gia bảo hiểm xã hội trong khoảng
+      thời gian từ ngày 01 tháng 01 năm 2001 đến ngày 31 tháng 12 năm 2006.
+    template_pos: Người lao động bắt đầu tham gia bảo hiểm xã hội trong khoảng thời
+      gian từ ngày 01 tháng 01 năm 2001 đến ngày 31 tháng 12 năm 2006.
+  started_si_between_2007_and_2015:
+    ask: Người lao động có bắt đầu tham gia bảo hiểm xã hội trong khoảng thời gian
+      từ ngày 01 tháng 01 năm 2007 đến ngày 31 tháng 12 năm 2015 không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không bắt đầu tham gia bảo hiểm xã hội trong khoảng
+      thời gian từ ngày 01 tháng 01 năm 2007 đến ngày 31 tháng 12 năm 2015.
+    template_pos: Người lao động bắt đầu tham gia bảo hiểm xã hội trong khoảng thời
+      gian từ ngày 01 tháng 01 năm 2007 đến ngày 31 tháng 12 năm 2015.
+  started_si_between_2016_and_2019:
+    ask: Người lao động có bắt đầu tham gia bảo hiểm xã hội từ ngày 01 tháng 01 năm
+      2016 đến ngày 31 tháng 12 năm 2019 không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không bắt đầu tham gia bảo hiểm xã hội từ ngày 01
+      tháng 01 năm 2016 đến ngày 31 tháng 12 năm 2019.
+    template_pos: Người lao động bắt đầu tham gia bảo hiểm xã hội từ ngày 01 tháng
+      01 năm 2016 đến ngày 31 tháng 12 năm 2019.
+  started_si_between_2020_and_2024:
+    ask: Người lao động có bắt đầu tham gia bảo hiểm xã hội từ ngày 01 tháng 01 năm
+      2020 đến ngày 31 tháng 12 năm 2024 không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không bắt đầu tham gia bảo hiểm xã hội từ ngày 01
+      tháng 01 năm 2020 đến ngày 31 tháng 12 năm 2024.
+    template_pos: Người lao động bắt đầu tham gia bảo hiểm xã hội từ ngày 01 tháng
+      01 năm 2020 đến ngày 31 tháng 12 năm 2024.
+  state_audit_social_insurance_fund_every_3_years:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Kiểm toán nhà nước không thực hiện kiểm toán quỹ bảo hiểm xã hội
+      định kỳ 03 năm.
+    template_pos: Kiểm toán nhà nước thực hiện kiểm toán quỹ bảo hiểm xã hội định
+      kỳ 03 năm.
+  stopped_working:
+    ask: Bạn đã nghỉ việc chưa?
+    domains:
+    - labor
+    kind: input
+    origin: curated
+    template_neg: Người lao động vẫn đang làm việc.
+    template_pos: Người lao động đã nghỉ việc.
+  su_dung_quy_bhxh_trai_phap_luat:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Không có hành vi sử dụng quỹ bảo hiểm xã hội trái pháp luật.
+    template_pos: Hành vi sử dụng quỹ bảo hiểm xã hội trái pháp luật xảy ra.
+  submitted_adjustment_form:
+    ask: Tờ khai điều chỉnh đã được nộp chưa?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Tờ khai điều chỉnh chưa được nộp.
+    template_pos: Tờ khai điều chỉnh đã được nộp.
+  submitted_application:
+    ask: Người lao động đã gửi hồ sơ chưa?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động chưa gửi hồ sơ.
+    template_pos: Người lao động đã gửi hồ sơ.
+  submitted_document_copy:
+    ask: Bản sao giấy tờ đã được nộp chưa?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Bản sao giấy tờ chưa được nộp.
+    template_pos: Bản sao giấy tờ đã được nộp.
+  submitted_request_for_monthly_allowance:
+    ask: Người lao động đã gửi văn bản đề nghị hưởng trợ cấp hằng tháng chưa?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động chưa gửi văn bản đề nghị hưởng trợ cấp hằng tháng.
+    template_pos: Người lao động đã gửi văn bản đề nghị hưởng trợ cấp hằng tháng.
+  supplementary_pension_insurance:
+    ask: Người lao động có được hưởng bảo hiểm hưu trí bổ sung không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người lao động không được hưởng bảo hiểm hưu trí bổ sung.
+    template_pos: Người lao động được hưởng bảo hiểm hưu trí bổ sung.
+  survivor_benefit:
+    ask: Người lao động có được hưởng trợ cấp tử tuất không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người lao động không được hưởng trợ cấp tử tuất.
+    template_pos: Người lao động được hưởng trợ cấp tử tuất.
+  survivor_benefit_regulated_by_si_law:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Hồ sơ hưởng chế độ tử tuất trong trường hợp người lao động bị chết
+      do tai nạn lao động, bệnh nghề nghiệp không thực hiện theo quy định tại khoản
+      1 Điều 90 của Luật Bảo hiểm xã hội.
+    template_pos: Hồ sơ hưởng chế độ tử tuất trong trường hợp người lao động bị chết
+      do tai nạn lao động, bệnh nghề nghiệp thực hiện theo quy định tại khoản 1 Điều
+      90 của Luật Bảo hiểm xã hội.
+  survivors_receive_benefits:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Thân nhân không được hưởng chế độ tử tuất.
+    template_pos: Thân nhân được hưởng chế độ tử tuất.
+  survivors_receive_unpaid_benefits:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Thân nhân người lao động không được nhận lương hưu chưa nhận.
+    template_pos: Thân nhân người lao động được nhận lương hưu chưa nhận.
+  suspend_benefits_regulated_by_si_law:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Việc tạm dừng, hưởng tiếp trợ cấp tai nạn lao động, bệnh nghề nghiệp
+      hằng tháng không thực hiện theo quy định tại Điều 75 của Luật Bảo hiểm xã hội.
+    template_pos: Việc tạm dừng, hưởng tiếp trợ cấp tai nạn lao động, bệnh nghề nghiệp
+      hằng tháng thực hiện theo quy định tại Điều 75 của Luật Bảo hiểm xã hội.
+  suspend_pension_benefits:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người lao động không bị tạm dừng hưởng lương hưu.
+    template_pos: Người lao động bị tạm dừng hưởng lương hưu.
+  term_at_least_12_months:
+    ask: Hợp đồng lao động của bạn có thời hạn từ đủ 12 tháng trở lên không?
+    domains:
+    - labor
+    kind: input
+    origin: curated
+    template_neg: Hợp đồng có thời hạn dưới 12 tháng.
+    template_pos: Hợp đồng có thời hạn từ đủ 12 tháng trở lên.
+  term_at_least_1_month:
+    ask: Hợp đồng của bạn có thời hạn bao lâu (từ đủ 01 tháng trở lên hay không)?
+    domains:
+    - labor
+    kind: input
+    origin: curated
+    template_neg: Hợp đồng có thời hạn dưới 01 tháng.
+    template_pos: Hợp đồng có thời hạn từ đủ 01 tháng trở lên.
+  term_at_least_6_months:
+    ask: Người lao động có thời gian đóng bảo hiểm xã hội từ đủ 6 tháng trở lên không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không có thời gian đóng bảo hiểm xã hội từ đủ 6 tháng
+      trở lên
+    template_pos: Người lao động có thời gian đóng bảo hiểm xã hội từ đủ 6 tháng trở
+      lên
+  term_at_most_12_months:
+    ask: Người lao động có thời gian đóng bảo hiểm xã hội trong vòng 12 tháng trước
+      khi sinh con không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Người lao động không có thời gian đóng bảo hiểm xã hội trong vòng
+      12 tháng trước khi sinh con
+    template_pos: Người lao động có thời gian đóng bảo hiểm xã hội trong vòng 12 tháng
+      trước khi sinh con
+  terminate_pension_benefits:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người lao động không bị chấm dứt hưởng lương hưu.
+    template_pos: Người lao động bị chấm dứt hưởng lương hưu.
+  terminated_participation:
+    ask: Bạn đã chấm dứt tham gia BHXH (nghỉ việc, chốt sổ) chưa?
+    domains:
+    - labor
+    kind: input
+    origin: curated
+    template_neg: Người lao động vẫn đang tham gia bảo hiểm xã hội.
+    template_pos: Người lao động đã chấm dứt tham gia bảo hiểm xã hội.
+  thong_dong_moc_noi:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Không có hành vi thông đồng móc nối.
+    template_pos: Hành vi thông đồng móc nối xảy ra.
+  time_of_contribution:
+    ask: Thời gian đóng bảo hiểm xã hội là bao lâu?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Thời gian đóng bảo hiểm xã hội không được xác định.
+    template_pos: Thời gian đóng bảo hiểm xã hội được xác định.
+  train_social_insurance_personnel:
+    ask: Cơ quan bảo hiểm xã hội có đào tạo, bồi dưỡng và phát triển nguồn nhân lực
+      về bảo hiểm xã hội không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Cơ quan bảo hiểm xã hội không đào tạo, bồi dưỡng và phát triển nguồn
+      nhân lực về bảo hiểm xã hội.
+    template_pos: Cơ quan bảo hiểm xã hội đào tạo, bồi dưỡng và phát triển nguồn nhân
+      lực về bảo hiểm xã hội.
+  truy_cap_co_so_du_lieu_trai_phap_luat:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Không có hành vi truy cập cơ sở dữ liệu trái pháp luật.
+    template_pos: Hành vi truy cập cơ sở dữ liệu trái pháp luật xảy ra.
+  under_management:
+    ask: Bạn có chịu sự quản lý, điều hành, giám sát của công ty (chấm công, giao
+      việc, kỷ luật) không?
+    domains:
+    - labor
+    kind: input
+    origin: curated
+    template_neg: Người lao động không chịu sự quản lý, điều hành của bên sử dụng
+      lao động.
+    template_pos: Người lao động chịu sự quản lý, điều hành, giám sát của bên sử dụng
+      lao động.
+  unemployment_insurance:
+    ask: Người lao động có được hưởng bảo hiểm thất nghiệp không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người lao động không được hưởng bảo hiểm thất nghiệp.
+    template_pos: Người lao động được hưởng bảo hiểm thất nghiệp.
+  unemployment_insurance_fund_defined_by_law:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Quỹ bảo hiểm thất nghiệp không được quy định bởi Luật Việc làm.
+    template_pos: Quỹ bảo hiểm thất nghiệp được quy định bởi Luật Việc làm.
+  unemployment_insurance_regulated_by_si_law:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Chi tổ chức và hoạt động bảo hiểm thất nghiệp không thực hiện theo
+      quy định của Luật Bảo hiểm xã hội.
+    template_pos: Chi tổ chức và hoạt động bảo hiểm thất nghiệp thực hiện theo quy
+      định của Luật Bảo hiểm xã hội.
+  unpaid_14_days:
+    ask: Trong tháng đó bạn có nghỉ không hưởng lương từ 14 ngày làm việc trở lên
+      không?
+    default: false
+    domains:
+    - labor
+    kind: input
+    origin: curated
+    template_neg: Trong tháng, người lao động có hưởng lương phần lớn số ngày làm
+      việc.
+    template_pos: Trong tháng, người lao động không hưởng tiền lương từ 14 ngày làm
+      việc trở lên.
+  verified_beneficiary_info:
+    ask: Thông tin người thụ hưởng có xác minh được không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Thông tin người thụ hưởng chưa xác minh được.
+    template_pos: Thông tin người thụ hưởng đã xác minh được.
+  violation_of_law:
+    ask: Có hành vi vi phạm pháp luật nào không?
+    domains:
+    - labor
+    kind: input
+    origin: llm_draft
+    template_neg: Không có hành vi vi phạm pháp luật.
+    template_pos: Có hành vi vi phạm pháp luật.
+  voluntary_pension:
+    ask: Người lao động có được hưởng hưu trí tự nguyện không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người lao động không được hưởng hưu trí tự nguyện.
+    template_pos: Người lao động được hưởng hưu trí tự nguyện.
+  voluntary_si_eligible:
+    domains:
+    - labor
+    kind: derived
+    origin: curated
+    template_neg: Người lao động không thuộc đối tượng tham gia bảo hiểm xã hội tự
+      nguyện.
+    template_pos: Người lao động thuộc đối tượng tham gia bảo hiểm xã hội tự nguyện.
+  voluntary_survivor_benefit:
+    ask: Người lao động có được hưởng tử tuất tự nguyện không?
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Người lao động không được hưởng tử tuất tự nguyện.
+    template_pos: Người lao động được hưởng tử tuất tự nguyện.
+  wage_at_least_min_base:
+    ask: Tiền lương mỗi tháng của bạn khoảng bao nhiêu?
+    domains:
+    - labor
+    kind: input
+    origin: curated
+    template_neg: Tiền lương trong tháng của người lao động thấp hơn mức lương thấp
+      nhất làm căn cứ đóng bảo hiểm xã hội.
+    template_pos: Tiền lương trong tháng của người lao động bằng hoặc cao hơn mức
+      lương thấp nhất làm căn cứ đóng bảo hiểm xã hội.
+  working_days_counted_for_sick_child_care:
+    ask: ''
+    domains:
+    - labor
+    kind: derived
+    origin: llm_draft
+    template_neg: Thời gian nghỉ việc không được tính theo ngày làm việc.
+    template_pos: Thời gian nghỉ việc được tính theo ngày làm việc.
