@@ -130,6 +130,26 @@ def main() -> None:
                 to_review[(d, a)] = rs
         selected += rs
 
+    # optional alignment (predicate renames, possibly with polarity flip) and patches, both auditable files
+    align_f, patch_f = DIAG / f"{args.name}_alignment.yaml", DIAG / f"{args.name}_patches.yaml"
+    rename = (yaml.safe_load(align_f.read_text(encoding="utf-8")) or {}).get("rename", {}) if align_f.exists() else {}
+    patches = (yaml.safe_load(patch_f.read_text(encoding="utf-8")) or {}) if patch_f.exists() else {}
+
+    def lit(x: str) -> str:
+        neg, p = x.startswith("~"), x.lstrip("~")
+        t = rename.get(p)
+        if not t:
+            return x
+        tneg, tp = t.startswith("~"), t.lstrip("~")
+        return ("~" if neg != tneg else "") + tp
+
+    removed = {r["id"]: r.get("reason", "") for r in patches.get("remove_rules") or []}
+    selected = [dict(r, premises=[lit(p) for p in r["premises"]], conclusion=lit(r["conclusion"]))
+                for r in selected if r["id"] not in removed]
+    for r in patches.get("add_rules") or []:
+        selected.append({"id": r["id"], "premises": r["premises"], "conclusion": r["conclusion"],
+                         "source": r["source"], "review_status": "patch", "reason": r.get("reason", "")})
+
     # vocabulary: curated BHXH < draft vocabulary < dataset declarations (later sources only fill gaps)
     vocab = dict(yaml.safe_load((DIAG / "vocabulary.yaml").read_text(encoding="utf-8"))["predicates"])
     draft_vocab = yaml.safe_load((DRAFT / "vocabulary.yaml").read_text(encoding="utf-8"))["predicates"]
@@ -155,9 +175,23 @@ def main() -> None:
     ids = {r["id"] for r in selected}
     exc = []
     rel = yaml.safe_load((DRAFT / "relations.yaml").read_text(encoding="utf-8")) or {}
-    for a, b in rel.get("exception_of") or []:
-        if a in ids and b in ids:
+    for a, b in (rel.get("exception_of") or []) + (patches.get("add_exception_of") or []):
+        if a in ids and b in ids and [a, b] not in exc:
             exc.append([a, b])
+    if patches.get("remove_all_auto_exception_of"):
+        exc = [x for x in exc if x in (patches.get("add_exception_of") or [])]
+    # "exception E defeats every rule that concludes the opposite of E's conclusion" (expanded here)
+    for spec in patches.get("exception_over_all") or []:
+        e = spec["exception"]
+        concl = next((r["conclusion"] for r in selected if r["id"] == e), None)
+        if concl is None:
+            continue
+        opposite = concl[1:] if concl.startswith("~") else "~" + concl
+        for r in selected:
+            if r["conclusion"] == opposite and r["id"] not in (spec.get("except") or []) and [e, r["id"]] not in exc:
+                exc.append([e, r["id"]])
+    drop_exc = [list(x) for x in patches.get("remove_exception_of") or []]
+    exc = [x for x in exc if x not in drop_exc]
     kb_yaml = {
         "rules": [{"id": r["id"], "premises": r["premises"], "conclusion": r["conclusion"],
                    "source": r["source"], "basis": r.get("review_status", "draft")} for r in selected],

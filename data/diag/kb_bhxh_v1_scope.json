@@ -1,0 +1,21 @@
+{
+ "items": 90,
+ "articles": 5,
+ "articles_by_doc": {
+  "11_nghi_dinh_158_2025_ND-CP": 1,
+  "10_bao_hiem_xa_hoi_41_2024_QH15": 4
+ },
+ "rules_selected": 149,
+ "rules_from_reviewed_kb": 138,
+ "rules_needing_review": 0,
+ "review_batches": 0,
+ "exception_of": 186,
+ "predicates": 126,
+ "undeclared_predicates_placeholder": 66,
+ "unresolved_document_names": {},
+ "outputs": {
+  "kb": "data/diag/kb_bhxh_v1.yaml",
+  "vocabulary": "data/diag/kb_bhxh_v1_vocabulary.yaml",
+  "review_batches": "data\\diag\\kb_full_draft\\review_kb_bhxh_v1\\batches"
+ }
+}

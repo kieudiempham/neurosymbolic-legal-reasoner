@@ -1,0 +1,13 @@
+# Predicate alignment: names produced by the draft extractor / LLM review -> dataset vocabulary.
+# A target starting with "~" flips polarity (p becomes ~target, ~p becomes target).
+# Only renames concepts that are identical in meaning; anything else goes to kb_bhxh_v1_patches.yaml.
+rename:
+  is_enterprise_manager: enterprise_manager
+  registered_household_business: business_registered
+  tax_declaration_method: declaration_tax_method
+  treaty_provides_otherwise: treaty_exception
+  agreement_under_other_name: alternative_work_agreement
+  retired_from_work: stopped_working
+  vietnamese_citizen: ~foreign_citizen
+  date_from_2029_07_01: ~date_before_2029
+  covered_art2_k2: covered_art2_khoan2

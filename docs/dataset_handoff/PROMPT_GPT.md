@@ -32,6 +32,14 @@ Chỉ dùng nội dung trong 18 văn bản này. Không dùng kiến thức ngo�
 - `legal_basis`: danh sách căn cứ, gồm `doc`, `article`, `clause`, `point` và `quote` (trích ngắn nguyên văn, tối đa 40 từ).
 - `answer`: đáp án bằng lời, 2–4 câu, có trích điều khoản.
 
+## Định nghĩa `insufficient` (bắt buộc tuân thủ)
+`insufficient` nghĩa là: **theo các quy định pháp luật áp dụng** (không phải theo một bộ rule cụ thể nào), những dữ kiện người dùng đã nêu **không đủ để kết luận chắc chắn**. Gán nhãn theo đúng 3 quy ước sau:
+1. **Điều kiện của quy định chung không được nêu → `insufficient`.** Ví dụ: không nói thời hạn hợp đồng; không nói có chịu quản lý, điều hành hay không.
+2. **Ngoại lệ hoàn toàn không được nhắc tới → coi như không áp dụng, KHÔNG phải `insufficient`.** Ví dụ: câu hỏi không nói gì về lương hưu, giúp việc gia đình, di chuyển nội bộ… thì kết luận theo quy định chung.
+3. **Ngoại lệ đã được nhắc tới một phần nhưng thiếu điều kiện còn lại → `insufficient`.** Ví dụ: "hợp đồng đầu đang tạm hoãn" nhưng không nói hai bên có thỏa thuận đóng BHXH hay không.
+
+Không viết câu hỏi kiểu "Tôi chưa đề cập tình trạng X". Muốn tạo ca thiếu dữ kiện thì **bỏ hẳn** dữ kiện của quy định chung (quy ước 1) hoặc **nêu dở** một ngoại lệ (quy ước 3). Không cần liệt kê phủ định mọi ngoại lệ ("tôi không phải giúp việc gia đình, không hưởng lương hưu…") trong mọi câu; chỉ nêu khi tình huống thực sự có liên quan.
+
 ## Quy tắc predicate (quan trọng nhất)
 - **Dùng lại predicate trong `predicates.md`** khi nghĩa trùng khớp. Ưu tiên nhóm A (chuẩn).
 - Nếu cần predicate mới: tên tiếng Anh, snake_case, ngắn, không chứa con số của riêng vụ việc. Ngưỡng luật định thì được đưa vào tên, ví dụ `term_at_least_12_months`.

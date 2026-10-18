@@ -1,0 +1,749 @@
+predicates:
+  age_at_least_15:
+    ask: Người lao động có đủ 15 tuổi không?
+    kind: input
+    template_neg: Người lao động chưa đủ 15 tuổi.
+    template_pos: Người lao động đủ 15 tuổi.
+  age_within_10_below_retirement:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không age within 10 below retirement
+    template_pos: age within 10 below retirement
+  age_within_5_below_retirement:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không age within 5 below retirement
+    template_pos: age within 5 below retirement
+  agreed_contribution:
+    ask: Bạn và công ty có thỏa thuận vẫn đóng BHXH trong thời gian này không?
+    default: false
+    kind: input
+    template_neg: Người lao động và công ty không có thỏa thuận về việc đóng bảo hiểm
+      xã hội trong thời gian này.
+    template_pos: Người lao động và công ty thỏa thuận vẫn đóng bảo hiểm xã hội trong
+      thời gian này.
+  alternative_work_agreement:
+    ask: Hai bên có thỏa thuận làm việc dưới tên gọi khác hay không?
+    kind: input
+    template_neg: Hai bên không có thỏa thuận làm việc dưới tên gọi khác.
+    template_pos: Hai bên có thỏa thuận làm việc được đặt tên khác hợp đồng lao động.
+  business_registered:
+    ask: Hộ kinh doanh của bạn đã đăng ký kinh doanh chưa?
+    kind: input
+    template_neg: Hộ kinh doanh chưa đăng ký kinh doanh.
+    template_pos: Hộ kinh doanh đã đăng ký kinh doanh.
+  can_choose_pension_or_lump_sum:
+    ask: ''
+    kind: derived
+    origin: auto_placeholder
+    template_neg: không can choose pension or lump sum
+    template_pos: can choose pension or lump sum
+  can_pay_lump_sum_remaining_months:
+    ask: ''
+    kind: derived
+    origin: auto_placeholder
+    template_neg: không can pay lump sum remaining months
+    template_pos: can pay lump sum remaining months
+  compulsory_si:
+    kind: derived
+    template_neg: Người lao động không thuộc đối tượng tham gia bảo hiểm xã hội bắt
+      buộc.
+    template_pos: Người lao động thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.
+  contract_suspended:
+    ask: Hợp đồng lao động của bạn có đang tạm hoãn không?
+    default: false
+    kind: input
+    template_neg: Hợp đồng lao động không bị tạm hoãn.
+    template_pos: Hợp đồng lao động đang tạm hoãn thực hiện.
+  contribute_at_first_contract:
+    kind: derived
+    template_neg: Người lao động không tham gia theo hợp đồng giao kết đầu tiên.
+    template_pos: Người lao động tham gia bảo hiểm xã hội bắt buộc theo hợp đồng lao
+      động giao kết đầu tiên.
+  contributed_before_law_effective:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không contributed before law effective
+    template_pos: contributed before law effective
+  contribution_15_years:
+    ask: Bạn đã đóng BHXH bắt buộc được bao nhiêu năm?
+    kind: input
+    template_neg: Người lao động đóng bảo hiểm xã hội chưa đủ 15 năm.
+    template_pos: Người lao động đã đóng bảo hiểm xã hội bắt buộc từ đủ 15 năm trở
+      lên.
+  contribution_20_years:
+    ask: Người lao động đã đóng bảo hiểm xã hội bắt buộc từ đủ 20 năm trở lên chưa?
+    kind: input
+    template_neg: Người lao động chưa đóng bảo hiểm xã hội bắt buộc đủ 20 năm.
+    template_pos: Người lao động đã đóng bảo hiểm xã hội bắt buộc từ đủ 20 năm trở
+      lên.
+  contribution_method_direct_or_via_business:
+    ask: ''
+    kind: derived
+    origin: auto_placeholder
+    template_neg: không contribution method direct or via business
+    template_pos: contribution method direct or via business
+  contribution_method_monthly:
+    ask: ''
+    kind: derived
+    origin: auto_placeholder
+    template_neg: không contribution method monthly
+    template_pos: contribution method monthly
+  contribution_method_periodic_or_contract_lump_sum:
+    ask: ''
+    kind: derived
+    origin: auto_placeholder
+    template_neg: không contribution method periodic or contract lump sum
+    template_pos: contribution method periodic or contract lump sum
+  contribution_via_managing_agency:
+    ask: ''
+    kind: derived
+    origin: auto_placeholder
+    template_neg: không contribution via managing agency
+    template_pos: contribution via managing agency
+  covered_art2_k1_points_d_dd_e:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không covered art2 k1 points d dd e
+    template_pos: covered art2 k1 points d dd e
+  covered_art2_khoan1:
+    ask: ''
+    kind: derived
+    origin: auto_placeholder
+    template_neg: không covered art2 khoan1
+    template_pos: covered art2 khoan1
+  covered_art2_khoan2:
+    ask: ''
+    kind: derived
+    origin: auto_placeholder
+    template_neg: không covered art2 khoan2
+    template_pos: covered art2 khoan2
+  covered_point_a:
+    kind: derived
+    template_neg: Người lao động không thuộc diện quy định tại điểm a khoản 1 Điều
+      2 Luật BHXH.
+    template_pos: Người lao động thuộc diện quy định tại điểm a khoản 1 Điều 2 Luật
+      BHXH.
+  covered_point_b:
+    ask: Người lao động có thuộc diện quy định tại điểm b khoản 1 Điều 2 Luật BHXH
+      không?
+    kind: derived
+    template_neg: Người lao động không thuộc diện quy định tại điểm b khoản 1 Điều
+      2 Luật BHXH.
+    template_pos: Người lao động thuộc diện quy định tại điểm b khoản 1 Điều 2 Luật
+      BHXH.
+  covered_point_c:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không covered point c
+    template_pos: covered point c
+  covered_point_d:
+    ask: Người lao động có thuộc diện quy định tại điểm d khoản 1 Điều 2 Luật BHXH
+      không?
+    kind: derived
+    template_neg: Người lao động không thuộc diện quy định tại điểm d khoản 1 Điều
+      2 Luật BHXH.
+    template_pos: Người lao động thuộc diện quy định tại điểm d khoản 1 Điều 2 Luật
+      BHXH.
+  covered_point_dd:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không covered point dd
+    template_pos: covered point dd
+  covered_point_e:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không covered point e
+    template_pos: covered point e
+  covered_point_g:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không covered point g
+    template_pos: covered point g
+  covered_point_h:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không covered point h
+    template_pos: covered point h
+  covered_point_i:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không covered point i
+    template_pos: covered point i
+  covered_point_k:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không covered point k
+    template_pos: covered point k
+  covered_point_l:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không covered point l
+    template_pos: covered point l
+  covered_point_m:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không covered point m
+    template_pos: covered point m
+  covered_point_n:
+    ask: ''
+    kind: derived
+    origin: auto_placeholder
+    template_neg: không covered point n
+    template_pos: covered point n
+  date_before_2029:
+    ask: Bạn hỏi cho thời điểm trước hay sau ngày 01/07/2029?
+    kind: input
+    template_neg: Thời điểm áp dụng từ ngày 01/07/2029 trở đi.
+    template_pos: Thời điểm áp dụng trước ngày 01/07/2029.
+  declaration_tax_method:
+    ask: Hộ kinh doanh của bạn nộp thuế theo phương pháp kê khai hay khoán?
+    kind: input
+    template_neg: Hộ kinh doanh không nộp thuế theo phương pháp kê khai.
+    template_pos: Hộ kinh doanh nộp thuế theo phương pháp kê khai.
+  demobilized_or_resigned:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không demobilized or resigned
+    template_pos: demobilized or resigned
+  domestic_worker:
+    ask: Bạn có làm giúp việc gia đình không?
+    default: false
+    kind: input
+    template_neg: Người lao động không phải là người giúp việc gia đình.
+    template_pos: Người lao động là người giúp việc gia đình.
+  eligible_pension:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không eligible pension
+    template_pos: eligible pension
+  eligible_request:
+    ask: ''
+    kind: derived
+    template_neg: Người này chưa thỏa các tiền đề thủ tục đang xét.
+    template_pos: Người này đã chấm dứt tham gia BHXH và đã đề nghị giải quyết BHXH
+      một lần.
+  emigrating:
+    ask: Bạn có ra nước ngoài để định cư không?
+    default: false
+    kind: input
+    template_neg: Người lao động không ra nước ngoài định cư.
+    template_pos: Người lao động ra nước ngoài để định cư.
+  employee_rate_3pct_sickness_22pct_pension:
+    ask: ''
+    kind: derived
+    origin: auto_placeholder
+    template_neg: không employee rate 3pct sickness 22pct pension
+    template_pos: employee rate 3pct sickness 22pct pension
+  employee_rate_pension_fund_22pct:
+    ask: ''
+    kind: derived
+    origin: auto_placeholder
+    template_neg: không employee rate pension fund 22pct
+    template_pos: employee rate pension fund 22pct
+  employee_rate_pension_fund_8pct:
+    ask: ''
+    kind: derived
+    origin: auto_placeholder
+    template_neg: không employee rate pension fund 8pct
+    template_pos: employee rate pension fund 8pct
+  employer_in_vietnam:
+    ask: Đơn vị ký hợp đồng có phải người sử dụng lao động tại Việt Nam không?
+    kind: input
+    template_neg: Người sử dụng lao động không ở Việt Nam.
+    template_pos: Người sử dụng lao động ở Việt Nam.
+  enterprise_manager:
+    ask: Bạn có giữ chức danh quản lý doanh nghiệp (giám đốc, thành viên HĐQT...)
+      không?
+    default: false
+    kind: input
+    template_neg: Người này không phải là người quản lý doanh nghiệp.
+    template_pos: Người này là người quản lý doanh nghiệp.
+  entitled_lump_sum:
+    kind: derived
+    template_neg: Người lao động không được hưởng bảo hiểm xã hội một lần.
+    template_pos: Người lao động được hưởng bảo hiểm xã hội một lần.
+  entitled_pension:
+    kind: derived
+    template_neg: Người lao động không đủ điều kiện hưởng lương hưu.
+    template_pos: Người lao động đủ điều kiện hưởng lương hưu.
+  first_contract_suspended:
+    ask: Hợp đồng lao động ký đầu tiên của bạn có đang tạm hoãn không?
+    default: false
+    kind: input
+    template_neg: Hợp đồng lao động đầu tiên không bị tạm hoãn.
+    template_pos: Hợp đồng lao động đầu tiên đang tạm hoãn thực hiện.
+  first_month_of_work:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không first month of work
+    template_pos: first month of work
+  first_month_returning_to_work:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không first month returning to work
+    template_pos: first month returning to work
+  foreign_citizen:
+    ask: Bạn là công dân Việt Nam hay công dân nước ngoài?
+    default: false
+    kind: input
+    template_neg: Người lao động là công dân Việt Nam.
+    template_pos: Người lao động là công dân nước ngoài.
+  foreign_covered:
+    ask: ''
+    kind: derived
+    template_neg: Lao động nước ngoài không thuộc diện này.
+    template_pos: Lao động nước ngoài thuộc diện tham gia BHXH bắt buộc theo khoản
+      2 Điều 2.
+  heavy_hazardous_or_hardship_15_years:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không heavy hazardous or hardship 15 years
+    template_pos: heavy hazardous or hardship 15 years
+  hiv_from_occupational_accident:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không hiv from occupational accident
+    template_pos: hiv from occupational accident
+  household_covered:
+    ask: ''
+    kind: derived
+    template_neg: Chủ hộ kinh doanh không thuộc diện này.
+    template_pos: Chủ hộ kinh doanh thuộc diện BHXH bắt buộc theo quy định hiện hành.
+  indefinite_term_contract:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không indefinite term contract
+    template_pos: indefinite term contract
+  intra_company_transfer:
+    ask: Bạn sang Việt Nam làm việc theo diện di chuyển nội bộ doanh nghiệp phải không?
+    default: false
+    kind: input
+    template_neg: Người lao động nước ngoài không di chuyển trong nội bộ doanh nghiệp.
+    template_pos: Người lao động nước ngoài di chuyển trong nội bộ doanh nghiệp.
+  is_business_owner:
+    ask: Bạn có phải là chủ hộ kinh doanh không?
+    default: false
+    kind: input
+    template_neg: Người này không phải là chủ hộ kinh doanh.
+    template_pos: Người này là chủ hộ kinh doanh.
+  is_cipher_worker_paid_as_soldier:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không is cipher worker paid as soldier
+    template_pos: is cipher worker paid as soldier
+  is_civil_servant:
+    ask: Người lao động có phải là cán bộ, công chức, viên chức không?
+    kind: input
+    template_neg: Người lao động không phải là cán bộ, công chức, viên chức.
+    template_pos: Người lao động là cán bộ, công chức, viên chức.
+  is_defense_worker:
+    ask: Người lao động có phải là công nhân và viên chức quốc phòng, công nhân công
+      an, người làm công tác khác trong tổ chức cơ yếu không?
+    kind: input
+    template_neg: Người lao động không phải là công nhân và viên chức quốc phòng,
+      công nhân công an, người làm công tác khác trong tổ chức cơ yếu.
+    template_pos: Người lao động là công nhân và viên chức quốc phòng, công nhân công
+      an, người làm công tác khác trong tổ chức cơ yếu.
+  is_military_officer:
+    ask: Người lao động có phải là sĩ quan, quân nhân chuyên nghiệp quân đội nhân
+      dân không?
+    kind: input
+    template_neg: Người lao động không phải là sĩ quan, quân nhân chuyên nghiệp quân
+      đội nhân dân.
+    template_pos: Người lao động là sĩ quan, quân nhân chuyên nghiệp quân đội nhân
+      dân.
+  is_non_professional_worker:
+    ask: Người lao động có phải là người hoạt động không chuyên trách ở cấp xã, ở
+      thôn, tổ dân phố không?
+    kind: input
+    template_neg: Người lao động không phải là người hoạt động không chuyên trách
+      ở cấp xã, ở thôn, tổ dân phố.
+    template_pos: Người lao động là người hoạt động không chuyên trách ở cấp xã, ở
+      thôn, tổ dân phố.
+  is_police_professional_nco:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không is police professional nco
+    template_pos: is police professional nco
+  is_police_professional_officer:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không is police professional officer
+    template_pos: is police professional officer
+  is_police_technical_nco:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không is police technical nco
+    template_pos: is police technical nco
+  is_police_technical_officer:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không is police technical officer
+    template_pos: is police technical officer
+  is_professional_soldier:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không is professional soldier
+    template_pos: is professional soldier
+  is_regular_militia:
+    ask: Người lao động có phải là dân quân thường trực không?
+    kind: input
+    template_neg: Người lao động không phải là dân quân thường trực.
+    template_pos: Người lao động là dân quân thường trực.
+  is_spouse_on_mission:
+    ask: Người lao động có phải là vợ hoặc chồng không hưởng lương từ ngân sách nhà
+      nước được cử đi công tác nhiệm kỳ không?
+    kind: input
+    template_neg: Người lao động không phải là vợ hoặc chồng không hưởng lương từ
+      ngân sách nhà nước được cử đi công tác nhiệm kỳ.
+    template_pos: Người lao động là vợ hoặc chồng không hưởng lương từ ngân sách nhà
+      nước được cử đi công tác nhiệm kỳ.
+  labor_contract_terminated:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không labor contract terminated
+    template_pos: labor contract terminated
+  labor_relation:
+    kind: derived
+    template_neg: Giữa hai bên không tồn tại quan hệ lao động.
+    template_pos: Giữa hai bên tồn tại quan hệ lao động.
+  lump_sum_by_years_excluding_state_voluntary_support:
+    ask: ''
+    kind: derived
+    origin: auto_placeholder
+    template_neg: không lump sum by years excluding state voluntary support
+    template_pos: lump sum by years excluding state voluntary support
+  lump_sum_by_years_including_state_voluntary_support:
+    ask: ''
+    kind: derived
+    origin: auto_placeholder
+    template_neg: không lump sum by years including state voluntary support
+    template_pos: lump sum by years including state voluntary support
+  manager_covered:
+    ask: ''
+    kind: derived
+    template_neg: Người quản lý doanh nghiệp không thuộc đối tượng này.
+    template_pos: Người quản lý doanh nghiệp thuộc đối tượng tham gia BHXH bắt buộc.
+  mandatory_si_history:
+    ask: Anh/chị từng tham gia BHXH bắt buộc chưa?
+    kind: input
+    template_neg: Người này không từng tham gia BHXH bắt buộc theo nhóm này.
+    template_pos: Người này từng tham gia BHXH bắt buộc theo đối tượng được quy định.
+  missing_contribution_max_6_months:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không missing contribution max 6 months
+    template_pos: missing contribution max 6 months
+  monthly_benefit:
+    ask: Bạn có đang hưởng trợ cấp BHXH hoặc trợ cấp hằng tháng không?
+    default: false
+    kind: input
+    template_neg: Người này không hưởng trợ cấp BHXH hoặc trợ cấp hằng tháng.
+    template_pos: Người này đang hưởng trợ cấp BHXH hoặc trợ cấp hằng tháng.
+  multiple_contracts:
+    ask: Bạn có đang ký hợp đồng lao động với nhiều công ty cùng lúc không?
+    default: false
+    kind: input
+    template_neg: Người lao động chỉ làm việc cho một người sử dụng lao động.
+    template_pos: Người lao động giao kết hợp đồng lao động với nhiều người sử dụng
+      lao động.
+  must_contribute_month:
+    kind: derived
+    template_neg: Người lao động không phải đóng bảo hiểm xã hội bắt buộc trong tháng
+      đó.
+    template_pos: Người lao động phải đóng bảo hiểm xã hội bắt buộc trong tháng đó.
+  not_in_si_12_months:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không not in si 12 months
+    template_pos: not in si 12 months
+  paid_wage:
+    ask: Bạn có được trả lương hoặc tiền công cho công việc này không?
+    kind: input
+    template_neg: Người lao động không được trả lương cho công việc.
+    template_pos: Người lao động được trả lương hoặc tiền công cho công việc.
+  part_time:
+    ask: Bạn làm việc toàn thời gian hay bán thời gian?
+    default: false
+    kind: input
+    template_neg: Người lao động làm việc trọn thời gian.
+    template_pos: Người lao động làm việc không trọn thời gian.
+  pension_contribution_condition:
+    ask: ''
+    kind: derived
+    template_neg: Người này chưa đủ ngưỡng thời gian đóng BHXH bắt buộc.
+    template_pos: Người này đủ ngưỡng thời gian đóng BHXH bắt buộc cho mục đích xét
+      lương hưu.
+  piece_rate_agri_wage:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không piece rate agri wage
+    template_pos: piece rate agri wage
+  practice_certificate_expired_not_renewed:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không practice certificate expired not renewed
+    template_pos: practice certificate expired not renewed
+  practice_license_expired_not_renewed:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không practice license expired not renewed
+    template_pos: practice license expired not renewed
+  probation_only:
+    ask: Bạn chỉ đang ký hợp đồng thử việc phải không?
+    default: false
+    kind: input
+    template_neg: Người lao động không chỉ ký hợp đồng thử việc.
+    template_pos: Người lao động chỉ ký hợp đồng thử việc, chưa ký hợp đồng lao động.
+  reached_reduced_retirement_age:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không reached reduced retirement age
+    template_pos: reached reduced retirement age
+  reached_retirement_age:
+    ask: Bạn đã đủ tuổi nghỉ hưu chưa?
+    kind: input
+    template_neg: Người lao động chưa đủ tuổi nghỉ hưu.
+    template_pos: Người lao động đã đủ tuổi nghỉ hưu.
+  receive_work_capacity_loss_allowance:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không receive work capacity loss allowance
+    template_pos: receive work capacity loss allowance
+  receives_salary:
+    ask: Bạn có nhận tiền lương hằng tháng từ doanh nghiệp không?
+    kind: input
+    template_neg: Người này không nhận tiền lương từ doanh nghiệp.
+    template_pos: Người này nhận tiền lương từ doanh nghiệp.
+  receiving_monthly_allowance_art23:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không receiving monthly allowance art23
+    template_pos: receiving monthly allowance art23
+  receiving_monthly_allowance_nd09_1998:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không receiving monthly allowance nd09 1998
+    template_pos: receiving monthly allowance nd09 1998
+  receiving_monthly_allowance_qd142_2008:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không receiving monthly allowance qd142 2008
+    template_pos: receiving monthly allowance qd142 2008
+  receiving_monthly_allowance_qd53_2010:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không receiving monthly allowance qd53 2010
+    template_pos: receiving monthly allowance qd53 2010
+  receiving_monthly_allowance_qd613_2010:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không receiving monthly allowance qd613 2010
+    template_pos: receiving monthly allowance qd613 2010
+  receiving_monthly_allowance_qd62_2011:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không receiving monthly allowance qd62 2011
+    template_pos: receiving monthly allowance qd62 2011
+  receiving_monthly_allowance_qd91_2000:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không receiving monthly allowance qd91 2000
+    template_pos: receiving monthly allowance qd91 2000
+  receiving_pension:
+    ask: Bạn có đang hưởng lương hưu hoặc trợ cấp BHXH hằng tháng không?
+    default: false
+    kind: input
+    template_neg: Người lao động không hưởng lương hưu.
+    template_pos: Người lao động đang hưởng lương hưu.
+  requested_lump_sum:
+    ask: Bạn có muốn đề nghị hưởng BHXH một lần không?
+    kind: input
+    template_neg: Người lao động không muốn hưởng bảo hiểm xã hội một lần.
+    template_pos: Người lao động đề nghị hưởng bảo hiểm xã hội một lần.
+  residing_in_vietnam:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không residing in vietnam
+    template_pos: residing in vietnam
+  retirement_age_at_signing:
+    ask: Khi ký hợp đồng, bạn đã đủ tuổi nghỉ hưu chưa?
+    default: false
+    kind: input
+    template_neg: Tại thời điểm ký hợp đồng, người lao động chưa đủ tuổi nghỉ hưu.
+    template_pos: Tại thời điểm ký hợp đồng, người lao động đã đủ tuổi nghỉ hưu.
+  second_contract_active:
+    ask: Hợp đồng lao động thứ hai của bạn có đang có hiệu lực không?
+    kind: input
+    template_neg: Không có hợp đồng lao động thứ hai đang có hiệu lực.
+    template_pos: Có hợp đồng lao động thứ hai đang có hiệu lực.
+  sent_for_study_or_work:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không sent for study or work
+    template_pos: sent for study or work
+  serious_illness:
+    ask: Bạn có đang mắc bệnh hiểm nghèo (ung thư, bại liệt, xơ gan mất bù, lao nặng,
+      AIDS) không?
+    default: false
+    kind: input
+    template_neg: Người lao động không mắc bệnh hiểm nghèo.
+    template_pos: Người lao động đang mắc bệnh ung thư, bại liệt, xơ gan mất bù, lao
+      nặng hoặc AIDS.
+  severely_disabled:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không severely disabled
+    template_pos: severely disabled
+  si_shortfall_max_6_months_for_monthly_survivor_allowance:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không si shortfall max 6 months for monthly survivor allowance
+    template_pos: si shortfall max 6 months for monthly survivor allowance
+  si_shortfall_max_6_months_for_pension:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không si shortfall max 6 months for pension
+    template_pos: si shortfall max 6 months for pension
+  sick_leave_14_days:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không sick leave 14 days
+    template_pos: sick leave 14 days
+  signed_labor_contract:
+    ask: Bạn đã ký hợp đồng lao động với bên sử dụng lao động chưa?
+    kind: input
+    template_neg: Người lao động không ký hợp đồng lao động.
+    template_pos: Người lao động đã ký hợp đồng lao động.
+  still_receives_domestic_salary:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không still receives domestic salary
+    template_pos: still receives domestic salary
+  stopped_working:
+    ask: Bạn đã nghỉ việc chưa?
+    kind: input
+    template_neg: Người lao động vẫn đang làm việc.
+    template_pos: Người lao động đã nghỉ việc.
+  term_at_least_12_months:
+    ask: Hợp đồng lao động của bạn có thời hạn từ đủ 12 tháng trở lên không?
+    kind: input
+    template_neg: Hợp đồng có thời hạn dưới 12 tháng.
+    template_pos: Hợp đồng có thời hạn từ đủ 12 tháng trở lên.
+  term_at_least_1_month:
+    ask: Hợp đồng của bạn có thời hạn bao lâu (từ đủ 01 tháng trở lên hay không)?
+    kind: input
+    template_neg: Hợp đồng có thời hạn dưới 01 tháng.
+    template_pos: Hợp đồng có thời hạn từ đủ 01 tháng trở lên.
+  terminated_participation:
+    ask: Bạn đã chấm dứt tham gia BHXH (nghỉ việc, chốt sổ) chưa?
+    kind: input
+    template_neg: Người lao động vẫn đang tham gia bảo hiểm xã hội.
+    template_pos: Người lao động đã chấm dứt tham gia bảo hiểm xã hội.
+  treaty_exception:
+    ask: Có điều ước quốc tế quy định khác áp dụng cho trường hợp này không?
+    kind: input
+    template_neg: Không có điều ước quốc tế quy định khác áp dụng cho trường hợp này.
+    template_pos: Có điều ước quốc tế quy định khác áp dụng cho trường hợp này.
+  under_management:
+    ask: Bạn có chịu sự quản lý, điều hành, giám sát của công ty (chấm công, giao
+      việc, kỷ luật) không?
+    kind: input
+    template_neg: Người lao động không chịu sự quản lý, điều hành của bên sử dụng
+      lao động.
+    template_pos: Người lao động chịu sự quản lý, điều hành, giám sát của bên sử dụng
+      lao động.
+  underground_coal_mining_15_years:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không underground coal mining 15 years
+    template_pos: underground coal mining 15 years
+  unpaid_14_days:
+    ask: Trong tháng đó bạn có nghỉ không hưởng lương từ 14 ngày làm việc trở lên
+      không?
+    default: false
+    kind: input
+    template_neg: Trong tháng, người lao động có hưởng lương phần lớn số ngày làm
+      việc.
+    template_pos: Trong tháng, người lao động không hưởng tiền lương từ 14 ngày làm
+      việc trở lên.
+  voluntary_si:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không voluntary si
+    template_pos: voluntary si
+  voluntary_si_eligible:
+    kind: derived
+    template_neg: Người lao động không thuộc đối tượng tham gia bảo hiểm xã hội tự
+      nguyện.
+    template_pos: Người lao động thuộc đối tượng tham gia bảo hiểm xã hội tự nguyện.
+  wage_at_least_min_base:
+    ask: Tiền lương mỗi tháng của bạn khoảng bao nhiêu?
+    kind: input
+    template_neg: Tiền lương trong tháng của người lao động thấp hơn mức lương thấp
+      nhất làm căn cứ đóng bảo hiểm xã hội.
+    template_pos: Tiền lương trong tháng của người lao động bằng hoặc cao hơn mức
+      lương thấp nhất làm căn cứ đóng bảo hiểm xã hội.
+  work_capacity_loss_81_plus:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không work capacity loss 81 plus
+    template_pos: work capacity loss 81 plus
+  work_permit_expired_not_renewed:
+    ask: ''
+    kind: input
+    origin: auto_placeholder
+    template_neg: không work permit expired not renewed
+    template_pos: work permit expired not renewed
