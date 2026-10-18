@@ -13,7 +13,9 @@
   "high": 1027,
   "low": 83
  },
- "rules_after_review": 880,
+ "rules_after_review": 1309,
+ "split_rules_added": 429,
+ "split_parents_no_extra_branch": 2,
  "human_workbook_rows": 233,
  "human_workbook_low_confidence": 83,
  "human_workbook_random_sample": 150,

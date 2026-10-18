@@ -71,6 +71,27 @@ def merge() -> None:
         out.update(review_status=f"llm_reviewed:{lab['verdict']}", review_confidence=lab.get("confidence", "high"),
                    review_reason=lab.get("reason", ""))
         reviewed.append(out)
+
+    # missing "hoặc" branches generated in a second pass (split_out/*.jsonl)
+    split_added, split_none = 0, 0
+    parents = {r["id"]: r for r in reviewed}
+    for f in sorted((REV / "split_out").glob("split_*.jsonl")):
+        for line in f.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            s = json.loads(line)
+            p = parents.get(s.get("parent"))
+            if s.get("none") or p is None:
+                split_none += 1
+                continue
+            reviewed.append({
+                "id": s["id"], "type": "condition", "premises": s.get("premises", []), "conclusion": s["conclusion"],
+                "source": s.get("source", p["source"]), "doc_id": p.get("doc_id"), "article": p.get("article"),
+                "domain": p.get("domain"), "exception_to": s.get("exception_to", ""), "quote": "",
+                "split_from": p["id"], "review_status": "llm_split", "review_confidence": s.get("confidence", "high"),
+                "review_reason": s.get("reason", ""),
+            })
+            split_added += 1
     with open(DIR / "rules_bhxh_reviewed.jsonl", "w", encoding="utf-8") as fh:
         for r in reviewed:
             fh.write(json.dumps(r, ensure_ascii=False) + "\n")
@@ -85,6 +106,12 @@ def merge() -> None:
         k = {"correct": 70, "fix": 50, "drop": 30}[v]
         sample += rng.sample(pool, min(k, len(pool)))
     chosen = [("low_confidence", i) for i in low] + [("random_sample", i) for i in sample]
+
+    if XLSX.exists():
+        # never overwrite a workbook the human may already be filling in
+        print(f"{XLSX.name} exists; left untouched")
+        _write_stats(rules, missing, extra, verdicts, conf, reviewed, split_added, split_none, low, sample, chosen)
+        return
 
     from openpyxl import Workbook
     from openpyxl.styles import Alignment, Font, PatternFill
@@ -129,11 +156,16 @@ def merge() -> None:
     guide.column_dimensions["A"].width = 120
     wb.save(XLSX)
 
+    _write_stats(rules, missing, extra, verdicts, conf, reviewed, split_added, split_none, low, sample, chosen)
+
+
+def _write_stats(rules, missing, extra, verdicts, conf, reviewed, split_added, split_none, low, sample, chosen) -> None:
     stats = {
         "scope": "Luật BHXH 41/2024 + NĐ 158/2025",
         "rules_in_scope": len(rules), "labelled": len(rules) - len(missing), "missing_labels": len(missing),
         "unknown_ids_in_output": len(extra), "verdicts": dict(verdicts), "confidence": dict(conf),
-        "rules_after_review": len(reviewed), "human_workbook_rows": len(chosen),
+        "rules_after_review": len(reviewed), "split_rules_added": split_added, "split_parents_no_extra_branch": split_none,
+        "human_workbook_rows": len(chosen),
         "human_workbook_low_confidence": len(low), "human_workbook_random_sample": len(sample),
         "reviewer": "Claude (LLM) — not a human review; human agreement measured on the workbook sample",
     }
