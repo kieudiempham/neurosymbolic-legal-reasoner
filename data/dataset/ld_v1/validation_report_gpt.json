@@ -1,0 +1,37 @@
+{
+  "batch": "labor_30",
+  "status": "DRAFT_NOT_GOLD",
+  "count": 30,
+  "schema_ok": 30,
+  "spans_ok": 30,
+  "quotes_matched": 39,
+  "quote_checks": "Exact substring in extracted text under cited article only; not substantive legal verification",
+  "info_level": {
+    "complete": 18,
+    "missing": 7,
+    "exception_or_conflict": 5
+  },
+  "expected": {
+    "true": 14,
+    "insufficient": 7,
+    "false": 9
+  },
+  "application": 30,
+  "reasoning_chains_at_least_two": 17,
+  "prolog_proofs_verified": false,
+  "unique_fact_goal_profiles": 30,
+  "new_predicates": 60,
+  "cross_domain_existing_predicates": 349,
+  "sources": [
+    "Nghị định 145/2020/NĐ-CP",
+    "Bộ luật Lao động 45/2019/QH14"
+  ],
+  "repo_validator_executed": false,
+  "human_legal_review": "PENDING",
+  "temporal_scope": "Draft cases generally framed as application of documents supplied; amendments and effectiveness require expert review",
+  "known_issues": [
+    "Predicates and implication chains are manually constructed annotation proposals, not extracted KB rules or SWI-Prolog verified proofs.",
+    "No real F1-F6 fault injection labels; this is a legal QA gold draft.",
+    "Some legal judgments simplify special occupations, transitional rules and unmentioned exceptions under benchmark policy."
+  ]
+}

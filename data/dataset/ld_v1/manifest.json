@@ -1,0 +1,67 @@
+{
+  "batch": "LD30",
+  "count": 30,
+  "status": "DRAFT",
+  "files": [
+    {
+      "file": "PROMPT_GPT_v2.md",
+      "size": 7761,
+      "sha256": "c66a7f262083e766f9b92c68bcfba8d1dd26fe2b547f389e616f61e7e52c34ef"
+    },
+    {
+      "file": "README_VI.md",
+      "size": 4036,
+      "sha256": "76d4354916ea8bd781543f30a4760acd7342134c39d4b73590b670bf9f97ff41"
+    },
+    {
+      "file": "benchmark_inputs.jsonl",
+      "size": 8586,
+      "sha256": "65fb584040e5afbebf71a3cfa12b7e53f4ea352456afaa8315ff089213a6380e"
+    },
+    {
+      "file": "gold_annotations_DRAFT.jsonl",
+      "size": 38976,
+      "sha256": "4578e85ba01ad027e79280b04b5893a8e15fc00e2fe1e4e1c87f866dda44dd07"
+    },
+    {
+      "file": "lao_dong_30_DRAFT.jsonl",
+      "size": 64213,
+      "sha256": "9bd56b7ff444cba3bc4b0e2c0b68b3440318206d0abfabd0fcea90ae764d7fd2"
+    },
+    {
+      "file": "manifest.json",
+      "size": 1782,
+      "sha256": "34d84b09abdd742736f50403abe8a7a5f81b8828b1481975b9dfb0a94932f87c"
+    },
+    {
+      "file": "predicate_registry_cumulative.json",
+      "size": 95914,
+      "sha256": "f1542d8244925e19b7ac54220f9cd163b56e2d6d985b1017f93106de39a02a1b"
+    },
+    {
+      "file": "predicate_registry_new.json",
+      "size": 18839,
+      "sha256": "24b75c7a156da9788d9385747956beb35a1c7e7fe716120e7315ce62a471d4a6"
+    },
+    {
+      "file": "review_queue.csv",
+      "size": 3707,
+      "sha256": "8093f5a9481aafcf297349c9091d3503533e33573819d5b990655358c0d1f07d"
+    },
+    {
+      "file": "schema.json",
+      "size": 2072,
+      "sha256": "f19d3b72923849799377961ccb1d41d69ac76a3c1134754cd5d1c039696e971b"
+    },
+    {
+      "file": "source_anchors.json",
+      "size": 9156,
+      "sha256": "fac70a0538e32a9b464831f72e84c697dc0b92fd4a044f02343c74eb0adca72b"
+    },
+    {
+      "file": "validation_report.json",
+      "size": 1294,
+      "sha256": "673242f113ee4e04feb51526d62d97f5cfe2dc51f083b8448c16f22f0943aa4c"
+    }
+  ]
+}

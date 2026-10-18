@@ -1,0 +1,416 @@
+predicates:
+  annual_leave_at_least_12_days:
+    first_declared_in: LD-025
+    kind: derived
+    pred: annual_leave_at_least_12_days
+    template_neg: Chưa xác lập quyền nghỉ ít nhất 12 ngày theo điều kiện đang xét.
+    template_pos: Người lao động có ít nhất 12 ngày nghỉ hằng năm hưởng nguyên lương.
+  cancel_probation_without_notice_allowed:
+    first_declared_in: LD-012
+    kind: derived
+    pred: cancel_probation_without_notice_allowed
+    template_neg: Người lao động không được hủy thử việc không báo trước theo căn
+      cứ đang xét.
+    template_pos: Người lao động được hủy bỏ thử việc mà không phải báo trước.
+  classified_overtime_holiday:
+    first_declared_in: LD-020
+    kind: derived
+    pred: classified_overtime_holiday
+    template_neg: Hoạt động làm thêm không phải ngày lễ.
+    template_pos: Hoạt động làm thêm được phân loại vào ngày lễ.
+  classified_overtime_weekly_rest:
+    first_declared_in: LD-019
+    kind: derived
+    pred: classified_overtime_weekly_rest
+    template_neg: Hoạt động làm thêm không phải ngày nghỉ hằng tuần.
+    template_pos: Hoạt động làm thêm được phân loại vào ngày nghỉ hằng tuần.
+  college_level_position:
+    ask: 'Xin xác nhận: Công việc đòi hỏi trình độ chuyên môn từ cao đẳng trở lên?'
+    first_declared_in: LD-010
+    kind: input
+    pred: college_level_position
+    template_neg: Công việc không thuộc nhóm đòi hỏi trình độ từ cao đẳng trở lên.
+    template_pos: Công việc đòi hỏi trình độ chuyên môn từ cao đẳng trở lên.
+  consented_to_night_work:
+    ask: 'Xin xác nhận: Lao động nữ nuôi con nhỏ đã đồng ý làm việc ban đêm?'
+    first_declared_in: LD-030
+    kind: input
+    pred: consented_to_night_work
+    template_neg: Lao động nữ nuôi con nhỏ không đồng ý làm việc ban đêm.
+    template_pos: Lao động nữ nuôi con nhỏ đã đồng ý làm việc ban đêm.
+  contract_expired_over_30_days:
+    ask: 'Xin xác nhận: Hợp đồng đã hết hạn quá 30 ngày?'
+    first_declared_in: LD-008
+    kind: input
+    pred: contract_expired_over_30_days
+    template_neg: Hợp đồng mới hết hạn chưa quá 30 ngày.
+    template_pos: Hợp đồng đã hết hạn quá 30 ngày.
+  contract_under_one_month:
+    ask: 'Xin xác nhận: Thời hạn hợp đồng lao động dưới một tháng?'
+    first_declared_in: LD-003
+    kind: input
+    pred: contract_under_one_month
+    template_neg: Thời hạn hợp đồng từ một tháng trở lên.
+    template_pos: Thời hạn hợp đồng lao động dưới một tháng.
+  converted_to_indefinite_contract:
+    first_declared_in: LD-008
+    kind: derived
+    pred: converted_to_indefinite_contract
+    template_neg: Hợp đồng cũ chưa chuyển thành hợp đồng không xác định thời hạn theo
+      Điều 20.
+    template_pos: Hợp đồng cũ chuyển thành hợp đồng không xác định thời hạn theo Điều
+      20.
+  discipline_during_pregnancy_allowed:
+    first_declared_in: LD-028
+    kind: derived
+    pred: discipline_during_pregnancy_allowed
+    template_neg: Không được xử lý kỷ luật lao động đối với lao động nữ đang mang
+      thai lúc này.
+    template_pos: Được xử lý kỷ luật lao động đối với lao động nữ đang mang thai ngay
+      lúc này.
+  employee_protected_from_discipline:
+    first_declared_in: LD-028
+    kind: derived
+    pred: employee_protected_from_discipline
+    template_neg: Lao động nữ không đang trong thời kỳ được tạm hoãn xử lý kỷ luật.
+    template_pos: Lao động nữ đang trong thời kỳ được tạm hoãn xử lý kỷ luật.
+  employer_at_least_10_workers:
+    ask: 'Xin xác nhận: Người sử dụng lao động có từ 10 nhân viên trở lên?'
+    first_declared_in: LD-027
+    kind: input
+    pred: employer_at_least_10_workers
+    template_neg: Người sử dụng lao động có dưới 10 nhân viên.
+    template_pos: Người sử dụng lao động có từ 10 nhân viên trở lên.
+  fixed_term_contract:
+    ask: 'Xin xác nhận: Đây là hợp đồng lao động xác định thời hạn?'
+    first_declared_in: LD-006
+    kind: input
+    pred: fixed_term_contract
+    template_neg: Đây không phải hợp đồng lao động xác định thời hạn.
+    template_pos: Đây là hợp đồng lao động xác định thời hạn.
+  fixed_term_from_12_to_36_months:
+    ask: 'Xin xác nhận: Hợp đồng xác định thời hạn từ 12 đến 36 tháng?'
+    first_declared_in: LD-013
+    kind: input
+    pred: fixed_term_from_12_to_36_months
+    template_neg: Hợp đồng không thuộc nhóm từ 12 đến 36 tháng.
+    template_pos: Hợp đồng xác định thời hạn từ 12 đến 36 tháng.
+  fixed_term_length_compliant:
+    first_declared_in: LD-006
+    kind: derived
+    pred: fixed_term_length_compliant
+    template_neg: Thời hạn ghi trong hợp đồng xác định thời hạn vượt giới hạn luật
+      định.
+    template_pos: Thời hạn ghi trong hợp đồng xác định thời hạn đáp ứng giới hạn luật
+      định.
+  fixed_term_months_le_36:
+    ask: 'Xin xác nhận: Hợp đồng có thời hạn không quá 36 tháng?'
+    first_declared_in: LD-006
+    kind: input
+    pred: fixed_term_months_le_36
+    template_neg: Hợp đồng có thời hạn trên 36 tháng.
+    template_pos: Hợp đồng có thời hạn không quá 36 tháng.
+  full_year_normal_leave_class:
+    first_declared_in: LD-025
+    kind: derived
+    pred: full_year_normal_leave_class
+    template_neg: Người lao động không thuộc nhóm đủ năm trong điều kiện bình thường.
+    template_pos: Người lao động thuộc nhóm đủ năm trong điều kiện bình thường.
+  must_register_internal_rules:
+    first_declared_in: LD-027
+    kind: derived
+    pred: must_register_internal_rules
+    template_neg: Người sử dụng lao động không phải đăng ký nội quy theo ngưỡng nhân
+      sự đang xét.
+    template_pos: Người sử dụng lao động phải đăng ký nội quy lao động.
+  night_shift_break_at_least_45_min:
+    first_declared_in: LD-023
+    kind: derived
+    pred: night_shift_break_at_least_45_min
+    template_neg: Không thể áp dụng mức nghỉ giữa ca 45 phút theo điều kiện đang xét.
+    template_pos: Người lao động có quyền nghỉ giữa ca ít nhất 45 phút liên tục.
+  night_shift_break_threshold_met:
+    first_declared_in: LD-023
+    kind: derived
+    pred: night_shift_break_threshold_met
+    template_neg: Chưa đủ điều kiện nghỉ ca đêm 45 phút.
+    template_pos: Đã đủ điều kiện nhận nghỉ ca đêm 45 phút.
+  night_work_permitted_for_nursing:
+    first_declared_in: LD-030
+    kind: derived
+    pred: night_work_permitted_for_nursing
+    template_neg: Không thể bố trí lao động nữ nuôi con dưới 12 tháng làm ban đêm
+      nếu không có sự đồng ý.
+    template_pos: Có thể bố trí lao động nữ nuôi con dưới 12 tháng làm ban đêm nếu
+      được đồng ý.
+  night_work_permitted_for_pregnant:
+    first_declared_in: LD-029
+    kind: derived
+    pred: night_work_permitted_for_pregnant
+    template_neg: Không được sử dụng lao động nữ mang thai từ tháng thứ bảy làm việc
+      ban đêm.
+    template_pos: Được sử dụng lao động nữ mang thai từ tháng thứ bảy làm việc ban
+      đêm.
+  nightwork_at_least_three_hours:
+    ask: 'Xin xác nhận: Trong ca có ít nhất ba giờ làm việc ban đêm?'
+    first_declared_in: LD-023
+    kind: input
+    pred: nightwork_at_least_three_hours
+    template_neg: Trong ca có dưới ba giờ làm việc ban đêm.
+    template_pos: Trong ca có ít nhất ba giờ làm việc ban đêm.
+  no_new_contract:
+    ask: 'Xin xác nhận: Hai bên chưa ký hợp đồng lao động mới sau khi hợp đồng cũ
+      hết hạn?'
+    first_declared_in: LD-008
+    kind: input
+    pred: no_new_contract
+    template_neg: Hai bên đã ký hợp đồng mới.
+    template_pos: Hai bên chưa ký hợp đồng lao động mới sau khi hợp đồng cũ hết hạn.
+  no_notice_wage_exception:
+    first_declared_in: LD-016
+    kind: derived
+    pred: no_notice_wage_exception
+    template_neg: Thiếu hoặc chậm lương không thuộc ngoại lệ đang xét.
+    template_pos: Thiếu hoặc chậm lương thuộc ngoại lệ cho nghỉ không cần báo trước.
+  normal_contract_no_probation_exception:
+    first_declared_in: LD-009
+    kind: derived
+    pred: normal_contract_no_probation_exception
+    template_neg: Không áp dụng cấm thử việc do hợp đồng dưới một tháng.
+    template_pos: Áp dụng cấm thử việc do hợp đồng dưới một tháng.
+  normal_working_conditions:
+    ask: 'Xin xác nhận: Công việc trong điều kiện bình thường?'
+    first_declared_in: LD-025
+    kind: input
+    pred: normal_working_conditions
+    template_neg: Công việc thuộc diện có điều kiện nặng nhọc hoặc đặc thù.
+    template_pos: Công việc trong điều kiện bình thường.
+  notice_30_day_rule_applies:
+    first_declared_in: LD-013
+    kind: derived
+    pred: notice_30_day_rule_applies
+    template_neg: Người lao động không thuộc nhóm báo trước 30 ngày.
+    template_pos: Người lao động thuộc nhóm phải báo trước 30 ngày.
+  notice_at_least_30_days:
+    ask: 'Xin xác nhận: Người lao động báo trước ít nhất 30 ngày?'
+    first_declared_in: LD-013
+    kind: input
+    pred: notice_at_least_30_days
+    template_neg: Người lao động báo trước dưới 30 ngày.
+    template_pos: Người lao động báo trước ít nhất 30 ngày.
+  nursing_child_under_12_months:
+    ask: 'Xin xác nhận: Lao động nữ đang nuôi con dưới 12 tháng tuổi?'
+    first_declared_in: LD-030
+    kind: input
+    pred: nursing_child_under_12_months
+    template_neg: Lao động nữ không nuôi con dưới 12 tháng tuổi.
+    template_pos: Lao động nữ đang nuôi con dưới 12 tháng tuổi.
+  oral_contract_permitted:
+    first_declared_in: LD-003
+    kind: derived
+    pred: oral_contract_permitted
+    template_neg: Trường hợp này không được phép giao kết hợp đồng lao động bằng lời
+      nói.
+    template_pos: Trường hợp này được phép giao kết hợp đồng lao động bằng lời nói.
+  oral_contract_requested:
+    ask: 'Xin xác nhận: Hai bên định giao kết hợp đồng bằng lời nói?'
+    first_declared_in: LD-003
+    kind: input
+    pred: oral_contract_requested
+    template_neg: Hai bên không định giao kết hợp đồng bằng lời nói.
+    template_pos: Hai bên định giao kết hợp đồng bằng lời nói.
+  over_60_requires_written_consent:
+    first_declared_in: LD-017
+    kind: derived
+    pred: over_60_requires_written_consent
+    template_neg: Không có nghĩa vụ đồng ý bằng văn bản theo ngưỡng 60 ngày.
+    template_pos: Điều chuyển công việc quá 60 ngày yêu cầu đồng ý bằng văn bản.
+  overtime_at_least_200_percent:
+    first_declared_in: LD-019
+    kind: derived
+    pred: overtime_at_least_200_percent
+    template_neg: Không được xác định mức 200% theo trường hợp làm thêm ngày nghỉ
+      tuần.
+    template_pos: Được trả ít nhất 200% đơn giá theo quy định làm thêm ngày nghỉ tuần.
+  overtime_at_least_300_percent:
+    first_declared_in: LD-020
+    kind: derived
+    pred: overtime_at_least_300_percent
+    template_neg: Không được xác định mức 300% theo trường hợp làm thêm ngày lễ.
+    template_pos: Được trả ít nhất 300% đơn giá theo quy định làm thêm ngày lễ.
+  overtime_event:
+    ask: 'Xin xác nhận: Có làm thêm giờ ngoài thời giờ làm việc bình thường?'
+    first_declared_in: LD-019
+    kind: input
+    pred: overtime_event
+    template_neg: Không phát sinh làm thêm giờ.
+    template_pos: Có làm thêm giờ ngoài thời giờ làm việc bình thường.
+  overtime_on_public_holiday:
+    ask: 'Xin xác nhận: Người lao động làm thêm vào ngày nghỉ lễ?'
+    first_declared_in: LD-020
+    kind: input
+    pred: overtime_on_public_holiday
+    template_neg: Người lao động không làm thêm vào ngày nghỉ lễ.
+    template_pos: Người lao động làm thêm vào ngày nghỉ lễ.
+  overtime_on_weekly_rest:
+    ask: 'Xin xác nhận: Người lao động làm thêm vào ngày nghỉ hằng tuần?'
+    first_declared_in: LD-019
+    kind: input
+    pred: overtime_on_weekly_rest
+    template_neg: Người lao động không làm thêm vào ngày nghỉ hằng tuần.
+    template_pos: Người lao động làm thêm vào ngày nghỉ hằng tuần.
+  overtime_pay_rate_at_least_200_percent:
+    first_declared_in: LD-021
+    kind: derived
+    pred: overtime_pay_rate_at_least_200_percent
+    template_neg: Mức lương làm thêm tối thiểu dưới ngưỡng 200%.
+    template_pos: Mức lương làm thêm tối thiểu thuộc ngưỡng 200% trở lên.
+  overtime_requires_consent:
+    first_declared_in: LD-022
+    kind: derived
+    pred: overtime_requires_consent
+    template_neg: Không áp dụng điều kiện cần đồng ý cho trường hợp làm thêm này.
+    template_pos: Làm thêm giờ thông thường cần có sự đồng ý của người lao động.
+  pregnancy_at_least_month_seven:
+    ask: 'Xin xác nhận: Lao động nữ đang mang thai từ tháng thứ bảy?'
+    first_declared_in: LD-029
+    kind: input
+    pred: pregnancy_at_least_month_seven
+    template_neg: Lao động nữ chưa đến tháng thứ bảy.
+    template_pos: Lao động nữ đang mang thai từ tháng thứ bảy.
+  probation_allowed:
+    first_declared_in: LD-009
+    kind: derived
+    pred: probation_allowed
+    template_neg: Phương án thử việc không được phép theo giới hạn đang xét.
+    template_pos: Phương án thử việc được phép theo giới hạn đang xét.
+  probation_planned:
+    ask: 'Xin xác nhận: Các bên dự định áp dụng thử việc?'
+    first_declared_in: LD-009
+    kind: input
+    pred: probation_planned
+    template_neg: Các bên không dự định áp dụng thử việc.
+    template_pos: Các bên dự định áp dụng thử việc.
+  probation_within_60_days:
+    ask: 'Xin xác nhận: Thử việc không quá 60 ngày?'
+    first_declared_in: LD-010
+    kind: input
+    pred: probation_within_60_days
+    template_neg: Thử việc quá 60 ngày.
+    template_pos: Thử việc không quá 60 ngày.
+  regular_overtime_arrangement_allowed:
+    first_declared_in: LD-022
+    kind: derived
+    pred: regular_overtime_arrangement_allowed
+    template_neg: Việc bố trí làm thêm giờ thông thường không đáp ứng điều kiện đồng
+      ý.
+    template_pos: Việc bố trí làm thêm giờ thông thường đáp ứng điều kiện đồng ý.
+  resign_without_notice_allowed:
+    first_declared_in: LD-016
+    kind: derived
+    pred: resign_without_notice_allowed
+    template_neg: Người lao động không có quyền nghỉ không báo trước theo tình huống
+      đang xét.
+    template_pos: Người lao động có quyền đơn phương chấm dứt hợp đồng không cần báo
+      trước theo tình huống.
+  rest_between_shifts_at_least_12_hours:
+    ask: 'Xin xác nhận: Khoảng cách giữa hai ca ít nhất 12 giờ?'
+    first_declared_in: LD-024
+    kind: input
+    pred: rest_between_shifts_at_least_12_hours
+    template_neg: Khoảng cách giữa hai ca dưới 12 giờ.
+    template_pos: Khoảng cách giữa hai ca ít nhất 12 giờ.
+  shift_at_least_six_hours:
+    ask: 'Xin xác nhận: Ca làm việc kéo dài từ sáu giờ trở lên?'
+    first_declared_in: LD-023
+    kind: input
+    pred: shift_at_least_six_hours
+    template_neg: Ca làm việc dưới sáu giờ.
+    template_pos: Ca làm việc kéo dài từ sáu giờ trở lên.
+  shift_change_rest_at_least_12_hours:
+    first_declared_in: LD-024
+    kind: derived
+    pred: shift_change_rest_at_least_12_hours
+    template_neg: Thời gian nghỉ chuyển ca không đáp ứng mức tối thiểu 12 giờ.
+    template_pos: Thời gian nghỉ chuyển ca đáp ứng mức tối thiểu 12 giờ.
+  temporary_transfer_compliant:
+    first_declared_in: LD-017
+    kind: derived
+    pred: temporary_transfer_compliant
+    template_neg: Việc điều chuyển quá 60 ngày không đáp ứng yêu cầu đồng ý bằng văn
+      bản.
+    template_pos: Việc điều chuyển quá 60 ngày đáp ứng yêu cầu đồng ý bằng văn bản
+      đang xét.
+  temporary_transfer_over_60_workdays:
+    ask: 'Xin xác nhận: Điều chuyển làm công việc khác vượt 60 ngày làm việc cộng
+      dồn trong năm?'
+    first_declared_in: LD-017
+    kind: input
+    pred: temporary_transfer_over_60_workdays
+    template_neg: Điều chuyển không vượt 60 ngày làm việc cộng dồn trong năm.
+    template_pos: Điều chuyển làm công việc khác vượt 60 ngày làm việc cộng dồn trong
+      năm.
+  under_probation:
+    ask: 'Xin xác nhận: Người lao động đang trong thời gian thử việc?'
+    first_declared_in: LD-012
+    kind: input
+    pred: under_probation
+    template_neg: Người lao động không ở thời gian thử việc.
+    template_pos: Người lao động đang trong thời gian thử việc.
+  wage_unpaid_or_late:
+    ask: 'Xin xác nhận: Người lao động bị chậm hoặc trả thiếu lương ngoài trường hợp
+      ngoại lệ đã biết?'
+    first_declared_in: LD-016
+    kind: input
+    pred: wage_unpaid_or_late
+    template_neg: Người lao động nhận đủ lương đúng hạn.
+    template_pos: Người lao động bị chậm hoặc trả thiếu lương ngoài trường hợp ngoại
+      lệ đã biết.
+  worked_full_12_months_same_employer:
+    ask: 'Xin xác nhận: Người lao động làm đủ 12 tháng cho cùng người sử dụng lao
+      động?'
+    first_declared_in: LD-025
+    kind: input
+    pred: worked_full_12_months_same_employer
+    template_neg: Người lao động chưa làm đủ 12 tháng cho cùng người sử dụng lao động.
+    template_pos: Người lao động làm đủ 12 tháng cho cùng người sử dụng lao động.
+  worker_agreed_overtime:
+    ask: 'Xin xác nhận: Người lao động đã đồng ý làm thêm giờ?'
+    first_declared_in: LD-022
+    kind: input
+    pred: worker_agreed_overtime
+    template_neg: Người lao động không đồng ý làm thêm giờ.
+    template_pos: Người lao động đã đồng ý làm thêm giờ.
+  worker_resignation_notice_compliant:
+    first_declared_in: LD-013
+    kind: derived
+    pred: worker_resignation_notice_compliant
+    template_neg: Thời hạn báo trước của người lao động không đáp ứng quy định đang
+      xét.
+    template_pos: Thời hạn báo trước của người lao động đáp ứng quy định đang xét.
+  worker_under_15:
+    ask: 'Xin xác nhận: Người lao động chưa đủ 15 tuổi?'
+    first_declared_in: LD-004
+    kind: input
+    pred: worker_under_15
+    template_neg: Người lao động từ đủ 15 tuổi trở lên.
+    template_pos: Người lao động chưa đủ 15 tuổi.
+  written_contract_mandatory:
+    first_declared_in: LD-004
+    kind: derived
+    pred: written_contract_mandatory
+    template_neg: Hợp đồng trong trường hợp này không bắt buộc bằng văn bản.
+    template_pos: Hợp đồng trong trường hợp này bắt buộc bằng văn bản.
+  written_internal_rules_required:
+    first_declared_in: LD-027
+    kind: derived
+    pred: written_internal_rules_required
+    template_neg: Nội quy lao động không bắt buộc bằng văn bản theo ngưỡng này.
+    template_pos: Nội quy lao động bắt buộc lập thành văn bản.
+  written_transfer_consent:
+    ask: 'Xin xác nhận: Người lao động đã đồng ý bằng văn bản với việc điều chuyển?'
+    first_declared_in: LD-017
+    kind: input
+    pred: written_transfer_consent
+    template_neg: Người lao động không đồng ý bằng văn bản với việc điều chuyển.
+    template_pos: Người lao động đã đồng ý bằng văn bản với việc điều chuyển.

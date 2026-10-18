@@ -1,0 +1,937 @@
+rules:
+- id: LD0-R001
+  premises:
+  - overtime_event
+  conclusion: overtime_requires_consent
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 107 khoản 2 điểm a
+  basis: llm_reexpressed
+- id: LD0-R002
+  premises:
+  - overtime_requires_consent
+  - worker_agreed_overtime
+  conclusion: regular_overtime_arrangement_allowed
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 107 khoản 2
+  basis: llm_reexpressed
+- id: LD0-R003
+  premises:
+  - overtime_requires_consent
+  - ~worker_agreed_overtime
+  conclusion: ~regular_overtime_arrangement_allowed
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 107 khoản 2 điểm a
+  basis: llm_reexpressed
+- id: LD0-R004
+  premises:
+  - overtime_event
+  - overtime_daily_limit_exceeded
+  conclusion: ~regular_overtime_arrangement_allowed
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 107 khoản 2 điểm b
+  basis: llm_reexpressed
+- id: LD0-R005
+  premises:
+  - overtime_event
+  - overtime_over_40h_month
+  conclusion: ~regular_overtime_arrangement_allowed
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 107 khoản 2 điểm b
+  basis: llm_reexpressed
+- id: LD0-R006
+  premises:
+  - overtime_event
+  - overtime_over_200h_year
+  - ~special_overtime_sector
+  conclusion: ~regular_overtime_arrangement_allowed
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 107 khoản 2 điểm c
+  basis: llm_reexpressed
+- id: LD0-R007
+  premises:
+  - overtime_event
+  - overtime_over_300h_year
+  conclusion: ~regular_overtime_arrangement_allowed
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 107 khoản 3
+  basis: llm_reexpressed
+- id: LD0-R008
+  premises:
+  - shift_at_least_six_hours
+  conclusion: break_at_least_30_min
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 109 khoản 1
+  basis: llm_reexpressed
+- id: LD0-R009
+  premises:
+  - shift_at_least_six_hours
+  - nightwork_at_least_three_hours
+  conclusion: night_shift_break_threshold_met
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 109 khoản 1
+  basis: llm_reexpressed
+- id: LD0-R010
+  premises:
+  - night_shift_break_threshold_met
+  conclusion: night_shift_break_at_least_45_min
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 109 khoản 1
+  basis: llm_reexpressed
+- id: LD0-R011
+  premises:
+  - ~shift_at_least_six_hours
+  conclusion: ~night_shift_break_at_least_45_min
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 109 khoản 1
+  basis: llm_reexpressed
+- id: LD0-R012
+  premises:
+  - ~nightwork_at_least_three_hours
+  conclusion: ~night_shift_break_at_least_45_min
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 109 khoản 1
+  basis: llm_reexpressed
+- id: LD0-R013
+  premises:
+  - rest_between_shifts_at_least_12_hours
+  conclusion: shift_change_rest_at_least_12_hours
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 110
+  basis: llm_reexpressed
+- id: LD0-R014
+  premises:
+  - ~rest_between_shifts_at_least_12_hours
+  conclusion: ~shift_change_rest_at_least_12_hours
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 110
+  basis: llm_reexpressed
+- id: LD0-R015
+  premises:
+  - worked_full_12_months_same_employer
+  - normal_working_conditions
+  conclusion: full_year_normal_leave_class
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 113 khoản 1 điểm a
+  basis: llm_reexpressed
+- id: LD0-R016
+  premises:
+  - full_year_normal_leave_class
+  conclusion: annual_leave_at_least_12_days
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 113 khoản 1 điểm a
+  basis: llm_reexpressed
+- id: LD0-R017
+  premises:
+  - worked_full_12_months_same_employer
+  - minor_disabled_or_heavy_work
+  conclusion: annual_leave_at_least_12_days
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 113 khoản 1 điểm b
+  basis: llm_reexpressed
+- id: LD0-R018
+  premises:
+  - worked_full_12_months_same_employer
+  - especially_heavy_hazardous_work
+  conclusion: annual_leave_at_least_12_days
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 113 khoản 1 điểm c
+  basis: llm_reexpressed
+- id: LD0-R019
+  premises:
+  - ~worked_full_12_months_same_employer
+  - normal_working_conditions
+  conclusion: ~annual_leave_at_least_12_days
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 113 khoản 2
+  basis: llm_reexpressed
+- id: LD0-R020
+  premises: []
+  conclusion: ~written_internal_rules_required
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 118 khoản 1
+  basis: llm_reexpressed
+- id: LD0-R021
+  premises:
+  - employer_at_least_10_workers
+  conclusion: written_internal_rules_required
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 118 khoản 1
+  basis: llm_reexpressed
+- id: LD0-R022
+  premises: []
+  conclusion: ~must_register_internal_rules
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 119 khoản 1
+  basis: llm_reexpressed
+- id: LD0-R023
+  premises:
+  - employer_at_least_10_workers
+  conclusion: must_register_internal_rules
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 119 khoản 1
+  basis: llm_reexpressed
+- id: LD0-R024
+  premises:
+  - worker_is_pregnant
+  conclusion: employee_protected_from_discipline
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 122 khoản 4 điểm d
+  basis: llm_reexpressed
+- id: LD0-R025
+  premises:
+  - on_maternity_leave
+  conclusion: employee_protected_from_discipline
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 122 khoản 4 điểm d
+  basis: llm_reexpressed
+- id: LD0-R026
+  premises:
+  - nursing_child_under_12_months
+  conclusion: employee_protected_from_discipline
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 122 khoản 4 điểm d
+  basis: llm_reexpressed
+- id: LD0-R027
+  premises:
+  - worker_is_pregnant
+  - employee_protected_from_discipline
+  conclusion: ~discipline_during_pregnancy_allowed
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 122 khoản 4 điểm d
+  basis: llm_reexpressed
+- id: LD0-R028
+  premises:
+  - employee_protected_from_discipline
+  conclusion: discipline_prohibited_now
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 122 khoản 4 điểm d
+  basis: llm_reexpressed
+- id: LD0-R029
+  premises:
+  - on_sick_convalescence_or_approved_leave
+  conclusion: discipline_prohibited_now
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 122 khoản 4 điểm a
+  basis: llm_reexpressed
+- id: LD0-R030
+  premises:
+  - in_custody_or_detention
+  conclusion: discipline_prohibited_now
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 122 khoản 4 điểm b
+  basis: llm_reexpressed
+- id: LD0-R031
+  premises:
+  - awaiting_investigation_art125
+  conclusion: discipline_prohibited_now
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 122 khoản 4 điểm c
+  basis: llm_reexpressed
+- id: LD0-R032
+  premises:
+  - violation_while_lacking_capacity
+  conclusion: discipline_prohibited_now
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 122 khoản 5
+  basis: llm_reexpressed
+- id: LD0-R033
+  premises:
+  - paid_wage
+  - under_management
+  conclusion: labor_relation
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 13 khoản 1
+  basis: llm_reexpressed
+- id: LD0-R034
+  premises:
+  - pregnancy_at_least_month_seven
+  conclusion: ~night_work_permitted_for_pregnant
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 137 khoản 1 điểm a
+  basis: llm_reexpressed
+- id: LD0-R035
+  premises:
+  - pregnancy_at_least_month_six
+  - works_in_remote_area
+  conclusion: ~night_work_permitted_for_pregnant
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 137 khoản 1 điểm a
+  basis: llm_reexpressed
+- id: LD0-R036
+  premises:
+  - nursing_child_under_12_months
+  conclusion: ~night_work_permitted_for_nursing
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 137 khoản 1 điểm b
+  basis: llm_reexpressed
+- id: LD0-R037
+  premises:
+  - nursing_child_under_12_months
+  - consented_to_night_work
+  conclusion: night_work_permitted_for_nursing
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 137 khoản 1 điểm b
+  basis: llm_reexpressed
+- id: LD0-R038
+  premises: []
+  conclusion: ~oral_contract_permitted
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 14 khoản 1
+  basis: llm_reexpressed
+- id: LD0-R039
+  premises: []
+  conclusion: written_contract_mandatory
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 14 khoản 1
+  basis: llm_reexpressed
+- id: LD0-R040
+  premises:
+  - contract_under_one_month
+  conclusion: oral_contract_permitted
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 14 khoản 2
+  basis: llm_reexpressed
+- id: LD0-R041
+  premises:
+  - contract_under_one_month
+  conclusion: ~written_contract_mandatory
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 14 khoản 2
+  basis: llm_reexpressed
+- id: LD0-R042
+  premises:
+  - contract_under_one_month
+  - group_authorized_seasonal_contract
+  conclusion: ~oral_contract_permitted
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 14 khoản 2; Điều 18 khoản 2
+  basis: llm_reexpressed
+- id: LD0-R043
+  premises:
+  - contract_under_one_month
+  - group_authorized_seasonal_contract
+  conclusion: written_contract_mandatory
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 14 khoản 2; Điều 18 khoản 2
+  basis: llm_reexpressed
+- id: LD0-R044
+  premises:
+  - contract_under_one_month
+  - worker_under_15
+  conclusion: ~oral_contract_permitted
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 14 khoản 2; Điều 145 khoản 1 điểm a
+  basis: llm_reexpressed
+- id: LD0-R045
+  premises:
+  - contract_under_one_month
+  - worker_under_15
+  conclusion: written_contract_mandatory
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 14 khoản 2; Điều 145 khoản 1 điểm a
+  basis: llm_reexpressed
+- id: LD0-R046
+  premises:
+  - contract_under_one_month
+  - domestic_worker
+  conclusion: ~oral_contract_permitted
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 14 khoản 2; Điều 162 khoản 1
+  basis: llm_reexpressed
+- id: LD0-R047
+  premises:
+  - contract_under_one_month
+  - domestic_worker
+  conclusion: written_contract_mandatory
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 14 khoản 2; Điều 162 khoản 1
+  basis: llm_reexpressed
+- id: LD0-R048
+  premises:
+  - fixed_term_contract
+  - fixed_term_months_le_36
+  conclusion: fixed_term_length_compliant
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 20 khoản 1 điểm b
+  basis: llm_reexpressed
+- id: LD0-R049
+  premises:
+  - fixed_term_contract
+  - ~fixed_term_months_le_36
+  conclusion: ~fixed_term_length_compliant
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 20 khoản 1 điểm b
+  basis: llm_reexpressed
+- id: LD0-R050
+  premises:
+  - fixed_term_contract
+  - worker_continue_working
+  - contract_expired_over_30_days
+  - no_new_contract
+  conclusion: converted_to_indefinite_contract
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 20 khoản 2 điểm b
+  basis: llm_reexpressed
+- id: LD0-R051
+  premises:
+  - fixed_term_contract
+  - ~contract_expired_over_30_days
+  conclusion: ~converted_to_indefinite_contract
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 20 khoản 2 điểm a
+  basis: llm_reexpressed
+- id: LD0-R052
+  premises:
+  - fixed_term_contract
+  - ~no_new_contract
+  conclusion: ~converted_to_indefinite_contract
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 20 khoản 2 điểm a
+  basis: llm_reexpressed
+- id: LD0-R053
+  premises:
+  - signed_second_fixed_term_contract
+  - worker_continue_working
+  conclusion: must_sign_indefinite_contract
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 20 khoản 2 điểm c
+  basis: llm_reexpressed
+- id: LD0-R054
+  premises:
+  - signed_second_fixed_term_contract
+  - elderly_worker
+  conclusion: ~must_sign_indefinite_contract
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 20 khoản 2 điểm c; Điều 149 khoản 1
+  basis: llm_reexpressed
+- id: LD0-R055
+  premises:
+  - signed_second_fixed_term_contract
+  - state_enterprise_hired_director
+  conclusion: ~must_sign_indefinite_contract
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 20 khoản 2 điểm c
+  basis: llm_reexpressed
+- id: LD0-R056
+  premises:
+  - contract_under_one_month
+  conclusion: normal_contract_no_probation_exception
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 24 khoản 3
+  basis: llm_reexpressed
+- id: LD0-R057
+  premises:
+  - probation_planned
+  - enterprise_manager_position
+  - probation_within_180_days
+  conclusion: probation_allowed
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 25 khoản 1
+  basis: llm_reexpressed
+- id: LD0-R058
+  premises:
+  - probation_planned
+  - enterprise_manager_position
+  - ~probation_within_180_days
+  conclusion: ~probation_allowed
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 25 khoản 1
+  basis: llm_reexpressed
+- id: LD0-R059
+  premises:
+  - probation_planned
+  - college_level_position
+  - probation_within_60_days
+  conclusion: probation_allowed
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 25 khoản 2
+  basis: llm_reexpressed
+- id: LD0-R060
+  premises:
+  - probation_planned
+  - college_level_position
+  - ~probation_within_60_days
+  conclusion: ~probation_allowed
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 25 khoản 2
+  basis: llm_reexpressed
+- id: LD0-R061
+  premises:
+  - probation_planned
+  - intermediate_level_position
+  - probation_within_30_days
+  conclusion: probation_allowed
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 25 khoản 3
+  basis: llm_reexpressed
+- id: LD0-R062
+  premises:
+  - probation_planned
+  - intermediate_level_position
+  - ~probation_within_30_days
+  conclusion: ~probation_allowed
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 25 khoản 3
+  basis: llm_reexpressed
+- id: LD0-R063
+  premises:
+  - probation_planned
+  - other_position
+  - probation_within_6_workdays
+  conclusion: probation_allowed
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 25 khoản 4
+  basis: llm_reexpressed
+- id: LD0-R064
+  premises:
+  - probation_planned
+  - other_position
+  - ~probation_within_6_workdays
+  conclusion: ~probation_allowed
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 25 khoản 4
+  basis: llm_reexpressed
+- id: LD0-R065
+  premises:
+  - probation_planned
+  - normal_contract_no_probation_exception
+  conclusion: ~probation_allowed
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 24 khoản 3
+  basis: llm_reexpressed
+- id: LD0-R066
+  premises:
+  - probation_planned
+  - probation_already_done_same_job
+  conclusion: ~probation_allowed
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 25
+  basis: llm_reexpressed
+- id: LD0-R067
+  premises:
+  - under_probation
+  conclusion: cancel_probation_without_notice_allowed
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 27 khoản 2
+  basis: llm_reexpressed
+- id: LD0-R068
+  premises:
+  - ~under_probation
+  conclusion: ~cancel_probation_without_notice_allowed
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 27 khoản 2
+  basis: llm_reexpressed
+- id: LD0-R069
+  premises:
+  - temporary_transfer_over_60_workdays
+  conclusion: over_60_requires_written_consent
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 29 khoản 1
+  basis: llm_reexpressed
+- id: LD0-R070
+  premises:
+  - over_60_requires_written_consent
+  - written_transfer_consent
+  conclusion: temporary_transfer_compliant
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 29 khoản 1
+  basis: llm_reexpressed
+- id: LD0-R071
+  premises:
+  - over_60_requires_written_consent
+  - ~written_transfer_consent
+  conclusion: ~temporary_transfer_compliant
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 29 khoản 1
+  basis: llm_reexpressed
+- id: LD0-R072
+  premises:
+  - ~temporary_transfer_over_60_workdays
+  - transfer_lawful_reason
+  conclusion: temporary_transfer_compliant
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 29 khoản 1
+  basis: llm_reexpressed
+- id: LD0-R073
+  premises:
+  - fixed_term_from_12_to_36_months
+  conclusion: notice_30_day_rule_applies
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 1 điểm b
+  basis: llm_reexpressed
+- id: LD0-R074
+  premises:
+  - notice_30_day_rule_applies
+  - notice_at_least_30_days
+  conclusion: worker_resignation_notice_compliant
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 1 điểm b
+  basis: llm_reexpressed
+- id: LD0-R075
+  premises:
+  - notice_30_day_rule_applies
+  - ~notice_at_least_30_days
+  conclusion: ~worker_resignation_notice_compliant
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 1 điểm b
+  basis: llm_reexpressed
+- id: LD0-R076
+  premises:
+  - indefinite_term_contract
+  - notice_at_least_45_days
+  conclusion: worker_resignation_notice_compliant
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 1 điểm a
+  basis: llm_reexpressed
+- id: LD0-R077
+  premises:
+  - indefinite_term_contract
+  - ~notice_at_least_45_days
+  conclusion: ~worker_resignation_notice_compliant
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 1 điểm a
+  basis: llm_reexpressed
+- id: LD0-R078
+  premises:
+  - fixed_term_under_12_months
+  - notice_at_least_3_workdays
+  conclusion: worker_resignation_notice_compliant
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 1 điểm c
+  basis: llm_reexpressed
+- id: LD0-R079
+  premises:
+  - fixed_term_under_12_months
+  - ~notice_at_least_3_workdays
+  conclusion: ~worker_resignation_notice_compliant
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 1 điểm c
+  basis: llm_reexpressed
+- id: LD0-R080
+  premises:
+  - wage_unpaid_or_late
+  - wage_delay_force_majeure_art97
+  conclusion: no_notice_wage_exception
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 2 điểm b; Điều 97 khoản 4
+  basis: llm_reexpressed
+- id: LD0-R081
+  premises: []
+  conclusion: ~resign_without_notice_allowed
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 2
+  basis: llm_reexpressed
+- id: LD0-R082
+  premises:
+  - not_assigned_agreed_job_or_conditions
+  conclusion: resign_without_notice_allowed
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 2 điểm a
+  basis: llm_reexpressed
+- id: LD0-R083
+  premises:
+  - not_assigned_agreed_job_or_conditions
+  - lawful_temporary_transfer_art29
+  conclusion: ~resign_without_notice_allowed
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 2 điểm a; Điều 29
+  basis: llm_reexpressed
+- id: LD0-R084
+  premises:
+  - wage_unpaid_or_late
+  conclusion: resign_without_notice_allowed
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 2 điểm b
+  basis: llm_reexpressed
+- id: LD0-R085
+  premises:
+  - no_notice_wage_exception
+  conclusion: ~resign_without_notice_allowed
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 2 điểm b; Điều 97 khoản 4
+  basis: llm_reexpressed
+- id: LD0-R086
+  premises:
+  - mistreated_or_forced_labor
+  conclusion: resign_without_notice_allowed
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 2 điểm c
+  basis: llm_reexpressed
+- id: LD0-R087
+  premises:
+  - sexually_harassed_at_work
+  conclusion: resign_without_notice_allowed
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 2 điểm d
+  basis: llm_reexpressed
+- id: LD0-R088
+  premises:
+  - worker_is_pregnant
+  - medical_confirmation_harm_to_fetus
+  conclusion: resign_without_notice_allowed
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 2 điểm đ; Điều 138 khoản 1
+  basis: llm_reexpressed
+- id: LD0-R089
+  premises:
+  - reached_retirement_age
+  conclusion: resign_without_notice_allowed
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 2 điểm e
+  basis: llm_reexpressed
+- id: LD0-R090
+  premises:
+  - reached_retirement_age
+  - agreed_otherwise_on_retirement
+  conclusion: ~resign_without_notice_allowed
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 2 điểm e
+  basis: llm_reexpressed
+- id: LD0-R091
+  premises:
+  - employer_untruthful_info_affecting_contract
+  conclusion: resign_without_notice_allowed
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 2 điểm g
+  basis: llm_reexpressed
+- id: LD1-R001
+  premises: []
+  conclusion: ~wage_payment_schedule_compliant
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 97 khoản 1
+  basis: llm_reexpressed
+- id: LD1-R002
+  premises:
+  - paid_by_hour_day_week
+  - paid_after_each_period_or_lump_sum_within_15_days
+  conclusion: wage_payment_schedule_compliant
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 97 khoản 1
+  basis: llm_reexpressed
+- id: LD1-R003
+  premises:
+  - paid_monthly
+  - paid_monthly_or_half_monthly_periodic
+  conclusion: wage_payment_schedule_compliant
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 97 khoản 2
+  basis: llm_reexpressed
+- id: LD1-R004
+  premises: []
+  conclusion: ~late_wage_payment_permitted
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 97 khoản 4
+  basis: llm_reexpressed
+- id: LD1-R005
+  premises:
+  - wage_delay_force_majeure
+  - employer_tried_all_remedies
+  - wage_delay_within_30_days
+  conclusion: late_wage_payment_permitted
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 97 khoản 4
+  basis: llm_reexpressed
+- id: LD1-R006
+  premises:
+  - wage_delay_at_least_15_days
+  conclusion: must_compensate_late_wage_interest
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 97 khoản 4
+  basis: llm_reexpressed
+- id: LD1-R007
+  premises:
+  - overtime_event
+  - overtime_on_weekly_rest
+  conclusion: classified_overtime_weekly_rest
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 98 khoản 1 điểm b
+  basis: llm_reexpressed
+- id: LD1-R008
+  premises:
+  - overtime_event
+  - overtime_on_public_holiday
+  - overtime_on_weekly_rest
+  conclusion: ~classified_overtime_weekly_rest
+  source: 09_nghi_dinh_145_2020_ND-CP, Điều 55 khoản 3
+  basis: llm_reexpressed
+- id: LD1-R009
+  premises:
+  - overtime_event
+  - overtime_on_compensatory_day_off
+  conclusion: classified_overtime_weekly_rest
+  source: 09_nghi_dinh_145_2020_ND-CP, Điều 55 khoản 3
+  basis: llm_reexpressed
+- id: LD1-R010
+  premises:
+  - overtime_event
+  - overtime_on_public_holiday
+  conclusion: classified_overtime_holiday
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 98 khoản 1 điểm c
+  basis: llm_reexpressed
+- id: LD1-R011
+  premises:
+  - overtime_event
+  - overtime_on_normal_day
+  conclusion: overtime_at_least_150_percent
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 98 khoản 1 điểm a; 09_nghi_dinh_145_2020_ND-CP,
+    Điều 55 khoản 1 điểm b
+  basis: llm_reexpressed
+- id: LD1-R012
+  premises: []
+  conclusion: ~overtime_at_least_200_percent
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 98 khoản 1
+  basis: llm_reexpressed
+- id: LD1-R013
+  premises:
+  - classified_overtime_weekly_rest
+  conclusion: overtime_at_least_200_percent
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 98 khoản 1 điểm b; 09_nghi_dinh_145_2020_ND-CP,
+    Điều 55 khoản 1 điểm b, khoản 2
+  basis: llm_reexpressed
+- id: LD1-R014
+  premises: []
+  conclusion: ~overtime_at_least_300_percent
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 98 khoản 1
+  basis: llm_reexpressed
+- id: LD1-R015
+  premises:
+  - classified_overtime_holiday
+  conclusion: overtime_at_least_300_percent
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 98 khoản 1 điểm c; 09_nghi_dinh_145_2020_ND-CP,
+    Điều 55 khoản 1 điểm b, khoản 2, khoản 3
+  basis: llm_reexpressed
+- id: LD1-R016
+  premises: []
+  conclusion: ~overtime_pay_rate_at_least_200_percent
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 98 khoản 1
+  basis: llm_reexpressed
+- id: LD1-R017
+  premises:
+  - classified_overtime_weekly_rest
+  conclusion: overtime_pay_rate_at_least_200_percent
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 98 khoản 1 điểm b
+  basis: llm_reexpressed
+- id: LD1-R018
+  premises:
+  - classified_overtime_holiday
+  conclusion: overtime_pay_rate_at_least_200_percent
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 98 khoản 1 điểm c
+  basis: llm_reexpressed
+- id: LD1-R019
+  premises:
+  - works_at_night
+  conclusion: night_work_premium_at_least_30_percent
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 98 khoản 2
+  basis: llm_reexpressed
+- id: LD1-R020
+  premises:
+  - overtime_event
+  - overtime_at_night
+  conclusion: night_overtime_extra_20_percent
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 98 khoản 3
+  basis: llm_reexpressed
+- id: LD1-R021
+  premises:
+  - overtime_event
+  conclusion: overtime_requires_consent
+  source: 09_nghi_dinh_145_2020_ND-CP, Điều 59 khoản 1
+  basis: llm_reexpressed
+- id: LD1-R022
+  premises:
+  - overtime_event
+  - overtime_special_case_art108
+  conclusion: ~overtime_requires_consent
+  source: 09_nghi_dinh_145_2020_ND-CP, Điều 59 khoản 1
+  basis: llm_reexpressed
+- id: LD1-R023
+  premises:
+  - overtime_requires_consent
+  - worker_agreed_overtime
+  conclusion: regular_overtime_arrangement_allowed
+  source: 09_nghi_dinh_145_2020_ND-CP, Điều 59 khoản 1
+  basis: llm_reexpressed
+- id: LD1-R024
+  premises:
+  - overtime_requires_consent
+  - ~worker_agreed_overtime
+  conclusion: ~regular_overtime_arrangement_allowed
+  source: 09_nghi_dinh_145_2020_ND-CP, Điều 59 khoản 1
+  basis: llm_reexpressed
+- id: LD1-R025
+  premises:
+  - overtime_event
+  - overtime_special_case_art108
+  conclusion: regular_overtime_arrangement_allowed
+  source: 09_nghi_dinh_145_2020_ND-CP, Điều 59 khoản 1
+  basis: llm_reexpressed
+- id: LD1-R026
+  premises:
+  - shift_at_least_six_hours
+  - nightwork_at_least_three_hours
+  conclusion: night_shift_break_threshold_met
+  source: 09_nghi_dinh_145_2020_ND-CP, Điều 64 khoản 1
+  basis: llm_reexpressed
+- id: LD1-R027
+  premises:
+  - ~shift_at_least_six_hours
+  conclusion: ~night_shift_break_threshold_met
+  source: 09_nghi_dinh_145_2020_ND-CP, Điều 64 khoản 1
+  basis: llm_reexpressed
+- id: LD1-R028
+  premises:
+  - ~nightwork_at_least_three_hours
+  conclusion: ~night_shift_break_threshold_met
+  source: 09_nghi_dinh_145_2020_ND-CP, Điều 64 khoản 1
+  basis: llm_reexpressed
+- id: LD1-R029
+  premises:
+  - night_shift_break_threshold_met
+  conclusion: night_shift_break_at_least_45_min
+  source: 09_nghi_dinh_145_2020_ND-CP, Điều 64 khoản 1
+  basis: llm_reexpressed
+- id: LD1-R030
+  premises:
+  - ~night_shift_break_threshold_met
+  conclusion: ~night_shift_break_at_least_45_min
+  source: 09_nghi_dinh_145_2020_ND-CP, Điều 64 khoản 1
+  basis: llm_reexpressed
+- id: LD1-R031
+  premises:
+  - continuous_shift_work
+  conclusion: paid_break_at_least_30_min
+  source: 09_nghi_dinh_145_2020_ND-CP, Điều 64 khoản 2
+  basis: llm_reexpressed
+- id: LD1-R032
+  premises:
+  - continuous_shift_work
+  - works_at_night
+  conclusion: paid_break_at_least_45_min
+  source: 09_nghi_dinh_145_2020_ND-CP, Điều 64 khoản 2
+  basis: llm_reexpressed
+- id: LD1-R033
+  premises:
+  - break_at_shift_start_or_end
+  conclusion: ~break_scheduling_compliant
+  source: 09_nghi_dinh_145_2020_ND-CP, Điều 64 khoản 3
+  basis: llm_reexpressed
+- id: LD1-R034
+  premises: []
+  conclusion: must_issue_internal_rules
+  source: 09_nghi_dinh_145_2020_ND-CP, Điều 69 khoản 1
+  basis: llm_reexpressed
+- id: LD1-R035
+  premises:
+  - employer_at_least_10_workers
+  conclusion: written_internal_rules_required
+  source: 09_nghi_dinh_145_2020_ND-CP, Điều 69 khoản 1
+  basis: llm_reexpressed
+- id: LD1-R036
+  premises:
+  - ~employer_at_least_10_workers
+  conclusion: ~written_internal_rules_required
+  source: 09_nghi_dinh_145_2020_ND-CP, Điều 69 khoản 1
+  basis: llm_reexpressed
+- id: LD1-R037
+  premises:
+  - ~employer_at_least_10_workers
+  conclusion: must_agree_discipline_in_contract
+  source: 09_nghi_dinh_145_2020_ND-CP, Điều 69 khoản 1
+  basis: llm_reexpressed
+- id: LD1-R038
+  premises:
+  - has_grassroots_worker_representative
+  conclusion: must_consult_representative_on_internal_rules
+  source: 09_nghi_dinh_145_2020_ND-CP, Điều 69 khoản 3
+  basis: llm_reexpressed
+exception_of:
+- - LD0-R004
+  - LD0-R002
+- - LD0-R005
+  - LD0-R002
+- - LD0-R006
+  - LD0-R002
+- - LD0-R007
+  - LD0-R002
+- - LD0-R021
+  - LD0-R020
+- - LD0-R023
+  - LD0-R022
+- - LD0-R037
+  - LD0-R036
+- - LD0-R040
+  - LD0-R038
+- - LD0-R041
+  - LD0-R039
+- - LD0-R042
+  - LD0-R040
+- - LD0-R043
+  - LD0-R041
+- - LD0-R044
+  - LD0-R040
+- - LD0-R045
+  - LD0-R041
+- - LD0-R046
+  - LD0-R040
+- - LD0-R047
+  - LD0-R041
+- - LD0-R054
+  - LD0-R053
+- - LD0-R055
+  - LD0-R053
+- - LD0-R065
+  - LD0-R057
+- - LD0-R066
+  - LD0-R057
+- - LD0-R065
+  - LD0-R059
+- - LD0-R066
+  - LD0-R059
+- - LD0-R065
+  - LD0-R061
+- - LD0-R066
+  - LD0-R061
+- - LD0-R065
+  - LD0-R063
+- - LD0-R066
+  - LD0-R063
+- - LD0-R082
+  - LD0-R081
+- - LD0-R083
+  - LD0-R082
+- - LD0-R084
+  - LD0-R081
+- - LD0-R085
+  - LD0-R084
+- - LD0-R086
+  - LD0-R081
+- - LD0-R087
+  - LD0-R081
+- - LD0-R088
+  - LD0-R081
+- - LD0-R089
+  - LD0-R081
+- - LD0-R090
+  - LD0-R089
+- - LD0-R091
+  - LD0-R081
+- - LD1-R002
+  - LD1-R001
+- - LD1-R003
+  - LD1-R001
+- - LD1-R005
+  - LD1-R004
+- - LD1-R008
+  - LD1-R007
+- - LD1-R013
+  - LD1-R012
+- - LD1-R015
+  - LD1-R014
+- - LD1-R017
+  - LD1-R016
+- - LD1-R018
+  - LD1-R016
+- - LD1-R022
+  - LD1-R021
+priority_over: []

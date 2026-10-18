@@ -64,9 +64,7 @@ def to_gold_cases(items: list[dict], kb: KB) -> tuple[list[GoldCase], list[dict]
                 bad.append(f"span not in question for {p}")
             elif p not in kb.vocab:
                 bad.append(f"unknown predicate {p}")
-            elif kb.vocab[p].get("kind") != "input":
-                bad.append(f"fact uses derived predicate {p}")
-            else:
+            else:  # a user may state a fact the KB can also derive (e.g. "I am pregnant"); it is simply given
                 facts[p] = (bool(f["value"]), f["span"])
         if bad:
             skipped.append({"id": iid, "reason": "; ".join(bad)})

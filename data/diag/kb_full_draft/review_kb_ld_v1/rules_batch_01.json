@@ -1,0 +1,582 @@
+{
+ "rules": [
+  {
+   "id": "LD1-R001",
+   "premises": [],
+   "conclusion": "~wage_payment_schedule_compliant",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 97 khoản 1",
+   "note": "Mặc định: kỳ hạn trả lương chỉ hợp lệ trong các trường hợp Điều 97 liệt kê."
+  },
+  {
+   "id": "LD1-R002",
+   "premises": [
+    "paid_by_hour_day_week",
+    "paid_after_each_period_or_lump_sum_within_15_days"
+   ],
+   "conclusion": "wage_payment_schedule_compliant",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 97 khoản 1",
+   "note": "Lương giờ/ngày/tuần: trả sau mỗi kỳ hoặc trả gộp không quá 15 ngày một lần."
+  },
+  {
+   "id": "LD1-R003",
+   "premises": [
+    "paid_monthly",
+    "paid_monthly_or_half_monthly_periodic"
+   ],
+   "conclusion": "wage_payment_schedule_compliant",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 97 khoản 2",
+   "note": "Lương tháng: trả một tháng hoặc nửa tháng một lần, vào thời điểm có tính chu kỳ."
+  },
+  {
+   "id": "LD1-R004",
+   "premises": [],
+   "conclusion": "~late_wage_payment_permitted",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 97 khoản 4",
+   "note": "Mặc định không được trả lương chậm hạn."
+  },
+  {
+   "id": "LD1-R005",
+   "premises": [
+    "wage_delay_force_majeure",
+    "employer_tried_all_remedies",
+    "wage_delay_within_30_days"
+   ],
+   "conclusion": "late_wage_payment_permitted",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 97 khoản 4",
+   "note": "Bất khả kháng, đã tìm mọi biện pháp khắc phục: được chậm nhưng không quá 30 ngày."
+  },
+  {
+   "id": "LD1-R006",
+   "premises": [
+    "wage_delay_at_least_15_days"
+   ],
+   "conclusion": "must_compensate_late_wage_interest",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 97 khoản 4",
+   "note": "Trả lương chậm từ 15 ngày trở lên phải đền bù ít nhất bằng tiền lãi kỳ hạn 01 tháng."
+  },
+  {
+   "id": "LD1-R007",
+   "premises": [
+    "overtime_event",
+    "overtime_on_weekly_rest"
+   ],
+   "conclusion": "classified_overtime_weekly_rest",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 98 khoản 1 điểm b",
+   "note": "Làm thêm vào ngày nghỉ hằng tuần."
+  },
+  {
+   "id": "LD1-R008",
+   "premises": [
+    "overtime_event",
+    "overtime_on_public_holiday",
+    "overtime_on_weekly_rest"
+   ],
+   "conclusion": "~classified_overtime_weekly_rest",
+   "source": "09_nghi_dinh_145_2020_ND-CP, Điều 55 khoản 3",
+   "note": "Ngày lễ, tết trùng ngày nghỉ hằng tuần thì trả theo mức ngày lễ, không theo mức ngày nghỉ tuần."
+  },
+  {
+   "id": "LD1-R009",
+   "premises": [
+    "overtime_event",
+    "overtime_on_compensatory_day_off"
+   ],
+   "conclusion": "classified_overtime_weekly_rest",
+   "source": "09_nghi_dinh_145_2020_ND-CP, Điều 55 khoản 3",
+   "note": "Làm thêm vào ngày nghỉ bù (lễ trùng nghỉ tuần) được trả như làm thêm ngày nghỉ hằng tuần."
+  },
+  {
+   "id": "LD1-R010",
+   "premises": [
+    "overtime_event",
+    "overtime_on_public_holiday"
+   ],
+   "conclusion": "classified_overtime_holiday",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 98 khoản 1 điểm c",
+   "note": "Làm thêm vào ngày nghỉ lễ, tết, ngày nghỉ có hưởng lương."
+  },
+  {
+   "id": "LD1-R011",
+   "premises": [
+    "overtime_event",
+    "overtime_on_normal_day"
+   ],
+   "conclusion": "overtime_at_least_150_percent",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 98 khoản 1 điểm a; 09_nghi_dinh_145_2020_ND-CP, Điều 55 khoản 1 điểm b",
+   "note": "Làm thêm ngày thường ít nhất 150%."
+  },
+  {
+   "id": "LD1-R012",
+   "premises": [],
+   "conclusion": "~overtime_at_least_200_percent",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 98 khoản 1",
+   "note": "Mức 200% chỉ áp dụng cho làm thêm ngày nghỉ hằng tuần (danh sách mức theo loại ngày là đóng)."
+  },
+  {
+   "id": "LD1-R013",
+   "premises": [
+    "classified_overtime_weekly_rest"
+   ],
+   "conclusion": "overtime_at_least_200_percent",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 98 khoản 1 điểm b; 09_nghi_dinh_145_2020_ND-CP, Điều 55 khoản 1 điểm b, khoản 2",
+   "note": "Làm thêm ngày nghỉ hằng tuần ít nhất 200%."
+  },
+  {
+   "id": "LD1-R014",
+   "premises": [],
+   "conclusion": "~overtime_at_least_300_percent",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 98 khoản 1",
+   "note": "Mức 300% chỉ áp dụng cho làm thêm ngày lễ, tết, ngày nghỉ có hưởng lương."
+  },
+  {
+   "id": "LD1-R015",
+   "premises": [
+    "classified_overtime_holiday"
+   ],
+   "conclusion": "overtime_at_least_300_percent",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 98 khoản 1 điểm c; 09_nghi_dinh_145_2020_ND-CP, Điều 55 khoản 1 điểm b, khoản 2, khoản 3",
+   "note": "Làm thêm ngày lễ, tết (kể cả lễ trùng nghỉ tuần) ít nhất 300%."
+  },
+  {
+   "id": "LD1-R016",
+   "premises": [],
+   "conclusion": "~overtime_pay_rate_at_least_200_percent",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 98 khoản 1",
+   "note": "Mức tối thiểu từ 200% trở lên chỉ có ở ngày nghỉ tuần và ngày lễ; ngày thường là 150%."
+  },
+  {
+   "id": "LD1-R017",
+   "premises": [
+    "classified_overtime_weekly_rest"
+   ],
+   "conclusion": "overtime_pay_rate_at_least_200_percent",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 98 khoản 1 điểm b",
+   "note": "Ngày nghỉ hằng tuần: mức tối thiểu 200%."
+  },
+  {
+   "id": "LD1-R018",
+   "premises": [
+    "classified_overtime_holiday"
+   ],
+   "conclusion": "overtime_pay_rate_at_least_200_percent",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 98 khoản 1 điểm c",
+   "note": "Ngày lễ: mức tối thiểu 300%, tức là từ 200% trở lên."
+  },
+  {
+   "id": "LD1-R019",
+   "premises": [
+    "works_at_night"
+   ],
+   "conclusion": "night_work_premium_at_least_30_percent",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 98 khoản 2",
+   "note": "Làm việc ban đêm được trả thêm ít nhất 30%."
+  },
+  {
+   "id": "LD1-R020",
+   "premises": [
+    "overtime_event",
+    "overtime_at_night"
+   ],
+   "conclusion": "night_overtime_extra_20_percent",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 98 khoản 3",
+   "note": "Làm thêm giờ ban đêm được trả thêm 20% ngoài khoản 1 và 2."
+  },
+  {
+   "id": "LD1-R021",
+   "premises": [
+    "overtime_event"
+   ],
+   "conclusion": "overtime_requires_consent",
+   "source": "09_nghi_dinh_145_2020_ND-CP, Điều 59 khoản 1",
+   "note": "Tổ chức làm thêm giờ phải được người lao động đồng ý về thời gian, địa điểm, công việc."
+  },
+  {
+   "id": "LD1-R022",
+   "premises": [
+    "overtime_event",
+    "overtime_special_case_art108"
+   ],
+   "conclusion": "~overtime_requires_consent",
+   "source": "09_nghi_dinh_145_2020_ND-CP, Điều 59 khoản 1",
+   "note": "Trừ các trường hợp làm thêm giờ đặc biệt tại Điều 108 BLLĐ."
+  },
+  {
+   "id": "LD1-R023",
+   "premises": [
+    "overtime_requires_consent",
+    "worker_agreed_overtime"
+   ],
+   "conclusion": "regular_overtime_arrangement_allowed",
+   "source": "09_nghi_dinh_145_2020_ND-CP, Điều 59 khoản 1",
+   "note": "Có sự đồng ý của người lao động thì bố trí làm thêm đáp ứng điều kiện."
+  },
+  {
+   "id": "LD1-R024",
+   "premises": [
+    "overtime_requires_consent",
+    "~worker_agreed_overtime"
+   ],
+   "conclusion": "~regular_overtime_arrangement_allowed",
+   "source": "09_nghi_dinh_145_2020_ND-CP, Điều 59 khoản 1",
+   "note": "Cần đồng ý mà người lao động không đồng ý thì không được bố trí."
+  },
+  {
+   "id": "LD1-R025",
+   "premises": [
+    "overtime_event",
+    "overtime_special_case_art108"
+   ],
+   "conclusion": "regular_overtime_arrangement_allowed",
+   "source": "09_nghi_dinh_145_2020_ND-CP, Điều 59 khoản 1",
+   "note": "Trường hợp Điều 108 BLLĐ không đòi hỏi sự đồng ý."
+  },
+  {
+   "id": "LD1-R026",
+   "premises": [
+    "shift_at_least_six_hours",
+    "nightwork_at_least_three_hours"
+   ],
+   "conclusion": "night_shift_break_threshold_met",
+   "source": "09_nghi_dinh_145_2020_ND-CP, Điều 64 khoản 1",
+   "note": "Làm từ 06 giờ trở lên/ngày, trong đó ít nhất 03 giờ ban đêm."
+  },
+  {
+   "id": "LD1-R027",
+   "premises": [
+    "~shift_at_least_six_hours"
+   ],
+   "conclusion": "~night_shift_break_threshold_met",
+   "source": "09_nghi_dinh_145_2020_ND-CP, Điều 64 khoản 1",
+   "note": "Làm dưới 06 giờ thì không đủ điều kiện."
+  },
+  {
+   "id": "LD1-R028",
+   "premises": [
+    "~nightwork_at_least_three_hours"
+   ],
+   "conclusion": "~night_shift_break_threshold_met",
+   "source": "09_nghi_dinh_145_2020_ND-CP, Điều 64 khoản 1",
+   "note": "Dưới 03 giờ ban đêm thì không đủ điều kiện."
+  },
+  {
+   "id": "LD1-R029",
+   "premises": [
+    "night_shift_break_threshold_met"
+   ],
+   "conclusion": "night_shift_break_at_least_45_min",
+   "source": "09_nghi_dinh_145_2020_ND-CP, Điều 64 khoản 1",
+   "note": "Đủ điều kiện thì nghỉ giữa giờ ít nhất 45 phút liên tục."
+  },
+  {
+   "id": "LD1-R030",
+   "premises": [
+    "~night_shift_break_threshold_met"
+   ],
+   "conclusion": "~night_shift_break_at_least_45_min",
+   "source": "09_nghi_dinh_145_2020_ND-CP, Điều 64 khoản 1",
+   "note": "Không đủ điều kiện khoản 1 thì không áp dụng mức 45 phút."
+  },
+  {
+   "id": "LD1-R031",
+   "premises": [
+    "continuous_shift_work"
+   ],
+   "conclusion": "paid_break_at_least_30_min",
+   "source": "09_nghi_dinh_145_2020_ND-CP, Điều 64 khoản 2",
+   "note": "Làm theo ca liên tục: nghỉ giữa giờ tính vào giờ làm ít nhất 30 phút."
+  },
+  {
+   "id": "LD1-R032",
+   "premises": [
+    "continuous_shift_work",
+    "works_at_night"
+   ],
+   "conclusion": "paid_break_at_least_45_min",
+   "source": "09_nghi_dinh_145_2020_ND-CP, Điều 64 khoản 2",
+   "note": "Ca liên tục ban đêm: nghỉ giữa giờ tính vào giờ làm ít nhất 45 phút."
+  },
+  {
+   "id": "LD1-R033",
+   "premises": [
+    "break_at_shift_start_or_end"
+   ],
+   "conclusion": "~break_scheduling_compliant",
+   "source": "09_nghi_dinh_145_2020_ND-CP, Điều 64 khoản 3",
+   "note": "Không được bố trí giờ nghỉ vào lúc bắt đầu hoặc kết thúc ca."
+  },
+  {
+   "id": "LD1-R034",
+   "premises": [],
+   "conclusion": "must_issue_internal_rules",
+   "source": "09_nghi_dinh_145_2020_ND-CP, Điều 69 khoản 1",
+   "note": "Người sử dụng lao động phải ban hành nội quy lao động."
+  },
+  {
+   "id": "LD1-R035",
+   "premises": [
+    "employer_at_least_10_workers"
+   ],
+   "conclusion": "written_internal_rules_required",
+   "source": "09_nghi_dinh_145_2020_ND-CP, Điều 69 khoản 1",
+   "note": "Từ 10 người lao động trở lên: nội quy phải bằng văn bản."
+  },
+  {
+   "id": "LD1-R036",
+   "premises": [
+    "~employer_at_least_10_workers"
+   ],
+   "conclusion": "~written_internal_rules_required",
+   "source": "09_nghi_dinh_145_2020_ND-CP, Điều 69 khoản 1",
+   "note": "Dưới 10 người: không bắt buộc nội quy bằng văn bản."
+  },
+  {
+   "id": "LD1-R037",
+   "premises": [
+    "~employer_at_least_10_workers"
+   ],
+   "conclusion": "must_agree_discipline_in_contract",
+   "source": "09_nghi_dinh_145_2020_ND-CP, Điều 69 khoản 1",
+   "note": "Dưới 10 người: phải thỏa thuận kỷ luật, trách nhiệm vật chất trong hợp đồng."
+  },
+  {
+   "id": "LD1-R038",
+   "premises": [
+    "has_grassroots_worker_representative"
+   ],
+   "conclusion": "must_consult_representative_on_internal_rules",
+   "source": "09_nghi_dinh_145_2020_ND-CP, Điều 69 khoản 3",
+   "note": "Có tổ chức đại diện người lao động tại cơ sở thì phải tham khảo ý kiến trước khi ban hành/sửa nội quy."
+  }
+ ],
+ "exception_of": [
+  [
+   "LD1-R002",
+   "LD1-R001"
+  ],
+  [
+   "LD1-R003",
+   "LD1-R001"
+  ],
+  [
+   "LD1-R005",
+   "LD1-R004"
+  ],
+  [
+   "LD1-R008",
+   "LD1-R007"
+  ],
+  [
+   "LD1-R013",
+   "LD1-R012"
+  ],
+  [
+   "LD1-R015",
+   "LD1-R014"
+  ],
+  [
+   "LD1-R017",
+   "LD1-R016"
+  ],
+  [
+   "LD1-R018",
+   "LD1-R016"
+  ],
+  [
+   "LD1-R022",
+   "LD1-R021"
+  ]
+ ],
+ "extra_predicates": [
+  {
+   "pred": "wage_payment_schedule_compliant",
+   "kind": "derived",
+   "template_pos": "Kỳ hạn trả lương đúng quy định.",
+   "template_neg": "Kỳ hạn trả lương không đúng quy định."
+  },
+  {
+   "pred": "paid_by_hour_day_week",
+   "kind": "input",
+   "template_pos": "Người lao động hưởng lương theo giờ, ngày hoặc tuần.",
+   "template_neg": "Người lao động không hưởng lương theo giờ, ngày, tuần.",
+   "ask": "Người lao động hưởng lương theo giờ, ngày hoặc tuần phải không?"
+  },
+  {
+   "pred": "paid_after_each_period_or_lump_sum_within_15_days",
+   "kind": "input",
+   "template_pos": "Lương được trả sau mỗi giờ/ngày/tuần hoặc trả gộp không quá 15 ngày một lần.",
+   "template_neg": "Lương trả gộp quá 15 ngày một lần.",
+   "ask": "Lương được trả sau mỗi kỳ hoặc gộp không quá 15 ngày một lần phải không?"
+  },
+  {
+   "pred": "paid_monthly",
+   "kind": "input",
+   "template_pos": "Người lao động hưởng lương theo tháng.",
+   "template_neg": "Người lao động không hưởng lương theo tháng.",
+   "ask": "Người lao động hưởng lương theo tháng phải không?"
+  },
+  {
+   "pred": "paid_monthly_or_half_monthly_periodic",
+   "kind": "input",
+   "template_pos": "Lương được trả một tháng hoặc nửa tháng một lần vào thời điểm cố định theo chu kỳ.",
+   "template_neg": "Lương không được trả theo chu kỳ một tháng hoặc nửa tháng.",
+   "ask": "Lương có được trả một tháng hoặc nửa tháng một lần vào thời điểm cố định không?"
+  },
+  {
+   "pred": "late_wage_payment_permitted",
+   "kind": "derived",
+   "template_pos": "Việc trả lương chậm được pháp luật cho phép.",
+   "template_neg": "Không được trả lương chậm."
+  },
+  {
+   "pred": "wage_delay_force_majeure",
+   "kind": "input",
+   "template_pos": "Lương trả chậm vì lý do bất khả kháng.",
+   "template_neg": "Lương trả chậm không vì bất khả kháng.",
+   "ask": "Việc trả lương chậm có do lý do bất khả kháng không?"
+  },
+  {
+   "pred": "employer_tried_all_remedies",
+   "kind": "input",
+   "template_pos": "Người sử dụng lao động đã tìm mọi biện pháp khắc phục.",
+   "template_neg": "Người sử dụng lao động chưa tìm mọi biện pháp khắc phục.",
+   "ask": "Người sử dụng lao động đã tìm mọi biện pháp khắc phục chưa?"
+  },
+  {
+   "pred": "wage_delay_within_30_days",
+   "kind": "input",
+   "template_pos": "Lương chậm không quá 30 ngày.",
+   "template_neg": "Lương chậm quá 30 ngày.",
+   "ask": "Lương bị chậm không quá 30 ngày phải không?"
+  },
+  {
+   "pred": "wage_delay_at_least_15_days",
+   "kind": "input",
+   "template_pos": "Lương bị trả chậm từ 15 ngày trở lên.",
+   "template_neg": "Lương bị trả chậm dưới 15 ngày.",
+   "ask": "Lương bị trả chậm từ 15 ngày trở lên phải không?"
+  },
+  {
+   "pred": "must_compensate_late_wage_interest",
+   "kind": "derived",
+   "template_pos": "Người sử dụng lao động phải đền bù ít nhất bằng tiền lãi của số tiền trả chậm.",
+   "template_neg": "Không phát sinh nghĩa vụ đền bù tiền lãi trả lương chậm."
+  },
+  {
+   "pred": "overtime_on_compensatory_day_off",
+   "kind": "input",
+   "template_pos": "Người lao động làm thêm vào ngày nghỉ bù khi lễ, tết trùng ngày nghỉ hằng tuần.",
+   "template_neg": "Người lao động không làm thêm vào ngày nghỉ bù.",
+   "ask": "Người lao động làm thêm vào ngày nghỉ bù (do lễ trùng ngày nghỉ tuần) phải không?"
+  },
+  {
+   "pred": "overtime_on_normal_day",
+   "kind": "input",
+   "template_pos": "Người lao động làm thêm vào ngày thường.",
+   "template_neg": "Người lao động không làm thêm vào ngày thường.",
+   "ask": "Người lao động làm thêm vào ngày làm việc bình thường phải không?"
+  },
+  {
+   "pred": "overtime_at_least_150_percent",
+   "kind": "derived",
+   "template_pos": "Được trả ít nhất 150% cho giờ làm thêm ngày thường.",
+   "template_neg": "Không xác định mức 150% theo trường hợp ngày thường."
+  },
+  {
+   "pred": "works_at_night",
+   "kind": "input",
+   "template_pos": "Người lao động làm việc vào ban đêm.",
+   "template_neg": "Người lao động không làm việc ban đêm.",
+   "ask": "Người lao động có làm việc vào ban đêm không?"
+  },
+  {
+   "pred": "night_work_premium_at_least_30_percent",
+   "kind": "derived",
+   "template_pos": "Được trả thêm ít nhất 30% tiền lương cho giờ làm ban đêm.",
+   "template_neg": "Không phát sinh khoản trả thêm 30% làm ban đêm."
+  },
+  {
+   "pred": "overtime_at_night",
+   "kind": "input",
+   "template_pos": "Người lao động làm thêm giờ vào ban đêm.",
+   "template_neg": "Người lao động không làm thêm giờ vào ban đêm.",
+   "ask": "Giờ làm thêm có rơi vào ban đêm không?"
+  },
+  {
+   "pred": "night_overtime_extra_20_percent",
+   "kind": "derived",
+   "template_pos": "Được trả thêm 20% tiền lương ban ngày cho giờ làm thêm ban đêm.",
+   "template_neg": "Không phát sinh khoản trả thêm 20% làm thêm ban đêm."
+  },
+  {
+   "pred": "overtime_special_case_art108",
+   "kind": "input",
+   "template_pos": "Làm thêm giờ thuộc trường hợp đặc biệt tại Điều 108 Bộ luật Lao động.",
+   "template_neg": "Làm thêm giờ không thuộc trường hợp đặc biệt Điều 108.",
+   "ask": "Việc làm thêm có thuộc trường hợp đặc biệt Điều 108 BLLĐ (thiên tai, quốc phòng, an ninh...) không?"
+  },
+  {
+   "pred": "continuous_shift_work",
+   "kind": "input",
+   "template_pos": "Người lao động làm việc theo ca liên tục.",
+   "template_neg": "Người lao động không làm theo ca liên tục.",
+   "ask": "Người lao động có làm việc theo ca liên tục không?"
+  },
+  {
+   "pred": "paid_break_at_least_30_min",
+   "kind": "derived",
+   "template_pos": "Thời gian nghỉ giữa giờ ít nhất 30 phút được tính vào giờ làm việc.",
+   "template_neg": "Không áp dụng nghỉ giữa giờ 30 phút tính vào giờ làm."
+  },
+  {
+   "pred": "paid_break_at_least_45_min",
+   "kind": "derived",
+   "template_pos": "Thời gian nghỉ giữa giờ ít nhất 45 phút được tính vào giờ làm việc.",
+   "template_neg": "Không áp dụng nghỉ giữa giờ 45 phút tính vào giờ làm."
+  },
+  {
+   "pred": "break_at_shift_start_or_end",
+   "kind": "input",
+   "template_pos": "Giờ nghỉ được bố trí vào lúc bắt đầu hoặc kết thúc ca.",
+   "template_neg": "Giờ nghỉ không bố trí vào đầu hoặc cuối ca.",
+   "ask": "Giờ nghỉ giữa ca có bị xếp vào lúc bắt đầu hoặc kết thúc ca không?"
+  },
+  {
+   "pred": "break_scheduling_compliant",
+   "kind": "derived",
+   "template_pos": "Việc bố trí thời điểm nghỉ trong giờ làm việc đúng quy định.",
+   "template_neg": "Việc bố trí thời điểm nghỉ trong giờ làm việc không đúng quy định."
+  },
+  {
+   "pred": "must_issue_internal_rules",
+   "kind": "derived",
+   "template_pos": "Người sử dụng lao động phải ban hành nội quy lao động.",
+   "template_neg": "Người sử dụng lao động không phải ban hành nội quy lao động."
+  },
+  {
+   "pred": "must_agree_discipline_in_contract",
+   "kind": "derived",
+   "template_pos": "Phải thỏa thuận nội dung kỷ luật lao động, trách nhiệm vật chất trong hợp đồng lao động.",
+   "template_neg": "Không bắt buộc thỏa thuận kỷ luật, trách nhiệm vật chất trong hợp đồng."
+  },
+  {
+   "pred": "has_grassroots_worker_representative",
+   "kind": "input",
+   "template_pos": "Nơi làm việc có tổ chức đại diện người lao động tại cơ sở.",
+   "template_neg": "Nơi làm việc không có tổ chức đại diện người lao động tại cơ sở.",
+   "ask": "Nơi làm việc có tổ chức đại diện người lao động tại cơ sở (công đoàn cơ sở...) không?"
+  },
+  {
+   "pred": "must_consult_representative_on_internal_rules",
+   "kind": "derived",
+   "template_pos": "Phải tham khảo ý kiến tổ chức đại diện người lao động trước khi ban hành, sửa đổi nội quy.",
+   "template_neg": "Không có nghĩa vụ tham khảo ý kiến tổ chức đại diện về nội quy."
+  }
+ ],
+ "goals_decided": [
+  "overtime_at_least_200_percent",
+  "overtime_at_least_300_percent",
+  "overtime_pay_rate_at_least_200_percent",
+  "regular_overtime_arrangement_allowed",
+  "night_shift_break_at_least_45_min"
+ ]
+}

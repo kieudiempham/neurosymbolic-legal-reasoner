@@ -1,0 +1,457 @@
+[
+ {
+  "pred": "annual_leave_at_least_12_days",
+  "kind": "derived",
+  "is_question_goal": true,
+  "template_pos": "Người lao động có ít nhất 12 ngày nghỉ hằng năm hưởng nguyên lương.",
+  "template_neg": "Chưa xác lập quyền nghỉ ít nhất 12 ngày theo điều kiện đang xét."
+ },
+ {
+  "pred": "cancel_probation_without_notice_allowed",
+  "kind": "derived",
+  "is_question_goal": true,
+  "template_pos": "Người lao động được hủy bỏ thử việc mà không phải báo trước.",
+  "template_neg": "Người lao động không được hủy thử việc không báo trước theo căn cứ đang xét."
+ },
+ {
+  "pred": "classified_overtime_holiday",
+  "kind": "derived",
+  "is_question_goal": false,
+  "template_pos": "Hoạt động làm thêm được phân loại vào ngày lễ.",
+  "template_neg": "Hoạt động làm thêm không phải ngày lễ."
+ },
+ {
+  "pred": "classified_overtime_weekly_rest",
+  "kind": "derived",
+  "is_question_goal": false,
+  "template_pos": "Hoạt động làm thêm được phân loại vào ngày nghỉ hằng tuần.",
+  "template_neg": "Hoạt động làm thêm không phải ngày nghỉ hằng tuần."
+ },
+ {
+  "pred": "college_level_position",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Công việc đòi hỏi trình độ chuyên môn từ cao đẳng trở lên.",
+  "template_neg": "Công việc không thuộc nhóm đòi hỏi trình độ từ cao đẳng trở lên."
+ },
+ {
+  "pred": "consented_to_night_work",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Lao động nữ nuôi con nhỏ đã đồng ý làm việc ban đêm.",
+  "template_neg": "Lao động nữ nuôi con nhỏ không đồng ý làm việc ban đêm."
+ },
+ {
+  "pred": "contract_expired_over_30_days",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Hợp đồng đã hết hạn quá 30 ngày.",
+  "template_neg": "Hợp đồng mới hết hạn chưa quá 30 ngày."
+ },
+ {
+  "pred": "contract_under_one_month",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Thời hạn hợp đồng lao động dưới một tháng.",
+  "template_neg": "Thời hạn hợp đồng từ một tháng trở lên."
+ },
+ {
+  "pred": "converted_to_indefinite_contract",
+  "kind": "derived",
+  "is_question_goal": true,
+  "template_pos": "Hợp đồng cũ chuyển thành hợp đồng không xác định thời hạn theo Điều 20.",
+  "template_neg": "Hợp đồng cũ chưa chuyển thành hợp đồng không xác định thời hạn theo Điều 20."
+ },
+ {
+  "pred": "discipline_during_pregnancy_allowed",
+  "kind": "derived",
+  "is_question_goal": true,
+  "template_pos": "Được xử lý kỷ luật lao động đối với lao động nữ đang mang thai ngay lúc này.",
+  "template_neg": "Không được xử lý kỷ luật lao động đối với lao động nữ đang mang thai lúc này."
+ },
+ {
+  "pred": "employee_protected_from_discipline",
+  "kind": "derived",
+  "is_question_goal": false,
+  "template_pos": "Lao động nữ đang trong thời kỳ được tạm hoãn xử lý kỷ luật.",
+  "template_neg": "Lao động nữ không đang trong thời kỳ được tạm hoãn xử lý kỷ luật."
+ },
+ {
+  "pred": "employer_at_least_10_workers",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Người sử dụng lao động có từ 10 nhân viên trở lên.",
+  "template_neg": "Người sử dụng lao động có dưới 10 nhân viên."
+ },
+ {
+  "pred": "fixed_term_contract",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Đây là hợp đồng lao động xác định thời hạn.",
+  "template_neg": "Đây không phải hợp đồng lao động xác định thời hạn."
+ },
+ {
+  "pred": "fixed_term_from_12_to_36_months",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Hợp đồng xác định thời hạn từ 12 đến 36 tháng.",
+  "template_neg": "Hợp đồng không thuộc nhóm từ 12 đến 36 tháng."
+ },
+ {
+  "pred": "fixed_term_length_compliant",
+  "kind": "derived",
+  "is_question_goal": true,
+  "template_pos": "Thời hạn ghi trong hợp đồng xác định thời hạn đáp ứng giới hạn luật định.",
+  "template_neg": "Thời hạn ghi trong hợp đồng xác định thời hạn vượt giới hạn luật định."
+ },
+ {
+  "pred": "fixed_term_months_le_36",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Hợp đồng có thời hạn không quá 36 tháng.",
+  "template_neg": "Hợp đồng có thời hạn trên 36 tháng."
+ },
+ {
+  "pred": "full_year_normal_leave_class",
+  "kind": "derived",
+  "is_question_goal": false,
+  "template_pos": "Người lao động thuộc nhóm đủ năm trong điều kiện bình thường.",
+  "template_neg": "Người lao động không thuộc nhóm đủ năm trong điều kiện bình thường."
+ },
+ {
+  "pred": "labor_relation",
+  "kind": "predeclared",
+  "is_question_goal": true,
+  "template_pos": "Giữa hai bên tồn tại quan hệ lao động.",
+  "template_neg": "Giữa hai bên không tồn tại quan hệ lao động."
+ },
+ {
+  "pred": "must_register_internal_rules",
+  "kind": "derived",
+  "is_question_goal": true,
+  "template_pos": "Người sử dụng lao động phải đăng ký nội quy lao động.",
+  "template_neg": "Người sử dụng lao động không phải đăng ký nội quy theo ngưỡng nhân sự đang xét."
+ },
+ {
+  "pred": "night_shift_break_at_least_45_min",
+  "kind": "derived",
+  "is_question_goal": true,
+  "template_pos": "Người lao động có quyền nghỉ giữa ca ít nhất 45 phút liên tục.",
+  "template_neg": "Không thể áp dụng mức nghỉ giữa ca 45 phút theo điều kiện đang xét."
+ },
+ {
+  "pred": "night_shift_break_threshold_met",
+  "kind": "derived",
+  "is_question_goal": false,
+  "template_pos": "Đã đủ điều kiện nhận nghỉ ca đêm 45 phút.",
+  "template_neg": "Chưa đủ điều kiện nghỉ ca đêm 45 phút."
+ },
+ {
+  "pred": "night_work_permitted_for_nursing",
+  "kind": "derived",
+  "is_question_goal": true,
+  "template_pos": "Có thể bố trí lao động nữ nuôi con dưới 12 tháng làm ban đêm nếu được đồng ý.",
+  "template_neg": "Không thể bố trí lao động nữ nuôi con dưới 12 tháng làm ban đêm nếu không có sự đồng ý."
+ },
+ {
+  "pred": "night_work_permitted_for_pregnant",
+  "kind": "derived",
+  "is_question_goal": true,
+  "template_pos": "Được sử dụng lao động nữ mang thai từ tháng thứ bảy làm việc ban đêm.",
+  "template_neg": "Không được sử dụng lao động nữ mang thai từ tháng thứ bảy làm việc ban đêm."
+ },
+ {
+  "pred": "nightwork_at_least_three_hours",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Trong ca có ít nhất ba giờ làm việc ban đêm.",
+  "template_neg": "Trong ca có dưới ba giờ làm việc ban đêm."
+ },
+ {
+  "pred": "no_new_contract",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Hai bên chưa ký hợp đồng lao động mới sau khi hợp đồng cũ hết hạn.",
+  "template_neg": "Hai bên đã ký hợp đồng mới."
+ },
+ {
+  "pred": "no_notice_wage_exception",
+  "kind": "derived",
+  "is_question_goal": false,
+  "template_pos": "Thiếu hoặc chậm lương thuộc ngoại lệ cho nghỉ không cần báo trước.",
+  "template_neg": "Thiếu hoặc chậm lương không thuộc ngoại lệ đang xét."
+ },
+ {
+  "pred": "normal_contract_no_probation_exception",
+  "kind": "derived",
+  "is_question_goal": false,
+  "template_pos": "Áp dụng cấm thử việc do hợp đồng dưới một tháng.",
+  "template_neg": "Không áp dụng cấm thử việc do hợp đồng dưới một tháng."
+ },
+ {
+  "pred": "normal_working_conditions",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Công việc trong điều kiện bình thường.",
+  "template_neg": "Công việc thuộc diện có điều kiện nặng nhọc hoặc đặc thù."
+ },
+ {
+  "pred": "notice_30_day_rule_applies",
+  "kind": "derived",
+  "is_question_goal": false,
+  "template_pos": "Người lao động thuộc nhóm phải báo trước 30 ngày.",
+  "template_neg": "Người lao động không thuộc nhóm báo trước 30 ngày."
+ },
+ {
+  "pred": "notice_at_least_30_days",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Người lao động báo trước ít nhất 30 ngày.",
+  "template_neg": "Người lao động báo trước dưới 30 ngày."
+ },
+ {
+  "pred": "nursing_child_under_12_months",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Lao động nữ đang nuôi con dưới 12 tháng tuổi.",
+  "template_neg": "Lao động nữ không nuôi con dưới 12 tháng tuổi."
+ },
+ {
+  "pred": "oral_contract_permitted",
+  "kind": "derived",
+  "is_question_goal": true,
+  "template_pos": "Trường hợp này được phép giao kết hợp đồng lao động bằng lời nói.",
+  "template_neg": "Trường hợp này không được phép giao kết hợp đồng lao động bằng lời nói."
+ },
+ {
+  "pred": "oral_contract_requested",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Hai bên định giao kết hợp đồng bằng lời nói.",
+  "template_neg": "Hai bên không định giao kết hợp đồng bằng lời nói."
+ },
+ {
+  "pred": "over_60_requires_written_consent",
+  "kind": "derived",
+  "is_question_goal": false,
+  "template_pos": "Điều chuyển công việc quá 60 ngày yêu cầu đồng ý bằng văn bản.",
+  "template_neg": "Không có nghĩa vụ đồng ý bằng văn bản theo ngưỡng 60 ngày."
+ },
+ {
+  "pred": "overtime_at_least_200_percent",
+  "kind": "derived",
+  "is_question_goal": true,
+  "template_pos": "Được trả ít nhất 200% đơn giá theo quy định làm thêm ngày nghỉ tuần.",
+  "template_neg": "Không được xác định mức 200% theo trường hợp làm thêm ngày nghỉ tuần."
+ },
+ {
+  "pred": "overtime_at_least_300_percent",
+  "kind": "derived",
+  "is_question_goal": true,
+  "template_pos": "Được trả ít nhất 300% đơn giá theo quy định làm thêm ngày lễ.",
+  "template_neg": "Không được xác định mức 300% theo trường hợp làm thêm ngày lễ."
+ },
+ {
+  "pred": "overtime_event",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Có làm thêm giờ ngoài thời giờ làm việc bình thường.",
+  "template_neg": "Không phát sinh làm thêm giờ."
+ },
+ {
+  "pred": "overtime_on_public_holiday",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Người lao động làm thêm vào ngày nghỉ lễ.",
+  "template_neg": "Người lao động không làm thêm vào ngày nghỉ lễ."
+ },
+ {
+  "pred": "overtime_on_weekly_rest",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Người lao động làm thêm vào ngày nghỉ hằng tuần.",
+  "template_neg": "Người lao động không làm thêm vào ngày nghỉ hằng tuần."
+ },
+ {
+  "pred": "overtime_pay_rate_at_least_200_percent",
+  "kind": "derived",
+  "is_question_goal": true,
+  "template_pos": "Mức lương làm thêm tối thiểu thuộc ngưỡng 200% trở lên.",
+  "template_neg": "Mức lương làm thêm tối thiểu dưới ngưỡng 200%."
+ },
+ {
+  "pred": "overtime_requires_consent",
+  "kind": "derived",
+  "is_question_goal": false,
+  "template_pos": "Làm thêm giờ thông thường cần có sự đồng ý của người lao động.",
+  "template_neg": "Không áp dụng điều kiện cần đồng ý cho trường hợp làm thêm này."
+ },
+ {
+  "pred": "paid_wage",
+  "kind": "predeclared",
+  "is_question_goal": false,
+  "template_pos": "Người lao động được trả lương hoặc tiền công cho công việc.",
+  "template_neg": "Người lao động không được trả lương cho công việc."
+ },
+ {
+  "pred": "pregnancy_at_least_month_seven",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Lao động nữ đang mang thai từ tháng thứ bảy.",
+  "template_neg": "Lao động nữ chưa đến tháng thứ bảy."
+ },
+ {
+  "pred": "probation_allowed",
+  "kind": "derived",
+  "is_question_goal": true,
+  "template_pos": "Phương án thử việc được phép theo giới hạn đang xét.",
+  "template_neg": "Phương án thử việc không được phép theo giới hạn đang xét."
+ },
+ {
+  "pred": "probation_planned",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Các bên dự định áp dụng thử việc.",
+  "template_neg": "Các bên không dự định áp dụng thử việc."
+ },
+ {
+  "pred": "probation_within_60_days",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Thử việc không quá 60 ngày.",
+  "template_neg": "Thử việc quá 60 ngày."
+ },
+ {
+  "pred": "regular_overtime_arrangement_allowed",
+  "kind": "derived",
+  "is_question_goal": true,
+  "template_pos": "Việc bố trí làm thêm giờ thông thường đáp ứng điều kiện đồng ý.",
+  "template_neg": "Việc bố trí làm thêm giờ thông thường không đáp ứng điều kiện đồng ý."
+ },
+ {
+  "pred": "resign_without_notice_allowed",
+  "kind": "derived",
+  "is_question_goal": true,
+  "template_pos": "Người lao động có quyền đơn phương chấm dứt hợp đồng không cần báo trước theo tình huống.",
+  "template_neg": "Người lao động không có quyền nghỉ không báo trước theo tình huống đang xét."
+ },
+ {
+  "pred": "rest_between_shifts_at_least_12_hours",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Khoảng cách giữa hai ca ít nhất 12 giờ.",
+  "template_neg": "Khoảng cách giữa hai ca dưới 12 giờ."
+ },
+ {
+  "pred": "shift_at_least_six_hours",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Ca làm việc kéo dài từ sáu giờ trở lên.",
+  "template_neg": "Ca làm việc dưới sáu giờ."
+ },
+ {
+  "pred": "shift_change_rest_at_least_12_hours",
+  "kind": "derived",
+  "is_question_goal": true,
+  "template_pos": "Thời gian nghỉ chuyển ca đáp ứng mức tối thiểu 12 giờ.",
+  "template_neg": "Thời gian nghỉ chuyển ca không đáp ứng mức tối thiểu 12 giờ."
+ },
+ {
+  "pred": "temporary_transfer_compliant",
+  "kind": "derived",
+  "is_question_goal": true,
+  "template_pos": "Việc điều chuyển quá 60 ngày đáp ứng yêu cầu đồng ý bằng văn bản đang xét.",
+  "template_neg": "Việc điều chuyển quá 60 ngày không đáp ứng yêu cầu đồng ý bằng văn bản."
+ },
+ {
+  "pred": "temporary_transfer_over_60_workdays",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Điều chuyển làm công việc khác vượt 60 ngày làm việc cộng dồn trong năm.",
+  "template_neg": "Điều chuyển không vượt 60 ngày làm việc cộng dồn trong năm."
+ },
+ {
+  "pred": "under_management",
+  "kind": "predeclared",
+  "is_question_goal": false,
+  "template_pos": "Người lao động chịu sự quản lý, điều hành, giám sát của bên sử dụng lao động.",
+  "template_neg": "Người lao động không chịu sự quản lý, điều hành của bên sử dụng lao động."
+ },
+ {
+  "pred": "under_probation",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Người lao động đang trong thời gian thử việc.",
+  "template_neg": "Người lao động không ở thời gian thử việc."
+ },
+ {
+  "pred": "wage_unpaid_or_late",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Người lao động bị chậm hoặc trả thiếu lương ngoài trường hợp ngoại lệ đã biết.",
+  "template_neg": "Người lao động nhận đủ lương đúng hạn."
+ },
+ {
+  "pred": "worked_full_12_months_same_employer",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Người lao động làm đủ 12 tháng cho cùng người sử dụng lao động.",
+  "template_neg": "Người lao động chưa làm đủ 12 tháng cho cùng người sử dụng lao động."
+ },
+ {
+  "pred": "worker_agreed_overtime",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Người lao động đã đồng ý làm thêm giờ.",
+  "template_neg": "Người lao động không đồng ý làm thêm giờ."
+ },
+ {
+  "pred": "worker_continue_working",
+  "kind": "predeclared",
+  "is_question_goal": false,
+  "template_pos": "Người lao động vẫn tiếp tục làm việc.",
+  "template_neg": "Người lao động không tiếp tục làm việc."
+ },
+ {
+  "pred": "worker_is_pregnant",
+  "kind": "predeclared",
+  "is_question_goal": false,
+  "template_pos": "Người lao động đang mang thai.",
+  "template_neg": "Người lao động không mang thai."
+ },
+ {
+  "pred": "worker_resignation_notice_compliant",
+  "kind": "derived",
+  "is_question_goal": true,
+  "template_pos": "Thời hạn báo trước của người lao động đáp ứng quy định đang xét.",
+  "template_neg": "Thời hạn báo trước của người lao động không đáp ứng quy định đang xét."
+ },
+ {
+  "pred": "worker_under_15",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Người lao động chưa đủ 15 tuổi.",
+  "template_neg": "Người lao động từ đủ 15 tuổi trở lên."
+ },
+ {
+  "pred": "written_contract_mandatory",
+  "kind": "derived",
+  "is_question_goal": false,
+  "template_pos": "Hợp đồng trong trường hợp này bắt buộc bằng văn bản.",
+  "template_neg": "Hợp đồng trong trường hợp này không bắt buộc bằng văn bản."
+ },
+ {
+  "pred": "written_internal_rules_required",
+  "kind": "derived",
+  "is_question_goal": false,
+  "template_pos": "Nội quy lao động bắt buộc lập thành văn bản.",
+  "template_neg": "Nội quy lao động không bắt buộc bằng văn bản theo ngưỡng này."
+ },
+ {
+  "pred": "written_transfer_consent",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Người lao động đã đồng ý bằng văn bản với việc điều chuyển.",
+  "template_neg": "Người lao động không đồng ý bằng văn bản với việc điều chuyển."
+ }
+]
