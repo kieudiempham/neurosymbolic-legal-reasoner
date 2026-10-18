@@ -1,0 +1,522 @@
+rules:
+- id: DN-R01
+  premises:
+  - business_sector_permitted
+  - enterprise_name_compliant
+  - registration_application_valid
+  - registration_fee_paid
+  conclusion: eligible_registration_certificate
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 27 khoản 1
+  basis: llm_reexpressed
+- id: DN-R02
+  premises:
+  - ~business_sector_permitted
+  conclusion: ~eligible_registration_certificate
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 27 khoản 1 điểm a
+  basis: llm_reexpressed
+- id: DN-R03
+  premises:
+  - ~enterprise_name_compliant
+  conclusion: ~eligible_registration_certificate
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 27 khoản 1 điểm b
+  basis: llm_reexpressed
+- id: DN-R04
+  premises:
+  - ~registration_application_valid
+  conclusion: ~eligible_registration_certificate
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 27 khoản 1 điểm c
+  basis: llm_reexpressed
+- id: DN-R05
+  premises:
+  - ~registration_fee_paid
+  conclusion: ~eligible_registration_certificate
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 27 khoản 1 điểm d
+  basis: llm_reexpressed
+- id: DN-R06
+  premises:
+  - ~enterprise_name_permitted
+  conclusion: ~eligible_registration_certificate
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 27 khoản 1 điểm b
+  basis: llm_reexpressed
+- id: DN-R07
+  premises:
+  - changed_certificate_content
+  - registered_change_within_10_days
+  conclusion: enterprise_change_registration_timely
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 30 khoản 2
+  basis: llm_reexpressed
+- id: DN-R08
+  premises:
+  - changed_certificate_content
+  - ~registered_change_within_10_days
+  conclusion: ~enterprise_change_registration_timely
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 30 khoản 2
+  basis: llm_reexpressed
+- id: DN-R09
+  premises:
+  - change_required_by_court_ruling
+  - registered_change_within_15_days_from_judgment
+  conclusion: enterprise_change_registration_timely
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 30 khoản 4 điểm a
+  basis: llm_reexpressed
+- id: DN-R10
+  premises:
+  - change_required_by_court_ruling
+  - ~registered_change_within_15_days_from_judgment
+  conclusion: ~enterprise_change_registration_timely
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 30 khoản 4 điểm a
+  basis: llm_reexpressed
+- id: DN-R11
+  premises:
+  - change_required_by_arbitral_award
+  - registered_change_within_15_days_from_judgment
+  conclusion: enterprise_change_registration_timely
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 30 khoản 4 điểm a
+  basis: llm_reexpressed
+- id: DN-R12
+  premises:
+  - change_required_by_arbitral_award
+  - ~registered_change_within_15_days_from_judgment
+  conclusion: ~enterprise_change_registration_timely
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 30 khoản 4 điểm a
+  basis: llm_reexpressed
+- id: DN-R13
+  premises:
+  - capital_asset_requires_title_registration
+  - capital_asset_title_transferred
+  conclusion: capital_asset_transfer_compliant
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 35 khoản 1 điểm a
+  basis: llm_reexpressed
+- id: DN-R14
+  premises:
+  - capital_asset_requires_title_registration
+  - ~capital_asset_title_transferred
+  conclusion: ~capital_asset_transfer_compliant
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 35 khoản 1 điểm a
+  basis: llm_reexpressed
+- id: DN-R15
+  premises:
+  - ~capital_asset_requires_title_registration
+  - asset_handover_record_exists
+  conclusion: capital_asset_transfer_compliant
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 35 khoản 1 điểm b
+  basis: llm_reexpressed
+- id: DN-R16
+  premises:
+  - ~capital_asset_requires_title_registration
+  - ~asset_handover_record_exists
+  conclusion: ~capital_asset_transfer_compliant
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 35 khoản 1 điểm b
+  basis: llm_reexpressed
+- id: DN-R17
+  premises:
+  - ~capital_asset_requires_title_registration
+  - capital_contribution_via_account
+  conclusion: capital_asset_transfer_compliant
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 35 khoản 1 điểm b
+  basis: llm_reexpressed
+- id: DN-R18
+  premises:
+  - already_owns_private_enterprise
+  - asset_used_in_private_enterprise_business
+  conclusion: capital_asset_transfer_compliant
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 35 khoản 4
+  basis: llm_reexpressed
+- id: DN-R19
+  premises:
+  - capital_asset_title_transferred
+  conclusion: capital_contribution_completed
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 35 khoản 3
+  basis: llm_reexpressed
+- id: DN-R20
+  premises:
+  - ~capital_asset_title_transferred
+  conclusion: ~capital_contribution_completed
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 35 khoản 3
+  basis: llm_reexpressed
+- id: DN-R21
+  premises:
+  - enterprise_name_duplicate
+  conclusion: ~enterprise_name_permitted
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 38 khoản 1
+  basis: llm_reexpressed
+- id: DN-R22
+  premises:
+  - enterprise_name_confusing
+  conclusion: ~enterprise_name_permitted
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 38 khoản 1
+  basis: llm_reexpressed
+- id: DN-R23
+  premises:
+  - enterprise_name_state_body
+  conclusion: ~enterprise_name_permitted
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 38 khoản 2
+  basis: llm_reexpressed
+- id: DN-R24
+  premises:
+  - enterprise_name_armed_forces_unit
+  conclusion: ~enterprise_name_permitted
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 38 khoản 2
+  basis: llm_reexpressed
+- id: DN-R25
+  premises:
+  - enterprise_name_political_social_org
+  conclusion: ~enterprise_name_permitted
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 38 khoản 2
+  basis: llm_reexpressed
+- id: DN-R26
+  premises:
+  - enterprise_name_state_body
+  - state_body_name_consent
+  conclusion: enterprise_name_permitted
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 38 khoản 2
+  basis: llm_reexpressed
+- id: DN-R27
+  premises:
+  - enterprise_name_armed_forces_unit
+  - state_body_name_consent
+  conclusion: enterprise_name_permitted
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 38 khoản 2
+  basis: llm_reexpressed
+- id: DN-R28
+  premises:
+  - enterprise_name_political_social_org
+  - state_body_name_consent
+  conclusion: enterprise_name_permitted
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 38 khoản 2
+  basis: llm_reexpressed
+- id: DN-R29
+  premises:
+  - enterprise_name_offensive
+  conclusion: ~enterprise_name_permitted
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 38 khoản 3
+  basis: llm_reexpressed
+- id: DN-R30
+  premises:
+  - ~enterprise_name_duplicate
+  - ~enterprise_name_confusing
+  - ~enterprise_name_state_body
+  - ~enterprise_name_armed_forces_unit
+  - ~enterprise_name_political_social_org
+  - ~enterprise_name_offensive
+  conclusion: enterprise_name_permitted
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 38
+  basis: llm_reexpressed
+- id: DN-R33
+  premises:
+  - llc_company
+  conclusion: llc_share_issuance_prohibited
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 46 khoản 3
+  basis: llm_reexpressed
+- id: DN-R34
+  premises:
+  - llc_company
+  - converting_to_joint_stock
+  conclusion: ~llc_share_issuance_prohibited
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 46 khoản 3
+  basis: llm_reexpressed
+- id: DN-R35
+  premises:
+  - llc_single_owner
+  conclusion: llc_share_issuance_prohibited
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 74 khoản 3
+  basis: llm_reexpressed
+- id: DN-R36
+  premises:
+  - llc_single_owner
+  - converting_to_joint_stock
+  conclusion: ~llc_share_issuance_prohibited
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 74 khoản 3
+  basis: llm_reexpressed
+- id: DN-R39
+  premises:
+  - llc_single_owner
+  - capital_contributed_in_full
+  - capital_contribution_within_90_days
+  conclusion: llc_capital_contribution_timely
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 75 khoản 2
+  basis: llm_reexpressed
+- id: DN-R40
+  premises:
+  - llc_single_owner
+  - ~capital_contribution_within_90_days
+  conclusion: ~llc_capital_contribution_timely
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 75 khoản 2
+  basis: llm_reexpressed
+- id: DN-R41
+  premises:
+  - llc_single_owner
+  - sole_owner_capital_shortfall_after_deadline
+  conclusion: ~llc_capital_contribution_timely
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 75 khoản 3
+  basis: llm_reexpressed
+- id: DN-R44
+  premises:
+  - llc_single_owner
+  - sole_owner_capital_shortfall_after_deadline
+  conclusion: sole_owner_must_adjust_registered_capital
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 75 khoản 3
+  basis: llm_reexpressed
+- id: DN-R45
+  premises:
+  - llc_single_owner
+  - ~sole_owner_capital_shortfall_after_deadline
+  conclusion: ~sole_owner_must_adjust_registered_capital
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 75 khoản 3
+  basis: llm_reexpressed
+- id: DN-R46
+  premises:
+  - shares_subscribed_unpaid
+  - share_payment_deadline_elapsed
+  conclusion: unpaid_share_subscription_causes_loss_of_status
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 113 khoản 3 điểm a
+  basis: llm_reexpressed
+- id: DN-R47
+  premises:
+  - shares_subscribed_unpaid
+  - ~share_payment_deadline_elapsed
+  conclusion: ~unpaid_share_subscription_causes_loss_of_status
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 113 khoản 3
+  basis: llm_reexpressed
+- id: DN-R48
+  premises:
+  - ~shares_subscribed_unpaid
+  conclusion: ~unpaid_share_subscription_causes_loss_of_status
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 113 khoản 3 điểm a
+  basis: llm_reexpressed
+- id: DN-R49
+  premises:
+  - subscribed_shares_partially_paid
+  - share_payment_deadline_elapsed
+  conclusion: ~unpaid_share_subscription_causes_loss_of_status
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 113 khoản 3 điểm b
+  basis: llm_reexpressed
+- id: DN-R50
+  premises:
+  - founder_shareholding
+  - founder_shares_within_first_3_years
+  - buyer_is_nonfounder
+  conclusion: founder_transfer_restriction_applies
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 120 khoản 3
+  basis: llm_reexpressed
+- id: DN-R51
+  premises:
+  - founder_shareholding
+  - founder_shares_within_first_3_years
+  - ~buyer_is_nonfounder
+  conclusion: ~founder_transfer_restriction_applies
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 120 khoản 3
+  basis: llm_reexpressed
+- id: DN-R52
+  premises:
+  - founder_shareholding
+  - ~founder_shares_within_first_3_years
+  conclusion: ~founder_transfer_restriction_applies
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 120 khoản 3
+  basis: llm_reexpressed
+- id: DN-R53
+  premises:
+  - ~founder_shareholding
+  conclusion: ~founder_transfer_restriction_applies
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 120 khoản 3
+  basis: llm_reexpressed
+- id: DN-R54
+  premises:
+  - founder_shareholding
+  - ~founder_held_shares_from_registration
+  conclusion: ~founder_transfer_restriction_applies
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 120 khoản 4 điểm a
+  basis: llm_reexpressed
+- id: DN-R55
+  premises:
+  - shares_previously_transferred_to_nonfounder
+  conclusion: ~founder_transfer_restriction_applies
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 120 khoản 4 điểm b
+  basis: llm_reexpressed
+- id: DN-R56
+  premises:
+  - founder_transfer_restriction_applies
+  conclusion: founder_share_transfer_needs_agm_approval
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 120 khoản 3
+  basis: llm_reexpressed
+- id: DN-R57
+  premises:
+  - ~founder_transfer_restriction_applies
+  conclusion: ~founder_share_transfer_needs_agm_approval
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 120 khoản 3, khoản 4
+  basis: llm_reexpressed
+- id: DN-R58
+  premises:
+  - ordinary_shares
+  conclusion: ordinary_share_transfer_unrestricted
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 127 khoản 1
+  basis: llm_reexpressed
+- id: DN-R59
+  premises:
+  - founder_transfer_restriction_applies
+  conclusion: ~ordinary_share_transfer_unrestricted
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 127 khoản 1
+  basis: llm_reexpressed
+- id: DN-R60
+  premises:
+  - ~founder_transfer_restriction_applies
+  conclusion: ordinary_share_transfer_unrestricted
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 127 khoản 1
+  basis: llm_reexpressed
+- id: DN-R61
+  premises:
+  - charter_share_transfer_restriction
+  conclusion: ~ordinary_share_transfer_unrestricted
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 127 khoản 1
+  basis: llm_reexpressed
+- id: DN-R62
+  premises:
+  - already_owns_private_enterprise
+  - intends_to_establish_private_enterprise
+  conclusion: private_enterprise_exclusivity_violated
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 188 khoản 3
+  basis: llm_reexpressed
+- id: DN-R63
+  premises:
+  - ~already_owns_private_enterprise
+  - intends_to_establish_private_enterprise
+  conclusion: ~private_enterprise_exclusivity_violated
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 188 khoản 3
+  basis: llm_reexpressed
+- id: DN-R64
+  premises:
+  - already_owns_private_enterprise
+  - simultaneously_household_business_owner
+  conclusion: private_enterprise_exclusivity_violated
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 188 khoản 3
+  basis: llm_reexpressed
+- id: DN-R65
+  premises:
+  - already_owns_private_enterprise
+  - simultaneously_general_partner
+  conclusion: private_enterprise_exclusivity_violated
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 188 khoản 3
+  basis: llm_reexpressed
+- id: DN-R66
+  premises:
+  - intends_to_establish_private_enterprise
+  - simultaneously_household_business_owner
+  conclusion: private_enterprise_exclusivity_violated
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 188 khoản 3
+  basis: llm_reexpressed
+- id: DN-R67
+  premises:
+  - intends_to_establish_private_enterprise
+  - simultaneously_general_partner
+  conclusion: private_enterprise_exclusivity_violated
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 188 khoản 3
+  basis: llm_reexpressed
+- id: DN-R68
+  premises:
+  - dissolution_ground_exists
+  - all_enterprise_debts_paid
+  - ~pending_court_arbitration_dispute
+  conclusion: enterprise_dissolution_conditions_met
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 207 khoản 2
+  basis: llm_reexpressed
+- id: DN-R69
+  premises:
+  - ~all_enterprise_debts_paid
+  conclusion: ~enterprise_dissolution_conditions_met
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 207 khoản 2
+  basis: llm_reexpressed
+- id: DN-R70
+  premises:
+  - pending_court_arbitration_dispute
+  conclusion: ~enterprise_dissolution_conditions_met
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 207 khoản 2
+  basis: llm_reexpressed
+- id: DN-P31
+  premises:
+  - llc_member_count_valid
+  conclusion: llc_2plus_membership_valid
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 46 khoản 1
+  basis: patch
+- id: DN-P32
+  premises:
+  - ~llc_member_count_valid
+  conclusion: ~llc_2plus_membership_valid
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 46 khoản 1
+  basis: patch
+- id: DN-P37
+  premises:
+  - capital_contributed_in_full
+  - capital_contribution_within_90_days
+  conclusion: llc_capital_contribution_timely
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 47 khoản 2
+  basis: patch
+- id: DN-P38
+  premises:
+  - ~capital_contribution_within_90_days
+  conclusion: ~llc_capital_contribution_timely
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 47 khoản 2
+  basis: patch
+- id: DN-P42
+  premises:
+  - capital_asset_different_from_commitment
+  - other_members_majority_approval
+  conclusion: alternative_capital_asset_permitted
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 47 khoản 2
+  basis: patch
+- id: DN-P43
+  premises:
+  - capital_asset_different_from_commitment
+  - ~other_members_majority_approval
+  conclusion: ~alternative_capital_asset_permitted
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 47 khoản 2
+  basis: patch
+exception_of:
+- - DN-R09
+  - DN-R08
+- - DN-R10
+  - DN-R07
+- - DN-R11
+  - DN-R08
+- - DN-R12
+  - DN-R07
+- - DN-R17
+  - DN-R16
+- - DN-R18
+  - DN-R14
+- - DN-R18
+  - DN-R16
+- - DN-R26
+  - DN-R23
+- - DN-R27
+  - DN-R24
+- - DN-R28
+  - DN-R25
+- - DN-R34
+  - DN-R33
+- - DN-R36
+  - DN-R35
+- - DN-R49
+  - DN-R46
+- - DN-R54
+  - DN-R50
+- - DN-R55
+  - DN-R50
+- - DN-R59
+  - DN-R58
+- - DN-R61
+  - DN-R58
+- - DN-R61
+  - DN-R60
+- - DN-R66
+  - DN-R63
+- - DN-R67
+  - DN-R63
+- - DN-R36
+  - DN-R33
+- - DN-R34
+  - DN-R35
+- - DN-R36
+  - DN-R35
+- - DN-R34
+  - DN-R33
+priority_over: []

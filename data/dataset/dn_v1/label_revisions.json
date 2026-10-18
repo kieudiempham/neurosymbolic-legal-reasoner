@@ -1,0 +1,17 @@
+{
+ "revisions": [
+  {
+   "id": "DN-060",
+   "split": "dev",
+   "previous": {
+    "expected": "insufficient",
+    "info_level": "missing",
+    "missing_facts": [
+     "charter_share_transfer_restriction"
+    ]
+   },
+   "new_expected": "true",
+   "note": "Relabelled under the agreed definition of insufficient: the charter restriction (exception) is not raised in the question, so it does not apply (convention 2)."
+  }
+ ]
+}

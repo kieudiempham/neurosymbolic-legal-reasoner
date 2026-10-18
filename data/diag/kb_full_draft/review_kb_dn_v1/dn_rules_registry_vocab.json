@@ -1,0 +1,1081 @@
+{
+ "rules": [
+  {
+   "id": "DN-R01",
+   "premises": [
+    "business_sector_permitted",
+    "enterprise_name_compliant",
+    "registration_application_valid",
+    "registration_fee_paid"
+   ],
+   "conclusion": "eligible_registration_certificate",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 27 khoản 1",
+   "from_rules": [
+    "ENT-01-D27-000"
+   ],
+   "note": "Đủ bốn điều kiện a-d (ngành nghề không bị cấm, tên đúng quy định, hồ sơ hợp lệ, nộp đủ lệ phí) thì được cấp GCNĐKDN."
+  },
+  {
+   "id": "DN-R02",
+   "premises": [
+    "~business_sector_permitted"
+   ],
+   "conclusion": "~eligible_registration_certificate",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 27 khoản 1 điểm a",
+   "from_rules": [
+    "ENT-01-D27-001"
+   ],
+   "note": "Ngành nghề bị cấm đầu tư kinh doanh thì không đủ điều kiện cấp GCNĐKDN."
+  },
+  {
+   "id": "DN-R03",
+   "premises": [
+    "~enterprise_name_compliant"
+   ],
+   "conclusion": "~eligible_registration_certificate",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 27 khoản 1 điểm b",
+   "from_rules": [
+    "ENT-01-D27-002"
+   ],
+   "note": "Tên không đặt đúng các điều 37, 38, 39, 41 thì không đủ điều kiện cấp GCNĐKDN."
+  },
+  {
+   "id": "DN-R04",
+   "premises": [
+    "~registration_application_valid"
+   ],
+   "conclusion": "~eligible_registration_certificate",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 27 khoản 1 điểm c",
+   "from_rules": [
+    "ENT-01-D27-003"
+   ],
+   "note": "Hồ sơ đăng ký không hợp lệ thì không đủ điều kiện cấp GCNĐKDN."
+  },
+  {
+   "id": "DN-R05",
+   "premises": [
+    "~registration_fee_paid"
+   ],
+   "conclusion": "~eligible_registration_certificate",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 27 khoản 1 điểm d",
+   "from_rules": [
+    "ENT-01-D27-004"
+   ],
+   "note": "Chưa nộp đủ lệ phí đăng ký thì không đủ điều kiện cấp GCNĐKDN."
+  },
+  {
+   "id": "DN-R06",
+   "premises": [
+    "~enterprise_name_permitted"
+   ],
+   "conclusion": "~eligible_registration_certificate",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 27 khoản 1 điểm b",
+   "from_rules": [
+    "ENT-01-D27-002",
+    "ENT-01-D38-000"
+   ],
+   "note": "Điểm b dẫn chiếu Điều 38: tên vi phạm điều cấm đặt tên thì tên không đúng quy định nên không được cấp GCNĐKDN."
+  },
+  {
+   "id": "DN-R07",
+   "premises": [
+    "changed_certificate_content",
+    "registered_change_within_10_days"
+   ],
+   "conclusion": "enterprise_change_registration_timely",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 30 khoản 2",
+   "from_rules": [
+    "ENT-01-D30-000",
+    "ENT-01-D30-001"
+   ],
+   "note": "Thay đổi nội dung GCNĐKDN phải đăng ký (khoản 1) trong 10 ngày kể từ ngày có thay đổi (khoản 2); đăng ký trong 10 ngày là đúng hạn."
+  },
+  {
+   "id": "DN-R08",
+   "premises": [
+    "changed_certificate_content",
+    "~registered_change_within_10_days"
+   ],
+   "conclusion": "~enterprise_change_registration_timely",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 30 khoản 2",
+   "from_rules": [
+    "ENT-01-D30-000",
+    "ENT-01-D30-001"
+   ],
+   "note": "Đăng ký thay đổi sau 10 ngày kể từ ngày có thay đổi là quá hạn."
+  },
+  {
+   "id": "DN-R09",
+   "premises": [
+    "change_required_by_court_ruling",
+    "registered_change_within_15_days_from_judgment"
+   ],
+   "conclusion": "enterprise_change_registration_timely",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 30 khoản 4 điểm a",
+   "from_rules": [
+    "ENT-01-D30-004"
+   ],
+   "note": "Thay đổi theo bản án, quyết định của Tòa án: gửi đề nghị trong 15 ngày kể từ ngày bản án có hiệu lực là đúng hạn (thủ tục riêng của khoản 4, ngoại lệ với hạn 10 ngày)."
+  },
+  {
+   "id": "DN-R10",
+   "premises": [
+    "change_required_by_court_ruling",
+    "~registered_change_within_15_days_from_judgment"
+   ],
+   "conclusion": "~enterprise_change_registration_timely",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 30 khoản 4 điểm a",
+   "from_rules": [
+    "ENT-01-D30-004"
+   ],
+   "note": "Thay đổi theo bản án của Tòa án mà gửi đề nghị quá 15 ngày là quá hạn."
+  },
+  {
+   "id": "DN-R11",
+   "premises": [
+    "change_required_by_arbitral_award",
+    "registered_change_within_15_days_from_judgment"
+   ],
+   "conclusion": "enterprise_change_registration_timely",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 30 khoản 4 điểm a",
+   "from_rules": [
+    "ENT-01-D30-004-s1"
+   ],
+   "note": "Nhánh phán quyết Trọng tài: gửi đề nghị trong 15 ngày kể từ ngày phán quyết có hiệu lực là đúng hạn (dùng chung predicate 15 ngày)."
+  },
+  {
+   "id": "DN-R12",
+   "premises": [
+    "change_required_by_arbitral_award",
+    "~registered_change_within_15_days_from_judgment"
+   ],
+   "conclusion": "~enterprise_change_registration_timely",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 30 khoản 4 điểm a",
+   "from_rules": [
+    "ENT-01-D30-004-s1"
+   ],
+   "note": "Nhánh phán quyết Trọng tài: gửi đề nghị quá 15 ngày là quá hạn."
+  },
+  {
+   "id": "DN-R13",
+   "premises": [
+    "capital_asset_requires_title_registration",
+    "capital_asset_title_transferred"
+   ],
+   "conclusion": "capital_asset_transfer_compliant",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 35 khoản 1 điểm a",
+   "from_rules": [
+    "ENT-01-D35-000",
+    "ENT-01-D35-000-s1"
+   ],
+   "note": "Tài sản có đăng ký quyền sở hữu (kể cả quyền sử dụng đất) đã làm thủ tục chuyển quyền cho công ty là đúng thủ tục."
+  },
+  {
+   "id": "DN-R14",
+   "premises": [
+    "capital_asset_requires_title_registration",
+    "~capital_asset_title_transferred"
+   ],
+   "conclusion": "~capital_asset_transfer_compliant",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 35 khoản 1 điểm a",
+   "from_rules": [
+    "ENT-01-D35-000",
+    "ENT-01-D35-000-s1"
+   ],
+   "note": "Tài sản có đăng ký quyền sở hữu mà chưa chuyển quyền cho công ty thì chưa đúng thủ tục."
+  },
+  {
+   "id": "DN-R15",
+   "premises": [
+    "~capital_asset_requires_title_registration",
+    "asset_handover_record_exists"
+   ],
+   "conclusion": "capital_asset_transfer_compliant",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 35 khoản 1 điểm b",
+   "from_rules": [
+    "ENT-01-D35-001"
+   ],
+   "note": "Tài sản không đăng ký quyền sở hữu: giao nhận có biên bản xác nhận là đúng thủ tục."
+  },
+  {
+   "id": "DN-R16",
+   "premises": [
+    "~capital_asset_requires_title_registration",
+    "~asset_handover_record_exists"
+   ],
+   "conclusion": "~capital_asset_transfer_compliant",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 35 khoản 1 điểm b",
+   "from_rules": [
+    "ENT-01-D35-001"
+   ],
+   "note": "Tài sản không đăng ký quyền sở hữu mà không lập biên bản giao nhận thì chưa đúng thủ tục (quy tắc chung)."
+  },
+  {
+   "id": "DN-R17",
+   "premises": [
+    "~capital_asset_requires_title_registration",
+    "capital_contribution_via_account"
+   ],
+   "conclusion": "capital_asset_transfer_compliant",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 35 khoản 1 điểm b",
+   "from_rules": [
+    "ENT-01-D35-001"
+   ],
+   "note": "Ngoại lệ 'trừ trường hợp được thực hiện thông qua tài khoản': góp qua tài khoản thì không cần biên bản giao nhận."
+  },
+  {
+   "id": "DN-R18",
+   "premises": [
+    "already_owns_private_enterprise",
+    "asset_used_in_private_enterprise_business"
+   ],
+   "conclusion": "capital_asset_transfer_compliant",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 35 khoản 4",
+   "from_rules": [
+    "ENT-01-D35-004"
+   ],
+   "note": "Tài sản dùng vào kinh doanh của chủ DNTN không phải làm thủ tục chuyển quyền sở hữu cho doanh nghiệp; ngoại lệ với yêu cầu chuyển quyền/biên bản."
+  },
+  {
+   "id": "DN-R19",
+   "premises": [
+    "capital_asset_title_transferred"
+   ],
+   "conclusion": "capital_contribution_completed",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 35 khoản 3",
+   "from_rules": [
+    "ENT-01-D35-003"
+   ],
+   "note": "Quyền sở hữu hợp pháp tài sản góp vốn đã chuyển sang công ty thì việc góp vốn được coi là thanh toán xong."
+  },
+  {
+   "id": "DN-R20",
+   "premises": [
+    "~capital_asset_title_transferred"
+   ],
+   "conclusion": "~capital_contribution_completed",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 35 khoản 3",
+   "from_rules": [
+    "ENT-01-D35-003-a1"
+   ],
+   "note": "'Chỉ được coi là thanh toán xong khi' quyền sở hữu đã chuyển: chưa chuyển thì chưa thanh toán xong."
+  },
+  {
+   "id": "DN-R21",
+   "premises": [
+    "enterprise_name_duplicate"
+   ],
+   "conclusion": "~enterprise_name_permitted",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 38 khoản 1",
+   "from_rules": [
+    "ENT-01-D38-000"
+   ],
+   "note": "Cấm đặt tên trùng với tên doanh nghiệp đã đăng ký."
+  },
+  {
+   "id": "DN-R22",
+   "premises": [
+    "enterprise_name_confusing"
+   ],
+   "conclusion": "~enterprise_name_permitted",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 38 khoản 1",
+   "from_rules": [
+    "ENT-01-D38-000-s1"
+   ],
+   "note": "Cấm đặt tên gây nhầm lẫn với tên doanh nghiệp đã đăng ký."
+  },
+  {
+   "id": "DN-R23",
+   "premises": [
+    "enterprise_name_state_body"
+   ],
+   "conclusion": "~enterprise_name_permitted",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 38 khoản 2",
+   "from_rules": [
+    "ENT-01-D38-001"
+   ],
+   "note": "Cấm dùng tên cơ quan nhà nước làm toàn bộ hoặc một phần tên riêng (quy tắc chung)."
+  },
+  {
+   "id": "DN-R24",
+   "premises": [
+    "enterprise_name_armed_forces_unit"
+   ],
+   "conclusion": "~enterprise_name_permitted",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 38 khoản 2",
+   "from_rules": [
+    "ENT-01-D38-001-s1"
+   ],
+   "note": "Cấm dùng tên đơn vị lực lượng vũ trang nhân dân làm tên riêng (quy tắc chung)."
+  },
+  {
+   "id": "DN-R25",
+   "premises": [
+    "enterprise_name_political_social_org"
+   ],
+   "conclusion": "~enterprise_name_permitted",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 38 khoản 2",
+   "from_rules": [
+    "ENT-01-D38-001-s2",
+    "ENT-01-D38-001-s3",
+    "ENT-01-D38-001-s4",
+    "ENT-01-D38-001-s5",
+    "ENT-01-D38-001-s6"
+   ],
+   "note": "Cấm dùng tên tổ chức chính trị, chính trị - xã hội, chính trị xã hội - nghề nghiệp, xã hội, xã hội - nghề nghiệp làm tên riêng (quy tắc chung)."
+  },
+  {
+   "id": "DN-R26",
+   "premises": [
+    "enterprise_name_state_body",
+    "state_body_name_consent"
+   ],
+   "conclusion": "enterprise_name_permitted",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 38 khoản 2",
+   "from_rules": [
+    "ENT-01-D38-001"
+   ],
+   "note": "Ngoại lệ 'trừ trường hợp có sự chấp thuận' của cơ quan nhà nước đó."
+  },
+  {
+   "id": "DN-R27",
+   "premises": [
+    "enterprise_name_armed_forces_unit",
+    "state_body_name_consent"
+   ],
+   "conclusion": "enterprise_name_permitted",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 38 khoản 2",
+   "from_rules": [
+    "ENT-01-D38-001-s1"
+   ],
+   "note": "Ngoại lệ: đơn vị lực lượng vũ trang có tên được dùng đã chấp thuận."
+  },
+  {
+   "id": "DN-R28",
+   "premises": [
+    "enterprise_name_political_social_org",
+    "state_body_name_consent"
+   ],
+   "conclusion": "enterprise_name_permitted",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 38 khoản 2",
+   "from_rules": [
+    "ENT-01-D38-001-s2",
+    "ENT-01-D38-001-s3",
+    "ENT-01-D38-001-s4",
+    "ENT-01-D38-001-s5",
+    "ENT-01-D38-001-s6"
+   ],
+   "note": "Ngoại lệ: tổ chức có tên được dùng đã chấp thuận."
+  },
+  {
+   "id": "DN-R29",
+   "premises": [
+    "enterprise_name_offensive"
+   ],
+   "conclusion": "~enterprise_name_permitted",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 38 khoản 3",
+   "from_rules": [
+    "ENT-01-D38-002"
+   ],
+   "note": "Cấm dùng từ ngữ, ký hiệu vi phạm truyền thống lịch sử, văn hóa, đạo đức, thuần phong mỹ tục."
+  },
+  {
+   "id": "DN-R30",
+   "premises": [
+    "~enterprise_name_duplicate",
+    "~enterprise_name_confusing",
+    "~enterprise_name_state_body",
+    "~enterprise_name_armed_forces_unit",
+    "~enterprise_name_political_social_org",
+    "~enterprise_name_offensive"
+   ],
+   "conclusion": "enterprise_name_permitted",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 38",
+   "from_rules": [
+    "ENT-01-D38-000",
+    "ENT-01-D38-000-s1",
+    "ENT-01-D38-001",
+    "ENT-01-D38-002"
+   ],
+   "note": "Điều 38 liệt kê đầy đủ các điều cấm; tên không rơi vào điều cấm nào thì không vi phạm Điều 38."
+  },
+  {
+   "id": "DN-R31",
+   "premises": [
+    "llc_company",
+    "~llc_single_owner",
+    "llc_member_count_valid"
+   ],
+   "conclusion": "llc_2plus_membership_valid",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 46 khoản 1",
+   "from_rules": [
+    "ENT-01-D46-000-a1"
+   ],
+   "note": "Công ty TNHH hai thành viên trở lên có từ 02 đến 50 thành viên."
+  },
+  {
+   "id": "DN-R32",
+   "premises": [
+    "llc_company",
+    "~llc_single_owner",
+    "~llc_member_count_valid"
+   ],
+   "conclusion": "~llc_2plus_membership_valid",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 46 khoản 1",
+   "from_rules": [
+    "ENT-01-D46-000-a1"
+   ],
+   "note": "Số thành viên ngoài khoảng 02-50 thì không phù hợp mô hình TNHH hai thành viên trở lên."
+  },
+  {
+   "id": "DN-R33",
+   "premises": [
+    "llc_company"
+   ],
+   "conclusion": "llc_share_issuance_prohibited",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 46 khoản 3",
+   "from_rules": [
+    "ENT-01-D46-003"
+   ],
+   "note": "Công ty TNHH hai thành viên trở lên không được phát hành cổ phần (quy tắc chung)."
+  },
+  {
+   "id": "DN-R34",
+   "premises": [
+    "llc_company",
+    "converting_to_joint_stock"
+   ],
+   "conclusion": "~llc_share_issuance_prohibited",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 46 khoản 3",
+   "from_rules": [
+    "ENT-01-D46-003-a1"
+   ],
+   "note": "Ngoại lệ: phát hành cổ phần để chuyển đổi thành công ty cổ phần."
+  },
+  {
+   "id": "DN-R35",
+   "premises": [
+    "llc_single_owner"
+   ],
+   "conclusion": "llc_share_issuance_prohibited",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 74 khoản 3",
+   "from_rules": [
+    "ENT-01-D74-003"
+   ],
+   "note": "Công ty TNHH một thành viên không được phát hành cổ phần (quy tắc chung)."
+  },
+  {
+   "id": "DN-R36",
+   "premises": [
+    "llc_single_owner",
+    "converting_to_joint_stock"
+   ],
+   "conclusion": "~llc_share_issuance_prohibited",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 74 khoản 3",
+   "from_rules": [
+    "ENT-01-D74-003-a1"
+   ],
+   "note": "Ngoại lệ: phát hành cổ phần để chuyển đổi thành công ty cổ phần."
+  },
+  {
+   "id": "DN-R37",
+   "premises": [
+    "llc_company",
+    "capital_contributed_in_full",
+    "capital_contribution_within_90_days"
+   ],
+   "conclusion": "llc_capital_contribution_timely",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 47 khoản 2",
+   "from_rules": [
+    "ENT-01-D47-001"
+   ],
+   "note": "Thành viên góp đủ vốn trong 90 ngày kể từ ngày được cấp GCNĐKDN (không kể thời gian vận chuyển, nhập khẩu, thủ tục chuyển quyền, đã trừ trong predicate 90 ngày) là đúng hạn."
+  },
+  {
+   "id": "DN-R38",
+   "premises": [
+    "llc_company",
+    "~capital_contribution_within_90_days"
+   ],
+   "conclusion": "~llc_capital_contribution_timely",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 47 khoản 2",
+   "from_rules": [
+    "ENT-01-D47-001"
+   ],
+   "note": "Thời gian góp vốn tính theo luật vượt 90 ngày thì không đúng hạn."
+  },
+  {
+   "id": "DN-R39",
+   "premises": [
+    "llc_single_owner",
+    "capital_contributed_in_full",
+    "capital_contribution_within_90_days"
+   ],
+   "conclusion": "llc_capital_contribution_timely",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 75 khoản 2",
+   "from_rules": [
+    "ENT-01-D75-001"
+   ],
+   "note": "Chủ sở hữu công ty TNHH một thành viên góp đủ vốn trong 90 ngày là đúng hạn."
+  },
+  {
+   "id": "DN-R40",
+   "premises": [
+    "llc_single_owner",
+    "~capital_contribution_within_90_days"
+   ],
+   "conclusion": "~llc_capital_contribution_timely",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 75 khoản 2",
+   "from_rules": [
+    "ENT-01-D75-001"
+   ],
+   "note": "Chủ sở hữu góp vốn vượt 90 ngày tính theo luật là không đúng hạn."
+  },
+  {
+   "id": "DN-R41",
+   "premises": [
+    "llc_single_owner",
+    "sole_owner_capital_shortfall_after_deadline"
+   ],
+   "conclusion": "~llc_capital_contribution_timely",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 75 khoản 3",
+   "from_rules": [
+    "ENT-01-D75-002"
+   ],
+   "note": "Chủ sở hữu chưa góp đủ vốn khi hết thời hạn khoản 2 là không góp đủ đúng hạn."
+  },
+  {
+   "id": "DN-R42",
+   "premises": [
+    "llc_company",
+    "capital_asset_different_from_commitment",
+    "other_members_majority_approval"
+   ],
+   "conclusion": "alternative_capital_asset_permitted",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 47 khoản 2",
+   "from_rules": [
+    "ENT-01-D47-002"
+   ],
+   "note": "Góp bằng tài sản khác loại đã cam kết được phép nếu trên 50% số thành viên còn lại tán thành."
+  },
+  {
+   "id": "DN-R43",
+   "premises": [
+    "llc_company",
+    "capital_asset_different_from_commitment",
+    "~other_members_majority_approval"
+   ],
+   "conclusion": "~alternative_capital_asset_permitted",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 47 khoản 2",
+   "from_rules": [
+    "ENT-01-D47-002-a1"
+   ],
+   "note": "'Chỉ được ... nếu': không được trên 50% số thành viên còn lại tán thành thì không được góp bằng tài sản khác loại."
+  },
+  {
+   "id": "DN-R44",
+   "premises": [
+    "llc_single_owner",
+    "sole_owner_capital_shortfall_after_deadline"
+   ],
+   "conclusion": "sole_owner_must_adjust_registered_capital",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 75 khoản 3",
+   "from_rules": [
+    "ENT-01-D75-002"
+   ],
+   "note": "Không góp đủ vốn điều lệ trong thời hạn thì chủ sở hữu phải đăng ký thay đổi vốn điều lệ bằng số vốn đã góp trong 30 ngày."
+  },
+  {
+   "id": "DN-R45",
+   "premises": [
+    "llc_single_owner",
+    "~sole_owner_capital_shortfall_after_deadline"
+   ],
+   "conclusion": "~sole_owner_must_adjust_registered_capital",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 75 khoản 3",
+   "from_rules": [
+    "ENT-01-D75-002"
+   ],
+   "note": "Đã góp đủ vốn trong thời hạn thì không phát sinh nghĩa vụ điều chỉnh vốn vì lý do không góp đủ."
+  },
+  {
+   "id": "DN-R46",
+   "premises": [
+    "shares_subscribed_unpaid",
+    "share_payment_deadline_elapsed"
+   ],
+   "conclusion": "unpaid_share_subscription_causes_loss_of_status",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 113 khoản 3 điểm a",
+   "from_rules": [
+    "ENT-01-D113-002-a1"
+   ],
+   "note": "Sau thời hạn thanh toán, cổ đông chưa thanh toán số cổ phần đăng ký mua đương nhiên không còn là cổ đông (quy tắc chung)."
+  },
+  {
+   "id": "DN-R47",
+   "premises": [
+    "shares_subscribed_unpaid",
+    "~share_payment_deadline_elapsed"
+   ],
+   "conclusion": "~unpaid_share_subscription_causes_loss_of_status",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 113 khoản 3",
+   "from_rules": [
+    "ENT-01-D113-000",
+    "ENT-01-D113-000-a1"
+   ],
+   "note": "Hậu quả mất tư cách chỉ áp dụng 'sau thời hạn quy định tại khoản 1'; còn trong hạn thì chưa mất tư cách."
+  },
+  {
+   "id": "DN-R48",
+   "premises": [
+    "~shares_subscribed_unpaid"
+   ],
+   "conclusion": "~unpaid_share_subscription_causes_loss_of_status",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 113 khoản 3 điểm a",
+   "from_rules": [
+    "ENT-01-D113-002-a1"
+   ],
+   "note": "Đã thanh toán đủ cổ phần đăng ký mua thì không mất tư cách cổ đông vì lý do không thanh toán."
+  },
+  {
+   "id": "DN-R49",
+   "premises": [
+    "subscribed_shares_partially_paid",
+    "share_payment_deadline_elapsed"
+   ],
+   "conclusion": "~unpaid_share_subscription_causes_loss_of_status",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 113 khoản 3 điểm b",
+   "from_rules": [
+    "ENT-01-D113-003"
+   ],
+   "note": "Cổ đông đã thanh toán một phần vẫn có quyền tương ứng số cổ phần đã thanh toán, không mất tư cách cổ đông; ngoại lệ với điểm a."
+  },
+  {
+   "id": "DN-R50",
+   "premises": [
+    "founder_shareholding",
+    "founder_shares_within_first_3_years",
+    "buyer_is_nonfounder"
+   ],
+   "conclusion": "founder_transfer_restriction_applies",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 120 khoản 3",
+   "from_rules": [
+    "ENT-01-D120-003",
+    "ENT-01-D120-003-a1"
+   ],
+   "note": "Trong 03 năm, cổ phần phổ thông của cổ đông sáng lập chỉ được chuyển cho người không phải cổ đông sáng lập nếu ĐHĐCĐ chấp thuận (quy tắc chung)."
+  },
+  {
+   "id": "DN-R51",
+   "premises": [
+    "founder_shareholding",
+    "founder_shares_within_first_3_years",
+    "~buyer_is_nonfounder"
+   ],
+   "conclusion": "~founder_transfer_restriction_applies",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 120 khoản 3",
+   "from_rules": [
+    "ENT-01-D120-003-a2"
+   ],
+   "note": "Chuyển cho cổ đông sáng lập khác thì được tự do chuyển nhượng."
+  },
+  {
+   "id": "DN-R52",
+   "premises": [
+    "founder_shareholding",
+    "~founder_shares_within_first_3_years"
+   ],
+   "conclusion": "~founder_transfer_restriction_applies",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 120 khoản 3",
+   "from_rules": [
+    "ENT-01-D120-003"
+   ],
+   "note": "Hạn chế chỉ áp dụng 'trong thời hạn 03 năm' kể từ ngày được cấp GCNĐKDN."
+  },
+  {
+   "id": "DN-R53",
+   "premises": [
+    "~founder_shareholding"
+   ],
+   "conclusion": "~founder_transfer_restriction_applies",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 120 khoản 3",
+   "from_rules": [
+    "ENT-01-D120-003"
+   ],
+   "note": "Hạn chế khoản 3 chỉ áp dụng với cổ phần của cổ đông sáng lập."
+  },
+  {
+   "id": "DN-R54",
+   "premises": [
+    "founder_shareholding",
+    "~founder_held_shares_from_registration"
+   ],
+   "conclusion": "~founder_transfer_restriction_applies",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 120 khoản 4 điểm a",
+   "from_rules": [
+    "ENT-01-D120-005"
+   ],
+   "note": "Cổ phần cổ đông sáng lập có thêm sau khi đăng ký thành lập không chịu hạn chế khoản 3."
+  },
+  {
+   "id": "DN-R55",
+   "premises": [
+    "shares_previously_transferred_to_nonfounder"
+   ],
+   "conclusion": "~founder_transfer_restriction_applies",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 120 khoản 4 điểm b",
+   "from_rules": [
+    "ENT-01-D120-006"
+   ],
+   "note": "Cổ phần đã được chuyển nhượng cho người không phải cổ đông sáng lập không chịu hạn chế khoản 3."
+  },
+  {
+   "id": "DN-R56",
+   "premises": [
+    "founder_transfer_restriction_applies"
+   ],
+   "conclusion": "founder_share_transfer_needs_agm_approval",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 120 khoản 3",
+   "from_rules": [
+    "ENT-01-D120-003"
+   ],
+   "note": "Hạn chế ba năm áp dụng thì việc chuyển nhượng cần ĐHĐCĐ chấp thuận."
+  },
+  {
+   "id": "DN-R57",
+   "premises": [
+    "~founder_transfer_restriction_applies"
+   ],
+   "conclusion": "~founder_share_transfer_needs_agm_approval",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 120 khoản 3, khoản 4",
+   "from_rules": [
+    "ENT-01-D120-003-a2",
+    "ENT-01-D120-005",
+    "ENT-01-D120-006"
+   ],
+   "note": "Hạn chế ba năm không áp dụng thì không cần ĐHĐCĐ chấp thuận theo khoản 3."
+  },
+  {
+   "id": "DN-R58",
+   "premises": [
+    "ordinary_shares"
+   ],
+   "conclusion": "ordinary_share_transfer_unrestricted",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 127 khoản 1",
+   "from_rules": [
+    "ENT-01-D127-000"
+   ],
+   "note": "Cổ phần được tự do chuyển nhượng (quy tắc chung)."
+  },
+  {
+   "id": "DN-R59",
+   "premises": [
+    "founder_transfer_restriction_applies"
+   ],
+   "conclusion": "~ordinary_share_transfer_unrestricted",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 127 khoản 1",
+   "from_rules": [
+    "ENT-01-D127-000"
+   ],
+   "note": "Ngoại lệ: trường hợp quy định tại khoản 3 Điều 120."
+  },
+  {
+   "id": "DN-R60",
+   "premises": [
+    "~founder_transfer_restriction_applies"
+   ],
+   "conclusion": "ordinary_share_transfer_unrestricted",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 127 khoản 1",
+   "from_rules": [
+    "ENT-01-D127-000",
+    "ENT-01-D120-005",
+    "ENT-01-D120-006"
+   ],
+   "note": "Không thuộc hạn chế khoản 3 Điều 120 (hoặc thuộc khoản 4 Điều 120) thì cổ phần được tự do chuyển nhượng."
+  },
+  {
+   "id": "DN-R61",
+   "premises": [
+    "charter_share_transfer_restriction"
+   ],
+   "conclusion": "~ordinary_share_transfer_unrestricted",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 127 khoản 1",
+   "from_rules": [
+    "ENT-01-D127-000",
+    "ENT-01-D127-001"
+   ],
+   "note": "Ngoại lệ: Điều lệ có hạn chế chuyển nhượng có hiệu lực (đã nêu rõ trong cổ phiếu)."
+  },
+  {
+   "id": "DN-R62",
+   "premises": [
+    "already_owns_private_enterprise",
+    "intends_to_establish_private_enterprise"
+   ],
+   "conclusion": "private_enterprise_exclusivity_violated",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 188 khoản 3",
+   "from_rules": [
+    "ENT-01-D188-002"
+   ],
+   "note": "Mỗi cá nhân chỉ được thành lập một DNTN; đã làm chủ một DNTN mà lập thêm là vi phạm."
+  },
+  {
+   "id": "DN-R63",
+   "premises": [
+    "~already_owns_private_enterprise",
+    "intends_to_establish_private_enterprise"
+   ],
+   "conclusion": "~private_enterprise_exclusivity_violated",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 188 khoản 3",
+   "from_rules": [
+    "ENT-01-D188-002"
+   ],
+   "note": "Chưa làm chủ DNTN nào thì được thành lập một DNTN (quy tắc chung, xét giới hạn số lượng)."
+  },
+  {
+   "id": "DN-R64",
+   "premises": [
+    "already_owns_private_enterprise",
+    "simultaneously_household_business_owner"
+   ],
+   "conclusion": "private_enterprise_exclusivity_violated",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 188 khoản 3",
+   "from_rules": [
+    "ENT-01-D188-003"
+   ],
+   "note": "Chủ DNTN không được đồng thời là chủ hộ kinh doanh."
+  },
+  {
+   "id": "DN-R65",
+   "premises": [
+    "already_owns_private_enterprise",
+    "simultaneously_general_partner"
+   ],
+   "conclusion": "private_enterprise_exclusivity_violated",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 188 khoản 3",
+   "from_rules": [
+    "ENT-01-D188-003-s1"
+   ],
+   "note": "Chủ DNTN không được đồng thời là thành viên hợp danh của công ty hợp danh."
+  },
+  {
+   "id": "DN-R66",
+   "premises": [
+    "intends_to_establish_private_enterprise",
+    "simultaneously_household_business_owner"
+   ],
+   "conclusion": "private_enterprise_exclusivity_violated",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 188 khoản 3",
+   "from_rules": [
+    "ENT-01-D188-003"
+   ],
+   "note": "Người đang là chủ hộ kinh doanh mà lập DNTN sẽ thành chủ DNTN đồng thời là chủ hộ kinh doanh; ngoại lệ với quy tắc lập DNTN đầu tiên."
+  },
+  {
+   "id": "DN-R67",
+   "premises": [
+    "intends_to_establish_private_enterprise",
+    "simultaneously_general_partner"
+   ],
+   "conclusion": "private_enterprise_exclusivity_violated",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 188 khoản 3",
+   "from_rules": [
+    "ENT-01-D188-003-s1"
+   ],
+   "note": "Người đang là thành viên hợp danh mà lập DNTN sẽ thành chủ DNTN đồng thời là thành viên hợp danh; ngoại lệ với quy tắc lập DNTN đầu tiên."
+  },
+  {
+   "id": "DN-R68",
+   "premises": [
+    "dissolution_ground_exists",
+    "all_enterprise_debts_paid",
+    "~pending_court_arbitration_dispute"
+   ],
+   "conclusion": "enterprise_dissolution_conditions_met",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 207 khoản 2",
+   "from_rules": [
+    "ENT-01-D207-000"
+   ],
+   "note": "Có căn cứ giải thể (khoản 1), đã thanh toán hết nợ, nghĩa vụ tài sản và không đang tranh chấp tại Tòa án/Trọng tài thì đủ điều kiện giải thể."
+  },
+  {
+   "id": "DN-R69",
+   "premises": [
+    "~all_enterprise_debts_paid"
+   ],
+   "conclusion": "~enterprise_dissolution_conditions_met",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 207 khoản 2",
+   "from_rules": [
+    "ENT-01-D207-000-a1"
+   ],
+   "note": "'Chỉ được giải thể khi' thanh toán hết nợ: chưa thanh toán hết thì chưa đủ điều kiện."
+  },
+  {
+   "id": "DN-R70",
+   "premises": [
+    "pending_court_arbitration_dispute"
+   ],
+   "conclusion": "~enterprise_dissolution_conditions_met",
+   "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 207 khoản 2",
+   "from_rules": [
+    "ENT-01-D207-000-a2"
+   ],
+   "note": "Đang giải quyết tranh chấp tại Tòa án hoặc Trọng tài thì chưa đủ điều kiện giải thể."
+  }
+ ],
+ "exception_of": [
+  [
+   "DN-R09",
+   "DN-R08"
+  ],
+  [
+   "DN-R10",
+   "DN-R07"
+  ],
+  [
+   "DN-R11",
+   "DN-R08"
+  ],
+  [
+   "DN-R12",
+   "DN-R07"
+  ],
+  [
+   "DN-R17",
+   "DN-R16"
+  ],
+  [
+   "DN-R18",
+   "DN-R14"
+  ],
+  [
+   "DN-R18",
+   "DN-R16"
+  ],
+  [
+   "DN-R26",
+   "DN-R23"
+  ],
+  [
+   "DN-R27",
+   "DN-R24"
+  ],
+  [
+   "DN-R28",
+   "DN-R25"
+  ],
+  [
+   "DN-R34",
+   "DN-R33"
+  ],
+  [
+   "DN-R36",
+   "DN-R35"
+  ],
+  [
+   "DN-R49",
+   "DN-R46"
+  ],
+  [
+   "DN-R54",
+   "DN-R50"
+  ],
+  [
+   "DN-R55",
+   "DN-R50"
+  ],
+  [
+   "DN-R59",
+   "DN-R58"
+  ],
+  [
+   "DN-R61",
+   "DN-R58"
+  ],
+  [
+   "DN-R61",
+   "DN-R60"
+  ],
+  [
+   "DN-R66",
+   "DN-R63"
+  ],
+  [
+   "DN-R67",
+   "DN-R63"
+  ]
+ ],
+ "extra_predicates": [
+  {
+   "pred": "enterprise_name_confusing",
+   "kind": "input",
+   "template_pos": "Tên doanh nghiệp gây nhầm lẫn với tên doanh nghiệp đã đăng ký.",
+   "template_neg": "Tên doanh nghiệp không gây nhầm lẫn với tên doanh nghiệp đã đăng ký.",
+   "ask": "Tên dự kiến có gây nhầm lẫn với tên một doanh nghiệp đã đăng ký không?"
+  },
+  {
+   "pred": "enterprise_name_armed_forces_unit",
+   "kind": "input",
+   "template_pos": "Tên riêng doanh nghiệp sử dụng tên đơn vị lực lượng vũ trang nhân dân.",
+   "template_neg": "Tên riêng doanh nghiệp không sử dụng tên đơn vị lực lượng vũ trang nhân dân.",
+   "ask": "Tên riêng có dùng tên một đơn vị lực lượng vũ trang nhân dân không?"
+  },
+  {
+   "pred": "enterprise_name_political_social_org",
+   "kind": "input",
+   "template_pos": "Tên riêng doanh nghiệp sử dụng tên tổ chức chính trị, chính trị - xã hội, chính trị xã hội - nghề nghiệp, xã hội hoặc xã hội - nghề nghiệp.",
+   "template_neg": "Tên riêng doanh nghiệp không sử dụng tên tổ chức chính trị, chính trị - xã hội hay tổ chức xã hội nào.",
+   "ask": "Tên riêng có dùng tên một tổ chức chính trị, chính trị - xã hội hoặc tổ chức xã hội, xã hội - nghề nghiệp không?"
+  },
+  {
+   "pred": "enterprise_name_offensive",
+   "kind": "input",
+   "template_pos": "Tên doanh nghiệp dùng từ ngữ, ký hiệu vi phạm truyền thống lịch sử, văn hóa, đạo đức, thuần phong mỹ tục.",
+   "template_neg": "Tên doanh nghiệp không dùng từ ngữ, ký hiệu vi phạm truyền thống, văn hóa, đạo đức, thuần phong mỹ tục.",
+   "ask": "Tên có dùng từ ngữ, ký hiệu vi phạm truyền thống lịch sử, văn hóa, đạo đức hoặc thuần phong mỹ tục không?"
+  },
+  {
+   "pred": "change_required_by_arbitral_award",
+   "kind": "input",
+   "template_pos": "Việc đăng ký thay đổi theo phán quyết của Trọng tài đã có hiệu lực.",
+   "template_neg": "Việc thay đổi không xuất phát từ phán quyết của Trọng tài.",
+   "ask": "Việc thay đổi nội dung đăng ký có xuất phát từ phán quyết của Trọng tài không?"
+  },
+  {
+   "pred": "asset_used_in_private_enterprise_business",
+   "kind": "input",
+   "template_pos": "Tài sản được chủ doanh nghiệp tư nhân sử dụng vào hoạt động kinh doanh của doanh nghiệp tư nhân.",
+   "template_neg": "Tài sản không phải tài sản chủ doanh nghiệp tư nhân dùng vào kinh doanh của doanh nghiệp tư nhân.",
+   "ask": "Tài sản này có phải tài sản chủ DNTN dùng vào hoạt động kinh doanh của DNTN không?"
+  },
+  {
+   "pred": "capital_contribution_completed",
+   "kind": "derived",
+   "template_pos": "Việc góp vốn bằng tài sản được coi là đã thanh toán xong.",
+   "template_neg": "Việc góp vốn bằng tài sản chưa được coi là thanh toán xong.",
+   "ask": "Việc góp vốn bằng tài sản đã được coi là thanh toán xong chưa?"
+  },
+  {
+   "pred": "shares_previously_transferred_to_nonfounder",
+   "kind": "input",
+   "template_pos": "Cổ phần này đã từng được chuyển nhượng cho người không phải cổ đông sáng lập.",
+   "template_neg": "Cổ phần này chưa từng được chuyển nhượng cho người không phải cổ đông sáng lập.",
+   "ask": "Cổ phần đang xét có phải đã từng được chuyển nhượng cho người không phải cổ đông sáng lập không?"
+  },
+  {
+   "pred": "intends_to_establish_private_enterprise",
+   "kind": "input",
+   "template_pos": "Người này dự định thành lập một doanh nghiệp tư nhân.",
+   "template_neg": "Người này không dự định thành lập doanh nghiệp tư nhân.",
+   "ask": "Người này có dự định thành lập (thêm) một doanh nghiệp tư nhân không?"
+  },
+  {
+   "pred": "subscribed_shares_partially_paid",
+   "kind": "input",
+   "template_pos": "Cổ đông đã thanh toán được một phần số cổ phần đăng ký mua.",
+   "template_neg": "Cổ đông chưa thanh toán phần nào số cổ phần đăng ký mua.",
+   "ask": "Cổ đông đã thanh toán được một phần số cổ phần đăng ký mua chưa?"
+  }
+ ],
+ "not_derivable": []
+}

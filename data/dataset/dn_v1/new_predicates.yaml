@@ -1,0 +1,408 @@
+predicates:
+  all_enterprise_debts_paid:
+    ask: Doanh nghiệp đã thanh toán hết nợ chưa?
+    first_declared_in: DN-051
+    kind: input
+    pred: all_enterprise_debts_paid
+    template_neg: Doanh nghiệp chưa thanh toán hết nợ và nghĩa vụ tài sản.
+    template_pos: Doanh nghiệp đã thanh toán toàn bộ các khoản nợ và nghĩa vụ tài
+      sản.
+  already_owns_private_enterprise:
+    ask: Bạn đang làm chủ một doanh nghiệp tư nhân nào không?
+    first_declared_in: DN-046
+    kind: input
+    pred: already_owns_private_enterprise
+    template_neg: Người này chưa làm chủ doanh nghiệp tư nhân nào.
+    template_pos: Người này đã làm chủ một doanh nghiệp tư nhân.
+  alternative_capital_asset_permitted:
+    first_declared_in: DN-026
+    kind: derived
+    pred: alternative_capital_asset_permitted
+    template_neg: Việc đổi loại tài sản góp vốn không được chấp thuận theo điều kiện
+      pháp luật.
+    template_pos: Việc đổi loại tài sản góp vốn được chấp thuận theo điều kiện pháp
+      luật.
+  asset_handover_record_exists:
+    ask: Đã lập biên bản giao nhận tài sản chưa?
+    first_declared_in: DN-069
+    kind: input
+    pred: asset_handover_record_exists
+    template_neg: Không lập biên bản giao nhận tài sản góp vốn.
+    template_pos: Đã có biên bản giao nhận tài sản góp vốn.
+  business_sector_permitted:
+    ask: Ngành nghề dự kiến kinh doanh có bị cấm không?
+    first_declared_in: DN-001
+    kind: input
+    pred: business_sector_permitted
+    template_neg: Ngành nghề đăng ký kinh doanh bị cấm.
+    template_pos: Ngành nghề đăng ký kinh doanh không thuộc danh mục bị cấm.
+  buyer_is_nonfounder:
+    ask: Người nhận có phải cổ đông sáng lập không?
+    first_declared_in: DN-041
+    kind: input
+    pred: buyer_is_nonfounder
+    template_neg: Người nhận chuyển nhượng là cổ đông sáng lập.
+    template_pos: Người nhận chuyển nhượng không phải cổ đông sáng lập.
+  capital_asset_different_from_commitment:
+    ask: Tài sản góp thực tế có khác loại đã cam kết không?
+    first_declared_in: DN-026
+    kind: input
+    pred: capital_asset_different_from_commitment
+    template_neg: Thành viên góp đúng loại tài sản đã cam kết.
+    template_pos: Thành viên góp tài sản khác loại với cam kết.
+  capital_asset_requires_title_registration:
+    ask: Tài sản này có phải đăng ký quyền sở hữu không?
+    first_declared_in: DN-066
+    kind: input
+    pred: capital_asset_requires_title_registration
+    template_neg: Tài sản góp vốn không phải đăng ký quyền sở hữu.
+    template_pos: Tài sản góp vốn là loại phải đăng ký quyền sở hữu.
+  capital_asset_title_transferred:
+    ask: Đã chuyển quyền sở hữu tài sản cho công ty chưa?
+    first_declared_in: DN-066
+    kind: input
+    pred: capital_asset_title_transferred
+    template_neg: Chưa làm thủ tục chuyển quyền sở hữu tài sản góp vốn cho công ty.
+    template_pos: Đã làm thủ tục chuyển quyền sở hữu tài sản góp vốn cho công ty.
+  capital_asset_transfer_compliant:
+    first_declared_in: DN-066
+    kind: derived
+    pred: capital_asset_transfer_compliant
+    template_neg: Việc chuyển giao tài sản góp vốn chưa đáp ứng thủ tục đang xét.
+    template_pos: Việc chuyển giao tài sản góp vốn đáp ứng thủ tục đang xét.
+  capital_contributed_in_full:
+    ask: Thành viên đã góp đủ vốn chưa?
+    first_declared_in: DN-021
+    kind: input
+    pred: capital_contributed_in_full
+    template_neg: Thành viên chưa góp đủ vốn đã cam kết.
+    template_pos: Thành viên đã góp đủ vốn đã cam kết.
+  capital_contribution_via_account:
+    ask: Việc góp vốn có được thực hiện qua tài khoản không?
+    first_declared_in: DN-069
+    kind: input
+    pred: capital_contribution_via_account
+    template_neg: Việc góp tài sản không thực hiện qua tài khoản.
+    template_pos: Việc góp tài sản được thực hiện qua tài khoản.
+  capital_contribution_within_90_days:
+    ask: Đã bao nhiêu ngày được tính vào thời hạn góp vốn?
+    first_declared_in: DN-021
+    kind: input
+    pred: capital_contribution_within_90_days
+    template_neg: Thời gian góp vốn được tính theo luật đã quá 90 ngày.
+    template_pos: Thời gian góp vốn được tính theo luật không vượt quá 90 ngày.
+  capital_transfer_delay_excluded:
+    ask: Có thời gian vận chuyển/nhập khẩu hoặc thủ tục chuyển quyền sở hữu cần loại
+      trừ không?
+    first_declared_in: DN-024
+    kind: input
+    pred: capital_transfer_delay_excluded
+    template_neg: Không có thời gian cần loại trừ khỏi thời hạn góp vốn.
+    template_pos: Có thời gian vận chuyển, nhập khẩu hoặc thủ tục chuyển quyền sở
+      hữu được loại khỏi thời hạn góp vốn.
+  change_required_by_court_ruling:
+    ask: Việc đăng ký thay đổi có theo quyết định của Tòa án không?
+    first_declared_in: DN-064
+    kind: input
+    pred: change_required_by_court_ruling
+    template_neg: Việc thay đổi không xuất phát từ bản án hay quyết định của Tòa án.
+    template_pos: Việc đăng ký thay đổi theo bản án hoặc quyết định của Tòa án đã
+      có hiệu lực.
+  changed_certificate_content:
+    ask: Có thay đổi nội dung trên giấy chứng nhận đăng ký doanh nghiệp không?
+    first_declared_in: DN-061
+    kind: input
+    pred: changed_certificate_content
+    template_neg: Doanh nghiệp không thay đổi nội dung trên Giấy chứng nhận đăng ký
+      doanh nghiệp.
+    template_pos: Doanh nghiệp thay đổi nội dung trên Giấy chứng nhận đăng ký doanh
+      nghiệp.
+  charter_share_transfer_restriction:
+    ask: Điều lệ có điều khoản hạn chế chuyển nhượng có hiệu lực đối với cổ phần này
+      không?
+    first_declared_in: DN-056
+    kind: input
+    pred: charter_share_transfer_restriction
+    template_neg: Không có hạn chế chuyển nhượng có hiệu lực trong Điều lệ đối với
+      cổ phần này.
+    template_pos: Điều lệ có hạn chế chuyển nhượng có hiệu lực đối với cổ phần này.
+  converting_to_joint_stock:
+    ask: Việc phát hành có phục vụ chuyển đổi thành công ty cổ phần không?
+    first_declared_in: DN-016
+    kind: input
+    pred: converting_to_joint_stock
+    template_neg: Công ty không thực hiện chuyển đổi thành công ty cổ phần.
+    template_pos: Công ty đang thực hiện chuyển đổi thành công ty cổ phần.
+  dissolution_ground_exists:
+    ask: Có quyết định hoặc căn cứ giải thể hợp lệ chưa?
+    first_declared_in: DN-051
+    kind: input
+    pred: dissolution_ground_exists
+    template_neg: Chưa có căn cứ giải thể thuộc Điều 207 khoản 1.
+    template_pos: Có quyết định hoặc căn cứ giải thể thuộc Điều 207 khoản 1.
+  eligible_registration_certificate:
+    first_declared_in: DN-001
+    kind: derived
+    pred: eligible_registration_certificate
+    template_neg: Doanh nghiệp không đáp ứng điều kiện được cấp Giấy chứng nhận đăng
+      ký doanh nghiệp.
+    template_pos: Doanh nghiệp đáp ứng điều kiện được cấp Giấy chứng nhận đăng ký
+      doanh nghiệp.
+  enterprise_change_registration_timely:
+    first_declared_in: DN-061
+    kind: derived
+    pred: enterprise_change_registration_timely
+    template_neg: Việc đăng ký thay đổi nội dung doanh nghiệp quá hạn theo điều khoản
+      áp dụng.
+    template_pos: Việc đăng ký thay đổi nội dung doanh nghiệp đúng hạn theo điều khoản
+      áp dụng.
+  enterprise_dissolution_conditions_met:
+    first_declared_in: DN-051
+    kind: derived
+    pred: enterprise_dissolution_conditions_met
+    template_neg: Doanh nghiệp chưa đáp ứng điều kiện giải thể đang xét.
+    template_pos: Doanh nghiệp đáp ứng điều kiện giải thể đang xét.
+  enterprise_name_compliant:
+    ask: Tên doanh nghiệp dự kiến có hợp lệ không?
+    first_declared_in: DN-001
+    kind: input
+    pred: enterprise_name_compliant
+    template_neg: Tên dự kiến trái quy định đặt tên doanh nghiệp.
+    template_pos: Tên dự kiến tuân thủ quy định đặt tên doanh nghiệp.
+  enterprise_name_duplicate:
+    ask: Tên doanh nghiệp có trùng tên đã đăng ký không?
+    first_declared_in: DN-006
+    kind: input
+    pred: enterprise_name_duplicate
+    template_neg: Tên doanh nghiệp không trùng tên doanh nghiệp đã đăng ký.
+    template_pos: Tên doanh nghiệp trùng tên doanh nghiệp đã đăng ký.
+  enterprise_name_permitted:
+    first_declared_in: DN-006
+    kind: derived
+    pred: enterprise_name_permitted
+    template_neg: Tên doanh nghiệp vi phạm các điều cấm được xét.
+    template_pos: Tên doanh nghiệp phù hợp với các điều cấm được xét.
+  enterprise_name_state_body:
+    ask: Tên riêng có sử dụng tên của cơ quan nhà nước không?
+    first_declared_in: DN-004
+    kind: input
+    pred: enterprise_name_state_body
+    template_neg: Tên riêng doanh nghiệp không sử dụng tên cơ quan nhà nước.
+    template_pos: Tên riêng doanh nghiệp sử dụng tên cơ quan nhà nước.
+  founder_held_shares_from_registration:
+    ask: Cổ phần đó có phải được nắm giữ từ thời điểm đăng ký không?
+    first_declared_in: DN-041
+    kind: input
+    pred: founder_held_shares_from_registration
+    template_neg: Cổ phần này được mua bổ sung sau khi đăng ký thành lập.
+    template_pos: Cổ phần được cổ đông sáng lập sở hữu từ lúc đăng ký thành lập.
+  founder_share_transfer_needs_agm_approval:
+    first_declared_in: DN-041
+    kind: derived
+    pred: founder_share_transfer_needs_agm_approval
+    template_neg: Không cần phê duyệt theo hạn chế ba năm đối với chuyển nhượng này.
+    template_pos: Cần Đại hội đồng cổ đông chấp thuận chuyển nhượng cổ phần sáng lập
+      trong tình huống này.
+  founder_shareholding:
+    ask: Người chuyển nhượng có phải cổ đông sáng lập không?
+    first_declared_in: DN-041
+    kind: input
+    pred: founder_shareholding
+    template_neg: Người chuyển nhượng không phải cổ đông sáng lập.
+    template_pos: Người chuyển nhượng là cổ đông sáng lập.
+  founder_shares_within_first_3_years:
+    ask: Đã quá ba năm kể từ khi công ty được cấp giấy chứng nhận chưa?
+    first_declared_in: DN-041
+    kind: input
+    pred: founder_shares_within_first_3_years
+    template_neg: Đã quá ba năm từ ngày đăng ký doanh nghiệp.
+    template_pos: Việc chuyển nhượng nằm trong ba năm đầu từ đăng ký doanh nghiệp.
+  founder_transfer_agm_approved:
+    ask: Đại hội đồng cổ đông có chấp thuận không?
+    first_declared_in: DN-057
+    kind: input
+    pred: founder_transfer_agm_approved
+    template_neg: Đại hội đồng cổ đông chưa chấp thuận việc chuyển nhượng.
+    template_pos: Đại hội đồng cổ đông chấp thuận việc chuyển nhượng.
+  founder_transfer_restriction_applies:
+    first_declared_in: DN-056
+    kind: derived
+    pred: founder_transfer_restriction_applies
+    template_neg: Hạn chế ba năm đối với chuyển nhượng cổ phần sáng lập không áp dụng.
+    template_pos: Hạn chế ba năm đối với chuyển nhượng cổ phần sáng lập đang áp dụng.
+  llc_2plus_membership_valid:
+    first_declared_in: DN-011
+    kind: derived
+    pred: llc_2plus_membership_valid
+    template_neg: Số lượng thành viên không phù hợp mô hình TNHH hai thành viên trở
+      lên.
+    template_pos: Số lượng thành viên phù hợp mô hình TNHH hai thành viên trở lên.
+  llc_capital_contribution_timely:
+    first_declared_in: DN-021
+    kind: derived
+    pred: llc_capital_contribution_timely
+    template_neg: Thành viên TNHH góp đủ vốn sau hạn luật định hoặc chưa góp đủ khi
+      hết hạn.
+    template_pos: Thành viên TNHH góp đủ vốn trong hạn luật định.
+  llc_company:
+    ask: Loại hình công ty là gì?
+    first_declared_in: DN-014
+    kind: input
+    pred: llc_company
+    template_neg: Pháp nhân không phải là công ty trách nhiệm hữu hạn.
+    template_pos: Pháp nhân là công ty trách nhiệm hữu hạn.
+  llc_member_count_valid:
+    ask: Số thành viên chính thức của công ty là bao nhiêu?
+    first_declared_in: DN-011
+    kind: input
+    pred: llc_member_count_valid
+    template_neg: Số thành viên của công ty TNHH hai thành viên trở lên nằm ngoài
+      khoảng từ hai tới năm mươi.
+    template_pos: Công ty TNHH hai thành viên trở lên có từ hai tới năm mươi thành
+      viên.
+  llc_share_issuance_prohibited:
+    first_declared_in: DN-016
+    kind: derived
+    pred: llc_share_issuance_prohibited
+    template_neg: Lệnh cấm phát hành cổ phần theo điều khoản đang xét không áp dụng
+      do chuyển đổi.
+    template_pos: Công ty trách nhiệm hữu hạn bị cấm phát hành cổ phần trong tình
+      huống này.
+  llc_single_owner:
+    ask: Công ty có bao nhiêu chủ sở hữu?
+    first_declared_in: DN-016
+    kind: input
+    pred: llc_single_owner
+    template_neg: Công ty TNHH có nhiều hơn một chủ sở hữu.
+    template_pos: Công ty TNHH có đúng một chủ sở hữu.
+  ordinary_share_transfer_unrestricted:
+    first_declared_in: DN-056
+    kind: derived
+    pred: ordinary_share_transfer_unrestricted
+    template_neg: Việc chuyển nhượng cổ phần này chịu một hạn chế đang xét.
+    template_pos: Việc chuyển nhượng cổ phần này không chịu các hạn chế đang xét.
+  ordinary_shares:
+    ask: Cổ phần dự định chuyển nhượng thuộc loại nào?
+    first_declared_in: DN-036
+    kind: input
+    pred: ordinary_shares
+    template_neg: Các cổ phần không phải cổ phần phổ thông.
+    template_pos: Các cổ phần chuyển nhượng là cổ phần phổ thông.
+  other_members_majority_approval:
+    ask: Có trên 50% thành viên còn lại đồng ý không?
+    first_declared_in: DN-026
+    kind: input
+    pred: other_members_majority_approval
+    template_neg: Không quá một nửa các thành viên còn lại đồng ý.
+    template_pos: Trên một nửa các thành viên còn lại đồng ý thay đổi loại tài sản
+      góp vốn.
+  pending_court_arbitration_dispute:
+    ask: Doanh nghiệp có tranh chấp đang được giải quyết tại Tòa án hoặc Trọng tài
+      không?
+    first_declared_in: DN-051
+    kind: input
+    pred: pending_court_arbitration_dispute
+    template_neg: Doanh nghiệp không trong quá trình giải quyết tranh chấp tại Tòa
+      án hoặc Trọng tài.
+    template_pos: Doanh nghiệp đang trong quá trình giải quyết tranh chấp tại Tòa
+      án hoặc Trọng tài.
+  private_enterprise_exclusivity_violated:
+    first_declared_in: DN-046
+    kind: derived
+    pred: private_enterprise_exclusivity_violated
+    template_neg: Hành vi dự định không vi phạm quy định độc quyền đang xét.
+    template_pos: Hành vi dự định vi phạm quy định độc quyền sở hữu doanh nghiệp tư
+      nhân.
+  registered_change_within_10_days:
+    ask: Đã đăng ký thay đổi trong mười ngày chưa?
+    first_declared_in: DN-061
+    kind: input
+    pred: registered_change_within_10_days
+    template_neg: Đăng ký thay đổi sau mười ngày kể từ ngày có thay đổi.
+    template_pos: Đăng ký thay đổi trong thời hạn mười ngày kể từ ngày có thay đổi.
+  registered_change_within_15_days_from_judgment:
+    ask: Đã yêu cầu thay đổi trong 15 ngày kể từ khi bản án có hiệu lực chưa?
+    first_declared_in: DN-064
+    kind: input
+    pred: registered_change_within_15_days_from_judgment
+    template_neg: Đã gửi yêu cầu quá mười lăm ngày từ khi bản án có hiệu lực.
+    template_pos: Đã gửi yêu cầu thay đổi trong mười lăm ngày từ khi bản án có hiệu
+      lực.
+  registration_application_valid:
+    ask: Hồ sơ đăng ký đã hợp lệ chưa?
+    first_declared_in: DN-001
+    kind: input
+    pred: registration_application_valid
+    template_neg: Hồ sơ đăng ký doanh nghiệp không hợp lệ.
+    template_pos: Hồ sơ đăng ký doanh nghiệp hợp lệ.
+  registration_fee_paid:
+    ask: Đã nộp đủ lệ phí đăng ký chưa?
+    first_declared_in: DN-001
+    kind: input
+    pred: registration_fee_paid
+    template_neg: Chưa nộp đủ lệ phí đăng ký doanh nghiệp.
+    template_pos: Đã nộp đủ lệ phí đăng ký doanh nghiệp.
+  share_payment_deadline_elapsed:
+    ask: Thời hạn thanh toán cổ phần đã hết chưa?
+    first_declared_in: DN-036
+    kind: input
+    pred: share_payment_deadline_elapsed
+    template_neg: Thời hạn thanh toán cổ phần chưa kết thúc.
+    template_pos: Thời hạn thanh toán cổ phần đã kết thúc.
+  shares_subscribed_unpaid:
+    ask: Cổ đông đã thanh toán đủ số cổ phần đăng ký mua chưa?
+    first_declared_in: DN-036
+    kind: input
+    pred: shares_subscribed_unpaid
+    template_neg: Cổ đông đã thanh toán đủ cổ phần đăng ký mua.
+    template_pos: Cổ đông chưa thanh toán số cổ phần đăng ký mua.
+  shorter_charter_share_payment_deadline:
+    ask: Điều lệ hoặc hợp đồng có quy định thời hạn ngắn hơn không?
+    first_declared_in: DN-039
+    kind: input
+    pred: shorter_charter_share_payment_deadline
+    template_neg: Điều lệ và hợp đồng không quy định thời hạn ngắn hơn 90 ngày.
+    template_pos: Điều lệ hoặc hợp đồng quy định thời hạn thanh toán ngắn hơn 90 ngày.
+  simultaneously_general_partner:
+    ask: Bạn có là thành viên hợp danh không?
+    first_declared_in: DN-048
+    kind: input
+    pred: simultaneously_general_partner
+    template_neg: Người này không phải thành viên hợp danh.
+    template_pos: Người này đồng thời là thành viên hợp danh của công ty hợp danh.
+  simultaneously_household_business_owner:
+    ask: Bạn có đồng thời là chủ hộ kinh doanh không?
+    first_declared_in: DN-047
+    kind: input
+    pred: simultaneously_household_business_owner
+    template_neg: Người này không phải chủ hộ kinh doanh.
+    template_pos: Người này đồng thời là chủ hộ kinh doanh.
+  sole_owner_capital_shortfall_after_deadline:
+    ask: Sau thời hạn góp vốn, chủ sở hữu còn thiếu phần vốn cam kết không?
+    first_declared_in: DN-031
+    kind: input
+    pred: sole_owner_capital_shortfall_after_deadline
+    template_neg: Chủ sở hữu đã góp đủ vốn trong thời hạn tính theo luật.
+    template_pos: Chủ sở hữu chưa góp đủ vốn sau thời hạn tính theo luật.
+  sole_owner_must_adjust_registered_capital:
+    first_declared_in: DN-031
+    kind: derived
+    pred: sole_owner_must_adjust_registered_capital
+    template_neg: Không phát sinh nghĩa vụ điều chỉnh vốn vì lý do không góp đủ sau
+      hạn.
+    template_pos: Chủ sở hữu phải đăng ký điều chỉnh vốn điều lệ do không góp đủ.
+  state_body_name_consent:
+    ask: Cơ quan có tên đó đã chấp thuận chưa?
+    first_declared_in: DN-004
+    kind: input
+    pred: state_body_name_consent
+    template_neg: Cơ quan có tên được sử dụng chưa đồng ý.
+    template_pos: Cơ quan có tên được sử dụng đã đồng ý.
+  unpaid_share_subscription_causes_loss_of_status:
+    first_declared_in: DN-036
+    kind: derived
+    pred: unpaid_share_subscription_causes_loss_of_status
+    template_neg: Không phát sinh mất tư cách cổ đông vì không thanh toán theo điều
+      khoản này.
+    template_pos: Không thanh toán cổ phần sau hạn dẫn đến mất tư cách cổ đông theo
+      điều khoản.

@@ -1,0 +1,31 @@
+{
+  "domain": "doanh_nghiep",
+  "status": "DRAFT_PENDING_LEGAL_REVIEW",
+  "count": 70,
+  "by_info_level": {
+    "complete": 40,
+    "missing": 19,
+    "exception_or_conflict": 11
+  },
+  "by_expected": {
+    "true": 27,
+    "false": 24,
+    "insufficient": 19
+  },
+  "multi_hop_claimed": 6,
+  "unique_semantic_signatures": 62,
+  "new_predicates": 56,
+  "schema_errors": 0,
+  "source_quote_match_count": 107,
+  "source_quote_verified_count": 107,
+  "legal_human_review_completed": false,
+  "prolog_runtime_validation_completed": false,
+  "policy_note": "Gold is law + fixed benchmark assumptions, independent from current KB; missing exceptions entirely not inferred; partially triggered exceptions reviewed for insufficiency.",
+  "predicate_reference_integrity": true,
+  "exact_duplicate_questions": 0,
+  "quote_words_over_40": 0,
+  "predeclared_predicate_conflicts_checked": true,
+  "gold_policy": "v2 benchmark independent of KB",
+  "source_law_coverage": "Only consolidated Enterprise Law (67/VBHN-VPQH); not the 168/2025 decree yet",
+  "diagnostic_fault_injection": "not generated - requires runtime traces"
+}

@@ -1,0 +1,1625 @@
+[
+  {
+    "pred": "signed_labor_contract",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "paid_wage",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "under_management",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "term_at_least_1_month",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "term_at_least_12_months",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "probation_only",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "foreign_citizen",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "part_time",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "wage_at_least_min_base",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "enterprise_manager",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "receives_salary",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "receiving_pension",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "domestic_worker",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "intra_company_transfer",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "retirement_age_at_signing",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "contract_suspended",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "unpaid_14_days",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "agreed_contribution",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "multiple_contracts",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "reached_retirement_age",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "contribution_15_years",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "stopped_working",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "terminated_participation",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "requested_lump_sum",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "emigrating",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "serious_illness",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "labor_relation",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "covered_point_a",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "compulsory_si",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_contribute_month",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "contribute_at_first_contract",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "voluntary_si_eligible",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "entitled_pension",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "entitled_lump_sum",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "social_insurance_agency",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "deceased",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_worker_dead",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "maternity_benefit",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "worked_before_01_01_1995",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_respond_in_writing_if_not_approved",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_male_worker",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "sickness_benefit",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "contribution_20_years",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "has_social_insurance_book",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "cham_dong_bhxh",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "has_full_contribution_time_by_state",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "survivor_benefit",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "can_take_health_recovery_leave",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "funeral_support",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "covered_point_d",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "has_request_document",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "adopted_child_under_6_months",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_female_worker",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_receiving_monthly_allowance",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_civil_servant",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "has_given_birth",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_business_owner",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "receive_health_insurance",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "contribution_30_years",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "spouse_has_child_birth",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_female_worker_with_surrogate_pregnancy",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_transfer_application_to_social_insurance_agency",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "mother_dies_after_birth",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "pension_benefit",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "can_preserve_contribution_time",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "can_suspend_compulsory_si_contribution",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "meets_conditions_for_maternity_benefit",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "base_salary_abrogated",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_local_official",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_military_officer",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "issued_insurance_book",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "advise_on_policy_changes",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_vietnamese_citizen",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "female_worker_pregnant",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "returns_to_work_before_maternity_leave_ends",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "can_take_maternity_leave",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "suspend_pension_benefits",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "terminate_pension_benefits",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "detention_duration_at_least_14_days",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_registered_enterprise",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "valid_application",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "notified_authorities_within_3_days",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_llc_member",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_include_signature_of_owner_or_representative",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "not_notified_authorities",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_fulfill_other_legal_obligations",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_member_of_board_or_chairman",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_provide_documents_for_change_of_representative",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "can_vote_on_company_matters",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_notify_enterprise_about_related_business",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_keep_company_documents",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_shareholder",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "can_revoke_business_registration_certificate",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_local_registration_authority",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_notify_if_application_invalid",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_complete_capital_contribution",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_publicize_business_info",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "valid_application_online",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_provincial_registration_authority",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_notify_invalid_application",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_member_of_board",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_registered_capital",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_perform_duties_honestly",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_notify_enterprise_timely_and_accurately",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_not_use_enterprise_info_for_personal_gain",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_not_transfer_property_ownership",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_single_member_llc",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_notify_changes_other_contents",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_notify_authorities_about_changes",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_perform_duties_carefully",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "can_exercise_other_rights_and_duties",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_business_license_revoked",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_issue_receipt_and_schedule_result",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_report_honesty",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_define_representative_roles_in_charter",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_notify_if_application_rejected",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_get_approval_from_members",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_not_use_duplicate_or_confusing_name",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "can_decide_management_structure",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_notify_tax_authority_about_branch_termination",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_register_business",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_legal_representative",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "has_highest_decision_body",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "can_be_member_of_board",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_authorized_to_share_taxpayer_info",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_non_compliance_with_tax_authority",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_provide_taxpayer_info",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_enforcement_case",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_taxpayer_using_direct_tax_method",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "taxpayer_includes_legal_entities",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_tax_management_agency_or_official",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "goods_subject_to_vat",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_exporting_goods_or_services_abroad",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_tax_deduction",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_use_price_excluding_vat",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_have_invoice_for_deduction",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "taxpayer_has_obligation_to_pay_taxes",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_taxpayer_authorized_to_use_invoice",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_follow_current_tax_law",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_taxpayer_with_business_activity_in_different_location",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_pay_tax_on_business_income",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_foreign_entity_with_income_in_vietnam",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_selling_goods_or_services_in_domestic",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "taxpayer_must_file_tax_returns",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_follow_tax_management_law_38_2019",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_use_e_invoice_for_exported_goods_or_services",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_deduct_input_vat",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "tax_assessment",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_legal_entity_or_non_legal_entity_taxpayer",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_use_non_cash_payment_receipt",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_have_service_contract_with_foreign_entity",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "taxpayer_includes_foreign_entities",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_tax_violation_case",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_taxpayer_not_in_case_a_or_b",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "taxpayer_includes_other_income_contributors",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_manage_tax_contents",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_foreign_individual",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_send_suspend_invoice_decision_to_related_entities",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_use_invoice_from_tax_authority",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_deduct_input_vat_full",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "tax_authority_must_fine_non_compliance",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_electronic_invoice_with_tax_code",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "invoice_type_is_electronic",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_enforce_tax_collection_measures",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_provide_decision_and_record_to_taxpayer",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "taxpayer_must_pay_taxes_to_state_budget",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_technology_incident",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_terminate_suspend_invoice_decision",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_using_invalid_invoice_or_document",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_follow_labor_law",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "can_terminate_contract",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "not_can_terminate_contract",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_provide_conditions_for_negotiation",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "can_request_negotiation",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "not_use_workers_without_agreement",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_include_main_contents",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "worker_rights_protected",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "contract_in_written_form",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "not_use_workers_without_license",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "age_at_least_15",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "employer_rights_protected",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_notify_authorities",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_pay_wages_and_benefits",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "worker_continue_working",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_consult_workers_representative",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "not_paid_salary",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "not_conflict_with_law",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "contract_invalid_full",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "leasing_company_has_license",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_notify_workers",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "not_reached_retirement_age",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "can_lead_strike",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_provide_business_info",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "entitled_annual_leave",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_notify_worker",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "dialogue_between_workers_and_employers",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "employer_involvement",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "worker_is_pregnant",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "not_use_workers_during_strike",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "can_use_workers_for_special_jobs",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "within_30_days",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_provide_work_documents",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "contract_invalid_partial",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_pay_compensation_for_damage",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_pay_full_salary",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "provincial_committee_submits_to_people_council",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "can_suspend_strike",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_notify_department_about_overtime",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "not_discriminated",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_follow_management",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "valid_contract",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_pay_additional_compensation",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "not_lower_worker_rights",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_provide_workers_with_required_skills",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "monthly_benefit",
+    "origin": "bhxh_90.jsonl",
+    "kind": "input",
+    "template_pos": "Người này đang hưởng trợ cấp BHXH hoặc trợ cấp hằng tháng.",
+    "template_neg": "Người này không hưởng trợ cấp BHXH hoặc trợ cấp hằng tháng.",
+    "ask": "Anh/chị có đang hưởng trợ cấp BHXH hoặc trợ cấp hằng tháng không?"
+  },
+  {
+    "pred": "alternative_work_agreement",
+    "origin": "bhxh_90.jsonl",
+    "kind": "input",
+    "template_pos": "Hai bên có thỏa thuận làm việc được đặt tên khác hợp đồng lao động.",
+    "template_neg": "Hai bên không có thỏa thuận làm việc dưới tên gọi khác.",
+    "ask": "Hai bên có thỏa thuận làm việc dưới tên gọi khác hay không?"
+  },
+  {
+    "pred": "employer_in_vietnam",
+    "origin": "bhxh_90.jsonl",
+    "kind": "input",
+    "template_pos": "Người sử dụng lao động ở Việt Nam.",
+    "template_neg": "Người sử dụng lao động không ở Việt Nam.",
+    "ask": "Đơn vị ký hợp đồng có phải người sử dụng lao động tại Việt Nam không?"
+  },
+  {
+    "pred": "treaty_exception",
+    "origin": "bhxh_90.jsonl",
+    "kind": "input",
+    "template_pos": "Có điều ước quốc tế quy định khác áp dụng cho trường hợp này.",
+    "template_neg": "Không có điều ước quốc tế quy định khác áp dụng cho trường hợp này.",
+    "ask": "Có điều ước quốc tế quy định khác áp dụng cho trường hợp này không?"
+  },
+  {
+    "pred": "business_registered",
+    "origin": "bhxh_90.jsonl",
+    "kind": "input",
+    "template_pos": "Hộ kinh doanh đã đăng ký kinh doanh.",
+    "template_neg": "Hộ kinh doanh chưa đăng ký kinh doanh.",
+    "ask": "Hộ kinh doanh đã đăng ký kinh doanh chưa?"
+  },
+  {
+    "pred": "declaration_tax_method",
+    "origin": "bhxh_90.jsonl",
+    "kind": "input",
+    "template_pos": "Hộ kinh doanh nộp thuế theo phương pháp kê khai.",
+    "template_neg": "Hộ kinh doanh không nộp thuế theo phương pháp kê khai.",
+    "ask": "Hộ kinh doanh đang nộp thuế theo phương pháp kê khai không?"
+  },
+  {
+    "pred": "foreign_covered",
+    "origin": "bhxh_90.jsonl",
+    "kind": "derived",
+    "template_pos": "Lao động nước ngoài thuộc diện tham gia BHXH bắt buộc theo khoản 2 Điều 2.",
+    "template_neg": "Lao động nước ngoài không thuộc diện này.",
+    "ask": null
+  },
+  {
+    "pred": "manager_covered",
+    "origin": "bhxh_90.jsonl",
+    "kind": "derived",
+    "template_pos": "Người quản lý doanh nghiệp thuộc đối tượng tham gia BHXH bắt buộc.",
+    "template_neg": "Người quản lý doanh nghiệp không thuộc đối tượng này.",
+    "ask": null
+  },
+  {
+    "pred": "household_covered",
+    "origin": "bhxh_90.jsonl",
+    "kind": "derived",
+    "template_pos": "Chủ hộ kinh doanh thuộc diện BHXH bắt buộc theo quy định hiện hành.",
+    "template_neg": "Chủ hộ kinh doanh không thuộc diện này.",
+    "ask": null
+  },
+  {
+    "pred": "first_contract_suspended",
+    "origin": "bhxh_90.jsonl",
+    "kind": "input",
+    "template_pos": "Hợp đồng lao động đầu tiên đang tạm hoãn thực hiện.",
+    "template_neg": "Hợp đồng lao động đầu tiên không tạm hoãn thực hiện.",
+    "ask": "Hợp đồng đầu tiên có đang tạm hoãn không?"
+  },
+  {
+    "pred": "second_contract_active",
+    "origin": "bhxh_90.jsonl",
+    "kind": "input",
+    "template_pos": "Có hợp đồng lao động thứ hai đang có hiệu lực.",
+    "template_neg": "Không có hợp đồng lao động thứ hai đang có hiệu lực.",
+    "ask": "Hợp đồng thứ hai có hiệu lực không?"
+  },
+  {
+    "pred": "mandatory_si_history",
+    "origin": "bhxh_90.jsonl",
+    "kind": "input",
+    "template_pos": "Người này từng tham gia BHXH bắt buộc theo đối tượng được quy định.",
+    "template_neg": "Người này không từng tham gia BHXH bắt buộc theo nhóm này.",
+    "ask": "Anh/chị từng tham gia BHXH bắt buộc chưa?"
+  },
+  {
+    "pred": "eligible_request",
+    "origin": "bhxh_90.jsonl",
+    "kind": "derived",
+    "template_pos": "Người này đã chấm dứt tham gia BHXH và đã đề nghị giải quyết BHXH một lần.",
+    "template_neg": "Người này chưa thỏa các tiền đề thủ tục đang xét.",
+    "ask": null
+  },
+  {
+    "pred": "pension_contribution_condition",
+    "origin": "bhxh_90.jsonl",
+    "kind": "derived",
+    "template_pos": "Người này đủ ngưỡng thời gian đóng BHXH bắt buộc cho mục đích xét lương hưu.",
+    "template_neg": "Người này chưa đủ ngưỡng thời gian đóng BHXH bắt buộc.",
+    "ask": null
+  },
+  {
+    "pred": "date_before_2029",
+    "origin": "bhxh_90.jsonl",
+    "kind": "input",
+    "template_pos": "Thời điểm áp dụng trước ngày 01/07/2029.",
+    "template_neg": "Thời điểm áp dụng từ ngày 01/07/2029 trở đi.",
+    "ask": "Thời điểm áp dụng quy định là ngày nào?"
+  },
+  {
+    "pred": "all_enterprise_debts_paid",
+    "kind": "input",
+    "template_pos": "Doanh nghiệp đã thanh toán toàn bộ các khoản nợ và nghĩa vụ tài sản.",
+    "template_neg": "Doanh nghiệp chưa thanh toán hết nợ và nghĩa vụ tài sản.",
+    "ask": "Doanh nghiệp đã thanh toán hết nợ chưa?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "already_owns_private_enterprise",
+    "kind": "input",
+    "template_pos": "Người này đã làm chủ một doanh nghiệp tư nhân.",
+    "template_neg": "Người này chưa làm chủ doanh nghiệp tư nhân nào.",
+    "ask": "Bạn đang làm chủ một doanh nghiệp tư nhân nào không?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "alternative_capital_asset_permitted",
+    "kind": "derived",
+    "template_pos": "Việc đổi loại tài sản góp vốn được chấp thuận theo điều kiện pháp luật.",
+    "template_neg": "Việc đổi loại tài sản góp vốn không được chấp thuận theo điều kiện pháp luật.",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "asset_handover_record_exists",
+    "kind": "input",
+    "template_pos": "Đã có biên bản giao nhận tài sản góp vốn.",
+    "template_neg": "Không lập biên bản giao nhận tài sản góp vốn.",
+    "ask": "Đã lập biên bản giao nhận tài sản chưa?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "business_sector_permitted",
+    "kind": "input",
+    "template_pos": "Ngành nghề đăng ký kinh doanh không thuộc danh mục bị cấm.",
+    "template_neg": "Ngành nghề đăng ký kinh doanh bị cấm.",
+    "ask": "Ngành nghề dự kiến kinh doanh có bị cấm không?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "buyer_is_nonfounder",
+    "kind": "input",
+    "template_pos": "Người nhận chuyển nhượng không phải cổ đông sáng lập.",
+    "template_neg": "Người nhận chuyển nhượng là cổ đông sáng lập.",
+    "ask": "Người nhận có phải cổ đông sáng lập không?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "capital_asset_different_from_commitment",
+    "kind": "input",
+    "template_pos": "Thành viên góp tài sản khác loại với cam kết.",
+    "template_neg": "Thành viên góp đúng loại tài sản đã cam kết.",
+    "ask": "Tài sản góp thực tế có khác loại đã cam kết không?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "capital_asset_requires_title_registration",
+    "kind": "input",
+    "template_pos": "Tài sản góp vốn là loại phải đăng ký quyền sở hữu.",
+    "template_neg": "Tài sản góp vốn không phải đăng ký quyền sở hữu.",
+    "ask": "Tài sản này có phải đăng ký quyền sở hữu không?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "capital_asset_title_transferred",
+    "kind": "input",
+    "template_pos": "Đã làm thủ tục chuyển quyền sở hữu tài sản góp vốn cho công ty.",
+    "template_neg": "Chưa làm thủ tục chuyển quyền sở hữu tài sản góp vốn cho công ty.",
+    "ask": "Đã chuyển quyền sở hữu tài sản cho công ty chưa?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "capital_asset_transfer_compliant",
+    "kind": "derived",
+    "template_pos": "Việc chuyển giao tài sản góp vốn đáp ứng thủ tục đang xét.",
+    "template_neg": "Việc chuyển giao tài sản góp vốn chưa đáp ứng thủ tục đang xét.",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "capital_contributed_in_full",
+    "kind": "input",
+    "template_pos": "Thành viên đã góp đủ vốn đã cam kết.",
+    "template_neg": "Thành viên chưa góp đủ vốn đã cam kết.",
+    "ask": "Thành viên đã góp đủ vốn chưa?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "capital_contribution_via_account",
+    "kind": "input",
+    "template_pos": "Việc góp tài sản được thực hiện qua tài khoản.",
+    "template_neg": "Việc góp tài sản không thực hiện qua tài khoản.",
+    "ask": "Việc góp vốn có được thực hiện qua tài khoản không?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "capital_contribution_within_90_days",
+    "kind": "input",
+    "template_pos": "Thời gian góp vốn được tính theo luật không vượt quá 90 ngày.",
+    "template_neg": "Thời gian góp vốn được tính theo luật đã quá 90 ngày.",
+    "ask": "Đã bao nhiêu ngày được tính vào thời hạn góp vốn?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "capital_transfer_delay_excluded",
+    "kind": "input",
+    "template_pos": "Có thời gian vận chuyển, nhập khẩu hoặc thủ tục chuyển quyền sở hữu được loại khỏi thời hạn góp vốn.",
+    "template_neg": "Không có thời gian cần loại trừ khỏi thời hạn góp vốn.",
+    "ask": "Có thời gian vận chuyển/nhập khẩu hoặc thủ tục chuyển quyền sở hữu cần loại trừ không?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "change_required_by_court_ruling",
+    "kind": "input",
+    "template_pos": "Việc đăng ký thay đổi theo bản án hoặc quyết định của Tòa án đã có hiệu lực.",
+    "template_neg": "Việc thay đổi không xuất phát từ bản án hay quyết định của Tòa án.",
+    "ask": "Việc đăng ký thay đổi có theo quyết định của Tòa án không?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "changed_certificate_content",
+    "kind": "input",
+    "template_pos": "Doanh nghiệp thay đổi nội dung trên Giấy chứng nhận đăng ký doanh nghiệp.",
+    "template_neg": "Doanh nghiệp không thay đổi nội dung trên Giấy chứng nhận đăng ký doanh nghiệp.",
+    "ask": "Có thay đổi nội dung trên giấy chứng nhận đăng ký doanh nghiệp không?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "charter_share_transfer_restriction",
+    "kind": "input",
+    "template_pos": "Điều lệ có hạn chế chuyển nhượng có hiệu lực đối với cổ phần này.",
+    "template_neg": "Không có hạn chế chuyển nhượng có hiệu lực trong Điều lệ đối với cổ phần này.",
+    "ask": "Điều lệ có điều khoản hạn chế chuyển nhượng có hiệu lực đối với cổ phần này không?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "converting_to_joint_stock",
+    "kind": "input",
+    "template_pos": "Công ty đang thực hiện chuyển đổi thành công ty cổ phần.",
+    "template_neg": "Công ty không thực hiện chuyển đổi thành công ty cổ phần.",
+    "ask": "Việc phát hành có phục vụ chuyển đổi thành công ty cổ phần không?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "dissolution_ground_exists",
+    "kind": "input",
+    "template_pos": "Có quyết định hoặc căn cứ giải thể thuộc Điều 207 khoản 1.",
+    "template_neg": "Chưa có căn cứ giải thể thuộc Điều 207 khoản 1.",
+    "ask": "Có quyết định hoặc căn cứ giải thể hợp lệ chưa?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "eligible_registration_certificate",
+    "kind": "derived",
+    "template_pos": "Doanh nghiệp đáp ứng điều kiện được cấp Giấy chứng nhận đăng ký doanh nghiệp.",
+    "template_neg": "Doanh nghiệp không đáp ứng điều kiện được cấp Giấy chứng nhận đăng ký doanh nghiệp.",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "enterprise_change_registration_timely",
+    "kind": "derived",
+    "template_pos": "Việc đăng ký thay đổi nội dung doanh nghiệp đúng hạn theo điều khoản áp dụng.",
+    "template_neg": "Việc đăng ký thay đổi nội dung doanh nghiệp quá hạn theo điều khoản áp dụng.",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "enterprise_dissolution_conditions_met",
+    "kind": "derived",
+    "template_pos": "Doanh nghiệp đáp ứng điều kiện giải thể đang xét.",
+    "template_neg": "Doanh nghiệp chưa đáp ứng điều kiện giải thể đang xét.",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "enterprise_name_compliant",
+    "kind": "input",
+    "template_pos": "Tên dự kiến tuân thủ quy định đặt tên doanh nghiệp.",
+    "template_neg": "Tên dự kiến trái quy định đặt tên doanh nghiệp.",
+    "ask": "Tên doanh nghiệp dự kiến có hợp lệ không?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "enterprise_name_duplicate",
+    "kind": "input",
+    "template_pos": "Tên doanh nghiệp trùng tên doanh nghiệp đã đăng ký.",
+    "template_neg": "Tên doanh nghiệp không trùng tên doanh nghiệp đã đăng ký.",
+    "ask": "Tên doanh nghiệp có trùng tên đã đăng ký không?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "enterprise_name_permitted",
+    "kind": "derived",
+    "template_pos": "Tên doanh nghiệp phù hợp với các điều cấm được xét.",
+    "template_neg": "Tên doanh nghiệp vi phạm các điều cấm được xét.",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "enterprise_name_state_body",
+    "kind": "input",
+    "template_pos": "Tên riêng doanh nghiệp sử dụng tên cơ quan nhà nước.",
+    "template_neg": "Tên riêng doanh nghiệp không sử dụng tên cơ quan nhà nước.",
+    "ask": "Tên riêng có sử dụng tên của cơ quan nhà nước không?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "founder_held_shares_from_registration",
+    "kind": "input",
+    "template_pos": "Cổ phần được cổ đông sáng lập sở hữu từ lúc đăng ký thành lập.",
+    "template_neg": "Cổ phần này được mua bổ sung sau khi đăng ký thành lập.",
+    "ask": "Cổ phần đó có phải được nắm giữ từ thời điểm đăng ký không?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "founder_share_transfer_needs_agm_approval",
+    "kind": "derived",
+    "template_pos": "Cần Đại hội đồng cổ đông chấp thuận chuyển nhượng cổ phần sáng lập trong tình huống này.",
+    "template_neg": "Không cần phê duyệt theo hạn chế ba năm đối với chuyển nhượng này.",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "founder_shareholding",
+    "kind": "input",
+    "template_pos": "Người chuyển nhượng là cổ đông sáng lập.",
+    "template_neg": "Người chuyển nhượng không phải cổ đông sáng lập.",
+    "ask": "Người chuyển nhượng có phải cổ đông sáng lập không?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "founder_shares_within_first_3_years",
+    "kind": "input",
+    "template_pos": "Việc chuyển nhượng nằm trong ba năm đầu từ đăng ký doanh nghiệp.",
+    "template_neg": "Đã quá ba năm từ ngày đăng ký doanh nghiệp.",
+    "ask": "Đã quá ba năm kể từ khi công ty được cấp giấy chứng nhận chưa?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "founder_transfer_agm_approved",
+    "kind": "input",
+    "template_pos": "Đại hội đồng cổ đông chấp thuận việc chuyển nhượng.",
+    "template_neg": "Đại hội đồng cổ đông chưa chấp thuận việc chuyển nhượng.",
+    "ask": "Đại hội đồng cổ đông có chấp thuận không?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "founder_transfer_restriction_applies",
+    "kind": "derived",
+    "template_pos": "Hạn chế ba năm đối với chuyển nhượng cổ phần sáng lập đang áp dụng.",
+    "template_neg": "Hạn chế ba năm đối với chuyển nhượng cổ phần sáng lập không áp dụng.",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "llc_2plus_membership_valid",
+    "kind": "derived",
+    "template_pos": "Số lượng thành viên phù hợp mô hình TNHH hai thành viên trở lên.",
+    "template_neg": "Số lượng thành viên không phù hợp mô hình TNHH hai thành viên trở lên.",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "llc_capital_contribution_timely",
+    "kind": "derived",
+    "template_pos": "Thành viên TNHH góp đủ vốn trong hạn luật định.",
+    "template_neg": "Thành viên TNHH góp đủ vốn sau hạn luật định hoặc chưa góp đủ khi hết hạn.",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "llc_company",
+    "kind": "input",
+    "template_pos": "Pháp nhân là công ty trách nhiệm hữu hạn.",
+    "template_neg": "Pháp nhân không phải là công ty trách nhiệm hữu hạn.",
+    "ask": "Loại hình công ty là gì?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "llc_member_count_valid",
+    "kind": "input",
+    "template_pos": "Công ty TNHH hai thành viên trở lên có từ hai tới năm mươi thành viên.",
+    "template_neg": "Số thành viên của công ty TNHH hai thành viên trở lên nằm ngoài khoảng từ hai tới năm mươi.",
+    "ask": "Số thành viên chính thức của công ty là bao nhiêu?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "llc_share_issuance_prohibited",
+    "kind": "derived",
+    "template_pos": "Công ty trách nhiệm hữu hạn bị cấm phát hành cổ phần trong tình huống này.",
+    "template_neg": "Lệnh cấm phát hành cổ phần theo điều khoản đang xét không áp dụng do chuyển đổi.",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "llc_single_owner",
+    "kind": "input",
+    "template_pos": "Công ty TNHH có đúng một chủ sở hữu.",
+    "template_neg": "Công ty TNHH có nhiều hơn một chủ sở hữu.",
+    "ask": "Công ty có bao nhiêu chủ sở hữu?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "ordinary_share_transfer_unrestricted",
+    "kind": "derived",
+    "template_pos": "Việc chuyển nhượng cổ phần này không chịu các hạn chế đang xét.",
+    "template_neg": "Việc chuyển nhượng cổ phần này chịu một hạn chế đang xét.",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "ordinary_shares",
+    "kind": "input",
+    "template_pos": "Các cổ phần chuyển nhượng là cổ phần phổ thông.",
+    "template_neg": "Các cổ phần không phải cổ phần phổ thông.",
+    "ask": "Cổ phần dự định chuyển nhượng thuộc loại nào?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "other_members_majority_approval",
+    "kind": "input",
+    "template_pos": "Trên một nửa các thành viên còn lại đồng ý thay đổi loại tài sản góp vốn.",
+    "template_neg": "Không quá một nửa các thành viên còn lại đồng ý.",
+    "ask": "Có trên 50% thành viên còn lại đồng ý không?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "pending_court_arbitration_dispute",
+    "kind": "input",
+    "template_pos": "Doanh nghiệp đang trong quá trình giải quyết tranh chấp tại Tòa án hoặc Trọng tài.",
+    "template_neg": "Doanh nghiệp không trong quá trình giải quyết tranh chấp tại Tòa án hoặc Trọng tài.",
+    "ask": "Doanh nghiệp có tranh chấp đang được giải quyết tại Tòa án hoặc Trọng tài không?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "private_enterprise_exclusivity_violated",
+    "kind": "derived",
+    "template_pos": "Hành vi dự định vi phạm quy định độc quyền sở hữu doanh nghiệp tư nhân.",
+    "template_neg": "Hành vi dự định không vi phạm quy định độc quyền đang xét.",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "registered_change_within_10_days",
+    "kind": "input",
+    "template_pos": "Đăng ký thay đổi trong thời hạn mười ngày kể từ ngày có thay đổi.",
+    "template_neg": "Đăng ký thay đổi sau mười ngày kể từ ngày có thay đổi.",
+    "ask": "Đã đăng ký thay đổi trong mười ngày chưa?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "registered_change_within_15_days_from_judgment",
+    "kind": "input",
+    "template_pos": "Đã gửi yêu cầu thay đổi trong mười lăm ngày từ khi bản án có hiệu lực.",
+    "template_neg": "Đã gửi yêu cầu quá mười lăm ngày từ khi bản án có hiệu lực.",
+    "ask": "Đã yêu cầu thay đổi trong 15 ngày kể từ khi bản án có hiệu lực chưa?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "registration_application_valid",
+    "kind": "input",
+    "template_pos": "Hồ sơ đăng ký doanh nghiệp hợp lệ.",
+    "template_neg": "Hồ sơ đăng ký doanh nghiệp không hợp lệ.",
+    "ask": "Hồ sơ đăng ký đã hợp lệ chưa?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "registration_fee_paid",
+    "kind": "input",
+    "template_pos": "Đã nộp đủ lệ phí đăng ký doanh nghiệp.",
+    "template_neg": "Chưa nộp đủ lệ phí đăng ký doanh nghiệp.",
+    "ask": "Đã nộp đủ lệ phí đăng ký chưa?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "share_payment_deadline_elapsed",
+    "kind": "input",
+    "template_pos": "Thời hạn thanh toán cổ phần đã kết thúc.",
+    "template_neg": "Thời hạn thanh toán cổ phần chưa kết thúc.",
+    "ask": "Thời hạn thanh toán cổ phần đã hết chưa?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "shares_subscribed_unpaid",
+    "kind": "input",
+    "template_pos": "Cổ đông chưa thanh toán số cổ phần đăng ký mua.",
+    "template_neg": "Cổ đông đã thanh toán đủ cổ phần đăng ký mua.",
+    "ask": "Cổ đông đã thanh toán đủ số cổ phần đăng ký mua chưa?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "shorter_charter_share_payment_deadline",
+    "kind": "input",
+    "template_pos": "Điều lệ hoặc hợp đồng quy định thời hạn thanh toán ngắn hơn 90 ngày.",
+    "template_neg": "Điều lệ và hợp đồng không quy định thời hạn ngắn hơn 90 ngày.",
+    "ask": "Điều lệ hoặc hợp đồng có quy định thời hạn ngắn hơn không?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "simultaneously_general_partner",
+    "kind": "input",
+    "template_pos": "Người này đồng thời là thành viên hợp danh của công ty hợp danh.",
+    "template_neg": "Người này không phải thành viên hợp danh.",
+    "ask": "Bạn có là thành viên hợp danh không?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "simultaneously_household_business_owner",
+    "kind": "input",
+    "template_pos": "Người này đồng thời là chủ hộ kinh doanh.",
+    "template_neg": "Người này không phải chủ hộ kinh doanh.",
+    "ask": "Bạn có đồng thời là chủ hộ kinh doanh không?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "sole_owner_capital_shortfall_after_deadline",
+    "kind": "input",
+    "template_pos": "Chủ sở hữu chưa góp đủ vốn sau thời hạn tính theo luật.",
+    "template_neg": "Chủ sở hữu đã góp đủ vốn trong thời hạn tính theo luật.",
+    "ask": "Sau thời hạn góp vốn, chủ sở hữu còn thiếu phần vốn cam kết không?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "sole_owner_must_adjust_registered_capital",
+    "kind": "derived",
+    "template_pos": "Chủ sở hữu phải đăng ký điều chỉnh vốn điều lệ do không góp đủ.",
+    "template_neg": "Không phát sinh nghĩa vụ điều chỉnh vốn vì lý do không góp đủ sau hạn.",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "state_body_name_consent",
+    "kind": "input",
+    "template_pos": "Cơ quan có tên được sử dụng đã đồng ý.",
+    "template_neg": "Cơ quan có tên được sử dụng chưa đồng ý.",
+    "ask": "Cơ quan có tên đó đã chấp thuận chưa?",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  },
+  {
+    "pred": "unpaid_share_subscription_causes_loss_of_status",
+    "kind": "derived",
+    "template_pos": "Không thanh toán cổ phần sau hạn dẫn đến mất tư cách cổ đông theo điều khoản.",
+    "template_neg": "Không phát sinh mất tư cách cổ đông vì không thanh toán theo điều khoản này.",
+    "origin": "doanh_nghiep_70_DRAFT.jsonl"
+  }
+]

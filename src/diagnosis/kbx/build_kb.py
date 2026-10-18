@@ -130,6 +130,33 @@ def main() -> None:
                 to_review[(d, a)] = rs
         selected += rs
 
+    # review labels for this KB's draft rules (review_<name>/out/*.jsonl): correct / fix / drop / add
+    out_dir = DRAFT / f"review_{args.name}" / "out"
+    labels = {}
+    added = []
+    for f in sorted(out_dir.glob("*.jsonl")) if out_dir.exists() else []:
+        for line in f.read_text(encoding="utf-8").splitlines():
+            if line.strip():
+                lab = json.loads(line)
+                (added.append(lab) if lab.get("verdict") == "add" else labels.__setitem__(lab["id"], lab))
+    if labels or added:
+        reviewed_sel = []
+        for r in selected:
+            lab = labels.get(r["id"])
+            if lab is None or r.get("review_status", "").startswith("llm_"):
+                reviewed_sel.append(r)
+            elif lab["verdict"] == "correct":
+                reviewed_sel.append(dict(r, review_status="llm_reviewed:correct"))
+            elif lab["verdict"] == "fix":
+                reviewed_sel.append(dict(r, premises=lab.get("premises", r["premises"]),
+                                         conclusion=lab.get("conclusion", r["conclusion"]),
+                                         source=lab.get("source", r["source"]), review_status="llm_reviewed:fix"))
+        for lab in added:
+            reviewed_sel.append({"id": lab["id"], "premises": lab.get("premises", []), "conclusion": lab["conclusion"],
+                                 "source": lab.get("source", ""), "review_status": "llm_split",
+                                 "split_from": lab.get("split_from", "")})
+        selected = reviewed_sel
+
     # optional alignment (predicate renames, possibly with polarity flip) and patches, both auditable files
     align_f, patch_f = DIAG / f"{args.name}_alignment.yaml", DIAG / f"{args.name}_patches.yaml"
     rename = (yaml.safe_load(align_f.read_text(encoding="utf-8")) or {}).get("rename", {}) if align_f.exists() else {}

@@ -160,13 +160,49 @@ def backward_trace_required(kb: KB, state: ReasoningState) -> list[str]:
             else:
                 visit(lit.pred)
 
+    relevance: dict[str, bool] = {}
+
+    def has_relevant_path(pred: str, stack: tuple = ()) -> bool:
+        """A pred has a relevant open path if some undetermined rule for it already has a satisfied premise,
+        or an unknown derived premise that itself has a relevant open path."""
+        if pred in relevance:
+            return relevance[pred]
+        if pred in stack:
+            return False
+        ok = False
+        for rule in kb.rules_concluding(pred):
+            if state.rule_status[rule.id] != UNDETERMINED:
+                continue
+            ps = state.premise_status[rule.id]
+            if rule.id in state.suspended or any(v == SATISFIED for v in ps.values()):
+                ok = True
+                break
+            for lit in rule.premises:
+                if ps[str(lit)] == UNKNOWN and kb.vocab[lit.pred]["kind"] != "input" \
+                        and has_relevant_path(lit.pred, stack + (pred,)):
+                    ok = True
+                    break
+            if ok:
+                break
+        relevance[pred] = ok
+        return ok
+
+    def rule_is_relevant(rule) -> bool:
+        ps = state.premise_status[rule.id]
+        if rule.id in state.suspended or any(v == SATISFIED for v in ps.values()):
+            return True
+        return any(ps[str(l)] == UNKNOWN and kb.vocab[l.pred]["kind"] != "input" and has_relevant_path(l.pred)
+                   for l in rule.premises)
+
     def visit(pred: str) -> None:
         if pred in seen:
             return
         seen.add(pred)
-        for rule in kb.rules_concluding(pred):
-            if state.rule_status[rule.id] != UNDETERMINED:
-                continue
+        open_rules = [r for r in kb.rules_concluding(pred) if state.rule_status[r.id] == UNDETERMINED]
+        # Only "relevant candidate proof paths" (some condition already established) are traced; if none
+        # is relevant, every open path is (nothing in the case points to one alternative over another).
+        relevant = [r for r in open_rules if rule_is_relevant(r)] or open_rules
+        for rule in relevant:
             unknown_premises(rule.id)
             if rule.id in state.suspended:  # blocked only by a partially established exception
                 unknown_premises(state.suspended[rule.id])
