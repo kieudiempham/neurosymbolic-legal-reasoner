@@ -168,9 +168,17 @@ def main() -> None:
     for p in used:
         if p in vocab and not vocab[p].get("kind"):
             vocab[p]["kind"] = "derived" if p in concluded else "input"
-    for p in undeclared:  # keep the KB loadable; flagged in the scope report for the reviewer
-        vocab[p] = {"kind": "derived" if p in concluded else "input", "template_pos": p.replace("_", " "),
-                    "template_neg": "không " + p.replace("_", " "), "ask": "", "origin": "auto_placeholder"}
+    tmpl_f = DIAG / f"{args.name}_templates.yaml"
+    templates = (yaml.safe_load(tmpl_f.read_text(encoding="utf-8")) or {}).get("templates", {}) if tmpl_f.exists() else {}
+    for p in undeclared:  # keep the KB loadable; written templates first, placeholders otherwise
+        kind = "derived" if p in concluded else "input"
+        if p in templates:
+            pos, neg, ask = templates[p]
+            vocab[p] = {"kind": kind, "template_pos": pos, "template_neg": neg, "ask": ask, "origin": "templates_file"}
+        else:
+            vocab[p] = {"kind": kind, "template_pos": p.replace("_", " "), "template_neg": "không " + p.replace("_", " "),
+                        "ask": "", "origin": "auto_placeholder"}
+    undeclared = [p for p in undeclared if p not in templates]
 
     ids = {r["id"] for r in selected}
     exc = []

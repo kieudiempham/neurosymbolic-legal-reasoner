@@ -74,7 +74,10 @@ class KB:
         return KB(self.rules, keep(self.exception_of), keep(self.priority_over), self.vocab)
 
 
-def load_kb(kb_file: str = "kb_bhxh.yaml", vocab_file: str = "vocabulary.yaml") -> KB:
+def load_kb(kb_file: str = "kb_bhxh.yaml", vocab_file: str | None = None) -> KB:
+    if vocab_file is None:  # a built KB ships its own <name>_vocabulary.yaml
+        own = DATA_DIR / f"{Path(kb_file).stem}_vocabulary.yaml"
+        vocab_file = own.name if own.exists() else "vocabulary.yaml"
     vocab = yaml.safe_load((DATA_DIR / vocab_file).read_text(encoding="utf-8"))["predicates"]
     raw = yaml.safe_load((DATA_DIR / kb_file).read_text(encoding="utf-8"))
     rules = {}
