@@ -7,7 +7,7 @@ from typing import Callable
 
 from .kb import KB
 from .mbd_engine import CATEGORY_NAME, Diagnosis, Fault, Observations, minimal_diagnoses
-from .nli import NLIModel, verbalize
+from .nli import NLIModel, verify
 from .reasoner import Fact, ReasoningState, backward_trace_required, forward_reason, proof_support
 
 SimUser = Callable[[str], "bool | None"]  # proposition -> answer (None = user cannot answer)
@@ -18,6 +18,8 @@ class RunConfig:
     diagnosis: bool = True  # False = Base NeSy
     use_mbd: bool = True  # False = direct symptom-to-cause attribution
     directed: bool = True  # False = collect all evidence up front (exhaustive)
+    rule_check: bool = False  # True = if-else classifier over the same (exhaustive) evidence, no MBD
+    nli_policy: str = "verified"  # "verified" = acceptance test before an NLI label becomes an observation; "raw"
     max_rounds: int = 3
 
 
@@ -27,7 +29,9 @@ class QueryResult:
     first_diagnosis: list[str]  # faults of the first diagnostic round (empty = normal)
     first_status: str  # unique | ambiguous | none | skipped
     candidates_first: int
-    nli_calls: int = 0
+    nli_calls: int = 0  # NLI measurements (one per proposition)
+    nli_model_calls: int = 0  # forward passes of the NLI model (two per verified measurement)
+    nli_unverified: int = 0
     kb_checks: int = 0
     traces: int = 0
     rounds: int = 0
@@ -64,13 +68,15 @@ def _faults_on(d: Diagnosis, key) -> frozenset:
     return frozenset(f for f in d if f.args == key)
 
 
-def _pick_measurement(obs: Observations, diags: list[Diagnosis]):
-    """Deterministic, diagnosis-directed: the first unmeasured item on which the diagnoses disagree."""
+def _pick_measurement(obs: Observations, diags: list[Diagnosis], measured: set[str]):
+    """Deterministic first-disagreement policy: the first not-yet-used measurement (KB checks first, then
+    NLI on required, then on proof-supporting propositions, each in name order) on which the surviving
+    diagnoses disagree."""
     for pair in sorted(obs.competing):
         if pair not in obs.resolution and len({_faults_on(d, pair) for d in diags}) > 1:
             return ("kb", pair)
     for c in sorted(obs.required) + sorted(obs.checked - obs.required):
-        if c not in obs.q and len({_faults_on(d, (c,)) for d in diags}) > 1:
+        if c not in measured and len({_faults_on(d, (c,)) for d in diags}) > 1:
             return ("nli", c)
     return None
 
@@ -84,17 +90,25 @@ class Diagnoser:
     def _nli(self, res: QueryResult, question: str, c: str, obs: Observations) -> None:
         # A measurement already performed on the same input is reused, not repeated.
         if c not in self._measured:
-            label, scores = self.nli.predict(question, verbalize(self.kb.vocab, c))
+            v = verify(self.nli, question, self.kb.vocab, c)
+            label = v["label"] if self.cfg.nli_policy == "verified" else v["raw"]
             self._measured[c] = label
             res.nli_calls += 1
-            res.nli_log.append({"prop": c, "label": label, "scores": scores})
-        obs.q[c] = self._measured[c]
+            res.nli_model_calls += 2
+            res.nli_unverified += label is None
+            res.nli_log.append({"prop": c, "label": label, "raw": v["raw"], "scores": v["pos_scores"],
+                                "neg_label": v["neg_label"], "reject_reason": v["reject_reason"]})
+        if self._measured[c] is not None:  # an unverified result (bottom) adds no observation
+            obs.q[c] = self._measured[c]
 
     def diagnose(self, question: str, state: ReasoningState, res: QueryResult) -> tuple[list[Diagnosis], Observations]:
         obs = _observations(self.kb, state)
         res.traces += 1
         if not (obs.required or obs.checked or obs.competing):
             return [frozenset()], obs
+
+        if self.cfg.rule_check:
+            return self._rule_check(question, state, obs, res), obs
 
         if not self.cfg.use_mbd:
             # Ablation: map each symptom directly to its most common cause, no further evidence.
@@ -129,7 +143,7 @@ class Diagnoser:
     def _mbd_loop(self, question: str, state: ReasoningState, obs: Observations, res: QueryResult) -> list[Diagnosis]:
         diags = minimal_diagnoses(obs, max_size=5)
         while len(diags) > 1:
-            m = _pick_measurement(obs, diags)
+            m = _pick_measurement(obs, diags, set(self._measured))
             if m is None:
                 break
             kind, target = m
@@ -140,6 +154,27 @@ class Diagnoser:
                 self._nli(res, question, target, obs)
             diags = minimal_diagnoses(obs, max_size=5)
         return diags
+
+    def _rule_check(self, question: str, state: ReasoningState, obs: Observations, res: QueryResult) -> list[Diagnosis]:
+        """Matched baseline: first-matching if-else labels over the same evidence (all NLI + KB checks)."""
+        for pair in sorted(obs.competing):
+            obs.resolution[pair] = _kb_verify(self.kb, state, pair)
+            res.kb_checks += 1
+        for c in sorted(obs.required | obs.checked):
+            self._nli(res, question, c, obs)
+        d = set()
+        for c in sorted(obs.checked - obs.required):
+            lab, val = obs.q.get(c), obs.parsed.get(c)
+            if (lab == "contra" and val is True) or (lab == "entail" and val is False):
+                d.add(Fault("misinterp", (c,)))
+            elif lab == "neutral":
+                d.add(Fault("unsupported", (c,)))
+        if not d:  # like the MBD controller, look at unresolved requirements only once the proof is clean
+            for c in sorted(obs.required):
+                d.add(Fault("omission" if obs.q.get(c) in ("entail", "contra") else "missing", (c,)))
+        for pair in sorted(obs.competing):
+            d.add(Fault("overlap" if obs.resolution.get(pair) == "yes" else "kbconflict", pair))
+        return [frozenset(d)]
 
     def run(self, question: str, goal: str, parsed: dict[str, Fact], sim_user: SimUser) -> QueryResult:
         facts = dict(parsed)
@@ -160,7 +195,23 @@ class Diagnoser:
                     res.first_diagnosis = sorted(str(f) for f in diags[0])
                 else:
                     res.first_diagnosis = sorted({str(f) for d in diags for f in d})
-            if len(diags) != 1 or not diags[0]:
+            if len(diags) > 1:
+                # Ambiguous: no admissible measurement separates the diagnoses. If they differ only in
+                # whether a required proposition is missing or omitted, ask the user (external clarification).
+                asked = False
+                for c in sorted(obs.required):
+                    kinds = {f.kind for d in diags for f in d if f.args == (c,)}
+                    if kinds and kinds <= {"missing", "omission"} and c not in facts:
+                        ans = sim_user(c)
+                        res.clarifications.append(c)
+                        res.recovery.append(f"Clarify({c})")
+                        if ans is not None:
+                            facts[c] = Fact(c, ans, "user")
+                            asked = True
+                if asked:
+                    continue
+                break
+            if not diags or not diags[0]:
                 break
             changed = False
             # Repair the input layers (user, parser) first and re-reason; KB-layer faults are acted on only

@@ -12,6 +12,8 @@ NAMES = {
     "nesy_diag": "NeSy + Proposed Diagnosis",
     "no_mbd": "Without MBD / minimal diagnosis",
     "exhaustive_evidence": "Without diagnosis-directed evidence selection",
+    "rule_check": "Rule-check baseline (same evidence, no MBD)",
+    "raw_nli": "Raw NLI labels (no acceptance test)",
 }
 CATS = [
     "Normal",
@@ -26,6 +28,11 @@ CATS = [
 
 def pct(x) -> str:
     return "-" if x is None else f"{100 * x:.1f}"
+
+
+def pci(s: dict, key: str) -> str:
+    v, ci = s.get(key), s.get(key + "_ci95")
+    return pct(v) if not ci else f"{pct(v)} [{pct(ci[0])}, {pct(ci[1])}]"
 
 
 def main() -> None:
@@ -54,8 +61,8 @@ def main() -> None:
     for key in ("neural_llm", "base_nesy", "nesy_diag"):
         if key in R:
             s = R[key]
-            L.append(f"| {NAMES[key]} | {pct(s.get('diagnosis_acc'))} | {pct(s.get('recovery_success_rate'))} | "
-                     f"{pct(s['final_answer_acc'])} | {pct(s['final_answer_acc_faulty'])} | "
+            L.append(f"| {NAMES[key]} | {pci(s, 'diagnosis_acc')} | {pct(s.get('recovery_success_rate'))} | "
+                     f"{pci(s, 'final_answer_acc')} | {pci(s, 'final_answer_acc_faulty')} | "
                      f"{s.get('measurements_per_query', 0):.2f} |")
 
     if "nesy_diag" in R:
@@ -73,17 +80,28 @@ def main() -> None:
             L.append(f"| {g} | " + " | ".join(str(row.get(p, 0)) for p in [*CATS, "Ambiguous"]) + " |")
         if "nli" in s:
             n = s["nli"]
-            L += ["", "## Table 5. NLI reliability (targeted measurements)", "",
-                  f"n = {n['n']}, accuracy = {pct(n['accuracy'])}, macro-F1 = {pct(n['macro_f1'])}", "",
-                  "| gold \\ pred | entail | neutral | contra |", "|---|---|---|---|"]
+            L += ["", "## Table 5. NLI reliability (targeted measurements)", ""]
+            if "measurements" in n:
+                L += [f"measurements = {n['measurements']}, accepted = {n['accepted']} "
+                      f"({pct(n['acceptance_rate'])}%), rejected: {n['rejected_by_reason']}", "",
+                      "| | accuracy | macro-F1 |", "|---|---|---|",
+                      f"| raw prediction (all) | {pct(n['accuracy_raw'])} | {pct(n['macro_f1_raw'])} |",
+                      f"| accepted observations | {pct(n['accuracy_accepted'])} | {pct(n['macro_f1_accepted'])} |",
+                      "", "Accepted observations (rows = gold, columns = label):", ""]
+                conf = n["confusion_accepted"]
+            else:  # results produced before the acceptance test existed
+                L += [f"n = {n['n']}, accuracy = {pct(n['accuracy'])}, macro-F1 = {pct(n['macro_f1'])}", ""]
+                conf = n["confusion"]
+            L += ["| gold \\ pred | entail | neutral | contra |", "|---|---|---|---|"]
             for g in ("entail", "neutral", "contra"):
-                row = n["confusion"].get(g, {})
+                row = conf.get(g, {})
                 L.append(f"| {g} | {row.get('entail', 0)} | {row.get('neutral', 0)} | {row.get('contra', 0)} |")
 
     L += ["", "## Table 4. Ablation", "",
           "| Configuration | Diag. Acc. | Measurements/query | Recovery | Final Acc. (faulty) |", "|---|---|---|---|---|"]
     for key, label in (("nesy_diag", "Full framework"), ("no_mbd", NAMES["no_mbd"]),
-                       ("exhaustive_evidence", NAMES["exhaustive_evidence"])):
+                       ("rule_check", NAMES["rule_check"]),
+                       ("exhaustive_evidence", NAMES["exhaustive_evidence"]), ("raw_nli", NAMES["raw_nli"])):
         if key in R:
             s = R[key]
             L.append(f"| {label} | {pct(s.get('diagnosis_acc'))} | {s['measurements_per_query']:.2f} | "

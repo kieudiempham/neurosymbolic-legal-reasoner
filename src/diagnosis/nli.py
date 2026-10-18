@@ -11,9 +11,34 @@ CACHE_FILE = Path(__file__).resolve().parents[2] / "experiments" / "diag" / "nli
 _LABEL = {"entailment": "entail", "neutral": "neutral", "contradiction": "contra"}
 
 
+ACCEPT_THRESHOLD = 0.70  # same entailment/contradiction thresholds as the existing NLI config
+
+
 def verbalize(vocab: dict, pred: str) -> str:
     """Deterministic template: always the positive reading, so entail => C true, contra => C false."""
     return vocab[pred]["template_pos"]
+
+
+def verify(model: "NLIModel", question: str, vocab: dict, pred: str, tau: float = ACCEPT_THRESHOLD) -> dict:
+    """Acceptance test that turns a provisional NLI prediction into an observation (or rejects it).
+
+    The proposition is queried twice, with its positive and its negative template. A label is accepted
+    only if the positive-template prediction is confident (p >= tau) and the negative-template prediction
+    does not contradict it (entail on the positive reading must not also be entail on the negative one,
+    and vice versa; neutral must be neutral on both). Otherwise the result is unverified (label None).
+    """
+    pos_label, pos = model.predict(question, vocab[pred]["template_pos"])
+    neg_label, neg = model.predict(question, vocab[pred]["template_neg"])
+    expected_neg = {"entail": "contra", "contra": "entail", "neutral": "neutral"}[pos_label]
+    confident = pos[pos_label] >= tau
+    consistent = neg_label == expected_neg or (pos_label != "neutral" and neg_label == "neutral")
+    return {
+        "raw": pos_label,
+        "label": pos_label if (confident and consistent) else None,
+        "pos_scores": pos,
+        "neg_label": neg_label,
+        "reject_reason": "" if confident and consistent else ("low_confidence" if not confident else "template_disagreement"),
+    }
 
 
 class NLIModel:

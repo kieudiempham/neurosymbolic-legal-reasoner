@@ -23,8 +23,22 @@ CONFIGS = {
     "base_nesy": RunConfig(diagnosis=False),
     "nesy_diag": RunConfig(),
     "no_mbd": RunConfig(use_mbd=False),
+    "rule_check": RunConfig(rule_check=True),
     "exhaustive_evidence": RunConfig(directed=False),
+    "raw_nli": RunConfig(nli_policy="raw"),
 }
+
+
+def bootstrap_ci(values: list[float], n_boot: int = 1000, seed: int = 0) -> tuple[float, float]:
+    """95% percentile bootstrap interval of the mean (instances resampled with replacement)."""
+    import random
+
+    if not values:
+        return (0.0, 0.0)
+    rng = random.Random(seed)
+    n = len(values)
+    means = sorted(sum(values[rng.randrange(n)] for _ in range(n)) / n for _ in range(n_boot))
+    return (means[int(0.025 * n_boot)], means[int(0.975 * n_boot) - 1])
 
 
 def predicted_category(first_diag: list[str], status: str) -> str:
@@ -122,7 +136,8 @@ def run(configs: list[str], subset: int = 0) -> dict:
                 "first_status": r.first_status, "candidates_first": r.candidates_first,
                 "hit": gold_hit(inst, r.first_diagnosis, r.first_status) if cfg.diagnosis else None,
                 "answer": r.answer, "expected": inst.expected_answer, "answer_ok": r.answer == inst.expected_answer,
-                "nli_calls": r.nli_calls, "kb_checks": r.kb_checks, "rounds": r.rounds, "recovery": r.recovery,
+                "nli_calls": r.nli_calls, "nli_model_calls": r.nli_model_calls, "nli_unverified": r.nli_unverified,
+                "kb_checks": r.kb_checks, "rounds": r.rounds, "recovery": r.recovery,
                 "nli_log": [dict(x, gold=nli_gold(inst, x["prop"])) for x in r.nli_log],
             })
         nli.save()
@@ -147,8 +162,12 @@ def summarize(rows: list[dict], diagnosis: bool) -> dict:
     }
     faulty = [r for r in rows if r["gold_category"] != "Normal"]
     s["final_answer_acc_faulty"] = sum(r["answer_ok"] for r in faulty) / max(1, len(faulty))
+    s["final_answer_acc_ci95"] = bootstrap_ci([float(r["answer_ok"]) for r in rows])
+    s["final_answer_acc_faulty_ci95"] = bootstrap_ci([float(r["answer_ok"]) for r in faulty])
+    s["nli_model_calls_per_query"] = sum(r.get("nli_model_calls", 0) for r in rows) / n
     if diagnosis:
         s["diagnosis_acc"] = sum(r["hit"] for r in rows) / n
+        s["diagnosis_acc_ci95"] = bootstrap_ci([float(r["hit"]) for r in rows])
         s["ambiguous_rate"] = sum(r["first_status"] == "ambiguous" for r in rows) / n
         rec = [r for r in faulty if r["first_status"] == "unique" and r["hit"]]
         s["recovery_success_rate"] = sum(r["answer_ok"] for r in faulty if r["hit"]) / max(1, len(faulty))
@@ -163,16 +182,25 @@ def summarize(rows: list[dict], diagnosis: bool) -> dict:
         for r in rows:
             cm[r["gold_category"]][r["pred_category"]] += 1
         s["confusion"] = {g: dict(v) for g, v in cm.items()}
-        nl = [x for r in rows for x in r["nli_log"]]
-        if nl:
+        allm = [x for r in rows for x in r["nli_log"]]
+        if allm:
             labs = ["entail", "neutral", "contra"]
+            nl = [x for x in allm if x["label"] is not None]  # accepted observations only
+            raw = [dict(x, label=x.get("raw", x["label"])) for x in allm]  # model prediction before acceptance
             p = prf([x["gold"] for x in nl], [x["label"] for x in nl], labs)
+            pr = prf([x["gold"] for x in raw], [x["label"] for x in raw], labs)
             s["nli"] = {
-                "n": len(nl),
-                "accuracy": sum(x["gold"] == x["label"] for x in nl) / len(nl),
-                "macro_f1": sum(p[l]["f1"] for l in labs) / 3,
-                "per_label": p,
-                "confusion": {g: dict(Counter(x["label"] for x in nl if x["gold"] == g)) for g in labs},
+                "measurements": len(allm),
+                "accepted": len(nl),
+                "acceptance_rate": len(nl) / len(allm),
+                "accuracy_accepted": sum(x["gold"] == x["label"] for x in nl) / max(1, len(nl)),
+                "macro_f1_accepted": sum(p[l]["f1"] for l in labs) / 3,
+                "accuracy_raw": sum(x["gold"] == x["label"] for x in raw) / len(raw),
+                "macro_f1_raw": sum(pr[l]["f1"] for l in labs) / 3,
+                "per_label_accepted": p,
+                "confusion_accepted": {g: dict(Counter(x["label"] for x in nl if x["gold"] == g)) for g in labs},
+                "confusion_raw": {g: dict(Counter(x["label"] for x in raw if x["gold"] == g)) for g in labs},
+                "rejected_by_reason": dict(Counter(x.get("reject_reason") for x in allm if x["label"] is None)),
             }
     return s
 
