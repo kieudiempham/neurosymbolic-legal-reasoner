@@ -1,0 +1,31 @@
+{
+ "files": [
+  "data/dataset/bhxh_v1/bhxh_90.jsonl"
+ ],
+ "items": 90,
+ "errors": 0,
+ "warnings": 0,
+ "by_domain": {
+  "bhxh": 90
+ },
+ "by_question_type": {
+  "application": 90
+ },
+ "by_expected": {
+  "true": 48,
+  "insufficient": 23,
+  "false": 19
+ },
+ "by_info_level": {
+  "complete": 54,
+  "missing": 23,
+  "exception_or_conflict": 13
+ },
+ "multi_hop": 75,
+ "predicates_used": 41,
+ "predicates_from_handoff": 31,
+ "predicates_declared_new": 15,
+ "undeclared_predicates": [],
+ "error_list": [],
+ "warning_list": []
+}

@@ -1,0 +1,1192 @@
+[
+  {
+    "pred": "signed_labor_contract",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "paid_wage",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "under_management",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "term_at_least_1_month",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "term_at_least_12_months",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "probation_only",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "foreign_citizen",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "part_time",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "wage_at_least_min_base",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "enterprise_manager",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "receives_salary",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "receiving_pension",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "domestic_worker",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "intra_company_transfer",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "retirement_age_at_signing",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "contract_suspended",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "unpaid_14_days",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "agreed_contribution",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "multiple_contracts",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "reached_retirement_age",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "contribution_15_years",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "stopped_working",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "terminated_participation",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "requested_lump_sum",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "emigrating",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "serious_illness",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "labor_relation",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "covered_point_a",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "compulsory_si",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_contribute_month",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "contribute_at_first_contract",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "voluntary_si_eligible",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "entitled_pension",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "entitled_lump_sum",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "social_insurance_agency",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "deceased",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_worker_dead",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "maternity_benefit",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "worked_before_01_01_1995",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_respond_in_writing_if_not_approved",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_male_worker",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "sickness_benefit",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "contribution_20_years",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "has_social_insurance_book",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "cham_dong_bhxh",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "has_full_contribution_time_by_state",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "survivor_benefit",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "can_take_health_recovery_leave",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "funeral_support",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "covered_point_d",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "has_request_document",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "adopted_child_under_6_months",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_female_worker",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_receiving_monthly_allowance",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_civil_servant",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "has_given_birth",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_business_owner",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "receive_health_insurance",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "contribution_30_years",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "spouse_has_child_birth",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_female_worker_with_surrogate_pregnancy",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_transfer_application_to_social_insurance_agency",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "mother_dies_after_birth",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "pension_benefit",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "can_preserve_contribution_time",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "can_suspend_compulsory_si_contribution",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "meets_conditions_for_maternity_benefit",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "base_salary_abrogated",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_local_official",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_military_officer",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "issued_insurance_book",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "advise_on_policy_changes",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_vietnamese_citizen",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "female_worker_pregnant",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "returns_to_work_before_maternity_leave_ends",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "can_take_maternity_leave",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "suspend_pension_benefits",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "terminate_pension_benefits",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "detention_duration_at_least_14_days",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_registered_enterprise",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "valid_application",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "notified_authorities_within_3_days",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_llc_member",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_include_signature_of_owner_or_representative",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "not_notified_authorities",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_fulfill_other_legal_obligations",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_member_of_board_or_chairman",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_provide_documents_for_change_of_representative",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "can_vote_on_company_matters",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_notify_enterprise_about_related_business",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_keep_company_documents",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_shareholder",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "can_revoke_business_registration_certificate",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_local_registration_authority",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_notify_if_application_invalid",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_complete_capital_contribution",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_publicize_business_info",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "valid_application_online",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_provincial_registration_authority",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_notify_invalid_application",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_member_of_board",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_registered_capital",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_perform_duties_honestly",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_notify_enterprise_timely_and_accurately",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_not_use_enterprise_info_for_personal_gain",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_not_transfer_property_ownership",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_single_member_llc",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_notify_changes_other_contents",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_notify_authorities_about_changes",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_perform_duties_carefully",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "can_exercise_other_rights_and_duties",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_business_license_revoked",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_issue_receipt_and_schedule_result",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_report_honesty",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_define_representative_roles_in_charter",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_notify_if_application_rejected",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_get_approval_from_members",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_not_use_duplicate_or_confusing_name",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "can_decide_management_structure",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_notify_tax_authority_about_branch_termination",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_register_business",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_legal_representative",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "has_highest_decision_body",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "can_be_member_of_board",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_authorized_to_share_taxpayer_info",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_non_compliance_with_tax_authority",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_provide_taxpayer_info",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_enforcement_case",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_taxpayer_using_direct_tax_method",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "taxpayer_includes_legal_entities",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_tax_management_agency_or_official",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "goods_subject_to_vat",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_exporting_goods_or_services_abroad",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_tax_deduction",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_use_price_excluding_vat",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_have_invoice_for_deduction",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "taxpayer_has_obligation_to_pay_taxes",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_taxpayer_authorized_to_use_invoice",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_follow_current_tax_law",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_taxpayer_with_business_activity_in_different_location",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_pay_tax_on_business_income",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_foreign_entity_with_income_in_vietnam",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_selling_goods_or_services_in_domestic",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "taxpayer_must_file_tax_returns",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_follow_tax_management_law_38_2019",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_use_e_invoice_for_exported_goods_or_services",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_deduct_input_vat",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "tax_assessment",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_legal_entity_or_non_legal_entity_taxpayer",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_use_non_cash_payment_receipt",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_have_service_contract_with_foreign_entity",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "taxpayer_includes_foreign_entities",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_tax_violation_case",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_taxpayer_not_in_case_a_or_b",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "taxpayer_includes_other_income_contributors",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_manage_tax_contents",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_foreign_individual",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_send_suspend_invoice_decision_to_related_entities",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_use_invoice_from_tax_authority",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_deduct_input_vat_full",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "tax_authority_must_fine_non_compliance",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_electronic_invoice_with_tax_code",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "invoice_type_is_electronic",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_enforce_tax_collection_measures",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_provide_decision_and_record_to_taxpayer",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "taxpayer_must_pay_taxes_to_state_budget",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_technology_incident",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_terminate_suspend_invoice_decision",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "is_using_invalid_invoice_or_document",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_follow_labor_law",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "can_terminate_contract",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "not_can_terminate_contract",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_provide_conditions_for_negotiation",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "can_request_negotiation",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "not_use_workers_without_agreement",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_include_main_contents",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "worker_rights_protected",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "contract_in_written_form",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "not_use_workers_without_license",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "age_at_least_15",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "employer_rights_protected",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_notify_authorities",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_pay_wages_and_benefits",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "worker_continue_working",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_consult_workers_representative",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "not_paid_salary",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "not_conflict_with_law",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "contract_invalid_full",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "leasing_company_has_license",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_notify_workers",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "not_reached_retirement_age",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "can_lead_strike",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_provide_business_info",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "entitled_annual_leave",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_notify_worker",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "dialogue_between_workers_and_employers",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "employer_involvement",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "worker_is_pregnant",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "not_use_workers_during_strike",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "can_use_workers_for_special_jobs",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "within_30_days",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_provide_work_documents",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "contract_invalid_partial",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_pay_compensation_for_damage",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_pay_full_salary",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "provincial_committee_submits_to_people_council",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "can_suspend_strike",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_notify_department_about_overtime",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "not_discriminated",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_follow_management",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "valid_contract",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_pay_additional_compensation",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "not_lower_worker_rights",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "must_provide_workers_with_required_skills",
+    "origin": "predicates.md",
+    "kind": "predeclared"
+  },
+  {
+    "pred": "monthly_benefit",
+    "origin": "bhxh_90.jsonl",
+    "kind": "input",
+    "template_pos": "Người này đang hưởng trợ cấp BHXH hoặc trợ cấp hằng tháng.",
+    "template_neg": "Người này không hưởng trợ cấp BHXH hoặc trợ cấp hằng tháng.",
+    "ask": "Anh/chị có đang hưởng trợ cấp BHXH hoặc trợ cấp hằng tháng không?"
+  },
+  {
+    "pred": "alternative_work_agreement",
+    "origin": "bhxh_90.jsonl",
+    "kind": "input",
+    "template_pos": "Hai bên có thỏa thuận làm việc được đặt tên khác hợp đồng lao động.",
+    "template_neg": "Hai bên không có thỏa thuận làm việc dưới tên gọi khác.",
+    "ask": "Hai bên có thỏa thuận làm việc dưới tên gọi khác hay không?"
+  },
+  {
+    "pred": "employer_in_vietnam",
+    "origin": "bhxh_90.jsonl",
+    "kind": "input",
+    "template_pos": "Người sử dụng lao động ở Việt Nam.",
+    "template_neg": "Người sử dụng lao động không ở Việt Nam.",
+    "ask": "Đơn vị ký hợp đồng có phải người sử dụng lao động tại Việt Nam không?"
+  },
+  {
+    "pred": "treaty_exception",
+    "origin": "bhxh_90.jsonl",
+    "kind": "input",
+    "template_pos": "Có điều ước quốc tế quy định khác áp dụng cho trường hợp này.",
+    "template_neg": "Không có điều ước quốc tế quy định khác áp dụng cho trường hợp này.",
+    "ask": "Có điều ước quốc tế quy định khác áp dụng cho trường hợp này không?"
+  },
+  {
+    "pred": "business_registered",
+    "origin": "bhxh_90.jsonl",
+    "kind": "input",
+    "template_pos": "Hộ kinh doanh đã đăng ký kinh doanh.",
+    "template_neg": "Hộ kinh doanh chưa đăng ký kinh doanh.",
+    "ask": "Hộ kinh doanh đã đăng ký kinh doanh chưa?"
+  },
+  {
+    "pred": "declaration_tax_method",
+    "origin": "bhxh_90.jsonl",
+    "kind": "input",
+    "template_pos": "Hộ kinh doanh nộp thuế theo phương pháp kê khai.",
+    "template_neg": "Hộ kinh doanh không nộp thuế theo phương pháp kê khai.",
+    "ask": "Hộ kinh doanh đang nộp thuế theo phương pháp kê khai không?"
+  },
+  {
+    "pred": "foreign_covered",
+    "origin": "bhxh_90.jsonl",
+    "kind": "derived",
+    "template_pos": "Lao động nước ngoài thuộc diện tham gia BHXH bắt buộc theo khoản 2 Điều 2.",
+    "template_neg": "Lao động nước ngoài không thuộc diện này.",
+    "ask": null
+  },
+  {
+    "pred": "manager_covered",
+    "origin": "bhxh_90.jsonl",
+    "kind": "derived",
+    "template_pos": "Người quản lý doanh nghiệp thuộc đối tượng tham gia BHXH bắt buộc.",
+    "template_neg": "Người quản lý doanh nghiệp không thuộc đối tượng này.",
+    "ask": null
+  },
+  {
+    "pred": "household_covered",
+    "origin": "bhxh_90.jsonl",
+    "kind": "derived",
+    "template_pos": "Chủ hộ kinh doanh thuộc diện BHXH bắt buộc theo quy định hiện hành.",
+    "template_neg": "Chủ hộ kinh doanh không thuộc diện này.",
+    "ask": null
+  },
+  {
+    "pred": "first_contract_suspended",
+    "origin": "bhxh_90.jsonl",
+    "kind": "input",
+    "template_pos": "Hợp đồng lao động đầu tiên đang tạm hoãn thực hiện.",
+    "template_neg": "Hợp đồng lao động đầu tiên không tạm hoãn thực hiện.",
+    "ask": "Hợp đồng đầu tiên có đang tạm hoãn không?"
+  },
+  {
+    "pred": "second_contract_active",
+    "origin": "bhxh_90.jsonl",
+    "kind": "input",
+    "template_pos": "Có hợp đồng lao động thứ hai đang có hiệu lực.",
+    "template_neg": "Không có hợp đồng lao động thứ hai đang có hiệu lực.",
+    "ask": "Hợp đồng thứ hai có hiệu lực không?"
+  },
+  {
+    "pred": "mandatory_si_history",
+    "origin": "bhxh_90.jsonl",
+    "kind": "input",
+    "template_pos": "Người này từng tham gia BHXH bắt buộc theo đối tượng được quy định.",
+    "template_neg": "Người này không từng tham gia BHXH bắt buộc theo nhóm này.",
+    "ask": "Anh/chị từng tham gia BHXH bắt buộc chưa?"
+  },
+  {
+    "pred": "eligible_request",
+    "origin": "bhxh_90.jsonl",
+    "kind": "derived",
+    "template_pos": "Người này đã chấm dứt tham gia BHXH và đã đề nghị giải quyết BHXH một lần.",
+    "template_neg": "Người này chưa thỏa các tiền đề thủ tục đang xét.",
+    "ask": null
+  },
+  {
+    "pred": "pension_contribution_condition",
+    "origin": "bhxh_90.jsonl",
+    "kind": "derived",
+    "template_pos": "Người này đủ ngưỡng thời gian đóng BHXH bắt buộc cho mục đích xét lương hưu.",
+    "template_neg": "Người này chưa đủ ngưỡng thời gian đóng BHXH bắt buộc.",
+    "ask": null
+  },
+  {
+    "pred": "date_before_2029",
+    "origin": "bhxh_90.jsonl",
+    "kind": "input",
+    "template_pos": "Thời điểm áp dụng trước ngày 01/07/2029.",
+    "template_neg": "Thời điểm áp dụng từ ngày 01/07/2029 trở đi.",
+    "ask": "Thời điểm áp dụng quy định là ngày nào?"
+  }
+]
