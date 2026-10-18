@@ -1,0 +1,1534 @@
+rules:
+- id: TX0-R001
+  premises:
+  - tax_debt_exists
+  - tax_debt_more_than_90days
+  conclusion: tax_enforcement_90day_ground
+  source: 01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 1
+  basis: llm_reexpressed
+- id: TX0-R002
+  premises:
+  - ~tax_debt_more_than_90days
+  conclusion: ~tax_enforcement_90day_ground
+  source: 01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 1
+  basis: llm_reexpressed
+- id: TX0-R003
+  premises:
+  - ~tax_debt_exists
+  conclusion: ~tax_enforcement_90day_ground
+  source: 01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 1
+  basis: llm_reexpressed
+- id: TX0-R004
+  premises:
+  - tax_enforcement_90day_ground
+  conclusion: tax_enforcement_ground
+  source: 01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 1
+  basis: llm_reexpressed
+- id: TX0-R005
+  premises:
+  - tax_debt_exists
+  - tax_payment_extension_expired
+  conclusion: tax_enforcement_ground
+  source: 01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 2
+  basis: llm_reexpressed
+- id: TX0-R006
+  premises:
+  - tax_debt_exists
+  - taxpayer_absent_at_registered_address
+  conclusion: tax_enforcement_ground
+  source: 01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 3
+  basis: llm_reexpressed
+- id: TX0-R007
+  premises:
+  - tax_debt_exists
+  - taxpayer_dispersing_assets
+  conclusion: tax_enforcement_ground
+  source: 01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 3
+  basis: llm_reexpressed
+- id: TX0-R008
+  premises:
+  - taxpayer_not_comply_penalty_decision_on_time
+  conclusion: penalty_noncompliance_enforcement_ground
+  source: 01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 4
+  basis: llm_reexpressed
+- id: TX0-R009
+  premises:
+  - taxpayer_not_comply_penalty_decision_on_time
+  - penalty_decision_postponed_or_suspended
+  conclusion: ~penalty_noncompliance_enforcement_ground
+  source: 01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 4
+  basis: llm_reexpressed
+- id: TX0-R010
+  premises:
+  - penalty_noncompliance_enforcement_ground
+  conclusion: tax_enforcement_ground
+  source: 01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 4
+  basis: llm_reexpressed
+- id: TX0-R011
+  premises:
+  - taxpayer_penalized_for_inspection_noncompliance
+  - taxpayer_continues_inspection_noncompliance
+  conclusion: tax_enforcement_ground
+  source: 01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 5
+  basis: llm_reexpressed
+- id: TX0-R012
+  premises:
+  - tax_enforcement_ground
+  conclusion: tax_enforcement_measure_allowed
+  source: 01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 1-5
+  basis: llm_reexpressed
+- id: TX0-R013
+  premises:
+  - tax_debt_no_late_interest
+  conclusion: ~tax_enforcement_measure_allowed
+  source: 01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 6
+  basis: llm_reexpressed
+- id: TX0-R014
+  premises:
+  - tax_debt_installment_approved_guaranteed
+  conclusion: ~tax_enforcement_measure_allowed
+  source: 01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 6
+  basis: llm_reexpressed
+- id: TX0-R015
+  premises:
+  - debt_customs_fee_transit_goods
+  conclusion: ~tax_enforcement_measure_allowed
+  source: 01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 7
+  basis: llm_reexpressed
+- id: TX0-R016
+  premises:
+  - tax_debt_offset_refund_processing
+  conclusion: ~tax_enforcement_measure_allowed
+  source: 01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 8
+  basis: llm_reexpressed
+- id: TX0-R017
+  premises:
+  - tax_enforcement_ground
+  conclusion: tax_enforcement_allowed_for_offset
+  source: 01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 1-5
+  basis: llm_reexpressed
+- id: TX0-R018
+  premises:
+  - tax_debt_offset_refund_processing
+  conclusion: ~tax_enforcement_allowed_for_offset
+  source: 01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 8
+  basis: llm_reexpressed
+- id: TX0-R019
+  premises:
+  - purchase_has_valid_vat_invoice
+  - paid_non_cash
+  conclusion: vat_documentation_sufficient
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 14 khoản 2 điểm a, b
+  basis: llm_reexpressed
+- id: TX0-R020
+  premises:
+  - purchase_has_valid_vat_invoice
+  - ~purchase_amount_at_least_5m
+  conclusion: vat_documentation_sufficient
+  source: 05_nghi_dinh_181_2025_ND-CP, Điều 26 (đoạn mở đầu) và khoản 2 điểm h
+  basis: llm_reexpressed
+- id: TX0-R021
+  premises:
+  - same_seller_same_day_total_at_least_5m
+  - ~paid_non_cash
+  conclusion: ~vat_documentation_sufficient
+  source: 05_nghi_dinh_181_2025_ND-CP, Điều 26 khoản 3
+  basis: llm_reexpressed
+- id: TX0-R022
+  premises:
+  - purchase_has_valid_vat_invoice
+  - purchase_offset_with_reconciliation_record
+  conclusion: vat_documentation_sufficient
+  source: 05_nghi_dinh_181_2025_ND-CP, Điều 26 khoản 2 điểm a
+  basis: llm_reexpressed
+- id: TX0-R023
+  premises:
+  - purchase_has_valid_vat_invoice
+  - installment_payment_not_yet_due
+  conclusion: vat_documentation_sufficient
+  source: 05_nghi_dinh_181_2025_ND-CP, Điều 26 khoản 2 điểm g
+  basis: llm_reexpressed
+- id: TX0-R024
+  premises:
+  - purchase_has_valid_vat_invoice
+  - import_free_gift_or_sample
+  conclusion: vat_documentation_sufficient
+  source: 05_nghi_dinh_181_2025_ND-CP, Điều 26 khoản 2 điểm h
+  basis: llm_reexpressed
+- id: TX0-R025
+  premises:
+  - ~purchase_has_valid_vat_invoice
+  conclusion: ~vat_documentation_sufficient
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 14 khoản 2 điểm a
+  basis: llm_reexpressed
+- id: TX0-R026
+  premises:
+  - purchase_amount_at_least_5m
+  - ~paid_non_cash
+  conclusion: ~vat_documentation_sufficient
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 14 khoản 2 điểm b; 05_nghi_dinh_181_2025_ND-CP,
+    Điều 26 (đoạn mở đầu)
+  basis: llm_reexpressed
+- id: TX0-R027
+  premises:
+  - cash_deposited_into_seller_account
+  conclusion: ~vat_documentation_sufficient
+  source: 05_nghi_dinh_181_2025_ND-CP, Điều 26 khoản 1
+  basis: llm_reexpressed
+- id: TX0-R028
+  premises:
+  - export_goods_transaction
+  - ~export_goods_contract
+  conclusion: ~vat_documentation_sufficient
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 14 khoản 2 điểm c
+  basis: llm_reexpressed
+- id: TX0-R029
+  premises:
+  - export_goods_transaction
+  - ~export_customs_declaration
+  conclusion: ~vat_documentation_sufficient
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 14 khoản 2 điểm c
+  basis: llm_reexpressed
+- id: TX0-R030
+  premises:
+  - export_service_transaction
+  - ~export_service_contract
+  conclusion: ~vat_documentation_sufficient
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 14 khoản 2 điểm c
+  basis: llm_reexpressed
+- id: TX0-R031
+  premises:
+  - tax_pays_under_deduction
+  - input_used_for_taxable_sales
+  - vat_documentation_sufficient
+  conclusion: vat_input_deductible
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 14 khoản 1 điểm a
+  basis: llm_reexpressed
+- id: TX0-R032
+  premises:
+  - tax_pays_under_deduction
+  - input_used_for_mixed_sales
+  - vat_documentation_sufficient
+  conclusion: vat_input_deductible
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 14 khoản 1 điểm b
+  basis: llm_reexpressed
+- id: TX0-R033
+  premises:
+  - tax_pays_under_deduction
+  - sold_to_humanitarian_aid_funded_buyer
+  - vat_documentation_sufficient
+  conclusion: vat_input_deductible
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 14 khoản 1 điểm c
+  basis: llm_reexpressed
+- id: TX0-R034
+  premises:
+  - tax_pays_under_deduction
+  - input_used_for_oil_gas_exploration
+  - vat_documentation_sufficient
+  conclusion: vat_input_deductible
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 14 khoản 1 điểm d
+  basis: llm_reexpressed
+- id: TX0-R035
+  premises:
+  - ~vat_documentation_sufficient
+  conclusion: ~vat_input_deductible
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 14 khoản 3
+  basis: llm_reexpressed
+- id: TX0-R036
+  premises:
+  - ~tax_pays_under_deduction
+  conclusion: ~vat_input_deductible
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 14 khoản 1, khoản 3
+  basis: llm_reexpressed
+- id: TX0-R037
+  premises:
+  - invoice_from_prohibited_act
+  conclusion: ~vat_input_deductible
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 14 khoản 3
+  basis: llm_reexpressed
+- id: TX0-R038
+  premises:
+  - input_used_exclusively_for_nontaxable
+  conclusion: ~vat_input_deductible
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 27
+  basis: llm_reexpressed
+- id: TX0-R039
+  premises:
+  - tax_pays_under_deduction
+  - input_used_exclusively_for_nontaxable
+  - vat_zero_rate_applicable
+  - vat_documentation_sufficient
+  conclusion: vat_input_deductible
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 27
+  basis: llm_reexpressed
+- id: TX0-R040
+  premises:
+  - vat_sale_raw_crops_own_production
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 1
+  basis: llm_reexpressed
+- id: TX0-R041
+  premises:
+  - vat_import_unprocessed_agri_product
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 1
+  basis: llm_reexpressed
+- id: TX0-R042
+  premises:
+  - vat_breeding_stock_or_seed
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 2
+  basis: llm_reexpressed
+- id: TX0-R043
+  premises:
+  - vat_animal_or_aquatic_feed
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 3
+  basis: llm_reexpressed
+- id: TX0-R044
+  premises:
+  - vat_sale_salt
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 4
+  basis: llm_reexpressed
+- id: TX0-R045
+  premises:
+  - vat_state_housing_sold_to_tenant
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 5
+  basis: llm_reexpressed
+- id: TX0-R046
+  premises:
+  - vat_agri_irrigation
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 6
+  basis: llm_reexpressed
+- id: TX0-R047
+  premises:
+  - vat_agri_tillage_dredging_harvest
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 6
+  basis: llm_reexpressed
+- id: TX0-R048
+  premises:
+  - vat_land_use_transfer
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 7
+  basis: llm_reexpressed
+- id: TX0-R049
+  premises:
+  - vat_life_insurance
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 8
+  basis: llm_reexpressed
+- id: TX0-R050
+  premises:
+  - vat_other_exempt_insurance
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 8
+  basis: llm_reexpressed
+- id: TX0-R051
+  premises:
+  - vat_exempt_financial_service
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 9
+  basis: llm_reexpressed
+- id: TX0-R052
+  premises:
+  - vat_medical_service
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 10 điểm a
+  basis: llm_reexpressed
+- id: TX0-R053
+  premises:
+  - vat_veterinary_service
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 10 điểm b
+  basis: llm_reexpressed
+- id: TX0-R054
+  premises:
+  - vat_funeral_service
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 11
+  basis: llm_reexpressed
+- id: TX0-R055
+  premises:
+  - vat_community_funded_public_works
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 12
+  basis: llm_reexpressed
+- id: TX0-R056
+  premises:
+  - vat_teaching_service
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 13
+  basis: llm_reexpressed
+- id: TX0-R057
+  premises:
+  - vat_education_service
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 13
+  basis: llm_reexpressed
+- id: TX0-R058
+  premises:
+  - vat_state_funded_broadcasting
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 14
+  basis: llm_reexpressed
+- id: TX0-R059
+  premises:
+  - vat_exempt_publication
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 15
+  basis: llm_reexpressed
+- id: TX0-R060
+  premises:
+  - vat_public_bus
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 16
+  basis: llm_reexpressed
+- id: TX0-R061
+  premises:
+  - vat_public_tram_or_inland_waterway
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 16
+  basis: llm_reexpressed
+- id: TX0-R062
+  premises:
+  - vat_import_equipment_not_domestically_produced
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 17
+  basis: llm_reexpressed
+- id: TX0-R063
+  premises:
+  - vat_defense_security_product
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 18
+  basis: llm_reexpressed
+- id: TX0-R064
+  premises:
+  - vat_humanitarian_aid_goods
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 19
+  basis: llm_reexpressed
+- id: TX0-R065
+  premises:
+  - vat_transit_or_temporary_import_export
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 20
+  basis: llm_reexpressed
+- id: TX0-R066
+  premises:
+  - vat_technology_transfer_or_ip_transfer
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 21
+  basis: llm_reexpressed
+- id: TX0-R067
+  premises:
+  - vat_software_service
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 21
+  basis: llm_reexpressed
+- id: TX0-R068
+  premises:
+  - vat_import_raw_gold
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 22
+  basis: llm_reexpressed
+- id: TX0-R069
+  premises:
+  - vat_export_unprocessed_resources
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 23
+  basis: llm_reexpressed
+- id: TX0-R070
+  premises:
+  - vat_prosthetic_or_disability_aid
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 24
+  basis: llm_reexpressed
+- id: TX0-R071
+  premises:
+  - vat_household_revenue_le_200m
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 25
+  basis: llm_reexpressed
+- id: TX0-R072
+  premises:
+  - vat_non_business_asset_reserve_or_fee
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 25
+  basis: llm_reexpressed
+- id: TX0-R073
+  premises:
+  - vat_exempt_import_gift_or_relief
+  conclusion: vat_non_taxable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 26
+  basis: llm_reexpressed
+- id: TX0-R074
+  premises:
+  - export_goods_transaction
+  - foreign_customer
+  - consumed_outside_vietnam
+  conclusion: vat_export_qualifies
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 9 khoản 1 điểm a; 05_nghi_dinh_181_2025_ND-CP,
+    Điều 17 khoản 1 điểm a
+  basis: llm_reexpressed
+- id: TX0-R075
+  premises:
+  - export_service_transaction
+  - foreign_customer
+  - consumed_outside_vietnam
+  conclusion: vat_export_qualifies
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 9 khoản 1 điểm b; 05_nghi_dinh_181_2025_ND-CP,
+    Điều 17 khoản 2 điểm a
+  basis: llm_reexpressed
+- id: TX0-R076
+  premises:
+  - ~consumed_outside_vietnam
+  conclusion: ~vat_export_qualifies
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 9 khoản 1 điểm a, b
+  basis: llm_reexpressed
+- id: TX0-R077
+  premises:
+  - ~foreign_customer
+  conclusion: ~vat_export_qualifies
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 9 khoản 1 điểm a, b
+  basis: llm_reexpressed
+- id: TX0-R078
+  premises:
+  - vat_export_qualifies
+  - export_goods_transaction
+  - export_goods_contract
+  - paid_non_cash
+  - export_customs_declaration
+  conclusion: vat_zero_rate_applicable
+  source: 05_nghi_dinh_181_2025_ND-CP, Điều 18 khoản 1
+  basis: llm_reexpressed
+- id: TX0-R079
+  premises:
+  - vat_export_qualifies
+  - export_service_transaction
+  - export_service_contract
+  - paid_non_cash
+  conclusion: vat_zero_rate_applicable
+  source: 05_nghi_dinh_181_2025_ND-CP, Điều 18 khoản 2
+  basis: llm_reexpressed
+- id: TX0-R080
+  premises:
+  - goods_sold_to_non_tariff_zone_for_export_production
+  - export_goods_contract
+  - paid_non_cash
+  - export_customs_declaration
+  conclusion: vat_zero_rate_applicable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 9 khoản 1 điểm a; 05_nghi_dinh_181_2025_ND-CP,
+    Điều 17 khoản 1 điểm b; 05_nghi_dinh_181_2025_ND-CP, Điều 18 khoản 1
+  basis: llm_reexpressed
+- id: TX0-R081
+  premises:
+  - service_to_non_tariff_zone_for_export_production
+  - export_service_contract
+  - paid_non_cash
+  conclusion: vat_zero_rate_applicable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 9 khoản 1 điểm b; 05_nghi_dinh_181_2025_ND-CP,
+    Điều 17 khoản 2 điểm b; 05_nghi_dinh_181_2025_ND-CP, Điều 18 khoản 2
+  basis: llm_reexpressed
+- id: TX0-R082
+  premises:
+  - international_transport_service
+  - international_transport_contract
+  - paid_non_cash
+  conclusion: vat_zero_rate_applicable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 9 khoản 1 điểm c; 05_nghi_dinh_181_2025_ND-CP,
+    Điều 17 khoản 3 điểm a; 05_nghi_dinh_181_2025_ND-CP, Điều 18 khoản 3
+  basis: llm_reexpressed
+- id: TX0-R083
+  premises:
+  - outbound_technology_transfer
+  conclusion: ~vat_zero_rate_applicable
+  source: 05_nghi_dinh_181_2025_ND-CP, Điều 17 khoản 4 điểm a; 04_luat_thue_GTGT_48_2024_QH15,
+    Điều 9 khoản 1 điểm d
+  basis: llm_reexpressed
+- id: TX0-R084
+  premises:
+  - reinsurance_abroad
+  conclusion: ~vat_zero_rate_applicable
+  source: 05_nghi_dinh_181_2025_ND-CP, Điều 17 khoản 4 điểm b; 04_luat_thue_GTGT_48_2024_QH15,
+    Điều 9 khoản 1 điểm d
+  basis: llm_reexpressed
+- id: TX0-R085
+  premises:
+  - credit_capital_transfer_or_derivative
+  conclusion: ~vat_zero_rate_applicable
+  source: 05_nghi_dinh_181_2025_ND-CP, Điều 17 khoản 4 điểm c, d, đ; 04_luat_thue_GTGT_48_2024_QH15,
+    Điều 9 khoản 1 điểm d
+  basis: llm_reexpressed
+- id: TX0-R086
+  premises:
+  - postal_telecom_service
+  conclusion: ~vat_zero_rate_applicable
+  source: 05_nghi_dinh_181_2025_ND-CP, Điều 17 khoản 4 điểm e; 04_luat_thue_GTGT_48_2024_QH15,
+    Điều 9 khoản 1 điểm d
+  basis: llm_reexpressed
+- id: TX0-R087
+  premises:
+  - vat_export_unprocessed_resources
+  conclusion: ~vat_zero_rate_applicable
+  source: 05_nghi_dinh_181_2025_ND-CP, Điều 17 khoản 4 điểm g; 04_luat_thue_GTGT_48_2024_QH15,
+    Điều 9 khoản 1 điểm d
+  basis: llm_reexpressed
+- id: TX0-R088
+  premises:
+  - tobacco_alcohol_beer_imported_then_exported
+  conclusion: ~vat_zero_rate_applicable
+  source: 05_nghi_dinh_181_2025_ND-CP, Điều 17 khoản 4 điểm h; 04_luat_thue_GTGT_48_2024_QH15,
+    Điều 9 khoản 1 điểm d
+  basis: llm_reexpressed
+- id: TX0-R089
+  premises:
+  - fuel_or_car_sold_into_non_tariff_zone
+  conclusion: ~vat_zero_rate_applicable
+  source: 05_nghi_dinh_181_2025_ND-CP, Điều 17 khoản 4 điểm i; 04_luat_thue_GTGT_48_2024_QH15,
+    Điều 9 khoản 1 điểm d
+  basis: llm_reexpressed
+- id: TX0-R090
+  premises:
+  - foreign_event_in_vietnam
+  conclusion: ~vat_zero_rate_applicable
+  source: 05_nghi_dinh_181_2025_ND-CP, Điều 17 khoản 4 điểm k; 04_luat_thue_GTGT_48_2024_QH15,
+    Điều 9 khoản 1 điểm d
+  basis: llm_reexpressed
+- id: TX0-R091
+  premises:
+  - service_in_vietnam_to_foreigner_excluded
+  conclusion: ~vat_zero_rate_applicable
+  source: 05_nghi_dinh_181_2025_ND-CP, Điều 17 khoản 4 điểm k; 04_luat_thue_GTGT_48_2024_QH15,
+    Điều 9 khoản 1 điểm d
+  basis: llm_reexpressed
+- id: TX0-R092
+  premises:
+  - non_tariff_zone_excluded_service
+  conclusion: ~vat_zero_rate_applicable
+  source: 05_nghi_dinh_181_2025_ND-CP, Điều 17 khoản 4 điểm l
+  basis: llm_reexpressed
+- id: TX0-R093
+  premises:
+  - export_goods_transaction
+  - ~export_goods_contract
+  conclusion: ~vat_zero_rate_applicable
+  source: 05_nghi_dinh_181_2025_ND-CP, Điều 18 khoản 1 điểm a
+  basis: llm_reexpressed
+- id: TX0-R094
+  premises:
+  - export_goods_transaction
+  - ~paid_non_cash
+  conclusion: ~vat_zero_rate_applicable
+  source: 05_nghi_dinh_181_2025_ND-CP, Điều 18 khoản 1 điểm b
+  basis: llm_reexpressed
+- id: TX0-R095
+  premises:
+  - export_goods_transaction
+  - ~export_customs_declaration
+  conclusion: ~vat_zero_rate_applicable
+  source: 05_nghi_dinh_181_2025_ND-CP, Điều 18 khoản 1 điểm c
+  basis: llm_reexpressed
+- id: TX0-R096
+  premises:
+  - export_service_transaction
+  - ~export_service_contract
+  conclusion: ~vat_zero_rate_applicable
+  source: 05_nghi_dinh_181_2025_ND-CP, Điều 18 khoản 2 điểm a
+  basis: llm_reexpressed
+- id: TX0-R097
+  premises:
+  - export_service_transaction
+  - ~paid_non_cash
+  conclusion: ~vat_zero_rate_applicable
+  source: 05_nghi_dinh_181_2025_ND-CP, Điều 18 khoản 2 điểm b
+  basis: llm_reexpressed
+- id: TX0-R098
+  premises:
+  - export_service_transaction
+  - ~consumed_outside_vietnam
+  conclusion: ~vat_zero_rate_applicable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 9 khoản 1 điểm b; 05_nghi_dinh_181_2025_ND-CP,
+    Điều 17 khoản 2 điểm a
+  basis: llm_reexpressed
+- id: TX0-R099
+  premises:
+  - export_goods_transaction
+  - ~consumed_outside_vietnam
+  conclusion: ~vat_zero_rate_applicable
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 9 khoản 1 điểm a; 05_nghi_dinh_181_2025_ND-CP,
+    Điều 17 khoản 1 điểm a
+  basis: llm_reexpressed
+- id: TX0-R100
+  premises:
+  - cit_prior_revenue_le_3bn
+  conclusion: cit_rate_15_applicable
+  source: 06_luat_TNDN_67_2025_QH15, Điều 10 khoản 2, khoản 3 đoạn 2
+  basis: llm_reexpressed
+- id: TX0-R101
+  premises:
+  - ~cit_prior_revenue_le_3bn
+  conclusion: ~cit_rate_15_applicable
+  source: 06_luat_TNDN_67_2025_QH15, Điều 10 khoản 2
+  basis: llm_reexpressed
+- id: TX0-R102
+  premises:
+  - cit_prior_revenue_above_3_up_to_50bn
+  conclusion: cit_rate_17_applicable
+  source: 06_luat_TNDN_67_2025_QH15, Điều 10 khoản 3
+  basis: llm_reexpressed
+- id: TX0-R103
+  premises:
+  - ~cit_prior_revenue_above_3_up_to_50bn
+  conclusion: ~cit_rate_17_applicable
+  source: 06_luat_TNDN_67_2025_QH15, Điều 10 khoản 3
+  basis: llm_reexpressed
+- id: TX0-R104
+  premises:
+  - cit_income_art12_2_l_activity
+  - ~cit_in_art12_3_incentive_area
+  conclusion: cit_rate_15_applicable
+  source: 06_luat_TNDN_67_2025_QH15, Điều 13 khoản 3
+  basis: llm_reexpressed
+- id: TX0-R105
+  premises:
+  - cit_new_project_art12_2_m_n_o
+  conclusion: cit_rate_17_applicable
+  source: 06_luat_TNDN_67_2025_QH15, Điều 13 khoản 4 điểm a
+  basis: llm_reexpressed
+- id: TX0-R106
+  premises:
+  - cit_new_project_in_art12_3b_area
+  conclusion: cit_rate_17_applicable
+  source: 06_luat_TNDN_67_2025_QH15, Điều 13 khoản 4 điểm b
+  basis: llm_reexpressed
+- id: TX0-R107
+  premises:
+  - cit_new_project_economic_zone_outside_art12_3ab
+  conclusion: cit_rate_17_applicable
+  source: 06_luat_TNDN_67_2025_QH15, Điều 13 khoản 4 điểm c
+  basis: llm_reexpressed
+- id: TX0-R108
+  premises:
+  - cit_income_art12_2_p
+  conclusion: cit_rate_17_applicable
+  source: 06_luat_TNDN_67_2025_QH15, Điều 13 khoản 5
+  basis: llm_reexpressed
+- id: TX1-R01
+  premises:
+  - cit_fishing_income
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 1
+  basis: llm_reexpressed
+- id: TX1-R02
+  premises:
+  - cit_agri_production_or_processing_income
+  - cit_in_especially_difficult_area
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 1
+  basis: llm_reexpressed
+- id: TX1-R03
+  premises:
+  - cit_agri_cooperative
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 1
+  basis: llm_reexpressed
+- id: TX1-R04
+  premises:
+  - cit_is_cooperative
+  - cit_agri_production_or_processing_income
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 1
+  basis: llm_reexpressed
+- id: TX1-R05
+  premises:
+  - cit_is_cooperative
+  - cit_salt_production_income
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 1
+  basis: llm_reexpressed
+- id: TX1-R06
+  premises:
+  - cit_cooperative_in_agri_forestry_fishery_salt_sector
+  - cit_in_difficult_area
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 2
+  basis: llm_reexpressed
+- id: TX1-R07
+  premises:
+  - cit_cooperative_in_agri_forestry_fishery_salt_sector
+  - cit_in_especially_difficult_area
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 2
+  basis: llm_reexpressed
+- id: TX1-R08
+  premises:
+  - cit_agricultural_technical_service
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 3
+  basis: llm_reexpressed
+- id: TX1-R09
+  premises:
+  - cit_rnd_contract_income
+  - cit_within_3_year_exemption_period
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 4
+  basis: llm_reexpressed
+- id: TX1-R10
+  premises:
+  - cit_new_technology_product_income
+  - cit_within_3_year_exemption_period
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 4
+  basis: llm_reexpressed
+- id: TX1-R11
+  premises:
+  - cit_trial_production_income
+  - cit_within_3_year_exemption_period
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 4
+  basis: llm_reexpressed
+- id: TX1-R12
+  premises:
+  - cit_30pct_special_workers
+  - cit_average_workers_at_least_20
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 5
+  basis: llm_reexpressed
+- id: TX1-R13
+  premises:
+  - cit_30pct_special_workers
+  - cit_average_workers_at_least_20
+  - ~cit_not_finance_or_realestate
+  conclusion: ~cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 5
+  basis: llm_reexpressed
+- id: TX1-R14
+  premises:
+  - cit_vocational_training_for_disadvantaged_income
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 6
+  basis: llm_reexpressed
+- id: TX1-R15
+  premises:
+  - cit_distributed_domestic_income
+  - cit_underlying_cit_paid
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 7
+  basis: llm_reexpressed
+- id: TX1-R16
+  premises:
+  - cit_donation_received_charity
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 8
+  basis: llm_reexpressed
+- id: TX1-R17
+  premises:
+  - cit_donation_received_rnd_from_unrelated
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 8
+  basis: llm_reexpressed
+- id: TX1-R18
+  premises:
+  - cit_direct_state_support
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 8
+  basis: llm_reexpressed
+- id: TX1-R19
+  premises:
+  - cit_state_compensation
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 8
+  basis: llm_reexpressed
+- id: TX1-R20
+  premises:
+  - cit_donation_received_charity
+  - ~cit_donation_used_correctly
+  conclusion: ~cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 8
+  basis: llm_reexpressed
+- id: TX1-R21
+  premises:
+  - cit_donation_received_rnd_from_unrelated
+  - ~cit_donation_used_correctly
+  conclusion: ~cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 8
+  basis: llm_reexpressed
+- id: TX1-R22
+  premises:
+  - cit_asset_revaluation_soe_restructuring
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 9
+  basis: llm_reexpressed
+- id: TX1-R23
+  premises:
+  - cit_carbon_credit_first_transfer_income
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 10
+  basis: llm_reexpressed
+- id: TX1-R24
+  premises:
+  - cit_green_bond_interest_income
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 10
+  basis: llm_reexpressed
+- id: TX1-R25
+  premises:
+  - cit_green_bond_first_transfer_income
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 10
+  basis: llm_reexpressed
+- id: TX1-R26
+  premises:
+  - cit_vdb_development_export_credit_income
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 11 điểm a
+  basis: llm_reexpressed
+- id: TX1-R27
+  premises:
+  - cit_vbsp_policy_credit_income
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 11 điểm b
+  basis: llm_reexpressed
+- id: TX1-R28
+  premises:
+  - cit_vamc_income
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 11 điểm c
+  basis: llm_reexpressed
+- id: TX1-R29
+  premises:
+  - cit_state_nonprofit_fund_income
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 11 điểm d
+  basis: llm_reexpressed
+- id: TX1-R30
+  premises:
+  - cit_socialization_retained_income
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 12
+  basis: llm_reexpressed
+- id: TX1-R31
+  premises:
+  - cit_cooperative_indivisible_fund_income
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 12
+  basis: llm_reexpressed
+- id: TX1-R32
+  premises:
+  - cit_priority_tech_transfer_to_difficult_area
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 13
+  basis: llm_reexpressed
+- id: TX1-R33
+  premises:
+  - cit_public_unit_service_income
+  - cit_public_service_basic_essential
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 14 điểm a
+  basis: llm_reexpressed
+- id: TX1-R34
+  premises:
+  - cit_public_unit_service_income
+  - cit_public_service_state_subsidized
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 14 điểm b
+  basis: llm_reexpressed
+- id: TX1-R35
+  premises:
+  - cit_public_unit_service_income
+  - cit_in_especially_difficult_area
+  conclusion: cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 khoản 14 điểm c
+  basis: llm_reexpressed
+- id: TX1-R36
+  premises:
+  - cit_business_expense_qualified
+  - cit_expense_documentation_ok
+  conclusion: cit_expense_deductible
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 1; 07_nghi_dinh_320_2025_ND-CP,
+    Điều 9 khoản 1, khoản 2
+  basis: llm_reexpressed
+- id: TX1-R37
+  premises:
+  - cit_business_related_expense
+  conclusion: cit_business_expense_qualified
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 1 điểm a
+  basis: llm_reexpressed
+- id: TX1-R38
+  premises:
+  - cit_other_listed_expense
+  conclusion: cit_business_expense_qualified
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 1 điểm b; 07_nghi_dinh_320_2025_ND-CP,
+    Điều 9 khoản 2
+  basis: llm_reexpressed
+- id: TX1-R39
+  premises:
+  - cit_defense_security_expense
+  conclusion: cit_other_listed_expense
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 1 điểm b tiểu điểm b1; 07_nghi_dinh_320_2025_ND-CP,
+    Điều 9 khoản 2 điểm a
+  basis: llm_reexpressed
+- id: TX1-R40
+  premises:
+  - cit_party_union_support_expense
+  conclusion: cit_other_listed_expense
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 1 điểm b tiểu điểm b2; 07_nghi_dinh_320_2025_ND-CP,
+    Điều 9 khoản 2 điểm b
+  basis: llm_reexpressed
+- id: TX1-R41
+  premises:
+  - cit_employee_vocational_training_expense
+  - cit_training_specified_in_hr_documents
+  conclusion: cit_other_listed_expense
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 1 điểm b tiểu điểm b3; 07_nghi_dinh_320_2025_ND-CP,
+    Điều 9 khoản 2 điểm c
+  basis: llm_reexpressed
+- id: TX1-R42
+  premises:
+  - cit_workplace_hiv_prevention_expense
+  conclusion: cit_other_listed_expense
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 1 điểm b tiểu điểm b4; 07_nghi_dinh_320_2025_ND-CP,
+    Điều 9 khoản 2 điểm d
+  basis: llm_reexpressed
+- id: TX1-R43
+  premises:
+  - cit_qualifying_donation_expense
+  conclusion: cit_other_listed_expense
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 1 điểm b tiểu điểm b5; 07_nghi_dinh_320_2025_ND-CP,
+    Điều 9 khoản 2 điểm đ
+  basis: llm_reexpressed
+- id: TX1-R44
+  premises:
+  - cit_rnd_expense
+  conclusion: cit_other_listed_expense
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 1 điểm b tiểu điểm b6; 07_nghi_dinh_320_2025_ND-CP,
+    Điều 9 khoản 2 điểm e
+  basis: llm_reexpressed
+- id: TX1-R45
+  premises:
+  - cit_uncompensated_force_majeure_loss
+  conclusion: cit_other_listed_expense
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 1 điểm b tiểu điểm b7; 07_nghi_dinh_320_2025_ND-CP,
+    Điều 9 khoản 2 điểm g
+  basis: llm_reexpressed
+- id: TX1-R46
+  premises:
+  - cit_seconded_credit_institution_staff_expense
+  conclusion: cit_other_listed_expense
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 1 điểm b tiểu điểm b8; 07_nghi_dinh_320_2025_ND-CP,
+    Điều 9 khoản 2 điểm h
+  basis: llm_reexpressed
+- id: TX1-R47
+  premises:
+  - cit_preparatory_expense_no_revenue_yet
+  conclusion: cit_other_listed_expense
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 1 điểm b tiểu điểm b9; 07_nghi_dinh_320_2025_ND-CP,
+    Điều 9 khoản 2 điểm i
+  basis: llm_reexpressed
+- id: TX1-R48
+  premises:
+  - cit_public_works_support_expense
+  conclusion: cit_other_listed_expense
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 1 điểm b tiểu điểm b10
+  basis: llm_reexpressed
+- id: TX1-R49
+  premises:
+  - cit_emission_reduction_expense
+  conclusion: cit_other_listed_expense
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 1 điểm b tiểu điểm b11
+  basis: llm_reexpressed
+- id: TX1-R50
+  premises:
+  - cit_designated_fund_contribution
+  conclusion: cit_other_listed_expense
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 1 điểm b tiểu điểm b12
+  basis: llm_reexpressed
+- id: TX1-R51
+  premises:
+  - ~cit_business_related_expense
+  conclusion: ~cit_business_expense_qualified
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 1 điểm a, khoản 2 điểm a
+  basis: llm_reexpressed
+- id: TX1-R52
+  premises:
+  - ~cit_business_expense_qualified
+  conclusion: ~cit_expense_deductible
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm a
+  basis: llm_reexpressed
+- id: TX1-R53
+  premises:
+  - cit_expense_invoice
+  - cit_expense_payment_proof
+  conclusion: cit_expense_documentation_ok
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 1 điểm c
+  basis: llm_reexpressed
+- id: TX1-R54
+  premises:
+  - cit_expense_invoice
+  - ~cit_expense_at_least_5m
+  conclusion: cit_expense_documentation_ok
+  source: 07_nghi_dinh_320_2025_ND-CP, Điều 9 khoản 1 điểm b, điểm c
+  basis: llm_reexpressed
+- id: TX1-R55
+  premises:
+  - cit_expense_invoice
+  - cit_same_seller_same_day_total_at_least_5m
+  - ~cit_expense_payment_proof
+  conclusion: ~cit_expense_documentation_ok
+  source: 07_nghi_dinh_320_2025_ND-CP, Điều 9 khoản 1 điểm c tiết c1
+  basis: llm_reexpressed
+- id: TX1-R56
+  premises:
+  - cit_expense_invoice
+  - cit_employee_paid_noncash_authorized
+  conclusion: cit_expense_documentation_ok
+  source: 07_nghi_dinh_320_2025_ND-CP, Điều 9 khoản 1 điểm c tiết c2
+  basis: llm_reexpressed
+- id: TX1-R57
+  premises:
+  - cit_expense_invoice
+  - cit_expense_at_least_5m
+  - cit_expense_unpaid_at_recognition
+  conclusion: cit_expense_documentation_ok
+  source: 07_nghi_dinh_320_2025_ND-CP, Điều 9 khoản 1 điểm c tiết c3
+  basis: llm_reexpressed
+- id: TX1-R58
+  premises:
+  - ~cit_expense_invoice
+  conclusion: ~cit_expense_documentation_ok
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 1 điểm c; 07_nghi_dinh_320_2025_ND-CP,
+    Điều 9 khoản 1 điểm b
+  basis: llm_reexpressed
+- id: TX1-R59
+  premises:
+  - cit_expense_at_least_5m
+  - ~cit_expense_payment_proof
+  conclusion: ~cit_expense_documentation_ok
+  source: 07_nghi_dinh_320_2025_ND-CP, Điều 9 khoản 1 điểm c
+  basis: llm_reexpressed
+- id: TX1-R60
+  premises:
+  - ~cit_expense_documentation_ok
+  conclusion: ~cit_expense_deductible
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm a
+  basis: llm_reexpressed
+- id: TX1-R61
+  premises:
+  - cit_administrative_fine
+  conclusion: ~cit_expense_deductible
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm b
+  basis: llm_reexpressed
+- id: TX1-R62
+  premises:
+  - cit_expense_reimbursed
+  conclusion: ~cit_expense_deductible
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm c
+  basis: llm_reexpressed
+- id: TX1-R63
+  premises:
+  - cit_expense_exceeds_government_cap
+  conclusion: ~cit_expense_deductible
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm d
+  basis: llm_reexpressed
+- id: TX1-R64
+  premises:
+  - cit_provision_improper
+  conclusion: ~cit_expense_deductible
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm đ
+  basis: llm_reexpressed
+- id: TX1-R65
+  premises:
+  - cit_depreciation_improper
+  conclusion: ~cit_expense_deductible
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm e
+  basis: llm_reexpressed
+- id: TX1-R66
+  premises:
+  - cit_accrual_improper
+  conclusion: ~cit_expense_deductible
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm g
+  basis: llm_reexpressed
+- id: TX1-R67
+  premises:
+  - cit_private_owner_salary
+  conclusion: ~cit_expense_deductible
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm h
+  basis: llm_reexpressed
+- id: TX1-R68
+  premises:
+  - cit_founder_remuneration_non_executive
+  conclusion: ~cit_expense_deductible
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm h
+  basis: llm_reexpressed
+- id: TX1-R69
+  premises:
+  - cit_wage_not_paid_or_undocumented
+  conclusion: ~cit_expense_deductible
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm h
+  basis: llm_reexpressed
+- id: TX1-R70
+  premises:
+  - cit_interest_nondeductible_portion
+  conclusion: ~cit_expense_deductible
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm i
+  basis: llm_reexpressed
+- id: TX1-R71
+  premises:
+  - cit_oil_gas_cost_recovery_excess
+  conclusion: ~cit_expense_deductible
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm k
+  basis: llm_reexpressed
+- id: TX1-R72
+  premises:
+  - cit_input_vat_already_deducted
+  conclusion: ~cit_expense_deductible
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm l
+  basis: llm_reexpressed
+- id: TX1-R73
+  premises:
+  - cit_nondeductible_tax_or_late_interest
+  conclusion: ~cit_expense_deductible
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm l
+  basis: llm_reexpressed
+- id: TX1-R74
+  premises:
+  - cit_expense_not_matching_taxable_revenue
+  conclusion: ~cit_expense_deductible
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm m
+  basis: llm_reexpressed
+- id: TX1-R75
+  premises:
+  - cit_expense_not_matching_taxable_revenue
+  - cit_other_listed_expense
+  - cit_expense_documentation_ok
+  conclusion: cit_expense_deductible
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm m
+  basis: llm_reexpressed
+- id: TX1-R76
+  premises:
+  - cit_expense_violates_sector_conditions
+  conclusion: ~cit_expense_deductible
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm m
+  basis: llm_reexpressed
+- id: TX1-R77
+  premises:
+  - cit_expense_is_donation
+  conclusion: ~cit_expense_deductible
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm n
+  basis: llm_reexpressed
+- id: TX1-R78
+  premises:
+  - cit_expense_is_donation
+  - cit_qualifying_donation_expense
+  - cit_expense_documentation_ok
+  conclusion: cit_expense_deductible
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm n
+  basis: llm_reexpressed
+- id: TX1-R79
+  premises:
+  - cit_capex_investment_phase
+  conclusion: ~cit_expense_deductible
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm o
+  basis: llm_reexpressed
+- id: TX1-R80
+  premises:
+  - cit_equity_change_expense
+  conclusion: ~cit_expense_deductible
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm o
+  basis: llm_reexpressed
+- id: TX1-R81
+  premises:
+  - cit_regulated_sector_expense_excess
+  conclusion: ~cit_expense_deductible
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm p
+  basis: llm_reexpressed
+- id: TX1-R82
+  premises:
+  - cit_prior_revenue_le_3bn
+  conclusion: cit_rate_15_applicable
+  source: 07_nghi_dinh_320_2025_ND-CP, Điều 11 khoản 2, khoản 4
+  basis: llm_reexpressed
+- id: TX1-R83
+  premises:
+  - cit_prior_revenue_above_3_up_to_50bn
+  conclusion: cit_rate_17_applicable
+  source: 07_nghi_dinh_320_2025_ND-CP, Điều 11 khoản 3, khoản 4
+  basis: llm_reexpressed
+- id: TX1-R84
+  premises:
+  - cit_newly_established_in_period
+  - cit_expected_revenue_le_3bn
+  conclusion: cit_rate_15_applicable
+  source: 07_nghi_dinh_320_2025_ND-CP, Điều 11 khoản 4 điểm b
+  basis: llm_reexpressed
+- id: TX1-R85
+  premises:
+  - cit_newly_established_in_period
+  - cit_expected_revenue_above_3_up_to_50bn
+  conclusion: cit_rate_17_applicable
+  source: 07_nghi_dinh_320_2025_ND-CP, Điều 11 khoản 4 điểm b
+  basis: llm_reexpressed
+- id: TX1-R86
+  premises:
+  - ~cit_not_linked_subsidiary
+  conclusion: ~cit_rate_15_applicable
+  source: 07_nghi_dinh_320_2025_ND-CP, Điều 11 khoản 4 điểm c
+  basis: llm_reexpressed
+- id: TX1-R87
+  premises:
+  - ~cit_not_linked_subsidiary
+  conclusion: ~cit_rate_17_applicable
+  source: 07_nghi_dinh_320_2025_ND-CP, Điều 11 khoản 4 điểm c
+  basis: llm_reexpressed
+- id: TX1-R88
+  premises:
+  - ~cit_no_special_rate_regime
+  conclusion: ~cit_rate_15_applicable
+  source: 07_nghi_dinh_320_2025_ND-CP, Điều 11 khoản 1, khoản 5
+  basis: llm_reexpressed
+- id: TX1-R89
+  premises:
+  - ~cit_no_special_rate_regime
+  conclusion: ~cit_rate_17_applicable
+  source: 07_nghi_dinh_320_2025_ND-CP, Điều 11 khoản 1, khoản 5
+  basis: llm_reexpressed
+- id: TX1-R90
+  premises:
+  - ~cit_prior_revenue_le_3bn
+  conclusion: ~cit_rate_15_applicable
+  source: 07_nghi_dinh_320_2025_ND-CP, Điều 11 khoản 2
+  basis: llm_reexpressed
+- id: TX1-R91
+  premises:
+  - ~cit_prior_revenue_above_3_up_to_50bn
+  conclusion: ~cit_rate_17_applicable
+  source: 07_nghi_dinh_320_2025_ND-CP, Điều 11 khoản 3
+  basis: llm_reexpressed
+- id: TX-P01
+  premises: []
+  conclusion: ~cit_income_exempt
+  source: 06_luat_TNDN_67_2025_QH15, Điều 4 (thu nhập được miễn thuế là danh mục liệt
+    kê)
+  basis: patch
+exception_of:
+- - TX0-R009
+  - TX0-R008
+- - TX0-R013
+  - TX0-R012
+- - TX0-R014
+  - TX0-R012
+- - TX0-R015
+  - TX0-R012
+- - TX0-R016
+  - TX0-R012
+- - TX0-R018
+  - TX0-R017
+- - TX0-R021
+  - TX0-R020
+- - TX0-R022
+  - TX0-R026
+- - TX0-R023
+  - TX0-R026
+- - TX0-R024
+  - TX0-R026
+- - TX0-R027
+  - TX0-R019
+- - TX0-R028
+  - TX0-R019
+- - TX0-R028
+  - TX0-R020
+- - TX0-R029
+  - TX0-R019
+- - TX0-R029
+  - TX0-R020
+- - TX0-R030
+  - TX0-R019
+- - TX0-R030
+  - TX0-R020
+- - TX0-R037
+  - TX0-R031
+- - TX0-R037
+  - TX0-R032
+- - TX0-R037
+  - TX0-R033
+- - TX0-R037
+  - TX0-R034
+- - TX0-R039
+  - TX0-R038
+- - TX0-R033
+  - TX0-R038
+- - TX0-R083
+  - TX0-R079
+- - TX0-R084
+  - TX0-R079
+- - TX0-R085
+  - TX0-R079
+- - TX0-R086
+  - TX0-R079
+- - TX0-R087
+  - TX0-R078
+- - TX0-R088
+  - TX0-R078
+- - TX0-R089
+  - TX0-R080
+- - TX0-R090
+  - TX0-R079
+- - TX0-R091
+  - TX0-R079
+- - TX0-R092
+  - TX0-R081
+- - TX0-R104
+  - TX0-R101
+- - TX0-R105
+  - TX0-R103
+- - TX0-R106
+  - TX0-R103
+- - TX0-R107
+  - TX0-R103
+- - TX0-R108
+  - TX0-R103
+- - TX1-R13
+  - TX1-R12
+- - TX1-R20
+  - TX1-R16
+- - TX1-R21
+  - TX1-R17
+- - TX1-R38
+  - TX1-R51
+- - TX1-R55
+  - TX1-R54
+- - TX1-R57
+  - TX1-R59
+- - TX1-R56
+  - TX1-R59
+- - TX1-R61
+  - TX1-R36
+- - TX1-R62
+  - TX1-R36
+- - TX1-R63
+  - TX1-R36
+- - TX1-R64
+  - TX1-R36
+- - TX1-R65
+  - TX1-R36
+- - TX1-R66
+  - TX1-R36
+- - TX1-R67
+  - TX1-R36
+- - TX1-R68
+  - TX1-R36
+- - TX1-R69
+  - TX1-R36
+- - TX1-R70
+  - TX1-R36
+- - TX1-R71
+  - TX1-R36
+- - TX1-R72
+  - TX1-R36
+- - TX1-R73
+  - TX1-R36
+- - TX1-R74
+  - TX1-R36
+- - TX1-R75
+  - TX1-R74
+- - TX1-R76
+  - TX1-R36
+- - TX1-R77
+  - TX1-R36
+- - TX1-R78
+  - TX1-R77
+- - TX1-R79
+  - TX1-R36
+- - TX1-R80
+  - TX1-R36
+- - TX1-R81
+  - TX1-R36
+- - TX1-R86
+  - TX1-R82
+- - TX1-R86
+  - TX1-R84
+- - TX1-R87
+  - TX1-R83
+- - TX1-R87
+  - TX1-R85
+- - TX1-R88
+  - TX1-R82
+- - TX1-R88
+  - TX1-R84
+- - TX1-R89
+  - TX1-R83
+- - TX1-R89
+  - TX1-R85
+- - TX1-R84
+  - TX1-R90
+- - TX1-R85
+  - TX1-R91
+- - TX1-R01
+  - TX-P01
+- - TX1-R02
+  - TX-P01
+- - TX1-R03
+  - TX-P01
+- - TX1-R04
+  - TX-P01
+- - TX1-R05
+  - TX-P01
+- - TX1-R06
+  - TX-P01
+- - TX1-R07
+  - TX-P01
+- - TX1-R08
+  - TX-P01
+- - TX1-R09
+  - TX-P01
+- - TX1-R10
+  - TX-P01
+- - TX1-R11
+  - TX-P01
+- - TX1-R12
+  - TX-P01
+- - TX1-R14
+  - TX-P01
+- - TX1-R15
+  - TX-P01
+- - TX1-R16
+  - TX-P01
+- - TX1-R17
+  - TX-P01
+- - TX1-R18
+  - TX-P01
+- - TX1-R19
+  - TX-P01
+- - TX1-R22
+  - TX-P01
+- - TX1-R23
+  - TX-P01
+- - TX1-R24
+  - TX-P01
+- - TX1-R25
+  - TX-P01
+- - TX1-R26
+  - TX-P01
+- - TX1-R27
+  - TX-P01
+- - TX1-R28
+  - TX-P01
+- - TX1-R29
+  - TX-P01
+- - TX1-R30
+  - TX-P01
+- - TX1-R31
+  - TX-P01
+- - TX1-R32
+  - TX-P01
+- - TX1-R33
+  - TX-P01
+- - TX1-R34
+  - TX-P01
+- - TX1-R35
+  - TX-P01
+priority_over: []

@@ -64,6 +64,14 @@ def main() -> None:
     ids = {r["id"] for r in rules}
     exc = [list(x) for x in (data.get("exception_of") or []) + (patches.get("add_exception_of") or [])
            if x[0] in ids and x[1] in ids]
+    # "general rule G is defeated by every rule concluding the opposite" (enumerated exemption lists)
+    by_id = {r["id"]: r for r in rules}
+    for g in patches.get("defeated_by_all") or []:
+        if g not in by_id:
+            continue
+        c = by_id[g]["conclusion"]
+        opposite = c[1:] if c.startswith("~") else "~" + c
+        exc += [[r["id"], g] for r in rules if r["conclusion"] == opposite and [r["id"], g] not in exc]
     kb = {"rules": [{"id": r["id"], "premises": r["premises"], "conclusion": r["conclusion"], "source": r["source"],
                      "basis": r.get("basis", "llm_reexpressed")} for r in rules],
           "exception_of": exc, "priority_over": []}

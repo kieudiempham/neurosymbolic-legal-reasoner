@@ -1,0 +1,31 @@
+{
+ "files": [
+  "data/dataset/thue_v1/thue_70_DRAFT.jsonl"
+ ],
+ "items": 70,
+ "errors": 0,
+ "warnings": 0,
+ "by_domain": {
+  "thue": 70
+ },
+ "by_question_type": {
+  "application": 70
+ },
+ "by_expected": {
+  "false": 28,
+  "true": 27,
+  "insufficient": 15
+ },
+ "by_info_level": {
+  "complete": 45,
+  "exception_or_conflict": 10,
+  "missing": 15
+ },
+ "multi_hop": 31,
+ "predicates_used": 61,
+ "predicates_from_handoff": 0,
+ "predicates_declared_new": 64,
+ "undeclared_predicates": [],
+ "error_list": [],
+ "warning_list": []
+}

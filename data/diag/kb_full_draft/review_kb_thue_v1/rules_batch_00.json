@@ -1,0 +1,1615 @@
+{
+ "rules": [
+  {
+   "id": "TX0-R001",
+   "premises": [
+    "tax_debt_exists",
+    "tax_debt_more_than_90days"
+   ],
+   "conclusion": "tax_enforcement_90day_ground",
+   "source": "01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 1",
+   "note": "Nợ thuế quá 90 ngày kể từ hết hạn nộp là căn cứ cưỡng chế."
+  },
+  {
+   "id": "TX0-R002",
+   "premises": [
+    "~tax_debt_more_than_90days"
+   ],
+   "conclusion": "~tax_enforcement_90day_ground",
+   "source": "01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 1",
+   "note": "Nợ chưa quá 90 ngày thì chưa thỏa căn cứ khoản 1."
+  },
+  {
+   "id": "TX0-R003",
+   "premises": [
+    "~tax_debt_exists"
+   ],
+   "conclusion": "~tax_enforcement_90day_ground",
+   "source": "01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 1",
+   "note": "Không có tiền thuế nợ thì không có căn cứ khoản 1."
+  },
+  {
+   "id": "TX0-R004",
+   "premises": [
+    "tax_enforcement_90day_ground"
+   ],
+   "conclusion": "tax_enforcement_ground",
+   "source": "01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 1",
+   "note": "Căn cứ quá 90 ngày là một trường hợp bị cưỡng chế."
+  },
+  {
+   "id": "TX0-R005",
+   "premises": [
+    "tax_debt_exists",
+    "tax_payment_extension_expired"
+   ],
+   "conclusion": "tax_enforcement_ground",
+   "source": "01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 2",
+   "note": "Còn nợ thuế khi hết thời hạn gia hạn nộp."
+  },
+  {
+   "id": "TX0-R006",
+   "premises": [
+    "tax_debt_exists",
+    "taxpayer_absent_at_registered_address"
+   ],
+   "conclusion": "tax_enforcement_ground",
+   "source": "01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 3",
+   "note": "Có nợ thuế nhưng không hoạt động tại địa chỉ đã đăng ký."
+  },
+  {
+   "id": "TX0-R007",
+   "premises": [
+    "tax_debt_exists",
+    "taxpayer_dispersing_assets"
+   ],
+   "conclusion": "tax_enforcement_ground",
+   "source": "01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 3",
+   "note": "Có nợ thuế và có hành vi phát tán tài sản."
+  },
+  {
+   "id": "TX0-R008",
+   "premises": [
+    "taxpayer_not_comply_penalty_decision_on_time"
+   ],
+   "conclusion": "penalty_noncompliance_enforcement_ground",
+   "source": "01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 4",
+   "note": "Không chấp hành quyết định xử phạt VPHC về quản lý thuế đúng thời hạn."
+  },
+  {
+   "id": "TX0-R009",
+   "premises": [
+    "taxpayer_not_comply_penalty_decision_on_time",
+    "penalty_decision_postponed_or_suspended"
+   ],
+   "conclusion": "~penalty_noncompliance_enforcement_ground",
+   "source": "01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 4",
+   "note": "Trừ trường hợp được hoãn hoặc tạm đình chỉ thi hành quyết định xử phạt."
+  },
+  {
+   "id": "TX0-R010",
+   "premises": [
+    "penalty_noncompliance_enforcement_ground"
+   ],
+   "conclusion": "tax_enforcement_ground",
+   "source": "01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 4",
+   "note": "Căn cứ không chấp hành quyết định xử phạt là trường hợp bị cưỡng chế."
+  },
+  {
+   "id": "TX0-R011",
+   "premises": [
+    "taxpayer_penalized_for_inspection_noncompliance",
+    "taxpayer_continues_inspection_noncompliance"
+   ],
+   "conclusion": "tax_enforcement_ground",
+   "source": "01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 5",
+   "note": "Đã bị phạt vì không chấp hành quyết định kiểm tra thuế nhưng tiếp tục không chấp hành."
+  },
+  {
+   "id": "TX0-R012",
+   "premises": [
+    "tax_enforcement_ground"
+   ],
+   "conclusion": "tax_enforcement_measure_allowed",
+   "source": "01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 1-5",
+   "note": "Có căn cứ cưỡng chế thì được thực hiện biện pháp cưỡng chế (trừ các khoản 6-8)."
+  },
+  {
+   "id": "TX0-R013",
+   "premises": [
+    "tax_debt_no_late_interest"
+   ],
+   "conclusion": "~tax_enforcement_measure_allowed",
+   "source": "01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 6",
+   "note": "Chưa cưỡng chế khoản nợ được cơ quan quản lý thuế không tính tiền chậm nộp."
+  },
+  {
+   "id": "TX0-R014",
+   "premises": [
+    "tax_debt_installment_approved_guaranteed"
+   ],
+   "conclusion": "~tax_enforcement_measure_allowed",
+   "source": "01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 6",
+   "note": "Chưa cưỡng chế khoản nợ được nộp dần (tối đa 12 tháng, có bảo lãnh của tổ chức tín dụng còn hiệu lực)."
+  },
+  {
+   "id": "TX0-R015",
+   "premises": [
+    "debt_customs_fee_transit_goods"
+   ],
+   "conclusion": "~tax_enforcement_measure_allowed",
+   "source": "01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 7",
+   "note": "Không cưỡng chế người nộp thuế có nợ phí hải quan, lệ phí hàng hóa, phương tiện quá cảnh."
+  },
+  {
+   "id": "TX0-R016",
+   "premises": [
+    "tax_debt_offset_refund_processing"
+   ],
+   "conclusion": "~tax_enforcement_measure_allowed",
+   "source": "01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 8",
+   "note": "Không cưỡng chế số tiền thuế nợ đang được làm thủ tục bù trừ qua hoàn thuế."
+  },
+  {
+   "id": "TX0-R017",
+   "premises": [
+    "tax_enforcement_ground"
+   ],
+   "conclusion": "tax_enforcement_allowed_for_offset",
+   "source": "01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 1-5",
+   "note": "Nguyên tắc chung: có căn cứ cưỡng chế thì được cưỡng chế khoản nợ."
+  },
+  {
+   "id": "TX0-R018",
+   "premises": [
+    "tax_debt_offset_refund_processing"
+   ],
+   "conclusion": "~tax_enforcement_allowed_for_offset",
+   "source": "01_luat_quan_ly_thue_108_2025_QH15, Điều 48 khoản 8",
+   "note": "Cơ quan thuế không cưỡng chế số tiền thuế nợ đang làm thủ tục bù trừ qua hoàn thuế."
+  },
+  {
+   "id": "TX0-R019",
+   "premises": [
+    "purchase_has_valid_vat_invoice",
+    "paid_non_cash"
+   ],
+   "conclusion": "vat_documentation_sufficient",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 14 khoản 2 điểm a, b",
+   "note": "Có hóa đơn GTGT và chứng từ thanh toán không dùng tiền mặt."
+  },
+  {
+   "id": "TX0-R020",
+   "premises": [
+    "purchase_has_valid_vat_invoice",
+    "~purchase_amount_at_least_5m"
+   ],
+   "conclusion": "vat_documentation_sufficient",
+   "source": "05_nghi_dinh_181_2025_ND-CP, Điều 26 (đoạn mở đầu) và khoản 2 điểm h",
+   "note": "Mua vào dưới 5 triệu đồng (giá đã có VAT) không cần chứng từ thanh toán không dùng tiền mặt."
+  },
+  {
+   "id": "TX0-R021",
+   "premises": [
+    "same_seller_same_day_total_at_least_5m",
+    "~paid_non_cash"
+   ],
+   "conclusion": "~vat_documentation_sufficient",
+   "source": "05_nghi_dinh_181_2025_ND-CP, Điều 26 khoản 3",
+   "note": "Mua nhiều lần cùng ngày của một người bán, tổng từ 5 triệu trở lên mà không thanh toán không dùng tiền mặt."
+  },
+  {
+   "id": "TX0-R022",
+   "premises": [
+    "purchase_has_valid_vat_invoice",
+    "purchase_offset_with_reconciliation_record"
+   ],
+   "conclusion": "vat_documentation_sufficient",
+   "source": "05_nghi_dinh_181_2025_ND-CP, Điều 26 khoản 2 điểm a",
+   "note": "Thanh toán bù trừ hàng mua/bán có quy định trong hợp đồng và biên bản đối chiếu, xác nhận."
+  },
+  {
+   "id": "TX0-R023",
+   "premises": [
+    "purchase_has_valid_vat_invoice",
+    "installment_payment_not_yet_due"
+   ],
+   "conclusion": "vat_documentation_sufficient",
+   "source": "05_nghi_dinh_181_2025_ND-CP, Điều 26 khoản 2 điểm g",
+   "note": "Mua trả chậm, trả góp chưa đến hạn thanh toán theo hợp đồng thì vẫn được khấu trừ."
+  },
+  {
+   "id": "TX0-R024",
+   "premises": [
+    "purchase_has_valid_vat_invoice",
+    "import_free_gift_or_sample"
+   ],
+   "conclusion": "vat_documentation_sufficient",
+   "source": "05_nghi_dinh_181_2025_ND-CP, Điều 26 khoản 2 điểm h",
+   "note": "Hàng nhập khẩu là quà biếu, quà tặng, hàng mẫu không phải trả tiền không cần chứng từ thanh toán không dùng tiền mặt (chứng từ nộp VAT khâu nhập khẩu thay hóa đơn)."
+  },
+  {
+   "id": "TX0-R025",
+   "premises": [
+    "~purchase_has_valid_vat_invoice"
+   ],
+   "conclusion": "~vat_documentation_sufficient",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 14 khoản 2 điểm a",
+   "note": "Không có hóa đơn GTGT / chứng từ nộp VAT thì không đủ điều kiện khấu trừ."
+  },
+  {
+   "id": "TX0-R026",
+   "premises": [
+    "purchase_amount_at_least_5m",
+    "~paid_non_cash"
+   ],
+   "conclusion": "~vat_documentation_sufficient",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 14 khoản 2 điểm b; 05_nghi_dinh_181_2025_ND-CP, Điều 26 (đoạn mở đầu)",
+   "note": "Mua từ 5 triệu đồng trở lên mà không có chứng từ thanh toán không dùng tiền mặt."
+  },
+  {
+   "id": "TX0-R027",
+   "premises": [
+    "cash_deposited_into_seller_account"
+   ],
+   "conclusion": "~vat_documentation_sufficient",
+   "source": "05_nghi_dinh_181_2025_ND-CP, Điều 26 khoản 1",
+   "note": "Chứng từ bên mua nộp tiền mặt vào tài khoản bên bán không được coi là thanh toán không dùng tiền mặt."
+  },
+  {
+   "id": "TX0-R028",
+   "premises": [
+    "export_goods_transaction",
+    "~export_goods_contract"
+   ],
+   "conclusion": "~vat_documentation_sufficient",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 14 khoản 2 điểm c",
+   "note": "Hàng xuất khẩu phải có hợp đồng ký với bên nước ngoài."
+  },
+  {
+   "id": "TX0-R029",
+   "premises": [
+    "export_goods_transaction",
+    "~export_customs_declaration"
+   ],
+   "conclusion": "~vat_documentation_sufficient",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 14 khoản 2 điểm c",
+   "note": "Hàng xuất khẩu phải có tờ khai hải quan."
+  },
+  {
+   "id": "TX0-R030",
+   "premises": [
+    "export_service_transaction",
+    "~export_service_contract"
+   ],
+   "conclusion": "~vat_documentation_sufficient",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 14 khoản 2 điểm c",
+   "note": "Dịch vụ xuất khẩu phải có hợp đồng ký với bên nước ngoài."
+  },
+  {
+   "id": "TX0-R031",
+   "premises": [
+    "tax_pays_under_deduction",
+    "input_used_for_taxable_sales",
+    "vat_documentation_sufficient"
+   ],
+   "conclusion": "vat_input_deductible",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 14 khoản 1 điểm a",
+   "note": "Đầu vào dùng cho hàng hóa, dịch vụ chịu VAT được khấu trừ toàn bộ."
+  },
+  {
+   "id": "TX0-R032",
+   "premises": [
+    "tax_pays_under_deduction",
+    "input_used_for_mixed_sales",
+    "vat_documentation_sufficient"
+   ],
+   "conclusion": "vat_input_deductible",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 14 khoản 1 điểm b",
+   "note": "Dùng chung cho chịu thuế và không chịu thuế: chỉ khấu trừ phần dùng cho hoạt động chịu thuế (hạch toán riêng hoặc theo tỷ lệ doanh thu)."
+  },
+  {
+   "id": "TX0-R033",
+   "premises": [
+    "tax_pays_under_deduction",
+    "sold_to_humanitarian_aid_funded_buyer",
+    "vat_documentation_sufficient"
+   ],
+   "conclusion": "vat_input_deductible",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 14 khoản 1 điểm c",
+   "note": "Hàng bán cho tổ chức, cá nhân dùng vốn viện trợ nhân đạo, không hoàn lại được khấu trừ toàn bộ."
+  },
+  {
+   "id": "TX0-R034",
+   "premises": [
+    "tax_pays_under_deduction",
+    "input_used_for_oil_gas_exploration",
+    "vat_documentation_sufficient"
+   ],
+   "conclusion": "vat_input_deductible",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 14 khoản 1 điểm d",
+   "note": "Đầu vào dùng cho tìm kiếm thăm dò, phát triển mỏ dầu khí được khấu trừ toàn bộ."
+  },
+  {
+   "id": "TX0-R035",
+   "premises": [
+    "~vat_documentation_sufficient"
+   ],
+   "conclusion": "~vat_input_deductible",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 14 khoản 3",
+   "note": "Không đáp ứng điều kiện khấu trừ tại khoản 2 thì không được khấu trừ."
+  },
+  {
+   "id": "TX0-R036",
+   "premises": [
+    "~tax_pays_under_deduction"
+   ],
+   "conclusion": "~vat_input_deductible",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 14 khoản 1, khoản 3",
+   "note": "Chỉ cơ sở nộp VAT theo phương pháp khấu trừ mới được khấu trừ đầu vào."
+  },
+  {
+   "id": "TX0-R037",
+   "premises": [
+    "invoice_from_prohibited_act"
+   ],
+   "conclusion": "~vat_input_deductible",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 14 khoản 3",
+   "note": "Hóa đơn, chứng từ lập từ hành vi bị nghiêm cấm thì không được khấu trừ."
+  },
+  {
+   "id": "TX0-R038",
+   "premises": [
+    "input_used_exclusively_for_nontaxable"
+   ],
+   "conclusion": "~vat_input_deductible",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 27",
+   "note": "Kinh doanh hàng hóa, dịch vụ không chịu VAT thì không được khấu trừ đầu vào."
+  },
+  {
+   "id": "TX0-R039",
+   "premises": [
+    "tax_pays_under_deduction",
+    "input_used_exclusively_for_nontaxable",
+    "vat_zero_rate_applicable",
+    "vat_documentation_sufficient"
+   ],
+   "conclusion": "vat_input_deductible",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 27",
+   "note": "Trừ trường hợp được áp dụng thuế suất 0% theo khoản 1 Điều 9."
+  },
+  {
+   "id": "TX0-R040",
+   "premises": [
+    "vat_sale_raw_crops_own_production"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 1",
+   "note": "Sản phẩm trồng trọt, chăn nuôi, thủy sản chưa chế biến do người tự sản xuất, đánh bắt bán ra."
+  },
+  {
+   "id": "TX0-R041",
+   "premises": [
+    "vat_import_unprocessed_agri_product"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 1",
+   "note": "Sản phẩm nông, lâm, thủy sản chưa chế biến ở khâu nhập khẩu."
+  },
+  {
+   "id": "TX0-R042",
+   "premises": [
+    "vat_breeding_stock_or_seed"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 2",
+   "note": "Giống vật nuôi, vật liệu nhân giống cây trồng."
+  },
+  {
+   "id": "TX0-R043",
+   "premises": [
+    "vat_animal_or_aquatic_feed"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 3",
+   "note": "Thức ăn chăn nuôi, thức ăn thủy sản."
+  },
+  {
+   "id": "TX0-R044",
+   "premises": [
+    "vat_sale_salt"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 4",
+   "note": "Sản phẩm muối có thành phần chính là NaCl."
+  },
+  {
+   "id": "TX0-R045",
+   "premises": [
+    "vat_state_housing_sold_to_tenant"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 5",
+   "note": "Nhà ở thuộc tài sản công Nhà nước bán cho người đang thuê."
+  },
+  {
+   "id": "TX0-R046",
+   "premises": [
+    "vat_agri_irrigation"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 6",
+   "note": "Tưới, tiêu nước phục vụ sản xuất nông nghiệp."
+  },
+  {
+   "id": "TX0-R047",
+   "premises": [
+    "vat_agri_tillage_dredging_harvest"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 6",
+   "note": "Cày, bừa đất; nạo vét kênh mương nội đồng; dịch vụ thu hoạch nông sản."
+  },
+  {
+   "id": "TX0-R048",
+   "premises": [
+    "vat_land_use_transfer"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 7",
+   "note": "Chuyển quyền sử dụng đất."
+  },
+  {
+   "id": "TX0-R049",
+   "premises": [
+    "vat_life_insurance"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 8",
+   "note": "Bảo hiểm nhân thọ."
+  },
+  {
+   "id": "TX0-R050",
+   "premises": [
+    "vat_other_exempt_insurance"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 8",
+   "note": "Bảo hiểm sức khỏe, người học, liên quan con người, nông nghiệp, tàu cá, tái bảo hiểm, công trình dầu khí theo khoản 8."
+  },
+  {
+   "id": "TX0-R051",
+   "premises": [
+    "vat_exempt_financial_service"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 9",
+   "note": "Dịch vụ tài chính, ngân hàng, chứng khoán, chuyển nhượng vốn, bán nợ, ngoại tệ, phái sinh theo khoản 9."
+  },
+  {
+   "id": "TX0-R052",
+   "premises": [
+    "vat_medical_service"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 10 điểm a",
+   "note": "Dịch vụ y tế (khám, chữa bệnh, phòng bệnh cho người...)."
+  },
+  {
+   "id": "TX0-R053",
+   "premises": [
+    "vat_veterinary_service"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 10 điểm b",
+   "note": "Dịch vụ thú y."
+  },
+  {
+   "id": "TX0-R054",
+   "premises": [
+    "vat_funeral_service"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 11",
+   "note": "Dịch vụ tang lễ."
+  },
+  {
+   "id": "TX0-R055",
+   "premises": [
+    "vat_community_funded_public_works"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 12",
+   "note": "Duy tu, sửa chữa, xây dựng bằng vốn nhân dân, viện trợ nhân đạo từ 50% đối với công trình theo khoản 12."
+  },
+  {
+   "id": "TX0-R056",
+   "premises": [
+    "vat_teaching_service"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 13",
+   "note": "Hoạt động dạy học theo pháp luật giáo dục."
+  },
+  {
+   "id": "TX0-R057",
+   "premises": [
+    "vat_education_service"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 13",
+   "note": "Hoạt động dạy nghề theo pháp luật giáo dục nghề nghiệp."
+  },
+  {
+   "id": "TX0-R058",
+   "premises": [
+    "vat_state_funded_broadcasting"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 14",
+   "note": "Phát sóng truyền thanh, truyền hình bằng vốn ngân sách."
+  },
+  {
+   "id": "TX0-R059",
+   "premises": [
+    "vat_exempt_publication"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 15",
+   "note": "Xuất bản, nhập khẩu, phát hành báo, tạp chí, sách theo khoản 15; tiền, in tiền."
+  },
+  {
+   "id": "TX0-R060",
+   "premises": [
+    "vat_public_bus"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 16",
+   "note": "Vận chuyển hành khách công cộng bằng xe buýt."
+  },
+  {
+   "id": "TX0-R061",
+   "premises": [
+    "vat_public_tram_or_inland_waterway"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 16",
+   "note": "Vận chuyển hành khách công cộng bằng tàu điện, phương tiện thủy nội địa."
+  },
+  {
+   "id": "TX0-R062",
+   "premises": [
+    "vat_import_equipment_not_domestically_produced"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 17",
+   "note": "Máy móc, thiết bị, vật tư trong nước chưa sản xuất được nhập khẩu theo khoản 17."
+  },
+  {
+   "id": "TX0-R063",
+   "premises": [
+    "vat_defense_security_product"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 18",
+   "note": "Sản phẩm quốc phòng, an ninh theo danh mục."
+  },
+  {
+   "id": "TX0-R064",
+   "premises": [
+    "vat_humanitarian_aid_goods"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 19",
+   "note": "Hàng nhập khẩu viện trợ nhân đạo, không hoàn lại; hàng bán cho bên nước ngoài để viện trợ cho Việt Nam."
+  },
+  {
+   "id": "TX0-R065",
+   "premises": [
+    "vat_transit_or_temporary_import_export"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 20",
+   "note": "Hàng chuyển khẩu, quá cảnh, tạm nhập tái xuất, tạm xuất tái nhập, nguyên liệu nhập để gia công xuất khẩu, mua bán với khu phi thuế quan."
+  },
+  {
+   "id": "TX0-R066",
+   "premises": [
+    "vat_technology_transfer_or_ip_transfer"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 21",
+   "note": "Chuyển giao công nghệ, chuyển nhượng quyền sở hữu trí tuệ."
+  },
+  {
+   "id": "TX0-R067",
+   "premises": [
+    "vat_software_service"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 21",
+   "note": "Sản phẩm phần mềm và dịch vụ phần mềm."
+  },
+  {
+   "id": "TX0-R068",
+   "premises": [
+    "vat_import_raw_gold"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 22",
+   "note": "Vàng thỏi, miếng chưa chế tác ở khâu nhập khẩu."
+  },
+  {
+   "id": "TX0-R069",
+   "premises": [
+    "vat_export_unprocessed_resources"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 23",
+   "note": "Tài nguyên, khoáng sản xuất khẩu chưa chế biến hoặc thuộc Danh mục của Chính phủ."
+  },
+  {
+   "id": "TX0-R070",
+   "premises": [
+    "vat_prosthetic_or_disability_aid"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 24",
+   "note": "Sản phẩm thay thế bộ phận cơ thể; nạng, xe lăn, dụng cụ cho người khuyết tật."
+  },
+  {
+   "id": "TX0-R071",
+   "premises": [
+    "vat_household_revenue_le_200m"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 25",
+   "note": "Hộ, cá nhân kinh doanh có doanh thu năm từ 200 triệu đồng trở xuống."
+  },
+  {
+   "id": "TX0-R072",
+   "premises": [
+    "vat_non_business_asset_reserve_or_fee"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 25",
+   "note": "Tài sản của người không kinh doanh bán ra, hàng dự trữ quốc gia, khoản thu phí, lệ phí."
+  },
+  {
+   "id": "TX0-R073",
+   "premises": [
+    "vat_exempt_import_gift_or_relief"
+   ],
+   "conclusion": "vat_non_taxable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 26",
+   "note": "Hàng nhập khẩu là quà tặng, hành lý, đồ dùng miễn trừ, hàng cứu trợ thiên tai, hàng cư dân biên giới, cổ vật theo khoản 26."
+  },
+  {
+   "id": "TX0-R074",
+   "premises": [
+    "export_goods_transaction",
+    "foreign_customer",
+    "consumed_outside_vietnam"
+   ],
+   "conclusion": "vat_export_qualifies",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 9 khoản 1 điểm a; 05_nghi_dinh_181_2025_ND-CP, Điều 17 khoản 1 điểm a",
+   "note": "Hàng từ Việt Nam bán cho bên nước ngoài, tiêu dùng ngoài Việt Nam là hàng xuất khẩu."
+  },
+  {
+   "id": "TX0-R075",
+   "premises": [
+    "export_service_transaction",
+    "foreign_customer",
+    "consumed_outside_vietnam"
+   ],
+   "conclusion": "vat_export_qualifies",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 9 khoản 1 điểm b; 05_nghi_dinh_181_2025_ND-CP, Điều 17 khoản 2 điểm a",
+   "note": "Dịch vụ cung cấp trực tiếp cho bên nước ngoài, tiêu dùng ngoài Việt Nam là dịch vụ xuất khẩu."
+  },
+  {
+   "id": "TX0-R076",
+   "premises": [
+    "~consumed_outside_vietnam"
+   ],
+   "conclusion": "~vat_export_qualifies",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 9 khoản 1 điểm a, b",
+   "note": "Tiêu dùng tại Việt Nam thì không phải xuất khẩu theo điểm a, b."
+  },
+  {
+   "id": "TX0-R077",
+   "premises": [
+    "~foreign_customer"
+   ],
+   "conclusion": "~vat_export_qualifies",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 9 khoản 1 điểm a, b",
+   "note": "Khách không ở nước ngoài thì không phải xuất khẩu theo điểm a, b."
+  },
+  {
+   "id": "TX0-R078",
+   "premises": [
+    "vat_export_qualifies",
+    "export_goods_transaction",
+    "export_goods_contract",
+    "paid_non_cash",
+    "export_customs_declaration"
+   ],
+   "conclusion": "vat_zero_rate_applicable",
+   "source": "05_nghi_dinh_181_2025_ND-CP, Điều 18 khoản 1",
+   "note": "Hàng xuất khẩu có hợp đồng, chứng từ thanh toán không dùng tiền mặt và tờ khai hải quan được áp dụng 0%."
+  },
+  {
+   "id": "TX0-R079",
+   "premises": [
+    "vat_export_qualifies",
+    "export_service_transaction",
+    "export_service_contract",
+    "paid_non_cash"
+   ],
+   "conclusion": "vat_zero_rate_applicable",
+   "source": "05_nghi_dinh_181_2025_ND-CP, Điều 18 khoản 2",
+   "note": "Dịch vụ xuất khẩu có hợp đồng và chứng từ thanh toán không dùng tiền mặt được áp dụng 0%."
+  },
+  {
+   "id": "TX0-R080",
+   "premises": [
+    "goods_sold_to_non_tariff_zone_for_export_production",
+    "export_goods_contract",
+    "paid_non_cash",
+    "export_customs_declaration"
+   ],
+   "conclusion": "vat_zero_rate_applicable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 9 khoản 1 điểm a; 05_nghi_dinh_181_2025_ND-CP, Điều 17 khoản 1 điểm b; 05_nghi_dinh_181_2025_ND-CP, Điều 18 khoản 1",
+   "note": "Hàng bán vào khu phi thuế quan, tiêu dùng trong khu phục vụ trực tiếp sản xuất xuất khẩu, đủ hồ sơ."
+  },
+  {
+   "id": "TX0-R081",
+   "premises": [
+    "service_to_non_tariff_zone_for_export_production",
+    "export_service_contract",
+    "paid_non_cash"
+   ],
+   "conclusion": "vat_zero_rate_applicable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 9 khoản 1 điểm b; 05_nghi_dinh_181_2025_ND-CP, Điều 17 khoản 2 điểm b; 05_nghi_dinh_181_2025_ND-CP, Điều 18 khoản 2",
+   "note": "Dịch vụ cho tổ chức trong khu phi thuế quan phục vụ trực tiếp sản xuất xuất khẩu, có hợp đồng và thanh toán không dùng tiền mặt."
+  },
+  {
+   "id": "TX0-R082",
+   "premises": [
+    "international_transport_service",
+    "international_transport_contract",
+    "paid_non_cash"
+   ],
+   "conclusion": "vat_zero_rate_applicable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 9 khoản 1 điểm c; 05_nghi_dinh_181_2025_ND-CP, Điều 17 khoản 3 điểm a; 05_nghi_dinh_181_2025_ND-CP, Điều 18 khoản 3",
+   "note": "Vận tải quốc tế có hợp đồng vận chuyển (vé) và chứng từ thanh toán."
+  },
+  {
+   "id": "TX0-R083",
+   "premises": [
+    "outbound_technology_transfer"
+   ],
+   "conclusion": "~vat_zero_rate_applicable",
+   "source": "05_nghi_dinh_181_2025_ND-CP, Điều 17 khoản 4 điểm a; 04_luat_thue_GTGT_48_2024_QH15, Điều 9 khoản 1 điểm d",
+   "note": "Chuyển giao công nghệ, chuyển nhượng quyền SHTT ra nước ngoài không áp dụng 0%."
+  },
+  {
+   "id": "TX0-R084",
+   "premises": [
+    "reinsurance_abroad"
+   ],
+   "conclusion": "~vat_zero_rate_applicable",
+   "source": "05_nghi_dinh_181_2025_ND-CP, Điều 17 khoản 4 điểm b; 04_luat_thue_GTGT_48_2024_QH15, Điều 9 khoản 1 điểm d",
+   "note": "Dịch vụ tái bảo hiểm ra nước ngoài không áp dụng 0%."
+  },
+  {
+   "id": "TX0-R085",
+   "premises": [
+    "credit_capital_transfer_or_derivative"
+   ],
+   "conclusion": "~vat_zero_rate_applicable",
+   "source": "05_nghi_dinh_181_2025_ND-CP, Điều 17 khoản 4 điểm c, d, đ; 04_luat_thue_GTGT_48_2024_QH15, Điều 9 khoản 1 điểm d",
+   "note": "Dịch vụ cấp tín dụng, chuyển nhượng vốn, sản phẩm phái sinh không áp dụng 0%."
+  },
+  {
+   "id": "TX0-R086",
+   "premises": [
+    "postal_telecom_service"
+   ],
+   "conclusion": "~vat_zero_rate_applicable",
+   "source": "05_nghi_dinh_181_2025_ND-CP, Điều 17 khoản 4 điểm e; 04_luat_thue_GTGT_48_2024_QH15, Điều 9 khoản 1 điểm d",
+   "note": "Dịch vụ bưu chính, viễn thông không áp dụng 0%."
+  },
+  {
+   "id": "TX0-R087",
+   "premises": [
+    "vat_export_unprocessed_resources"
+   ],
+   "conclusion": "~vat_zero_rate_applicable",
+   "source": "05_nghi_dinh_181_2025_ND-CP, Điều 17 khoản 4 điểm g; 04_luat_thue_GTGT_48_2024_QH15, Điều 9 khoản 1 điểm d",
+   "note": "Tài nguyên, khoáng sản xuất khẩu thuộc khoản 23 Điều 5 Luật không áp dụng 0%."
+  },
+  {
+   "id": "TX0-R088",
+   "premises": [
+    "tobacco_alcohol_beer_imported_then_exported"
+   ],
+   "conclusion": "~vat_zero_rate_applicable",
+   "source": "05_nghi_dinh_181_2025_ND-CP, Điều 17 khoản 4 điểm h; 04_luat_thue_GTGT_48_2024_QH15, Điều 9 khoản 1 điểm d",
+   "note": "Thuốc lá, rượu, bia nhập khẩu sau đó xuất khẩu không áp dụng 0%."
+  },
+  {
+   "id": "TX0-R089",
+   "premises": [
+    "fuel_or_car_sold_into_non_tariff_zone"
+   ],
+   "conclusion": "~vat_zero_rate_applicable",
+   "source": "05_nghi_dinh_181_2025_ND-CP, Điều 17 khoản 4 điểm i; 04_luat_thue_GTGT_48_2024_QH15, Điều 9 khoản 1 điểm d",
+   "note": "Xăng dầu mua nội địa bán vào khu phi thuế quan; ô tô bán cho khu phi thuế quan không áp dụng 0%."
+  },
+  {
+   "id": "TX0-R090",
+   "premises": [
+    "foreign_event_in_vietnam"
+   ],
+   "conclusion": "~vat_zero_rate_applicable",
+   "source": "05_nghi_dinh_181_2025_ND-CP, Điều 17 khoản 4 điểm k; 04_luat_thue_GTGT_48_2024_QH15, Điều 9 khoản 1 điểm d",
+   "note": "Hội nghị cung cấp tại Việt Nam cho bên nước ngoài không áp dụng 0%."
+  },
+  {
+   "id": "TX0-R091",
+   "premises": [
+    "service_in_vietnam_to_foreigner_excluded"
+   ],
+   "conclusion": "~vat_zero_rate_applicable",
+   "source": "05_nghi_dinh_181_2025_ND-CP, Điều 17 khoản 4 điểm k; 04_luat_thue_GTGT_48_2024_QH15, Điều 9 khoản 1 điểm d",
+   "note": "Thể thao, biểu diễn, giải trí, khách sạn, đào tạo, quảng cáo, du lịch, dịch vụ gắn với bán hàng tại Việt Nam, thanh toán không dùng tiền mặt cung cấp tại Việt Nam cho bên nước ngoài không áp dụng 0%."
+  },
+  {
+   "id": "TX0-R092",
+   "premises": [
+    "non_tariff_zone_excluded_service"
+   ],
+   "conclusion": "~vat_zero_rate_applicable",
+   "source": "05_nghi_dinh_181_2025_ND-CP, Điều 17 khoản 4 điểm l",
+   "note": "Cho thuê nhà, văn phòng, kho bãi, đưa đón người lao động, ăn uống (trừ suất ăn công nghiệp) cho khu phi thuế quan không áp dụng 0%."
+  },
+  {
+   "id": "TX0-R093",
+   "premises": [
+    "export_goods_transaction",
+    "~export_goods_contract"
+   ],
+   "conclusion": "~vat_zero_rate_applicable",
+   "source": "05_nghi_dinh_181_2025_ND-CP, Điều 18 khoản 1 điểm a",
+   "note": "Thiếu hợp đồng bán, gia công hàng xuất khẩu."
+  },
+  {
+   "id": "TX0-R094",
+   "premises": [
+    "export_goods_transaction",
+    "~paid_non_cash"
+   ],
+   "conclusion": "~vat_zero_rate_applicable",
+   "source": "05_nghi_dinh_181_2025_ND-CP, Điều 18 khoản 1 điểm b",
+   "note": "Thiếu chứng từ thanh toán không dùng tiền mặt cho hàng xuất khẩu."
+  },
+  {
+   "id": "TX0-R095",
+   "premises": [
+    "export_goods_transaction",
+    "~export_customs_declaration"
+   ],
+   "conclusion": "~vat_zero_rate_applicable",
+   "source": "05_nghi_dinh_181_2025_ND-CP, Điều 18 khoản 1 điểm c",
+   "note": "Thiếu tờ khai hải quan."
+  },
+  {
+   "id": "TX0-R096",
+   "premises": [
+    "export_service_transaction",
+    "~export_service_contract"
+   ],
+   "conclusion": "~vat_zero_rate_applicable",
+   "source": "05_nghi_dinh_181_2025_ND-CP, Điều 18 khoản 2 điểm a",
+   "note": "Thiếu hợp đồng cung cấp dịch vụ với bên nước ngoài."
+  },
+  {
+   "id": "TX0-R097",
+   "premises": [
+    "export_service_transaction",
+    "~paid_non_cash"
+   ],
+   "conclusion": "~vat_zero_rate_applicable",
+   "source": "05_nghi_dinh_181_2025_ND-CP, Điều 18 khoản 2 điểm b",
+   "note": "Thiếu chứng từ thanh toán không dùng tiền mặt cho dịch vụ xuất khẩu."
+  },
+  {
+   "id": "TX0-R098",
+   "premises": [
+    "export_service_transaction",
+    "~consumed_outside_vietnam"
+   ],
+   "conclusion": "~vat_zero_rate_applicable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 9 khoản 1 điểm b; 05_nghi_dinh_181_2025_ND-CP, Điều 17 khoản 2 điểm a",
+   "note": "Dịch vụ tiêu dùng tại Việt Nam không phải dịch vụ xuất khẩu."
+  },
+  {
+   "id": "TX0-R099",
+   "premises": [
+    "export_goods_transaction",
+    "~consumed_outside_vietnam"
+   ],
+   "conclusion": "~vat_zero_rate_applicable",
+   "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 9 khoản 1 điểm a; 05_nghi_dinh_181_2025_ND-CP, Điều 17 khoản 1 điểm a",
+   "note": "Hàng tiêu dùng tại Việt Nam không phải hàng xuất khẩu theo điểm a."
+  },
+  {
+   "id": "TX0-R100",
+   "premises": [
+    "cit_prior_revenue_le_3bn"
+   ],
+   "conclusion": "cit_rate_15_applicable",
+   "source": "06_luat_TNDN_67_2025_QH15, Điều 10 khoản 2, khoản 3 đoạn 2",
+   "note": "Doanh thu kỳ tính thuế trước liền kề không quá 3 tỷ đồng áp dụng 15%."
+  },
+  {
+   "id": "TX0-R101",
+   "premises": [
+    "~cit_prior_revenue_le_3bn"
+   ],
+   "conclusion": "~cit_rate_15_applicable",
+   "source": "06_luat_TNDN_67_2025_QH15, Điều 10 khoản 2",
+   "note": "Doanh thu kỳ trước trên 3 tỷ đồng thì không thuộc mức 15% theo khoản 2."
+  },
+  {
+   "id": "TX0-R102",
+   "premises": [
+    "cit_prior_revenue_above_3_up_to_50bn"
+   ],
+   "conclusion": "cit_rate_17_applicable",
+   "source": "06_luat_TNDN_67_2025_QH15, Điều 10 khoản 3",
+   "note": "Doanh thu kỳ trước trên 3 tỷ đến không quá 50 tỷ đồng áp dụng 17%."
+  },
+  {
+   "id": "TX0-R103",
+   "premises": [
+    "~cit_prior_revenue_above_3_up_to_50bn"
+   ],
+   "conclusion": "~cit_rate_17_applicable",
+   "source": "06_luat_TNDN_67_2025_QH15, Điều 10 khoản 3",
+   "note": "Doanh thu kỳ trước ngoài khoảng trên 3 đến 50 tỷ đồng thì không thuộc mức 17% theo khoản 3."
+  },
+  {
+   "id": "TX0-R104",
+   "premises": [
+    "cit_income_art12_2_l_activity",
+    "~cit_in_art12_3_incentive_area"
+   ],
+   "conclusion": "cit_rate_15_applicable",
+   "source": "06_luat_TNDN_67_2025_QH15, Điều 13 khoản 3",
+   "note": "Thu nhập từ ngành, nghề điểm l khoản 2 Điều 12 không thuộc địa bàn khoản 3 Điều 12 áp dụng 15%."
+  },
+  {
+   "id": "TX0-R105",
+   "premises": [
+    "cit_new_project_art12_2_m_n_o"
+   ],
+   "conclusion": "cit_rate_17_applicable",
+   "source": "06_luat_TNDN_67_2025_QH15, Điều 13 khoản 4 điểm a",
+   "note": "Dự án đầu tư mới thuộc ngành, nghề điểm m, n, o khoản 2 Điều 12: 17% trong 10 năm."
+  },
+  {
+   "id": "TX0-R106",
+   "premises": [
+    "cit_new_project_in_art12_3b_area"
+   ],
+   "conclusion": "cit_rate_17_applicable",
+   "source": "06_luat_TNDN_67_2025_QH15, Điều 13 khoản 4 điểm b",
+   "note": "Dự án đầu tư mới tại địa bàn điểm b khoản 3 Điều 12: 17% trong 10 năm."
+  },
+  {
+   "id": "TX0-R107",
+   "premises": [
+    "cit_new_project_economic_zone_outside_art12_3ab"
+   ],
+   "conclusion": "cit_rate_17_applicable",
+   "source": "06_luat_TNDN_67_2025_QH15, Điều 13 khoản 4 điểm c",
+   "note": "Dự án đầu tư mới tại khu kinh tế không nằm trên địa bàn điểm a, b khoản 3 Điều 12: 17% trong 10 năm."
+  },
+  {
+   "id": "TX0-R108",
+   "premises": [
+    "cit_income_art12_2_p"
+   ],
+   "conclusion": "cit_rate_17_applicable",
+   "source": "06_luat_TNDN_67_2025_QH15, Điều 13 khoản 5",
+   "note": "Thu nhập của doanh nghiệp tại điểm p khoản 2 Điều 12 áp dụng 17%."
+  }
+ ],
+ "exception_of": [
+  [
+   "TX0-R009",
+   "TX0-R008"
+  ],
+  [
+   "TX0-R013",
+   "TX0-R012"
+  ],
+  [
+   "TX0-R014",
+   "TX0-R012"
+  ],
+  [
+   "TX0-R015",
+   "TX0-R012"
+  ],
+  [
+   "TX0-R016",
+   "TX0-R012"
+  ],
+  [
+   "TX0-R018",
+   "TX0-R017"
+  ],
+  [
+   "TX0-R021",
+   "TX0-R020"
+  ],
+  [
+   "TX0-R022",
+   "TX0-R026"
+  ],
+  [
+   "TX0-R023",
+   "TX0-R026"
+  ],
+  [
+   "TX0-R024",
+   "TX0-R026"
+  ],
+  [
+   "TX0-R027",
+   "TX0-R019"
+  ],
+  [
+   "TX0-R028",
+   "TX0-R019"
+  ],
+  [
+   "TX0-R028",
+   "TX0-R020"
+  ],
+  [
+   "TX0-R029",
+   "TX0-R019"
+  ],
+  [
+   "TX0-R029",
+   "TX0-R020"
+  ],
+  [
+   "TX0-R030",
+   "TX0-R019"
+  ],
+  [
+   "TX0-R030",
+   "TX0-R020"
+  ],
+  [
+   "TX0-R037",
+   "TX0-R031"
+  ],
+  [
+   "TX0-R037",
+   "TX0-R032"
+  ],
+  [
+   "TX0-R037",
+   "TX0-R033"
+  ],
+  [
+   "TX0-R037",
+   "TX0-R034"
+  ],
+  [
+   "TX0-R039",
+   "TX0-R038"
+  ],
+  [
+   "TX0-R033",
+   "TX0-R038"
+  ],
+  [
+   "TX0-R083",
+   "TX0-R079"
+  ],
+  [
+   "TX0-R084",
+   "TX0-R079"
+  ],
+  [
+   "TX0-R085",
+   "TX0-R079"
+  ],
+  [
+   "TX0-R086",
+   "TX0-R079"
+  ],
+  [
+   "TX0-R087",
+   "TX0-R078"
+  ],
+  [
+   "TX0-R088",
+   "TX0-R078"
+  ],
+  [
+   "TX0-R089",
+   "TX0-R080"
+  ],
+  [
+   "TX0-R090",
+   "TX0-R079"
+  ],
+  [
+   "TX0-R091",
+   "TX0-R079"
+  ],
+  [
+   "TX0-R092",
+   "TX0-R081"
+  ],
+  [
+   "TX0-R104",
+   "TX0-R101"
+  ],
+  [
+   "TX0-R105",
+   "TX0-R103"
+  ],
+  [
+   "TX0-R106",
+   "TX0-R103"
+  ],
+  [
+   "TX0-R107",
+   "TX0-R103"
+  ],
+  [
+   "TX0-R108",
+   "TX0-R103"
+  ]
+ ],
+ "extra_predicates": [
+  {
+   "pred": "taxpayer_dispersing_assets",
+   "kind": "input",
+   "template_pos": "Người nộp thuế có hành vi phát tán tài sản.",
+   "template_neg": "Người nộp thuế không có hành vi phát tán tài sản.",
+   "ask": "Người nộp thuế có hành vi phát tán tài sản không?"
+  },
+  {
+   "pred": "taxpayer_not_comply_penalty_decision_on_time",
+   "kind": "input",
+   "template_pos": "Người nộp thuế không chấp hành quyết định xử phạt VPHC về quản lý thuế đúng thời hạn ghi trên quyết định.",
+   "template_neg": "Người nộp thuế đã chấp hành quyết định xử phạt đúng thời hạn.",
+   "ask": "Người nộp thuế có không chấp hành quyết định xử phạt vi phạm hành chính về thuế đúng thời hạn không?"
+  },
+  {
+   "pred": "penalty_decision_postponed_or_suspended",
+   "kind": "input",
+   "template_pos": "Quyết định xử phạt được hoãn hoặc tạm đình chỉ thi hành.",
+   "template_neg": "Quyết định xử phạt không được hoãn hay tạm đình chỉ thi hành.",
+   "ask": "Quyết định xử phạt có đang được hoãn hoặc tạm đình chỉ thi hành không?"
+  },
+  {
+   "pred": "penalty_noncompliance_enforcement_ground",
+   "kind": "derived",
+   "template_pos": "Thỏa căn cứ cưỡng chế do không chấp hành quyết định xử phạt.",
+   "template_neg": "Không thỏa căn cứ cưỡng chế do không chấp hành quyết định xử phạt.",
+   "ask": ""
+  },
+  {
+   "pred": "taxpayer_penalized_for_inspection_noncompliance",
+   "kind": "input",
+   "template_pos": "Người nộp thuế đã bị xử phạt vì không chấp hành quyết định kiểm tra thuế.",
+   "template_neg": "Người nộp thuế chưa bị xử phạt vì không chấp hành quyết định kiểm tra thuế.",
+   "ask": "Người nộp thuế đã bị xử phạt vì không chấp hành quyết định kiểm tra thuế chưa?"
+  },
+  {
+   "pred": "taxpayer_continues_inspection_noncompliance",
+   "kind": "input",
+   "template_pos": "Người nộp thuế tiếp tục không chấp hành quyết định kiểm tra thuế.",
+   "template_neg": "Người nộp thuế đã chấp hành quyết định kiểm tra thuế.",
+   "ask": "Sau khi bị phạt, người nộp thuế có tiếp tục không chấp hành quyết định kiểm tra thuế không?"
+  },
+  {
+   "pred": "tax_enforcement_measure_allowed",
+   "kind": "derived",
+   "template_pos": "Được thực hiện biện pháp cưỡng chế đối với khoản nợ.",
+   "template_neg": "Không/chưa thực hiện biện pháp cưỡng chế đối với khoản nợ.",
+   "ask": ""
+  },
+  {
+   "pred": "tax_debt_no_late_interest",
+   "kind": "input",
+   "template_pos": "Khoản nợ được cơ quan quản lý thuế không tính tiền chậm nộp.",
+   "template_neg": "Khoản nợ vẫn bị tính tiền chậm nộp.",
+   "ask": "Khoản nợ thuế có được cơ quan quản lý thuế không tính tiền chậm nộp không?"
+  },
+  {
+   "pred": "tax_debt_installment_approved_guaranteed",
+   "kind": "input",
+   "template_pos": "Khoản nợ được chấp nhận nộp dần trong thời hạn không quá 12 tháng, có bảo lãnh của tổ chức tín dụng còn hiệu lực.",
+   "template_neg": "Khoản nợ không thuộc diện được nộp dần có bảo lãnh còn hiệu lực.",
+   "ask": "Khoản nợ có đang được nộp dần (không quá 12 tháng) với thư bảo lãnh của tổ chức tín dụng còn hiệu lực không?"
+  },
+  {
+   "pred": "debt_customs_fee_transit_goods",
+   "kind": "input",
+   "template_pos": "Khoản nợ là phí hải quan, lệ phí hàng hóa, phương tiện vận tải quá cảnh.",
+   "template_neg": "Khoản nợ không phải phí hải quan, lệ phí hàng hóa, phương tiện quá cảnh.",
+   "ask": "Khoản nợ có phải là phí hải quan hoặc lệ phí hàng hóa, phương tiện vận tải quá cảnh không?"
+  },
+  {
+   "pred": "input_used_for_mixed_sales",
+   "kind": "input",
+   "template_pos": "Đầu vào dùng chung cho hoạt động chịu VAT và không chịu VAT.",
+   "template_neg": "Đầu vào không dùng chung cho cả hoạt động chịu và không chịu VAT.",
+   "ask": "Hàng hóa, dịch vụ mua vào có dùng chung cho cả hoạt động chịu VAT và không chịu VAT không?"
+  },
+  {
+   "pred": "sold_to_humanitarian_aid_funded_buyer",
+   "kind": "input",
+   "template_pos": "Hàng hóa, dịch vụ bán cho tổ chức, cá nhân sử dụng vốn viện trợ nhân đạo, viện trợ không hoàn lại.",
+   "template_neg": "Không bán cho tổ chức, cá nhân sử dụng vốn viện trợ nhân đạo, không hoàn lại.",
+   "ask": "Hàng hóa, dịch vụ có bán cho tổ chức, cá nhân sử dụng vốn viện trợ nhân đạo/không hoàn lại không?"
+  },
+  {
+   "pred": "input_used_for_oil_gas_exploration",
+   "kind": "input",
+   "template_pos": "Đầu vào dùng cho hoạt động tìm kiếm thăm dò, phát triển mỏ dầu khí.",
+   "template_neg": "Đầu vào không dùng cho tìm kiếm thăm dò, phát triển mỏ dầu khí.",
+   "ask": "Đầu vào có dùng cho tìm kiếm thăm dò, phát triển mỏ dầu khí không?"
+  },
+  {
+   "pred": "invoice_from_prohibited_act",
+   "kind": "input",
+   "template_pos": "Hóa đơn, chứng từ được lập từ hành vi bị nghiêm cấm.",
+   "template_neg": "Hóa đơn, chứng từ không lập từ hành vi bị nghiêm cấm.",
+   "ask": "Hóa đơn, chứng từ có được lập từ hành vi bị nghiêm cấm (ví dụ hóa đơn khống, mua bán hóa đơn) không?"
+  },
+  {
+   "pred": "cash_deposited_into_seller_account",
+   "kind": "input",
+   "template_pos": "Bên mua nộp tiền mặt vào tài khoản của bên bán.",
+   "template_neg": "Bên mua không thanh toán bằng cách nộp tiền mặt vào tài khoản bên bán.",
+   "ask": "Bên mua có thanh toán bằng cách nộp tiền mặt vào tài khoản của bên bán không?"
+  },
+  {
+   "pred": "same_seller_same_day_total_at_least_5m",
+   "kind": "input",
+   "template_pos": "Mua nhiều lần của cùng một người bán trong cùng một ngày, tổng giá trị từ 5 triệu đồng trở lên.",
+   "template_neg": "Không có nhiều lần mua cùng ngày của một người bán với tổng từ 5 triệu đồng.",
+   "ask": "Có mua nhiều lần của cùng một người bán trong một ngày với tổng giá trị từ 5 triệu đồng trở lên không?"
+  },
+  {
+   "pred": "purchase_offset_with_reconciliation_record",
+   "kind": "input",
+   "template_pos": "Thanh toán bằng bù trừ được quy định trong hợp đồng và có biên bản đối chiếu, xác nhận bù trừ.",
+   "template_neg": "Không có thanh toán bù trừ hợp lệ kèm biên bản đối chiếu.",
+   "ask": "Khoản mua có thanh toán bằng bù trừ công nợ ghi trong hợp đồng và có biên bản đối chiếu không?"
+  },
+  {
+   "pred": "installment_payment_not_yet_due",
+   "kind": "input",
+   "template_pos": "Hàng mua trả chậm, trả góp chưa đến thời điểm thanh toán theo hợp đồng.",
+   "template_neg": "Không phải mua trả chậm/trả góp chưa đến hạn thanh toán.",
+   "ask": "Khoản mua có phải trả chậm, trả góp chưa đến hạn thanh toán theo hợp đồng không?"
+  },
+  {
+   "pred": "import_free_gift_or_sample",
+   "kind": "input",
+   "template_pos": "Hàng nhập khẩu là quà biếu, quà tặng, hàng mẫu không phải trả tiền của tổ chức, cá nhân nước ngoài.",
+   "template_neg": "Hàng nhập khẩu không phải quà biếu, quà tặng, hàng mẫu không trả tiền.",
+   "ask": "Hàng nhập khẩu có phải quà biếu, quà tặng hoặc hàng mẫu không phải trả tiền từ nước ngoài không?"
+  },
+  {
+   "pred": "vat_import_unprocessed_agri_product",
+   "kind": "input",
+   "template_pos": "Nhập khẩu sản phẩm trồng trọt, rừng trồng, chăn nuôi, thủy sản chưa chế biến hoặc chỉ sơ chế thông thường.",
+   "template_neg": "Không phải nhập khẩu nông, lâm, thủy sản chưa chế biến.",
+   "ask": "Có phải nhập khẩu nông, lâm, thủy sản chưa chế biến (hoặc chỉ sơ chế thông thường) không?"
+  },
+  {
+   "pred": "vat_breeding_stock_or_seed",
+   "kind": "input",
+   "template_pos": "Hàng hóa là giống vật nuôi hoặc vật liệu nhân giống cây trồng theo quy định.",
+   "template_neg": "Không phải giống vật nuôi hay vật liệu nhân giống cây trồng.",
+   "ask": "Hàng hóa có phải giống vật nuôi hoặc vật liệu nhân giống cây trồng không?"
+  },
+  {
+   "pred": "vat_animal_or_aquatic_feed",
+   "kind": "input",
+   "template_pos": "Hàng hóa là thức ăn chăn nuôi hoặc thức ăn thủy sản theo quy định.",
+   "template_neg": "Không phải thức ăn chăn nuôi, thủy sản.",
+   "ask": "Hàng hóa có phải thức ăn chăn nuôi hoặc thức ăn thủy sản không?"
+  },
+  {
+   "pred": "vat_state_housing_sold_to_tenant",
+   "kind": "input",
+   "template_pos": "Nhà ở thuộc tài sản công do Nhà nước bán cho người đang thuê.",
+   "template_neg": "Không phải nhà ở tài sản công bán cho người đang thuê.",
+   "ask": "Có phải Nhà nước bán nhà ở thuộc tài sản công cho người đang thuê không?"
+  },
+  {
+   "pred": "vat_agri_tillage_dredging_harvest",
+   "kind": "input",
+   "template_pos": "Dịch vụ cày, bừa đất; nạo vét kênh, mương nội đồng phục vụ nông nghiệp; thu hoạch nông sản.",
+   "template_neg": "Không phải dịch vụ cày bừa, nạo vét nội đồng hay thu hoạch nông sản.",
+   "ask": "Có phải dịch vụ cày bừa, nạo vét kênh mương nội đồng hoặc thu hoạch nông sản không?"
+  },
+  {
+   "pred": "vat_other_exempt_insurance",
+   "kind": "input",
+   "template_pos": "Bảo hiểm sức khỏe, người học, bảo hiểm liên quan con người, bảo hiểm nông nghiệp, tàu cá, tái bảo hiểm hoặc công trình dầu khí theo khoản 8 Điều 5.",
+   "template_neg": "Không thuộc các loại bảo hiểm không chịu thuế khác tại khoản 8 Điều 5.",
+   "ask": "Có phải bảo hiểm sức khỏe/người học/liên quan con người/nông nghiệp/tàu cá/tái bảo hiểm không?"
+  },
+  {
+   "pred": "vat_exempt_financial_service",
+   "kind": "input",
+   "template_pos": "Dịch vụ cấp tín dụng, cho vay, kinh doanh chứng khoán, chuyển nhượng vốn, bán nợ, kinh doanh ngoại tệ, phái sinh hoặc bán tài sản bảo đảm theo khoản 9 Điều 5.",
+   "template_neg": "Không thuộc dịch vụ tài chính không chịu thuế tại khoản 9 Điều 5.",
+   "ask": "Có phải dịch vụ tín dụng, cho vay, chứng khoán, chuyển nhượng vốn, bán nợ, ngoại tệ hoặc phái sinh không?"
+  },
+  {
+   "pred": "vat_veterinary_service",
+   "kind": "input",
+   "template_pos": "Dịch vụ khám, chữa, phòng bệnh cho vật nuôi.",
+   "template_neg": "Không phải dịch vụ thú y.",
+   "ask": "Có phải dịch vụ thú y không?"
+  },
+  {
+   "pred": "vat_funeral_service",
+   "kind": "input",
+   "template_pos": "Dịch vụ tang lễ.",
+   "template_neg": "Không phải dịch vụ tang lễ.",
+   "ask": "Có phải dịch vụ tang lễ không?"
+  },
+  {
+   "pred": "vat_community_funded_public_works",
+   "kind": "input",
+   "template_pos": "Duy tu, sửa chữa, xây dựng công trình theo khoản 12 Điều 5 bằng vốn đóng góp của nhân dân, viện trợ nhân đạo chiếm từ 50% tổng vốn.",
+   "template_neg": "Không thuộc công trình bằng vốn nhân dân/viện trợ từ 50% theo khoản 12.",
+   "ask": "Công trình có dùng vốn đóng góp của nhân dân/viện trợ nhân đạo từ 50% tổng vốn trở lên không?"
+  },
+  {
+   "pred": "vat_teaching_service",
+   "kind": "input",
+   "template_pos": "Hoạt động dạy học theo quy định của pháp luật về giáo dục.",
+   "template_neg": "Không phải hoạt động dạy học theo pháp luật giáo dục.",
+   "ask": "Có phải hoạt động dạy học theo pháp luật về giáo dục không?"
+  },
+  {
+   "pred": "vat_state_funded_broadcasting",
+   "kind": "input",
+   "template_pos": "Phát sóng truyền thanh, truyền hình bằng nguồn vốn ngân sách nhà nước.",
+   "template_neg": "Không phải phát sóng bằng vốn ngân sách nhà nước.",
+   "ask": "Có phải phát sóng truyền thanh, truyền hình bằng vốn ngân sách nhà nước không?"
+  },
+  {
+   "pred": "vat_exempt_publication",
+   "kind": "input",
+   "template_pos": "Xuất bản, nhập khẩu, phát hành báo, tạp chí, sách thuộc khoản 15 Điều 5 hoặc tiền, in tiền.",
+   "template_neg": "Không thuộc ấn phẩm/hoạt động tại khoản 15 Điều 5.",
+   "ask": "Có phải báo, tạp chí, sách chính trị/giáo khoa/pháp luật/khoa học kỹ thuật... theo khoản 15 Điều 5 không?"
+  },
+  {
+   "pred": "vat_public_tram_or_inland_waterway",
+   "kind": "input",
+   "template_pos": "Vận chuyển hành khách công cộng bằng tàu điện hoặc phương tiện thủy nội địa.",
+   "template_neg": "Không phải vận chuyển công cộng bằng tàu điện, phương tiện thủy nội địa.",
+   "ask": "Có phải vận chuyển hành khách công cộng bằng tàu điện hoặc phương tiện thủy nội địa không?"
+  },
+  {
+   "pred": "vat_import_equipment_not_domestically_produced",
+   "kind": "input",
+   "template_pos": "Nhập khẩu máy móc, thiết bị, vật tư, phương tiện trong nước chưa sản xuất được cho mục đích nêu tại khoản 17 Điều 5.",
+   "template_neg": "Không thuộc hàng nhập khẩu trong nước chưa sản xuất được theo khoản 17.",
+   "ask": "Có phải nhập khẩu máy móc, thiết bị trong nước chưa sản xuất được cho nghiên cứu khoa học, dầu khí hoặc tạo tài sản cố định theo khoản 17 không?"
+  },
+  {
+   "pred": "vat_defense_security_product",
+   "kind": "input",
+   "template_pos": "Sản phẩm quốc phòng, an ninh hoặc hàng nhập khẩu phục vụ công nghiệp quốc phòng, an ninh theo danh mục.",
+   "template_neg": "Không phải sản phẩm quốc phòng, an ninh theo danh mục.",
+   "ask": "Có phải sản phẩm quốc phòng, an ninh theo danh mục không?"
+  },
+  {
+   "pred": "vat_humanitarian_aid_goods",
+   "kind": "input",
+   "template_pos": "Hàng nhập khẩu viện trợ nhân đạo, không hoàn lại hoặc hàng bán cho bên nước ngoài để viện trợ cho Việt Nam.",
+   "template_neg": "Không phải hàng viện trợ nhân đạo, không hoàn lại.",
+   "ask": "Có phải hàng viện trợ nhân đạo, viện trợ không hoàn lại không?"
+  },
+  {
+   "pred": "vat_transit_or_temporary_import_export",
+   "kind": "input",
+   "template_pos": "Hàng chuyển khẩu, quá cảnh, tạm nhập tái xuất, tạm xuất tái nhập, nguyên liệu nhập để gia công xuất khẩu hoặc hàng mua bán với/giữa khu phi thuế quan.",
+   "template_neg": "Không thuộc các trường hợp tại khoản 20 Điều 5.",
+   "ask": "Có phải hàng quá cảnh, chuyển khẩu, tạm nhập tái xuất, nguyên liệu gia công xuất khẩu hoặc mua bán với khu phi thuế quan không?"
+  },
+  {
+   "pred": "vat_technology_transfer_or_ip_transfer",
+   "kind": "input",
+   "template_pos": "Chuyển giao công nghệ hoặc chuyển nhượng quyền sở hữu trí tuệ theo luật.",
+   "template_neg": "Không phải chuyển giao công nghệ hay chuyển nhượng quyền sở hữu trí tuệ.",
+   "ask": "Có phải chuyển giao công nghệ hoặc chuyển nhượng quyền sở hữu trí tuệ không?"
+  },
+  {
+   "pred": "vat_export_unprocessed_resources",
+   "kind": "input",
+   "template_pos": "Sản phẩm xuất khẩu là tài nguyên, khoáng sản chưa chế biến hoặc đã chế biến thuộc Danh mục Chính phủ quy định.",
+   "template_neg": "Không phải tài nguyên, khoáng sản xuất khẩu thuộc khoản 23 Điều 5.",
+   "ask": "Hàng xuất khẩu có phải tài nguyên, khoáng sản thô (hoặc thuộc Danh mục hạn chế xuất khẩu) không?"
+  },
+  {
+   "pred": "vat_prosthetic_or_disability_aid",
+   "kind": "input",
+   "template_pos": "Sản phẩm nhân tạo thay thế bộ phận cơ thể người bệnh; nạng, xe lăn, dụng cụ chuyên dùng cho người khuyết tật.",
+   "template_neg": "Không phải sản phẩm thay thế bộ phận cơ thể hay dụng cụ cho người khuyết tật.",
+   "ask": "Có phải bộ phận cơ thể nhân tạo, nạng, xe lăn hoặc dụng cụ cho người khuyết tật không?"
+  },
+  {
+   "pred": "vat_household_revenue_le_200m",
+   "kind": "input",
+   "template_pos": "Hàng hóa, dịch vụ của hộ, cá nhân kinh doanh có doanh thu năm từ 200 triệu đồng trở xuống.",
+   "template_neg": "Hộ, cá nhân kinh doanh có doanh thu năm trên 200 triệu đồng (hoặc không phải hộ, cá nhân).",
+   "ask": "Người bán có phải hộ, cá nhân kinh doanh với doanh thu năm từ 200 triệu đồng trở xuống không?"
+  },
+  {
+   "pred": "vat_non_business_asset_reserve_or_fee",
+   "kind": "input",
+   "template_pos": "Tài sản của tổ chức, cá nhân không kinh doanh bán ra, hàng dự trữ quốc gia bán ra hoặc khoản thu phí, lệ phí.",
+   "template_neg": "Không thuộc tài sản không kinh doanh, hàng dự trữ quốc gia hay phí, lệ phí.",
+   "ask": "Có phải tài sản của người không kinh doanh bán ra, hàng dự trữ quốc gia hoặc khoản thu phí, lệ phí không?"
+  },
+  {
+   "pred": "vat_exempt_import_gift_or_relief",
+   "kind": "input",
+   "template_pos": "Hàng nhập khẩu thuộc khoản 26 Điều 5 (quà tặng, quà biếu, hành lý, đồ dùng miễn trừ trong định mức; hàng ủng hộ thiên tai, dịch bệnh; hàng cư dân biên giới; cổ vật).",
+   "template_neg": "Hàng nhập khẩu không thuộc khoản 26 Điều 5.",
+   "ask": "Hàng nhập khẩu có phải quà tặng, hành lý trong định mức miễn thuế, hàng ủng hộ thiên tai hoặc cổ vật theo khoản 26 không?"
+  },
+  {
+   "pred": "goods_sold_to_non_tariff_zone_for_export_production",
+   "kind": "input",
+   "template_pos": "Hàng hóa từ nội địa bán cho tổ chức trong khu phi thuế quan, tiêu dùng trong khu phục vụ trực tiếp sản xuất xuất khẩu.",
+   "template_neg": "Không phải hàng bán vào khu phi thuế quan phục vụ sản xuất xuất khẩu.",
+   "ask": "Hàng hóa có bán cho tổ chức trong khu phi thuế quan để phục vụ trực tiếp sản xuất xuất khẩu không?"
+  },
+  {
+   "pred": "service_to_non_tariff_zone_for_export_production",
+   "kind": "input",
+   "template_pos": "Dịch vụ cung cấp trực tiếp cho tổ chức trong khu phi thuế quan, tiêu dùng trong khu phục vụ trực tiếp sản xuất xuất khẩu.",
+   "template_neg": "Không phải dịch vụ cho khu phi thuế quan phục vụ sản xuất xuất khẩu.",
+   "ask": "Dịch vụ có cung cấp cho tổ chức trong khu phi thuế quan để phục vụ trực tiếp sản xuất xuất khẩu không?"
+  },
+  {
+   "pred": "international_transport_service",
+   "kind": "input",
+   "template_pos": "Dịch vụ vận tải quốc tế (chặng từ/đến nước ngoài hoặc cả hai đầu ở nước ngoài).",
+   "template_neg": "Không phải vận tải quốc tế.",
+   "ask": "Có phải dịch vụ vận tải quốc tế không?"
+  },
+  {
+   "pred": "international_transport_contract",
+   "kind": "input",
+   "template_pos": "Có hợp đồng vận chuyển (vé đối với hành khách) theo chặng quốc tế.",
+   "template_neg": "Không có hợp đồng vận chuyển quốc tế.",
+   "ask": "Có hợp đồng vận chuyển (hoặc vé) theo chặng quốc tế không?"
+  },
+  {
+   "pred": "reinsurance_abroad",
+   "kind": "input",
+   "template_pos": "Dịch vụ tái bảo hiểm ra nước ngoài.",
+   "template_neg": "Không phải tái bảo hiểm ra nước ngoài.",
+   "ask": "Có phải dịch vụ tái bảo hiểm ra nước ngoài không?"
+  },
+  {
+   "pred": "credit_capital_transfer_or_derivative",
+   "kind": "input",
+   "template_pos": "Giao dịch là dịch vụ cấp tín dụng, chuyển nhượng vốn hoặc sản phẩm phái sinh.",
+   "template_neg": "Không phải cấp tín dụng, chuyển nhượng vốn hay phái sinh.",
+   "ask": "Có phải dịch vụ cấp tín dụng, chuyển nhượng vốn hoặc sản phẩm phái sinh không?"
+  },
+  {
+   "pred": "postal_telecom_service",
+   "kind": "input",
+   "template_pos": "Dịch vụ bưu chính, viễn thông.",
+   "template_neg": "Không phải dịch vụ bưu chính, viễn thông.",
+   "ask": "Có phải dịch vụ bưu chính, viễn thông không?"
+  },
+  {
+   "pred": "tobacco_alcohol_beer_imported_then_exported",
+   "kind": "input",
+   "template_pos": "Thuốc lá, rượu, bia nhập khẩu sau đó xuất khẩu.",
+   "template_neg": "Không phải thuốc lá, rượu, bia nhập khẩu rồi xuất khẩu.",
+   "ask": "Có phải thuốc lá, rượu, bia nhập khẩu sau đó xuất khẩu không?"
+  },
+  {
+   "pred": "fuel_or_car_sold_into_non_tariff_zone",
+   "kind": "input",
+   "template_pos": "Xăng dầu mua nội địa bán cho cơ sở trong khu phi thuế quan hoặc ô tô bán cho tổ chức, cá nhân trong khu phi thuế quan.",
+   "template_neg": "Không phải xăng dầu/ô tô bán vào khu phi thuế quan.",
+   "ask": "Có phải bán xăng dầu mua nội địa hoặc ô tô cho khu phi thuế quan không?"
+  },
+  {
+   "pred": "service_in_vietnam_to_foreigner_excluded",
+   "kind": "input",
+   "template_pos": "Dịch vụ cung cấp tại Việt Nam cho bên nước ngoài thuộc nhóm thi đấu thể thao, biểu diễn, văn hóa, giải trí, khách sạn, đào tạo, quảng cáo, du lịch lữ hành, gắn với bán hàng tại Việt Nam hoặc thanh toán không dùng tiền mặt.",
+   "template_neg": "Không thuộc nhóm dịch vụ tại Việt Nam bị loại khỏi thuế suất 0%.",
+   "ask": "Dịch vụ có được cung cấp tại Việt Nam cho bên nước ngoài thuộc nhóm thể thao, biểu diễn, giải trí, khách sạn, đào tạo, quảng cáo, du lịch... không?"
+  },
+  {
+   "pred": "non_tariff_zone_excluded_service",
+   "kind": "input",
+   "template_pos": "Dịch vụ cho khu phi thuế quan là cho thuê nhà, hội trường, văn phòng, khách sạn, kho bãi; đưa đón người lao động; ăn uống (trừ suất ăn công nghiệp, ăn uống trong khu).",
+   "template_neg": "Không thuộc nhóm dịch vụ cho khu phi thuế quan bị loại khỏi 0%.",
+   "ask": "Dịch vụ cho khu phi thuế quan có phải cho thuê nhà/văn phòng/kho bãi, đưa đón công nhân hoặc ăn uống không?"
+  },
+  {
+   "pred": "cit_income_art12_2_l_activity",
+   "kind": "input",
+   "template_pos": "Thu nhập từ hoạt động thuộc ngành, nghề điểm l khoản 2 Điều 12 Luật TNDN.",
+   "template_neg": "Thu nhập không thuộc ngành, nghề điểm l khoản 2 Điều 12.",
+   "ask": "Thu nhập có từ ngành, nghề ưu đãi tại điểm l khoản 2 Điều 12 Luật Thuế TNDN không?"
+  },
+  {
+   "pred": "cit_in_art12_3_incentive_area",
+   "kind": "input",
+   "template_pos": "Hoạt động/dự án nằm tại địa bàn ưu đãi thuế quy định tại khoản 3 Điều 12 Luật TNDN.",
+   "template_neg": "Hoạt động/dự án không nằm tại địa bàn ưu đãi theo khoản 3 Điều 12.",
+   "ask": "Hoạt động có nằm tại địa bàn ưu đãi thuế (khoản 3 Điều 12 Luật TNDN) không?"
+  },
+  {
+   "pred": "cit_new_project_art12_2_m_n_o",
+   "kind": "input",
+   "template_pos": "Dự án đầu tư mới thuộc ngành, nghề ưu đãi tại điểm m, n hoặc o khoản 2 Điều 12 Luật TNDN.",
+   "template_neg": "Không phải dự án đầu tư mới thuộc điểm m, n, o khoản 2 Điều 12.",
+   "ask": "Có phải dự án đầu tư mới thuộc ngành, nghề tại điểm m, n hoặc o khoản 2 Điều 12 không?"
+  },
+  {
+   "pred": "cit_new_project_in_art12_3b_area",
+   "kind": "input",
+   "template_pos": "Dự án đầu tư mới thực hiện tại địa bàn điểm b khoản 3 Điều 12 Luật TNDN.",
+   "template_neg": "Dự án không phải dự án mới tại địa bàn điểm b khoản 3 Điều 12.",
+   "ask": "Có phải dự án đầu tư mới tại địa bàn điểm b khoản 3 Điều 12 Luật Thuế TNDN không?"
+  },
+  {
+   "pred": "cit_new_project_economic_zone_outside_art12_3ab",
+   "kind": "input",
+   "template_pos": "Dự án đầu tư mới tại khu kinh tế không nằm trên địa bàn điểm a, b khoản 3 Điều 12.",
+   "template_neg": "Không phải dự án mới tại khu kinh tế ngoài địa bàn điểm a, b khoản 3 Điều 12.",
+   "ask": "Có phải dự án đầu tư mới tại khu kinh tế không nằm trên địa bàn ưu đãi điểm a, b khoản 3 Điều 12 không?"
+  },
+  {
+   "pred": "cit_income_art12_2_p",
+   "kind": "input",
+   "template_pos": "Thu nhập của doanh nghiệp thuộc điểm p khoản 2 Điều 12 Luật TNDN.",
+   "template_neg": "Thu nhập không thuộc điểm p khoản 2 Điều 12.",
+   "ask": "Thu nhập có thuộc trường hợp tại điểm p khoản 2 Điều 12 Luật Thuế TNDN không?"
+  }
+ ],
+ "goals_decided": [
+  "cit_rate_15_applicable",
+  "cit_rate_17_applicable",
+  "tax_enforcement_90day_ground",
+  "tax_enforcement_allowed_for_offset",
+  "tax_enforcement_ground",
+  "vat_input_deductible",
+  "vat_non_taxable",
+  "vat_zero_rate_applicable"
+ ]
+}

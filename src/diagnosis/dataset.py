@@ -82,14 +82,15 @@ def to_gold_cases(items: list[dict], kb: KB) -> tuple[list[GoldCase], list[dict]
 
 def _resolved_value(kb: KB, state) -> bool | None:
     """If every competing pair on the goal has an encoded resolution, the winning conclusion's polarity."""
-    vals = set()
-    for a, b, pred in state.competing_pairs:
-        if pred != state.goal:
-            continue
+    pairs = [(a, b) for a, b, pred in state.competing_pairs if pred == state.goal]
+    losers = set()
+    for a, b in pairs:
         res = kb.resolution(a, b)
         if not res:
             return None
-        vals.add(kb.rules[res[0]].conclusion.value)
+        losers.add(res[1])
+    # a rule defeated in any pair is out (nested exceptions); the surviving rules must agree
+    vals = {kb.rules[r].conclusion.value for a, b in pairs for r in (a, b) if r not in losers}
     return vals.pop() if len(vals) == 1 else None
 
 

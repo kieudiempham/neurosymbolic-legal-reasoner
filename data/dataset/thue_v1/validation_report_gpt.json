@@ -1,0 +1,45 @@
+{
+  "status": "DRAFT_PENDING_HUMAN_LEGAL_REVIEW",
+  "created": "2026-10-18",
+  "count": 70,
+  "new_predicate_count": 64,
+  "source_anchor_count": 49,
+  "total_legal_basis_items": 179,
+  "syntactic_schema_valid": 70,
+  "exact_fact_spans_valid": 70,
+  "article_quote_matches": 179,
+  "exact_question_duplicates": 0,
+  "unique_fact_goal_signatures": 61,
+  "explicit_chain_2plus": 31,
+  "distribution": {
+    "expected": {
+      "false": 28,
+      "true": 27,
+      "insufficient": 15
+    },
+    "info_level": {
+      "complete": 45,
+      "exception_or_conflict": 10,
+      "missing": 15
+    },
+    "domain": {
+      "thue": 70
+    }
+  },
+  "themes": {
+    "vat_exempt": 10,
+    "vat_deduction": 16,
+    "vat_export": 10,
+    "cit_expenses": 12,
+    "cit_exempt": 10,
+    "cit_rate": 6,
+    "tax_enforcement": 6
+  },
+  "notes": [
+    "Syntactic validation is not legal correctness. Quotes are matched to source article text, not independently checked for applicability.",
+    "All source date-sensitive cases explicitly set 2026; statute transitional issues still require independent review.",
+    "Missing-case reasoning_chain records conditional requirements, not a completed proof.",
+    "No fault injection F1-F6 has been performed; these are original legal QA cases.",
+    "Not validated by repository-specific diagnosis.kbx.validate_dataset; no repo runtime mounted."
+  ]
+}

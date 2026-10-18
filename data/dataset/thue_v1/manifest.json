@@ -1,0 +1,67 @@
+{
+  "batch": "Tax-70",
+  "status": "DRAFT",
+  "items": 70,
+  "files": [
+    {
+      "file": "PROMPT_GPT_v2.md",
+      "bytes": 7761,
+      "sha256": "c66a7f262083e766f9b92c68bcfba8d1dd26fe2b547f389e616f61e7e52c34ef"
+    },
+    {
+      "file": "README_VI.md",
+      "bytes": 4596,
+      "sha256": "bcd6db31bc56adecb78cedb318804ba2722d185993ac22940a7e2415c0d5097f"
+    },
+    {
+      "file": "benchmark_inputs.jsonl",
+      "bytes": 28112,
+      "sha256": "ddeba407cf7b8b44cbd899d3ea8d34ca2a0593e7b0410d3b4b4cda44e1dae466"
+    },
+    {
+      "file": "gold_annotations_DRAFT.jsonl",
+      "bytes": 161238,
+      "sha256": "4fea6ac6bcd554a67527c14c622171827955da55c397be31e469b65ceafd02a9"
+    },
+    {
+      "file": "predicate_registry_cumulative.json",
+      "bytes": 75157,
+      "sha256": "4cf108a6bf1e7a985596ef38a27187977859ee54c1906bd2430dbbd15df6037c"
+    },
+    {
+      "file": "predicate_registry_new.json",
+      "bytes": 23372,
+      "sha256": "a4ac6fe2a2ddf779a86a7e306873fa9e01c55ee279d42cae8e8df95cb66aee58"
+    },
+    {
+      "file": "review_queue.md",
+      "bytes": 40257,
+      "sha256": "4e2b8abe178394bc20032ed2c9bd299b7fae23be70cbc1555ede08584c5fac54"
+    },
+    {
+      "file": "schema.json",
+      "bytes": 2072,
+      "sha256": "f19d3b72923849799377961ccb1d41d69ac76a3c1134754cd5d1c039696e971b"
+    },
+    {
+      "file": "semantic_overlap_groups.json",
+      "bytes": 608,
+      "sha256": "4d78271ee4b4580aa313f4c9a18e54ac4c6cf4b287f9b88ab49d846e2a89ec6e"
+    },
+    {
+      "file": "source_anchors.json",
+      "bytes": 15985,
+      "sha256": "b5c2592a617bb03fe279171bc554e8959d7d41f94be0f7f2705102dcaca678de"
+    },
+    {
+      "file": "thue_70_DRAFT.jsonl",
+      "bytes": 186760,
+      "sha256": "052f611bd8237e747a643ab7ff8e5c5967d91f52e79932d2facf878ccea0388a"
+    },
+    {
+      "file": "validation_report.json",
+      "bytes": 1376,
+      "sha256": "d90f3104fda99989b5965395ef32e16732c214bba587904d24f45af866193a32"
+    }
+  ]
+}

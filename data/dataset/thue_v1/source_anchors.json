@@ -1,0 +1,443 @@
+{
+  "vat3": {
+    "doc": "Luật Thuế giá trị gia tăng 48/2024/QH15",
+    "article": "3",
+    "clause": "",
+    "point": "",
+    "quote": "Hàng hóa, dịch vụ sử dụng cho sản xuất, kinh doanh và tiêu dùng ở Việt Nam là đối tượng chịu thuế giá",
+    "tag": "vat3",
+    "doc_key": "VAT"
+  },
+  "vat5crop": {
+    "doc": "Luật Thuế giá trị gia tăng 48/2024/QH15",
+    "article": "5",
+    "clause": "1",
+    "point": "",
+    "quote": "Sản phẩm cây trồng, rừng trồng, chăn nuôi, thủy sản nuôi trồng, đánh bắt chưa chế biến thành",
+    "tag": "vat5crop",
+    "doc_key": "VAT"
+  },
+  "vat5salt": {
+    "doc": "Luật Thuế giá trị gia tăng 48/2024/QH15",
+    "article": "5",
+    "clause": "4",
+    "point": "",
+    "quote": "Sản phẩm muối được sản xuất từ nước biển, muối mỏ tự nhiên, muối tinh,",
+    "tag": "vat5salt",
+    "doc_key": "VAT"
+  },
+  "vat5land": {
+    "doc": "Luật Thuế giá trị gia tăng 48/2024/QH15",
+    "article": "5",
+    "clause": "7",
+    "point": "",
+    "quote": "Chuyển quyền sử dụng đất. 8. Bảo hiểm nhân thọ, bảo",
+    "tag": "vat5land",
+    "doc_key": "VAT"
+  },
+  "vat5life": {
+    "doc": "Luật Thuế giá trị gia tăng 48/2024/QH15",
+    "article": "5",
+    "clause": "8",
+    "point": "",
+    "quote": "Bảo hiểm nhân thọ, bảo hiểm sức khỏe, bảo hiểm người học, các dịch",
+    "tag": "vat5life",
+    "doc_key": "VAT"
+  },
+  "vat5medical": {
+    "doc": "Luật Thuế giá trị gia tăng 48/2024/QH15",
+    "article": "5",
+    "clause": "10",
+    "point": "a",
+    "quote": "Dịch vụ y tế bao gồm: dịch vụ khám bệnh, chữa bệnh, phòng bệnh cho người, dịch vụ",
+    "tag": "vat5medical",
+    "doc_key": "VAT"
+  },
+  "vat5agri": {
+    "doc": "Luật Thuế giá trị gia tăng 48/2024/QH15",
+    "article": "5",
+    "clause": "6",
+    "point": "",
+    "quote": "Tưới, tiêu nước; cày, bừa đất; nạo vét kênh, mương nội đồng",
+    "tag": "vat5agri",
+    "doc_key": "VAT"
+  },
+  "vat5edu": {
+    "doc": "Luật Thuế giá trị gia tăng 48/2024/QH15",
+    "article": "5",
+    "clause": "13",
+    "point": "",
+    "quote": "Hoạt động dạy học, dạy nghề theo quy định của pháp luật",
+    "tag": "vat5edu",
+    "doc_key": "VAT"
+  },
+  "vat5bus": {
+    "doc": "Luật Thuế giá trị gia tăng 48/2024/QH15",
+    "article": "5",
+    "clause": "16",
+    "point": "",
+    "quote": "Vận chuyển hành khách công cộng bằng xe buýt, tàu điện, phương tiện thủy nội",
+    "tag": "vat5bus",
+    "doc_key": "VAT"
+  },
+  "vat5software": {
+    "doc": "Luật Thuế giá trị gia tăng 48/2024/QH15",
+    "article": "5",
+    "clause": "21",
+    "point": "",
+    "quote": "sản phẩm phần mềm và dịch vụ phần mềm theo quy định của pháp luật.",
+    "tag": "vat5software",
+    "doc_key": "VAT"
+  },
+  "vat5gold": {
+    "doc": "Luật Thuế giá trị gia tăng 48/2024/QH15",
+    "article": "5",
+    "clause": "22",
+    "point": "",
+    "quote": "Vàng dạng thỏi, miếng chưa được chế tác thành sản phẩm mỹ nghệ, đồ",
+    "tag": "vat5gold",
+    "doc_key": "VAT"
+  },
+  "vat5nodeduct": {
+    "doc": "Luật Thuế giá trị gia tăng 48/2024/QH15",
+    "article": "5",
+    "clause": "27",
+    "point": "",
+    "quote": "Cơ sở kinh doanh hàng hóa, dịch vụ không chịu thuế giá trị gia tăng quy định tại Điều này không được khấu trừ, không được hoàn thuế giá trị",
+    "tag": "vat5nodeduct",
+    "doc_key": "VAT"
+  },
+  "vat9zero": {
+    "doc": "Luật Thuế giá trị gia tăng 48/2024/QH15",
+    "article": "9",
+    "clause": "1",
+    "point": "a",
+    "quote": "Hàng hóa xuất khẩu bao gồm: hàng hóa từ Việt Nam bán cho tổ chức, cá nhân ở nước ngoài và được tiêu dùng ở ngoài",
+    "tag": "vat9zero",
+    "doc_key": "VAT"
+  },
+  "vat9service": {
+    "doc": "Luật Thuế giá trị gia tăng 48/2024/QH15",
+    "article": "9",
+    "clause": "1",
+    "point": "b",
+    "quote": "Dịch vụ xuất khẩu bao gồm: dịch vụ cung cấp trực tiếp cho tổ chức, cá nhân ở nước ngoài và được tiêu dùng ở ngoài",
+    "tag": "vat9service",
+    "doc_key": "VAT"
+  },
+  "vat9excl": {
+    "doc": "Luật Thuế giá trị gia tăng 48/2024/QH15",
+    "article": "9",
+    "clause": "1",
+    "point": "d",
+    "quote": "Các trường hợp không áp dụng thuế suất 0% bao gồm: chuyển giao công nghệ, chuyển nhượng quyền sở hữu trí",
+    "tag": "vat9excl",
+    "doc_key": "VAT"
+  },
+  "vat14use": {
+    "doc": "Luật Thuế giá trị gia tăng 48/2024/QH15",
+    "article": "14",
+    "clause": "1",
+    "point": "a",
+    "quote": "Thuế giá trị gia tăng đầu vào của hàng hóa, dịch vụ sử dụng cho sản xuất, kinh doanh hàng hóa, dịch vụ chịu thuế giá trị gia tăng được",
+    "tag": "vat14use",
+    "doc_key": "VAT"
+  },
+  "vat14invoice": {
+    "doc": "Luật Thuế giá trị gia tăng 48/2024/QH15",
+    "article": "14",
+    "clause": "2",
+    "point": "a",
+    "quote": "Có hóa đơn giá trị gia tăng mua hàng hóa, dịch vụ hoặc chứng từ nộp thuế giá",
+    "tag": "vat14invoice",
+    "doc_key": "VAT"
+  },
+  "vat14pay": {
+    "doc": "Luật Thuế giá trị gia tăng 48/2024/QH15",
+    "article": "14",
+    "clause": "2",
+    "point": "b",
+    "quote": "Có chứng từ thanh toán không dùng tiền mặt đối với hàng hóa, dịch vụ mua vào, trừ một số trường hợp đặc",
+    "tag": "vat14pay",
+    "doc_key": "VAT"
+  },
+  "vat14no": {
+    "doc": "Luật Thuế giá trị gia tăng 48/2024/QH15",
+    "article": "14",
+    "clause": "3",
+    "point": "",
+    "quote": "Cơ sở kinh doanh không đáp ứng quy định về khấu trừ thuế tại khoản 1 và khoản 2 Điều này và các hóa đơn, chứng từ",
+    "tag": "vat14no",
+    "doc_key": "VAT"
+  },
+  "vat14mixed": {
+    "doc": "Luật Thuế giá trị gia tăng 48/2024/QH15",
+    "article": "14",
+    "clause": "1",
+    "point": "b",
+    "quote": "Thuế giá trị gia tăng đầu vào của hàng hóa, dịch vụ sử dụng đồng thời cho sản xuất, kinh doanh hàng",
+    "tag": "vat14mixed",
+    "doc_key": "VAT"
+  },
+  "dec26": {
+    "doc": "Nghị định 181/2025/NĐ-CP",
+    "article": "26",
+    "clause": "",
+    "point": "",
+    "quote": "mua vào (bao gồm cả hàng hóa nhập khẩu) từ 05 triệu đồng trở lên đã bao gồm thuế giá trị",
+    "tag": "dec26",
+    "doc_key": "DEC181"
+  },
+  "dec18goods": {
+    "doc": "Nghị định 181/2025/NĐ-CP",
+    "article": "18",
+    "clause": "1",
+    "point": "",
+    "quote": "Đối với hàng hóa xuất khẩu, phải có: a) Hợp đồng bán, gia công",
+    "tag": "dec18goods",
+    "doc_key": "DEC181"
+  },
+  "dec18svc": {
+    "doc": "Nghị định 181/2025/NĐ-CP",
+    "article": "18",
+    "clause": "2",
+    "point": "",
+    "quote": "Đối với dịch vụ xuất khẩu, trừ quy định tại khoản 3, 4, 5 Điều này, phải có: a) Hợp đồng cung",
+    "tag": "dec18svc",
+    "doc_key": "DEC181"
+  },
+  "dec17exceptions": {
+    "doc": "Nghị định 181/2025/NĐ-CP",
+    "article": "17",
+    "clause": "4",
+    "point": "",
+    "quote": "Các trường hợp không áp dụng thuế suất 0% quy định tại điểm b và",
+    "tag": "dec17exceptions",
+    "doc_key": "DEC181"
+  },
+  "cit2": {
+    "doc": "Luật Thuế thu nhập doanh nghiệp 67/2025/QH15",
+    "article": "2",
+    "clause": "1",
+    "point": "",
+    "quote": "Người nộp thuế thu nhập doanh nghiệp là tổ chức hoạt động sản xuất, kinh doanh hàng hóa, dịch vụ",
+    "tag": "cit2",
+    "doc_key": "CIT"
+  },
+  "cit3": {
+    "doc": "Luật Thuế thu nhập doanh nghiệp 67/2025/QH15",
+    "article": "3",
+    "clause": "1",
+    "point": "",
+    "quote": "Thu nhập chịu thuế thu nhập doanh nghiệp bao gồm thu nhập từ hoạt động sản xuất, kinh doanh hàng hóa, dịch vụ",
+    "tag": "cit3",
+    "doc_key": "CIT"
+  },
+  "cit4fish": {
+    "doc": "Luật Thuế thu nhập doanh nghiệp 67/2025/QH15",
+    "article": "4",
+    "clause": "1",
+    "point": "",
+    "quote": "Thu nhập từ hoạt động đánh bắt hải sản; thu nhập của doanh nghiệp từ",
+    "tag": "cit4fish",
+    "doc_key": "CIT"
+  },
+  "cit4cooperative": {
+    "doc": "Luật Thuế thu nhập doanh nghiệp 67/2025/QH15",
+    "article": "4",
+    "clause": "1",
+    "point": "",
+    "quote": "thu nhập của hợp tác xã, liên hiệp hợp tác xã từ sản xuất sản phẩm cây trồng, rừng trồng, chăn nuôi, thủy sản",
+    "tag": "cit4cooperative",
+    "doc_key": "CIT"
+  },
+  "cit4agrisvc": {
+    "doc": "Luật Thuế thu nhập doanh nghiệp 67/2025/QH15",
+    "article": "4",
+    "clause": "3",
+    "point": "",
+    "quote": "Thu nhập từ việc thực hiện dịch vụ kỹ thuật trực tiếp phục vụ nông nghiệp. 4. Thu nhập từ việc thực",
+    "tag": "cit4agrisvc",
+    "doc_key": "CIT"
+  },
+  "cit4specialworkers": {
+    "doc": "Luật Thuế thu nhập doanh nghiệp 67/2025/QH15",
+    "article": "4",
+    "clause": "5",
+    "point": "",
+    "quote": "doanh nghiệp có từ 30% số lao động bình quân trong năm trở lên là người khuyết tật, người sau",
+    "tag": "cit4specialworkers",
+    "doc_key": "CIT"
+  },
+  "cit4dividends": {
+    "doc": "Luật Thuế thu nhập doanh nghiệp 67/2025/QH15",
+    "article": "4",
+    "clause": "7",
+    "point": "",
+    "quote": "Thu nhập được chia từ hoạt động góp vốn, mua cổ phần, liên doanh, liên kết với doanh",
+    "tag": "cit4dividends",
+    "doc_key": "CIT"
+  },
+  "cit4donation": {
+    "doc": "Luật Thuế thu nhập doanh nghiệp 67/2025/QH15",
+    "article": "4",
+    "clause": "8",
+    "point": "",
+    "quote": "Khoản tài trợ nhận được để sử dụng cho hoạt động giáo dục, văn hóa, nghệ thuật, từ thiện, nhân đạo và hoạt động xã",
+    "tag": "cit4donation",
+    "doc_key": "CIT"
+  },
+  "cit4misuse": {
+    "doc": "Luật Thuế thu nhập doanh nghiệp 67/2025/QH15",
+    "article": "4",
+    "clause": "8",
+    "point": "",
+    "quote": "Trường hợp khoản tài trợ nhận được tại khoản này mà doanh nghiệp sử dụng không đúng mục đích thì bị truy thu thuế và",
+    "tag": "cit4misuse",
+    "doc_key": "CIT"
+  },
+  "cit9main": {
+    "doc": "Luật Thuế thu nhập doanh nghiệp 67/2025/QH15",
+    "article": "9",
+    "clause": "1",
+    "point": "a",
+    "quote": "Khoản chi thực tế phát sinh liên quan đến hoạt động sản xuất, kinh doanh của doanh nghiệp, bao gồm cả",
+    "tag": "cit9main",
+    "doc_key": "CIT"
+  },
+  "cit9doc": {
+    "doc": "Luật Thuế thu nhập doanh nghiệp 67/2025/QH15",
+    "article": "9",
+    "clause": "1",
+    "point": "c",
+    "quote": "Các khoản chi có đủ hoá đơn, chứng từ thanh toán không dùng tiền mặt theo quy định của pháp luật,",
+    "tag": "cit9doc",
+    "doc_key": "CIT"
+  },
+  "cit9nondeduct": {
+    "doc": "Luật Thuế thu nhập doanh nghiệp 67/2025/QH15",
+    "article": "9",
+    "clause": "2",
+    "point": "a",
+    "quote": "Khoản chi không đáp ứng đủ các điều kiện quy định tại khoản 1 Điều này; b) Khoản tiền phạt do vi",
+    "tag": "cit9nondeduct",
+    "doc_key": "CIT"
+  },
+  "cit9fine": {
+    "doc": "Luật Thuế thu nhập doanh nghiệp 67/2025/QH15",
+    "article": "9",
+    "clause": "2",
+    "point": "b",
+    "quote": "Khoản tiền phạt do vi phạm hành chính; c) Khoản chi được bù đắp",
+    "tag": "cit9fine",
+    "doc_key": "CIT"
+  },
+  "cit9owner": {
+    "doc": "Luật Thuế thu nhập doanh nghiệp 67/2025/QH15",
+    "article": "9",
+    "clause": "2",
+    "point": "h",
+    "quote": "Tiền lương, tiền công của chủ doanh nghiệp tư nhân, chủ công ty trách nhiệm hữu",
+    "tag": "cit9owner",
+    "doc_key": "CIT"
+  },
+  "cit9comp": {
+    "doc": "Luật Thuế thu nhập doanh nghiệp 67/2025/QH15",
+    "article": "9",
+    "clause": "2",
+    "point": "c",
+    "quote": "Khoản chi được bù đắp bằng nguồn kinh phí khác; d) Phần chi vượt mức do",
+    "tag": "cit9comp",
+    "doc_key": "CIT"
+  },
+  "cit10std": {
+    "doc": "Luật Thuế thu nhập doanh nghiệp 67/2025/QH15",
+    "article": "10",
+    "clause": "1",
+    "point": "",
+    "quote": "Thuế suất thuế thu nhập doanh nghiệp là 20%, trừ trường hợp quy định tại",
+    "tag": "cit10std",
+    "doc_key": "CIT"
+  },
+  "cit10small": {
+    "doc": "Luật Thuế thu nhập doanh nghiệp 67/2025/QH15",
+    "article": "10",
+    "clause": "2",
+    "point": "",
+    "quote": "Thuế suất 15% áp dụng đối với doanh nghiệp có tổng doanh thu năm không quá 03 tỷ đồng. 3. Thuế suất 17% áp dụng",
+    "tag": "cit10small",
+    "doc_key": "CIT"
+  },
+  "cit10med": {
+    "doc": "Luật Thuế thu nhập doanh nghiệp 67/2025/QH15",
+    "article": "10",
+    "clause": "3",
+    "point": "",
+    "quote": "Thuế suất 17% áp dụng đối với doanh nghiệp có tổng doanh thu năm từ trên 03 tỷ đồng đến không quá 50 tỷ đồng.",
+    "tag": "cit10med",
+    "doc_key": "CIT"
+  },
+  "cit10prior": {
+    "doc": "Luật Thuế thu nhập doanh nghiệp 67/2025/QH15",
+    "article": "10",
+    "clause": "3",
+    "point": "",
+    "quote": "Doanh thu làm căn cứ xác định doanh nghiệp thuộc đối tượng được áp dụng thuế suất 15% và 17% quy định tại khoản",
+    "tag": "cit10prior",
+    "doc_key": "CIT"
+  },
+  "dec320cost": {
+    "doc": "Nghị định 320/2025/NĐ-CP",
+    "article": "9",
+    "clause": "1",
+    "point": "c",
+    "quote": "Khoản chi có chứng từ thanh toán không dùng tiền mặt đối với trường hợp mua hàng hóa, dịch vụ và các khoản thanh toán",
+    "tag": "dec320cost",
+    "doc_key": "DEC320"
+  },
+  "dec320linked": {
+    "doc": "Nghị định 320/2025/NĐ-CP",
+    "article": "11",
+    "clause": "4",
+    "point": "c",
+    "quote": "Thuế suất 15% và 17% quy định tại Điều này không áp dụng đối với doanh nghiệp được thành lập theo quy định",
+    "tag": "dec320linked",
+    "doc_key": "DEC320"
+  },
+  "mgt48old": {
+    "doc": "Luật Quản lý thuế 108/2025/QH15",
+    "article": "48",
+    "clause": "1",
+    "point": "",
+    "quote": "Người nộp thuế có tiền thuế nợ quá 90 ngày kể từ ngày hết thời hạn",
+    "tag": "mgt48old",
+    "doc_key": "MGT"
+  },
+  "mgt48extend": {
+    "doc": "Luật Quản lý thuế 108/2025/QH15",
+    "article": "48",
+    "clause": "2",
+    "point": "",
+    "quote": "Người nộp thuế có tiền thuế nợ khi hết thời hạn gia hạn nộp tiền thuế. 3. Người nộp thuế có tiền",
+    "tag": "mgt48extend",
+    "doc_key": "MGT"
+  },
+  "mgt48address": {
+    "doc": "Luật Quản lý thuế 108/2025/QH15",
+    "article": "48",
+    "clause": "3",
+    "point": "",
+    "quote": "Người nộp thuế có tiền thuế nợ nhưng không hoạt động tại địa chỉ đã đăng ký hoặc có hành vi phát tán",
+    "tag": "mgt48address",
+    "doc_key": "MGT"
+  },
+  "mgt48offset": {
+    "doc": "Luật Quản lý thuế 108/2025/QH15",
+    "article": "48",
+    "clause": "8",
+    "point": "",
+    "quote": "Cơ quan thuế không thực hiện biện pháp cưỡng chế đối với số tiền thuế nợ được bù trừ qua hoàn thuế mà cơ quan thuế đang làm",
+    "tag": "mgt48offset",
+    "doc_key": "MGT"
+  }
+}

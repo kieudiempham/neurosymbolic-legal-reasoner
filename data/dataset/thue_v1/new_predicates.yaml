@@ -1,0 +1,491 @@
+predicates:
+  cit_30pct_special_workers:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Ít nhất 30% lao động bình quân thuộc
+      các nhóm nêu ở điều luật không?'
+    first_declared_in: THUE-056
+    kind: input
+    pred: cit_30pct_special_workers
+    template_neg: Tỷ lệ các nhóm lao động nêu ở điều luật dưới 30%.
+    template_pos: Ít nhất 30% lao động bình quân thuộc các nhóm nêu ở điều luật.
+  cit_administrative_fine:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Khoản chi là tiền phạt vi phạm hành
+      chính không?'
+    first_declared_in: THUE-043
+    kind: input
+    pred: cit_administrative_fine
+    template_neg: Khoản chi không phải tiền phạt vi phạm hành chính.
+    template_pos: Khoản chi là tiền phạt vi phạm hành chính.
+  cit_agri_cooperative:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Chủ thể là hợp tác xã sản xuất nông
+      sản không?'
+    first_declared_in: THUE-050
+    kind: input
+    pred: cit_agri_cooperative
+    template_neg: Chủ thể không phải hợp tác xã sản xuất nông sản.
+    template_pos: Chủ thể là hợp tác xã sản xuất nông sản.
+  cit_agricultural_technical_service:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Thu nhập từ dịch vụ kỹ thuật trực tiếp
+      phục vụ nông nghiệp không?'
+    first_declared_in: THUE-051
+    kind: input
+    pred: cit_agricultural_technical_service
+    template_neg: Thu nhập không từ dịch vụ kỹ thuật trực tiếp phục vụ nông nghiệp.
+    template_pos: Thu nhập từ dịch vụ kỹ thuật trực tiếp phục vụ nông nghiệp.
+  cit_average_workers_at_least_20:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Doanh nghiệp có từ 20 lao động bình
+      quân trong năm không?'
+    first_declared_in: THUE-056
+    kind: input
+    pred: cit_average_workers_at_least_20
+    template_neg: Doanh nghiệp có dưới 20 lao động bình quân trong năm.
+    template_pos: Doanh nghiệp có từ 20 lao động bình quân trong năm.
+  cit_business_expense_qualified:
+    first_declared_in: THUE-037
+    kind: derived
+    pred: cit_business_expense_qualified
+    template_neg: cit business expense qualified không được xác lập.
+    template_pos: cit business expense qualified được xác lập.
+  cit_business_related_expense:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Khoản chi thực tế liên quan hoạt động
+      kinh doanh không?'
+    first_declared_in: THUE-037
+    kind: input
+    pred: cit_business_related_expense
+    template_neg: Khoản chi không liên quan hoạt động kinh doanh.
+    template_pos: Khoản chi thực tế liên quan hoạt động kinh doanh.
+  cit_distributed_domestic_income:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Có khoản thu được chia từ vốn góp vào
+      doanh nghiệp trong nước không?'
+    first_declared_in: THUE-052
+    kind: input
+    pred: cit_distributed_domestic_income
+    template_neg: Không có khoản thu chia từ vốn góp doanh nghiệp trong nước.
+    template_pos: Có khoản thu được chia từ vốn góp vào doanh nghiệp trong nước.
+  cit_donation_received_charity:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Có khoản tài trợ nhận về dành cho hoạt
+      động từ thiện không?'
+    first_declared_in: THUE-054
+    kind: input
+    pred: cit_donation_received_charity
+    template_neg: Khoản nhận không phải tài trợ dành cho hoạt động từ thiện.
+    template_pos: Có khoản tài trợ nhận về dành cho hoạt động từ thiện.
+  cit_donation_used_correctly:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Khoản tài trợ được sử dụng đúng mục
+      đích từ thiện không?'
+    first_declared_in: THUE-054
+    kind: input
+    pred: cit_donation_used_correctly
+    template_neg: Khoản tài trợ bị sử dụng sai mục đích từ thiện.
+    template_pos: Khoản tài trợ được sử dụng đúng mục đích từ thiện.
+  cit_expense_at_least_5m:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Khoản chi mua sắm mỗi lần từ 5 triệu
+      đồng không?'
+    first_declared_in: THUE-037
+    kind: input
+    pred: cit_expense_at_least_5m
+    template_neg: Khoản chi mua sắm mỗi lần dưới 5 triệu đồng.
+    template_pos: Khoản chi mua sắm mỗi lần từ 5 triệu đồng.
+  cit_expense_deductible:
+    first_declared_in: THUE-037
+    kind: derived
+    pred: cit_expense_deductible
+    template_neg: Khoản chi không được trừ khi tính thu nhập chịu thuế TNDN.
+    template_pos: Khoản chi được trừ khi tính thu nhập chịu thuế TNDN.
+  cit_expense_invoice:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Khoản chi có hóa đơn chứng từ theo
+      quy định không?'
+    first_declared_in: THUE-037
+    kind: input
+    pred: cit_expense_invoice
+    template_neg: Khoản chi không có hóa đơn chứng từ theo quy định.
+    template_pos: Khoản chi có hóa đơn chứng từ theo quy định.
+  cit_expense_payment_proof:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Có chứng từ thanh toán không dùng tiền
+      mặt theo quy định đối với khoản chi không?'
+    first_declared_in: THUE-037
+    kind: input
+    pred: cit_expense_payment_proof
+    template_neg: Không có chứng từ thanh toán không dùng tiền mặt theo quy định.
+    template_pos: Có chứng từ thanh toán không dùng tiền mặt theo quy định đối với
+      khoản chi.
+  cit_expense_reimbursed:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Khoản chi đã được bù đắp bằng nguồn
+      kinh phí khác không?'
+    first_declared_in: THUE-045
+    kind: input
+    pred: cit_expense_reimbursed
+    template_neg: Khoản chi không được bù đắp bằng nguồn kinh phí khác.
+    template_pos: Khoản chi đã được bù đắp bằng nguồn kinh phí khác.
+  cit_fishing_income:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Thu nhập đến từ hoạt động đánh bắt
+      hải sản không?'
+    first_declared_in: THUE-049
+    kind: input
+    pred: cit_fishing_income
+    template_neg: Thu nhập không từ đánh bắt hải sản.
+    template_pos: Thu nhập đến từ hoạt động đánh bắt hải sản.
+  cit_income_exempt:
+    first_declared_in: THUE-049
+    kind: derived
+    pred: cit_income_exempt
+    template_neg: Khoản thu nhập không thuộc diện miễn thuế TNDN.
+    template_pos: Khoản thu nhập thuộc diện miễn thuế TNDN.
+  cit_no_special_rate_regime:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Doanh nghiệp không thuộc diện ưu đãi
+      thuế suất hoặc nhóm thuế suất đặc biệt không?'
+    first_declared_in: THUE-059
+    kind: input
+    pred: cit_no_special_rate_regime
+    template_neg: Doanh nghiệp thuộc diện ưu đãi hoặc nhóm thuế suất đặc biệt.
+    template_pos: Doanh nghiệp không thuộc diện ưu đãi thuế suất hoặc nhóm thuế suất
+      đặc biệt.
+  cit_not_finance_or_realestate:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Doanh nghiệp không kinh doanh tài chính
+      hoặc bất động sản không?'
+    first_declared_in: THUE-056
+    kind: input
+    pred: cit_not_finance_or_realestate
+    template_neg: Doanh nghiệp kinh doanh tài chính hoặc bất động sản.
+    template_pos: Doanh nghiệp không kinh doanh tài chính hoặc bất động sản.
+  cit_not_linked_subsidiary:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Doanh nghiệp không phải công ty con
+      hay công ty liên kết thuộc nhóm bị loại trừ mức thuế suất 15% và 17% không?'
+    first_declared_in: THUE-059
+    kind: input
+    pred: cit_not_linked_subsidiary
+    template_neg: Doanh nghiệp thuộc trường hợp công ty con/liên kết bị loại trừ mức
+      thuế suất này.
+    template_pos: Doanh nghiệp không phải công ty con hay công ty liên kết thuộc nhóm
+      bị loại trừ mức thuế suất 15% và 17%.
+  cit_prior_revenue_above_3_up_to_50bn:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Tổng doanh thu kỳ trước trên 3 tỷ và
+      không quá 50 tỷ đồng không?'
+    first_declared_in: THUE-062
+    kind: input
+    pred: cit_prior_revenue_above_3_up_to_50bn
+    template_neg: Tổng doanh thu kỳ trước nằm ngoài mức trên 3 đến 50 tỷ đồng.
+    template_pos: Tổng doanh thu kỳ trước trên 3 tỷ và không quá 50 tỷ đồng.
+  cit_prior_revenue_le_3bn:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Tổng doanh thu kỳ tính thuế trước liền
+      kề không quá 3 tỷ đồng không?'
+    first_declared_in: THUE-059
+    kind: input
+    pred: cit_prior_revenue_le_3bn
+    template_neg: Tổng doanh thu kỳ tính thuế trước liền kề lớn hơn 3 tỷ đồng.
+    template_pos: Tổng doanh thu kỳ tính thuế trước liền kề không quá 3 tỷ đồng.
+  cit_private_owner_salary:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Khoản chi là tiền lương của chủ doanh
+      nghiệp tư nhân không?'
+    first_declared_in: THUE-044
+    kind: input
+    pred: cit_private_owner_salary
+    template_neg: Khoản chi không phải tiền lương của chủ doanh nghiệp tư nhân.
+    template_pos: Khoản chi là tiền lương của chủ doanh nghiệp tư nhân.
+  cit_rate_15_applicable:
+    first_declared_in: THUE-059
+    kind: derived
+    pred: cit_rate_15_applicable
+    template_neg: Doanh nghiệp không đủ điều kiện áp dụng thuế suất TNDN 15%.
+    template_pos: Doanh nghiệp đủ điều kiện áp dụng thuế suất TNDN 15%.
+  cit_rate_17_applicable:
+    first_declared_in: THUE-062
+    kind: derived
+    pred: cit_rate_17_applicable
+    template_neg: Doanh nghiệp không đủ điều kiện áp dụng thuế suất TNDN 17%.
+    template_pos: Doanh nghiệp đủ điều kiện áp dụng thuế suất TNDN 17%.
+  cit_underlying_cit_paid:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Khoản lợi nhuận được chia từ doanh
+      nghiệp đã nộp TNDN không?'
+    first_declared_in: THUE-052
+    kind: input
+    pred: cit_underlying_cit_paid
+    template_neg: Khoản lợi nhuận được chia từ doanh nghiệp chưa nộp TNDN.
+    template_pos: Khoản lợi nhuận được chia từ doanh nghiệp đã nộp TNDN.
+  consumed_outside_vietnam:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Hàng hóa/dịch vụ được tiêu dùng ngoài
+      Việt Nam không?'
+    first_declared_in: THUE-027
+    kind: input
+    pred: consumed_outside_vietnam
+    template_neg: Hàng hóa/dịch vụ được tiêu dùng tại Việt Nam.
+    template_pos: Hàng hóa/dịch vụ được tiêu dùng ngoài Việt Nam.
+  export_customs_declaration:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Có tờ khai hải quan xuất khẩu không?'
+    first_declared_in: THUE-027
+    kind: input
+    pred: export_customs_declaration
+    template_neg: Không có tờ khai hải quan xuất khẩu.
+    template_pos: Có tờ khai hải quan xuất khẩu.
+  export_goods_contract:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Có hợp đồng bán hàng hóa xuất khẩu
+      không?'
+    first_declared_in: THUE-027
+    kind: input
+    pred: export_goods_contract
+    template_neg: Không có hợp đồng bán hàng hóa xuất khẩu.
+    template_pos: Có hợp đồng bán hàng hóa xuất khẩu.
+  export_goods_transaction:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Đã bán hàng từ Việt Nam cho khách nước
+      ngoài để xuất khẩu không?'
+    first_declared_in: THUE-027
+    kind: input
+    pred: export_goods_transaction
+    template_neg: Không phải giao dịch xuất khẩu hàng từ Việt Nam.
+    template_pos: Đã bán hàng từ Việt Nam cho khách nước ngoài để xuất khẩu.
+  export_service_contract:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Có hợp đồng dịch vụ với tổ chức/cá
+      nhân ở nước ngoài không?'
+    first_declared_in: THUE-032
+    kind: input
+    pred: export_service_contract
+    template_neg: Không có hợp đồng dịch vụ với tổ chức/cá nhân ở nước ngoài.
+    template_pos: Có hợp đồng dịch vụ với tổ chức/cá nhân ở nước ngoài.
+  export_service_transaction:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Đã cung cấp trực tiếp dịch vụ cho khách
+      ở nước ngoài không?'
+    first_declared_in: THUE-032
+    kind: input
+    pred: export_service_transaction
+    template_neg: Không phải dịch vụ cung cấp trực tiếp cho khách ở nước ngoài.
+    template_pos: Đã cung cấp trực tiếp dịch vụ cho khách ở nước ngoài.
+  foreign_customer:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Khách hàng là tổ chức hoặc cá nhân
+      ở nước ngoài không?'
+    first_declared_in: THUE-032
+    kind: input
+    pred: foreign_customer
+    template_neg: Khách hàng không ở nước ngoài.
+    template_pos: Khách hàng là tổ chức hoặc cá nhân ở nước ngoài.
+  foreign_event_in_vietnam:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Dịch vụ tổ chức hội nghị ở Việt Nam
+      cho khách nước ngoài không?'
+    first_declared_in: THUE-036
+    kind: input
+    pred: foreign_event_in_vietnam
+    template_neg: Không phải hội nghị tổ chức tại Việt Nam cho khách nước ngoài.
+    template_pos: Dịch vụ tổ chức hội nghị ở Việt Nam cho khách nước ngoài.
+  input_used_exclusively_for_nontaxable:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Đầu vào được dùng riêng cho hoạt động
+      không chịu VAT không?'
+    first_declared_in: THUE-001
+    kind: input
+    pred: input_used_exclusively_for_nontaxable
+    template_neg: Đầu vào không dùng riêng cho hoạt động không chịu VAT.
+    template_pos: Đầu vào được dùng riêng cho hoạt động không chịu VAT.
+  input_used_for_taxable_sales:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Hàng mua vào phục vụ riêng hoạt động
+      chịu VAT không?'
+    first_declared_in: THUE-011
+    kind: input
+    pred: input_used_for_taxable_sales
+    template_neg: Hàng mua vào không phục vụ hoạt động chịu VAT.
+    template_pos: Hàng mua vào phục vụ riêng hoạt động chịu VAT.
+  outbound_technology_transfer:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Giao dịch là chuyển giao công nghệ
+      ra nước ngoài không?'
+    first_declared_in: THUE-035
+    kind: input
+    pred: outbound_technology_transfer
+    template_neg: Giao dịch không phải chuyển giao công nghệ ra nước ngoài.
+    template_pos: Giao dịch là chuyển giao công nghệ ra nước ngoài.
+  paid_non_cash:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Khoản mua được thanh toán không dùng
+      tiền mặt không?'
+    first_declared_in: THUE-011
+    kind: input
+    pred: paid_non_cash
+    template_neg: Khoản mua được thanh toán bằng tiền mặt.
+    template_pos: Khoản mua được thanh toán không dùng tiền mặt.
+  purchase_amount_at_least_5m:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Giá trị thanh toán mua vào từ 5 triệu
+      đồng không?'
+    first_declared_in: THUE-011
+    kind: input
+    pred: purchase_amount_at_least_5m
+    template_neg: Giá trị thanh toán mua vào dưới 5 triệu đồng.
+    template_pos: Giá trị thanh toán mua vào từ 5 triệu đồng.
+  purchase_has_valid_vat_invoice:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Doanh nghiệp có hóa đơn GTGT mua hàng
+      hợp lệ không?'
+    first_declared_in: THUE-011
+    kind: input
+    pred: purchase_has_valid_vat_invoice
+    template_neg: Doanh nghiệp không có hóa đơn GTGT mua hàng hợp lệ.
+    template_pos: Doanh nghiệp có hóa đơn GTGT mua hàng hợp lệ.
+  tax_debt_exists:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Đang có tiền thuế nợ không?'
+    first_declared_in: THUE-065
+    kind: input
+    pred: tax_debt_exists
+    template_neg: Không có tiền thuế nợ.
+    template_pos: Đang có tiền thuế nợ.
+  tax_debt_more_than_90days:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Khoản tiền thuế nợ đã quá 90 ngày tính
+      từ hạn nộp không?'
+    first_declared_in: THUE-065
+    kind: input
+    pred: tax_debt_more_than_90days
+    template_neg: Khoản tiền thuế nợ chưa quá 90 ngày kể từ hạn nộp.
+    template_pos: Khoản tiền thuế nợ đã quá 90 ngày tính từ hạn nộp.
+  tax_debt_offset_refund_processing:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Tiền thuế nợ đang được cơ quan thuế
+      làm thủ tục bù trừ qua hoàn thuế không?'
+    first_declared_in: THUE-070
+    kind: input
+    pred: tax_debt_offset_refund_processing
+    template_neg: Tiền thuế nợ không trong thủ tục bù trừ qua hoàn thuế.
+    template_pos: Tiền thuế nợ đang được cơ quan thuế làm thủ tục bù trừ qua hoàn
+      thuế.
+  tax_enforcement_90day_ground:
+    first_declared_in: THUE-065
+    kind: derived
+    pred: tax_enforcement_90day_ground
+    template_neg: Khoản nợ không thỏa căn cứ cưỡng chế do quá 90 ngày.
+    template_pos: Khoản nợ thỏa căn cứ cưỡng chế do quá 90 ngày.
+  tax_enforcement_allowed_for_offset:
+    first_declared_in: THUE-070
+    kind: derived
+    pred: tax_enforcement_allowed_for_offset
+    template_neg: Cơ quan thuế không cưỡng chế đối với số tiền nợ đang bù trừ qua
+      hoàn thuế.
+    template_pos: Cơ quan thuế được cưỡng chế đối với số tiền nợ đang bù trừ qua hoàn
+      thuế.
+  tax_enforcement_ground:
+    first_declared_in: THUE-068
+    kind: derived
+    pred: tax_enforcement_ground
+    template_neg: Tình huống không thuộc căn cứ cưỡng chế thuế đang được hỏi.
+    template_pos: Tình huống thuộc một căn cứ cưỡng chế thuế được nêu.
+  tax_payment_extension_expired:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Đã hết thời hạn gia hạn nộp tiền thuế
+      không?'
+    first_declared_in: THUE-068
+    kind: input
+    pred: tax_payment_extension_expired
+    template_neg: Chưa hết thời hạn gia hạn nộp tiền thuế.
+    template_pos: Đã hết thời hạn gia hạn nộp tiền thuế.
+  tax_pays_under_deduction:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Doanh nghiệp kê khai VAT theo phương
+      pháp khấu trừ không?'
+    first_declared_in: THUE-011
+    kind: input
+    pred: tax_pays_under_deduction
+    template_neg: Doanh nghiệp kê khai VAT theo phương pháp trực tiếp.
+    template_pos: Doanh nghiệp kê khai VAT theo phương pháp khấu trừ.
+  taxpayer_absent_at_registered_address:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Người nộp thuế không hoạt động ở địa
+      chỉ đã đăng ký không?'
+    first_declared_in: THUE-069
+    kind: input
+    pred: taxpayer_absent_at_registered_address
+    template_neg: Người nộp thuế vẫn hoạt động ở địa chỉ đã đăng ký.
+    template_pos: Người nộp thuế không hoạt động ở địa chỉ đã đăng ký.
+  vat_agri_irrigation:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Cung ứng tưới tiêu phục vụ sản xuất
+      nông nghiệp không?'
+    first_declared_in: THUE-006
+    kind: input
+    pred: vat_agri_irrigation
+    template_neg: Không cung ứng tưới tiêu nông nghiệp.
+    template_pos: Cung ứng tưới tiêu phục vụ sản xuất nông nghiệp.
+  vat_documentation_sufficient:
+    first_declared_in: THUE-011
+    kind: derived
+    pred: vat_documentation_sufficient
+    template_neg: Hồ sơ hóa đơn, thanh toán không đáp ứng yêu cầu khấu trừ VAT.
+    template_pos: Hồ sơ hóa đơn, thanh toán đáp ứng yêu cầu khấu trừ VAT.
+  vat_education_service:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Cung ứng hoạt động dạy nghề theo pháp
+      luật giáo dục nghề nghiệp không?'
+    first_declared_in: THUE-007
+    kind: input
+    pred: vat_education_service
+    template_neg: Không phải hoạt động dạy nghề theo pháp luật giáo dục nghề nghiệp.
+    template_pos: Cung ứng hoạt động dạy nghề theo pháp luật giáo dục nghề nghiệp.
+  vat_export_qualifies:
+    first_declared_in: THUE-027
+    kind: derived
+    pred: vat_export_qualifies
+    template_neg: Hàng hóa hoặc dịch vụ không thỏa điều kiện cơ bản xuất khẩu áp dụng
+      mức 0%.
+    template_pos: Hàng hóa hoặc dịch vụ có điều kiện cơ bản để được coi là xuất khẩu
+      áp dụng mức 0%.
+  vat_import_raw_gold:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Nhập khẩu vàng thỏi chưa chế tác không?'
+    first_declared_in: THUE-010
+    kind: input
+    pred: vat_import_raw_gold
+    template_neg: Không nhập khẩu vàng thỏi chưa chế tác.
+    template_pos: Nhập khẩu vàng thỏi chưa chế tác.
+  vat_input_deductible:
+    first_declared_in: THUE-001
+    kind: derived
+    pred: vat_input_deductible
+    template_neg: Thuế GTGT đầu vào của giao dịch không được khấu trừ.
+    template_pos: Thuế GTGT đầu vào của giao dịch được khấu trừ.
+  vat_land_use_transfer:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Giao dịch là chuyển quyền sử dụng đất
+      không?'
+    first_declared_in: THUE-003
+    kind: input
+    pred: vat_land_use_transfer
+    template_neg: Giao dịch không phải chuyển quyền sử dụng đất.
+    template_pos: Giao dịch là chuyển quyền sử dụng đất.
+  vat_life_insurance:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Giao dịch là bảo hiểm nhân thọ không?'
+    first_declared_in: THUE-004
+    kind: input
+    pred: vat_life_insurance
+    template_neg: Giao dịch không phải bảo hiểm nhân thọ.
+    template_pos: Giao dịch là bảo hiểm nhân thọ.
+  vat_medical_service:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Dịch vụ khám hoặc chữa bệnh cho người
+      không?'
+    first_declared_in: THUE-005
+    kind: input
+    pred: vat_medical_service
+    template_neg: Không phải dịch vụ khám hoặc chữa bệnh cho người.
+    template_pos: Dịch vụ khám hoặc chữa bệnh cho người.
+  vat_non_taxable:
+    first_declared_in: THUE-001
+    kind: derived
+    pred: vat_non_taxable
+    template_neg: Giao dịch không thuộc đối tượng không chịu thuế GTGT.
+    template_pos: Giao dịch thuộc đối tượng không chịu thuế GTGT.
+  vat_public_bus:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Cung cấp dịch vụ xe buýt công cộng
+      không?'
+    first_declared_in: THUE-008
+    kind: input
+    pred: vat_public_bus
+    template_neg: Không cung cấp dịch vụ xe buýt công cộng.
+    template_pos: Cung cấp dịch vụ xe buýt công cộng.
+  vat_sale_raw_crops_own_production:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Bán nông sản tự trồng chưa chế biến
+      không?'
+    first_declared_in: THUE-001
+    kind: input
+    pred: vat_sale_raw_crops_own_production
+    template_neg: Không phải nông sản tự trồng chưa chế biến.
+    template_pos: Bán nông sản tự trồng chưa chế biến.
+  vat_sale_salt:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Sản xuất và bán muối từ nước biển không?'
+    first_declared_in: THUE-002
+    kind: input
+    pred: vat_sale_salt
+    template_neg: Không sản xuất bán muối từ nước biển.
+    template_pos: Sản xuất và bán muối từ nước biển.
+  vat_software_service:
+    ask: 'Trường hợp này có đáp ứng điều kiện: Giao dịch là dịch vụ phần mềm theo
+      quy định không?'
+    first_declared_in: THUE-009
+    kind: input
+    pred: vat_software_service
+    template_neg: Không phải dịch vụ phần mềm theo quy định.
+    template_pos: Giao dịch là dịch vụ phần mềm theo quy định.
+  vat_zero_rate_applicable:
+    first_declared_in: THUE-027
+    kind: derived
+    pred: vat_zero_rate_applicable
+    template_neg: Giao dịch không đủ điều kiện áp dụng thuế suất GTGT 0%.
+    template_pos: Giao dịch đủ điều kiện áp dụng thuế suất GTGT 0%.
