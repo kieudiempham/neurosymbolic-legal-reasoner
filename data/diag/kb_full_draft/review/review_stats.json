@@ -1,0 +1,21 @@
+{
+ "scope": "Luật BHXH 41/2024 + NĐ 158/2025",
+ "rules_in_scope": 1110,
+ "labelled": 1110,
+ "missing_labels": 0,
+ "unknown_ids_in_output": 0,
+ "verdicts": {
+  "drop": 230,
+  "fix": 792,
+  "correct": 88
+ },
+ "confidence": {
+  "high": 1027,
+  "low": 83
+ },
+ "rules_after_review": 880,
+ "human_workbook_rows": 233,
+ "human_workbook_low_confidence": 83,
+ "human_workbook_random_sample": 150,
+ "reviewer": "Claude (LLM) — not a human review; human agreement measured on the workbook sample"
+}
