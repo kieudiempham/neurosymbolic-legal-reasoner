@@ -12,7 +12,10 @@ CACHE_FILE = Path(__file__).resolve().parents[2] / "experiments" / "diag" / "nli
 _LABEL = {"entailment": "entail", "neutral": "neutral", "contradiction": "contra"}
 
 
-ACCEPT_THRESHOLD = 0.70  # same entailment/contradiction thresholds as the existing NLI config
+ACCEPT_THRESHOLD = float(os.environ.get("NLI_TAU", 0.70))
+# "pos_neg": the negative-template prediction must agree with the positive one (default);
+# "pos_only": only the confidence of the positive-template prediction is tested
+ACCEPT_RULE = os.environ.get("NLI_RULE", "pos_neg")
 
 
 def verbalize(vocab: dict, pred: str) -> str:
@@ -20,7 +23,8 @@ def verbalize(vocab: dict, pred: str) -> str:
     return vocab[pred]["template_pos"]
 
 
-def verify(model: "NLIModel", question: str, vocab: dict, pred: str, tau: float = ACCEPT_THRESHOLD) -> dict:
+def verify(model: "NLIModel", question: str, vocab: dict, pred: str, tau: float | None = None,
+           rule: str | None = None) -> dict:
     """Acceptance test that turns a provisional NLI prediction into an observation (or rejects it).
 
     The proposition is queried twice, with its positive and its negative template. A label is accepted
@@ -28,11 +32,13 @@ def verify(model: "NLIModel", question: str, vocab: dict, pred: str, tau: float 
     does not contradict it (entail on the positive reading must not also be entail on the negative one,
     and vice versa; neutral must be neutral on both). Otherwise the result is unverified (label None).
     """
+    tau = ACCEPT_THRESHOLD if tau is None else tau
+    rule = ACCEPT_RULE if rule is None else rule
     pos, neg = model.predict_many([(question, vocab[pred]["template_pos"]), (question, vocab[pred]["template_neg"])])
     pos_label, neg_label = max(pos, key=pos.get), max(neg, key=neg.get)
     expected_neg = {"entail": "contra", "contra": "entail", "neutral": "neutral"}[pos_label]
     confident = pos[pos_label] >= tau
-    consistent = neg_label == expected_neg or (pos_label != "neutral" and neg_label == "neutral")
+    consistent = rule == "pos_only" or neg_label == expected_neg or (pos_label != "neutral" and neg_label == "neutral")
     return {
         "raw": pos_label,
         "label": pos_label if (confident and consistent) else None,

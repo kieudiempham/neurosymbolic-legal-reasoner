@@ -15,6 +15,19 @@ ROOT = Path(__file__).resolve().parents[2]
 MBD_PL = Path(__file__).with_name("mbd.pl")
 SWIPL = os.environ.get("SWIPL", str(ROOT / ".tools" / "swipl" / "bin" / "swipl.exe"))
 PROLOG_MODE = os.environ.get("MBD_PROLOG_MODE", "server")  # "server" (persistent process) | "oneshot"
+# Bound on the candidate space: the cardinality bound k is lowered until sum_{j<=k} C(n, j) fits, so the
+# search stays tractable when a query has many fault atoms (bounded-cardinality Reiter diagnosis).
+MAX_CANDIDATES = int(os.environ.get("MBD_MAX_CANDIDATES", 200_000))
+
+
+def effective_k(n_atoms: int, max_size: int) -> int:
+    from math import comb
+
+    k, total = 0, 1
+    while k < min(max_size, n_atoms) and total + comb(n_atoms, k + 1) <= MAX_CANDIDATES:
+        k += 1
+        total += comb(n_atoms, k)
+    return k
 
 FAULT_LAYER = {
     "missing": "user",
@@ -182,7 +195,7 @@ def minimal_diagnoses(obs: Observations, max_size: int = 3) -> list[Diagnosis]:
     atoms = fault_atoms(obs)
     by_term = {_norm(f.to_prolog()): f for f in atoms}
     if PROLOG_MODE == "server":
-        lines = PrologServer.get().request(obs, atoms, min(max_size, len(atoms)))
+        lines = PrologServer.get().request(obs, atoms, effective_k(len(atoms), max_size))
         return [frozenset(by_term[_norm(p)] for p in (_split_terms(ln.strip()[1:-1]) if ln.strip() != "[]" else []))
                 for ln in lines]
     program = "\n".join(
@@ -190,7 +203,7 @@ def minimal_diagnoses(obs: Observations, max_size: int = 3) -> list[Diagnosis]:
             f":- consult({_atom(MBD_PL.as_posix())}).",
             obs.to_prolog(),
             "atoms([" + ", ".join(f.to_prolog() for f in atoms) + "]).",
-            f"main :- atoms(A), minimal_diagnoses(A, {min(max_size, len(atoms))}, Ds),"
+            f"main :- atoms(A), minimal_diagnoses(A, {effective_k(len(atoms), max_size)}, Ds),"
             " forall(member(D, Ds), (write_canonical(D), nl)).",
         ]
     )

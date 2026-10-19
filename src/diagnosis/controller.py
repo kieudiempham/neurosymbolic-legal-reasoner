@@ -42,9 +42,14 @@ class QueryResult:
     final_state: "ReasoningState | None" = None
 
 
-def _observations(kb: KB, state: ReasoningState) -> Observations:
+# Above this many unresolved required propositions the trace spans several alternative paths that the case
+# does not discriminate (e.g. an enumerated exemption list); the question is then consulted to pick the path.
+PATH_SELECTION_LIMIT = 6
+
+
+def _observations(kb: KB, state: ReasoningState, hints: frozenset[str] = frozenset()) -> Observations:
     obs = Observations()
-    obs.required = set(backward_trace_required(kb, state))
+    obs.required = set(backward_trace_required(kb, state, hints))
     obs.checked = set(proof_support(kb, state))
     pf = state.parser_facts()
     for c in obs.required | obs.checked:
@@ -103,6 +108,16 @@ class Diagnoser:
 
     def diagnose(self, question: str, state: ReasoningState, res: QueryResult) -> tuple[list[Diagnosis], Observations]:
         obs = _observations(self.kb, state)
+        if len(obs.required) > PATH_SELECTION_LIMIT and self.cfg.use_mbd and not self.cfg.rule_check:
+            # Path selection: measure the open conditions against the question and keep the alternative(s)
+            # the question actually speaks about (accepted entail/contra); the labels stay as observations.
+            for c in sorted(obs.required):
+                self._nli(res, question, c, obs)
+            hints = frozenset(c for c in obs.required if obs.q.get(c) in ("entail", "contra"))
+            if hints:
+                q = dict(obs.q)
+                obs = _observations(self.kb, state, hints)
+                obs.q.update({c: v for c, v in q.items() if c in obs.required | obs.checked})
         res.traces += 1
         if not (obs.required or obs.checked or obs.competing):
             return [frozenset()], obs

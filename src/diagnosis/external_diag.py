@@ -132,6 +132,12 @@ def group_bootstrap(rows: list[dict], key: str, n_boot: int = 1000, seed: int = 
 
 
 def score(rows: list[dict], meta: dict[str, dict], diagnosis: bool) -> dict:
+    if diagnosis:
+        # a CONTROL case whose KB has encoded general/exception overlaps is correctly diagnosed as "only
+        # resolvable overlaps" (true of the instance and benign), as in inject.build_instances
+        for r in rows:
+            if r["gold_category"] == "Normal" and r["first_diagnosis"] and r["first_status"] != "ambiguous":
+                r["hit"] = all(f.startswith("ResolvableRuleOverlap(") for f in r["first_diagnosis"])
     def block(rs: list[dict]) -> dict:
         b = {"n": len(rs), "sources": len({r["case"] for r in rs})}
         if not rs:

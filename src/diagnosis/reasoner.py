@@ -145,8 +145,11 @@ def forward_reason(
                           suspended)
 
 
-def backward_trace_required(kb: KB, state: ReasoningState) -> list[str]:
-    """Backward dependency tracing: unresolved input propositions blocking the goal (all relevant paths)."""
+def backward_trace_required(kb: KB, state: ReasoningState, hints: frozenset[str] = frozenset()) -> list[str]:
+    """Backward dependency tracing: unresolved input propositions blocking the goal (all relevant paths).
+
+    hints: unresolved input propositions the question is known to speak about (accepted NLI evidence);
+    they count as support when choosing among alternative paths, never as established facts."""
     required: list[str] = []
     seen: set[str] = set()
 
@@ -174,7 +177,7 @@ def backward_trace_required(kb: KB, state: ReasoningState) -> list[str]:
             if state.rule_status[rule.id] != UNDETERMINED:
                 continue
             ps = state.premise_status[rule.id]
-            if rule.id in state.suspended or any(v == SATISFIED for v in ps.values()):
+            if rule.id in state.suspended or any(v == SATISFIED for v in ps.values())                     or any(ps[str(l)] == UNKNOWN and l.pred in hints for l in rule.premises):
                 ok = True
                 break
             for lit in rule.premises:
@@ -189,10 +192,19 @@ def backward_trace_required(kb: KB, state: ReasoningState) -> list[str]:
 
     def rule_is_relevant(rule) -> bool:
         ps = state.premise_status[rule.id]
-        if rule.id in state.suspended or any(v == SATISFIED for v in ps.values()):
+        if rule.id in state.suspended or any(v == SATISFIED for v in ps.values())                 or any(ps[str(l)] == UNKNOWN and l.pred in hints for l in rule.premises):
             return True
         return any(ps[str(l)] == UNKNOWN and kb.vocab[l.pred]["kind"] != "input" and has_relevant_path(l.pred)
                    for l in rule.premises)
+
+    def rule_support(rule) -> int:
+        ps = state.premise_status[rule.id]
+        if rule.id in state.suspended:
+            return len(rule.premises) + 1  # all its own conditions hold; only an exception blocks it
+        return sum(v == SATISFIED for v in ps.values()) + sum(
+            ps[str(l)] == UNKNOWN and l.pred in hints for l in rule.premises) + sum(
+            ps[str(l)] == UNKNOWN and kb.vocab[l.pred]["kind"] != "input" and has_relevant_path(l.pred)
+            for l in rule.premises)
 
     def visit(pred: str) -> None:
         if pred in seen:
@@ -202,6 +214,11 @@ def backward_trace_required(kb: KB, state: ReasoningState) -> list[str]:
         # Only "relevant candidate proof paths" (some condition already established) are traced; if none
         # is relevant, every open path is (nothing in the case points to one alternative over another).
         relevant = [r for r in open_rules if rule_is_relevant(r)] or open_rules
+        # among relevant alternatives keep the best-supported ones (most conditions already established):
+        # a case that describes exported goods does not also have to state the export-service conditions
+        support = {r.id: rule_support(r) for r in relevant}
+        best = max(support.values(), default=0)
+        relevant = [r for r in relevant if support[r.id] == best]
         for rule in relevant:
             unknown_premises(rule.id)
             if rule.id in state.suspended:  # blocked only by a partially established exception
