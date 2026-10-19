@@ -1,0 +1,46 @@
+{
+  "total": 40,
+  "schema_valid": 40,
+  "span_valid": 40,
+  "unique_question_text": 40,
+  "unique_fact_goal_profiles": 26,
+  "profile_repeat_groups": {
+    "8c781e357146": 3,
+    "46a7291c8ed5": 2,
+    "2efa2df96169": 2,
+    "e928b34a6e69": 2,
+    "20d1eaa36bbd": 2,
+    "9295c7e1b285": 2,
+    "6003f14df561": 3,
+    "3811fe46ec0e": 3,
+    "4dcc47805796": 2,
+    "c29a655fcbdb": 2,
+    "5d9bd0fdf8e7": 2
+  },
+  "expected": {
+    "true": 22,
+    "insufficient": 13,
+    "false": 5
+  },
+  "info_level": {
+    "complete": 25,
+    "missing": 13,
+    "exception_or_conflict": 2
+  },
+  "source_domains_used": [
+    "bhxh",
+    "doanh_nghiep",
+    "lao_dong",
+    "thue"
+  ],
+  "all_have_min_two_distinct_source_domains": true,
+  "all_have_at_least_two_chain_steps": true,
+  "source_anchors_exact_in_article": true,
+  "predicate_registry_additions": 19,
+  "validation_limits": [
+    "No verification against actual SWI-Prolog knowledge base",
+    "No independent legal expert review of outcome/implications",
+    "Multi-hop is an annotated dependency chain, not an executed Prolog proof",
+    "Gold may change after legal review; do not tune KB on held-out test"
+  ]
+}

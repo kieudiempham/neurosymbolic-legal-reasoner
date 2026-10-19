@@ -1,0 +1,413 @@
+predicates:
+  age_at_least_15:
+    ask: Người này đã đủ 15 tuổi chưa?
+    kind: input
+    template_neg: Người này chưa đủ 15 tuổi.
+    template_pos: Người này từ đủ 15 tuổi trở lên.
+  agreed_contribution:
+    ask: 'Xin cho biết: Người lao động và công ty thỏa thuận vẫn đóng bảo hiểm xã
+      hội trong thời gian này.'
+    kind: input
+    template_neg: Người lao động và công ty không có thỏa thuận về việc đóng bảo hiểm
+      xã hội trong thời gian này.
+    template_pos: Người lao động và công ty thỏa thuận vẫn đóng bảo hiểm xã hội trong
+      thời gian này.
+  appointed_manager_state_owned_llc:
+    ask: Người lao động có được bổ nhiệm làm người quản lý của công ty TNHH một thành
+      viên do Nhà nước nắm 100% vốn điều lệ không?
+    kind: input
+    template_neg: Người lao động không được bổ nhiệm làm người quản lý công ty TNHH
+      một thành viên 100% vốn nhà nước.
+    template_pos: Người lao động được bổ nhiệm làm người quản lý doanh nghiệp của
+      công ty TNHH một thành viên do Nhà nước nắm giữ 100% vốn điều lệ.
+  authorized_enterprise_capital_representative:
+    ask: Người lao động có được ủy quyền đại diện phần vốn doanh nghiệp đầu tư tại
+      doanh nghiệp khác không?
+    kind: input
+    template_neg: Người lao động không được ủy quyền đại diện phần vốn của doanh nghiệp
+      tại doanh nghiệp khác.
+    template_pos: Người lao động được ủy quyền thực hiện quyền, trách nhiệm của doanh
+      nghiệp đối với phần vốn doanh nghiệp đầu tư tại doanh nghiệp khác.
+  authorized_state_capital_representative:
+    ask: Người lao động có được ủy quyền làm đại diện phần vốn nhà nước tại doanh
+      nghiệp không?
+    kind: input
+    template_neg: Người lao động không được ủy quyền đại diện phần vốn nhà nước tại
+      doanh nghiệp.
+    template_pos: Người lao động được ủy quyền thực hiện quyền, trách nhiệm của đại
+      diện chủ sở hữu nhà nước đối với phần vốn nhà nước tại doanh nghiệp.
+  branch_business_class:
+    ask: ''
+    kind: derived
+    template_neg: Giao dịch chưa được xác định là hoạt động kinh doanh của doanh nghiệp.
+    template_pos: Giao dịch do chi nhánh thực hiện là hoạt động kinh doanh của doanh
+      nghiệp.
+  branch_conducts_business:
+    ask: 'Xin cho biết: Chi nhánh đang trực tiếp bán hàng hoặc cung cấp dịch vụ.'
+    kind: input
+    template_neg: Chi nhánh không trực tiếp bán hàng hoặc cung cấp dịch vụ.
+    template_pos: Chi nhánh đang trực tiếp bán hàng hoặc cung cấp dịch vụ.
+  business_income_taxable:
+    ask: ''
+    kind: derived
+    template_neg: Thu nhập hoạt động kinh doanh không thuộc diện thu nhập chịu thuế
+      TNDN.
+    template_pos: Thu nhập hoạt động kinh doanh thuộc diện thu nhập chịu thuế TNDN.
+  can_pay_lump_sum_remaining_months:
+    ask: Có được đóng một lần cho số tháng BHXH còn thiếu không?
+    kind: derived
+    template_neg: Người lao động không được đóng tiếp một lần cho số tháng còn thiếu.
+    template_pos: Người lao động hoặc thân nhân được đóng tiếp một lần cho số tháng
+      BHXH còn thiếu.
+  cit_expense_deductible:
+    ask: ''
+    kind: derived
+    template_neg: Khoản chi không được trừ khi tính thu nhập chịu thuế TNDN.
+    template_pos: Khoản chi được trừ khi tính thu nhập chịu thuế TNDN.
+  cit_no_special_rate_regime:
+    ask: 'Xin cho biết: Doanh nghiệp không thuộc diện ưu đãi thuế suất hoặc nhóm thuế
+      suất đặc biệt.'
+    kind: input
+    template_neg: Doanh nghiệp thuộc diện ưu đãi hoặc nhóm thuế suất đặc biệt.
+    template_pos: Doanh nghiệp không thuộc diện ưu đãi thuế suất hoặc nhóm thuế suất
+      đặc biệt.
+  cit_prior_revenue_above_3_up_to_50bn:
+    ask: 'Xin cho biết: Tổng doanh thu kỳ trước trên 3 tỷ và không quá 50 tỷ đồng.'
+    kind: input
+    template_neg: Tổng doanh thu kỳ trước nằm ngoài mức trên 3 đến 50 tỷ đồng.
+    template_pos: Tổng doanh thu kỳ trước trên 3 tỷ và không quá 50 tỷ đồng.
+  cit_prior_revenue_le_3bn:
+    ask: 'Xin cho biết: Tổng doanh thu kỳ tính thuế trước liền kề không quá 3 tỷ đồng.'
+    kind: input
+    template_neg: Tổng doanh thu kỳ tính thuế trước liền kề lớn hơn 3 tỷ đồng.
+    template_pos: Tổng doanh thu kỳ tính thuế trước liền kề không quá 3 tỷ đồng.
+  cit_rate_15_applicable:
+    ask: ''
+    kind: derived
+    template_neg: Doanh nghiệp không đủ điều kiện áp dụng thuế suất TNDN 15%.
+    template_pos: Doanh nghiệp đủ điều kiện áp dụng thuế suất TNDN 15%.
+  cit_rate_17_applicable:
+    ask: ''
+    kind: derived
+    template_neg: Doanh nghiệp không đủ điều kiện áp dụng thuế suất TNDN 17%.
+    template_pos: Doanh nghiệp đủ điều kiện áp dụng thuế suất TNDN 17%.
+  cit_taxpayer:
+    ask: ''
+    kind: derived
+    template_neg: Doanh nghiệp không thuộc nhóm người nộp thuế TNDN đối với thu nhập
+      đang xét.
+    template_pos: Doanh nghiệp thuộc nhóm người nộp thuế TNDN đối với thu nhập đang
+      xét.
+  compulsory_detox_or_education_measure:
+    ask: Người lao động có phải chấp hành quyết định đưa vào trường giáo dưỡng, cơ
+      sở cai nghiện bắt buộc hoặc cơ sở giáo dục bắt buộc không?
+    kind: input
+    template_neg: Người lao động không phải chấp hành biện pháp đưa vào trường giáo
+      dưỡng, cơ sở cai nghiện hay giáo dục bắt buộc.
+    template_pos: Người lao động phải chấp hành quyết định đưa vào trường giáo dưỡng,
+      cơ sở cai nghiện bắt buộc hoặc cơ sở giáo dục bắt buộc.
+  compulsory_si:
+    ask: Người này có thuộc đối tượng tham gia BHXH bắt buộc không?
+    kind: derived
+    template_neg: Người này không thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.
+    template_pos: Người này thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.
+  contract_expired_over_30_days:
+    ask: 'Xin cho biết: Hợp đồng đã hết hạn quá 30 ngày.'
+    kind: input
+    template_neg: Hợp đồng mới hết hạn chưa quá 30 ngày.
+    template_pos: Hợp đồng đã hết hạn quá 30 ngày.
+  contract_suspended:
+    ask: ''
+    kind: derived
+    template_neg: Hợp đồng lao động không bị tạm hoãn.
+    template_pos: Hợp đồng lao động đang tạm hoãn thực hiện.
+  converted_to_indefinite_contract:
+    ask: ''
+    kind: derived
+    template_neg: Hợp đồng cũ chưa chuyển thành hợp đồng không xác định thời hạn theo
+      Điều 20.
+    template_pos: Hợp đồng cũ chuyển thành hợp đồng không xác định thời hạn theo Điều
+      20.
+  cooperative_elected_manager:
+    ask: Người này có giữ chức danh quản lý được bầu của hợp tác xã không?
+    kind: input
+    template_neg: Người này không giữ chức danh quản lý được bầu của hợp tác xã.
+    template_pos: Người này giữ chức danh quản lý được bầu của hợp tác xã, liên hiệp
+      hợp tác xã.
+  covered_point_a:
+    ask: ''
+    kind: derived
+    template_neg: Người lao động không thuộc diện quy định tại điểm a khoản 1 Điều
+      2 Luật BHXH.
+    template_pos: Người lao động thuộc diện quy định tại điểm a khoản 1 Điều 2 Luật
+      BHXH.
+  dn_enterprise_entity:
+    ask: ''
+    kind: derived
+    template_neg: Tổ chức chưa được xác định là doanh nghiệp thành lập theo pháp luật
+      Việt Nam.
+    template_pos: Tổ chức được xác định là doanh nghiệp thành lập theo pháp luật Việt
+      Nam.
+  dn_manager_status:
+    ask: ''
+    kind: derived
+    template_neg: Chức danh không thuộc nhóm người quản lý doanh nghiệp theo luật
+      doanh nghiệp.
+    template_pos: Chức danh thuộc phạm vi người quản lý doanh nghiệp theo luật doanh
+      nghiệp.
+  domestic_worker:
+    ask: Người lao động có phải người giúp việc gia đình không?
+    kind: input
+    template_neg: Người lao động không phải người giúp việc gia đình.
+    template_pos: Người lao động là người giúp việc gia đình.
+  enterprise_controller_or_capital_representative:
+    ask: Người này có phải kiểm soát viên hoặc người đại diện phần vốn không?
+    kind: input
+    template_neg: Người này không phải kiểm soát viên hay người đại diện phần vốn.
+    template_pos: Người này là kiểm soát viên hoặc người đại diện phần vốn nhà nước,
+      phần vốn của doanh nghiệp.
+  enterprise_manager:
+    ask: 'Xin cho biết: Người này là người quản lý doanh nghiệp.'
+    kind: input
+    template_neg: Người này không phải là người quản lý doanh nghiệp.
+    template_pos: Người này là người quản lý doanh nghiệp.
+  first_month_sick_leave_14_days:
+    ask: Trong tháng đầu làm việc (hoặc trở lại làm việc), người lao động có nghỉ
+      ốm từ 14 ngày làm việc trở lên không?
+    kind: input
+    template_neg: Không có việc nghỉ ốm từ 14 ngày làm việc trở lên trong tháng đầu
+      làm việc hoặc trở lại làm việc.
+    template_pos: Trong tháng đầu làm việc hoặc tháng đầu trở lại làm việc, người
+      lao động nghỉ ốm đau từ 14 ngày làm việc trở lên.
+  foreign_citizen:
+    ask: 'Xin cho biết: Người lao động là công dân nước ngoài.'
+    kind: input
+    template_neg: Người lao động là công dân Việt Nam.
+    template_pos: Người lao động là công dân nước ngoài.
+  held_in_criminal_custody:
+    ask: Người lao động có đang bị tạm giữ hoặc tạm giam không?
+    kind: input
+    template_neg: Người lao động không bị tạm giữ, tạm giam.
+    template_pos: Người lao động bị tạm giữ, tạm giam theo pháp luật tố tụng hình
+      sự.
+  indefinite_term_contract:
+    ask: Hợp đồng lao động có phải loại không xác định thời hạn không?
+    kind: input
+    template_neg: Hợp đồng lao động là hợp đồng xác định thời hạn.
+    template_pos: Hợp đồng lao động là hợp đồng không xác định thời hạn.
+  intra_company_transfer:
+    ask: Người lao động nước ngoài có phải di chuyển trong nội bộ doanh nghiệp không?
+    kind: input
+    template_neg: Người lao động nước ngoài không phải trường hợp di chuyển trong
+      nội bộ doanh nghiệp.
+    template_pos: Người lao động nước ngoài là trường hợp di chuyển trong nội bộ doanh
+      nghiệp.
+  labor_relation:
+    ask: ''
+    kind: derived
+    template_neg: Giữa hai bên không tồn tại quan hệ lao động.
+    template_pos: Giữa hai bên tồn tại quan hệ lao động.
+  legal_wage_expense:
+    ask: ''
+    kind: derived
+    template_neg: Khoản trả không phải tiền lương theo Bộ luật Lao động.
+    template_pos: Khoản trả cho người lao động là tiền lương theo Bộ luật Lao động.
+  llc_multi_member:
+    ask: 'Xin cho biết: Doanh nghiệp là công ty TNHH hai thành viên trở lên.'
+    kind: input
+    template_neg: Doanh nghiệp không phải công ty TNHH hai thành viên trở lên.
+    template_pos: Doanh nghiệp là công ty TNHH hai thành viên trở lên.
+  llc_single_owner:
+    ask: 'Xin cho biết: Công ty TNHH có đúng một chủ sở hữu.'
+    kind: input
+    template_neg: Công ty TNHH có nhiều hơn một chủ sở hữu.
+    template_pos: Công ty TNHH có đúng một chủ sở hữu.
+  military_service_duty:
+    ask: Người lao động có đang thực hiện nghĩa vụ quân sự hoặc tham gia Dân quân
+      tự vệ không?
+    kind: input
+    template_neg: Người lao động không thực hiện nghĩa vụ quân sự hay nghĩa vụ Dân
+      quân tự vệ.
+    template_pos: Người lao động đang thực hiện nghĩa vụ quân sự hoặc nghĩa vụ tham
+      gia Dân quân tự vệ.
+  must_contribute_month:
+    ask: ''
+    kind: derived
+    template_neg: Người lao động không phải đóng bảo hiểm xã hội bắt buộc trong tháng
+      đó.
+    template_pos: Người lao động phải đóng bảo hiểm xã hội bắt buộc trong tháng đó.
+  mutually_suspended_contract:
+    ask: 'Xin cho biết: Hai bên thống nhất tạm hoãn hợp đồng lao động.'
+    kind: input
+    template_neg: Hai bên không thống nhất tạm hoãn hợp đồng lao động.
+    template_pos: Hai bên thống nhất tạm hoãn hợp đồng lao động.
+  no_new_contract:
+    ask: 'Xin cho biết: Hai bên chưa ký hợp đồng lao động mới sau khi hợp đồng cũ
+      hết hạn.'
+    kind: input
+    template_neg: Hai bên đã ký hợp đồng mới.
+    template_pos: Hai bên chưa ký hợp đồng lao động mới sau khi hợp đồng cũ hết hạn.
+  ongoing_employment:
+    ask: 'Xin cho biết: Người lao động vẫn tiếp tục làm việc sau khi hết hạn hợp đồng.'
+    kind: input
+    template_neg: Người lao động không tiếp tục làm việc.
+    template_pos: Người lao động vẫn tiếp tục làm việc sau khi hết hạn hợp đồng.
+  paid_wage:
+    ask: 'Xin cho biết: Người lao động được trả lương hoặc tiền công cho công việc.'
+    kind: input
+    template_neg: Người lao động không được trả lương cho công việc.
+    template_pos: Người lao động được trả lương hoặc tiền công cho công việc.
+  payroll_papers_complete:
+    ask: 'Xin cho biết: Khoản tiền lương có đầy đủ hóa đơn, chứng từ cần thiết theo
+      quy định.'
+    kind: input
+    template_neg: Khoản tiền lương chưa có đủ chứng từ theo quy định.
+    template_pos: Khoản tiền lương có đầy đủ hóa đơn, chứng từ cần thiết theo quy
+      định.
+  pregnancy_suspension_art138:
+    ask: Người lao động có phải lao động nữ mang thai xin tạm hoãn hợp đồng theo Điều
+      138 Bộ luật Lao động không?
+    kind: input
+    template_neg: Người lao động không thuộc trường hợp tạm hoãn do mang thai theo
+      Điều 138.
+    template_pos: Lao động nữ mang thai thuộc trường hợp tạm hoãn hợp đồng theo Điều
+      138 Bộ luật Lao động.
+  reached_retirement_age:
+    ask: Người này đã đủ tuổi nghỉ hưu chưa?
+    kind: input
+    template_neg: Người này chưa đủ tuổi nghỉ hưu.
+    template_pos: Người này đã đủ tuổi nghỉ hưu theo khoản 2 Điều 169 Bộ luật Lao
+      động.
+  receives_salary:
+    ask: 'Xin cho biết: Người này nhận tiền lương từ doanh nghiệp.'
+    kind: input
+    template_neg: Người này không nhận tiền lương từ doanh nghiệp.
+    template_pos: Người này nhận tiền lương từ doanh nghiệp.
+  receiving_pension_or_allowance:
+    ask: Người này có đang hưởng lương hưu hoặc trợ cấp BHXH, trợ cấp hằng tháng không?
+    kind: input
+    template_neg: Người này không hưởng lương hưu, trợ cấp BHXH hay trợ cấp hằng tháng.
+    template_pos: Người này đang hưởng lương hưu, trợ cấp bảo hiểm xã hội hoặc trợ
+      cấp hằng tháng.
+  registered_household_business_owner:
+    ask: Người này có phải chủ hộ kinh doanh có đăng ký kinh doanh không?
+    kind: input
+    template_neg: Người này không phải chủ hộ kinh doanh có đăng ký kinh doanh.
+    template_pos: Người này là chủ hộ kinh doanh có đăng ký kinh doanh.
+  retirement_age_at_signing:
+    ask: Khi ký hợp đồng, người lao động đã đủ tuổi nghỉ hưu chưa?
+    kind: input
+    template_neg: Tại thời điểm giao kết hợp đồng, người lao động chưa đủ tuổi nghỉ
+      hưu.
+    template_pos: Tại thời điểm giao kết hợp đồng lao động, người lao động đã đủ tuổi
+      nghỉ hưu.
+  si_paid_manager_category:
+    ask: ''
+    kind: derived
+    template_neg: Người quản lý không thuộc diện có hưởng lương theo Điều 2 khoản
+      1 điểm i.
+    template_pos: Người quản lý thuộc diện có hưởng lương theo Điều 2 khoản 1 điểm
+      i Luật BHXH.
+  si_shortfall_max_6_months:
+    ask: Thời gian đóng BHXH còn thiếu tối đa 06 tháng để đủ điều kiện hưởng lương
+      hưu không?
+    kind: input
+    template_neg: Thời gian đóng BHXH không ở mức còn thiếu tối đa 06 tháng.
+    template_pos: Thời gian đóng BHXH còn thiếu tối đa 06 tháng để đủ điều kiện hưởng
+      lương hưu hoặc trợ cấp tuất hằng tháng.
+  si_unpaid_manager_category:
+    ask: ''
+    kind: derived
+    template_neg: Người quản lý không thuộc diện không hưởng lương theo Điều 2 khoản
+      1 điểm n.
+    template_pos: Người quản lý thuộc diện không hưởng lương theo Điều 2 khoản 1 điểm
+      n Luật BHXH.
+  signed_labor_contract:
+    ask: 'Xin cho biết: Người lao động đã ký hợp đồng lao động.'
+    kind: input
+    template_neg: Người lao động không ký hợp đồng lao động.
+    template_pos: Người lao động đã ký hợp đồng lao động.
+  stock_company:
+    ask: 'Xin cho biết: Doanh nghiệp là công ty cổ phần.'
+    kind: input
+    template_neg: Doanh nghiệp không phải công ty cổ phần.
+    template_pos: Doanh nghiệp là công ty cổ phần.
+  taxable_business_income:
+    ask: 'Xin cho biết: Doanh nghiệp có thu nhập từ hoạt động kinh doanh hàng hóa
+      hoặc dịch vụ.'
+    kind: input
+    template_neg: Doanh nghiệp không có thu nhập từ hoạt động kinh doanh hàng hóa
+      hoặc dịch vụ.
+    template_pos: Doanh nghiệp có thu nhập từ hoạt động kinh doanh hàng hóa hoặc dịch
+      vụ.
+  term_at_least_12_months:
+    ask: Thời hạn hợp đồng lao động có từ đủ 12 tháng trở lên không?
+    kind: input
+    template_neg: Hợp đồng lao động có thời hạn dưới 12 tháng.
+    template_pos: Hợp đồng lao động xác định thời hạn có thời hạn từ đủ 12 tháng trở
+      lên.
+  term_at_least_1_month:
+    ask: 'Xin cho biết: Hợp đồng có thời hạn từ đủ 01 tháng trở lên.'
+    kind: input
+    template_neg: Hợp đồng có thời hạn dưới 01 tháng.
+    template_pos: Hợp đồng có thời hạn từ đủ 01 tháng trở lên.
+  treaty_provides_otherwise:
+    ask: Có điều ước quốc tế nào quy định khác về BHXH cho người này không?
+    kind: input
+    template_neg: Không có điều ước quốc tế nào quy định khác cho trường hợp này.
+    template_pos: Điều ước quốc tế mà Việt Nam là thành viên có quy định khác về BHXH
+      cho trường hợp này.
+  under_management:
+    ask: 'Xin cho biết: Người lao động chịu sự quản lý, điều hành, giám sát của bên
+      sử dụng lao động.'
+    kind: input
+    template_neg: Người lao động không chịu sự quản lý, điều hành của bên sử dụng
+      lao động.
+    template_pos: Người lao động chịu sự quản lý, điều hành, giám sát của bên sử dụng
+      lao động.
+  unpaid_14_days:
+    ask: 'Xin cho biết: Trong tháng, người lao động không hưởng tiền lương từ 14 ngày
+      làm việc trở lên.'
+    kind: input
+    template_neg: Trong tháng, người lao động có hưởng lương phần lớn số ngày làm
+      việc.
+    template_pos: Trong tháng, người lao động không hưởng tiền lương từ 14 ngày làm
+      việc trở lên.
+  vat_non_exempt_goods:
+    ask: 'Xin cho biết: Hàng hóa, dịch vụ bán ra không thuộc các nhóm không chịu thuế
+      GTGT theo luật.'
+    kind: input
+    template_neg: Hàng hóa, dịch vụ thuộc nhóm không chịu thuế GTGT.
+    template_pos: Hàng hóa, dịch vụ bán ra không thuộc các nhóm không chịu thuế GTGT
+      theo luật.
+  vat_taxpayer_on_branch_sale:
+    ask: ''
+    kind: derived
+    template_neg: Doanh nghiệp không phải người nộp thuế GTGT cho hoạt động bán hàng
+      đang xét.
+    template_pos: Doanh nghiệp là người nộp thuế GTGT cho hoạt động bán hàng thuộc
+      diện chịu thuế.
+  voluntary_si_eligible:
+    ask: Người này có được tham gia BHXH tự nguyện không?
+    kind: derived
+    template_neg: Người này không thuộc đối tượng tham gia bảo hiểm xã hội tự nguyện.
+    template_pos: Người này thuộc đối tượng tham gia bảo hiểm xã hội tự nguyện.
+  wage_expense_for_business:
+    ask: 'Xin cho biết: Doanh nghiệp chi lương để phục vụ trực tiếp hoạt động kinh
+      doanh.'
+    kind: input
+    template_neg: Khoản chi không phục vụ hoạt động kinh doanh.
+    template_pos: Doanh nghiệp chi lương để phục vụ trực tiếp hoạt động kinh doanh.
+  wage_paid_to_individual_owner:
+    ask: Khoản lương này có phải trả cho chính chủ doanh nghiệp tư nhân hoặc chủ công
+      ty TNHH một thành viên là cá nhân không?
+    kind: input
+    template_neg: Khoản tiền lương không phải lương trả cho chủ doanh nghiệp tư nhân
+      hay chủ công ty TNHH một thành viên do cá nhân làm chủ.
+    template_pos: Khoản tiền lương là lương trả cho chính chủ doanh nghiệp tư nhân
+      hoặc chủ công ty TNHH một thành viên do cá nhân làm chủ.
+  wages_paid_in_reality:
+    ask: 'Xin cho biết: Doanh nghiệp đã thực tế chi trả tiền lương.'
+    kind: input
+    template_neg: Doanh nghiệp chưa thực tế chi trả tiền lương.
+    template_pos: Doanh nghiệp đã thực tế chi trả tiền lương.

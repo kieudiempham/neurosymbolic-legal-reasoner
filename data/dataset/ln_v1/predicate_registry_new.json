@@ -1,0 +1,126 @@
+[
+  {
+    "pred": "ongoing_employment",
+    "kind": "input",
+    "template_pos": "Người lao động vẫn tiếp tục làm việc sau khi hết hạn hợp đồng.",
+    "template_neg": "Người lao động không tiếp tục làm việc.",
+    "ask": "Anh/chị có thể xác nhận: Người lao động vẫn tiếp tục làm việc sau khi hết hạn hợp đồng không?"
+  },
+  {
+    "pred": "mutually_suspended_contract",
+    "kind": "input",
+    "template_pos": "Hai bên thống nhất tạm hoãn hợp đồng lao động.",
+    "template_neg": "Hai bên không thống nhất tạm hoãn hợp đồng lao động.",
+    "ask": "Anh/chị có thể xác nhận: Hai bên thống nhất tạm hoãn hợp đồng lao động không?"
+  },
+  {
+    "pred": "dn_manager_status",
+    "kind": "derived",
+    "template_pos": "Chức danh thuộc phạm vi người quản lý doanh nghiệp theo luật doanh nghiệp.",
+    "template_neg": "Chức danh không thuộc nhóm người quản lý doanh nghiệp theo luật doanh nghiệp."
+  },
+  {
+    "pred": "si_paid_manager_category",
+    "kind": "derived",
+    "template_pos": "Người quản lý thuộc diện có hưởng lương theo Điều 2 khoản 1 điểm i Luật BHXH.",
+    "template_neg": "Người quản lý không thuộc diện có hưởng lương theo Điều 2 khoản 1 điểm i."
+  },
+  {
+    "pred": "si_unpaid_manager_category",
+    "kind": "derived",
+    "template_pos": "Người quản lý thuộc diện không hưởng lương theo Điều 2 khoản 1 điểm n Luật BHXH.",
+    "template_neg": "Người quản lý không thuộc diện không hưởng lương theo Điều 2 khoản 1 điểm n."
+  },
+  {
+    "pred": "business_income_taxable",
+    "kind": "derived",
+    "template_pos": "Thu nhập hoạt động kinh doanh thuộc diện thu nhập chịu thuế TNDN.",
+    "template_neg": "Thu nhập hoạt động kinh doanh không thuộc diện thu nhập chịu thuế TNDN."
+  },
+  {
+    "pred": "cit_taxpayer",
+    "kind": "derived",
+    "template_pos": "Doanh nghiệp thuộc nhóm người nộp thuế TNDN đối với thu nhập đang xét.",
+    "template_neg": "Doanh nghiệp không thuộc nhóm người nộp thuế TNDN đối với thu nhập đang xét."
+  },
+  {
+    "pred": "dn_enterprise_entity",
+    "kind": "derived",
+    "template_pos": "Tổ chức được xác định là doanh nghiệp thành lập theo pháp luật Việt Nam.",
+    "template_neg": "Tổ chức chưa được xác định là doanh nghiệp thành lập theo pháp luật Việt Nam."
+  },
+  {
+    "pred": "taxable_business_income",
+    "kind": "input",
+    "template_pos": "Doanh nghiệp có thu nhập từ hoạt động kinh doanh hàng hóa hoặc dịch vụ.",
+    "template_neg": "Doanh nghiệp không có thu nhập từ hoạt động kinh doanh hàng hóa hoặc dịch vụ.",
+    "ask": "Anh/chị có thể xác nhận: Doanh nghiệp có thu nhập từ hoạt động kinh doanh hàng hóa hoặc dịch vụ không?"
+  },
+  {
+    "pred": "llc_multi_member",
+    "kind": "input",
+    "template_pos": "Doanh nghiệp là công ty TNHH hai thành viên trở lên.",
+    "template_neg": "Doanh nghiệp không phải công ty TNHH hai thành viên trở lên.",
+    "ask": "Anh/chị có thể xác nhận: Doanh nghiệp là công ty TNHH hai thành viên trở lên không?"
+  },
+  {
+    "pred": "stock_company",
+    "kind": "input",
+    "template_pos": "Doanh nghiệp là công ty cổ phần.",
+    "template_neg": "Doanh nghiệp không phải công ty cổ phần.",
+    "ask": "Anh/chị có thể xác nhận: Doanh nghiệp là công ty cổ phần không?"
+  },
+  {
+    "pred": "branch_business_class",
+    "kind": "derived",
+    "template_pos": "Giao dịch do chi nhánh thực hiện là hoạt động kinh doanh của doanh nghiệp.",
+    "template_neg": "Giao dịch chưa được xác định là hoạt động kinh doanh của doanh nghiệp."
+  },
+  {
+    "pred": "branch_conducts_business",
+    "kind": "input",
+    "template_pos": "Chi nhánh đang trực tiếp bán hàng hoặc cung cấp dịch vụ.",
+    "template_neg": "Chi nhánh không trực tiếp bán hàng hoặc cung cấp dịch vụ.",
+    "ask": "Anh/chị có thể xác nhận: Chi nhánh đang trực tiếp bán hàng hoặc cung cấp dịch vụ không?"
+  },
+  {
+    "pred": "vat_non_exempt_goods",
+    "kind": "input",
+    "template_pos": "Hàng hóa, dịch vụ bán ra không thuộc các nhóm không chịu thuế GTGT theo luật.",
+    "template_neg": "Hàng hóa, dịch vụ thuộc nhóm không chịu thuế GTGT.",
+    "ask": "Anh/chị có thể xác nhận: Hàng hóa, dịch vụ bán ra không thuộc các nhóm không chịu thuế GTGT theo luật không?"
+  },
+  {
+    "pred": "vat_taxpayer_on_branch_sale",
+    "kind": "derived",
+    "template_pos": "Doanh nghiệp là người nộp thuế GTGT cho hoạt động bán hàng thuộc diện chịu thuế.",
+    "template_neg": "Doanh nghiệp không phải người nộp thuế GTGT cho hoạt động bán hàng đang xét."
+  },
+  {
+    "pred": "legal_wage_expense",
+    "kind": "derived",
+    "template_pos": "Khoản trả cho người lao động là tiền lương theo Bộ luật Lao động.",
+    "template_neg": "Khoản trả không phải tiền lương theo Bộ luật Lao động."
+  },
+  {
+    "pred": "payroll_papers_complete",
+    "kind": "input",
+    "template_pos": "Khoản tiền lương có đầy đủ hóa đơn, chứng từ cần thiết theo quy định.",
+    "template_neg": "Khoản tiền lương chưa có đủ chứng từ theo quy định.",
+    "ask": "Anh/chị có thể xác nhận: Khoản tiền lương có đầy đủ hóa đơn, chứng từ cần thiết theo quy định không?"
+  },
+  {
+    "pred": "wage_expense_for_business",
+    "kind": "input",
+    "template_pos": "Doanh nghiệp chi lương để phục vụ trực tiếp hoạt động kinh doanh.",
+    "template_neg": "Khoản chi không phục vụ hoạt động kinh doanh.",
+    "ask": "Anh/chị có thể xác nhận: Doanh nghiệp chi lương để phục vụ trực tiếp hoạt động kinh doanh không?"
+  },
+  {
+    "pred": "wages_paid_in_reality",
+    "kind": "input",
+    "template_pos": "Doanh nghiệp đã thực tế chi trả tiền lương.",
+    "template_neg": "Doanh nghiệp chưa thực tế chi trả tiền lương.",
+    "ask": "Anh/chị có thể xác nhận: Doanh nghiệp đã thực tế chi trả tiền lương không?"
+  }
+]

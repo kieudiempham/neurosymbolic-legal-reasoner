@@ -1,0 +1,51 @@
+{
+ "files": [
+  "data/dataset/ln_v1/lien_nganh_40_DRAFT.jsonl"
+ ],
+ "items": 40,
+ "errors": 9,
+ "warnings": 0,
+ "by_domain": {
+  "lien_nganh": 40
+ },
+ "by_question_type": {
+  "application": 40
+ },
+ "by_expected": {
+  "true": 22,
+  "insufficient": 13,
+  "false": 5
+ },
+ "by_info_level": {
+  "complete": 25,
+  "missing": 13,
+  "exception_or_conflict": 2
+ },
+ "multi_hop": 40,
+ "predicates_used": 34,
+ "predicates_from_handoff": 11,
+ "predicates_declared_new": 19,
+ "undeclared_predicates": [
+  "cit_expense_deductible",
+  "cit_no_special_rate_regime",
+  "cit_prior_revenue_above_3_up_to_50bn",
+  "cit_prior_revenue_le_3bn",
+  "cit_rate_15_applicable",
+  "cit_rate_17_applicable",
+  "contract_expired_over_30_days",
+  "llc_single_owner",
+  "no_new_contract"
+ ],
+ "error_list": [
+  "undeclared predicate 'cit_expense_deductible' (used 2x)",
+  "undeclared predicate 'cit_no_special_rate_regime' (used 4x)",
+  "undeclared predicate 'cit_prior_revenue_above_3_up_to_50bn' (used 2x)",
+  "undeclared predicate 'cit_prior_revenue_le_3bn' (used 2x)",
+  "undeclared predicate 'cit_rate_15_applicable' (used 2x)",
+  "undeclared predicate 'cit_rate_17_applicable' (used 2x)",
+  "undeclared predicate 'contract_expired_over_30_days' (used 2x)",
+  "undeclared predicate 'llc_single_owner' (used 3x)",
+  "undeclared predicate 'no_new_contract' (used 2x)"
+ ],
+ "warning_list": []
+}

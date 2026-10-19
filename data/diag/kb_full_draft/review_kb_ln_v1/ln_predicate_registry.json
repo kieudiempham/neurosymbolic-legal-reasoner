@@ -1,0 +1,304 @@
+[
+ {
+  "pred": "agreed_contribution",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Người lao động và công ty thỏa thuận vẫn đóng bảo hiểm xã hội trong thời gian này.",
+  "template_neg": "Người lao động và công ty không có thỏa thuận về việc đóng bảo hiểm xã hội trong thời gian này."
+ },
+ {
+  "pred": "branch_conducts_business",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Chi nhánh đang trực tiếp bán hàng hoặc cung cấp dịch vụ.",
+  "template_neg": "Chi nhánh không trực tiếp bán hàng hoặc cung cấp dịch vụ."
+ },
+ {
+  "pred": "cit_expense_deductible",
+  "kind": "derived",
+  "is_question_goal": true,
+  "template_pos": "Khoản chi được trừ khi tính thu nhập chịu thuế TNDN.",
+  "template_neg": "Khoản chi không được trừ khi tính thu nhập chịu thuế TNDN."
+ },
+ {
+  "pred": "cit_no_special_rate_regime",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Doanh nghiệp không thuộc diện ưu đãi thuế suất hoặc nhóm thuế suất đặc biệt.",
+  "template_neg": "Doanh nghiệp thuộc diện ưu đãi hoặc nhóm thuế suất đặc biệt."
+ },
+ {
+  "pred": "cit_prior_revenue_above_3_up_to_50bn",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Tổng doanh thu kỳ trước trên 3 tỷ và không quá 50 tỷ đồng.",
+  "template_neg": "Tổng doanh thu kỳ trước nằm ngoài mức trên 3 đến 50 tỷ đồng."
+ },
+ {
+  "pred": "cit_prior_revenue_le_3bn",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Tổng doanh thu kỳ tính thuế trước liền kề không quá 3 tỷ đồng.",
+  "template_neg": "Tổng doanh thu kỳ tính thuế trước liền kề lớn hơn 3 tỷ đồng."
+ },
+ {
+  "pred": "cit_rate_15_applicable",
+  "kind": "derived",
+  "is_question_goal": true,
+  "template_pos": "Doanh nghiệp đủ điều kiện áp dụng thuế suất TNDN 15%.",
+  "template_neg": "Doanh nghiệp không đủ điều kiện áp dụng thuế suất TNDN 15%."
+ },
+ {
+  "pred": "cit_rate_17_applicable",
+  "kind": "derived",
+  "is_question_goal": true,
+  "template_pos": "Doanh nghiệp đủ điều kiện áp dụng thuế suất TNDN 17%.",
+  "template_neg": "Doanh nghiệp không đủ điều kiện áp dụng thuế suất TNDN 17%."
+ },
+ {
+  "pred": "cit_taxpayer",
+  "kind": "derived",
+  "is_question_goal": true,
+  "template_pos": "Doanh nghiệp thuộc nhóm người nộp thuế TNDN đối với thu nhập đang xét.",
+  "template_neg": "Doanh nghiệp không thuộc nhóm người nộp thuế TNDN đối với thu nhập đang xét."
+ },
+ {
+  "pred": "contract_expired_over_30_days",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Hợp đồng đã hết hạn quá 30 ngày.",
+  "template_neg": "Hợp đồng mới hết hạn chưa quá 30 ngày."
+ },
+ {
+  "pred": "covered_point_a",
+  "kind": "derived",
+  "is_question_goal": true,
+  "template_pos": "Người lao động thuộc diện quy định tại điểm a khoản 1 Điều 2 Luật BHXH.",
+  "template_neg": "Người lao động không thuộc diện quy định tại điểm a khoản 1 Điều 2 Luật BHXH."
+ },
+ {
+  "pred": "enterprise_manager",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Người này là người quản lý doanh nghiệp.",
+  "template_neg": "Người này không phải là người quản lý doanh nghiệp."
+ },
+ {
+  "pred": "foreign_citizen",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Người lao động là công dân nước ngoài.",
+  "template_neg": "Người lao động là công dân Việt Nam."
+ },
+ {
+  "pred": "llc_multi_member",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Doanh nghiệp là công ty TNHH hai thành viên trở lên.",
+  "template_neg": "Doanh nghiệp không phải công ty TNHH hai thành viên trở lên."
+ },
+ {
+  "pred": "llc_single_owner",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Công ty TNHH có đúng một chủ sở hữu.",
+  "template_neg": "Công ty TNHH có nhiều hơn một chủ sở hữu."
+ },
+ {
+  "pred": "must_contribute_month",
+  "kind": "derived",
+  "is_question_goal": true,
+  "template_pos": "Người lao động phải đóng bảo hiểm xã hội bắt buộc trong tháng đó.",
+  "template_neg": "Người lao động không phải đóng bảo hiểm xã hội bắt buộc trong tháng đó."
+ },
+ {
+  "pred": "mutually_suspended_contract",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Hai bên thống nhất tạm hoãn hợp đồng lao động.",
+  "template_neg": "Hai bên không thống nhất tạm hoãn hợp đồng lao động."
+ },
+ {
+  "pred": "no_new_contract",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Hai bên chưa ký hợp đồng lao động mới sau khi hợp đồng cũ hết hạn.",
+  "template_neg": "Hai bên đã ký hợp đồng mới."
+ },
+ {
+  "pred": "ongoing_employment",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Người lao động vẫn tiếp tục làm việc sau khi hết hạn hợp đồng.",
+  "template_neg": "Người lao động không tiếp tục làm việc."
+ },
+ {
+  "pred": "paid_wage",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Người lao động được trả lương hoặc tiền công cho công việc.",
+  "template_neg": "Người lao động không được trả lương cho công việc."
+ },
+ {
+  "pred": "payroll_papers_complete",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Khoản tiền lương có đầy đủ hóa đơn, chứng từ cần thiết theo quy định.",
+  "template_neg": "Khoản tiền lương chưa có đủ chứng từ theo quy định."
+ },
+ {
+  "pred": "receives_salary",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Người này nhận tiền lương từ doanh nghiệp.",
+  "template_neg": "Người này không nhận tiền lương từ doanh nghiệp."
+ },
+ {
+  "pred": "si_paid_manager_category",
+  "kind": "derived",
+  "is_question_goal": true,
+  "template_pos": "Người quản lý thuộc diện có hưởng lương theo Điều 2 khoản 1 điểm i Luật BHXH.",
+  "template_neg": "Người quản lý không thuộc diện có hưởng lương theo Điều 2 khoản 1 điểm i."
+ },
+ {
+  "pred": "si_unpaid_manager_category",
+  "kind": "derived",
+  "is_question_goal": true,
+  "template_pos": "Người quản lý thuộc diện không hưởng lương theo Điều 2 khoản 1 điểm n Luật BHXH.",
+  "template_neg": "Người quản lý không thuộc diện không hưởng lương theo Điều 2 khoản 1 điểm n."
+ },
+ {
+  "pred": "signed_labor_contract",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Người lao động đã ký hợp đồng lao động.",
+  "template_neg": "Người lao động không ký hợp đồng lao động."
+ },
+ {
+  "pred": "stock_company",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Doanh nghiệp là công ty cổ phần.",
+  "template_neg": "Doanh nghiệp không phải công ty cổ phần."
+ },
+ {
+  "pred": "taxable_business_income",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Doanh nghiệp có thu nhập từ hoạt động kinh doanh hàng hóa hoặc dịch vụ.",
+  "template_neg": "Doanh nghiệp không có thu nhập từ hoạt động kinh doanh hàng hóa hoặc dịch vụ."
+ },
+ {
+  "pred": "term_at_least_1_month",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Hợp đồng có thời hạn từ đủ 01 tháng trở lên.",
+  "template_neg": "Hợp đồng có thời hạn dưới 01 tháng."
+ },
+ {
+  "pred": "under_management",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Người lao động chịu sự quản lý, điều hành, giám sát của bên sử dụng lao động.",
+  "template_neg": "Người lao động không chịu sự quản lý, điều hành của bên sử dụng lao động."
+ },
+ {
+  "pred": "unpaid_14_days",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Trong tháng, người lao động không hưởng tiền lương từ 14 ngày làm việc trở lên.",
+  "template_neg": "Trong tháng, người lao động có hưởng lương phần lớn số ngày làm việc."
+ },
+ {
+  "pred": "vat_non_exempt_goods",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Hàng hóa, dịch vụ bán ra không thuộc các nhóm không chịu thuế GTGT theo luật.",
+  "template_neg": "Hàng hóa, dịch vụ thuộc nhóm không chịu thuế GTGT."
+ },
+ {
+  "pred": "vat_taxpayer_on_branch_sale",
+  "kind": "derived",
+  "is_question_goal": true,
+  "template_pos": "Doanh nghiệp là người nộp thuế GTGT cho hoạt động bán hàng thuộc diện chịu thuế.",
+  "template_neg": "Doanh nghiệp không phải người nộp thuế GTGT cho hoạt động bán hàng đang xét."
+ },
+ {
+  "pred": "wage_expense_for_business",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Doanh nghiệp chi lương để phục vụ trực tiếp hoạt động kinh doanh.",
+  "template_neg": "Khoản chi không phục vụ hoạt động kinh doanh."
+ },
+ {
+  "pred": "wages_paid_in_reality",
+  "kind": "input",
+  "is_question_goal": false,
+  "template_pos": "Doanh nghiệp đã thực tế chi trả tiền lương.",
+  "template_neg": "Doanh nghiệp chưa thực tế chi trả tiền lương."
+ },
+ {
+  "pred": "branch_business_class",
+  "kind": "derived",
+  "is_question_goal": false,
+  "is_shared_intermediate": true,
+  "template_pos": "Giao dịch do chi nhánh thực hiện là hoạt động kinh doanh của doanh nghiệp.",
+  "template_neg": "Giao dịch chưa được xác định là hoạt động kinh doanh của doanh nghiệp."
+ },
+ {
+  "pred": "business_income_taxable",
+  "kind": "derived",
+  "is_question_goal": false,
+  "is_shared_intermediate": true,
+  "template_pos": "Thu nhập hoạt động kinh doanh thuộc diện thu nhập chịu thuế TNDN.",
+  "template_neg": "Thu nhập hoạt động kinh doanh không thuộc diện thu nhập chịu thuế TNDN."
+ },
+ {
+  "pred": "contract_suspended",
+  "kind": "input",
+  "is_question_goal": false,
+  "is_shared_intermediate": true,
+  "template_pos": "Hợp đồng lao động đang tạm hoãn thực hiện.",
+  "template_neg": "Hợp đồng lao động không bị tạm hoãn."
+ },
+ {
+  "pred": "converted_to_indefinite_contract",
+  "kind": "derived",
+  "is_question_goal": false,
+  "is_shared_intermediate": true,
+  "template_pos": "Hợp đồng cũ chuyển thành hợp đồng không xác định thời hạn theo Điều 20.",
+  "template_neg": "Hợp đồng cũ chưa chuyển thành hợp đồng không xác định thời hạn theo Điều 20."
+ },
+ {
+  "pred": "dn_enterprise_entity",
+  "kind": "derived",
+  "is_question_goal": false,
+  "is_shared_intermediate": true,
+  "template_pos": "Tổ chức được xác định là doanh nghiệp thành lập theo pháp luật Việt Nam.",
+  "template_neg": "Tổ chức chưa được xác định là doanh nghiệp thành lập theo pháp luật Việt Nam."
+ },
+ {
+  "pred": "dn_manager_status",
+  "kind": "derived",
+  "is_question_goal": false,
+  "is_shared_intermediate": true,
+  "template_pos": "Chức danh thuộc phạm vi người quản lý doanh nghiệp theo luật doanh nghiệp.",
+  "template_neg": "Chức danh không thuộc nhóm người quản lý doanh nghiệp theo luật doanh nghiệp."
+ },
+ {
+  "pred": "labor_relation",
+  "kind": "derived",
+  "is_question_goal": false,
+  "is_shared_intermediate": true,
+  "template_pos": "Giữa hai bên tồn tại quan hệ lao động.",
+  "template_neg": "Giữa hai bên không tồn tại quan hệ lao động."
+ },
+ {
+  "pred": "legal_wage_expense",
+  "kind": "derived",
+  "is_question_goal": false,
+  "is_shared_intermediate": true,
+  "template_pos": "Khoản trả cho người lao động là tiền lương theo Bộ luật Lao động.",
+  "template_neg": "Khoản trả không phải tiền lương theo Bộ luật Lao động."
+ }
+]

@@ -95,6 +95,16 @@ def _resolved_value(kb: KB, state) -> bool | None:
 def check_case(kb: KB, case: GoldCase) -> dict:
     facts = {p: Fact(p, v, "parser", s) for p, (v, s) in case.facts.items()}
     st = forward_reason(kb, case.goal, facts)
+    # apply encoded exception/priority relations to conflicts anywhere in the chain (as KB verification
+    # + recovery would), re-reasoning until no resolvable conflict remains
+    blocked: set[str] = set()
+    for _ in range(5):
+        resolvable = [kb.resolution(a, b) for a, b, _p in st.competing_pairs]
+        losers = {res[1] for res in resolvable if res}
+        if not losers or losers <= blocked or not all(resolvable):
+            break
+        blocked |= losers
+        st = forward_reason(kb, case.goal, facts, blocked)
     required = backward_trace_required(kb, st)
     got = st.status
     if got == "conflict":

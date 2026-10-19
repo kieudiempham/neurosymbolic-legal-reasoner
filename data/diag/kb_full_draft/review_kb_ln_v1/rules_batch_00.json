@@ -1,0 +1,51 @@
+{
+  "rules": [
+    {"id": "LN0-R001", "premises": ["stock_company"], "conclusion": "dn_enterprise_entity", "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 111 khoản 1", "note": "Công ty cổ phần là doanh nghiệp."},
+    {"id": "LN0-R002", "premises": ["llc_multi_member"], "conclusion": "dn_enterprise_entity", "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 46 khoản 1", "note": "Công ty TNHH hai thành viên trở lên là doanh nghiệp."},
+    {"id": "LN0-R003", "premises": ["llc_single_owner"], "conclusion": "dn_enterprise_entity", "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 74 khoản 1", "note": "Công ty TNHH một thành viên (một chủ sở hữu) là doanh nghiệp."},
+    {"id": "LN0-R004", "premises": [], "conclusion": "~dn_manager_status", "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 4 khoản 24", "note": "Định nghĩa liệt kê đóng: chức danh không thuộc danh sách thì không phải người quản lý doanh nghiệp (luật mặc định)."},
+    {"id": "LN0-R005", "premises": ["enterprise_manager"], "conclusion": "dn_manager_status", "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 4 khoản 24", "note": "Chủ DNTN, thành viên hợp danh, Chủ tịch/thành viên HĐTV, Chủ tịch công ty, Chủ tịch/thành viên HĐQT, Giám đốc/Tổng giám đốc, chức danh quản lý khác theo Điều lệ là người quản lý doanh nghiệp."},
+    {"id": "LN0-R006", "premises": ["branch_conducts_business"], "conclusion": "branch_business_class", "source": "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 44 khoản 1", "note": "Chi nhánh là đơn vị phụ thuộc thực hiện chức năng của doanh nghiệp, nên hoạt động bán hàng/dịch vụ của chi nhánh là hoạt động kinh doanh của doanh nghiệp."},
+    {"id": "LN0-R007", "premises": ["branch_business_class", "vat_non_exempt_goods"], "conclusion": "vat_taxpayer_on_branch_sale", "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 4 khoản 1", "note": "Tổ chức kinh doanh hàng hóa, dịch vụ chịu thuế GTGT (Điều 3: không thuộc Điều 5) là người nộp thuế GTGT."},
+    {"id": "LN0-R008", "premises": ["~vat_non_exempt_goods"], "conclusion": "~vat_taxpayer_on_branch_sale", "source": "04_luat_thue_GTGT_48_2024_QH15, Điều 3", "note": "Hàng hóa, dịch vụ thuộc Điều 5 không phải đối tượng chịu thuế GTGT nên người bán không là người nộp thuế GTGT cho giao dịch đó."},
+    {"id": "LN0-R009", "premises": ["taxable_business_income"], "conclusion": "business_income_taxable", "source": "06_luat_TNDN_67_2025_QH15, Điều 3 khoản 1", "note": "Thu nhập từ hoạt động sản xuất, kinh doanh hàng hóa, dịch vụ là thu nhập chịu thuế TNDN."},
+    {"id": "LN0-R010", "premises": ["~taxable_business_income"], "conclusion": "~business_income_taxable", "source": "06_luat_TNDN_67_2025_QH15, Điều 3 khoản 1", "note": "Không có thu nhập từ sản xuất, kinh doanh thì không có thu nhập kinh doanh chịu thuế."},
+    {"id": "LN0-R011", "premises": ["dn_enterprise_entity", "business_income_taxable"], "conclusion": "cit_taxpayer", "source": "06_luat_TNDN_67_2025_QH15, Điều 2 khoản 1 điểm a", "note": "Doanh nghiệp thành lập theo pháp luật Việt Nam có thu nhập chịu thuế là người nộp thuế TNDN."},
+    {"id": "LN0-R012", "premises": ["~business_income_taxable"], "conclusion": "~cit_taxpayer", "source": "06_luat_TNDN_67_2025_QH15, Điều 2 khoản 1", "note": "Người nộp thuế TNDN là tổ chức có thu nhập chịu thuế; không có thu nhập chịu thuế thì không là người nộp thuế với thu nhập đang xét."},
+    {"id": "LN0-R013", "premises": ["cit_prior_revenue_le_3bn"], "conclusion": "cit_rate_15_applicable", "source": "06_luat_TNDN_67_2025_QH15, Điều 10 khoản 2", "note": "Thuế suất 15% cho doanh nghiệp có tổng doanh thu (kỳ tính thuế trước liền kề) không quá 3 tỷ đồng."},
+    {"id": "LN0-R014", "premises": ["~cit_no_special_rate_regime"], "conclusion": "~cit_rate_15_applicable", "source": "06_luat_TNDN_67_2025_QH15, Điều 10 khoản 4", "note": "Trường hợp có thuế suất riêng (dầu khí, tài nguyên quý hiếm) hoặc diện ưu đãi Điều 13 không áp dụng mức 15% theo doanh thu."},
+    {"id": "LN0-R015", "premises": ["~cit_prior_revenue_le_3bn"], "conclusion": "~cit_rate_15_applicable", "source": "06_luat_TNDN_67_2025_QH15, Điều 10 khoản 2", "note": "Doanh thu kỳ trước trên 3 tỷ thì không đủ điều kiện thuế suất 15%."},
+    {"id": "LN0-R016", "premises": ["cit_prior_revenue_above_3_up_to_50bn"], "conclusion": "cit_rate_17_applicable", "source": "06_luat_TNDN_67_2025_QH15, Điều 10 khoản 3", "note": "Thuế suất 17% cho doanh nghiệp có tổng doanh thu kỳ trước liền kề trên 3 tỷ đến không quá 50 tỷ đồng."},
+    {"id": "LN0-R017", "premises": ["~cit_no_special_rate_regime"], "conclusion": "~cit_rate_17_applicable", "source": "06_luat_TNDN_67_2025_QH15, Điều 10 khoản 4", "note": "Trường hợp có thuế suất riêng hoặc diện ưu đãi Điều 13 không áp dụng mức 17% theo doanh thu."},
+    {"id": "LN0-R018", "premises": ["~cit_prior_revenue_above_3_up_to_50bn"], "conclusion": "~cit_rate_17_applicable", "source": "06_luat_TNDN_67_2025_QH15, Điều 10 khoản 3", "note": "Doanh thu kỳ trước nằm ngoài khoảng trên 3 đến 50 tỷ thì không đủ điều kiện thuế suất 17%."},
+    {"id": "LN0-R019", "premises": ["legal_wage_expense", "wage_expense_for_business", "wages_paid_in_reality", "payroll_papers_complete"], "conclusion": "cit_expense_deductible", "source": "06_luat_TNDN_67_2025_QH15, Điều 9 khoản 1 điểm a", "note": "Chi tiền lương thực tế phát sinh, liên quan sản xuất kinh doanh, có đủ hóa đơn chứng từ (điểm a, c) thì được trừ."},
+    {"id": "LN0-R020", "premises": ["~wage_expense_for_business"], "conclusion": "~cit_expense_deductible", "source": "06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm a", "note": "Khoản chi không liên quan hoạt động kinh doanh không đáp ứng khoản 1 nên không được trừ."},
+    {"id": "LN0-R021", "premises": ["~wages_paid_in_reality"], "conclusion": "~cit_expense_deductible", "source": "06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm h", "note": "Tiền lương hạch toán nhưng thực tế không chi trả thì không được trừ."},
+    {"id": "LN0-R022", "premises": ["~payroll_papers_complete"], "conclusion": "~cit_expense_deductible", "source": "06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm h", "note": "Tiền lương không có hóa đơn, chứng từ theo quy định thì không được trừ."},
+    {"id": "LN0-R023", "premises": ["wage_paid_to_individual_owner"], "conclusion": "~cit_expense_deductible", "source": "06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm h", "note": "Tiền lương của chủ DNTN, chủ công ty TNHH một thành viên do cá nhân làm chủ không được trừ."}
+  ],
+  "exception_of": [
+    ["LN0-R005", "LN0-R004"],
+    ["LN0-R008", "LN0-R007"],
+    ["LN0-R014", "LN0-R013"],
+    ["LN0-R017", "LN0-R016"],
+    ["LN0-R020", "LN0-R019"],
+    ["LN0-R021", "LN0-R019"],
+    ["LN0-R022", "LN0-R019"],
+    ["LN0-R023", "LN0-R019"]
+  ],
+  "extra_predicates": [
+    {"pred": "wage_paid_to_individual_owner", "kind": "input", "is_question_goal": false, "template_pos": "Khoản tiền lương là lương trả cho chính chủ doanh nghiệp tư nhân hoặc chủ công ty TNHH một thành viên do cá nhân làm chủ.", "template_neg": "Khoản tiền lương không phải lương trả cho chủ doanh nghiệp tư nhân hay chủ công ty TNHH một thành viên do cá nhân làm chủ.", "ask": "Khoản lương này có phải trả cho chính chủ doanh nghiệp tư nhân hoặc chủ công ty TNHH một thành viên là cá nhân không?"}
+  ],
+  "goals_decided": [
+    "dn_enterprise_entity",
+    "dn_manager_status",
+    "branch_business_class",
+    "vat_taxpayer_on_branch_sale",
+    "business_income_taxable",
+    "cit_taxpayer",
+    "cit_rate_15_applicable",
+    "cit_rate_17_applicable",
+    "cit_expense_deductible"
+  ]
+}

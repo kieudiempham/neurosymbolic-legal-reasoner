@@ -1,0 +1,705 @@
+rules:
+- id: LN0-R001
+  premises:
+  - stock_company
+  conclusion: dn_enterprise_entity
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 111 khoản 1
+  basis: llm_reexpressed
+- id: LN0-R002
+  premises:
+  - llc_multi_member
+  conclusion: dn_enterprise_entity
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 46 khoản 1
+  basis: llm_reexpressed
+- id: LN0-R003
+  premises:
+  - llc_single_owner
+  conclusion: dn_enterprise_entity
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 74 khoản 1
+  basis: llm_reexpressed
+- id: LN0-R004
+  premises: []
+  conclusion: ~dn_manager_status
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 4 khoản 24
+  basis: llm_reexpressed
+- id: LN0-R005
+  premises:
+  - enterprise_manager
+  conclusion: dn_manager_status
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 4 khoản 24
+  basis: llm_reexpressed
+- id: LN0-R006
+  premises:
+  - branch_conducts_business
+  conclusion: branch_business_class
+  source: 01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 44 khoản 1
+  basis: llm_reexpressed
+- id: LN0-R007
+  premises:
+  - branch_business_class
+  - vat_non_exempt_goods
+  conclusion: vat_taxpayer_on_branch_sale
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 4 khoản 1
+  basis: llm_reexpressed
+- id: LN0-R008
+  premises:
+  - ~vat_non_exempt_goods
+  conclusion: ~vat_taxpayer_on_branch_sale
+  source: 04_luat_thue_GTGT_48_2024_QH15, Điều 3
+  basis: llm_reexpressed
+- id: LN0-R009
+  premises:
+  - taxable_business_income
+  conclusion: business_income_taxable
+  source: 06_luat_TNDN_67_2025_QH15, Điều 3 khoản 1
+  basis: llm_reexpressed
+- id: LN0-R010
+  premises:
+  - ~taxable_business_income
+  conclusion: ~business_income_taxable
+  source: 06_luat_TNDN_67_2025_QH15, Điều 3 khoản 1
+  basis: llm_reexpressed
+- id: LN0-R011
+  premises:
+  - dn_enterprise_entity
+  - business_income_taxable
+  conclusion: cit_taxpayer
+  source: 06_luat_TNDN_67_2025_QH15, Điều 2 khoản 1 điểm a
+  basis: llm_reexpressed
+- id: LN0-R012
+  premises:
+  - ~business_income_taxable
+  conclusion: ~cit_taxpayer
+  source: 06_luat_TNDN_67_2025_QH15, Điều 2 khoản 1
+  basis: llm_reexpressed
+- id: LN0-R013
+  premises:
+  - cit_prior_revenue_le_3bn
+  conclusion: cit_rate_15_applicable
+  source: 06_luat_TNDN_67_2025_QH15, Điều 10 khoản 2
+  basis: llm_reexpressed
+- id: LN0-R014
+  premises:
+  - ~cit_no_special_rate_regime
+  conclusion: ~cit_rate_15_applicable
+  source: 06_luat_TNDN_67_2025_QH15, Điều 10 khoản 4
+  basis: llm_reexpressed
+- id: LN0-R015
+  premises:
+  - ~cit_prior_revenue_le_3bn
+  conclusion: ~cit_rate_15_applicable
+  source: 06_luat_TNDN_67_2025_QH15, Điều 10 khoản 2
+  basis: llm_reexpressed
+- id: LN0-R016
+  premises:
+  - cit_prior_revenue_above_3_up_to_50bn
+  conclusion: cit_rate_17_applicable
+  source: 06_luat_TNDN_67_2025_QH15, Điều 10 khoản 3
+  basis: llm_reexpressed
+- id: LN0-R017
+  premises:
+  - ~cit_no_special_rate_regime
+  conclusion: ~cit_rate_17_applicable
+  source: 06_luat_TNDN_67_2025_QH15, Điều 10 khoản 4
+  basis: llm_reexpressed
+- id: LN0-R018
+  premises:
+  - ~cit_prior_revenue_above_3_up_to_50bn
+  conclusion: ~cit_rate_17_applicable
+  source: 06_luat_TNDN_67_2025_QH15, Điều 10 khoản 3
+  basis: llm_reexpressed
+- id: LN0-R019
+  premises:
+  - legal_wage_expense
+  - wage_expense_for_business
+  - wages_paid_in_reality
+  - payroll_papers_complete
+  conclusion: cit_expense_deductible
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 1 điểm a
+  basis: llm_reexpressed
+- id: LN0-R020
+  premises:
+  - ~wage_expense_for_business
+  conclusion: ~cit_expense_deductible
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm a
+  basis: llm_reexpressed
+- id: LN0-R021
+  premises:
+  - ~wages_paid_in_reality
+  conclusion: ~cit_expense_deductible
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm h
+  basis: llm_reexpressed
+- id: LN0-R022
+  premises:
+  - ~payroll_papers_complete
+  conclusion: ~cit_expense_deductible
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm h
+  basis: llm_reexpressed
+- id: LN0-R023
+  premises:
+  - wage_paid_to_individual_owner
+  conclusion: ~cit_expense_deductible
+  source: 06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm h
+  basis: llm_reexpressed
+- id: LN1-R001
+  premises:
+  - signed_labor_contract
+  conclusion: labor_relation
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 13 khoản 1
+  basis: llm_reexpressed
+- id: LN1-R002
+  premises:
+  - paid_wage
+  - under_management
+  conclusion: labor_relation
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 13 khoản 1
+  basis: llm_reexpressed
+- id: LN1-R003
+  premises:
+  - labor_relation
+  - paid_wage
+  conclusion: legal_wage_expense
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 90 khoản 1
+  basis: llm_reexpressed
+- id: LN1-R004
+  premises:
+  - ~labor_relation
+  conclusion: ~legal_wage_expense
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 90 khoản 1
+  basis: llm_reexpressed
+- id: LN1-R005
+  premises:
+  - ongoing_employment
+  - contract_expired_over_30_days
+  - no_new_contract
+  conclusion: converted_to_indefinite_contract
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 20 khoản 2 điểm b
+  basis: llm_reexpressed
+- id: LN1-R006
+  premises:
+  - ongoing_employment
+  - ~contract_expired_over_30_days
+  conclusion: ~converted_to_indefinite_contract
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 20 khoản 2 điểm a
+  basis: llm_reexpressed
+- id: LN1-R007
+  premises:
+  - ~ongoing_employment
+  conclusion: ~converted_to_indefinite_contract
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 20 khoản 2
+  basis: llm_reexpressed
+- id: LN1-R008
+  premises: []
+  conclusion: ~contract_suspended
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 30 khoản 1
+  basis: llm_reexpressed
+- id: LN1-R009
+  premises:
+  - military_service_duty
+  conclusion: contract_suspended
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 30 khoản 1 điểm a
+  basis: llm_reexpressed
+- id: LN1-R010
+  premises:
+  - held_in_criminal_custody
+  conclusion: contract_suspended
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 30 khoản 1 điểm b
+  basis: llm_reexpressed
+- id: LN1-R011
+  premises:
+  - compulsory_detox_or_education_measure
+  conclusion: contract_suspended
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 30 khoản 1 điểm c
+  basis: llm_reexpressed
+- id: LN1-R012
+  premises:
+  - pregnancy_suspension_art138
+  conclusion: contract_suspended
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 30 khoản 1 điểm d
+  basis: llm_reexpressed
+- id: LN1-R013
+  premises:
+  - appointed_manager_state_owned_llc
+  conclusion: contract_suspended
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 30 khoản 1 điểm đ
+  basis: llm_reexpressed
+- id: LN1-R014
+  premises:
+  - authorized_state_capital_representative
+  conclusion: contract_suspended
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 30 khoản 1 điểm e
+  basis: llm_reexpressed
+- id: LN1-R015
+  premises:
+  - authorized_enterprise_capital_representative
+  conclusion: contract_suspended
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 30 khoản 1 điểm g
+  basis: llm_reexpressed
+- id: LN1-R016
+  premises:
+  - mutually_suspended_contract
+  conclusion: contract_suspended
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 30 khoản 1 điểm h
+  basis: llm_reexpressed
+- id: LN2-R001
+  premises:
+  - labor_relation
+  - term_at_least_1_month
+  conclusion: covered_point_a
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 1 điểm a
+  basis: llm_reexpressed
+- id: LN2-R002
+  premises:
+  - labor_relation
+  - indefinite_term_contract
+  conclusion: covered_point_a
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 1 điểm a
+  basis: llm_reexpressed
+- id: LN2-R003
+  premises:
+  - labor_relation
+  - converted_to_indefinite_contract
+  conclusion: covered_point_a
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 1 điểm a
+  basis: llm_reexpressed
+- id: LN2-R004
+  premises:
+  - paid_wage
+  - under_management
+  - term_at_least_1_month
+  conclusion: covered_point_a
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 1 điểm a
+  basis: llm_reexpressed
+- id: LN2-R005
+  premises:
+  - ~labor_relation
+  conclusion: ~covered_point_a
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 1 điểm a
+  basis: llm_reexpressed
+- id: LN2-R006
+  premises:
+  - ~term_at_least_1_month
+  conclusion: ~covered_point_a
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 1 điểm a
+  basis: llm_reexpressed
+- id: LN2-R007
+  premises:
+  - foreign_citizen
+  conclusion: ~covered_point_a
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 1
+  basis: llm_reexpressed
+- id: LN2-R008
+  premises:
+  - receiving_pension_or_allowance
+  conclusion: ~covered_point_a
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 7 điểm a
+  basis: llm_reexpressed
+- id: LN2-R009
+  premises:
+  - domestic_worker
+  conclusion: ~covered_point_a
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 7 điểm b
+  basis: llm_reexpressed
+- id: LN2-R010
+  premises:
+  - dn_manager_status
+  - receives_salary
+  conclusion: si_paid_manager_category
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 1 điểm i
+  basis: llm_reexpressed
+- id: LN2-R011
+  premises:
+  - enterprise_manager
+  - receives_salary
+  conclusion: si_paid_manager_category
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 1 điểm i
+  basis: llm_reexpressed
+- id: LN2-R012
+  premises:
+  - enterprise_controller_or_capital_representative
+  - receives_salary
+  conclusion: si_paid_manager_category
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 1 điểm i
+  basis: llm_reexpressed
+- id: LN2-R013
+  premises:
+  - cooperative_elected_manager
+  - receives_salary
+  conclusion: si_paid_manager_category
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 1 điểm i
+  basis: llm_reexpressed
+- id: LN2-R014
+  premises:
+  - ~receives_salary
+  conclusion: ~si_paid_manager_category
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 1 điểm i
+  basis: llm_reexpressed
+- id: LN2-R015
+  premises:
+  - dn_manager_status
+  - ~receives_salary
+  conclusion: si_unpaid_manager_category
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 1 điểm n
+  basis: llm_reexpressed
+- id: LN2-R016
+  premises:
+  - enterprise_manager
+  - ~receives_salary
+  conclusion: si_unpaid_manager_category
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 1 điểm n
+  basis: llm_reexpressed
+- id: LN2-R017
+  premises:
+  - enterprise_controller_or_capital_representative
+  - ~receives_salary
+  conclusion: si_unpaid_manager_category
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 1 điểm n
+  basis: llm_reexpressed
+- id: LN2-R018
+  premises:
+  - cooperative_elected_manager
+  - ~receives_salary
+  conclusion: si_unpaid_manager_category
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 1 điểm n
+  basis: llm_reexpressed
+- id: LN2-R019
+  premises:
+  - receives_salary
+  conclusion: ~si_unpaid_manager_category
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 1 điểm n
+  basis: llm_reexpressed
+- id: LN2-R020
+  premises:
+  - ~foreign_citizen
+  - covered_point_a
+  conclusion: compulsory_si
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 1 điểm a
+  basis: llm_reexpressed
+- id: LN2-R021
+  premises:
+  - ~foreign_citizen
+  - si_paid_manager_category
+  conclusion: compulsory_si
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 1 điểm i
+  basis: llm_reexpressed
+- id: LN2-R022
+  premises:
+  - ~foreign_citizen
+  - si_unpaid_manager_category
+  conclusion: compulsory_si
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 1 điểm n
+  basis: llm_reexpressed
+- id: LN2-R023
+  premises:
+  - ~foreign_citizen
+  - registered_household_business_owner
+  conclusion: compulsory_si
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 1 điểm m
+  basis: llm_reexpressed
+- id: LN2-R024
+  premises:
+  - foreign_citizen
+  - labor_relation
+  - term_at_least_12_months
+  conclusion: compulsory_si
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 2
+  basis: llm_reexpressed
+- id: LN2-R025
+  premises:
+  - foreign_citizen
+  - ~term_at_least_12_months
+  conclusion: ~compulsory_si
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 2
+  basis: llm_reexpressed
+- id: LN2-R026
+  premises:
+  - foreign_citizen
+  - ~labor_relation
+  conclusion: ~compulsory_si
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 2
+  basis: llm_reexpressed
+- id: LN2-R027
+  premises:
+  - foreign_citizen
+  - intra_company_transfer
+  conclusion: ~compulsory_si
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 2 điểm a
+  basis: llm_reexpressed
+- id: LN2-R028
+  premises:
+  - foreign_citizen
+  - retirement_age_at_signing
+  conclusion: ~compulsory_si
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 2 điểm b
+  basis: llm_reexpressed
+- id: LN2-R029
+  premises:
+  - foreign_citizen
+  - treaty_provides_otherwise
+  conclusion: ~compulsory_si
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 2 điểm c
+  basis: llm_reexpressed
+- id: LN2-R030
+  premises:
+  - receiving_pension_or_allowance
+  conclusion: ~compulsory_si
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 7 điểm a
+  basis: llm_reexpressed
+- id: LN2-R031
+  premises:
+  - domestic_worker
+  conclusion: ~compulsory_si
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 7 điểm b
+  basis: llm_reexpressed
+- id: LN2-R032
+  premises:
+  - si_unpaid_manager_category
+  - reached_retirement_age
+  conclusion: ~compulsory_si
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 7 điểm c
+  basis: llm_reexpressed
+- id: LN2-R033
+  premises:
+  - registered_household_business_owner
+  - reached_retirement_age
+  conclusion: ~compulsory_si
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 7 điểm c
+  basis: llm_reexpressed
+- id: LN2-R034
+  premises:
+  - si_unpaid_manager_category
+  - reached_retirement_age
+  - si_shortfall_max_6_months
+  conclusion: compulsory_si
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 7 điểm c; Điều 33 khoản 7
+  basis: llm_reexpressed
+- id: LN2-R035
+  premises:
+  - registered_household_business_owner
+  - reached_retirement_age
+  - si_shortfall_max_6_months
+  conclusion: compulsory_si
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 7 điểm c; Điều 33 khoản 7
+  basis: llm_reexpressed
+- id: LN2-R036
+  premises:
+  - ~foreign_citizen
+  - age_at_least_15
+  - ~compulsory_si
+  - ~receiving_pension_or_allowance
+  conclusion: voluntary_si_eligible
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 4 điểm a
+  basis: llm_reexpressed
+- id: LN2-R037
+  premises:
+  - covered_point_a
+  - contract_suspended
+  conclusion: voluntary_si_eligible
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 4 điểm b
+  basis: llm_reexpressed
+- id: LN2-R038
+  premises:
+  - covered_point_a
+  - contract_suspended
+  - agreed_contribution
+  conclusion: ~voluntary_si_eligible
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 4 điểm b
+  basis: llm_reexpressed
+- id: LN2-R039
+  premises:
+  - compulsory_si
+  conclusion: must_contribute_month
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 33 khoản 1 đến khoản 4
+  basis: llm_reexpressed
+- id: LN2-R040
+  premises:
+  - covered_point_a
+  - unpaid_14_days
+  conclusion: ~must_contribute_month
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 33 khoản 5
+  basis: llm_reexpressed
+- id: LN2-R041
+  premises:
+  - si_paid_manager_category
+  - unpaid_14_days
+  conclusion: ~must_contribute_month
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 33 khoản 5
+  basis: llm_reexpressed
+- id: LN2-R042
+  premises:
+  - foreign_citizen
+  - compulsory_si
+  - unpaid_14_days
+  conclusion: ~must_contribute_month
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 33 khoản 5
+  basis: llm_reexpressed
+- id: LN2-R043
+  premises:
+  - unpaid_14_days
+  - agreed_contribution
+  conclusion: must_contribute_month
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 33 khoản 5
+  basis: llm_reexpressed
+- id: LN2-R044
+  premises:
+  - compulsory_si
+  - first_month_sick_leave_14_days
+  conclusion: must_contribute_month
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 33 khoản 6
+  basis: llm_reexpressed
+- id: LN2-R045
+  premises:
+  - covered_point_a
+  - contract_suspended
+  conclusion: ~must_contribute_month
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 4 điểm b
+  basis: llm_reexpressed
+- id: LN2-R046
+  premises:
+  - covered_point_a
+  - contract_suspended
+  - agreed_contribution
+  conclusion: must_contribute_month
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 4 điểm b; khoản 5 điểm a
+  basis: llm_reexpressed
+- id: LN2-R047
+  premises:
+  - si_shortfall_max_6_months
+  conclusion: can_pay_lump_sum_remaining_months
+  source: 10_bao_hiem_xa_hoi_41_2024_QH15, Điều 33 khoản 7
+  basis: llm_reexpressed
+- id: LN-P01
+  premises:
+  - converted_to_indefinite_contract
+  conclusion: labor_relation
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 20 khoản 2
+  basis: patch
+- id: LN-P02
+  premises:
+  - ~signed_labor_contract
+  - ~under_management
+  conclusion: ~labor_relation
+  source: 08_luat_lao_dong_45_2019_QH14, Điều 13 khoản 1
+  basis: patch
+exception_of:
+- - LN0-R005
+  - LN0-R004
+- - LN0-R008
+  - LN0-R007
+- - LN0-R014
+  - LN0-R013
+- - LN0-R017
+  - LN0-R016
+- - LN0-R020
+  - LN0-R019
+- - LN0-R021
+  - LN0-R019
+- - LN0-R022
+  - LN0-R019
+- - LN0-R023
+  - LN0-R019
+- - LN1-R009
+  - LN1-R008
+- - LN1-R010
+  - LN1-R008
+- - LN1-R011
+  - LN1-R008
+- - LN1-R012
+  - LN1-R008
+- - LN1-R013
+  - LN1-R008
+- - LN1-R014
+  - LN1-R008
+- - LN1-R015
+  - LN1-R008
+- - LN1-R016
+  - LN1-R008
+- - LN2-R007
+  - LN2-R001
+- - LN2-R007
+  - LN2-R002
+- - LN2-R007
+  - LN2-R003
+- - LN2-R007
+  - LN2-R004
+- - LN2-R008
+  - LN2-R001
+- - LN2-R008
+  - LN2-R002
+- - LN2-R008
+  - LN2-R003
+- - LN2-R008
+  - LN2-R004
+- - LN2-R009
+  - LN2-R001
+- - LN2-R009
+  - LN2-R002
+- - LN2-R009
+  - LN2-R003
+- - LN2-R009
+  - LN2-R004
+- - LN2-R003
+  - LN2-R006
+- - LN2-R027
+  - LN2-R024
+- - LN2-R028
+  - LN2-R024
+- - LN2-R029
+  - LN2-R024
+- - LN2-R030
+  - LN2-R020
+- - LN2-R030
+  - LN2-R021
+- - LN2-R030
+  - LN2-R022
+- - LN2-R030
+  - LN2-R023
+- - LN2-R030
+  - LN2-R024
+- - LN2-R031
+  - LN2-R020
+- - LN2-R031
+  - LN2-R021
+- - LN2-R031
+  - LN2-R022
+- - LN2-R031
+  - LN2-R023
+- - LN2-R031
+  - LN2-R024
+- - LN2-R032
+  - LN2-R022
+- - LN2-R033
+  - LN2-R023
+- - LN2-R034
+  - LN2-R032
+- - LN2-R035
+  - LN2-R033
+- - LN2-R038
+  - LN2-R037
+- - LN2-R040
+  - LN2-R039
+- - LN2-R041
+  - LN2-R039
+- - LN2-R042
+  - LN2-R039
+- - LN2-R043
+  - LN2-R040
+- - LN2-R043
+  - LN2-R041
+- - LN2-R043
+  - LN2-R042
+- - LN2-R044
+  - LN2-R040
+- - LN2-R044
+  - LN2-R041
+- - LN2-R044
+  - LN2-R042
+- - LN2-R045
+  - LN2-R039
+- - LN2-R046
+  - LN2-R045
+- - LN2-R046
+  - LN2-R045
+- - LN2-R043
+  - LN2-R045
+priority_over: []
