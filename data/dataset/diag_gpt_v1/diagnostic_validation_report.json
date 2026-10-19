@@ -1,0 +1,21 @@
+{
+  "status": "PASS_STRUCTURAL_ONLY",
+  "files": 216,
+  "checked_assertions": 4074,
+  "cases_checked": 216,
+  "mode_counts": {
+    "F1": 40,
+    "F2": 40,
+    "CONTROL": 20,
+    "F5": 16,
+    "F3": 40,
+    "F6": 20,
+    "F4": 40
+  },
+  "error_count": 0,
+  "errors": [],
+  "legal_gold_independently_verified": false,
+  "SWI_Prolog_MBD_run": false,
+  "F5_mapped_to_actual_KB": 0,
+  "F6_syn_conflict_fixture_count": 20
+}

@@ -107,6 +107,23 @@ def stratified_subset(insts: list[Instance], target: int, seed: int = 42) -> lis
     return sorted(keep, key=lambda i: order[i.iid])
 
 
+def run_instance(kb, nli: NLIModel, cfg: RunConfig, inst: Instance) -> dict:
+    kbv = kb.without_relations(inst.kb_variant) if inst.kb_variant else kb
+    dg = Diagnoser(kbv, nli, cfg)
+    r = dg.run(inst.question, inst.goal, inst.parsed, lambda c, i=inst: i.user_answers.get(c))
+    pred_cat = predicted_category(r.first_diagnosis, r.first_status) if cfg.diagnosis else "-"
+    return {
+        "iid": inst.iid, "case": inst.case_id, "origin": inst.origin, "gold_category": inst.category,
+        "gold_fault": inst.gold_fault, "pred_category": pred_cat, "first_diagnosis": r.first_diagnosis,
+        "first_status": r.first_status, "candidates_first": r.candidates_first,
+        "hit": gold_hit(inst, r.first_diagnosis, r.first_status) if cfg.diagnosis else None,
+        "answer": r.answer, "expected": inst.expected_answer, "answer_ok": r.answer == inst.expected_answer,
+        "nli_calls": r.nli_calls, "nli_model_calls": r.nli_model_calls, "nli_unverified": r.nli_unverified,
+        "kb_checks": r.kb_checks, "rounds": r.rounds, "recovery": r.recovery,
+        "nli_log": [dict(x, gold=nli_gold(inst, x["prop"])) for x in r.nli_log],
+    }
+
+
 def run(configs: list[str], subset: int = 0, dataset: list[str] | None = None, kb_file: str = "kb_bhxh.yaml") -> dict:
     kb = load_kb(kb_file)
     dataset_report = None
@@ -142,20 +159,7 @@ def run(configs: list[str], subset: int = 0, dataset: list[str] | None = None, k
         for n_done, inst in enumerate(insts, 1):
             if n_done % 25 == 0:
                 print(f"  [{name}] {n_done}/{len(insts)} ({time.time() - t0:.0f}s)", flush=True)
-            kbv = kb.without_relations(inst.kb_variant) if inst.kb_variant else kb
-            dg = Diagnoser(kbv, nli, cfg)
-            r = dg.run(inst.question, inst.goal, inst.parsed, lambda c, i=inst: i.user_answers.get(c))
-            pred_cat = predicted_category(r.first_diagnosis, r.first_status) if cfg.diagnosis else "-"
-            rows.append({
-                "iid": inst.iid, "case": inst.case_id, "origin": inst.origin, "gold_category": inst.category,
-                "gold_fault": inst.gold_fault, "pred_category": pred_cat, "first_diagnosis": r.first_diagnosis,
-                "first_status": r.first_status, "candidates_first": r.candidates_first,
-                "hit": gold_hit(inst, r.first_diagnosis, r.first_status) if cfg.diagnosis else None,
-                "answer": r.answer, "expected": inst.expected_answer, "answer_ok": r.answer == inst.expected_answer,
-                "nli_calls": r.nli_calls, "nli_model_calls": r.nli_model_calls, "nli_unverified": r.nli_unverified,
-                "kb_checks": r.kb_checks, "rounds": r.rounds, "recovery": r.recovery,
-                "nli_log": [dict(x, gold=nli_gold(inst, x["prop"])) for x in r.nli_log],
-            })
+            rows.append(run_instance(kb, nli, cfg, inst))
         nli.save()
         per_instance[name] = rows
         results[name] = summarize(rows, cfg.diagnosis)
