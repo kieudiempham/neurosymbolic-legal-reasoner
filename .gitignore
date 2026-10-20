@@ -27,3 +27,4 @@ frontend/.next/
 .venv_diag/
 .tools/
 experiments/kbx/
+release/
