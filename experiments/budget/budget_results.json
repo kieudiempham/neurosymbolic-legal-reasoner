@@ -1,35 +1,35 @@
 {
  "nesy_diag|0": {
   "n": 451,
-  "qa_acc": 0.6896,
-  "qa_acc_faulty": 0.6842,
-  "diag_acc": 0.6341,
-  "nli_per_query": 5.52,
-  "kb_checks_per_query": 0.32
+  "qa_acc": 0.714,
+  "qa_acc_faulty": 0.7118,
+  "diag_acc": 0.6608,
+  "nli_per_query": 5.54,
+  "kb_checks_per_query": 0.35
  },
  "nesy_diag|1": {
   "n": 451,
-  "qa_acc": 0.7916,
-  "qa_acc_faulty": 0.7895,
-  "diag_acc": 0.6341,
-  "nli_per_query": 5.53,
-  "kb_checks_per_query": 0.33
+  "qa_acc": 0.816,
+  "qa_acc_faulty": 0.817,
+  "diag_acc": 0.6608,
+  "nli_per_query": 5.55,
+  "kb_checks_per_query": 0.36
  },
  "nesy_diag|2": {
   "n": 451,
-  "qa_acc": 0.7982,
-  "qa_acc_faulty": 0.797,
-  "diag_acc": 0.6341,
-  "nli_per_query": 5.53,
-  "kb_checks_per_query": 0.33
+  "qa_acc": 0.8226,
+  "qa_acc_faulty": 0.8246,
+  "diag_acc": 0.6608,
+  "nli_per_query": 5.55,
+  "kb_checks_per_query": 0.36
  },
  "nesy_diag|inf": {
   "n": 451,
-  "qa_acc": 0.816,
-  "qa_acc_faulty": 0.817,
-  "diag_acc": 0.6341,
-  "nli_per_query": 5.54,
-  "kb_checks_per_query": 0.34
+  "qa_acc": 0.8514,
+  "qa_acc_faulty": 0.8571,
+  "diag_acc": 0.6608,
+  "nli_per_query": 5.56,
+  "kb_checks_per_query": 0.37
  },
  "rule_check|0": {
   "n": 451,

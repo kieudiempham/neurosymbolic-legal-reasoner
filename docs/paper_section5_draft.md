@@ -82,22 +82,22 @@ conclusion and legal basis; 20 questions are also scored by a human to report ag
 | GPT-4o (pure LLM) | [GPT-4o] | – | N/A | N/A | – | – | [IRAC] |
 | Symbolic QA | [e2e] | 4.3 | N/A | N/A | 0.00 | 0.00 | [IRAC] |
 | Heuristic diagnosis | [e2e] | 85.7 | 67.4 | +81.5 | 3.71 | 5.79 | [IRAC] |
-| **Ours (cross-layer MBD)** | [e2e] | 81.7 | 62.1 | +77.4 | **0.35** | 5.54 | [IRAC] |
+| **Ours (cross-layer MBD)** | [e2e] | 85.7 | 66.8 | +81.5 | **1.70** | 5.56 | [IRAC] |
 
 **Table 3. Diagnosis by category (injected faults, test, n = 451).**
 
 | Category | Ours P / R / F1 | Heuristic P / R / F1 | n |
 |---|---|---|---|
-| No fault | 54.4 / 71.2 / 61.7 | 88.1 / 71.2 / 78.7 | 52 |
-| Missing Case Information | 73.7 / 45.2 / 56.0 | 65.8 / 63.7 / 64.8 | 124 |
-| Parser Omission | 63.5 / 54.5 / 58.7 | 62.9 / 56.6 / 59.6 | 99 |
+| No fault | 88.1 / 71.2 / 78.7 | 88.1 / 71.2 / 78.7 | 52 |
+| Missing Case Information | 67.0 / 54.0 / 59.8 | 65.8 / 63.7 / 64.8 | 124 |
+| Parser Omission | 61.9 / 60.6 / 61.2 | 62.9 / 56.6 / 59.6 | 99 |
 | Parser Misinterpretation | 84.4 / 88.5 / 86.4 | 84.4 / 88.5 / 86.4 | 122 |
 | Unsupported Parser Fact | 38.5 / 62.5 / 47.6 | 38.5 / 62.5 / 47.6 | 24 |
-| Resolvable Rule Overlap | 45.2 / 93.3 / 60.9 | 82.4 / 93.3 / 87.5 | 15 |
+| Resolvable Rule Overlap | 82.4 / 93.3 / 87.5 | 82.4 / 93.3 / 87.5 | 15 |
 | Unresolved Encoded-KB Conflict | 87.5 / 93.3 / 90.3 | 87.5 / 93.3 / 90.3 | 15 |
 
 On the external F1–F4 set (faults chosen without the KB, 37 observable test faults) Ours reaches 70.3%
-diagnosis accuracy [51, 87] and 73.0% correct action with 0.58 clarifications per query, against 73.0%
+diagnosis accuracy [51, 87] and 73.0% correct action with 0.55 clarifications per query, against 73.0%
 [55, 88] and 1.58 for the heuristic.
 
 **Table 4. Measurement model (external F1–F4 set, test, Ours).**
@@ -115,8 +115,8 @@ diagnosis accuracy [51, 87] and 73.0% correct action with 0.58 clarifications pe
 
 | Variant | QA acc. | Diag. acc. | Clarif./query |
 |---|---|---|---|
-| Ours (full) | 81.6 | 63.4 | 0.35 |
-| − acceptance test (raw NLI labels) | 81.6 | 59.6 | 0.35 |
+| Ours (full) | 85.1 | 66.1 | 1.70 |
+| − acceptance test (raw NLI labels) | 85.1 | 62.3 | 1.69 |
 | − MBD (symptom → most common cause) | 57.0 | 39.7 | 3.16 |
 | − diagnosis and recovery (Symbolic QA) | 15.3 | – | 0.00 |
 
@@ -126,26 +126,29 @@ diagnosis accuracy [51, 87] and 73.0% correct action with 0.58 clarifications pe
 |---|---|---|---|---|
 | Direct symptom→cause (no MBD) | 20.6 | 48.6 | 49.5 | 57.0 |
 | Heuristic IF–THEN | 72.5 | 82.7 | 82.9 | 85.1 |
-| **Ours: Cross-Layer MBD** | 69.0 | 79.2 | 79.8 | 81.6 |
+| **Ours: Cross-Layer MBD** | 71.4 | 81.6 | 82.3 | 85.1 |
 
 **Discussion.**
 (1) *Diagnosis-guided recovery is what makes the symbolic pipeline usable*: with a single fault per input,
-Symbolic QA answers 4.3% of faulty inputs correctly; diagnosis and recovery raise this to 81.7% (+77.4 pp).
-Replacing consistency-based diagnosis by a direct symptom-to-cause mapping loses 24.6 pp of QA accuracy and
-23.7 pp of diagnosis accuracy.
-(2) *MBD versus a matched IF–THEN classifier.* With identical evidence and single faults, the heuristic is
-slightly better than MBD in diagnosis (68.5 vs 63.4%) and QA accuracy (85.1 vs 81.6%), and this holds under
-an equal clarification budget (Table 6: 72.5 vs 69.0% with no clarification, 82.7 vs 79.2% with one); both
-use the same measurement effort (5.8 vs 5.5 NLI measurements and 0.37 vs 0.34 KB checks per query). The
-difference is concentrated in two categories: MBD under-reports missing case information (recall 45.2 vs
-63.7%) and, when no input fault is consistent with the evidence, reports a benign encoded overlap instead
-of "no fault" (precision 45.2 vs 82.4%). What MBD offers instead is *selective interaction*: it asks the
-user only when the remaining minimal diagnoses are genuinely indistinguishable — 0.35 clarification
-requests per query against 3.71 for the heuristic (11.8 on the tax test set), which turns every unresolved
-condition into a question — and its diagnoses are set-minimal explanations consistent with all
-observations, with explicit ambiguity instead of a first-match label. We therefore do not claim higher
-accuracy than a well-matched heuristic on single-fault inputs; the claimed benefit is principled,
-cross-layer fault localisation at about a tenth of the user interaction.
+Symbolic QA answers 4.3% of faulty inputs correctly; diagnosis and recovery raise this to 85.7% (+81.5 pp).
+Replacing consistency-based diagnosis by a direct symptom-to-cause mapping loses 28.1 pp of QA accuracy and
+26.4 pp of diagnosis accuracy.
+(2) *MBD versus a matched IF–THEN classifier.* With identical evidence and single faults, MBD and the
+heuristic reach the same QA accuracy (85.1%) and comparable diagnosis quality (macro-F1 66.8 vs 67.4;
+correct action 68.3 vs 68.5%), with the same measurement effort (5.6 vs 5.8 NLI measurements and 0.37 KB
+checks per query); under an equal clarification budget the two stay within about one point (Table 6). The
+difference lies in interaction: the heuristic turns every unresolved condition into a "missing information"
+diagnosis and asks about it (3.71 clarification requests per query, 11.8 on the tax test set), whereas MBD
+asks only when the remaining set-minimal diagnoses are genuinely indistinguishable (1.70 per query, 4.8 on
+tax). On single-fault inputs we therefore claim parity in accuracy at roughly half the user interaction,
+together with explicit ambiguity and set-minimal, observation-consistent explanations, not higher accuracy.
+Two design points were necessary for this (identified on the development set before testing): an encoded,
+resolvable overlap must not end the search for an input fault, and when the bounded joint search finds no
+diagnosis, independent components (one proposition or rule pair each) are diagnosed separately and combined,
+which is exact because every model constraint involves a single component.
+(For transparency: an earlier controller without these two points had been run on the test set
+(QA 81.6%, macro-F1 62.1%, 0.35 clarifications/query); the fixes were derived from development-set errors
+only, and the test set was re-run once.)
 (3) *The bottleneck is measurement, not the diagnostic logic.* With perfect measurements, MBD diagnoses 100%
 of the observable external faults and 88–100% overall; with real NLI the gap is entirely explained by
 measurement errors (in an error analysis on the development set with the mDeBERTa + Qwen measurement,

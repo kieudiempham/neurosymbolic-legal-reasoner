@@ -18,44 +18,44 @@
    "seconds": 0.2
   },
   "nesy_diag": {
-   "final_answer_acc": 0.8711656441717791,
-   "nli_calls_per_query": 2.3987730061349692,
+   "final_answer_acc": 0.8834355828220859,
+   "nli_calls_per_query": 2.4723926380368098,
    "kb_checks_per_query": 0.31901840490797545,
-   "measurements_per_query": 2.7177914110429446,
-   "final_answer_acc_faulty": 0.8642857142857143,
+   "measurements_per_query": 2.791411042944785,
+   "final_answer_acc_faulty": 0.8785714285714286,
    "final_answer_acc_ci95": [
-    0.8098159509202454,
-    0.9202453987730062
+    0.8282208588957055,
+    0.9325153374233128
    ],
    "final_answer_acc_faulty_ci95": [
-    0.8071428571428572,
-    0.9142857142857143
+    0.8214285714285714,
+    0.9285714285714286
    ],
-   "nli_model_calls_per_query": 4.7975460122699385,
-   "diagnosis_acc": 0.656441717791411,
+   "nli_model_calls_per_query": 4.9447852760736195,
+   "diagnosis_acc": 0.6687116564417178,
    "diagnosis_acc_ci95": [
-    0.5766871165644172,
-    0.7239263803680982
+    0.5950920245398773,
+    0.7361963190184049
    ],
-   "correct_action_acc": 0.6809815950920245,
+   "correct_action_acc": 0.6932515337423313,
    "correct_action_acc_ci95": [
-    0.6073619631901841,
-    0.7484662576687117
+    0.6196319018404908,
+    0.7607361963190185
    ],
    "ambiguous_rate": 0.024539877300613498,
-   "recovery_success_rate": 0.6285714285714286,
-   "recovery_success_given_correct_diag": 0.9887640449438202,
+   "recovery_success_rate": 0.6428571428571429,
+   "recovery_success_given_correct_diag": 0.989010989010989,
    "per_category": {
     "Normal": {
-     "precision": 0.782608695652174,
+     "precision": 0.8571428571428571,
      "recall": 0.782608695652174,
-     "f1": 0.782608695652174,
+     "f1": 0.8181818181818182,
      "support": 23
     },
     "MissingCaseInformation": {
-     "precision": 0.7368421052631579,
-     "recall": 0.5714285714285714,
-     "f1": 0.6436781609195403,
+     "precision": 0.725,
+     "recall": 0.5918367346938775,
+     "f1": 0.6516853932584269,
      "support": 49
     },
     "ParserOmission": {
@@ -91,8 +91,8 @@
    },
    "per_category_acc": {
     "Normal": 0.782608695652174,
-    "MissingCaseInformation": 0.5102040816326531,
-    "ParserOmission": 0.7,
+    "MissingCaseInformation": 0.5306122448979592,
+    "ParserOmission": 0.725,
     "ParserMisinterpretation": 0.7,
     "UnsupportedParserFact": 0.4,
     "ResolvableRuleOverlap": 1.0,
@@ -101,8 +101,7 @@
    "confusion": {
     "MissingCaseInformation": {
      "ParserOmission": 13,
-     "Normal": 1,
-     "MissingCaseInformation": 28,
+     "MissingCaseInformation": 29,
      "ParserMisinterpretation": 3,
      "UnsupportedParserFact": 2,
      "Ambiguous": 2
@@ -113,8 +112,7 @@
      "UnsupportedParserFact": 3
     },
     "ParserOmission": {
-     "Normal": 1,
-     "MissingCaseInformation": 8,
+     "MissingCaseInformation": 9,
      "ParserOmission": 25,
      "ParserMisinterpretation": 1,
      "UnsupportedParserFact": 3,
@@ -139,25 +137,25 @@
     }
    },
    "nli": {
-    "measurements": 391,
-    "accepted": 375,
-    "acceptance_rate": 0.959079283887468,
-    "accuracy_accepted": 0.856,
-    "macro_f1_accepted": 0.8187699485932111,
-    "accuracy_raw": 0.8337595907928389,
-    "macro_f1_raw": 0.7859005887174901,
+    "measurements": 403,
+    "accepted": 387,
+    "acceptance_rate": 0.9602977667493796,
+    "accuracy_accepted": 0.8604651162790697,
+    "macro_f1_accepted": 0.8312776079452128,
+    "accuracy_raw": 0.8387096774193549,
+    "macro_f1_raw": 0.7995429017583824,
     "per_label_accepted": {
      "entail": {
-      "precision": 0.8825910931174089,
-      "recall": 0.9276595744680851,
-      "f1": 0.9045643153526972,
-      "support": 235
+      "precision": 0.8830645161290323,
+      "recall": 0.9279661016949152,
+      "f1": 0.9049586776859504,
+      "support": 236
      },
      "neutral": {
-      "precision": 0.7162162162162162,
-      "recall": 0.7066666666666667,
-      "f1": 0.7114093959731544,
-      "support": 75
+      "precision": 0.7529411764705882,
+      "recall": 0.7441860465116279,
+      "f1": 0.7485380116959064,
+      "support": 86
      },
      "contra": {
       "precision": 0.9259259259259259,
@@ -168,13 +166,13 @@
     },
     "confusion_accepted": {
      "entail": {
-      "entail": 218,
+      "entail": 219,
       "contra": 1,
       "neutral": 16
      },
      "neutral": {
       "entail": 19,
-      "neutral": 53,
+      "neutral": 64,
       "contra": 3
      },
      "contra": {
@@ -185,13 +183,13 @@
     },
     "confusion_raw": {
      "entail": {
-      "entail": 223,
+      "entail": 224,
       "contra": 1,
       "neutral": 17
      },
      "neutral": {
       "entail": 22,
-      "neutral": 53,
+      "neutral": 64,
       "contra": 3
      },
      "contra": {
@@ -313,7 +311,7 @@
      "MissingCaseInformation": 2
     }
    },
-   "seconds": 0.4
+   "seconds": 0.3
   },
   "rule_check": {
    "final_answer_acc": 0.8773006134969326,
@@ -501,44 +499,44 @@
    "seconds": 0.4
   },
   "raw_nli": {
-   "final_answer_acc": 0.8834355828220859,
-   "nli_calls_per_query": 2.4294478527607364,
+   "final_answer_acc": 0.8957055214723927,
+   "nli_calls_per_query": 2.4662576687116564,
    "kb_checks_per_query": 0.31901840490797545,
-   "measurements_per_query": 2.7484662576687118,
-   "final_answer_acc_faulty": 0.8785714285714286,
+   "measurements_per_query": 2.785276073619632,
+   "final_answer_acc_faulty": 0.8928571428571429,
    "final_answer_acc_ci95": [
-    0.8282208588957055,
-    0.9325153374233128
+    0.8466257668711656,
+    0.9386503067484663
    ],
    "final_answer_acc_faulty_ci95": [
-    0.8214285714285714,
-    0.9285714285714286
+    0.8357142857142857,
+    0.9357142857142857
    ],
-   "nli_model_calls_per_query": 4.858895705521473,
-   "diagnosis_acc": 0.6441717791411042,
+   "nli_model_calls_per_query": 4.932515337423313,
+   "diagnosis_acc": 0.6503067484662577,
    "diagnosis_acc_ci95": [
     0.5705521472392638,
-    0.7116564417177914
+    0.7177914110429447
    ],
-   "correct_action_acc": 0.6441717791411042,
+   "correct_action_acc": 0.6503067484662577,
    "correct_action_acc_ci95": [
     0.5705521472392638,
-    0.7116564417177914
+    0.7177914110429447
    ],
    "ambiguous_rate": 0.0,
-   "recovery_success_rate": 0.6214285714285714,
-   "recovery_success_given_correct_diag": 0.9886363636363636,
+   "recovery_success_rate": 0.6285714285714286,
+   "recovery_success_given_correct_diag": 0.9887640449438202,
    "per_category": {
     "Normal": {
-     "precision": 0.85,
+     "precision": 0.8947368421052632,
      "recall": 0.7391304347826086,
-     "f1": 0.7906976744186046,
+     "f1": 0.8095238095238095,
      "support": 23
     },
     "MissingCaseInformation": {
-     "precision": 0.7297297297297297,
+     "precision": 0.7105263157894737,
      "recall": 0.5510204081632653,
-     "f1": 0.6279069767441859,
+     "f1": 0.6206896551724138,
      "support": 49
     },
     "ParserOmission": {
@@ -575,7 +573,7 @@
    "per_category_acc": {
     "Normal": 0.7391304347826086,
     "MissingCaseInformation": 0.4897959183673469,
-    "ParserOmission": 0.675,
+    "ParserOmission": 0.7,
     "ParserMisinterpretation": 0.725,
     "UnsupportedParserFact": 0.4,
     "ResolvableRuleOverlap": 1.0,
@@ -594,8 +592,7 @@
      "UnsupportedParserFact": 4
     },
     "ParserOmission": {
-     "Normal": 1,
-     "MissingCaseInformation": 10,
+     "MissingCaseInformation": 11,
      "ParserOmission": 23,
      "ParserMisinterpretation": 1,
      "UnsupportedParserFact": 5
@@ -617,25 +614,25 @@
     }
    },
    "nli": {
-    "measurements": 396,
-    "accepted": 396,
+    "measurements": 402,
+    "accepted": 402,
     "acceptance_rate": 1.0,
-    "accuracy_accepted": 0.8333333333333334,
-    "macro_f1_accepted": 0.7881165296105056,
-    "accuracy_raw": 0.8333333333333334,
-    "macro_f1_raw": 0.7881165296105056,
+    "accuracy_accepted": 0.835820895522388,
+    "macro_f1_accepted": 0.7944156514873647,
+    "accuracy_raw": 0.835820895522388,
+    "macro_f1_raw": 0.7944156514873647,
     "per_label_accepted": {
      "entail": {
-      "precision": 0.8682170542635659,
-      "recall": 0.9256198347107438,
-      "f1": 0.896,
-      "support": 242
+      "precision": 0.8687258687258688,
+      "recall": 0.9259259259259259,
+      "f1": 0.8964143426294822,
+      "support": 243
      },
      "neutral": {
-      "precision": 0.6666666666666666,
-      "recall": 0.6829268292682927,
-      "f1": 0.674698795180723,
-      "support": 82
+      "precision": 0.6853932584269663,
+      "recall": 0.7011494252873564,
+      "f1": 0.6931818181818182,
+      "support": 87
      },
      "contra": {
       "precision": 0.9259259259259259,
@@ -646,13 +643,13 @@
     },
     "confusion_accepted": {
      "entail": {
-      "entail": 224,
+      "entail": 225,
       "contra": 1,
       "neutral": 17
      },
      "neutral": {
       "entail": 23,
-      "neutral": 56,
+      "neutral": 61,
       "contra": 3
      },
      "contra": {
@@ -663,13 +660,13 @@
     },
     "confusion_raw": {
      "entail": {
-      "entail": 224,
+      "entail": 225,
       "contra": 1,
       "neutral": 17
      },
      "neutral": {
       "entail": 23,
-      "neutral": 56,
+      "neutral": 61,
       "contra": 3
      },
      "contra": {
@@ -680,7 +677,7 @@
     },
     "rejected_by_reason": {}
    },
-   "seconds": 0.6
+   "seconds": 0.7
   }
  },
  "per_instance": {
@@ -4407,20 +4404,34 @@
     "origin": "injected",
     "gold_category": "MissingCaseInformation",
     "gold_fault": "MissingCaseInformation(enterprise_name_state_body)",
-    "pred_category": "Normal",
-    "first_diagnosis": [],
-    "first_status": "none",
-    "candidates_first": 0,
-    "hit": false,
-    "answer": "insufficient",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(enterprise_name_armed_forces_unit)",
+     "MissingCaseInformation(enterprise_name_confusing)",
+     "MissingCaseInformation(enterprise_name_duplicate)",
+     "MissingCaseInformation(enterprise_name_offensive)",
+     "MissingCaseInformation(enterprise_name_political_social_org)",
+     "MissingCaseInformation(enterprise_name_state_body)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
     "expected": "false",
-    "answer_ok": false,
-    "nli_calls": 1,
-    "nli_model_calls": 2,
+    "answer_ok": true,
+    "nli_calls": 7,
+    "nli_model_calls": 14,
     "nli_unverified": 1,
     "kb_checks": 0,
-    "rounds": 1,
-    "recovery": [],
+    "rounds": 2,
+    "recovery": [
+     "MissingCaseInformation(enterprise_name_armed_forces_unit)",
+     "MissingCaseInformation(enterprise_name_confusing)",
+     "MissingCaseInformation(enterprise_name_duplicate)",
+     "MissingCaseInformation(enterprise_name_offensive)",
+     "MissingCaseInformation(enterprise_name_political_social_org)",
+     "MissingCaseInformation(enterprise_name_state_body)"
+    ],
     "nli_log": [
      {
       "prop": "state_body_name_consent",
@@ -4434,6 +4445,84 @@
       "neg_label": null,
       "reject_reason": "low_confidence",
       "gold": "contra"
+     },
+     {
+      "prop": "enterprise_name_armed_forces_unit",
+      "label": "neutral",
+      "raw": "neutral",
+      "scores": {
+       "entail": 0.004525142716936454,
+       "neutral": 0.9911400416243635,
+       "contra": 0.004334829744953954
+      },
+      "neg_label": null,
+      "reject_reason": "",
+      "gold": "neutral"
+     },
+     {
+      "prop": "enterprise_name_confusing",
+      "label": "neutral",
+      "raw": "neutral",
+      "scores": {
+       "entail": 0.12157580146854315,
+       "neutral": 0.8749279084502295,
+       "contra": 0.0034962863559371057
+      },
+      "neg_label": null,
+      "reject_reason": "",
+      "gold": "neutral"
+     },
+     {
+      "prop": "enterprise_name_duplicate",
+      "label": "neutral",
+      "raw": "neutral",
+      "scores": {
+       "entail": 0.12147839147012428,
+       "neutral": 0.7173187845937459,
+       "contra": 0.16120280158438807
+      },
+      "neg_label": null,
+      "reject_reason": "",
+      "gold": "neutral"
+     },
+     {
+      "prop": "enterprise_name_offensive",
+      "label": "neutral",
+      "raw": "neutral",
+      "scores": {
+       "entail": 0.0055071409216849295,
+       "neutral": 0.9931288508266727,
+       "contra": 0.00136398869386825
+      },
+      "neg_label": null,
+      "reject_reason": "",
+      "gold": "neutral"
+     },
+     {
+      "prop": "enterprise_name_political_social_org",
+      "label": "neutral",
+      "raw": "neutral",
+      "scores": {
+       "entail": 0.05048089162976521,
+       "neutral": 0.7942680851512055,
+       "contra": 0.15525100086728746
+      },
+      "neg_label": null,
+      "reject_reason": "",
+      "gold": "neutral"
+     },
+     {
+      "prop": "enterprise_name_state_body",
+      "label": "neutral",
+      "raw": "neutral",
+      "scores": {
+       "entail": 0.01377668029613093,
+       "neutral": 0.5411542582177986,
+       "contra": 0.4450690819751672
+      },
+      "neg_label": null,
+      "reject_reason": "",
+      "gold": "neutral"
      }
     ]
    },
@@ -4443,20 +4532,34 @@
     "origin": "injected",
     "gold_category": "ParserOmission",
     "gold_fault": "ParserOmission(enterprise_name_state_body)",
-    "pred_category": "Normal",
-    "first_diagnosis": [],
-    "first_status": "none",
-    "candidates_first": 0,
-    "hit": false,
-    "answer": "insufficient",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(enterprise_name_armed_forces_unit)",
+     "MissingCaseInformation(enterprise_name_confusing)",
+     "MissingCaseInformation(enterprise_name_duplicate)",
+     "MissingCaseInformation(enterprise_name_offensive)",
+     "MissingCaseInformation(enterprise_name_political_social_org)",
+     "ParserOmission(enterprise_name_state_body)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
     "expected": "false",
-    "answer_ok": false,
-    "nli_calls": 1,
-    "nli_model_calls": 2,
+    "answer_ok": true,
+    "nli_calls": 7,
+    "nli_model_calls": 14,
     "nli_unverified": 0,
     "kb_checks": 0,
-    "rounds": 1,
-    "recovery": [],
+    "rounds": 2,
+    "recovery": [
+     "MissingCaseInformation(enterprise_name_armed_forces_unit)",
+     "MissingCaseInformation(enterprise_name_confusing)",
+     "MissingCaseInformation(enterprise_name_duplicate)",
+     "MissingCaseInformation(enterprise_name_offensive)",
+     "MissingCaseInformation(enterprise_name_political_social_org)",
+     "ParserOmission(enterprise_name_state_body)"
+    ],
     "nli_log": [
      {
       "prop": "state_body_name_consent",
@@ -4470,6 +4573,84 @@
       "neg_label": null,
       "reject_reason": "",
       "gold": "contra"
+     },
+     {
+      "prop": "enterprise_name_armed_forces_unit",
+      "label": "neutral",
+      "raw": "neutral",
+      "scores": {
+       "entail": 0.014361122391455917,
+       "neutral": 0.9112949637712249,
+       "contra": 0.07434388403499678
+      },
+      "neg_label": null,
+      "reject_reason": "",
+      "gold": "neutral"
+     },
+     {
+      "prop": "enterprise_name_confusing",
+      "label": "neutral",
+      "raw": "neutral",
+      "scores": {
+       "entail": 0.13478144485263108,
+       "neutral": 0.857749563624656,
+       "contra": 0.007468985469116147
+      },
+      "neg_label": null,
+      "reject_reason": "",
+      "gold": "neutral"
+     },
+     {
+      "prop": "enterprise_name_duplicate",
+      "label": "neutral",
+      "raw": "neutral",
+      "scores": {
+       "entail": 0.08926695364873603,
+       "neutral": 0.6191160196058003,
+       "contra": 0.29161700439372185
+      },
+      "neg_label": null,
+      "reject_reason": "",
+      "gold": "neutral"
+     },
+     {
+      "prop": "enterprise_name_offensive",
+      "label": "neutral",
+      "raw": "neutral",
+      "scores": {
+       "entail": 0.01046443861016148,
+       "neutral": 0.9864138853656568,
+       "contra": 0.0031216851045768926
+      },
+      "neg_label": null,
+      "reject_reason": "",
+      "gold": "neutral"
+     },
+     {
+      "prop": "enterprise_name_political_social_org",
+      "label": "neutral",
+      "raw": "neutral",
+      "scores": {
+       "entail": 0.18705490736185776,
+       "neutral": 0.7117663101633205,
+       "contra": 0.10117878247482186
+      },
+      "neg_label": null,
+      "reject_reason": "",
+      "gold": "neutral"
+     },
+     {
+      "prop": "enterprise_name_state_body",
+      "label": "entail",
+      "raw": "entail",
+      "scores": {
+       "entail": 0.5174882049582674,
+       "neutral": 0.3130898248012886,
+       "contra": 0.16942198700425037
+      },
+      "neg_label": null,
+      "reject_reason": "",
+      "gold": "entail"
      }
     ]
    },
@@ -28170,16 +28351,23 @@
     "first_status": "unique",
     "candidates_first": 1,
     "hit": false,
-    "answer": "insufficient",
+    "answer": "false",
     "expected": "false",
-    "answer_ok": false,
+    "answer_ok": true,
     "nli_calls": 7,
     "nli_model_calls": 14,
     "nli_unverified": 0,
     "kb_checks": 0,
-    "rounds": 2,
+    "rounds": 3,
     "recovery": [
-     "UnsupportedParserFact(state_body_name_consent)"
+     "UnsupportedParserFact(state_body_name_consent)",
+     "MissingCaseInformation(enterprise_name_armed_forces_unit)",
+     "MissingCaseInformation(enterprise_name_confusing)",
+     "MissingCaseInformation(enterprise_name_duplicate)",
+     "MissingCaseInformation(enterprise_name_offensive)",
+     "MissingCaseInformation(enterprise_name_political_social_org)",
+     "MissingCaseInformation(enterprise_name_state_body)",
+     "MissingCaseInformation(state_body_name_consent)"
     ],
     "nli_log": [
      {
@@ -28281,20 +28469,34 @@
     "origin": "injected",
     "gold_category": "ParserOmission",
     "gold_fault": "ParserOmission(enterprise_name_state_body)",
-    "pred_category": "Normal",
-    "first_diagnosis": [],
-    "first_status": "none",
-    "candidates_first": 0,
-    "hit": false,
-    "answer": "insufficient",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(enterprise_name_armed_forces_unit)",
+     "MissingCaseInformation(enterprise_name_confusing)",
+     "MissingCaseInformation(enterprise_name_duplicate)",
+     "MissingCaseInformation(enterprise_name_offensive)",
+     "MissingCaseInformation(enterprise_name_political_social_org)",
+     "ParserOmission(enterprise_name_state_body)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
     "expected": "false",
-    "answer_ok": false,
-    "nli_calls": 1,
-    "nli_model_calls": 2,
+    "answer_ok": true,
+    "nli_calls": 7,
+    "nli_model_calls": 14,
     "nli_unverified": 0,
     "kb_checks": 0,
-    "rounds": 1,
-    "recovery": [],
+    "rounds": 2,
+    "recovery": [
+     "MissingCaseInformation(enterprise_name_armed_forces_unit)",
+     "MissingCaseInformation(enterprise_name_confusing)",
+     "MissingCaseInformation(enterprise_name_duplicate)",
+     "MissingCaseInformation(enterprise_name_offensive)",
+     "MissingCaseInformation(enterprise_name_political_social_org)",
+     "ParserOmission(enterprise_name_state_body)"
+    ],
     "nli_log": [
      {
       "prop": "state_body_name_consent",
@@ -28308,6 +28510,84 @@
       "neg_label": null,
       "reject_reason": "",
       "gold": "contra"
+     },
+     {
+      "prop": "enterprise_name_armed_forces_unit",
+      "label": "neutral",
+      "raw": "neutral",
+      "scores": {
+       "entail": 0.014361122391455917,
+       "neutral": 0.9112949637712249,
+       "contra": 0.07434388403499678
+      },
+      "neg_label": null,
+      "reject_reason": "",
+      "gold": "neutral"
+     },
+     {
+      "prop": "enterprise_name_confusing",
+      "label": "neutral",
+      "raw": "neutral",
+      "scores": {
+       "entail": 0.13478144485263108,
+       "neutral": 0.857749563624656,
+       "contra": 0.007468985469116147
+      },
+      "neg_label": null,
+      "reject_reason": "",
+      "gold": "neutral"
+     },
+     {
+      "prop": "enterprise_name_duplicate",
+      "label": "neutral",
+      "raw": "neutral",
+      "scores": {
+       "entail": 0.08926695364873603,
+       "neutral": 0.6191160196058003,
+       "contra": 0.29161700439372185
+      },
+      "neg_label": null,
+      "reject_reason": "",
+      "gold": "neutral"
+     },
+     {
+      "prop": "enterprise_name_offensive",
+      "label": "neutral",
+      "raw": "neutral",
+      "scores": {
+       "entail": 0.01046443861016148,
+       "neutral": 0.9864138853656568,
+       "contra": 0.0031216851045768926
+      },
+      "neg_label": null,
+      "reject_reason": "",
+      "gold": "neutral"
+     },
+     {
+      "prop": "enterprise_name_political_social_org",
+      "label": "neutral",
+      "raw": "neutral",
+      "scores": {
+       "entail": 0.18705490736185776,
+       "neutral": 0.7117663101633205,
+       "contra": 0.10117878247482186
+      },
+      "neg_label": null,
+      "reject_reason": "",
+      "gold": "neutral"
+     },
+     {
+      "prop": "enterprise_name_state_body",
+      "label": "entail",
+      "raw": "entail",
+      "scores": {
+       "entail": 0.5174882049582674,
+       "neutral": 0.3130898248012886,
+       "contra": 0.16942198700425037
+      },
+      "neg_label": null,
+      "reject_reason": "",
+      "gold": "entail"
      }
     ]
    },

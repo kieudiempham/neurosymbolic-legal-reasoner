@@ -11,7 +11,7 @@ n = 451 test instances (each a question with one injected or natural fault, or n
 | Symbolic QA (no diagnosis) | 15.3 | 4.3 | – | – | – | – | 0.00 |
 | Direct symptom→cause (no MBD) | 57.0 | 51.4 | 39.7 | 24.6 | 39.7 | +47.1 | 3.16 |
 | Heuristic IF–THEN diagnosis | 85.1 | 85.7 | 68.5 | 67.4 | 68.5 | +81.5 | 3.71 |
-| **Ours: Cross-Layer MBD** | 81.6 | 81.7 | 63.4 | 62.1 | 65.0 | +77.4 | 0.35 |
+| **Ours: Cross-Layer MBD** | 85.1 | 85.7 | 66.1 | 66.8 | 68.3 | +81.5 | 1.70 |
 
 GPT-4o (pure LLM) and IRAC score: not run yet.
 
@@ -26,7 +26,7 @@ GPT-4o (pure LLM) and IRAC score: not run yet.
 | *Heuristic: all observable* | | | |
 |  diagnosis acc. 73.0 [55, 88], correct action 73.0, QA acc. 71.7, false alarms on CONTROL 33.3, clarifications/query 1.58 | | | |
 | *Ours: all observable* | | | |
-|  diagnosis acc. 70.3 [51, 87], correct action 73.0, QA acc. 73.3, false alarms on CONTROL 33.3, clarifications/query 0.58 | | | |
+|  diagnosis acc. 70.3 [51, 87], correct action 73.0, QA acc. 73.3, false alarms on CONTROL 33.3, clarifications/query 0.55 | | | |
 
 Correct action = diagnosis correct, or the only open choice is missing-vs-omitted on the true proposition and the system asks the user about exactly it. 95% CI: bootstrap over source questions.
 
@@ -38,7 +38,7 @@ Correct action = diagnosis correct, or the only open choice is missing-vs-omitte
 | Qwen2.5-7B-Instruct (open LLM) | 0.68 | 32.4 | 35.1 | 65.0 | 50.0 | 1.02 |
 | GPT-4o-mini | 0.71 | 62.2 | 64.9 | 71.7 | 33.3 | 0.75 |
 | mDeBERTa + Qwen2.5-7B | 0.68 | 45.9 | 56.8 | 65.0 | 16.7 | 0.58 |
-| **mDeBERTa + GPT-4o-mini** | 0.70 | 70.3 | 73.0 | 73.3 | 33.3 | 0.58 |
+| **mDeBERTa + GPT-4o-mini** | 0.70 | 70.3 | 73.0 | 73.3 | 33.3 | 0.55 |
 | Perfect measurement (oracle, upper bound) | 1.00 | 100.0 | 100.0 | 91.7 | 0.0 | – |
 
 NLI macro-F1: argmax label vs. annotated question content on 1,306 labelled development pairs.
@@ -47,15 +47,15 @@ NLI macro-F1: argmax label vs. annotated question content on 1,306 labelled deve
 
 | Domain | Split | n | QA acc. Ours | QA acc. Heur. | Diag. Ours | Diag. Heur. | Clarif./q Ours | Clarif./q Heur. |
 |---|---|---|---|---|---|---|---|---|
-| Social insurance | dev | 994 | 85.8 | 91.4 | 71.3 | 71.2 | 0.54 | 1.96 |
-| Enterprise | dev | 163 | 87.1 | 87.7 | 65.6 | 68.1 | 0.48 | 0.53 |
-| Enterprise | test | 164 | 72.6 | 75.0 | 51.2 | 54.3 | 0.35 | 0.47 |
-| Tax | dev | 151 | 83.4 | 90.7 | 43.0 | 44.4 | 0.55 | 3.74 |
-| Tax | test | 130 | 72.3 | 81.5 | 58.5 | 63.8 | 0.30 | 11.80 |
-| Labour | dev | 82 | 90.2 | 93.9 | 72.0 | 74.4 | 0.13 | 0.43 |
+| Social insurance | dev | 994 | 89.8 | 91.4 | 71.5 | 71.2 | 0.92 | 1.96 |
+| Enterprise | dev | 163 | 88.3 | 87.7 | 66.9 | 68.1 | 0.55 | 0.53 |
+| Enterprise | test | 164 | 75.0 | 75.0 | 51.2 | 54.3 | 0.48 | 0.47 |
+| Tax | dev | 151 | 90.1 | 90.7 | 44.4 | 44.4 | 2.05 | 3.74 |
+| Tax | test | 130 | 81.5 | 81.5 | 60.8 | 63.8 | 4.82 | 11.80 |
+| Labour | dev | 82 | 92.7 | 93.9 | 74.4 | 74.4 | 0.37 | 0.43 |
 | Labour | test | 51 | 96.1 | 96.1 | 80.4 | 84.3 | 0.25 | 0.25 |
-| Cross-domain | dev | 109 | 91.7 | 80.7 | 50.5 | 54.1 | 0.33 | 1.10 |
-| Cross-domain | test | 106 | 100.0 | 100.0 | 80.2 | 88.7 | 0.46 | 0.45 |
+| Cross-domain | dev | 109 | 82.6 | 80.7 | 53.2 | 54.1 | 1.13 | 1.10 |
+| Cross-domain | test | 106 | 100.0 | 100.0 | 88.7 | 88.7 | 0.45 | 0.45 |
 
 Social insurance has no test split (all 90 questions were used to develop the KB).
 
@@ -63,8 +63,8 @@ Social insurance has no test split (all 90 questions were used to develop the KB
 
 | Variant | QA acc. | Diagnosis acc. | Clarifications / query |
 |---|---|---|---|
-| Ours (full) | 81.6 | 63.4 | 0.35 |
-| − acceptance test (raw NLI labels) | 81.6 | 59.6 | 0.35 |
+| Ours (full) | 85.1 | 66.1 | 1.70 |
+| − acceptance test (raw NLI labels) | 85.1 | 62.3 | 1.69 |
 | − MBD (symptom→cause mapping) | 57.0 | 39.7 | 3.16 |
 | − diagnosis & recovery | 15.3 | – | 0.00 |
 ## Table 6 — QA accuracy under an equal clarification budget (injected faults, test, n = 451)
@@ -75,5 +75,5 @@ The simulated user answers at most B clarification questions per query (budgets 
 |---|---|---|---|---|---|---|
 | Direct symptom→cause (no MBD) | 20.6 | 48.6 | 49.5 | 57.0 | 0.00 | 0.00 |
 | Heuristic IF–THEN | 72.5 | 82.7 | 82.9 | 85.1 | 5.79 | 0.37 |
-| **Ours: Cross-Layer MBD** | 69.0 | 79.2 | 79.8 | 81.6 | 5.54 | 0.34 |
+| **Ours: Cross-Layer MBD** | 71.4 | 81.6 | 82.3 | 85.1 | 5.56 | 0.37 |
 
