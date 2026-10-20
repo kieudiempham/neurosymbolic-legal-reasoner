@@ -97,6 +97,9 @@ class Diagnoser:
         if c not in self._measured:
             v = verify(self.nli, question, self.kb.vocab, c)
             label = v["label"] if self.cfg.nli_policy == "verified" else v["raw"]
+            if self.cfg.nli_policy == "oracle":  # analysis only: gold question content as the measurement
+                qf = getattr(self, "oracle_facts", {})
+                label = ("entail" if qf[c] else "contra") if c in qf else "neutral"
             self._measured[c] = label
             res.nli_calls += 1
             res.nli_model_calls += 2

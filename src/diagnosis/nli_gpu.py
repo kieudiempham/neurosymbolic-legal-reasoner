@@ -23,7 +23,7 @@ from .dataset import check_case
 from .external_diag import DOMAINS, ROOT, build, load_domains
 from .inject import build_instances
 from .kb import GoldCase
-from .nli import CACHE_FILE, MODEL_NAME
+from .nli import ACCEPT_RULE, BACKEND, CACHE_FILE, MODEL_NAME
 
 OUT = ROOT / "experiments" / "nli_gpu"
 SEP = "␞"
@@ -52,7 +52,8 @@ def collect() -> list[tuple[str, str]]:
             v = kb.vocab.get(p)
             if v:
                 pairs[(question, v["template_pos"])] = None
-                pairs[(question, v["template_neg"])] = None
+                if ACCEPT_RULE != "pos_only":
+                    pairs[(question, v["template_neg"])] = None
 
     for dom in DOMAINS:
         kb = kbs[dom]
@@ -69,22 +70,87 @@ def collect() -> list[tuple[str, str]]:
     return list(pairs)
 
 
+def dev_labelled_pairs() -> list[dict]:
+    """(question, positive template, gold label) for the input propositions in the goal closure of every
+    DEVELOPMENT instance of the external F1-F4 set; gold = what the source question states (annotated
+    facts), neutral otherwise. Used only to choose among measurement prompts/models."""
+    kbs, items, split = load_domains()
+    insts, meta = build(kbs, items, split)
+    out, seen = [], set()
+    for i in insts:
+        if meta[i.iid]["split"] != "dev":
+            continue
+        kb = kbs[meta[i.iid]["domain"]]
+        for p in sorted(closure(kb, i.goal)):
+            v = kb.vocab.get(p)
+            if not v or v["kind"] != "input" or (i.question, v["template_pos"]) in seen:
+                continue
+            seen.add((i.question, v["template_pos"]))
+            gold = ("entail" if i.question_facts[p] else "contra") if p in i.question_facts else "neutral"
+            out.append({"premise": i.question, "hypothesis": v["template_pos"], "pred": p, "gold": gold})
+    return out
+
+
+def nli_metrics(rows: list[tuple[str, str]]) -> dict:
+    labs = ["entail", "neutral", "contra"]
+    f1s, per = [], {}
+    for lab in labs:
+        tp = sum(g == lab and p == lab for g, p in rows)
+        fp = sum(g != lab and p == lab for g, p in rows)
+        fn = sum(g == lab and p != lab for g, p in rows)
+        pr, rc = tp / max(1, tp + fp), tp / max(1, tp + fn)
+        f1s.append(2 * pr * rc / max(1e-9, pr + rc))
+        per[lab] = {"recall": round(rc, 3), "precision": round(pr, 3), "n": tp + fn}
+    return {"n": len(rows), "accuracy": round(sum(g == p for g, p in rows) / max(1, len(rows)), 4),
+            "macro_f1": round(sum(f1s) / 3, 4), "per_label": per}
+
+
 def main() -> None:
     sys.stdout.reconfigure(encoding="utf-8")
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["export", "import"])
+    ap.add_argument("cmd", choices=["export", "import", "dev-pairs", "eval-dev"])
     ap.add_argument("scores", nargs="?", help="nli_scores.jsonl produced on the GPU (import)")
     args = ap.parse_args()
     cache = json.loads(CACHE_FILE.read_text(encoding="utf-8")) if CACHE_FILE.exists() else {}
+
+    if args.cmd == "dev-pairs":
+        rows = dev_labelled_pairs()
+        OUT.mkdir(parents=True, exist_ok=True)
+        with (OUT / "pairs_qwen_dev.jsonl").open("w", encoding="utf-8") as f:
+            for r in rows:
+                f.write(json.dumps({"premise": r["premise"], "hypothesis": r["hypothesis"]}, ensure_ascii=False) + "\n")
+        (OUT / "dev_gold.json").write_text(json.dumps(rows, ensure_ascii=False), encoding="utf-8")
+        print(f"{len(rows)} dev pairs ->", OUT / "pairs_qwen_dev.jsonl")
+        return
+    if args.cmd == "eval-dev":
+        gold = {(r["premise"], r["hypothesis"]): r["gold"] for r in json.loads((OUT / "dev_gold.json").read_text(encoding="utf-8"))}
+        diag = CACHE_FILE.parent
+        systems = {}
+        for name, fn in (("mdeberta", "nli_cache.json"), ("qwen_v1", "nli_cache_qwen2.5-7b_v1.json")):
+            if (diag / fn).exists():
+                c = json.loads((diag / fn).read_text(encoding="utf-8"))
+                systems[name] = {k: c[k[0] + SEP + k[1]] for k in gold if k[0] + SEP + k[1] in c}
+        if args.scores:
+            for line in Path(args.scores).read_text(encoding="utf-8").splitlines():
+                if line.strip():
+                    r = json.loads(line)
+                    systems.setdefault("qwen_" + r.get("prompt", "?"), {})[(r["premise"], r["hypothesis"])] = r["scores"]
+        report = {}
+        for name, sc in systems.items():
+            rows = [(gold[k], max(v, key=v.get)) for k, v in sc.items() if k in gold]
+            report[name] = nli_metrics(rows)
+            print(name, json.dumps(report[name], ensure_ascii=False))
+        (OUT / "dev_prompt_selection.json").write_text(json.dumps(report, indent=1), encoding="utf-8")
+        return
 
     if args.cmd == "export":
         pairs = collect()
         todo = [p for p in pairs if p[0] + SEP + p[1] not in cache]
         OUT.mkdir(parents=True, exist_ok=True)
-        with (OUT / "pairs.jsonl").open("w", encoding="utf-8") as f:
+        with (OUT / f"pairs_{BACKEND}.jsonl").open("w", encoding="utf-8") as f:
             for prem, hyp in todo:
                 f.write(json.dumps({"premise": prem, "hypothesis": hyp}, ensure_ascii=False) + "\n")
-        (OUT / "meta.json").write_text(json.dumps({"model": MODEL_NAME, "pairs_total": len(pairs), "pairs_todo": len(todo),
+        (OUT / f"meta_{BACKEND}.json").write_text(json.dumps({"model": MODEL_NAME, "pairs_total": len(pairs), "pairs_todo": len(todo),
                                                    "questions": len({p for p, _ in pairs})}, indent=1), encoding="utf-8")
         print(f"{len(pairs)} pairs over {len({p for p, _ in pairs})} questions; {len(todo)} not cached -> {OUT / 'pairs.jsonl'}")
         return

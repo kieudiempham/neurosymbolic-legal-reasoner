@@ -7,8 +7,21 @@ import os
 from functools import lru_cache
 from pathlib import Path
 
-MODEL_NAME = "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7"
-CACHE_FILE = Path(__file__).resolve().parents[2] / "experiments" / "diag" / "nli_cache.json"
+# NLI_BACKEND selects the measurement model; each backend has its own score cache.
+#   mdeberta: fine-tuned multilingual NLI classifier (computed locally or on GPU)
+#   qwen:     open-weight LLM scoring the three labels (scores computed on GPU only, kaggle/nli_qwen_kaggle.py)
+BACKENDS = {
+    "mdeberta": ("MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7", "nli_cache.json"),
+    "qwen": ("Qwen/Qwen2.5-7B-Instruct", "nli_cache_qwen2.5-7b.json"),
+    "gpt4omini": ("gpt-4o-mini-2024-07-18 (prompt v4)", "nli_cache_gpt4omini.json"),
+    "ensemble_gpt": ("mDeBERTa+gpt-4o-mini (mean)", None),
+    # mean of the two label distributions (the classifier is strong on stated facts, the LLM on unstated ones)
+    "ensemble": ("mDeBERTa+Qwen2.5-7B (mean)", None),
+}
+BACKEND = os.environ.get("NLI_BACKEND", "mdeberta")
+MODEL_NAME, _cache_name = BACKENDS[BACKEND]
+_DIAG = Path(__file__).resolve().parents[2] / "experiments" / "diag"
+CACHE_FILE = _DIAG / (_cache_name or "nli_cache.json")
 _LABEL = {"entailment": "entail", "neutral": "neutral", "contradiction": "contra"}
 
 
@@ -34,8 +47,13 @@ def verify(model: "NLIModel", question: str, vocab: dict, pred: str, tau: float 
     """
     tau = ACCEPT_THRESHOLD if tau is None else tau
     rule = ACCEPT_RULE if rule is None else rule
-    pos, neg = model.predict_many([(question, vocab[pred]["template_pos"]), (question, vocab[pred]["template_neg"])])
-    pos_label, neg_label = max(pos, key=pos.get), max(neg, key=neg.get)
+    if rule == "pos_only":  # the negative template is not used by this rule, so it is not queried
+        pos = model.predict_many([(question, vocab[pred]["template_pos"])])[0]
+        neg = None
+    else:
+        pos, neg = model.predict_many([(question, vocab[pred]["template_pos"]), (question, vocab[pred]["template_neg"])])
+    pos_label = max(pos, key=pos.get)
+    neg_label = max(neg, key=neg.get) if neg else None
     expected_neg = {"entail": "contra", "contra": "entail", "neutral": "neutral"}[pos_label]
     confident = pos[pos_label] >= tau
     consistent = rule == "pos_only" or neg_label == expected_neg or (pos_label != "neutral" and neg_label == "neutral")
@@ -52,7 +70,12 @@ class NLIModel:
     def __init__(self, model_name: str = MODEL_NAME):
         self.model_name = model_name
         self._cache: dict[str, dict] = {}
-        if CACHE_FILE.exists():
+        if BACKEND in ("ensemble", "ensemble_gpt"):
+            a = json.loads((_DIAG / BACKENDS["mdeberta"][1]).read_text(encoding="utf-8"))
+            other = "qwen" if BACKEND == "ensemble" else "gpt4omini"
+            b = json.loads((_DIAG / BACKENDS[other][1]).read_text(encoding="utf-8"))
+            self._cache = {k: {lab: (a[k][lab] + b[k][lab]) / 2 for lab in a[k]} for k in a.keys() & b.keys()}
+        elif CACHE_FILE.exists():
             self._cache = json.loads(CACHE_FILE.read_text(encoding="utf-8"))
         self.calls = 0
 
@@ -71,6 +94,9 @@ class NLIModel:
         """Scores for many (premise, hypothesis) pairs; uncached pairs are run in padded batches."""
         keys = [p + "␞" + h for p, h in pairs]
         todo = list(dict.fromkeys(k for k in keys if k not in self._cache))
+        if todo and BACKEND != "mdeberta":
+            raise RuntimeError(f"{len(todo)} pairs missing from the {BACKEND} cache; score them on GPU "
+                               "(python -m diagnosis.nli_gpu export, then kaggle/nli_qwen_kaggle.py)")
         if todo:
             import torch
 
@@ -91,5 +117,7 @@ class NLIModel:
         return max(scores, key=scores.get), scores
 
     def save(self) -> None:
+        if BACKEND in ("ensemble", "ensemble_gpt"):
+            return  # derived from the two backend caches, never written
         CACHE_FILE.parent.mkdir(parents=True, exist_ok=True)
         CACHE_FILE.write_text(json.dumps(self._cache, ensure_ascii=False), encoding="utf-8")

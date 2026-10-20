@@ -148,6 +148,11 @@
     0.509090909090909
    ],
    "n_observable": 112,
+   "correct_action_observable": 0.5,
+   "correct_action_observable_ci95": [
+    0.4,
+    0.5963302752293578
+   ],
    "false_alarm_rate_control": 0.15,
    "per_mode_diag_acc_observable": {
     "F1": 0.25,
@@ -210,6 +215,11 @@
     0.5616438356164384
    ],
    "n_observable": 75,
+   "correct_action_observable": 0.49333333333333335,
+   "correct_action_observable_ci95": [
+    0.36,
+    0.6097560975609756
+   ],
    "false_alarm_rate_control": 0.14285714285714285,
    "per_mode_diag_acc_observable": {
     "F1": 0.238,
@@ -270,6 +280,11 @@
     0.5428571428571428
    ],
    "n_observable": 37,
+   "correct_action_observable": 0.5135135135135135,
+   "correct_action_observable_ci95": [
+    0.34285714285714286,
+    0.6857142857142857
+   ],
    "false_alarm_rate_control": 0.16666666666666666,
    "per_mode_diag_acc_observable": {
     "F1": 0.273,
@@ -350,7 +365,7 @@
     }
    }
   },
-  "seconds": 4.2
+  "seconds": 3.8
  },
  "per_instance": [
   {
@@ -397,7 +412,8 @@
    "domain": "lien_nganh",
    "source": "LN-031",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0003",
@@ -593,7 +609,8 @@
    "domain": "doanh_nghiep",
    "source": "DN-029",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0007",
@@ -770,7 +787,8 @@
    "domain": "bhxh",
    "source": "BHXH-061",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0009",
@@ -828,7 +846,8 @@
    "domain": "doanh_nghiep",
    "source": "DN-054",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0010",
@@ -928,7 +947,8 @@
    "domain": "thue",
    "source": "THUE-029",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0011",
@@ -1040,7 +1060,8 @@
    "domain": "thue",
    "source": "THUE-028",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0012",
@@ -1094,7 +1115,8 @@
    "domain": "lao_dong",
    "source": "LD-022",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0013",
@@ -1590,7 +1612,8 @@
    "domain": "thue",
    "source": "THUE-007",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0015",
@@ -1649,7 +1672,8 @@
    "domain": "doanh_nghiep",
    "source": "DN-068",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0017",
@@ -1849,7 +1873,8 @@
    "domain": "lien_nganh",
    "source": "LN-031",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0020",
@@ -1959,7 +1984,8 @@
    "domain": "bhxh",
    "source": "BHXH-053",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0021",
@@ -2018,7 +2044,8 @@
    "domain": "lien_nganh",
    "source": "LN-036",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0022",
@@ -2059,7 +2086,8 @@
    "domain": "lien_nganh",
    "source": "LN-027",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0024",
@@ -2357,7 +2385,8 @@
    "domain": "thue",
    "source": "THUE-042",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0025",
@@ -2844,7 +2873,8 @@
    "domain": "bhxh",
    "source": "BHXH-088",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0026",
@@ -2988,7 +3018,8 @@
    "domain": "thue",
    "source": "THUE-053",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0028",
@@ -3088,7 +3119,8 @@
    "domain": "thue",
    "source": "THUE-031",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0029",
@@ -3147,7 +3179,8 @@
    "domain": "lao_dong",
    "source": "LD-018",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0030",
@@ -3311,7 +3344,8 @@
    "domain": "doanh_nghiep",
    "source": "DN-045",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0032",
@@ -3450,7 +3484,8 @@
    "domain": "bhxh",
    "source": "BHXH-007",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0033",
@@ -3582,7 +3617,8 @@
    "domain": "bhxh",
    "source": "BHXH-017",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0034",
@@ -3714,7 +3750,8 @@
    "domain": "lao_dong",
    "source": "LD-010",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0039",
@@ -3768,7 +3805,8 @@
    "domain": "doanh_nghiep",
    "source": "DN-069",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0040",
@@ -4279,7 +4317,8 @@
    "domain": "thue",
    "source": "THUE-006",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0042",
@@ -4337,7 +4376,8 @@
    "domain": "lien_nganh",
    "source": "LN-036",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0043",
@@ -4409,7 +4449,8 @@
    "domain": "lao_dong",
    "source": "LD-026",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0045",
@@ -4575,7 +4616,8 @@
    "domain": "thue",
    "source": "THUE-064",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0047",
@@ -4704,7 +4746,8 @@
    "domain": "doanh_nghiep",
    "source": "DN-019",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0049",
@@ -4842,7 +4885,8 @@
    "domain": "thue",
    "source": "THUE-057",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0051",
@@ -5316,7 +5360,8 @@
    "domain": "thue",
    "source": "THUE-006",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0052",
@@ -5374,7 +5419,8 @@
    "domain": "lao_dong",
    "source": "LD-013",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0053",
@@ -5512,7 +5558,8 @@
    "domain": "bhxh",
    "source": "BHXH-018",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0054",
@@ -5789,7 +5836,8 @@
    "domain": "bhxh",
    "source": "BHXH-078",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0058",
@@ -5927,7 +5975,8 @@
    "domain": "thue",
    "source": "THUE-040",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0061",
@@ -6356,7 +6405,8 @@
    "domain": "bhxh",
    "source": "BHXH-009",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0062",
@@ -6515,7 +6565,8 @@
    "domain": "lien_nganh",
    "source": "LN-040",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0064",
@@ -6612,7 +6663,8 @@
    "domain": "bhxh",
    "source": "BHXH-051",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0065",
@@ -6770,7 +6822,8 @@
    "domain": "doanh_nghiep",
    "source": "DN-067",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0068",
@@ -7036,7 +7089,8 @@
    "domain": "bhxh",
    "source": "BHXH-084",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0069",
@@ -7095,7 +7149,8 @@
    "domain": "lao_dong",
    "source": "LD-023",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0070",
@@ -7237,7 +7292,8 @@
    "domain": "lien_nganh",
    "source": "LN-035",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0072",
@@ -7603,7 +7659,8 @@
    "domain": "bhxh",
    "source": "BHXH-047",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0074",
@@ -7703,7 +7760,8 @@
    "domain": "thue",
    "source": "THUE-042",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0075",
@@ -7899,7 +7957,8 @@
    "domain": "bhxh",
    "source": "BHXH-047",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0077",
@@ -7957,7 +8016,8 @@
    "domain": "lao_dong",
    "source": "LD-011",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0078",
@@ -8528,7 +8588,8 @@
    "domain": "thue",
    "source": "THUE-008",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0081",
@@ -8587,7 +8648,8 @@
    "domain": "doanh_nghiep",
    "source": "DN-029",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0082",
@@ -8673,7 +8735,8 @@
    "domain": "lien_nganh",
    "source": "LN-010",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0083",
@@ -8802,7 +8865,8 @@
    "domain": "bhxh",
    "source": "BHXH-007",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0084",
@@ -8882,7 +8946,8 @@
    "domain": "lien_nganh",
    "source": "LN-004",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0085",
@@ -8936,7 +9001,8 @@
    "domain": "doanh_nghiep",
    "source": "DN-068",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0086",
@@ -9020,7 +9086,8 @@
    "domain": "lien_nganh",
    "source": "LN-003",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0087",
@@ -9174,7 +9241,8 @@
    "domain": "lien_nganh",
    "source": "LN-013",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0088",
@@ -9312,7 +9380,8 @@
    "domain": "doanh_nghiep",
    "source": "DN-058",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0091",
@@ -9366,7 +9435,8 @@
    "domain": "lao_dong",
    "source": "LD-023",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0092",
@@ -9683,7 +9753,8 @@
    "domain": "doanh_nghiep",
    "source": "DN-031",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0099",
@@ -9729,7 +9800,8 @@
    "domain": "lao_dong",
    "source": "LD-015",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0100",
@@ -9921,7 +9993,8 @@
    "domain": "bhxh",
    "source": "BHXH-063",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0102",
@@ -9994,7 +10067,8 @@
    "domain": "lao_dong",
    "source": "LD-010",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0103",
@@ -10052,7 +10126,8 @@
    "domain": "doanh_nghiep",
    "source": "DN-067",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0104",
@@ -10463,7 +10538,8 @@
    "domain": "bhxh",
    "source": "BHXH-083",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0110",
@@ -10724,7 +10800,8 @@
    "domain": "lien_nganh",
    "source": "LN-003",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0117",
@@ -10808,7 +10885,8 @@
    "domain": "thue",
    "source": "THUE-041",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0119",
@@ -11020,7 +11098,8 @@
    "domain": "doanh_nghiep",
    "source": "DN-045",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0121",
@@ -11133,7 +11212,8 @@
    "domain": "bhxh",
    "source": "BHXH-063",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0122",
@@ -11576,7 +11656,8 @@
    "domain": "bhxh",
    "source": "BHXH-017",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0127",
@@ -11660,7 +11741,8 @@
    "domain": "thue",
    "source": "THUE-047",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0128",
@@ -11718,7 +11800,8 @@
    "domain": "thue",
    "source": "THUE-064",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0129",
@@ -11809,7 +11892,8 @@
    "domain": "doanh_nghiep",
    "source": "DN-050",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0130",
@@ -11883,7 +11967,8 @@
    "domain": "doanh_nghiep",
    "source": "DN-069",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0131",
@@ -11937,7 +12022,8 @@
    "domain": "lao_dong",
    "source": "LD-002",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0132",
@@ -12225,7 +12311,8 @@
    "domain": "thue",
    "source": "THUE-007",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0133",
@@ -12686,7 +12773,8 @@
    "domain": "lao_dong",
    "source": "LD-024",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0135",
@@ -13121,7 +13209,8 @@
    "domain": "bhxh",
    "source": "BHXH-061",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0136",
@@ -13162,7 +13251,8 @@
    "domain": "lao_dong",
    "source": "LD-003",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0138",
@@ -13234,7 +13324,8 @@
    "domain": "lao_dong",
    "source": "LD-011",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0139",
@@ -13288,7 +13379,8 @@
    "domain": "lao_dong",
    "source": "LD-018",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0140",
@@ -13710,7 +13802,8 @@
    "domain": "bhxh",
    "source": "BHXH-041",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0142",
@@ -13785,7 +13878,8 @@
    "domain": "doanh_nghiep",
    "source": "DN-019",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0144",
@@ -13984,7 +14078,8 @@
    "domain": "lao_dong",
    "source": "LD-001",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0148",
@@ -14055,7 +14150,8 @@
    "domain": "lien_nganh",
    "source": "LN-010",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0149",
@@ -14200,7 +14296,8 @@
    "domain": "lien_nganh",
    "source": "LN-027",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0151",
@@ -14370,7 +14467,8 @@
    "domain": "doanh_nghiep",
    "source": "DN-023",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0153",
@@ -14429,7 +14527,8 @@
    "domain": "doanh_nghiep",
    "source": "DN-008",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0154",
@@ -14596,7 +14695,8 @@
    "domain": "lao_dong",
    "source": "LD-015",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0156",
@@ -14728,7 +14828,8 @@
    "domain": "doanh_nghiep",
    "source": "DN-023",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0159",
@@ -15098,7 +15199,8 @@
    "domain": "bhxh",
    "source": "BHXH-018",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0162",
@@ -15660,7 +15762,8 @@
    "domain": "thue",
    "source": "THUE-008",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0164",
@@ -15718,7 +15821,8 @@
    "domain": "lien_nganh",
    "source": "LN-034",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0166",
@@ -15803,7 +15907,8 @@
    "domain": "thue",
    "source": "THUE-047",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0167",
@@ -16026,7 +16131,8 @@
    "domain": "bhxh",
    "source": "BHXH-084",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0169",
@@ -16084,7 +16190,8 @@
    "domain": "lao_dong",
    "source": "LD-013",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0170",
@@ -16422,7 +16529,8 @@
    "domain": "thue",
    "source": "THUE-041",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0172",
@@ -16480,7 +16588,8 @@
    "domain": "lien_nganh",
    "source": "LN-034",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0174",
@@ -16578,7 +16687,8 @@
    "domain": "bhxh",
    "source": "BHXH-090",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0177",
@@ -16675,7 +16785,8 @@
    "domain": "thue",
    "source": "THUE-026",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0178",
@@ -17090,7 +17201,8 @@
    "domain": "thue",
    "source": "THUE-026",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0181",
@@ -17131,7 +17243,8 @@
    "domain": "lao_dong",
    "source": "LD-024",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0182",
@@ -17189,7 +17302,8 @@
    "domain": "lien_nganh",
    "source": "LN-028",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0183",
@@ -17274,7 +17388,8 @@
    "domain": "bhxh",
    "source": "BHXH-078",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0185",
@@ -17469,7 +17584,8 @@
    "domain": "bhxh",
    "source": "BHXH-088",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0188",
@@ -17527,7 +17643,8 @@
    "domain": "bhxh",
    "source": "BHXH-090",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0190",
@@ -17586,7 +17703,8 @@
    "domain": "lao_dong",
    "source": "LD-026",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0192",
@@ -17645,7 +17763,8 @@
    "domain": "lien_nganh",
    "source": "LN-035",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0194",
@@ -17742,7 +17861,8 @@
    "domain": "thue",
    "source": "THUE-028",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0195",
@@ -18317,7 +18437,8 @@
    "domain": "lao_dong",
    "source": "LD-020",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0199",
@@ -18523,7 +18644,8 @@
    "domain": "bhxh",
    "source": "BHXH-046",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0203",
@@ -18608,7 +18730,8 @@
    "domain": "lien_nganh",
    "source": "LN-004",
    "split": "test",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0204",
@@ -18731,7 +18854,8 @@
    "domain": "lao_dong",
    "source": "LD-022",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   },
   {
    "iid": "DIAG-0205",
@@ -18789,7 +18913,8 @@
    "domain": "lien_nganh",
    "source": "LN-028",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0209",
@@ -19170,7 +19295,8 @@
    "domain": "bhxh",
    "source": "BHXH-083",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": true
   },
   {
    "iid": "DIAG-0215",
@@ -19246,7 +19372,8 @@
    "domain": "doanh_nghiep",
    "source": "DN-054",
    "split": "dev",
-   "status": "observable"
+   "status": "observable",
+   "correct_action": false
   }
  ]
 }

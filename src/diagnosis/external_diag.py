@@ -132,6 +132,8 @@ def group_bootstrap(rows: list[dict], key: str, n_boot: int = 1000, seed: int = 
 
 
 def score(rows: list[dict], meta: dict[str, dict], diagnosis: bool) -> dict:
+    from .run_eval import correct_action
+
     if diagnosis:
         # a CONTROL case whose KB has encoded general/exception overlaps is correctly diagnosed as "only
         # resolvable overlaps" (true of the instance and benign), as in inject.build_instances
@@ -151,6 +153,10 @@ def score(rows: list[dict], meta: dict[str, dict], diagnosis: bool) -> dict:
                 b["diagnosis_acc_observable"] = sum(r["hit"] for r in obs) / len(obs)
                 b["diagnosis_acc_observable_ci95"] = group_bootstrap(obs, "hit")
                 b["n_observable"] = len(obs)
+                for r in obs:
+                    r["correct_action"] = correct_action(r)
+                b["correct_action_observable"] = sum(r["correct_action"] for r in obs) / len(obs)
+                b["correct_action_observable_ci95"] = group_bootstrap(obs, "correct_action")
             if ctl:
                 b["false_alarm_rate_control"] = sum(not r["hit"] for r in ctl) / len(ctl)
             b["per_mode_diag_acc_observable"] = {
@@ -174,6 +180,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--configs", default="rule_check,nesy_diag")
     ap.add_argument("--build-only", action="store_true", help="only report the instance set")
+    ap.add_argument("--out", default="", help="output dir (default experiments/diag_external)")
     args = ap.parse_args()
     kbs, items, split = load_domains()
     insts, meta = build(kbs, items, split)
@@ -185,6 +192,9 @@ def main() -> None:
     print("excluded:", {k: (m["source"], m["status"]) for k, m in stats["excluded"].items()})
     if args.build_only:
         return
+    global OUT_DIR
+    if args.out:
+        OUT_DIR = Path(args.out)
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     nli = NLIModel()
     for name in args.configs.split(","):

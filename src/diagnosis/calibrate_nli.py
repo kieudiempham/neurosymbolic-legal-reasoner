@@ -20,7 +20,7 @@ from .external_diag import OUT_DIR, build, load_domains, score
 from .run_eval import CONFIGS, run_instance
 
 TAUS = [0.40, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80]
-RULES = ["pos_neg", "pos_only"]
+RULES = ["pos_only"]  # the LLM measurement is scored on the positive template only
 
 
 def main() -> None:
@@ -44,7 +44,7 @@ def main() -> None:
             print(grid[-1], flush=True)
     best = max(grid, key=lambda g: (g["dev_score"], g["tau"], g["rule"] == "pos_neg"))
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    (OUT_DIR / "calibration.json").write_text(json.dumps({"chosen": best, "grid": grid}, indent=1), encoding="utf-8")
+    (OUT_DIR / f"calibration_{nli_mod.BACKEND}.json").write_text(json.dumps({"chosen": best, "grid": grid}, indent=1), encoding="utf-8")
     print("chosen:", best)
 
 

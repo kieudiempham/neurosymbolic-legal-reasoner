@@ -26,6 +26,9 @@ CONFIGS = {
     "rule_check": RunConfig(rule_check=True),
     "exhaustive_evidence": RunConfig(directed=False),
     "raw_nli": RunConfig(nli_policy="raw"),
+    # analysis (not a method): perfect measurements, to separate MBD errors from NLI errors
+    "oracle_nli": RunConfig(nli_policy="oracle"),
+    "rule_check_oracle": RunConfig(rule_check=True, nli_policy="oracle"),
 }
 
 
@@ -72,6 +75,19 @@ def gold_hit(inst: Instance, first_diag: list[str], status: str) -> bool:
     return False
 
 
+def correct_action(row: dict) -> bool:
+    """Diagnosis correct, OR the only unresolved choice is missing-vs-omission on the true proposition and
+    the system asked the user about exactly that proposition (Clarify) instead of guessing.
+    Defined before any result with this metric was looked at; applied identically to every config."""
+    if row["hit"]:
+        return True
+    if row["gold_category"] not in ("MissingCaseInformation", "ParserOmission") or row["first_status"] != "ambiguous":
+        return False
+    target = row["gold_fault"][row["gold_fault"].index("(") + 1 : -1]
+    kinds_ok = all(category_of(f) in ("MissingCaseInformation", "ParserOmission") for f in row["first_diagnosis"])
+    return kinds_ok and row["gold_fault"] in row["first_diagnosis"] and f"Clarify({target})" in row["recovery"]
+
+
 def nli_gold(inst: Instance, prop: str) -> str:
     if prop in inst.question_facts:
         return "entail" if inst.question_facts[prop] else "contra"
@@ -110,6 +126,7 @@ def stratified_subset(insts: list[Instance], target: int, seed: int = 42) -> lis
 def run_instance(kb, nli: NLIModel, cfg: RunConfig, inst: Instance) -> dict:
     kbv = kb.without_relations(inst.kb_variant) if inst.kb_variant else kb
     dg = Diagnoser(kbv, nli, cfg)
+    dg.oracle_facts = inst.question_facts
     r = dg.run(inst.question, inst.goal, inst.parsed, lambda c, i=inst: i.user_answers.get(c))
     pred_cat = predicted_category(r.first_diagnosis, r.first_status) if cfg.diagnosis else "-"
     return {
@@ -188,6 +205,8 @@ def summarize(rows: list[dict], diagnosis: bool) -> dict:
     if diagnosis:
         s["diagnosis_acc"] = sum(r["hit"] for r in rows) / n
         s["diagnosis_acc_ci95"] = bootstrap_ci([float(r["hit"]) for r in rows])
+        s["correct_action_acc"] = sum(correct_action(r) for r in rows) / n
+        s["correct_action_acc_ci95"] = bootstrap_ci([float(correct_action(r)) for r in rows])
         s["ambiguous_rate"] = sum(r["first_status"] == "ambiguous" for r in rows) / n
         rec = [r for r in faulty if r["first_status"] == "unique" and r["hit"]]
         s["recovery_success_rate"] = sum(r["answer_ok"] for r in faulty if r["hit"]) / max(1, len(faulty))
@@ -236,7 +255,7 @@ def kb_stats(kb, cases) -> dict:
             return 0
         best = 0
         for r in kb.rules_concluding(pred):
-            best = max(best, 1 + max(d(l.pred, stack + (pred,)) for l in r.premises))
+            best = max(best, 1 + max((d(l.pred, stack + (pred,)) for l in r.premises), default=0))
         depth[pred] = best
         return best
 
