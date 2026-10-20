@@ -187,6 +187,19 @@ def main() -> None:
             L.append(f"| {name} | {' | '.join(cells)} | {br[f'{cfg}|inf']['nli_per_query']:.2f} | "
                      f"{br[f'{cfg}|inf']['kb_checks_per_query']:.2f} |")
         L.append("")
+    # ---- Table 7: two simultaneous faults ----
+    mf = ROOT / "experiments" / "multi_fault" / "results.json"
+    if mf.exists():
+        ms = json.loads(mf.read_text(encoding="utf-8"))["summary"]
+        L += ["## Table 7 — Two simultaneous faults on different propositions (test; dev in parentheses)", "",
+              "| Method | Both faults found | ≥ 1 found | QA acc. | Clarifications / query | n |", "|---|---|---|---|---|---|"]
+        for cfg, name in [("no_mbd", "Direct symptom→cause (no MBD)"), ("rule_check", "Heuristic IF–THEN"),
+                          ("nesy_diag", "**Ours: Cross-Layer MBD**")]:
+            t, d = ms[f"test|{cfg}"], ms[f"dev|{cfg}"]
+            L.append(f"| {name} | {pct(t['both_found'])} ({pct(d['both_found'])}) | {pct(t['any_found'])} "
+                     f"({pct(d['any_found'])}) | {pct(t['answer_ok'])} ({pct(d['answer_ok'])}) | "
+                     f"{t['asks_per_query']:.2f} ({d['asks_per_query']:.2f}) | {t['n']} ({d['n']}) |")
+        L.append("")
     OUT.write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L))
 

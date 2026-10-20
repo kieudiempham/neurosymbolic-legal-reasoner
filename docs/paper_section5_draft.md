@@ -149,6 +149,23 @@ which is exact because every model constraint involves a single component.
 (For transparency: an earlier controller without these two points had been run on the test set
 (QA 81.6%, macro-F1 62.1%, 0.35 clarifications/query); the fixes were derived from development-set errors
 only, and the test set was re-run once.)
+*Two simultaneous faults* (Table 7; cross-layer pairs fixed before running: missing + misinterpreted,
+omitted + misinterpreted, missing + unsupported, misinterpreted + unsupported). Both diagnosers localise
+both faults in 59.6% of test cases and reach the same QA accuracy (81.7%), again with less than half of the
+heuristic's clarification requests (2.38 vs 5.79 per query). Both find the second fault in a later recovery
+round rather than in the first diagnosis, because input faults on the proof are verified before unresolved
+conditions are explained; the first-match heuristic loses no accuracy here because it acts on all of its
+labels at once and the simulated user answers every question. A direct symptom-to-cause mapping fails
+almost completely (1.9%).
+
+**Table 7. Two simultaneous faults on different propositions (test; development in parentheses).**
+
+| Method | Both faults found | ≥ 1 found | QA acc. | Clarif./query | n |
+|---|---|---|---|---|---|
+| Direct symptom→cause (no MBD) | 0.0 (0.0) | 21.2 (19.2) | 1.9 (1.4) | 5.62 (1.97) | 104 (349) |
+| Heuristic IF–THEN | 59.6 (67.9) | 90.4 (94.8) | 81.7 (83.4) | 5.79 (2.60) | 104 (349) |
+| **Ours: Cross-Layer MBD** | 59.6 (67.1) | 88.5 (94.8) | 81.7 (80.5) | **2.38** (1.60) | 104 (349) |
+
 (3) *The bottleneck is measurement, not the diagnostic logic.* With perfect measurements, MBD diagnoses 100%
 of the observable external faults and 88–100% overall; with real NLI the gap is entirely explained by
 measurement errors (in an error analysis on the development set with the mDeBERTa + Qwen measurement,

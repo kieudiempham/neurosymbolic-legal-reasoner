@@ -77,3 +77,11 @@ The simulated user answers at most B clarification questions per query (budgets 
 | Heuristic IF–THEN | 72.5 | 82.7 | 82.9 | 85.1 | 5.79 | 0.37 |
 | **Ours: Cross-Layer MBD** | 71.4 | 81.6 | 82.3 | 85.1 | 5.56 | 0.37 |
 
+## Table 7 — Two simultaneous faults on different propositions (test; dev in parentheses)
+
+| Method | Both faults found | ≥ 1 found | QA acc. | Clarifications / query | n |
+|---|---|---|---|---|---|
+| Direct symptom→cause (no MBD) | 0.0 (0.0) | 21.1 (19.2) | 1.9 (1.4) | 5.62 (1.97) | 104 (349) |
+| Heuristic IF–THEN | 59.6 (67.9) | 90.4 (94.8) | 81.7 (83.4) | 5.79 (2.60) | 104 (349) |
+| **Ours: Cross-Layer MBD** | 59.6 (67.0) | 88.5 (94.8) | 81.7 (80.5) | 2.38 (1.60) | 104 (349) |
+
