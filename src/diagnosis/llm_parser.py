@@ -16,7 +16,7 @@ from .reasoner import Fact
 ROOT = Path(__file__).resolve().parents[2]
 CACHE_FILE = ROOT / "experiments" / "diag" / "parser_cache.json"
 
-PARSE_PROMPT = """Bạn là bộ phân tích ngữ nghĩa (semantic parser) cho hệ thống hỏi đáp pháp luật bảo hiểm xã hội.
+PARSE_PROMPT = """Bạn là bộ phân tích ngữ nghĩa (semantic parser) cho hệ thống hỏi đáp pháp luật Việt Nam (bảo hiểm xã hội, lao động, doanh nghiệp, thuế).
 Nhiệm vụ: đọc câu hỏi của người dùng và trích xuất các dữ kiện của vụ việc theo đúng danh sách predicate dưới đây.
 
 Mỗi predicate là một mệnh đề về người hỏi. value = true nghĩa là câu "khi đúng" xảy ra; value = false nghĩa là câu "khi sai" xảy ra.
@@ -77,7 +77,10 @@ class LLMParser:
         return self.cache[key]
 
     def parse(self, question: str) -> dict[str, Fact]:
-        out = self._chat(f"parse|{self.model}|{question}", PARSE_PROMPT.format(predicates=self.pred_list, question=question))
+        import hashlib
+
+        kb_tag = hashlib.sha1(self.pred_list.encode("utf-8")).hexdigest()[:10]  # parses depend on the predicate list
+        out = self._chat(f"parse|{self.model}|{kb_tag}|{question}", PARSE_PROMPT.format(predicates=self.pred_list, question=question))
         facts: dict[str, Fact] = {}
         for f in out.get("facts", []):
             p = f.get("pred")
