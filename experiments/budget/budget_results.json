@@ -1,0 +1,98 @@
+{
+ "nesy_diag|0": {
+  "n": 451,
+  "qa_acc": 0.6896,
+  "qa_acc_faulty": 0.6842,
+  "diag_acc": 0.6341,
+  "nli_per_query": 5.52,
+  "kb_checks_per_query": 0.32
+ },
+ "nesy_diag|1": {
+  "n": 451,
+  "qa_acc": 0.7916,
+  "qa_acc_faulty": 0.7895,
+  "diag_acc": 0.6341,
+  "nli_per_query": 5.53,
+  "kb_checks_per_query": 0.33
+ },
+ "nesy_diag|2": {
+  "n": 451,
+  "qa_acc": 0.7982,
+  "qa_acc_faulty": 0.797,
+  "diag_acc": 0.6341,
+  "nli_per_query": 5.53,
+  "kb_checks_per_query": 0.33
+ },
+ "nesy_diag|inf": {
+  "n": 451,
+  "qa_acc": 0.816,
+  "qa_acc_faulty": 0.817,
+  "diag_acc": 0.6341,
+  "nli_per_query": 5.54,
+  "kb_checks_per_query": 0.34
+ },
+ "rule_check|0": {
+  "n": 451,
+  "qa_acc": 0.7251,
+  "qa_acc_faulty": 0.7243,
+  "diag_acc": 0.6851,
+  "nli_per_query": 5.77,
+  "kb_checks_per_query": 0.35
+ },
+ "rule_check|1": {
+  "n": 451,
+  "qa_acc": 0.8271,
+  "qa_acc_faulty": 0.8296,
+  "diag_acc": 0.6851,
+  "nli_per_query": 5.78,
+  "kb_checks_per_query": 0.36
+ },
+ "rule_check|2": {
+  "n": 451,
+  "qa_acc": 0.8293,
+  "qa_acc_faulty": 0.8321,
+  "diag_acc": 0.6851,
+  "nli_per_query": 5.78,
+  "kb_checks_per_query": 0.36
+ },
+ "rule_check|inf": {
+  "n": 451,
+  "qa_acc": 0.8514,
+  "qa_acc_faulty": 0.8571,
+  "diag_acc": 0.6851,
+  "nli_per_query": 5.79,
+  "kb_checks_per_query": 0.37
+ },
+ "no_mbd|0": {
+  "n": 451,
+  "qa_acc": 0.2062,
+  "qa_acc_faulty": 0.1028,
+  "diag_acc": 0.3969,
+  "nli_per_query": 0.0,
+  "kb_checks_per_query": 0.0
+ },
+ "no_mbd|1": {
+  "n": 451,
+  "qa_acc": 0.4856,
+  "qa_acc_faulty": 0.4185,
+  "diag_acc": 0.3969,
+  "nli_per_query": 0.0,
+  "kb_checks_per_query": 0.0
+ },
+ "no_mbd|2": {
+  "n": 451,
+  "qa_acc": 0.4945,
+  "qa_acc_faulty": 0.4286,
+  "diag_acc": 0.3969,
+  "nli_per_query": 0.0,
+  "kb_checks_per_query": 0.0
+ },
+ "no_mbd|inf": {
+  "n": 451,
+  "qa_acc": 0.5698,
+  "qa_acc_faulty": 0.5138,
+  "diag_acc": 0.3969,
+  "nli_per_query": 0.0,
+  "kb_checks_per_query": 0.0
+ }
+}

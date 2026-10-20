@@ -173,6 +173,20 @@ def main() -> None:
         p = pooled(runs, "test", cfg)
         if p["n"]:
             L.append(f"| {name} | {pct(p['ans'])} | {pct(p.get('diag'))} | {p['asks']:.2f} |")
+    # ---- Table 6: equal clarification budget + measurement cost ----
+    bf = ROOT / "experiments" / "budget" / "budget_results.json"
+    if bf.exists():
+        br = json.loads(bf.read_text(encoding="utf-8"))
+        L += ["## Table 6 — QA accuracy under an equal clarification budget (injected faults, test, n = 451)", "",
+              "The simulated user answers at most B clarification questions per query (budgets fixed in advance).", "",
+              "| Method | B = 0 | B = 1 | B = 2 | unlimited | NLI measurements / query | KB checks / query |",
+              "|---|---|---|---|---|---|---|"]
+        for cfg, name in [("no_mbd", "Direct symptom→cause (no MBD)"), ("rule_check", "Heuristic IF–THEN"),
+                          ("nesy_diag", "**Ours: Cross-Layer MBD**")]:
+            cells = [pct(br[f"{cfg}|{b}"]["qa_acc"]) for b in ("0", "1", "2", "inf")]
+            L.append(f"| {name} | {' | '.join(cells)} | {br[f'{cfg}|inf']['nli_per_query']:.2f} | "
+                     f"{br[f'{cfg}|inf']['kb_checks_per_query']:.2f} |")
+        L.append("")
     OUT.write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L))
 

@@ -20,8 +20,9 @@ cross-domain 40), covering 225 distinct legal cases (the rest are paraphrases). 
 with the legal goal, the case facts (with verbatim spans), the gold conclusion (yes 144 / no 85 /
 insufficient 71) and its legal basis. "Insufficient" is defined by the law, independently of the KB:
 (i) a missing general condition makes a case insufficient; (ii) an exception that the question does not raise
-does not apply; (iii) an exception that is raised only partially makes the case insufficient. The gold labels
-were generated with GPT-4o and checked against the cited provisions; an independent legal review is ongoing.
+does not apply; (iii) an exception that is raised only partially makes the case insufficient. The questions and gold labels
+were generated with GPT-4o from the cited provisions (they are synthetic, not collected user questions) and
+checked against those provisions; an independent legal review of a stratified sample is ongoing.
 
 **Splits.** Questions are split by legal case (paraphrases stay together) into development (194) and
 held-out test (106) sets; all social-insurance questions were used to develop the KB and are development
@@ -48,7 +49,7 @@ question or the source label was revised), 134 of them with an observable fault.
   parser and KB components, diagnosis-directed measurement (first-disagreement policy), clarification on
   missing-vs-omitted ambiguity, and layer-ordered recovery.
 
-All systems use the gold legal goal (oracle-goal setting). **Measurement model.** The NLI measurement of a
+All systems use the gold legal goal; end-to-end results are therefore end-to-end *under an oracle goal*. **Measurement model.** The NLI measurement of a
 proposition is the mean label distribution of mDeBERTa-v3 (XNLI) and GPT-4o-mini (logprobs of the three
 option letters, one prompt, temperature 0); a label becomes an observation only if its probability is at
 least τ = 0.50, otherwise the measurement yields ⊥ and adds no observation. Model, prompt and τ were chosen
@@ -76,12 +77,12 @@ conclusion and legal basis; 20 questions are also scored by a human to report ag
 **Table 2. Main comparison (held-out test).** QA on the 106 test questions end to end; diagnosis on the
 451 injected test instances.
 
-| System | QA acc. (end-to-end) | QA acc. on faulty inputs | Diag. macro-F1 | Recovery gain (pp) | Clarif./query | IRAC |
-|---|---|---|---|---|---|---|
-| GPT-4o (pure LLM) | [GPT-4o] | – | N/A | N/A | – | [IRAC] |
-| Symbolic QA | [e2e] | 4.3 | N/A | N/A | 0.00 | [IRAC] |
-| Heuristic diagnosis | [e2e] | 85.7 | 67.4 | +81.5 | 3.71 | [IRAC] |
-| **Ours (cross-layer MBD)** | [e2e] | 81.7 | 62.1 | +77.4 | **0.35** | [IRAC] |
+| System | QA acc. (end-to-end) | QA acc. on faulty inputs | Diag. macro-F1 | Recovery gain (pp) | Clarif./query | NLI meas./query | IRAC |
+|---|---|---|---|---|---|---|---|
+| GPT-4o (pure LLM) | [GPT-4o] | – | N/A | N/A | – | – | [IRAC] |
+| Symbolic QA | [e2e] | 4.3 | N/A | N/A | 0.00 | 0.00 | [IRAC] |
+| Heuristic diagnosis | [e2e] | 85.7 | 67.4 | +81.5 | 3.71 | 5.79 | [IRAC] |
+| **Ours (cross-layer MBD)** | [e2e] | 81.7 | 62.1 | +77.4 | **0.35** | 5.54 | [IRAC] |
 
 **Table 3. Diagnosis by category (injected faults, test, n = 451).**
 
@@ -119,19 +120,32 @@ diagnosis accuracy [51, 87] and 73.0% correct action with 0.58 clarifications pe
 | − MBD (symptom → most common cause) | 57.0 | 39.7 | 3.16 |
 | − diagnosis and recovery (Symbolic QA) | 15.3 | – | 0.00 |
 
+**Table 6. QA accuracy under an equal clarification budget (injected faults, test, n = 451).**
+
+| Method | B = 0 | B = 1 | B = 2 | unlimited |
+|---|---|---|---|---|
+| Direct symptom→cause (no MBD) | 20.6 | 48.6 | 49.5 | 57.0 |
+| Heuristic IF–THEN | 72.5 | 82.7 | 82.9 | 85.1 |
+| **Ours: Cross-Layer MBD** | 69.0 | 79.2 | 79.8 | 81.6 |
+
 **Discussion.**
 (1) *Diagnosis-guided recovery is what makes the symbolic pipeline usable*: with a single fault per input,
 Symbolic QA answers 4.3% of faulty inputs correctly; diagnosis and recovery raise this to 81.7% (+77.4 pp).
 Replacing consistency-based diagnosis by a direct symptom-to-cause mapping loses 24.6 pp of QA accuracy and
 23.7 pp of diagnosis accuracy.
 (2) *MBD versus a matched IF–THEN classifier.* With identical evidence and single faults, the heuristic is
-on par with or slightly above MBD in diagnosis accuracy and QA accuracy (Tables 2–3; confidence intervals
-overlap). The difference is in *how* answers are obtained: the heuristic turns every unresolved condition
-into a "missing information" diagnosis and asks the user about it — 3.71 questions per query, 11.8 in the
-tax test set — whereas MBD asks only when the remaining diagnoses are genuinely indistinguishable
-(0.35 per query, about ten times fewer). Its higher QA accuracy is thus bought with user effort that a
-simulated, omniscient user hides. The main weakness of MBD is that it under-reports missing information
-(recall 45.2%) and over-reports benign rule overlaps when no input fault is found.
+slightly better than MBD in diagnosis (68.5 vs 63.4%) and QA accuracy (85.1 vs 81.6%), and this holds under
+an equal clarification budget (Table 6: 72.5 vs 69.0% with no clarification, 82.7 vs 79.2% with one); both
+use the same measurement effort (5.8 vs 5.5 NLI measurements and 0.37 vs 0.34 KB checks per query). The
+difference is concentrated in two categories: MBD under-reports missing case information (recall 45.2 vs
+63.7%) and, when no input fault is consistent with the evidence, reports a benign encoded overlap instead
+of "no fault" (precision 45.2 vs 82.4%). What MBD offers instead is *selective interaction*: it asks the
+user only when the remaining minimal diagnoses are genuinely indistinguishable — 0.35 clarification
+requests per query against 3.71 for the heuristic (11.8 on the tax test set), which turns every unresolved
+condition into a question — and its diagnoses are set-minimal explanations consistent with all
+observations, with explicit ambiguity instead of a first-match label. We therefore do not claim higher
+accuracy than a well-matched heuristic on single-fault inputs; the claimed benefit is principled,
+cross-layer fault localisation at about a tenth of the user interaction.
 (3) *The bottleneck is measurement, not the diagnostic logic.* With perfect measurements, MBD diagnoses 100%
 of the observable external faults and 88–100% overall; with real NLI the gap is entirely explained by
 measurement errors (in an error analysis on the development set with the mDeBERTa + Qwen measurement,

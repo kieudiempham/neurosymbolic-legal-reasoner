@@ -123,11 +123,21 @@ def stratified_subset(insts: list[Instance], target: int, seed: int = 42) -> lis
     return sorted(keep, key=lambda i: order[i.iid])
 
 
-def run_instance(kb, nli: NLIModel, cfg: RunConfig, inst: Instance) -> dict:
+def run_instance(kb, nli: NLIModel, cfg: RunConfig, inst: Instance, budget: int | None = None) -> dict:
+    """budget: maximum number of clarification questions the simulated user answers (None = unlimited);
+    further questions are asked but get no answer."""
     kbv = kb.without_relations(inst.kb_variant) if inst.kb_variant else kb
     dg = Diagnoser(kbv, nli, cfg)
     dg.oracle_facts = inst.question_facts
-    r = dg.run(inst.question, inst.goal, inst.parsed, lambda c, i=inst: i.user_answers.get(c))
+    answered: list[str] = []
+
+    def user(c: str, i=inst):
+        if budget is not None and len(answered) >= budget:
+            return None
+        answered.append(c)
+        return i.user_answers.get(c)
+
+    r = dg.run(inst.question, inst.goal, inst.parsed, user)
     pred_cat = predicted_category(r.first_diagnosis, r.first_status) if cfg.diagnosis else "-"
     return {
         "iid": inst.iid, "case": inst.case_id, "origin": inst.origin, "gold_category": inst.category,

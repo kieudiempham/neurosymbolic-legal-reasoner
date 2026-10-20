@@ -67,3 +67,13 @@ Social insurance has no test split (all 90 questions were used to develop the KB
 | − acceptance test (raw NLI labels) | 81.6 | 59.6 | 0.35 |
 | − MBD (symptom→cause mapping) | 57.0 | 39.7 | 3.16 |
 | − diagnosis & recovery | 15.3 | – | 0.00 |
+## Table 6 — QA accuracy under an equal clarification budget (injected faults, test, n = 451)
+
+The simulated user answers at most B clarification questions per query (budgets fixed in advance).
+
+| Method | B = 0 | B = 1 | B = 2 | unlimited | NLI measurements / query | KB checks / query |
+|---|---|---|---|---|---|---|
+| Direct symptom→cause (no MBD) | 20.6 | 48.6 | 49.5 | 57.0 | 0.00 | 0.00 |
+| Heuristic IF–THEN | 72.5 | 82.7 | 82.9 | 85.1 | 5.79 | 0.37 |
+| **Ours: Cross-Layer MBD** | 69.0 | 79.2 | 79.8 | 81.6 | 5.54 | 0.34 |
+
