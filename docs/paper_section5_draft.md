@@ -162,9 +162,9 @@ almost completely (1.9%).
 
 | Method | Both faults found | ≥ 1 found | QA acc. | Clarif./query | n |
 |---|---|---|---|---|---|
-| Direct symptom→cause (no MBD) | 0.0 (0.0) | 21.2 (19.2) | 1.9 (1.4) | 5.62 (1.97) | 104 (349) |
+| Direct symptom→cause (no MBD) | 0.0 (0.0) | 21.1 (19.2) | 1.9 (1.4) | 5.62 (1.97) | 104 (349) |
 | Heuristic IF–THEN | 59.6 (67.9) | 90.4 (94.8) | 81.7 (83.4) | 5.79 (2.60) | 104 (349) |
-| **Ours: Cross-Layer MBD** | 59.6 (67.1) | 88.5 (94.8) | 81.7 (80.5) | **2.38** (1.60) | 104 (349) |
+| **Ours: Cross-Layer MBD** | 59.6 (67.0) | 88.5 (94.8) | 81.7 (80.5) | **2.38** (1.60) | 104 (349) |
 
 (3) *The bottleneck is measurement, not the diagnostic logic.* With perfect measurements, MBD diagnoses 100%
 of the observable external faults and 88–100% overall; with real NLI the gap is entirely explained by
