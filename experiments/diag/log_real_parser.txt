@@ -1,0 +1,59 @@
+93 distinct (question, KB) instances; parser model gpt-4o
+  10/93 (13s)
+  20/93 (25s)
+  30/93 (35s)
+  40/93 (45s)
+  50/93 (53s)
+  60/93 (64s)
+  70/93 (74s)
+  80/93 (84s)
+  90/93 (92s)
+{
+ "parser_model": "gpt-4o",
+ "instances": 93,
+ "parse_fact_precision": 0.8340248962655602,
+ "parse_fact_recall": 0.8305785123966942,
+ "parse_fact_f1": 0.8322981366459627,
+ "parse_exact_rate": 0.46236559139784944,
+ "parse_error_counts": {
+  "omitted": 40,
+  "wrong_value": 1,
+  "spurious": 39
+ },
+ "base_nesy_acc": 0.23655913978494625,
+ "nesy_diag_acc": 0.8709677419354839,
+ "instances_with_parse_error": 50,
+ "base_nesy_acc_on_parse_errors": 0.14,
+ "nesy_diag_acc_on_parse_errors": 0.8,
+ "parser_faults_diagnosed": {
+  "ParserOmission": 66,
+  "MissingCaseInformation": 48,
+  "ParserMisinterpretation": 7,
+  "UnsupportedParserFact": 13,
+  "ResolvableRuleOverlap": 2,
+  "UnresolvedKBConflict": 3
+ },
+ "measurements_per_query": 3.827956989247312,
+ "by_gold_category": {
+  "MissingCaseInformation": {
+   "n": 55,
+   "base_acc": 0.03636363636363636,
+   "diag_acc": 0.8909090909090909
+  },
+  "Normal": {
+   "n": 27,
+   "base_acc": 0.5555555555555556,
+   "diag_acc": 0.9259259259259259
+  },
+  "ResolvableRuleOverlap": {
+   "n": 5,
+   "base_acc": 0.4,
+   "diag_acc": 0.8
+  },
+  "UnresolvedKBConflict": {
+   "n": 6,
+   "base_acc": 0.5,
+   "diag_acc": 0.5
+  }
+ }
+}

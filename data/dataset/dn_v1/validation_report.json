@@ -1,0 +1,31 @@
+{
+ "files": [
+  "data/dataset/dn_v1/doanh_nghiep_70_DRAFT.jsonl"
+ ],
+ "items": 70,
+ "errors": 0,
+ "warnings": 0,
+ "by_domain": {
+  "doanh_nghiep": 70
+ },
+ "by_question_type": {
+  "application": 70
+ },
+ "by_expected": {
+  "true": 27,
+  "false": 24,
+  "insufficient": 19
+ },
+ "by_info_level": {
+  "complete": 40,
+  "missing": 19,
+  "exception_or_conflict": 11
+ },
+ "multi_hop": 7,
+ "predicates_used": 55,
+ "predicates_from_handoff": 0,
+ "predicates_declared_new": 56,
+ "undeclared_predicates": [],
+ "error_list": [],
+ "warning_list": []
+}

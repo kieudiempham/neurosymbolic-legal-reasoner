@@ -1,0 +1,781 @@
+predicates:
+  agreed_otherwise_on_retirement:
+    ask: Hai bên có thỏa thuận khác về việc người lao động tiếp tục làm việc khi đủ
+      tuổi nghỉ hưu không?
+    kind: input
+    template_neg: Các bên không có thỏa thuận khác về việc đủ tuổi nghỉ hưu.
+    template_pos: Các bên có thỏa thuận khác về việc tiếp tục làm việc khi đủ tuổi
+      nghỉ hưu.
+  annual_leave_at_least_12_days:
+    ask: ''
+    kind: derived
+    template_neg: Chưa xác lập quyền nghỉ ít nhất 12 ngày theo điều kiện đang xét.
+    template_pos: Người lao động có ít nhất 12 ngày nghỉ hằng năm hưởng nguyên lương.
+  awaiting_investigation_art125:
+    ask: Có đang chờ cơ quan có thẩm quyền điều tra, kết luận về hành vi vi phạm (trộm
+      cắp, tham ô, đánh bạc, ma túy, tiết lộ bí mật...) không?
+    kind: input
+    template_neg: Không đang chờ kết luận điều tra về hành vi tại khoản 1, 2 Điều
+      125.
+    template_pos: Đang chờ kết luận của cơ quan có thẩm quyền về hành vi vi phạm tại
+      khoản 1, 2 Điều 125.
+  break_at_least_30_min:
+    ask: ''
+    kind: derived
+    template_neg: Không xác lập quyền nghỉ giữa giờ 30 phút theo điều kiện đang xét.
+    template_pos: Người lao động được nghỉ giữa giờ ít nhất 30 phút liên tục.
+  break_at_shift_start_or_end:
+    ask: Giờ nghỉ giữa ca có bị xếp vào lúc bắt đầu hoặc kết thúc ca không?
+    kind: input
+    template_neg: Giờ nghỉ không bố trí vào đầu hoặc cuối ca.
+    template_pos: Giờ nghỉ được bố trí vào lúc bắt đầu hoặc kết thúc ca.
+  break_scheduling_compliant:
+    ask: ''
+    kind: derived
+    template_neg: Việc bố trí thời điểm nghỉ trong giờ làm việc không đúng quy định.
+    template_pos: Việc bố trí thời điểm nghỉ trong giờ làm việc đúng quy định.
+  cancel_probation_without_notice_allowed:
+    ask: ''
+    kind: derived
+    template_neg: Người lao động không được hủy thử việc không báo trước theo căn
+      cứ đang xét.
+    template_pos: Người lao động được hủy bỏ thử việc mà không phải báo trước.
+  classified_overtime_holiday:
+    ask: ''
+    kind: derived
+    template_neg: Hoạt động làm thêm không phải ngày lễ.
+    template_pos: Hoạt động làm thêm được phân loại vào ngày lễ.
+  classified_overtime_weekly_rest:
+    ask: ''
+    kind: derived
+    template_neg: Hoạt động làm thêm không phải ngày nghỉ hằng tuần.
+    template_pos: Hoạt động làm thêm được phân loại vào ngày nghỉ hằng tuần.
+  college_level_position:
+    ask: 'Xin cho biết: Công việc đòi hỏi trình độ chuyên môn từ cao đẳng trở lên.'
+    kind: input
+    template_neg: Công việc không thuộc nhóm đòi hỏi trình độ từ cao đẳng trở lên.
+    template_pos: Công việc đòi hỏi trình độ chuyên môn từ cao đẳng trở lên.
+  consented_to_night_work:
+    ask: 'Xin cho biết: Lao động nữ nuôi con nhỏ đã đồng ý làm việc ban đêm.'
+    kind: input
+    template_neg: Lao động nữ nuôi con nhỏ không đồng ý làm việc ban đêm.
+    template_pos: Lao động nữ nuôi con nhỏ đã đồng ý làm việc ban đêm.
+  continuous_shift_work:
+    ask: Người lao động có làm việc theo ca liên tục không?
+    kind: input
+    template_neg: Người lao động không làm theo ca liên tục.
+    template_pos: Người lao động làm việc theo ca liên tục.
+  contract_expired_over_30_days:
+    ask: 'Xin cho biết: Hợp đồng đã hết hạn quá 30 ngày.'
+    kind: input
+    template_neg: Hợp đồng mới hết hạn chưa quá 30 ngày.
+    template_pos: Hợp đồng đã hết hạn quá 30 ngày.
+  contract_under_one_month:
+    ask: 'Xin cho biết: Thời hạn hợp đồng lao động dưới một tháng.'
+    kind: input
+    template_neg: Thời hạn hợp đồng từ một tháng trở lên.
+    template_pos: Thời hạn hợp đồng lao động dưới một tháng.
+  converted_to_indefinite_contract:
+    ask: ''
+    kind: derived
+    template_neg: Hợp đồng cũ chưa chuyển thành hợp đồng không xác định thời hạn theo
+      Điều 20.
+    template_pos: Hợp đồng cũ chuyển thành hợp đồng không xác định thời hạn theo Điều
+      20.
+  discipline_during_pregnancy_allowed:
+    ask: ''
+    kind: derived
+    template_neg: Không được xử lý kỷ luật lao động đối với lao động nữ đang mang
+      thai lúc này.
+    template_pos: Được xử lý kỷ luật lao động đối với lao động nữ đang mang thai ngay
+      lúc này.
+  discipline_prohibited_now:
+    ask: ''
+    kind: derived
+    template_neg: Không thuộc thời gian/trường hợp cấm xử lý kỷ luật đang xét.
+    template_pos: Không được xử lý kỷ luật lao động đối với người lao động trong thời
+      gian/trường hợp này.
+  domestic_worker:
+    ask: Người lao động có phải lao động giúp việc gia đình không?
+    kind: input
+    template_neg: Người lao động không phải lao động giúp việc gia đình.
+    template_pos: Người lao động là lao động giúp việc gia đình.
+  elderly_worker:
+    ask: Người lao động có phải người cao tuổi (đã quá tuổi nghỉ hưu) không?
+    kind: input
+    template_neg: Người lao động không phải người cao tuổi.
+    template_pos: Người lao động là người cao tuổi.
+  employee_protected_from_discipline:
+    ask: ''
+    kind: derived
+    template_neg: Lao động nữ không đang trong thời kỳ được tạm hoãn xử lý kỷ luật.
+    template_pos: Lao động nữ đang trong thời kỳ được tạm hoãn xử lý kỷ luật.
+  employer_at_least_10_workers:
+    ask: 'Xin cho biết: Người sử dụng lao động có từ 10 nhân viên trở lên.'
+    kind: input
+    template_neg: Người sử dụng lao động có dưới 10 nhân viên.
+    template_pos: Người sử dụng lao động có từ 10 nhân viên trở lên.
+  employer_tried_all_remedies:
+    ask: Người sử dụng lao động đã tìm mọi biện pháp khắc phục chưa?
+    kind: input
+    template_neg: Người sử dụng lao động chưa tìm mọi biện pháp khắc phục.
+    template_pos: Người sử dụng lao động đã tìm mọi biện pháp khắc phục.
+  employer_untruthful_info_affecting_contract:
+    ask: Người sử dụng lao động có cung cấp thông tin không trung thực khi giao kết,
+      làm ảnh hưởng đến việc thực hiện hợp đồng không?
+    kind: input
+    template_neg: Người sử dụng lao động không cung cấp thông tin sai lệch ảnh hưởng
+      tới hợp đồng.
+    template_pos: Người sử dụng lao động cung cấp thông tin không trung thực (khoản
+      1 Điều 16) làm ảnh hưởng đến việc thực hiện hợp đồng.
+  enterprise_manager_position:
+    ask: Công việc thử việc có phải vị trí người quản lý doanh nghiệp không?
+    kind: input
+    template_neg: Công việc không phải của người quản lý doanh nghiệp.
+    template_pos: Công việc là của người quản lý doanh nghiệp.
+  especially_heavy_hazardous_work:
+    ask: Người lao động có làm nghề, công việc đặc biệt nặng nhọc, độc hại, nguy hiểm
+      không?
+    kind: input
+    template_neg: Người lao động không làm nghề, công việc đặc biệt nặng nhọc, độc
+      hại, nguy hiểm.
+    template_pos: Người lao động làm nghề, công việc đặc biệt nặng nhọc, độc hại,
+      nguy hiểm.
+  fixed_term_contract:
+    ask: 'Xin cho biết: Đây là hợp đồng lao động xác định thời hạn.'
+    kind: input
+    template_neg: Đây không phải hợp đồng lao động xác định thời hạn.
+    template_pos: Đây là hợp đồng lao động xác định thời hạn.
+  fixed_term_from_12_to_36_months:
+    ask: 'Xin cho biết: Hợp đồng xác định thời hạn từ 12 đến 36 tháng.'
+    kind: input
+    template_neg: Hợp đồng không thuộc nhóm từ 12 đến 36 tháng.
+    template_pos: Hợp đồng xác định thời hạn từ 12 đến 36 tháng.
+  fixed_term_length_compliant:
+    ask: ''
+    kind: derived
+    template_neg: Thời hạn ghi trong hợp đồng xác định thời hạn vượt giới hạn luật
+      định.
+    template_pos: Thời hạn ghi trong hợp đồng xác định thời hạn đáp ứng giới hạn luật
+      định.
+  fixed_term_months_le_36:
+    ask: 'Xin cho biết: Hợp đồng có thời hạn không quá 36 tháng.'
+    kind: input
+    template_neg: Hợp đồng có thời hạn trên 36 tháng.
+    template_pos: Hợp đồng có thời hạn không quá 36 tháng.
+  fixed_term_under_12_months:
+    ask: Hợp đồng có phải loại xác định thời hạn dưới 12 tháng không?
+    kind: input
+    template_neg: Hợp đồng không phải loại xác định thời hạn dưới 12 tháng.
+    template_pos: Hợp đồng xác định thời hạn dưới 12 tháng.
+  full_year_normal_leave_class:
+    ask: ''
+    kind: derived
+    template_neg: Người lao động không thuộc nhóm đủ năm trong điều kiện bình thường.
+    template_pos: Người lao động thuộc nhóm đủ năm trong điều kiện bình thường.
+  group_authorized_seasonal_contract:
+    ask: Hợp đồng có được giao kết thông qua một người được nhóm người lao động ủy
+      quyền (công việc mùa vụ dưới 12 tháng) không?
+    kind: input
+    template_neg: Hợp đồng không giao kết theo ủy quyền nhóm tại khoản 2 Điều 18.
+    template_pos: Hợp đồng do một người được nhóm lao động ủy quyền giao kết cho công
+      việc mùa vụ, công việc nhất định dưới 12 tháng (khoản 2 Điều 18).
+  has_grassroots_worker_representative:
+    ask: Nơi làm việc có tổ chức đại diện người lao động tại cơ sở (công đoàn cơ sở...)
+      không?
+    kind: input
+    template_neg: Nơi làm việc không có tổ chức đại diện người lao động tại cơ sở.
+    template_pos: Nơi làm việc có tổ chức đại diện người lao động tại cơ sở.
+  in_custody_or_detention:
+    ask: Người lao động có đang bị tạm giữ, tạm giam không?
+    kind: input
+    template_neg: Người lao động không bị tạm giữ, tạm giam.
+    template_pos: Người lao động đang bị tạm giữ, tạm giam.
+  indefinite_term_contract:
+    ask: Hợp đồng lao động có phải loại không xác định thời hạn không?
+    kind: input
+    template_neg: Đây không phải hợp đồng lao động không xác định thời hạn.
+    template_pos: Đây là hợp đồng lao động không xác định thời hạn.
+  intermediate_level_position:
+    ask: Công việc có đòi hỏi trình độ trung cấp, công nhân kỹ thuật hoặc là nhân
+      viên nghiệp vụ không?
+    kind: input
+    template_neg: Công việc không thuộc nhóm trung cấp, công nhân kỹ thuật, nhân viên
+      nghiệp vụ.
+    template_pos: Công việc cần trình độ trung cấp, công nhân kỹ thuật hoặc nhân viên
+      nghiệp vụ.
+  labor_relation:
+    ask: ''
+    kind: derived
+    template_neg: Giữa hai bên không tồn tại quan hệ lao động.
+    template_pos: Giữa hai bên tồn tại quan hệ lao động.
+  late_wage_payment_permitted:
+    ask: ''
+    kind: derived
+    template_neg: Không được trả lương chậm.
+    template_pos: Việc trả lương chậm được pháp luật cho phép.
+  lawful_temporary_transfer_art29:
+    ask: Việc bố trí công việc khác có phải là tạm chuyển công việc hợp lệ theo Điều
+      29 không?
+    kind: input
+    template_neg: Việc bố trí khác thỏa thuận không phải tạm chuyển hợp lệ theo Điều
+      29.
+    template_pos: Việc bố trí khác thỏa thuận là tạm chuyển công việc hợp lệ theo
+      Điều 29.
+  medical_confirmation_harm_to_fetus:
+    ask: Có giấy xác nhận của cơ sở khám chữa bệnh rằng tiếp tục làm việc sẽ ảnh hưởng
+      xấu đến thai nhi không?
+    kind: input
+    template_neg: Không có xác nhận y tế về ảnh hưởng xấu tới thai nhi.
+    template_pos: Có xác nhận của cơ sở khám bệnh, chữa bệnh rằng tiếp tục làm việc
+      sẽ ảnh hưởng xấu tới thai nhi.
+  minor_disabled_or_heavy_work:
+    ask: Người lao động có phải người chưa thành niên, người khuyết tật hoặc làm nghề,
+      công việc nặng nhọc, độc hại, nguy hiểm không?
+    kind: input
+    template_neg: Người lao động không thuộc nhóm chưa thành niên, khuyết tật hoặc
+      làm công việc nặng nhọc, độc hại, nguy hiểm.
+    template_pos: Người lao động chưa thành niên, là người khuyết tật hoặc làm nghề,
+      công việc nặng nhọc, độc hại, nguy hiểm.
+  mistreated_or_forced_labor:
+    ask: Người lao động có bị người sử dụng lao động ngược đãi, đánh đập, nhục mạ
+      hoặc cưỡng bức lao động không?
+    kind: input
+    template_neg: Người lao động không bị ngược đãi, nhục mạ hay cưỡng bức lao động.
+    template_pos: Người lao động bị ngược đãi, đánh đập, nhục mạ, xúc phạm sức khỏe,
+      nhân phẩm, danh dự hoặc bị cưỡng bức lao động.
+  must_agree_discipline_in_contract:
+    ask: ''
+    kind: derived
+    template_neg: Không bắt buộc thỏa thuận kỷ luật, trách nhiệm vật chất trong hợp
+      đồng.
+    template_pos: Phải thỏa thuận nội dung kỷ luật lao động, trách nhiệm vật chất
+      trong hợp đồng lao động.
+  must_compensate_late_wage_interest:
+    ask: ''
+    kind: derived
+    template_neg: Không phát sinh nghĩa vụ đền bù tiền lãi trả lương chậm.
+    template_pos: Người sử dụng lao động phải đền bù ít nhất bằng tiền lãi của số
+      tiền trả chậm.
+  must_consult_representative_on_internal_rules:
+    ask: ''
+    kind: derived
+    template_neg: Không có nghĩa vụ tham khảo ý kiến tổ chức đại diện về nội quy.
+    template_pos: Phải tham khảo ý kiến tổ chức đại diện người lao động trước khi
+      ban hành, sửa đổi nội quy.
+  must_issue_internal_rules:
+    ask: ''
+    kind: derived
+    template_neg: Người sử dụng lao động không phải ban hành nội quy lao động.
+    template_pos: Người sử dụng lao động phải ban hành nội quy lao động.
+  must_register_internal_rules:
+    ask: ''
+    kind: derived
+    template_neg: Người sử dụng lao động không phải đăng ký nội quy theo ngưỡng nhân
+      sự đang xét.
+    template_pos: Người sử dụng lao động phải đăng ký nội quy lao động.
+  must_sign_indefinite_contract:
+    ask: ''
+    kind: derived
+    template_neg: Không bắt buộc ký hợp đồng không xác định thời hạn.
+    template_pos: Hai bên phải ký hợp đồng lao động không xác định thời hạn.
+  night_overtime_extra_20_percent:
+    ask: ''
+    kind: derived
+    template_neg: Không phát sinh khoản trả thêm 20% làm thêm ban đêm.
+    template_pos: Được trả thêm 20% tiền lương ban ngày cho giờ làm thêm ban đêm.
+  night_shift_break_at_least_45_min:
+    ask: ''
+    kind: derived
+    template_neg: Không thể áp dụng mức nghỉ giữa ca 45 phút theo điều kiện đang xét.
+    template_pos: Người lao động có quyền nghỉ giữa ca ít nhất 45 phút liên tục.
+  night_shift_break_threshold_met:
+    ask: ''
+    kind: derived
+    template_neg: Chưa đủ điều kiện nghỉ ca đêm 45 phút.
+    template_pos: Đã đủ điều kiện nhận nghỉ ca đêm 45 phút.
+  night_work_permitted_for_nursing:
+    ask: ''
+    kind: derived
+    template_neg: Không thể bố trí lao động nữ nuôi con dưới 12 tháng làm ban đêm
+      nếu không có sự đồng ý.
+    template_pos: Có thể bố trí lao động nữ nuôi con dưới 12 tháng làm ban đêm nếu
+      được đồng ý.
+  night_work_permitted_for_pregnant:
+    ask: ''
+    kind: derived
+    template_neg: Không được sử dụng lao động nữ mang thai từ tháng thứ bảy làm việc
+      ban đêm.
+    template_pos: Được sử dụng lao động nữ mang thai từ tháng thứ bảy làm việc ban
+      đêm.
+  night_work_premium_at_least_30_percent:
+    ask: ''
+    kind: derived
+    template_neg: Không phát sinh khoản trả thêm 30% làm ban đêm.
+    template_pos: Được trả thêm ít nhất 30% tiền lương cho giờ làm ban đêm.
+  nightwork_at_least_three_hours:
+    ask: 'Xin cho biết: Trong ca có ít nhất ba giờ làm việc ban đêm.'
+    kind: input
+    template_neg: Trong ca có dưới ba giờ làm việc ban đêm.
+    template_pos: Trong ca có ít nhất ba giờ làm việc ban đêm.
+  no_new_contract:
+    ask: 'Xin cho biết: Hai bên chưa ký hợp đồng lao động mới sau khi hợp đồng cũ
+      hết hạn.'
+    kind: input
+    template_neg: Hai bên đã ký hợp đồng mới.
+    template_pos: Hai bên chưa ký hợp đồng lao động mới sau khi hợp đồng cũ hết hạn.
+  no_notice_wage_exception:
+    ask: ''
+    kind: derived
+    template_neg: Thiếu hoặc chậm lương không thuộc ngoại lệ đang xét.
+    template_pos: Thiếu hoặc chậm lương thuộc ngoại lệ cho nghỉ không cần báo trước.
+  normal_contract_no_probation_exception:
+    ask: ''
+    kind: derived
+    template_neg: Không áp dụng cấm thử việc do hợp đồng dưới một tháng.
+    template_pos: Áp dụng cấm thử việc do hợp đồng dưới một tháng.
+  normal_working_conditions:
+    ask: 'Xin cho biết: Công việc trong điều kiện bình thường.'
+    kind: input
+    template_neg: Công việc thuộc diện có điều kiện nặng nhọc hoặc đặc thù.
+    template_pos: Công việc trong điều kiện bình thường.
+  not_assigned_agreed_job_or_conditions:
+    ask: Người lao động có bị bố trí sai công việc, địa điểm hoặc không được bảo đảm
+      điều kiện làm việc như thỏa thuận không?
+    kind: input
+    template_neg: Người lao động được bố trí đúng công việc, địa điểm, điều kiện làm
+      việc như thỏa thuận.
+    template_pos: Người lao động không được bố trí đúng công việc, địa điểm làm việc
+      hoặc không được bảo đảm điều kiện làm việc như thỏa thuận.
+  notice_30_day_rule_applies:
+    ask: ''
+    kind: derived
+    template_neg: Người lao động không thuộc nhóm báo trước 30 ngày.
+    template_pos: Người lao động thuộc nhóm phải báo trước 30 ngày.
+  notice_at_least_30_days:
+    ask: 'Xin cho biết: Người lao động báo trước ít nhất 30 ngày.'
+    kind: input
+    template_neg: Người lao động báo trước dưới 30 ngày.
+    template_pos: Người lao động báo trước ít nhất 30 ngày.
+  notice_at_least_3_workdays:
+    ask: Người lao động đã báo trước ít nhất 03 ngày làm việc chưa?
+    kind: input
+    template_neg: Người lao động báo trước dưới 03 ngày làm việc.
+    template_pos: Người lao động báo trước ít nhất 03 ngày làm việc.
+  notice_at_least_45_days:
+    ask: Người lao động đã báo trước ít nhất 45 ngày chưa?
+    kind: input
+    template_neg: Người lao động báo trước dưới 45 ngày.
+    template_pos: Người lao động báo trước ít nhất 45 ngày.
+  nursing_child_under_12_months:
+    ask: 'Xin cho biết: Lao động nữ đang nuôi con dưới 12 tháng tuổi.'
+    kind: input
+    template_neg: Lao động nữ không nuôi con dưới 12 tháng tuổi.
+    template_pos: Lao động nữ đang nuôi con dưới 12 tháng tuổi.
+  on_maternity_leave:
+    ask: Người lao động có đang nghỉ thai sản không?
+    kind: input
+    template_neg: Người lao động không đang nghỉ thai sản.
+    template_pos: Người lao động đang nghỉ thai sản.
+  on_sick_convalescence_or_approved_leave:
+    ask: Người lao động có đang nghỉ ốm đau, điều dưỡng hoặc nghỉ việc được người
+      sử dụng lao động đồng ý không?
+    kind: input
+    template_neg: Người lao động không đang nghỉ ốm đau, điều dưỡng hay nghỉ việc
+      được đồng ý.
+    template_pos: Người lao động đang nghỉ ốm đau, điều dưỡng hoặc nghỉ việc được
+      người sử dụng lao động đồng ý.
+  oral_contract_permitted:
+    ask: ''
+    kind: derived
+    template_neg: Trường hợp này không được phép giao kết hợp đồng lao động bằng lời
+      nói.
+    template_pos: Trường hợp này được phép giao kết hợp đồng lao động bằng lời nói.
+  oral_contract_requested:
+    ask: 'Xin cho biết: Hai bên định giao kết hợp đồng bằng lời nói.'
+    kind: input
+    template_neg: Hai bên không định giao kết hợp đồng bằng lời nói.
+    template_pos: Hai bên định giao kết hợp đồng bằng lời nói.
+  other_position:
+    ask: Công việc có thuộc nhóm công việc khác, không đòi hỏi chức danh, trình độ
+      như quản lý, cao đẳng, trung cấp không?
+    kind: input
+    template_neg: Công việc thuộc một trong các nhóm có chức danh nêu tại khoản 1-3
+      Điều 25.
+    template_pos: Công việc thuộc nhóm công việc khác (không phải quản lý, cao đẳng
+      trở lên, trung cấp/công nhân kỹ thuật/nhân viên nghiệp vụ).
+  over_60_requires_written_consent:
+    ask: ''
+    kind: derived
+    template_neg: Không có nghĩa vụ đồng ý bằng văn bản theo ngưỡng 60 ngày.
+    template_pos: Điều chuyển công việc quá 60 ngày yêu cầu đồng ý bằng văn bản.
+  overtime_at_least_150_percent:
+    ask: ''
+    kind: derived
+    template_neg: Không xác định mức 150% theo trường hợp ngày thường.
+    template_pos: Được trả ít nhất 150% cho giờ làm thêm ngày thường.
+  overtime_at_least_200_percent:
+    ask: ''
+    kind: derived
+    template_neg: Không được xác định mức 200% theo trường hợp làm thêm ngày nghỉ
+      tuần.
+    template_pos: Được trả ít nhất 200% đơn giá theo quy định làm thêm ngày nghỉ tuần.
+  overtime_at_least_300_percent:
+    ask: ''
+    kind: derived
+    template_neg: Không được xác định mức 300% theo trường hợp làm thêm ngày lễ.
+    template_pos: Được trả ít nhất 300% đơn giá theo quy định làm thêm ngày lễ.
+  overtime_at_night:
+    ask: Giờ làm thêm có rơi vào ban đêm không?
+    kind: input
+    template_neg: Người lao động không làm thêm giờ vào ban đêm.
+    template_pos: Người lao động làm thêm giờ vào ban đêm.
+  overtime_daily_limit_exceeded:
+    ask: Số giờ làm thêm trong ngày có vượt 50% giờ làm việc bình thường (hoặc tổng
+      quá 12 giờ/ngày nếu tính theo tuần) không?
+    kind: input
+    template_neg: Số giờ làm thêm không vượt giới hạn theo ngày.
+    template_pos: Số giờ làm thêm vượt giới hạn theo ngày (quá 50% giờ làm việc bình
+      thường, hoặc tổng giờ làm việc và làm thêm quá 12 giờ/ngày khi tính theo tuần).
+  overtime_event:
+    ask: 'Xin cho biết: Có làm thêm giờ ngoài thời giờ làm việc bình thường.'
+    kind: input
+    template_neg: Không phát sinh làm thêm giờ.
+    template_pos: Có làm thêm giờ ngoài thời giờ làm việc bình thường.
+  overtime_on_compensatory_day_off:
+    ask: Người lao động làm thêm vào ngày nghỉ bù (do lễ trùng ngày nghỉ tuần) phải
+      không?
+    kind: input
+    template_neg: Người lao động không làm thêm vào ngày nghỉ bù.
+    template_pos: Người lao động làm thêm vào ngày nghỉ bù khi lễ, tết trùng ngày
+      nghỉ hằng tuần.
+  overtime_on_normal_day:
+    ask: Người lao động làm thêm vào ngày làm việc bình thường phải không?
+    kind: input
+    template_neg: Người lao động không làm thêm vào ngày thường.
+    template_pos: Người lao động làm thêm vào ngày thường.
+  overtime_on_public_holiday:
+    ask: 'Xin cho biết: Người lao động làm thêm vào ngày nghỉ lễ.'
+    kind: input
+    template_neg: Người lao động không làm thêm vào ngày nghỉ lễ.
+    template_pos: Người lao động làm thêm vào ngày nghỉ lễ.
+  overtime_on_weekly_rest:
+    ask: 'Xin cho biết: Người lao động làm thêm vào ngày nghỉ hằng tuần.'
+    kind: input
+    template_neg: Người lao động không làm thêm vào ngày nghỉ hằng tuần.
+    template_pos: Người lao động làm thêm vào ngày nghỉ hằng tuần.
+  overtime_over_200h_year:
+    ask: Tổng giờ làm thêm trong năm có vượt 200 giờ không?
+    kind: input
+    template_neg: Số giờ làm thêm không quá 200 giờ trong 01 năm.
+    template_pos: Số giờ làm thêm vượt 200 giờ trong 01 năm.
+  overtime_over_300h_year:
+    ask: Tổng giờ làm thêm trong năm có vượt 300 giờ không?
+    kind: input
+    template_neg: Số giờ làm thêm không quá 300 giờ trong 01 năm.
+    template_pos: Số giờ làm thêm vượt 300 giờ trong 01 năm.
+  overtime_over_40h_month:
+    ask: Số giờ làm thêm trong tháng có vượt 40 giờ không?
+    kind: input
+    template_neg: Số giờ làm thêm không quá 40 giờ trong 01 tháng.
+    template_pos: Số giờ làm thêm vượt 40 giờ trong 01 tháng.
+  overtime_pay_rate_at_least_200_percent:
+    ask: ''
+    kind: derived
+    template_neg: Mức lương làm thêm tối thiểu dưới ngưỡng 200%.
+    template_pos: Mức lương làm thêm tối thiểu thuộc ngưỡng 200% trở lên.
+  overtime_requires_consent:
+    ask: ''
+    kind: derived
+    template_neg: Không áp dụng điều kiện cần đồng ý cho trường hợp làm thêm này.
+    template_pos: Làm thêm giờ thông thường cần có sự đồng ý của người lao động.
+  overtime_special_case_art108:
+    ask: Việc làm thêm có thuộc trường hợp đặc biệt Điều 108 BLLĐ (thiên tai, quốc
+      phòng, an ninh...) không?
+    kind: input
+    template_neg: Làm thêm giờ không thuộc trường hợp đặc biệt Điều 108.
+    template_pos: Làm thêm giờ thuộc trường hợp đặc biệt tại Điều 108 Bộ luật Lao
+      động.
+  paid_after_each_period_or_lump_sum_within_15_days:
+    ask: Lương được trả sau mỗi kỳ hoặc gộp không quá 15 ngày một lần phải không?
+    kind: input
+    template_neg: Lương trả gộp quá 15 ngày một lần.
+    template_pos: Lương được trả sau mỗi giờ/ngày/tuần hoặc trả gộp không quá 15 ngày
+      một lần.
+  paid_break_at_least_30_min:
+    ask: ''
+    kind: derived
+    template_neg: Không áp dụng nghỉ giữa giờ 30 phút tính vào giờ làm.
+    template_pos: Thời gian nghỉ giữa giờ ít nhất 30 phút được tính vào giờ làm việc.
+  paid_break_at_least_45_min:
+    ask: ''
+    kind: derived
+    template_neg: Không áp dụng nghỉ giữa giờ 45 phút tính vào giờ làm.
+    template_pos: Thời gian nghỉ giữa giờ ít nhất 45 phút được tính vào giờ làm việc.
+  paid_by_hour_day_week:
+    ask: Người lao động hưởng lương theo giờ, ngày hoặc tuần phải không?
+    kind: input
+    template_neg: Người lao động không hưởng lương theo giờ, ngày, tuần.
+    template_pos: Người lao động hưởng lương theo giờ, ngày hoặc tuần.
+  paid_monthly:
+    ask: Người lao động hưởng lương theo tháng phải không?
+    kind: input
+    template_neg: Người lao động không hưởng lương theo tháng.
+    template_pos: Người lao động hưởng lương theo tháng.
+  paid_monthly_or_half_monthly_periodic:
+    ask: Lương có được trả một tháng hoặc nửa tháng một lần vào thời điểm cố định
+      không?
+    kind: input
+    template_neg: Lương không được trả theo chu kỳ một tháng hoặc nửa tháng.
+    template_pos: Lương được trả một tháng hoặc nửa tháng một lần vào thời điểm cố
+      định theo chu kỳ.
+  paid_wage:
+    ask: ''
+    kind: predeclared
+    template_neg: Người lao động không được trả lương cho công việc.
+    template_pos: Người lao động được trả lương hoặc tiền công cho công việc.
+  pregnancy_at_least_month_seven:
+    ask: 'Xin cho biết: Lao động nữ đang mang thai từ tháng thứ bảy.'
+    kind: input
+    template_neg: Lao động nữ chưa đến tháng thứ bảy.
+    template_pos: Lao động nữ đang mang thai từ tháng thứ bảy.
+  pregnancy_at_least_month_six:
+    ask: Lao động nữ có đang mang thai từ tháng thứ 6 trở đi không?
+    kind: input
+    template_neg: Lao động nữ chưa mang thai đến tháng thứ sáu.
+    template_pos: Lao động nữ đang mang thai từ tháng thứ sáu.
+  probation_allowed:
+    ask: ''
+    kind: derived
+    template_neg: Phương án thử việc không được phép theo giới hạn đang xét.
+    template_pos: Phương án thử việc được phép theo giới hạn đang xét.
+  probation_already_done_same_job:
+    ask: Người lao động đã từng thử việc cho chính công việc này trước đây chưa?
+    kind: input
+    template_neg: Người lao động chưa từng thử việc cho công việc này.
+    template_pos: Người lao động đã từng thử việc cho cùng công việc này.
+  probation_planned:
+    ask: 'Xin cho biết: Các bên dự định áp dụng thử việc.'
+    kind: input
+    template_neg: Các bên không dự định áp dụng thử việc.
+    template_pos: Các bên dự định áp dụng thử việc.
+  probation_within_180_days:
+    ask: Thời gian thử việc có không quá 180 ngày không?
+    kind: input
+    template_neg: Thử việc quá 180 ngày.
+    template_pos: Thử việc không quá 180 ngày.
+  probation_within_30_days:
+    ask: Thời gian thử việc có không quá 30 ngày không?
+    kind: input
+    template_neg: Thử việc quá 30 ngày.
+    template_pos: Thử việc không quá 30 ngày.
+  probation_within_60_days:
+    ask: 'Xin cho biết: Thử việc không quá 60 ngày.'
+    kind: input
+    template_neg: Thử việc quá 60 ngày.
+    template_pos: Thử việc không quá 60 ngày.
+  probation_within_6_workdays:
+    ask: Thời gian thử việc có không quá 06 ngày làm việc không?
+    kind: input
+    template_neg: Thử việc quá 06 ngày làm việc.
+    template_pos: Thử việc không quá 06 ngày làm việc.
+  reached_retirement_age:
+    ask: Người lao động đã đủ tuổi nghỉ hưu chưa?
+    kind: input
+    template_neg: Người lao động chưa đủ tuổi nghỉ hưu.
+    template_pos: Người lao động đã đủ tuổi nghỉ hưu theo Điều 169.
+  regular_overtime_arrangement_allowed:
+    ask: ''
+    kind: derived
+    template_neg: Việc bố trí làm thêm giờ thông thường không đáp ứng điều kiện đồng
+      ý.
+    template_pos: Việc bố trí làm thêm giờ thông thường đáp ứng điều kiện đồng ý.
+  resign_without_notice_allowed:
+    ask: ''
+    kind: derived
+    template_neg: Người lao động không có quyền nghỉ không báo trước theo tình huống
+      đang xét.
+    template_pos: Người lao động có quyền đơn phương chấm dứt hợp đồng không cần báo
+      trước theo tình huống.
+  rest_between_shifts_at_least_12_hours:
+    ask: 'Xin cho biết: Khoảng cách giữa hai ca ít nhất 12 giờ.'
+    kind: input
+    template_neg: Khoảng cách giữa hai ca dưới 12 giờ.
+    template_pos: Khoảng cách giữa hai ca ít nhất 12 giờ.
+  sexually_harassed_at_work:
+    ask: Người lao động có bị quấy rối tình dục tại nơi làm việc không?
+    kind: input
+    template_neg: Người lao động không bị quấy rối tình dục tại nơi làm việc.
+    template_pos: Người lao động bị quấy rối tình dục tại nơi làm việc.
+  shift_at_least_six_hours:
+    ask: 'Xin cho biết: Ca làm việc kéo dài từ sáu giờ trở lên.'
+    kind: input
+    template_neg: Ca làm việc dưới sáu giờ.
+    template_pos: Ca làm việc kéo dài từ sáu giờ trở lên.
+  shift_change_rest_at_least_12_hours:
+    ask: ''
+    kind: derived
+    template_neg: Thời gian nghỉ chuyển ca không đáp ứng mức tối thiểu 12 giờ.
+    template_pos: Thời gian nghỉ chuyển ca đáp ứng mức tối thiểu 12 giờ.
+  signed_second_fixed_term_contract:
+    ask: Hai bên đã ký lần thứ hai hợp đồng xác định thời hạn và hợp đồng đó đã hết
+      hạn chưa?
+    kind: input
+    template_neg: Chưa có hợp đồng xác định thời hạn lần thứ hai đã hết hạn.
+    template_pos: Hai bên đã ký thêm một hợp đồng xác định thời hạn lần thứ hai và
+      hợp đồng này đã hết hạn.
+  special_overtime_sector:
+    ask: Công việc có thuộc ngành, nghề hoặc trường hợp được phép làm thêm đến 300
+      giờ/năm (dệt may, da giày, điện tử, chế biến nông lâm thủy sản xuất khẩu; điện,
+      viễn thông, lọc dầu, cấp thoát nước; lao động trình độ cao khan hiếm; công việc
+      cấp bách) không?
+    kind: input
+    template_neg: Công việc không thuộc ngành, nghề, trường hợp được làm thêm đến
+      300 giờ/năm.
+    template_pos: Công việc thuộc ngành, nghề, trường hợp được làm thêm đến 300 giờ/năm
+      (khoản 3 Điều 107).
+  state_enterprise_hired_director:
+    ask: Người lao động có phải người được thuê làm giám đốc trong doanh nghiệp có
+      vốn nhà nước không?
+    kind: input
+    template_neg: Người lao động không phải giám đốc được thuê trong doanh nghiệp
+      có vốn nhà nước.
+    template_pos: Người lao động được thuê làm giám đốc trong doanh nghiệp có vốn
+      nhà nước.
+  temporary_transfer_compliant:
+    ask: ''
+    kind: derived
+    template_neg: Việc điều chuyển quá 60 ngày không đáp ứng yêu cầu đồng ý bằng văn
+      bản.
+    template_pos: Việc điều chuyển quá 60 ngày đáp ứng yêu cầu đồng ý bằng văn bản
+      đang xét.
+  temporary_transfer_over_60_workdays:
+    ask: 'Xin cho biết: Điều chuyển làm công việc khác vượt 60 ngày làm việc cộng
+      dồn trong năm.'
+    kind: input
+    template_neg: Điều chuyển không vượt 60 ngày làm việc cộng dồn trong năm.
+    template_pos: Điều chuyển làm công việc khác vượt 60 ngày làm việc cộng dồn trong
+      năm.
+  transfer_lawful_reason:
+    ask: Việc tạm chuyển người lao động sang công việc khác có lý do thiên tai, hỏa
+      hoạn, dịch bệnh, sự cố, hoặc nhu cầu sản xuất kinh doanh đã ghi trong nội quy
+      không?
+    kind: input
+    template_neg: Việc điều chuyển không có lý do theo khoản 1 Điều 29.
+    template_pos: Việc điều chuyển do khó khăn đột xuất (thiên tai, hỏa hoạn, dịch
+      bệnh, tai nạn lao động, sự cố điện nước) hoặc nhu cầu sản xuất, kinh doanh ghi
+      trong nội quy.
+  under_management:
+    ask: ''
+    kind: predeclared
+    template_neg: Người lao động không chịu sự quản lý, điều hành của bên sử dụng
+      lao động.
+    template_pos: Người lao động chịu sự quản lý, điều hành, giám sát của bên sử dụng
+      lao động.
+  under_probation:
+    ask: 'Xin cho biết: Người lao động đang trong thời gian thử việc.'
+    kind: input
+    template_neg: Người lao động không ở thời gian thử việc.
+    template_pos: Người lao động đang trong thời gian thử việc.
+  violation_while_lacking_capacity:
+    ask: Khi vi phạm, người lao động có mắc bệnh tâm thần hoặc bệnh làm mất khả năng
+      nhận thức, điều khiển hành vi không?
+    kind: input
+    template_neg: Người lao động vi phạm khi vẫn có khả năng nhận thức và điều khiển
+      hành vi.
+    template_pos: Người lao động vi phạm khi mắc bệnh tâm thần hoặc bệnh khác làm
+      mất khả năng nhận thức, điều khiển hành vi.
+  wage_delay_at_least_15_days:
+    ask: Lương bị trả chậm từ 15 ngày trở lên phải không?
+    kind: input
+    template_neg: Lương bị trả chậm dưới 15 ngày.
+    template_pos: Lương bị trả chậm từ 15 ngày trở lên.
+  wage_delay_force_majeure:
+    ask: Việc trả lương chậm có do lý do bất khả kháng không?
+    kind: input
+    template_neg: Lương trả chậm không vì bất khả kháng.
+    template_pos: Lương trả chậm vì lý do bất khả kháng.
+  wage_delay_force_majeure_art97:
+    ask: Việc chậm lương có do lý do bất khả kháng, người sử dụng lao động đã tìm
+      mọi cách khắc phục và chậm không quá 30 ngày (khoản 4 Điều 97) không?
+    kind: input
+    template_neg: Việc chậm/thiếu lương không thuộc trường hợp khoản 4 Điều 97.
+    template_pos: Việc chậm trả lương thuộc trường hợp bất khả kháng tại khoản 4 Điều
+      97 (đã tìm mọi biện pháp nhưng không trả đúng hạn, chậm không quá 30 ngày).
+  wage_delay_within_30_days:
+    ask: Lương bị chậm không quá 30 ngày phải không?
+    kind: input
+    template_neg: Lương chậm quá 30 ngày.
+    template_pos: Lương chậm không quá 30 ngày.
+  wage_payment_schedule_compliant:
+    ask: ''
+    kind: derived
+    template_neg: Kỳ hạn trả lương không đúng quy định.
+    template_pos: Kỳ hạn trả lương đúng quy định.
+  wage_unpaid_or_late:
+    ask: 'Xin cho biết: Người lao động bị chậm hoặc trả thiếu lương ngoài trường hợp
+      ngoại lệ đã biết.'
+    kind: input
+    template_neg: Người lao động nhận đủ lương đúng hạn.
+    template_pos: Người lao động bị chậm hoặc trả thiếu lương ngoài trường hợp ngoại
+      lệ đã biết.
+  worked_full_12_months_same_employer:
+    ask: 'Xin cho biết: Người lao động làm đủ 12 tháng cho cùng người sử dụng lao
+      động.'
+    kind: input
+    template_neg: Người lao động chưa làm đủ 12 tháng cho cùng người sử dụng lao động.
+    template_pos: Người lao động làm đủ 12 tháng cho cùng người sử dụng lao động.
+  worker_agreed_overtime:
+    ask: 'Xin cho biết: Người lao động đã đồng ý làm thêm giờ.'
+    kind: input
+    template_neg: Người lao động không đồng ý làm thêm giờ.
+    template_pos: Người lao động đã đồng ý làm thêm giờ.
+  worker_continue_working:
+    ask: ''
+    kind: predeclared
+    template_neg: Người lao động không tiếp tục làm việc.
+    template_pos: Người lao động vẫn tiếp tục làm việc.
+  worker_is_pregnant:
+    ask: ''
+    kind: predeclared
+    template_neg: Người lao động không mang thai.
+    template_pos: Người lao động đang mang thai.
+  worker_resignation_notice_compliant:
+    ask: ''
+    kind: derived
+    template_neg: Thời hạn báo trước của người lao động không đáp ứng quy định đang
+      xét.
+    template_pos: Thời hạn báo trước của người lao động đáp ứng quy định đang xét.
+  worker_under_15:
+    ask: 'Xin cho biết: Người lao động chưa đủ 15 tuổi.'
+    kind: input
+    template_neg: Người lao động từ đủ 15 tuổi trở lên.
+    template_pos: Người lao động chưa đủ 15 tuổi.
+  works_at_night:
+    ask: Người lao động có làm việc vào ban đêm không?
+    kind: input
+    template_neg: Người lao động không làm việc ban đêm.
+    template_pos: Người lao động làm việc vào ban đêm.
+  works_in_remote_area:
+    ask: Người lao động có làm việc ở vùng cao, vùng sâu, vùng xa, biên giới hoặc
+      hải đảo không?
+    kind: input
+    template_neg: Người lao động không làm việc ở vùng cao, vùng sâu, vùng xa, biên
+      giới, hải đảo.
+    template_pos: Người lao động làm việc ở vùng cao, vùng sâu, vùng xa, biên giới,
+      hải đảo.
+  written_contract_mandatory:
+    ask: ''
+    kind: derived
+    template_neg: Hợp đồng trong trường hợp này không bắt buộc bằng văn bản.
+    template_pos: Hợp đồng trong trường hợp này bắt buộc bằng văn bản.
+  written_internal_rules_required:
+    ask: ''
+    kind: derived
+    template_neg: Nội quy lao động không bắt buộc bằng văn bản theo ngưỡng này.
+    template_pos: Nội quy lao động bắt buộc lập thành văn bản.
+  written_transfer_consent:
+    ask: 'Xin cho biết: Người lao động đã đồng ý bằng văn bản với việc điều chuyển.'
+    kind: input
+    template_neg: Người lao động không đồng ý bằng văn bản với việc điều chuyển.
+    template_pos: Người lao động đã đồng ý bằng văn bản với việc điều chuyển.

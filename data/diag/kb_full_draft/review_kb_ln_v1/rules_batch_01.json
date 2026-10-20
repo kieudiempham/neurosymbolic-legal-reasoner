@@ -1,0 +1,40 @@
+{
+  "rules": [
+    {"id": "LN1-R001", "premises": ["signed_labor_contract"], "conclusion": "labor_relation", "source": "08_luat_lao_dong_45_2019_QH14, Điều 13 khoản 1", "note": "Hợp đồng lao động là thỏa thuận về việc làm có trả công, tiền lương trong quan hệ lao động; đã ký HĐLĐ thì có quan hệ lao động."},
+    {"id": "LN1-R002", "premises": ["paid_wage", "under_management"], "conclusion": "labor_relation", "source": "08_luat_lao_dong_45_2019_QH14, Điều 13 khoản 1", "note": "Thỏa thuận dưới tên gọi khác nhưng có việc làm trả công, tiền lương và sự quản lý, điều hành, giám sát của một bên thì được coi là HĐLĐ."},
+    {"id": "LN1-R003", "premises": ["labor_relation", "paid_wage"], "conclusion": "legal_wage_expense", "source": "08_luat_lao_dong_45_2019_QH14, Điều 90 khoản 1", "note": "Tiền lương là số tiền người sử dụng lao động trả cho người lao động theo thỏa thuận để thực hiện công việc."},
+    {"id": "LN1-R004", "premises": ["~labor_relation"], "conclusion": "~legal_wage_expense", "source": "08_luat_lao_dong_45_2019_QH14, Điều 90 khoản 1", "note": "Tiền lương chỉ là khoản người sử dụng lao động trả cho người lao động; không có quan hệ lao động thì khoản trả không phải tiền lương theo BLLĐ."},
+    {"id": "LN1-R005", "premises": ["ongoing_employment", "contract_expired_over_30_days", "no_new_contract"], "conclusion": "converted_to_indefinite_contract", "source": "08_luat_lao_dong_45_2019_QH14, Điều 20 khoản 2 điểm b", "note": "HĐLĐ xác định thời hạn hết hạn, người lao động vẫn làm việc, quá 30 ngày không ký HĐ mới thì trở thành HĐLĐ không xác định thời hạn."},
+    {"id": "LN1-R006", "premises": ["ongoing_employment", "~contract_expired_over_30_days"], "conclusion": "~converted_to_indefinite_contract", "source": "08_luat_lao_dong_45_2019_QH14, Điều 20 khoản 2 điểm a", "note": "Trong 30 ngày kể từ khi hết hạn, quyền và nghĩa vụ vẫn thực hiện theo hợp đồng đã giao kết; hợp đồng chưa chuyển loại."},
+    {"id": "LN1-R007", "premises": ["~ongoing_employment"], "conclusion": "~converted_to_indefinite_contract", "source": "08_luat_lao_dong_45_2019_QH14, Điều 20 khoản 2", "note": "Việc chuyển thành HĐ không xác định thời hạn chỉ áp dụng khi người lao động vẫn tiếp tục làm việc sau khi hết hạn."},
+    {"id": "LN1-R008", "premises": [], "conclusion": "~contract_suspended", "source": "08_luat_lao_dong_45_2019_QH14, Điều 30 khoản 1", "note": "Danh sách các trường hợp tạm hoãn là liệt kê đầy đủ; ngoài các trường hợp này thì không tạm hoãn."},
+    {"id": "LN1-R009", "premises": ["military_service_duty"], "conclusion": "contract_suspended", "source": "08_luat_lao_dong_45_2019_QH14, Điều 30 khoản 1 điểm a", "note": "Người lao động thực hiện nghĩa vụ quân sự, nghĩa vụ tham gia Dân quân tự vệ."},
+    {"id": "LN1-R010", "premises": ["held_in_criminal_custody"], "conclusion": "contract_suspended", "source": "08_luat_lao_dong_45_2019_QH14, Điều 30 khoản 1 điểm b", "note": "Người lao động bị tạm giữ, tạm giam theo pháp luật tố tụng hình sự."},
+    {"id": "LN1-R011", "premises": ["compulsory_detox_or_education_measure"], "conclusion": "contract_suspended", "source": "08_luat_lao_dong_45_2019_QH14, Điều 30 khoản 1 điểm c", "note": "Người lao động chấp hành quyết định đưa vào trường giáo dưỡng, cơ sở cai nghiện bắt buộc hoặc cơ sở giáo dục bắt buộc."},
+    {"id": "LN1-R012", "premises": ["pregnancy_suspension_art138"], "conclusion": "contract_suspended", "source": "08_luat_lao_dong_45_2019_QH14, Điều 30 khoản 1 điểm d", "note": "Lao động nữ mang thai theo quy định tại Điều 138."},
+    {"id": "LN1-R013", "premises": ["appointed_manager_state_owned_llc"], "conclusion": "contract_suspended", "source": "08_luat_lao_dong_45_2019_QH14, Điều 30 khoản 1 điểm đ", "note": "Người lao động được bổ nhiệm làm người quản lý của công ty TNHH một thành viên do Nhà nước nắm giữ 100% vốn điều lệ."},
+    {"id": "LN1-R014", "premises": ["authorized_state_capital_representative"], "conclusion": "contract_suspended", "source": "08_luat_lao_dong_45_2019_QH14, Điều 30 khoản 1 điểm e", "note": "Người lao động được ủy quyền thực hiện quyền của đại diện chủ sở hữu nhà nước đối với phần vốn nhà nước tại doanh nghiệp."},
+    {"id": "LN1-R015", "premises": ["authorized_enterprise_capital_representative"], "conclusion": "contract_suspended", "source": "08_luat_lao_dong_45_2019_QH14, Điều 30 khoản 1 điểm g", "note": "Người lao động được ủy quyền thực hiện quyền của doanh nghiệp đối với phần vốn đầu tư tại doanh nghiệp khác."},
+    {"id": "LN1-R016", "premises": ["mutually_suspended_contract"], "conclusion": "contract_suspended", "source": "08_luat_lao_dong_45_2019_QH14, Điều 30 khoản 1 điểm h", "note": "Trường hợp khác do hai bên thỏa thuận tạm hoãn."}
+  ],
+  "exception_of": [
+    ["LN1-R009", "LN1-R008"],
+    ["LN1-R010", "LN1-R008"],
+    ["LN1-R011", "LN1-R008"],
+    ["LN1-R012", "LN1-R008"],
+    ["LN1-R013", "LN1-R008"],
+    ["LN1-R014", "LN1-R008"],
+    ["LN1-R015", "LN1-R008"],
+    ["LN1-R016", "LN1-R008"]
+  ],
+  "extra_predicates": [
+    {"pred": "military_service_duty", "kind": "input", "is_question_goal": false, "template_pos": "Người lao động đang thực hiện nghĩa vụ quân sự hoặc nghĩa vụ tham gia Dân quân tự vệ.", "template_neg": "Người lao động không thực hiện nghĩa vụ quân sự hay nghĩa vụ Dân quân tự vệ.", "ask": "Người lao động có đang thực hiện nghĩa vụ quân sự hoặc tham gia Dân quân tự vệ không?"},
+    {"pred": "held_in_criminal_custody", "kind": "input", "is_question_goal": false, "template_pos": "Người lao động bị tạm giữ, tạm giam theo pháp luật tố tụng hình sự.", "template_neg": "Người lao động không bị tạm giữ, tạm giam.", "ask": "Người lao động có đang bị tạm giữ hoặc tạm giam không?"},
+    {"pred": "compulsory_detox_or_education_measure", "kind": "input", "is_question_goal": false, "template_pos": "Người lao động phải chấp hành quyết định đưa vào trường giáo dưỡng, cơ sở cai nghiện bắt buộc hoặc cơ sở giáo dục bắt buộc.", "template_neg": "Người lao động không phải chấp hành biện pháp đưa vào trường giáo dưỡng, cơ sở cai nghiện hay giáo dục bắt buộc.", "ask": "Người lao động có phải chấp hành quyết định đưa vào trường giáo dưỡng, cơ sở cai nghiện bắt buộc hoặc cơ sở giáo dục bắt buộc không?"},
+    {"pred": "pregnancy_suspension_art138", "kind": "input", "is_question_goal": false, "template_pos": "Lao động nữ mang thai thuộc trường hợp tạm hoãn hợp đồng theo Điều 138 Bộ luật Lao động.", "template_neg": "Người lao động không thuộc trường hợp tạm hoãn do mang thai theo Điều 138.", "ask": "Người lao động có phải lao động nữ mang thai xin tạm hoãn hợp đồng theo Điều 138 Bộ luật Lao động không?"},
+    {"pred": "appointed_manager_state_owned_llc", "kind": "input", "is_question_goal": false, "template_pos": "Người lao động được bổ nhiệm làm người quản lý doanh nghiệp của công ty TNHH một thành viên do Nhà nước nắm giữ 100% vốn điều lệ.", "template_neg": "Người lao động không được bổ nhiệm làm người quản lý công ty TNHH một thành viên 100% vốn nhà nước.", "ask": "Người lao động có được bổ nhiệm làm người quản lý của công ty TNHH một thành viên do Nhà nước nắm 100% vốn điều lệ không?"},
+    {"pred": "authorized_state_capital_representative", "kind": "input", "is_question_goal": false, "template_pos": "Người lao động được ủy quyền thực hiện quyền, trách nhiệm của đại diện chủ sở hữu nhà nước đối với phần vốn nhà nước tại doanh nghiệp.", "template_neg": "Người lao động không được ủy quyền đại diện phần vốn nhà nước tại doanh nghiệp.", "ask": "Người lao động có được ủy quyền làm đại diện phần vốn nhà nước tại doanh nghiệp không?"},
+    {"pred": "authorized_enterprise_capital_representative", "kind": "input", "is_question_goal": false, "template_pos": "Người lao động được ủy quyền thực hiện quyền, trách nhiệm của doanh nghiệp đối với phần vốn doanh nghiệp đầu tư tại doanh nghiệp khác.", "template_neg": "Người lao động không được ủy quyền đại diện phần vốn của doanh nghiệp tại doanh nghiệp khác.", "ask": "Người lao động có được ủy quyền đại diện phần vốn doanh nghiệp đầu tư tại doanh nghiệp khác không?"}
+  ],
+  "goals_decided": ["labor_relation", "legal_wage_expense", "converted_to_indefinite_contract", "contract_suspended"]
+}

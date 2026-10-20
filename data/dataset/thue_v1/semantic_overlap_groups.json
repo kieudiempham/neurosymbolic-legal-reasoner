@@ -1,0 +1,36 @@
+{
+  "unique_goal_fact_signatures": 61,
+  "groups_with_overlap": [
+    [
+      "THUE-011",
+      "THUE-018"
+    ],
+    [
+      "THUE-012",
+      "THUE-020",
+      "THUE-023"
+    ],
+    [
+      "THUE-013",
+      "THUE-021",
+      "THUE-024"
+    ],
+    [
+      "THUE-014",
+      "THUE-022"
+    ],
+    [
+      "THUE-016",
+      "THUE-025"
+    ],
+    [
+      "THUE-042",
+      "THUE-048"
+    ],
+    [
+      "THUE-059",
+      "THUE-060"
+    ]
+  ],
+  "note": "Variants with same predicate configuration are not independent diagnostic profiles. Distinct wordings/amounts may still be useful for parser robustness."
+}

@@ -1,0 +1,387 @@
+predicates:
+  all_enterprise_debts_paid:
+    ask: 'Xin cho biết: Doanh nghiệp đã thanh toán toàn bộ các khoản nợ và nghĩa vụ
+      tài sản.'
+    kind: input
+    template_neg: Doanh nghiệp chưa thanh toán hết nợ và nghĩa vụ tài sản.
+    template_pos: Doanh nghiệp đã thanh toán toàn bộ các khoản nợ và nghĩa vụ tài
+      sản.
+  already_owns_private_enterprise:
+    ask: 'Xin cho biết: Người này đã làm chủ một doanh nghiệp tư nhân.'
+    kind: input
+    template_neg: Người này chưa làm chủ doanh nghiệp tư nhân nào.
+    template_pos: Người này đã làm chủ một doanh nghiệp tư nhân.
+  alternative_capital_asset_permitted:
+    ask: ''
+    kind: derived
+    template_neg: Việc đổi loại tài sản góp vốn không được chấp thuận theo điều kiện
+      pháp luật.
+    template_pos: Việc đổi loại tài sản góp vốn được chấp thuận theo điều kiện pháp
+      luật.
+  asset_handover_record_exists:
+    ask: 'Xin cho biết: Đã có biên bản giao nhận tài sản góp vốn.'
+    kind: input
+    template_neg: Không lập biên bản giao nhận tài sản góp vốn.
+    template_pos: Đã có biên bản giao nhận tài sản góp vốn.
+  asset_used_in_private_enterprise_business:
+    ask: Tài sản này có phải tài sản chủ DNTN dùng vào hoạt động kinh doanh của DNTN
+      không?
+    kind: input
+    template_neg: Tài sản không phải tài sản chủ doanh nghiệp tư nhân dùng vào kinh
+      doanh của doanh nghiệp tư nhân.
+    template_pos: Tài sản được chủ doanh nghiệp tư nhân sử dụng vào hoạt động kinh
+      doanh của doanh nghiệp tư nhân.
+  business_sector_permitted:
+    ask: 'Xin cho biết: Ngành nghề đăng ký kinh doanh không thuộc danh mục bị cấm.'
+    kind: input
+    template_neg: Ngành nghề đăng ký kinh doanh bị cấm.
+    template_pos: Ngành nghề đăng ký kinh doanh không thuộc danh mục bị cấm.
+  buyer_is_nonfounder:
+    ask: 'Xin cho biết: Người nhận chuyển nhượng không phải cổ đông sáng lập.'
+    kind: input
+    template_neg: Người nhận chuyển nhượng là cổ đông sáng lập.
+    template_pos: Người nhận chuyển nhượng không phải cổ đông sáng lập.
+  capital_asset_different_from_commitment:
+    ask: 'Xin cho biết: Thành viên góp tài sản khác loại với cam kết.'
+    kind: input
+    template_neg: Thành viên góp đúng loại tài sản đã cam kết.
+    template_pos: Thành viên góp tài sản khác loại với cam kết.
+  capital_asset_requires_title_registration:
+    ask: 'Xin cho biết: Tài sản góp vốn là loại phải đăng ký quyền sở hữu.'
+    kind: input
+    template_neg: Tài sản góp vốn không phải đăng ký quyền sở hữu.
+    template_pos: Tài sản góp vốn là loại phải đăng ký quyền sở hữu.
+  capital_asset_title_transferred:
+    ask: 'Xin cho biết: Đã làm thủ tục chuyển quyền sở hữu tài sản góp vốn cho công
+      ty.'
+    kind: input
+    template_neg: Chưa làm thủ tục chuyển quyền sở hữu tài sản góp vốn cho công ty.
+    template_pos: Đã làm thủ tục chuyển quyền sở hữu tài sản góp vốn cho công ty.
+  capital_asset_transfer_compliant:
+    ask: ''
+    kind: derived
+    template_neg: Việc chuyển giao tài sản góp vốn chưa đáp ứng thủ tục đang xét.
+    template_pos: Việc chuyển giao tài sản góp vốn đáp ứng thủ tục đang xét.
+  capital_contributed_in_full:
+    ask: 'Xin cho biết: Thành viên đã góp đủ vốn đã cam kết.'
+    kind: input
+    template_neg: Thành viên chưa góp đủ vốn đã cam kết.
+    template_pos: Thành viên đã góp đủ vốn đã cam kết.
+  capital_contribution_completed:
+    ask: Việc góp vốn bằng tài sản đã được coi là thanh toán xong chưa?
+    kind: derived
+    template_neg: Việc góp vốn bằng tài sản chưa được coi là thanh toán xong.
+    template_pos: Việc góp vốn bằng tài sản được coi là đã thanh toán xong.
+  capital_contribution_via_account:
+    ask: 'Xin cho biết: Việc góp tài sản được thực hiện qua tài khoản.'
+    kind: input
+    template_neg: Việc góp tài sản không thực hiện qua tài khoản.
+    template_pos: Việc góp tài sản được thực hiện qua tài khoản.
+  capital_contribution_within_90_days:
+    ask: 'Xin cho biết: Thời gian góp vốn được tính theo luật không vượt quá 90 ngày.'
+    kind: input
+    template_neg: Thời gian góp vốn được tính theo luật đã quá 90 ngày.
+    template_pos: Thời gian góp vốn được tính theo luật không vượt quá 90 ngày.
+  capital_transfer_delay_excluded:
+    ask: 'Xin cho biết: Có thời gian vận chuyển, nhập khẩu hoặc thủ tục chuyển quyền
+      sở hữu được loại khỏi thời hạn góp vốn.'
+    kind: input
+    template_neg: Không có thời gian cần loại trừ khỏi thời hạn góp vốn.
+    template_pos: Có thời gian vận chuyển, nhập khẩu hoặc thủ tục chuyển quyền sở
+      hữu được loại khỏi thời hạn góp vốn.
+  change_required_by_arbitral_award:
+    ask: Việc thay đổi nội dung đăng ký có xuất phát từ phán quyết của Trọng tài không?
+    kind: input
+    template_neg: Việc thay đổi không xuất phát từ phán quyết của Trọng tài.
+    template_pos: Việc đăng ký thay đổi theo phán quyết của Trọng tài đã có hiệu lực.
+  change_required_by_court_ruling:
+    ask: 'Xin cho biết: Việc đăng ký thay đổi theo bản án hoặc quyết định của Tòa
+      án đã có hiệu lực.'
+    kind: input
+    template_neg: Việc thay đổi không xuất phát từ bản án hay quyết định của Tòa án.
+    template_pos: Việc đăng ký thay đổi theo bản án hoặc quyết định của Tòa án đã
+      có hiệu lực.
+  changed_certificate_content:
+    ask: 'Xin cho biết: Doanh nghiệp thay đổi nội dung trên Giấy chứng nhận đăng ký
+      doanh nghiệp.'
+    kind: input
+    template_neg: Doanh nghiệp không thay đổi nội dung trên Giấy chứng nhận đăng ký
+      doanh nghiệp.
+    template_pos: Doanh nghiệp thay đổi nội dung trên Giấy chứng nhận đăng ký doanh
+      nghiệp.
+  charter_share_transfer_restriction:
+    ask: 'Xin cho biết: Điều lệ có hạn chế chuyển nhượng có hiệu lực đối với cổ phần
+      này.'
+    kind: input
+    template_neg: Không có hạn chế chuyển nhượng có hiệu lực trong Điều lệ đối với
+      cổ phần này.
+    template_pos: Điều lệ có hạn chế chuyển nhượng có hiệu lực đối với cổ phần này.
+  converting_to_joint_stock:
+    ask: 'Xin cho biết: Công ty đang thực hiện chuyển đổi thành công ty cổ phần.'
+    kind: input
+    template_neg: Công ty không thực hiện chuyển đổi thành công ty cổ phần.
+    template_pos: Công ty đang thực hiện chuyển đổi thành công ty cổ phần.
+  dissolution_ground_exists:
+    ask: 'Xin cho biết: Có quyết định hoặc căn cứ giải thể thuộc Điều 207 khoản 1.'
+    kind: input
+    template_neg: Chưa có căn cứ giải thể thuộc Điều 207 khoản 1.
+    template_pos: Có quyết định hoặc căn cứ giải thể thuộc Điều 207 khoản 1.
+  eligible_registration_certificate:
+    ask: ''
+    kind: derived
+    template_neg: Doanh nghiệp không đáp ứng điều kiện được cấp Giấy chứng nhận đăng
+      ký doanh nghiệp.
+    template_pos: Doanh nghiệp đáp ứng điều kiện được cấp Giấy chứng nhận đăng ký
+      doanh nghiệp.
+  enterprise_change_registration_timely:
+    ask: ''
+    kind: derived
+    template_neg: Việc đăng ký thay đổi nội dung doanh nghiệp quá hạn theo điều khoản
+      áp dụng.
+    template_pos: Việc đăng ký thay đổi nội dung doanh nghiệp đúng hạn theo điều khoản
+      áp dụng.
+  enterprise_dissolution_conditions_met:
+    ask: ''
+    kind: derived
+    template_neg: Doanh nghiệp chưa đáp ứng điều kiện giải thể đang xét.
+    template_pos: Doanh nghiệp đáp ứng điều kiện giải thể đang xét.
+  enterprise_name_armed_forces_unit:
+    ask: Tên riêng có dùng tên một đơn vị lực lượng vũ trang nhân dân không?
+    kind: input
+    template_neg: Tên riêng doanh nghiệp không sử dụng tên đơn vị lực lượng vũ trang
+      nhân dân.
+    template_pos: Tên riêng doanh nghiệp sử dụng tên đơn vị lực lượng vũ trang nhân
+      dân.
+  enterprise_name_compliant:
+    ask: 'Xin cho biết: Tên dự kiến tuân thủ quy định đặt tên doanh nghiệp.'
+    kind: input
+    template_neg: Tên dự kiến trái quy định đặt tên doanh nghiệp.
+    template_pos: Tên dự kiến tuân thủ quy định đặt tên doanh nghiệp.
+  enterprise_name_confusing:
+    ask: Tên dự kiến có gây nhầm lẫn với tên một doanh nghiệp đã đăng ký không?
+    kind: input
+    template_neg: Tên doanh nghiệp không gây nhầm lẫn với tên doanh nghiệp đã đăng
+      ký.
+    template_pos: Tên doanh nghiệp gây nhầm lẫn với tên doanh nghiệp đã đăng ký.
+  enterprise_name_duplicate:
+    ask: 'Xin cho biết: Tên doanh nghiệp trùng tên doanh nghiệp đã đăng ký.'
+    kind: input
+    template_neg: Tên doanh nghiệp không trùng tên doanh nghiệp đã đăng ký.
+    template_pos: Tên doanh nghiệp trùng tên doanh nghiệp đã đăng ký.
+  enterprise_name_offensive:
+    ask: Tên có dùng từ ngữ, ký hiệu vi phạm truyền thống lịch sử, văn hóa, đạo đức
+      hoặc thuần phong mỹ tục không?
+    kind: input
+    template_neg: Tên doanh nghiệp không dùng từ ngữ, ký hiệu vi phạm truyền thống,
+      văn hóa, đạo đức, thuần phong mỹ tục.
+    template_pos: Tên doanh nghiệp dùng từ ngữ, ký hiệu vi phạm truyền thống lịch
+      sử, văn hóa, đạo đức, thuần phong mỹ tục.
+  enterprise_name_permitted:
+    ask: ''
+    kind: derived
+    template_neg: Tên doanh nghiệp vi phạm các điều cấm được xét.
+    template_pos: Tên doanh nghiệp phù hợp với các điều cấm được xét.
+  enterprise_name_political_social_org:
+    ask: Tên riêng có dùng tên một tổ chức chính trị, chính trị - xã hội hoặc tổ chức
+      xã hội, xã hội - nghề nghiệp không?
+    kind: input
+    template_neg: Tên riêng doanh nghiệp không sử dụng tên tổ chức chính trị, chính
+      trị - xã hội hay tổ chức xã hội nào.
+    template_pos: Tên riêng doanh nghiệp sử dụng tên tổ chức chính trị, chính trị
+      - xã hội, chính trị xã hội - nghề nghiệp, xã hội hoặc xã hội - nghề nghiệp.
+  enterprise_name_state_body:
+    ask: 'Xin cho biết: Tên riêng doanh nghiệp sử dụng tên cơ quan nhà nước.'
+    kind: input
+    template_neg: Tên riêng doanh nghiệp không sử dụng tên cơ quan nhà nước.
+    template_pos: Tên riêng doanh nghiệp sử dụng tên cơ quan nhà nước.
+  founder_held_shares_from_registration:
+    ask: 'Xin cho biết: Cổ phần được cổ đông sáng lập sở hữu từ lúc đăng ký thành
+      lập.'
+    kind: input
+    template_neg: Cổ phần này được mua bổ sung sau khi đăng ký thành lập.
+    template_pos: Cổ phần được cổ đông sáng lập sở hữu từ lúc đăng ký thành lập.
+  founder_share_transfer_needs_agm_approval:
+    ask: ''
+    kind: derived
+    template_neg: Không cần phê duyệt theo hạn chế ba năm đối với chuyển nhượng này.
+    template_pos: Cần Đại hội đồng cổ đông chấp thuận chuyển nhượng cổ phần sáng lập
+      trong tình huống này.
+  founder_shareholding:
+    ask: 'Xin cho biết: Người chuyển nhượng là cổ đông sáng lập.'
+    kind: input
+    template_neg: Người chuyển nhượng không phải cổ đông sáng lập.
+    template_pos: Người chuyển nhượng là cổ đông sáng lập.
+  founder_shares_within_first_3_years:
+    ask: 'Xin cho biết: Việc chuyển nhượng nằm trong ba năm đầu từ đăng ký doanh nghiệp.'
+    kind: input
+    template_neg: Đã quá ba năm từ ngày đăng ký doanh nghiệp.
+    template_pos: Việc chuyển nhượng nằm trong ba năm đầu từ đăng ký doanh nghiệp.
+  founder_transfer_agm_approved:
+    ask: 'Xin cho biết: Đại hội đồng cổ đông chấp thuận việc chuyển nhượng.'
+    kind: input
+    template_neg: Đại hội đồng cổ đông chưa chấp thuận việc chuyển nhượng.
+    template_pos: Đại hội đồng cổ đông chấp thuận việc chuyển nhượng.
+  founder_transfer_restriction_applies:
+    ask: ''
+    kind: derived
+    template_neg: Hạn chế ba năm đối với chuyển nhượng cổ phần sáng lập không áp dụng.
+    template_pos: Hạn chế ba năm đối với chuyển nhượng cổ phần sáng lập đang áp dụng.
+  intends_to_establish_private_enterprise:
+    ask: Người này có dự định thành lập (thêm) một doanh nghiệp tư nhân không?
+    kind: input
+    template_neg: Người này không dự định thành lập doanh nghiệp tư nhân.
+    template_pos: Người này dự định thành lập một doanh nghiệp tư nhân.
+  llc_2plus_membership_valid:
+    ask: ''
+    kind: derived
+    template_neg: Số lượng thành viên không phù hợp mô hình TNHH hai thành viên trở
+      lên.
+    template_pos: Số lượng thành viên phù hợp mô hình TNHH hai thành viên trở lên.
+  llc_capital_contribution_timely:
+    ask: ''
+    kind: derived
+    template_neg: Thành viên TNHH góp đủ vốn sau hạn luật định hoặc chưa góp đủ khi
+      hết hạn.
+    template_pos: Thành viên TNHH góp đủ vốn trong hạn luật định.
+  llc_company:
+    ask: 'Xin cho biết: Pháp nhân là công ty trách nhiệm hữu hạn.'
+    kind: input
+    template_neg: Pháp nhân không phải là công ty trách nhiệm hữu hạn.
+    template_pos: Pháp nhân là công ty trách nhiệm hữu hạn.
+  llc_member_count_valid:
+    ask: 'Xin cho biết: Công ty TNHH hai thành viên trở lên có từ hai tới năm mươi
+      thành viên.'
+    kind: input
+    template_neg: Số thành viên của công ty TNHH hai thành viên trở lên nằm ngoài
+      khoảng từ hai tới năm mươi.
+    template_pos: Công ty TNHH hai thành viên trở lên có từ hai tới năm mươi thành
+      viên.
+  llc_share_issuance_prohibited:
+    ask: ''
+    kind: derived
+    template_neg: Lệnh cấm phát hành cổ phần theo điều khoản đang xét không áp dụng
+      do chuyển đổi.
+    template_pos: Công ty trách nhiệm hữu hạn bị cấm phát hành cổ phần trong tình
+      huống này.
+  llc_single_owner:
+    ask: 'Xin cho biết: Công ty TNHH có đúng một chủ sở hữu.'
+    kind: input
+    template_neg: Công ty TNHH có nhiều hơn một chủ sở hữu.
+    template_pos: Công ty TNHH có đúng một chủ sở hữu.
+  ordinary_share_transfer_unrestricted:
+    ask: ''
+    kind: derived
+    template_neg: Việc chuyển nhượng cổ phần này chịu một hạn chế đang xét.
+    template_pos: Việc chuyển nhượng cổ phần này không chịu các hạn chế đang xét.
+  ordinary_shares:
+    ask: 'Xin cho biết: Các cổ phần chuyển nhượng là cổ phần phổ thông.'
+    kind: input
+    template_neg: Các cổ phần không phải cổ phần phổ thông.
+    template_pos: Các cổ phần chuyển nhượng là cổ phần phổ thông.
+  other_members_majority_approval:
+    ask: 'Xin cho biết: Trên một nửa các thành viên còn lại đồng ý thay đổi loại tài
+      sản góp vốn.'
+    kind: input
+    template_neg: Không quá một nửa các thành viên còn lại đồng ý.
+    template_pos: Trên một nửa các thành viên còn lại đồng ý thay đổi loại tài sản
+      góp vốn.
+  pending_court_arbitration_dispute:
+    ask: 'Xin cho biết: Doanh nghiệp đang trong quá trình giải quyết tranh chấp tại
+      Tòa án hoặc Trọng tài.'
+    kind: input
+    template_neg: Doanh nghiệp không trong quá trình giải quyết tranh chấp tại Tòa
+      án hoặc Trọng tài.
+    template_pos: Doanh nghiệp đang trong quá trình giải quyết tranh chấp tại Tòa
+      án hoặc Trọng tài.
+  private_enterprise_exclusivity_violated:
+    ask: ''
+    kind: derived
+    template_neg: Hành vi dự định không vi phạm quy định độc quyền đang xét.
+    template_pos: Hành vi dự định vi phạm quy định độc quyền sở hữu doanh nghiệp tư
+      nhân.
+  registered_change_within_10_days:
+    ask: 'Xin cho biết: Đăng ký thay đổi trong thời hạn mười ngày kể từ ngày có thay
+      đổi.'
+    kind: input
+    template_neg: Đăng ký thay đổi sau mười ngày kể từ ngày có thay đổi.
+    template_pos: Đăng ký thay đổi trong thời hạn mười ngày kể từ ngày có thay đổi.
+  registered_change_within_15_days_from_judgment:
+    ask: 'Xin cho biết: Đã gửi yêu cầu thay đổi trong mười lăm ngày từ khi bản án
+      có hiệu lực.'
+    kind: input
+    template_neg: Đã gửi yêu cầu quá mười lăm ngày từ khi bản án có hiệu lực.
+    template_pos: Đã gửi yêu cầu thay đổi trong mười lăm ngày từ khi bản án có hiệu
+      lực.
+  registration_application_valid:
+    ask: 'Xin cho biết: Hồ sơ đăng ký doanh nghiệp hợp lệ.'
+    kind: input
+    template_neg: Hồ sơ đăng ký doanh nghiệp không hợp lệ.
+    template_pos: Hồ sơ đăng ký doanh nghiệp hợp lệ.
+  registration_fee_paid:
+    ask: 'Xin cho biết: Đã nộp đủ lệ phí đăng ký doanh nghiệp.'
+    kind: input
+    template_neg: Chưa nộp đủ lệ phí đăng ký doanh nghiệp.
+    template_pos: Đã nộp đủ lệ phí đăng ký doanh nghiệp.
+  share_payment_deadline_elapsed:
+    ask: 'Xin cho biết: Thời hạn thanh toán cổ phần đã kết thúc.'
+    kind: input
+    template_neg: Thời hạn thanh toán cổ phần chưa kết thúc.
+    template_pos: Thời hạn thanh toán cổ phần đã kết thúc.
+  shares_previously_transferred_to_nonfounder:
+    ask: Cổ phần đang xét có phải đã từng được chuyển nhượng cho người không phải
+      cổ đông sáng lập không?
+    kind: input
+    template_neg: Cổ phần này chưa từng được chuyển nhượng cho người không phải cổ
+      đông sáng lập.
+    template_pos: Cổ phần này đã từng được chuyển nhượng cho người không phải cổ đông
+      sáng lập.
+  shares_subscribed_unpaid:
+    ask: 'Xin cho biết: Cổ đông chưa thanh toán số cổ phần đăng ký mua.'
+    kind: input
+    template_neg: Cổ đông đã thanh toán đủ cổ phần đăng ký mua.
+    template_pos: Cổ đông chưa thanh toán số cổ phần đăng ký mua.
+  shorter_charter_share_payment_deadline:
+    ask: 'Xin cho biết: Điều lệ hoặc hợp đồng quy định thời hạn thanh toán ngắn hơn
+      90 ngày.'
+    kind: input
+    template_neg: Điều lệ và hợp đồng không quy định thời hạn ngắn hơn 90 ngày.
+    template_pos: Điều lệ hoặc hợp đồng quy định thời hạn thanh toán ngắn hơn 90 ngày.
+  simultaneously_general_partner:
+    ask: 'Xin cho biết: Người này đồng thời là thành viên hợp danh của công ty hợp
+      danh.'
+    kind: input
+    template_neg: Người này không phải thành viên hợp danh.
+    template_pos: Người này đồng thời là thành viên hợp danh của công ty hợp danh.
+  simultaneously_household_business_owner:
+    ask: 'Xin cho biết: Người này đồng thời là chủ hộ kinh doanh.'
+    kind: input
+    template_neg: Người này không phải chủ hộ kinh doanh.
+    template_pos: Người này đồng thời là chủ hộ kinh doanh.
+  sole_owner_capital_shortfall_after_deadline:
+    ask: 'Xin cho biết: Chủ sở hữu chưa góp đủ vốn sau thời hạn tính theo luật.'
+    kind: input
+    template_neg: Chủ sở hữu đã góp đủ vốn trong thời hạn tính theo luật.
+    template_pos: Chủ sở hữu chưa góp đủ vốn sau thời hạn tính theo luật.
+  sole_owner_must_adjust_registered_capital:
+    ask: ''
+    kind: derived
+    template_neg: Không phát sinh nghĩa vụ điều chỉnh vốn vì lý do không góp đủ sau
+      hạn.
+    template_pos: Chủ sở hữu phải đăng ký điều chỉnh vốn điều lệ do không góp đủ.
+  state_body_name_consent:
+    ask: 'Xin cho biết: Cơ quan có tên được sử dụng đã đồng ý.'
+    kind: input
+    template_neg: Cơ quan có tên được sử dụng chưa đồng ý.
+    template_pos: Cơ quan có tên được sử dụng đã đồng ý.
+  subscribed_shares_partially_paid:
+    ask: Cổ đông đã thanh toán được một phần số cổ phần đăng ký mua chưa?
+    kind: input
+    template_neg: Cổ đông chưa thanh toán phần nào số cổ phần đăng ký mua.
+    template_pos: Cổ đông đã thanh toán được một phần số cổ phần đăng ký mua.
+  unpaid_share_subscription_causes_loss_of_status:
+    ask: ''
+    kind: derived
+    template_neg: Không phát sinh mất tư cách cổ đông vì không thanh toán theo điều
+      khoản này.
+    template_pos: Không thanh toán cổ phần sau hạn dẫn đến mất tư cách cổ đông theo
+      điều khoản.

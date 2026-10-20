@@ -1,0 +1,437 @@
+[
+  {
+    "pred": "input_used_exclusively_for_nontaxable",
+    "kind": "input",
+    "template_pos": "Đầu vào được dùng riêng cho hoạt động không chịu VAT.",
+    "template_neg": "Đầu vào không dùng riêng cho hoạt động không chịu VAT.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Đầu vào được dùng riêng cho hoạt động không chịu VAT không?"
+  },
+  {
+    "pred": "vat_input_deductible",
+    "kind": "derived",
+    "template_pos": "Thuế GTGT đầu vào của giao dịch được khấu trừ.",
+    "template_neg": "Thuế GTGT đầu vào của giao dịch không được khấu trừ."
+  },
+  {
+    "pred": "vat_non_taxable",
+    "kind": "derived",
+    "template_pos": "Giao dịch thuộc đối tượng không chịu thuế GTGT.",
+    "template_neg": "Giao dịch không thuộc đối tượng không chịu thuế GTGT."
+  },
+  {
+    "pred": "vat_sale_raw_crops_own_production",
+    "kind": "input",
+    "template_pos": "Bán nông sản tự trồng chưa chế biến.",
+    "template_neg": "Không phải nông sản tự trồng chưa chế biến.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Bán nông sản tự trồng chưa chế biến không?"
+  },
+  {
+    "pred": "vat_sale_salt",
+    "kind": "input",
+    "template_pos": "Sản xuất và bán muối từ nước biển.",
+    "template_neg": "Không sản xuất bán muối từ nước biển.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Sản xuất và bán muối từ nước biển không?"
+  },
+  {
+    "pred": "vat_land_use_transfer",
+    "kind": "input",
+    "template_pos": "Giao dịch là chuyển quyền sử dụng đất.",
+    "template_neg": "Giao dịch không phải chuyển quyền sử dụng đất.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Giao dịch là chuyển quyền sử dụng đất không?"
+  },
+  {
+    "pred": "vat_life_insurance",
+    "kind": "input",
+    "template_pos": "Giao dịch là bảo hiểm nhân thọ.",
+    "template_neg": "Giao dịch không phải bảo hiểm nhân thọ.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Giao dịch là bảo hiểm nhân thọ không?"
+  },
+  {
+    "pred": "vat_medical_service",
+    "kind": "input",
+    "template_pos": "Dịch vụ khám hoặc chữa bệnh cho người.",
+    "template_neg": "Không phải dịch vụ khám hoặc chữa bệnh cho người.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Dịch vụ khám hoặc chữa bệnh cho người không?"
+  },
+  {
+    "pred": "vat_agri_irrigation",
+    "kind": "input",
+    "template_pos": "Cung ứng tưới tiêu phục vụ sản xuất nông nghiệp.",
+    "template_neg": "Không cung ứng tưới tiêu nông nghiệp.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Cung ứng tưới tiêu phục vụ sản xuất nông nghiệp không?"
+  },
+  {
+    "pred": "vat_education_service",
+    "kind": "input",
+    "template_pos": "Cung ứng hoạt động dạy nghề theo pháp luật giáo dục nghề nghiệp.",
+    "template_neg": "Không phải hoạt động dạy nghề theo pháp luật giáo dục nghề nghiệp.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Cung ứng hoạt động dạy nghề theo pháp luật giáo dục nghề nghiệp không?"
+  },
+  {
+    "pred": "vat_public_bus",
+    "kind": "input",
+    "template_pos": "Cung cấp dịch vụ xe buýt công cộng.",
+    "template_neg": "Không cung cấp dịch vụ xe buýt công cộng.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Cung cấp dịch vụ xe buýt công cộng không?"
+  },
+  {
+    "pred": "vat_software_service",
+    "kind": "input",
+    "template_pos": "Giao dịch là dịch vụ phần mềm theo quy định.",
+    "template_neg": "Không phải dịch vụ phần mềm theo quy định.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Giao dịch là dịch vụ phần mềm theo quy định không?"
+  },
+  {
+    "pred": "vat_import_raw_gold",
+    "kind": "input",
+    "template_pos": "Nhập khẩu vàng thỏi chưa chế tác.",
+    "template_neg": "Không nhập khẩu vàng thỏi chưa chế tác.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Nhập khẩu vàng thỏi chưa chế tác không?"
+  },
+  {
+    "pred": "input_used_for_taxable_sales",
+    "kind": "input",
+    "template_pos": "Hàng mua vào phục vụ riêng hoạt động chịu VAT.",
+    "template_neg": "Hàng mua vào không phục vụ hoạt động chịu VAT.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Hàng mua vào phục vụ riêng hoạt động chịu VAT không?"
+  },
+  {
+    "pred": "paid_non_cash",
+    "kind": "input",
+    "template_pos": "Khoản mua được thanh toán không dùng tiền mặt.",
+    "template_neg": "Khoản mua được thanh toán bằng tiền mặt.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Khoản mua được thanh toán không dùng tiền mặt không?"
+  },
+  {
+    "pred": "purchase_amount_at_least_5m",
+    "kind": "input",
+    "template_pos": "Giá trị thanh toán mua vào từ 5 triệu đồng.",
+    "template_neg": "Giá trị thanh toán mua vào dưới 5 triệu đồng.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Giá trị thanh toán mua vào từ 5 triệu đồng không?"
+  },
+  {
+    "pred": "purchase_has_valid_vat_invoice",
+    "kind": "input",
+    "template_pos": "Doanh nghiệp có hóa đơn GTGT mua hàng hợp lệ.",
+    "template_neg": "Doanh nghiệp không có hóa đơn GTGT mua hàng hợp lệ.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Doanh nghiệp có hóa đơn GTGT mua hàng hợp lệ không?"
+  },
+  {
+    "pred": "tax_pays_under_deduction",
+    "kind": "input",
+    "template_pos": "Doanh nghiệp kê khai VAT theo phương pháp khấu trừ.",
+    "template_neg": "Doanh nghiệp kê khai VAT theo phương pháp trực tiếp.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Doanh nghiệp kê khai VAT theo phương pháp khấu trừ không?"
+  },
+  {
+    "pred": "vat_documentation_sufficient",
+    "kind": "derived",
+    "template_pos": "Hồ sơ hóa đơn, thanh toán đáp ứng yêu cầu khấu trừ VAT.",
+    "template_neg": "Hồ sơ hóa đơn, thanh toán không đáp ứng yêu cầu khấu trừ VAT."
+  },
+  {
+    "pred": "consumed_outside_vietnam",
+    "kind": "input",
+    "template_pos": "Hàng hóa/dịch vụ được tiêu dùng ngoài Việt Nam.",
+    "template_neg": "Hàng hóa/dịch vụ được tiêu dùng tại Việt Nam.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Hàng hóa/dịch vụ được tiêu dùng ngoài Việt Nam không?"
+  },
+  {
+    "pred": "export_customs_declaration",
+    "kind": "input",
+    "template_pos": "Có tờ khai hải quan xuất khẩu.",
+    "template_neg": "Không có tờ khai hải quan xuất khẩu.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Có tờ khai hải quan xuất khẩu không?"
+  },
+  {
+    "pred": "export_goods_contract",
+    "kind": "input",
+    "template_pos": "Có hợp đồng bán hàng hóa xuất khẩu.",
+    "template_neg": "Không có hợp đồng bán hàng hóa xuất khẩu.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Có hợp đồng bán hàng hóa xuất khẩu không?"
+  },
+  {
+    "pred": "export_goods_transaction",
+    "kind": "input",
+    "template_pos": "Đã bán hàng từ Việt Nam cho khách nước ngoài để xuất khẩu.",
+    "template_neg": "Không phải giao dịch xuất khẩu hàng từ Việt Nam.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Đã bán hàng từ Việt Nam cho khách nước ngoài để xuất khẩu không?"
+  },
+  {
+    "pred": "vat_export_qualifies",
+    "kind": "derived",
+    "template_pos": "Hàng hóa hoặc dịch vụ có điều kiện cơ bản để được coi là xuất khẩu áp dụng mức 0%.",
+    "template_neg": "Hàng hóa hoặc dịch vụ không thỏa điều kiện cơ bản xuất khẩu áp dụng mức 0%."
+  },
+  {
+    "pred": "vat_zero_rate_applicable",
+    "kind": "derived",
+    "template_pos": "Giao dịch đủ điều kiện áp dụng thuế suất GTGT 0%.",
+    "template_neg": "Giao dịch không đủ điều kiện áp dụng thuế suất GTGT 0%."
+  },
+  {
+    "pred": "export_service_contract",
+    "kind": "input",
+    "template_pos": "Có hợp đồng dịch vụ với tổ chức/cá nhân ở nước ngoài.",
+    "template_neg": "Không có hợp đồng dịch vụ với tổ chức/cá nhân ở nước ngoài.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Có hợp đồng dịch vụ với tổ chức/cá nhân ở nước ngoài không?"
+  },
+  {
+    "pred": "export_service_transaction",
+    "kind": "input",
+    "template_pos": "Đã cung cấp trực tiếp dịch vụ cho khách ở nước ngoài.",
+    "template_neg": "Không phải dịch vụ cung cấp trực tiếp cho khách ở nước ngoài.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Đã cung cấp trực tiếp dịch vụ cho khách ở nước ngoài không?"
+  },
+  {
+    "pred": "foreign_customer",
+    "kind": "input",
+    "template_pos": "Khách hàng là tổ chức hoặc cá nhân ở nước ngoài.",
+    "template_neg": "Khách hàng không ở nước ngoài.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Khách hàng là tổ chức hoặc cá nhân ở nước ngoài không?"
+  },
+  {
+    "pred": "outbound_technology_transfer",
+    "kind": "input",
+    "template_pos": "Giao dịch là chuyển giao công nghệ ra nước ngoài.",
+    "template_neg": "Giao dịch không phải chuyển giao công nghệ ra nước ngoài.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Giao dịch là chuyển giao công nghệ ra nước ngoài không?"
+  },
+  {
+    "pred": "foreign_event_in_vietnam",
+    "kind": "input",
+    "template_pos": "Dịch vụ tổ chức hội nghị ở Việt Nam cho khách nước ngoài.",
+    "template_neg": "Không phải hội nghị tổ chức tại Việt Nam cho khách nước ngoài.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Dịch vụ tổ chức hội nghị ở Việt Nam cho khách nước ngoài không?"
+  },
+  {
+    "pred": "cit_business_expense_qualified",
+    "kind": "derived",
+    "template_pos": "cit business expense qualified được xác lập.",
+    "template_neg": "cit business expense qualified không được xác lập."
+  },
+  {
+    "pred": "cit_business_related_expense",
+    "kind": "input",
+    "template_pos": "Khoản chi thực tế liên quan hoạt động kinh doanh.",
+    "template_neg": "Khoản chi không liên quan hoạt động kinh doanh.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Khoản chi thực tế liên quan hoạt động kinh doanh không?"
+  },
+  {
+    "pred": "cit_expense_at_least_5m",
+    "kind": "input",
+    "template_pos": "Khoản chi mua sắm mỗi lần từ 5 triệu đồng.",
+    "template_neg": "Khoản chi mua sắm mỗi lần dưới 5 triệu đồng.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Khoản chi mua sắm mỗi lần từ 5 triệu đồng không?"
+  },
+  {
+    "pred": "cit_expense_deductible",
+    "kind": "derived",
+    "template_pos": "Khoản chi được trừ khi tính thu nhập chịu thuế TNDN.",
+    "template_neg": "Khoản chi không được trừ khi tính thu nhập chịu thuế TNDN."
+  },
+  {
+    "pred": "cit_expense_invoice",
+    "kind": "input",
+    "template_pos": "Khoản chi có hóa đơn chứng từ theo quy định.",
+    "template_neg": "Khoản chi không có hóa đơn chứng từ theo quy định.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Khoản chi có hóa đơn chứng từ theo quy định không?"
+  },
+  {
+    "pred": "cit_expense_payment_proof",
+    "kind": "input",
+    "template_pos": "Có chứng từ thanh toán không dùng tiền mặt theo quy định đối với khoản chi.",
+    "template_neg": "Không có chứng từ thanh toán không dùng tiền mặt theo quy định.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Có chứng từ thanh toán không dùng tiền mặt theo quy định đối với khoản chi không?"
+  },
+  {
+    "pred": "cit_administrative_fine",
+    "kind": "input",
+    "template_pos": "Khoản chi là tiền phạt vi phạm hành chính.",
+    "template_neg": "Khoản chi không phải tiền phạt vi phạm hành chính.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Khoản chi là tiền phạt vi phạm hành chính không?"
+  },
+  {
+    "pred": "cit_private_owner_salary",
+    "kind": "input",
+    "template_pos": "Khoản chi là tiền lương của chủ doanh nghiệp tư nhân.",
+    "template_neg": "Khoản chi không phải tiền lương của chủ doanh nghiệp tư nhân.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Khoản chi là tiền lương của chủ doanh nghiệp tư nhân không?"
+  },
+  {
+    "pred": "cit_expense_reimbursed",
+    "kind": "input",
+    "template_pos": "Khoản chi đã được bù đắp bằng nguồn kinh phí khác.",
+    "template_neg": "Khoản chi không được bù đắp bằng nguồn kinh phí khác.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Khoản chi đã được bù đắp bằng nguồn kinh phí khác không?"
+  },
+  {
+    "pred": "cit_fishing_income",
+    "kind": "input",
+    "template_pos": "Thu nhập đến từ hoạt động đánh bắt hải sản.",
+    "template_neg": "Thu nhập không từ đánh bắt hải sản.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Thu nhập đến từ hoạt động đánh bắt hải sản không?"
+  },
+  {
+    "pred": "cit_income_exempt",
+    "kind": "derived",
+    "template_pos": "Khoản thu nhập thuộc diện miễn thuế TNDN.",
+    "template_neg": "Khoản thu nhập không thuộc diện miễn thuế TNDN."
+  },
+  {
+    "pred": "cit_agri_cooperative",
+    "kind": "input",
+    "template_pos": "Chủ thể là hợp tác xã sản xuất nông sản.",
+    "template_neg": "Chủ thể không phải hợp tác xã sản xuất nông sản.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Chủ thể là hợp tác xã sản xuất nông sản không?"
+  },
+  {
+    "pred": "cit_agricultural_technical_service",
+    "kind": "input",
+    "template_pos": "Thu nhập từ dịch vụ kỹ thuật trực tiếp phục vụ nông nghiệp.",
+    "template_neg": "Thu nhập không từ dịch vụ kỹ thuật trực tiếp phục vụ nông nghiệp.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Thu nhập từ dịch vụ kỹ thuật trực tiếp phục vụ nông nghiệp không?"
+  },
+  {
+    "pred": "cit_distributed_domestic_income",
+    "kind": "input",
+    "template_pos": "Có khoản thu được chia từ vốn góp vào doanh nghiệp trong nước.",
+    "template_neg": "Không có khoản thu chia từ vốn góp doanh nghiệp trong nước.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Có khoản thu được chia từ vốn góp vào doanh nghiệp trong nước không?"
+  },
+  {
+    "pred": "cit_underlying_cit_paid",
+    "kind": "input",
+    "template_pos": "Khoản lợi nhuận được chia từ doanh nghiệp đã nộp TNDN.",
+    "template_neg": "Khoản lợi nhuận được chia từ doanh nghiệp chưa nộp TNDN.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Khoản lợi nhuận được chia từ doanh nghiệp đã nộp TNDN không?"
+  },
+  {
+    "pred": "cit_donation_received_charity",
+    "kind": "input",
+    "template_pos": "Có khoản tài trợ nhận về dành cho hoạt động từ thiện.",
+    "template_neg": "Khoản nhận không phải tài trợ dành cho hoạt động từ thiện.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Có khoản tài trợ nhận về dành cho hoạt động từ thiện không?"
+  },
+  {
+    "pred": "cit_donation_used_correctly",
+    "kind": "input",
+    "template_pos": "Khoản tài trợ được sử dụng đúng mục đích từ thiện.",
+    "template_neg": "Khoản tài trợ bị sử dụng sai mục đích từ thiện.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Khoản tài trợ được sử dụng đúng mục đích từ thiện không?"
+  },
+  {
+    "pred": "cit_30pct_special_workers",
+    "kind": "input",
+    "template_pos": "Ít nhất 30% lao động bình quân thuộc các nhóm nêu ở điều luật.",
+    "template_neg": "Tỷ lệ các nhóm lao động nêu ở điều luật dưới 30%.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Ít nhất 30% lao động bình quân thuộc các nhóm nêu ở điều luật không?"
+  },
+  {
+    "pred": "cit_average_workers_at_least_20",
+    "kind": "input",
+    "template_pos": "Doanh nghiệp có từ 20 lao động bình quân trong năm.",
+    "template_neg": "Doanh nghiệp có dưới 20 lao động bình quân trong năm.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Doanh nghiệp có từ 20 lao động bình quân trong năm không?"
+  },
+  {
+    "pred": "cit_not_finance_or_realestate",
+    "kind": "input",
+    "template_pos": "Doanh nghiệp không kinh doanh tài chính hoặc bất động sản.",
+    "template_neg": "Doanh nghiệp kinh doanh tài chính hoặc bất động sản.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Doanh nghiệp không kinh doanh tài chính hoặc bất động sản không?"
+  },
+  {
+    "pred": "cit_no_special_rate_regime",
+    "kind": "input",
+    "template_pos": "Doanh nghiệp không thuộc diện ưu đãi thuế suất hoặc nhóm thuế suất đặc biệt.",
+    "template_neg": "Doanh nghiệp thuộc diện ưu đãi hoặc nhóm thuế suất đặc biệt.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Doanh nghiệp không thuộc diện ưu đãi thuế suất hoặc nhóm thuế suất đặc biệt không?"
+  },
+  {
+    "pred": "cit_not_linked_subsidiary",
+    "kind": "input",
+    "template_pos": "Doanh nghiệp không phải công ty con hay công ty liên kết thuộc nhóm bị loại trừ mức thuế suất 15% và 17%.",
+    "template_neg": "Doanh nghiệp thuộc trường hợp công ty con/liên kết bị loại trừ mức thuế suất này.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Doanh nghiệp không phải công ty con hay công ty liên kết thuộc nhóm bị loại trừ mức thuế suất 15% và 17% không?"
+  },
+  {
+    "pred": "cit_prior_revenue_le_3bn",
+    "kind": "input",
+    "template_pos": "Tổng doanh thu kỳ tính thuế trước liền kề không quá 3 tỷ đồng.",
+    "template_neg": "Tổng doanh thu kỳ tính thuế trước liền kề lớn hơn 3 tỷ đồng.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Tổng doanh thu kỳ tính thuế trước liền kề không quá 3 tỷ đồng không?"
+  },
+  {
+    "pred": "cit_rate_15_applicable",
+    "kind": "derived",
+    "template_pos": "Doanh nghiệp đủ điều kiện áp dụng thuế suất TNDN 15%.",
+    "template_neg": "Doanh nghiệp không đủ điều kiện áp dụng thuế suất TNDN 15%."
+  },
+  {
+    "pred": "cit_prior_revenue_above_3_up_to_50bn",
+    "kind": "input",
+    "template_pos": "Tổng doanh thu kỳ trước trên 3 tỷ và không quá 50 tỷ đồng.",
+    "template_neg": "Tổng doanh thu kỳ trước nằm ngoài mức trên 3 đến 50 tỷ đồng.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Tổng doanh thu kỳ trước trên 3 tỷ và không quá 50 tỷ đồng không?"
+  },
+  {
+    "pred": "cit_rate_17_applicable",
+    "kind": "derived",
+    "template_pos": "Doanh nghiệp đủ điều kiện áp dụng thuế suất TNDN 17%.",
+    "template_neg": "Doanh nghiệp không đủ điều kiện áp dụng thuế suất TNDN 17%."
+  },
+  {
+    "pred": "tax_debt_exists",
+    "kind": "input",
+    "template_pos": "Đang có tiền thuế nợ.",
+    "template_neg": "Không có tiền thuế nợ.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Đang có tiền thuế nợ không?"
+  },
+  {
+    "pred": "tax_debt_more_than_90days",
+    "kind": "input",
+    "template_pos": "Khoản tiền thuế nợ đã quá 90 ngày tính từ hạn nộp.",
+    "template_neg": "Khoản tiền thuế nợ chưa quá 90 ngày kể từ hạn nộp.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Khoản tiền thuế nợ đã quá 90 ngày tính từ hạn nộp không?"
+  },
+  {
+    "pred": "tax_enforcement_90day_ground",
+    "kind": "derived",
+    "template_pos": "Khoản nợ thỏa căn cứ cưỡng chế do quá 90 ngày.",
+    "template_neg": "Khoản nợ không thỏa căn cứ cưỡng chế do quá 90 ngày."
+  },
+  {
+    "pred": "tax_enforcement_ground",
+    "kind": "derived",
+    "template_pos": "Tình huống thuộc một căn cứ cưỡng chế thuế được nêu.",
+    "template_neg": "Tình huống không thuộc căn cứ cưỡng chế thuế đang được hỏi."
+  },
+  {
+    "pred": "tax_payment_extension_expired",
+    "kind": "input",
+    "template_pos": "Đã hết thời hạn gia hạn nộp tiền thuế.",
+    "template_neg": "Chưa hết thời hạn gia hạn nộp tiền thuế.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Đã hết thời hạn gia hạn nộp tiền thuế không?"
+  },
+  {
+    "pred": "taxpayer_absent_at_registered_address",
+    "kind": "input",
+    "template_pos": "Người nộp thuế không hoạt động ở địa chỉ đã đăng ký.",
+    "template_neg": "Người nộp thuế vẫn hoạt động ở địa chỉ đã đăng ký.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Người nộp thuế không hoạt động ở địa chỉ đã đăng ký không?"
+  },
+  {
+    "pred": "tax_debt_offset_refund_processing",
+    "kind": "input",
+    "template_pos": "Tiền thuế nợ đang được cơ quan thuế làm thủ tục bù trừ qua hoàn thuế.",
+    "template_neg": "Tiền thuế nợ không trong thủ tục bù trừ qua hoàn thuế.",
+    "ask": "Trường hợp này có đáp ứng điều kiện: Tiền thuế nợ đang được cơ quan thuế làm thủ tục bù trừ qua hoàn thuế không?"
+  },
+  {
+    "pred": "tax_enforcement_allowed_for_offset",
+    "kind": "derived",
+    "template_pos": "Cơ quan thuế được cưỡng chế đối với số tiền nợ đang bù trừ qua hoàn thuế.",
+    "template_neg": "Cơ quan thuế không cưỡng chế đối với số tiền nợ đang bù trừ qua hoàn thuế."
+  }
+]

@@ -1,0 +1,1337 @@
+{
+ "rules": [
+  {
+   "id": "LD0-R001",
+   "premises": [
+    "overtime_event"
+   ],
+   "conclusion": "overtime_requires_consent",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 107 khoản 2 điểm a",
+   "note": "Làm thêm giờ phải được người lao động đồng ý."
+  },
+  {
+   "id": "LD0-R002",
+   "premises": [
+    "overtime_requires_consent",
+    "worker_agreed_overtime"
+   ],
+   "conclusion": "regular_overtime_arrangement_allowed",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 107 khoản 2",
+   "note": "Có sự đồng ý của người lao động thì được bố trí làm thêm (khi không vượt giới hạn giờ)."
+  },
+  {
+   "id": "LD0-R003",
+   "premises": [
+    "overtime_requires_consent",
+    "~worker_agreed_overtime"
+   ],
+   "conclusion": "~regular_overtime_arrangement_allowed",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 107 khoản 2 điểm a",
+   "note": "Không có sự đồng ý thì không được sử dụng làm thêm giờ."
+  },
+  {
+   "id": "LD0-R004",
+   "premises": [
+    "overtime_event",
+    "overtime_daily_limit_exceeded"
+   ],
+   "conclusion": "~regular_overtime_arrangement_allowed",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 107 khoản 2 điểm b",
+   "note": "Vượt giới hạn giờ làm thêm theo ngày."
+  },
+  {
+   "id": "LD0-R005",
+   "premises": [
+    "overtime_event",
+    "overtime_over_40h_month"
+   ],
+   "conclusion": "~regular_overtime_arrangement_allowed",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 107 khoản 2 điểm b",
+   "note": "Vượt 40 giờ làm thêm/tháng."
+  },
+  {
+   "id": "LD0-R006",
+   "premises": [
+    "overtime_event",
+    "overtime_over_200h_year",
+    "~special_overtime_sector"
+   ],
+   "conclusion": "~regular_overtime_arrangement_allowed",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 107 khoản 2 điểm c",
+   "note": "Vượt 200 giờ/năm khi không thuộc ngành nghề được làm thêm đến 300 giờ."
+  },
+  {
+   "id": "LD0-R007",
+   "premises": [
+    "overtime_event",
+    "overtime_over_300h_year"
+   ],
+   "conclusion": "~regular_overtime_arrangement_allowed",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 107 khoản 3",
+   "note": "Vượt trần 300 giờ/năm kể cả ngành nghề đặc thù."
+  },
+  {
+   "id": "LD0-R008",
+   "premises": [
+    "shift_at_least_six_hours"
+   ],
+   "conclusion": "break_at_least_30_min",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 109 khoản 1",
+   "note": "Làm việc từ 06 giờ trở lên trong ngày được nghỉ giữa giờ ít nhất 30 phút."
+  },
+  {
+   "id": "LD0-R009",
+   "premises": [
+    "shift_at_least_six_hours",
+    "nightwork_at_least_three_hours"
+   ],
+   "conclusion": "night_shift_break_threshold_met",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 109 khoản 1",
+   "note": "Làm việc ban đêm (ca từ 6 giờ, có ít nhất 3 giờ ban đêm theo hướng dẫn chi tiết) đủ điều kiện nghỉ 45 phút."
+  },
+  {
+   "id": "LD0-R010",
+   "premises": [
+    "night_shift_break_threshold_met"
+   ],
+   "conclusion": "night_shift_break_at_least_45_min",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 109 khoản 1",
+   "note": "Làm việc ban đêm được nghỉ giữa giờ ít nhất 45 phút liên tục."
+  },
+  {
+   "id": "LD0-R011",
+   "premises": [
+    "~shift_at_least_six_hours"
+   ],
+   "conclusion": "~night_shift_break_at_least_45_min",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 109 khoản 1",
+   "note": "Ca dưới 6 giờ không thuộc trường hợp được nghỉ giữa giờ theo Điều 109."
+  },
+  {
+   "id": "LD0-R012",
+   "premises": [
+    "~nightwork_at_least_three_hours"
+   ],
+   "conclusion": "~night_shift_break_at_least_45_min",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 109 khoản 1",
+   "note": "Không đủ điều kiện làm việc ban đêm thì không áp dụng mức 45 phút."
+  },
+  {
+   "id": "LD0-R013",
+   "premises": [
+    "rest_between_shifts_at_least_12_hours"
+   ],
+   "conclusion": "shift_change_rest_at_least_12_hours",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 110",
+   "note": "Được nghỉ ít nhất 12 giờ trước khi chuyển ca."
+  },
+  {
+   "id": "LD0-R014",
+   "premises": [
+    "~rest_between_shifts_at_least_12_hours"
+   ],
+   "conclusion": "~shift_change_rest_at_least_12_hours",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 110",
+   "note": "Nghỉ dưới 12 giờ trước khi chuyển ca là không đáp ứng mức tối thiểu."
+  },
+  {
+   "id": "LD0-R015",
+   "premises": [
+    "worked_full_12_months_same_employer",
+    "normal_working_conditions"
+   ],
+   "conclusion": "full_year_normal_leave_class",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 113 khoản 1 điểm a",
+   "note": "Đủ 12 tháng, làm việc trong điều kiện bình thường."
+  },
+  {
+   "id": "LD0-R016",
+   "premises": [
+    "full_year_normal_leave_class"
+   ],
+   "conclusion": "annual_leave_at_least_12_days",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 113 khoản 1 điểm a",
+   "note": "Được nghỉ hằng năm 12 ngày làm việc hưởng nguyên lương."
+  },
+  {
+   "id": "LD0-R017",
+   "premises": [
+    "worked_full_12_months_same_employer",
+    "minor_disabled_or_heavy_work"
+   ],
+   "conclusion": "annual_leave_at_least_12_days",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 113 khoản 1 điểm b",
+   "note": "Được 14 ngày làm việc, tức ít nhất 12 ngày."
+  },
+  {
+   "id": "LD0-R018",
+   "premises": [
+    "worked_full_12_months_same_employer",
+    "especially_heavy_hazardous_work"
+   ],
+   "conclusion": "annual_leave_at_least_12_days",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 113 khoản 1 điểm c",
+   "note": "Được 16 ngày làm việc, tức ít nhất 12 ngày."
+  },
+  {
+   "id": "LD0-R019",
+   "premises": [
+    "~worked_full_12_months_same_employer",
+    "normal_working_conditions"
+   ],
+   "conclusion": "~annual_leave_at_least_12_days",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 113 khoản 2",
+   "note": "Chưa đủ 12 tháng thì nghỉ theo tỷ lệ số tháng làm việc, ít hơn 12 ngày ở điều kiện bình thường."
+  },
+  {
+   "id": "LD0-R020",
+   "premises": [],
+   "conclusion": "~written_internal_rules_required",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 118 khoản 1",
+   "note": "Nội quy chỉ bắt buộc bằng văn bản khi sử dụng từ 10 người lao động."
+  },
+  {
+   "id": "LD0-R021",
+   "premises": [
+    "employer_at_least_10_workers"
+   ],
+   "conclusion": "written_internal_rules_required",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 118 khoản 1",
+   "note": "Sử dụng từ 10 người lao động trở lên thì nội quy phải bằng văn bản."
+  },
+  {
+   "id": "LD0-R022",
+   "premises": [],
+   "conclusion": "~must_register_internal_rules",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 119 khoản 1",
+   "note": "Nghĩa vụ đăng ký nội quy chỉ áp dụng cho người sử dụng từ 10 lao động."
+  },
+  {
+   "id": "LD0-R023",
+   "premises": [
+    "employer_at_least_10_workers"
+   ],
+   "conclusion": "must_register_internal_rules",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 119 khoản 1",
+   "note": "Sử dụng từ 10 người lao động trở lên phải đăng ký nội quy tại cơ quan lao động cấp tỉnh."
+  },
+  {
+   "id": "LD0-R024",
+   "premises": [
+    "worker_is_pregnant"
+   ],
+   "conclusion": "employee_protected_from_discipline",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 122 khoản 4 điểm d",
+   "note": "Lao động nữ mang thai thuộc thời gian không được xử lý kỷ luật."
+  },
+  {
+   "id": "LD0-R025",
+   "premises": [
+    "on_maternity_leave"
+   ],
+   "conclusion": "employee_protected_from_discipline",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 122 khoản 4 điểm d",
+   "note": "Người lao động nghỉ thai sản không bị xử lý kỷ luật."
+  },
+  {
+   "id": "LD0-R026",
+   "premises": [
+    "nursing_child_under_12_months"
+   ],
+   "conclusion": "employee_protected_from_discipline",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 122 khoản 4 điểm d",
+   "note": "Người lao động nuôi con dưới 12 tháng tuổi không bị xử lý kỷ luật."
+  },
+  {
+   "id": "LD0-R027",
+   "premises": [
+    "worker_is_pregnant",
+    "employee_protected_from_discipline"
+   ],
+   "conclusion": "~discipline_during_pregnancy_allowed",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 122 khoản 4 điểm d",
+   "note": "Không được xử lý kỷ luật lao động nữ đang mang thai."
+  },
+  {
+   "id": "LD0-R028",
+   "premises": [
+    "employee_protected_from_discipline"
+   ],
+   "conclusion": "discipline_prohibited_now",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 122 khoản 4 điểm d",
+   "note": "Thời kỳ thai sản, nuôi con nhỏ: cấm xử lý kỷ luật."
+  },
+  {
+   "id": "LD0-R029",
+   "premises": [
+    "on_sick_convalescence_or_approved_leave"
+   ],
+   "conclusion": "discipline_prohibited_now",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 122 khoản 4 điểm a",
+   "note": "Đang nghỉ ốm đau, điều dưỡng, nghỉ được đồng ý."
+  },
+  {
+   "id": "LD0-R030",
+   "premises": [
+    "in_custody_or_detention"
+   ],
+   "conclusion": "discipline_prohibited_now",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 122 khoản 4 điểm b",
+   "note": "Đang bị tạm giữ, tạm giam."
+  },
+  {
+   "id": "LD0-R031",
+   "premises": [
+    "awaiting_investigation_art125"
+   ],
+   "conclusion": "discipline_prohibited_now",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 122 khoản 4 điểm c",
+   "note": "Đang chờ kết luận điều tra hành vi theo Điều 125."
+  },
+  {
+   "id": "LD0-R032",
+   "premises": [
+    "violation_while_lacking_capacity"
+   ],
+   "conclusion": "discipline_prohibited_now",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 122 khoản 5",
+   "note": "Vi phạm khi mất khả năng nhận thức/điều khiển hành vi thì không xử lý kỷ luật."
+  },
+  {
+   "id": "LD0-R033",
+   "premises": [
+    "paid_wage",
+    "under_management"
+   ],
+   "conclusion": "labor_relation",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 13 khoản 1",
+   "note": "Thỏa thuận có việc làm trả lương và sự quản lý, điều hành, giám sát của một bên được coi là hợp đồng lao động dù tên gọi khác."
+  },
+  {
+   "id": "LD0-R034",
+   "premises": [
+    "pregnancy_at_least_month_seven"
+   ],
+   "conclusion": "~night_work_permitted_for_pregnant",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 137 khoản 1 điểm a",
+   "note": "Không được sử dụng lao động nữ mang thai từ tháng thứ 7 làm việc ban đêm."
+  },
+  {
+   "id": "LD0-R035",
+   "premises": [
+    "pregnancy_at_least_month_six",
+    "works_in_remote_area"
+   ],
+   "conclusion": "~night_work_permitted_for_pregnant",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 137 khoản 1 điểm a",
+   "note": "Ở vùng cao, vùng sâu, vùng xa, biên giới, hải đảo thì cấm từ tháng thứ 6."
+  },
+  {
+   "id": "LD0-R036",
+   "premises": [
+    "nursing_child_under_12_months"
+   ],
+   "conclusion": "~night_work_permitted_for_nursing",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 137 khoản 1 điểm b",
+   "note": "Không được sử dụng lao động nuôi con dưới 12 tháng làm việc ban đêm."
+  },
+  {
+   "id": "LD0-R037",
+   "premises": [
+    "nursing_child_under_12_months",
+    "consented_to_night_work"
+   ],
+   "conclusion": "night_work_permitted_for_nursing",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 137 khoản 1 điểm b",
+   "note": "Ngoại lệ: được làm ban đêm nếu người lao động đồng ý."
+  },
+  {
+   "id": "LD0-R038",
+   "premises": [],
+   "conclusion": "~oral_contract_permitted",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 14 khoản 1",
+   "note": "Hợp đồng lao động phải giao kết bằng văn bản, trừ khoản 2."
+  },
+  {
+   "id": "LD0-R039",
+   "premises": [],
+   "conclusion": "written_contract_mandatory",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 14 khoản 1",
+   "note": "Nguyên tắc: hợp đồng lao động bắt buộc bằng văn bản."
+  },
+  {
+   "id": "LD0-R040",
+   "premises": [
+    "contract_under_one_month"
+   ],
+   "conclusion": "oral_contract_permitted",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 14 khoản 2",
+   "note": "Hợp đồng dưới 01 tháng có thể giao kết bằng lời nói."
+  },
+  {
+   "id": "LD0-R041",
+   "premises": [
+    "contract_under_one_month"
+   ],
+   "conclusion": "~written_contract_mandatory",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 14 khoản 2",
+   "note": "Hợp đồng dưới 01 tháng không bắt buộc văn bản."
+  },
+  {
+   "id": "LD0-R042",
+   "premises": [
+    "contract_under_one_month",
+    "group_authorized_seasonal_contract"
+   ],
+   "conclusion": "~oral_contract_permitted",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 14 khoản 2; Điều 18 khoản 2",
+   "note": "Hợp đồng ủy quyền nhóm phải bằng văn bản dù dưới 01 tháng."
+  },
+  {
+   "id": "LD0-R043",
+   "premises": [
+    "contract_under_one_month",
+    "group_authorized_seasonal_contract"
+   ],
+   "conclusion": "written_contract_mandatory",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 14 khoản 2; Điều 18 khoản 2",
+   "note": "Hợp đồng ủy quyền nhóm phải bằng văn bản dù dưới 01 tháng."
+  },
+  {
+   "id": "LD0-R044",
+   "premises": [
+    "contract_under_one_month",
+    "worker_under_15"
+   ],
+   "conclusion": "~oral_contract_permitted",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 14 khoản 2; Điều 145 khoản 1 điểm a",
+   "note": "Người chưa đủ 15 tuổi phải giao kết bằng văn bản."
+  },
+  {
+   "id": "LD0-R045",
+   "premises": [
+    "contract_under_one_month",
+    "worker_under_15"
+   ],
+   "conclusion": "written_contract_mandatory",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 14 khoản 2; Điều 145 khoản 1 điểm a",
+   "note": "Người chưa đủ 15 tuổi phải giao kết bằng văn bản."
+  },
+  {
+   "id": "LD0-R046",
+   "premises": [
+    "contract_under_one_month",
+    "domestic_worker"
+   ],
+   "conclusion": "~oral_contract_permitted",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 14 khoản 2; Điều 162 khoản 1",
+   "note": "Lao động giúp việc gia đình phải giao kết bằng văn bản."
+  },
+  {
+   "id": "LD0-R047",
+   "premises": [
+    "contract_under_one_month",
+    "domestic_worker"
+   ],
+   "conclusion": "written_contract_mandatory",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 14 khoản 2; Điều 162 khoản 1",
+   "note": "Lao động giúp việc gia đình phải giao kết bằng văn bản."
+  },
+  {
+   "id": "LD0-R048",
+   "premises": [
+    "fixed_term_contract",
+    "fixed_term_months_le_36"
+   ],
+   "conclusion": "fixed_term_length_compliant",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 20 khoản 1 điểm b",
+   "note": "Hợp đồng xác định thời hạn không quá 36 tháng."
+  },
+  {
+   "id": "LD0-R049",
+   "premises": [
+    "fixed_term_contract",
+    "~fixed_term_months_le_36"
+   ],
+   "conclusion": "~fixed_term_length_compliant",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 20 khoản 1 điểm b",
+   "note": "Hợp đồng xác định thời hạn trên 36 tháng vượt giới hạn."
+  },
+  {
+   "id": "LD0-R050",
+   "premises": [
+    "fixed_term_contract",
+    "worker_continue_working",
+    "contract_expired_over_30_days",
+    "no_new_contract"
+   ],
+   "conclusion": "converted_to_indefinite_contract",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 20 khoản 2 điểm b",
+   "note": "Hết 30 ngày mà không ký hợp đồng mới thì trở thành không xác định thời hạn."
+  },
+  {
+   "id": "LD0-R051",
+   "premises": [
+    "fixed_term_contract",
+    "~contract_expired_over_30_days"
+   ],
+   "conclusion": "~converted_to_indefinite_contract",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 20 khoản 2 điểm a",
+   "note": "Trong 30 ngày, quyền nghĩa vụ vẫn theo hợp đồng đã giao kết; chưa chuyển loại."
+  },
+  {
+   "id": "LD0-R052",
+   "premises": [
+    "fixed_term_contract",
+    "~no_new_contract"
+   ],
+   "conclusion": "~converted_to_indefinite_contract",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 20 khoản 2 điểm a",
+   "note": "Đã ký hợp đồng mới thì hợp đồng cũ không tự chuyển thành không xác định thời hạn."
+  },
+  {
+   "id": "LD0-R053",
+   "premises": [
+    "signed_second_fixed_term_contract",
+    "worker_continue_working"
+   ],
+   "conclusion": "must_sign_indefinite_contract",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 20 khoản 2 điểm c",
+   "note": "Hợp đồng xác định thời hạn chỉ ký thêm 01 lần; tiếp tục làm thì phải ký không xác định thời hạn."
+  },
+  {
+   "id": "LD0-R054",
+   "premises": [
+    "signed_second_fixed_term_contract",
+    "elderly_worker"
+   ],
+   "conclusion": "~must_sign_indefinite_contract",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 20 khoản 2 điểm c; Điều 149 khoản 1",
+   "note": "Người cao tuổi được ký nhiều lần hợp đồng xác định thời hạn."
+  },
+  {
+   "id": "LD0-R055",
+   "premises": [
+    "signed_second_fixed_term_contract",
+    "state_enterprise_hired_director"
+   ],
+   "conclusion": "~must_sign_indefinite_contract",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 20 khoản 2 điểm c",
+   "note": "Ngoại lệ: giám đốc được thuê trong doanh nghiệp có vốn nhà nước."
+  },
+  {
+   "id": "LD0-R056",
+   "premises": [
+    "contract_under_one_month"
+   ],
+   "conclusion": "normal_contract_no_probation_exception",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 24 khoản 3",
+   "note": "Không áp dụng thử việc với hợp đồng dưới 01 tháng."
+  },
+  {
+   "id": "LD0-R057",
+   "premises": [
+    "probation_planned",
+    "enterprise_manager_position",
+    "probation_within_180_days"
+   ],
+   "conclusion": "probation_allowed",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 25 khoản 1",
+   "note": "Quản lý doanh nghiệp: thử việc không quá 180 ngày."
+  },
+  {
+   "id": "LD0-R058",
+   "premises": [
+    "probation_planned",
+    "enterprise_manager_position",
+    "~probation_within_180_days"
+   ],
+   "conclusion": "~probation_allowed",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 25 khoản 1",
+   "note": "Quản lý doanh nghiệp: thử việc quá 180 ngày là vượt giới hạn."
+  },
+  {
+   "id": "LD0-R059",
+   "premises": [
+    "probation_planned",
+    "college_level_position",
+    "probation_within_60_days"
+   ],
+   "conclusion": "probation_allowed",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 25 khoản 2",
+   "note": "Trình độ cao đẳng trở lên: thử việc không quá 60 ngày."
+  },
+  {
+   "id": "LD0-R060",
+   "premises": [
+    "probation_planned",
+    "college_level_position",
+    "~probation_within_60_days"
+   ],
+   "conclusion": "~probation_allowed",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 25 khoản 2",
+   "note": "Trình độ cao đẳng trở lên: thử việc quá 60 ngày là vượt giới hạn."
+  },
+  {
+   "id": "LD0-R061",
+   "premises": [
+    "probation_planned",
+    "intermediate_level_position",
+    "probation_within_30_days"
+   ],
+   "conclusion": "probation_allowed",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 25 khoản 3",
+   "note": "Trung cấp, công nhân kỹ thuật, nhân viên nghiệp vụ: không quá 30 ngày."
+  },
+  {
+   "id": "LD0-R062",
+   "premises": [
+    "probation_planned",
+    "intermediate_level_position",
+    "~probation_within_30_days"
+   ],
+   "conclusion": "~probation_allowed",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 25 khoản 3",
+   "note": "Trung cấp, công nhân kỹ thuật, nhân viên nghiệp vụ: quá 30 ngày là vượt giới hạn."
+  },
+  {
+   "id": "LD0-R063",
+   "premises": [
+    "probation_planned",
+    "other_position",
+    "probation_within_6_workdays"
+   ],
+   "conclusion": "probation_allowed",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 25 khoản 4",
+   "note": "Công việc khác: không quá 06 ngày làm việc."
+  },
+  {
+   "id": "LD0-R064",
+   "premises": [
+    "probation_planned",
+    "other_position",
+    "~probation_within_6_workdays"
+   ],
+   "conclusion": "~probation_allowed",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 25 khoản 4",
+   "note": "Công việc khác: quá 06 ngày làm việc là vượt giới hạn."
+  },
+  {
+   "id": "LD0-R065",
+   "premises": [
+    "probation_planned",
+    "normal_contract_no_probation_exception"
+   ],
+   "conclusion": "~probation_allowed",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 24 khoản 3",
+   "note": "Hợp đồng dưới 01 tháng không được thử việc."
+  },
+  {
+   "id": "LD0-R066",
+   "premises": [
+    "probation_planned",
+    "probation_already_done_same_job"
+   ],
+   "conclusion": "~probation_allowed",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 25",
+   "note": "Chỉ được thử việc một lần đối với một công việc."
+  },
+  {
+   "id": "LD0-R067",
+   "premises": [
+    "under_probation"
+   ],
+   "conclusion": "cancel_probation_without_notice_allowed",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 27 khoản 2",
+   "note": "Trong thời gian thử việc mỗi bên được hủy bỏ không cần báo trước, không phải bồi thường."
+  },
+  {
+   "id": "LD0-R068",
+   "premises": [
+    "~under_probation"
+   ],
+   "conclusion": "~cancel_probation_without_notice_allowed",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 27 khoản 2",
+   "note": "Quyền hủy không báo trước chỉ có trong thời gian thử việc."
+  },
+  {
+   "id": "LD0-R069",
+   "premises": [
+    "temporary_transfer_over_60_workdays"
+   ],
+   "conclusion": "over_60_requires_written_consent",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 29 khoản 1",
+   "note": "Điều chuyển quá 60 ngày làm việc cộng dồn/năm cần đồng ý bằng văn bản."
+  },
+  {
+   "id": "LD0-R070",
+   "premises": [
+    "over_60_requires_written_consent",
+    "written_transfer_consent"
+   ],
+   "conclusion": "temporary_transfer_compliant",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 29 khoản 1",
+   "note": "Có đồng ý bằng văn bản thì được điều chuyển quá 60 ngày."
+  },
+  {
+   "id": "LD0-R071",
+   "premises": [
+    "over_60_requires_written_consent",
+    "~written_transfer_consent"
+   ],
+   "conclusion": "~temporary_transfer_compliant",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 29 khoản 1",
+   "note": "Không có đồng ý bằng văn bản thì không được điều chuyển quá 60 ngày."
+  },
+  {
+   "id": "LD0-R072",
+   "premises": [
+    "~temporary_transfer_over_60_workdays",
+    "transfer_lawful_reason"
+   ],
+   "conclusion": "temporary_transfer_compliant",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 29 khoản 1",
+   "note": "Trong 60 ngày cộng dồn và có lý do luật định thì người sử dụng lao động được tạm chuyển."
+  },
+  {
+   "id": "LD0-R073",
+   "premises": [
+    "fixed_term_from_12_to_36_months"
+   ],
+   "conclusion": "notice_30_day_rule_applies",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 1 điểm b",
+   "note": "Hợp đồng xác định thời hạn 12-36 tháng phải báo trước ít nhất 30 ngày."
+  },
+  {
+   "id": "LD0-R074",
+   "premises": [
+    "notice_30_day_rule_applies",
+    "notice_at_least_30_days"
+   ],
+   "conclusion": "worker_resignation_notice_compliant",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 1 điểm b",
+   "note": "Báo trước đủ 30 ngày."
+  },
+  {
+   "id": "LD0-R075",
+   "premises": [
+    "notice_30_day_rule_applies",
+    "~notice_at_least_30_days"
+   ],
+   "conclusion": "~worker_resignation_notice_compliant",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 1 điểm b",
+   "note": "Báo trước dưới 30 ngày."
+  },
+  {
+   "id": "LD0-R076",
+   "premises": [
+    "indefinite_term_contract",
+    "notice_at_least_45_days"
+   ],
+   "conclusion": "worker_resignation_notice_compliant",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 1 điểm a",
+   "note": "Hợp đồng không xác định thời hạn, báo trước đủ 45 ngày."
+  },
+  {
+   "id": "LD0-R077",
+   "premises": [
+    "indefinite_term_contract",
+    "~notice_at_least_45_days"
+   ],
+   "conclusion": "~worker_resignation_notice_compliant",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 1 điểm a",
+   "note": "Hợp đồng không xác định thời hạn, báo trước dưới 45 ngày."
+  },
+  {
+   "id": "LD0-R078",
+   "premises": [
+    "fixed_term_under_12_months",
+    "notice_at_least_3_workdays"
+   ],
+   "conclusion": "worker_resignation_notice_compliant",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 1 điểm c",
+   "note": "Hợp đồng dưới 12 tháng, báo trước đủ 03 ngày làm việc."
+  },
+  {
+   "id": "LD0-R079",
+   "premises": [
+    "fixed_term_under_12_months",
+    "~notice_at_least_3_workdays"
+   ],
+   "conclusion": "~worker_resignation_notice_compliant",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 1 điểm c",
+   "note": "Hợp đồng dưới 12 tháng, báo trước dưới 03 ngày làm việc."
+  },
+  {
+   "id": "LD0-R080",
+   "premises": [
+    "wage_unpaid_or_late",
+    "wage_delay_force_majeure_art97"
+   ],
+   "conclusion": "no_notice_wage_exception",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 2 điểm b; Điều 97 khoản 4",
+   "note": "Chậm lương do bất khả kháng theo khoản 4 Điều 97 là ngoại lệ."
+  },
+  {
+   "id": "LD0-R081",
+   "premises": [],
+   "conclusion": "~resign_without_notice_allowed",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 2",
+   "note": "Chỉ được nghỉ không báo trước trong các trường hợp liệt kê tại khoản 2."
+  },
+  {
+   "id": "LD0-R082",
+   "premises": [
+    "not_assigned_agreed_job_or_conditions"
+   ],
+   "conclusion": "resign_without_notice_allowed",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 2 điểm a",
+   "note": "Không được bố trí đúng công việc, địa điểm, điều kiện làm việc."
+  },
+  {
+   "id": "LD0-R083",
+   "premises": [
+    "not_assigned_agreed_job_or_conditions",
+    "lawful_temporary_transfer_art29"
+   ],
+   "conclusion": "~resign_without_notice_allowed",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 2 điểm a; Điều 29",
+   "note": "Trừ trường hợp tạm chuyển công việc hợp lệ theo Điều 29."
+  },
+  {
+   "id": "LD0-R084",
+   "premises": [
+    "wage_unpaid_or_late"
+   ],
+   "conclusion": "resign_without_notice_allowed",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 2 điểm b",
+   "note": "Không được trả đủ lương hoặc trả không đúng hạn."
+  },
+  {
+   "id": "LD0-R085",
+   "premises": [
+    "no_notice_wage_exception"
+   ],
+   "conclusion": "~resign_without_notice_allowed",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 2 điểm b; Điều 97 khoản 4",
+   "note": "Trừ trường hợp chậm lương theo khoản 4 Điều 97."
+  },
+  {
+   "id": "LD0-R086",
+   "premises": [
+    "mistreated_or_forced_labor"
+   ],
+   "conclusion": "resign_without_notice_allowed",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 2 điểm c",
+   "note": "Bị ngược đãi, nhục mạ, cưỡng bức lao động."
+  },
+  {
+   "id": "LD0-R087",
+   "premises": [
+    "sexually_harassed_at_work"
+   ],
+   "conclusion": "resign_without_notice_allowed",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 2 điểm d",
+   "note": "Bị quấy rối tình dục tại nơi làm việc."
+  },
+  {
+   "id": "LD0-R088",
+   "premises": [
+    "worker_is_pregnant",
+    "medical_confirmation_harm_to_fetus"
+   ],
+   "conclusion": "resign_without_notice_allowed",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 2 điểm đ; Điều 138 khoản 1",
+   "note": "Lao động nữ mang thai phải nghỉ việc theo xác nhận y tế."
+  },
+  {
+   "id": "LD0-R089",
+   "premises": [
+    "reached_retirement_age"
+   ],
+   "conclusion": "resign_without_notice_allowed",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 2 điểm e",
+   "note": "Đủ tuổi nghỉ hưu."
+  },
+  {
+   "id": "LD0-R090",
+   "premises": [
+    "reached_retirement_age",
+    "agreed_otherwise_on_retirement"
+   ],
+   "conclusion": "~resign_without_notice_allowed",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 2 điểm e",
+   "note": "Trừ trường hợp các bên có thỏa thuận khác."
+  },
+  {
+   "id": "LD0-R091",
+   "premises": [
+    "employer_untruthful_info_affecting_contract"
+   ],
+   "conclusion": "resign_without_notice_allowed",
+   "source": "08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 2 điểm g",
+   "note": "Người sử dụng lao động cung cấp thông tin không trung thực."
+  }
+ ],
+ "exception_of": [
+  [
+   "LD0-R004",
+   "LD0-R002"
+  ],
+  [
+   "LD0-R005",
+   "LD0-R002"
+  ],
+  [
+   "LD0-R006",
+   "LD0-R002"
+  ],
+  [
+   "LD0-R007",
+   "LD0-R002"
+  ],
+  [
+   "LD0-R021",
+   "LD0-R020"
+  ],
+  [
+   "LD0-R023",
+   "LD0-R022"
+  ],
+  [
+   "LD0-R037",
+   "LD0-R036"
+  ],
+  [
+   "LD0-R040",
+   "LD0-R038"
+  ],
+  [
+   "LD0-R041",
+   "LD0-R039"
+  ],
+  [
+   "LD0-R042",
+   "LD0-R040"
+  ],
+  [
+   "LD0-R043",
+   "LD0-R041"
+  ],
+  [
+   "LD0-R044",
+   "LD0-R040"
+  ],
+  [
+   "LD0-R045",
+   "LD0-R041"
+  ],
+  [
+   "LD0-R046",
+   "LD0-R040"
+  ],
+  [
+   "LD0-R047",
+   "LD0-R041"
+  ],
+  [
+   "LD0-R054",
+   "LD0-R053"
+  ],
+  [
+   "LD0-R055",
+   "LD0-R053"
+  ],
+  [
+   "LD0-R065",
+   "LD0-R057"
+  ],
+  [
+   "LD0-R066",
+   "LD0-R057"
+  ],
+  [
+   "LD0-R065",
+   "LD0-R059"
+  ],
+  [
+   "LD0-R066",
+   "LD0-R059"
+  ],
+  [
+   "LD0-R065",
+   "LD0-R061"
+  ],
+  [
+   "LD0-R066",
+   "LD0-R061"
+  ],
+  [
+   "LD0-R065",
+   "LD0-R063"
+  ],
+  [
+   "LD0-R066",
+   "LD0-R063"
+  ],
+  [
+   "LD0-R082",
+   "LD0-R081"
+  ],
+  [
+   "LD0-R083",
+   "LD0-R082"
+  ],
+  [
+   "LD0-R084",
+   "LD0-R081"
+  ],
+  [
+   "LD0-R085",
+   "LD0-R084"
+  ],
+  [
+   "LD0-R086",
+   "LD0-R081"
+  ],
+  [
+   "LD0-R087",
+   "LD0-R081"
+  ],
+  [
+   "LD0-R088",
+   "LD0-R081"
+  ],
+  [
+   "LD0-R089",
+   "LD0-R081"
+  ],
+  [
+   "LD0-R090",
+   "LD0-R089"
+  ],
+  [
+   "LD0-R091",
+   "LD0-R081"
+  ]
+ ],
+ "extra_predicates": [
+  {
+   "pred": "overtime_daily_limit_exceeded",
+   "kind": "input",
+   "template_pos": "Số giờ làm thêm vượt giới hạn theo ngày (quá 50% giờ làm việc bình thường, hoặc tổng giờ làm việc và làm thêm quá 12 giờ/ngày khi tính theo tuần).",
+   "template_neg": "Số giờ làm thêm không vượt giới hạn theo ngày.",
+   "ask": "Số giờ làm thêm trong ngày có vượt 50% giờ làm việc bình thường (hoặc tổng quá 12 giờ/ngày nếu tính theo tuần) không?"
+  },
+  {
+   "pred": "overtime_over_40h_month",
+   "kind": "input",
+   "template_pos": "Số giờ làm thêm vượt 40 giờ trong 01 tháng.",
+   "template_neg": "Số giờ làm thêm không quá 40 giờ trong 01 tháng.",
+   "ask": "Số giờ làm thêm trong tháng có vượt 40 giờ không?"
+  },
+  {
+   "pred": "overtime_over_200h_year",
+   "kind": "input",
+   "template_pos": "Số giờ làm thêm vượt 200 giờ trong 01 năm.",
+   "template_neg": "Số giờ làm thêm không quá 200 giờ trong 01 năm.",
+   "ask": "Tổng giờ làm thêm trong năm có vượt 200 giờ không?"
+  },
+  {
+   "pred": "overtime_over_300h_year",
+   "kind": "input",
+   "template_pos": "Số giờ làm thêm vượt 300 giờ trong 01 năm.",
+   "template_neg": "Số giờ làm thêm không quá 300 giờ trong 01 năm.",
+   "ask": "Tổng giờ làm thêm trong năm có vượt 300 giờ không?"
+  },
+  {
+   "pred": "special_overtime_sector",
+   "kind": "input",
+   "template_pos": "Công việc thuộc ngành, nghề, trường hợp được làm thêm đến 300 giờ/năm (khoản 3 Điều 107).",
+   "template_neg": "Công việc không thuộc ngành, nghề, trường hợp được làm thêm đến 300 giờ/năm.",
+   "ask": "Công việc có thuộc ngành, nghề hoặc trường hợp được phép làm thêm đến 300 giờ/năm (dệt may, da giày, điện tử, chế biến nông lâm thủy sản xuất khẩu; điện, viễn thông, lọc dầu, cấp thoát nước; lao động trình độ cao khan hiếm; công việc cấp bách) không?"
+  },
+  {
+   "pred": "break_at_least_30_min",
+   "kind": "derived",
+   "template_pos": "Người lao động được nghỉ giữa giờ ít nhất 30 phút liên tục.",
+   "template_neg": "Không xác lập quyền nghỉ giữa giờ 30 phút theo điều kiện đang xét."
+  },
+  {
+   "pred": "minor_disabled_or_heavy_work",
+   "kind": "input",
+   "template_pos": "Người lao động chưa thành niên, là người khuyết tật hoặc làm nghề, công việc nặng nhọc, độc hại, nguy hiểm.",
+   "template_neg": "Người lao động không thuộc nhóm chưa thành niên, khuyết tật hoặc làm công việc nặng nhọc, độc hại, nguy hiểm.",
+   "ask": "Người lao động có phải người chưa thành niên, người khuyết tật hoặc làm nghề, công việc nặng nhọc, độc hại, nguy hiểm không?"
+  },
+  {
+   "pred": "especially_heavy_hazardous_work",
+   "kind": "input",
+   "template_pos": "Người lao động làm nghề, công việc đặc biệt nặng nhọc, độc hại, nguy hiểm.",
+   "template_neg": "Người lao động không làm nghề, công việc đặc biệt nặng nhọc, độc hại, nguy hiểm.",
+   "ask": "Người lao động có làm nghề, công việc đặc biệt nặng nhọc, độc hại, nguy hiểm không?"
+  },
+  {
+   "pred": "on_maternity_leave",
+   "kind": "input",
+   "template_pos": "Người lao động đang nghỉ thai sản.",
+   "template_neg": "Người lao động không đang nghỉ thai sản.",
+   "ask": "Người lao động có đang nghỉ thai sản không?"
+  },
+  {
+   "pred": "on_sick_convalescence_or_approved_leave",
+   "kind": "input",
+   "template_pos": "Người lao động đang nghỉ ốm đau, điều dưỡng hoặc nghỉ việc được người sử dụng lao động đồng ý.",
+   "template_neg": "Người lao động không đang nghỉ ốm đau, điều dưỡng hay nghỉ việc được đồng ý.",
+   "ask": "Người lao động có đang nghỉ ốm đau, điều dưỡng hoặc nghỉ việc được người sử dụng lao động đồng ý không?"
+  },
+  {
+   "pred": "in_custody_or_detention",
+   "kind": "input",
+   "template_pos": "Người lao động đang bị tạm giữ, tạm giam.",
+   "template_neg": "Người lao động không bị tạm giữ, tạm giam.",
+   "ask": "Người lao động có đang bị tạm giữ, tạm giam không?"
+  },
+  {
+   "pred": "awaiting_investigation_art125",
+   "kind": "input",
+   "template_pos": "Đang chờ kết luận của cơ quan có thẩm quyền về hành vi vi phạm tại khoản 1, 2 Điều 125.",
+   "template_neg": "Không đang chờ kết luận điều tra về hành vi tại khoản 1, 2 Điều 125.",
+   "ask": "Có đang chờ cơ quan có thẩm quyền điều tra, kết luận về hành vi vi phạm (trộm cắp, tham ô, đánh bạc, ma túy, tiết lộ bí mật...) không?"
+  },
+  {
+   "pred": "violation_while_lacking_capacity",
+   "kind": "input",
+   "template_pos": "Người lao động vi phạm khi mắc bệnh tâm thần hoặc bệnh khác làm mất khả năng nhận thức, điều khiển hành vi.",
+   "template_neg": "Người lao động vi phạm khi vẫn có khả năng nhận thức và điều khiển hành vi.",
+   "ask": "Khi vi phạm, người lao động có mắc bệnh tâm thần hoặc bệnh làm mất khả năng nhận thức, điều khiển hành vi không?"
+  },
+  {
+   "pred": "discipline_prohibited_now",
+   "kind": "derived",
+   "template_pos": "Không được xử lý kỷ luật lao động đối với người lao động trong thời gian/trường hợp này.",
+   "template_neg": "Không thuộc thời gian/trường hợp cấm xử lý kỷ luật đang xét."
+  },
+  {
+   "pred": "pregnancy_at_least_month_six",
+   "kind": "input",
+   "template_pos": "Lao động nữ đang mang thai từ tháng thứ sáu.",
+   "template_neg": "Lao động nữ chưa mang thai đến tháng thứ sáu.",
+   "ask": "Lao động nữ có đang mang thai từ tháng thứ 6 trở đi không?"
+  },
+  {
+   "pred": "works_in_remote_area",
+   "kind": "input",
+   "template_pos": "Người lao động làm việc ở vùng cao, vùng sâu, vùng xa, biên giới, hải đảo.",
+   "template_neg": "Người lao động không làm việc ở vùng cao, vùng sâu, vùng xa, biên giới, hải đảo.",
+   "ask": "Người lao động có làm việc ở vùng cao, vùng sâu, vùng xa, biên giới hoặc hải đảo không?"
+  },
+  {
+   "pred": "group_authorized_seasonal_contract",
+   "kind": "input",
+   "template_pos": "Hợp đồng do một người được nhóm lao động ủy quyền giao kết cho công việc mùa vụ, công việc nhất định dưới 12 tháng (khoản 2 Điều 18).",
+   "template_neg": "Hợp đồng không giao kết theo ủy quyền nhóm tại khoản 2 Điều 18.",
+   "ask": "Hợp đồng có được giao kết thông qua một người được nhóm người lao động ủy quyền (công việc mùa vụ dưới 12 tháng) không?"
+  },
+  {
+   "pred": "domestic_worker",
+   "kind": "input",
+   "template_pos": "Người lao động là lao động giúp việc gia đình.",
+   "template_neg": "Người lao động không phải lao động giúp việc gia đình.",
+   "ask": "Người lao động có phải lao động giúp việc gia đình không?"
+  },
+  {
+   "pred": "signed_second_fixed_term_contract",
+   "kind": "input",
+   "template_pos": "Hai bên đã ký thêm một hợp đồng xác định thời hạn lần thứ hai và hợp đồng này đã hết hạn.",
+   "template_neg": "Chưa có hợp đồng xác định thời hạn lần thứ hai đã hết hạn.",
+   "ask": "Hai bên đã ký lần thứ hai hợp đồng xác định thời hạn và hợp đồng đó đã hết hạn chưa?"
+  },
+  {
+   "pred": "must_sign_indefinite_contract",
+   "kind": "derived",
+   "template_pos": "Hai bên phải ký hợp đồng lao động không xác định thời hạn.",
+   "template_neg": "Không bắt buộc ký hợp đồng không xác định thời hạn."
+  },
+  {
+   "pred": "elderly_worker",
+   "kind": "input",
+   "template_pos": "Người lao động là người cao tuổi.",
+   "template_neg": "Người lao động không phải người cao tuổi.",
+   "ask": "Người lao động có phải người cao tuổi (đã quá tuổi nghỉ hưu) không?"
+  },
+  {
+   "pred": "state_enterprise_hired_director",
+   "kind": "input",
+   "template_pos": "Người lao động được thuê làm giám đốc trong doanh nghiệp có vốn nhà nước.",
+   "template_neg": "Người lao động không phải giám đốc được thuê trong doanh nghiệp có vốn nhà nước.",
+   "ask": "Người lao động có phải người được thuê làm giám đốc trong doanh nghiệp có vốn nhà nước không?"
+  },
+  {
+   "pred": "enterprise_manager_position",
+   "kind": "input",
+   "template_pos": "Công việc là của người quản lý doanh nghiệp.",
+   "template_neg": "Công việc không phải của người quản lý doanh nghiệp.",
+   "ask": "Công việc thử việc có phải vị trí người quản lý doanh nghiệp không?"
+  },
+  {
+   "pred": "probation_within_180_days",
+   "kind": "input",
+   "template_pos": "Thử việc không quá 180 ngày.",
+   "template_neg": "Thử việc quá 180 ngày.",
+   "ask": "Thời gian thử việc có không quá 180 ngày không?"
+  },
+  {
+   "pred": "intermediate_level_position",
+   "kind": "input",
+   "template_pos": "Công việc cần trình độ trung cấp, công nhân kỹ thuật hoặc nhân viên nghiệp vụ.",
+   "template_neg": "Công việc không thuộc nhóm trung cấp, công nhân kỹ thuật, nhân viên nghiệp vụ.",
+   "ask": "Công việc có đòi hỏi trình độ trung cấp, công nhân kỹ thuật hoặc là nhân viên nghiệp vụ không?"
+  },
+  {
+   "pred": "probation_within_30_days",
+   "kind": "input",
+   "template_pos": "Thử việc không quá 30 ngày.",
+   "template_neg": "Thử việc quá 30 ngày.",
+   "ask": "Thời gian thử việc có không quá 30 ngày không?"
+  },
+  {
+   "pred": "other_position",
+   "kind": "input",
+   "template_pos": "Công việc thuộc nhóm công việc khác (không phải quản lý, cao đẳng trở lên, trung cấp/công nhân kỹ thuật/nhân viên nghiệp vụ).",
+   "template_neg": "Công việc thuộc một trong các nhóm có chức danh nêu tại khoản 1-3 Điều 25.",
+   "ask": "Công việc có thuộc nhóm công việc khác, không đòi hỏi chức danh, trình độ như quản lý, cao đẳng, trung cấp không?"
+  },
+  {
+   "pred": "probation_within_6_workdays",
+   "kind": "input",
+   "template_pos": "Thử việc không quá 06 ngày làm việc.",
+   "template_neg": "Thử việc quá 06 ngày làm việc.",
+   "ask": "Thời gian thử việc có không quá 06 ngày làm việc không?"
+  },
+  {
+   "pred": "probation_already_done_same_job",
+   "kind": "input",
+   "template_pos": "Người lao động đã từng thử việc cho cùng công việc này.",
+   "template_neg": "Người lao động chưa từng thử việc cho công việc này.",
+   "ask": "Người lao động đã từng thử việc cho chính công việc này trước đây chưa?"
+  },
+  {
+   "pred": "transfer_lawful_reason",
+   "kind": "input",
+   "template_pos": "Việc điều chuyển do khó khăn đột xuất (thiên tai, hỏa hoạn, dịch bệnh, tai nạn lao động, sự cố điện nước) hoặc nhu cầu sản xuất, kinh doanh ghi trong nội quy.",
+   "template_neg": "Việc điều chuyển không có lý do theo khoản 1 Điều 29.",
+   "ask": "Việc tạm chuyển người lao động sang công việc khác có lý do thiên tai, hỏa hoạn, dịch bệnh, sự cố, hoặc nhu cầu sản xuất kinh doanh đã ghi trong nội quy không?"
+  },
+  {
+   "pred": "indefinite_term_contract",
+   "kind": "input",
+   "template_pos": "Đây là hợp đồng lao động không xác định thời hạn.",
+   "template_neg": "Đây không phải hợp đồng lao động không xác định thời hạn.",
+   "ask": "Hợp đồng lao động có phải loại không xác định thời hạn không?"
+  },
+  {
+   "pred": "notice_at_least_45_days",
+   "kind": "input",
+   "template_pos": "Người lao động báo trước ít nhất 45 ngày.",
+   "template_neg": "Người lao động báo trước dưới 45 ngày.",
+   "ask": "Người lao động đã báo trước ít nhất 45 ngày chưa?"
+  },
+  {
+   "pred": "fixed_term_under_12_months",
+   "kind": "input",
+   "template_pos": "Hợp đồng xác định thời hạn dưới 12 tháng.",
+   "template_neg": "Hợp đồng không phải loại xác định thời hạn dưới 12 tháng.",
+   "ask": "Hợp đồng có phải loại xác định thời hạn dưới 12 tháng không?"
+  },
+  {
+   "pred": "notice_at_least_3_workdays",
+   "kind": "input",
+   "template_pos": "Người lao động báo trước ít nhất 03 ngày làm việc.",
+   "template_neg": "Người lao động báo trước dưới 03 ngày làm việc.",
+   "ask": "Người lao động đã báo trước ít nhất 03 ngày làm việc chưa?"
+  },
+  {
+   "pred": "wage_delay_force_majeure_art97",
+   "kind": "input",
+   "template_pos": "Việc chậm trả lương thuộc trường hợp bất khả kháng tại khoản 4 Điều 97 (đã tìm mọi biện pháp nhưng không trả đúng hạn, chậm không quá 30 ngày).",
+   "template_neg": "Việc chậm/thiếu lương không thuộc trường hợp khoản 4 Điều 97.",
+   "ask": "Việc chậm lương có do lý do bất khả kháng, người sử dụng lao động đã tìm mọi cách khắc phục và chậm không quá 30 ngày (khoản 4 Điều 97) không?"
+  },
+  {
+   "pred": "not_assigned_agreed_job_or_conditions",
+   "kind": "input",
+   "template_pos": "Người lao động không được bố trí đúng công việc, địa điểm làm việc hoặc không được bảo đảm điều kiện làm việc như thỏa thuận.",
+   "template_neg": "Người lao động được bố trí đúng công việc, địa điểm, điều kiện làm việc như thỏa thuận.",
+   "ask": "Người lao động có bị bố trí sai công việc, địa điểm hoặc không được bảo đảm điều kiện làm việc như thỏa thuận không?"
+  },
+  {
+   "pred": "lawful_temporary_transfer_art29",
+   "kind": "input",
+   "template_pos": "Việc bố trí khác thỏa thuận là tạm chuyển công việc hợp lệ theo Điều 29.",
+   "template_neg": "Việc bố trí khác thỏa thuận không phải tạm chuyển hợp lệ theo Điều 29.",
+   "ask": "Việc bố trí công việc khác có phải là tạm chuyển công việc hợp lệ theo Điều 29 không?"
+  },
+  {
+   "pred": "mistreated_or_forced_labor",
+   "kind": "input",
+   "template_pos": "Người lao động bị ngược đãi, đánh đập, nhục mạ, xúc phạm sức khỏe, nhân phẩm, danh dự hoặc bị cưỡng bức lao động.",
+   "template_neg": "Người lao động không bị ngược đãi, nhục mạ hay cưỡng bức lao động.",
+   "ask": "Người lao động có bị người sử dụng lao động ngược đãi, đánh đập, nhục mạ hoặc cưỡng bức lao động không?"
+  },
+  {
+   "pred": "sexually_harassed_at_work",
+   "kind": "input",
+   "template_pos": "Người lao động bị quấy rối tình dục tại nơi làm việc.",
+   "template_neg": "Người lao động không bị quấy rối tình dục tại nơi làm việc.",
+   "ask": "Người lao động có bị quấy rối tình dục tại nơi làm việc không?"
+  },
+  {
+   "pred": "medical_confirmation_harm_to_fetus",
+   "kind": "input",
+   "template_pos": "Có xác nhận của cơ sở khám bệnh, chữa bệnh rằng tiếp tục làm việc sẽ ảnh hưởng xấu tới thai nhi.",
+   "template_neg": "Không có xác nhận y tế về ảnh hưởng xấu tới thai nhi.",
+   "ask": "Có giấy xác nhận của cơ sở khám chữa bệnh rằng tiếp tục làm việc sẽ ảnh hưởng xấu đến thai nhi không?"
+  },
+  {
+   "pred": "reached_retirement_age",
+   "kind": "input",
+   "template_pos": "Người lao động đã đủ tuổi nghỉ hưu theo Điều 169.",
+   "template_neg": "Người lao động chưa đủ tuổi nghỉ hưu.",
+   "ask": "Người lao động đã đủ tuổi nghỉ hưu chưa?"
+  },
+  {
+   "pred": "agreed_otherwise_on_retirement",
+   "kind": "input",
+   "template_pos": "Các bên có thỏa thuận khác về việc tiếp tục làm việc khi đủ tuổi nghỉ hưu.",
+   "template_neg": "Các bên không có thỏa thuận khác về việc đủ tuổi nghỉ hưu.",
+   "ask": "Hai bên có thỏa thuận khác về việc người lao động tiếp tục làm việc khi đủ tuổi nghỉ hưu không?"
+  },
+  {
+   "pred": "employer_untruthful_info_affecting_contract",
+   "kind": "input",
+   "template_pos": "Người sử dụng lao động cung cấp thông tin không trung thực (khoản 1 Điều 16) làm ảnh hưởng đến việc thực hiện hợp đồng.",
+   "template_neg": "Người sử dụng lao động không cung cấp thông tin sai lệch ảnh hưởng tới hợp đồng.",
+   "ask": "Người sử dụng lao động có cung cấp thông tin không trung thực khi giao kết, làm ảnh hưởng đến việc thực hiện hợp đồng không?"
+  }
+ ],
+ "goals_decided": [
+  "annual_leave_at_least_12_days",
+  "cancel_probation_without_notice_allowed",
+  "converted_to_indefinite_contract",
+  "discipline_during_pregnancy_allowed",
+  "fixed_term_length_compliant",
+  "labor_relation",
+  "must_register_internal_rules",
+  "night_shift_break_at_least_45_min",
+  "night_work_permitted_for_nursing",
+  "night_work_permitted_for_pregnant",
+  "oral_contract_permitted",
+  "probation_allowed",
+  "regular_overtime_arrangement_allowed",
+  "resign_without_notice_allowed",
+  "shift_change_rest_at_least_12_hours",
+  "temporary_transfer_compliant",
+  "worker_resignation_notice_compliant"
+ ]
+}

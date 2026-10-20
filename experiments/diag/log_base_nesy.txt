@@ -1,0 +1,9 @@
+28 rules, 40 gold cases, 125 instances
+instances by category: {'Normal': 27, 'ParserMisinterpretation': 20, 'MissingCaseInformation': 27, 'ParserOmission': 20, 'UnsupportedParserFact': 20, 'ResolvableRuleOverlap': 5, 'UnresolvedKBConflict': 6}
+  [base_nesy] 25/125 (0s)
+  [base_nesy] 50/125 (0s)
+  [base_nesy] 75/125 (0s)
+  [base_nesy] 100/125 (0s)
+  [base_nesy] 125/125 (0s)
+[base_nesy] done in 0.1s: {'final_answer_acc': 0.304, 'nli_calls_per_query': 0.0, 'kb_checks_per_query': 0.0, 'measurements_per_query': 0.0, 'final_answer_acc_faulty': 0.11224489795918367, 'seconds': 0.1}
+wrote D:\note\neurosymbolic-legal-reasoner\experiments\diag\results_base_nesy.json

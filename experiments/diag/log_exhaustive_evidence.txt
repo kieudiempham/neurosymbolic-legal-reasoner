@@ -1,0 +1,9 @@
+28 rules, 40 gold cases, 125 instances
+instances by category: {'Normal': 27, 'ParserMisinterpretation': 20, 'MissingCaseInformation': 27, 'ParserOmission': 20, 'UnsupportedParserFact': 20, 'ResolvableRuleOverlap': 5, 'UnresolvedKBConflict': 6}
+  [exhaustive_evidence] 25/125 (18s)
+  [exhaustive_evidence] 50/125 (35s)
+  [exhaustive_evidence] 75/125 (49s)
+  [exhaustive_evidence] 100/125 (65s)
+  [exhaustive_evidence] 125/125 (81s)
+[exhaustive_evidence] done in 81.6s: {'final_answer_acc': 0.872, 'nli_calls_per_query': 4.024, 'kb_checks_per_query': 0.224, 'measurements_per_query': 4.248, 'final_answer_acc_faulty': 0.8673469387755102, 'diagnosis_acc': 0.664, 'ambiguous_rate': 0.0, 'recovery_success_rate': 0.5714285714285714, 'recovery_success_given_correct_diag': 0.9333333333333333, 'seconds': 81.6}
+wrote D:\note\neurosymbolic-legal-reasoner\experiments\diag\results_exhaustive_evidence.json

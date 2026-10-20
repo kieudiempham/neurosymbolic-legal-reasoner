@@ -1,0 +1,68 @@
+{
+ "definition": "insufficient = under the applicable legal provisions (not the KB), the facts stated by the user do not allow a definite conclusion",
+ "conventions": [
+  "unstated condition of the general rule -> insufficient",
+  "exception never raised in the question -> not applicable (not insufficient)",
+  "exception partly raised with a missing condition -> insufficient"
+ ],
+ "revisions": [
+  {
+   "id": "BHXH-008",
+   "previous": {
+    "expected": "insufficient",
+    "info_level": "missing",
+    "missing_facts": [
+     "receiving_pension",
+     "monthly_benefit"
+    ]
+   },
+   "new_expected": "true"
+  },
+  {
+   "id": "BHXH-036",
+   "previous": {
+    "expected": "insufficient",
+    "info_level": "missing",
+    "missing_facts": [
+     "intra_company_transfer"
+    ]
+   },
+   "new_expected": "true"
+  },
+  {
+   "id": "BHXH-037",
+   "previous": {
+    "expected": "insufficient",
+    "info_level": "missing",
+    "missing_facts": [
+     "retirement_age_at_signing"
+    ]
+   },
+   "new_expected": "true"
+  },
+  {
+   "id": "BHXH-054",
+   "previous": {
+    "expected": "insufficient",
+    "info_level": "missing",
+    "missing_facts": [
+     "receiving_pension",
+     "monthly_benefit"
+    ]
+   },
+   "new_expected": "true"
+  },
+  {
+   "id": "BHXH-055",
+   "previous": {
+    "expected": "insufficient",
+    "info_level": "missing",
+    "missing_facts": [
+     "receiving_pension",
+     "monthly_benefit"
+    ]
+   },
+   "new_expected": "true"
+  }
+ ]
+}

@@ -1,0 +1,69 @@
+{
+ "by_mode_status": {
+  "CONTROL": {
+   "observable": 20
+  },
+  "F1": {
+   "observable": 32,
+   "source_relabelled": 1,
+   "no_symptom": 4,
+   "source_not_covered": 3
+  },
+  "F2": {
+   "source_not_covered": 3,
+   "no_symptom": 11,
+   "observable": 26
+  },
+  "F3": {
+   "observable": 26,
+   "source_not_covered": 3,
+   "no_symptom": 11
+  },
+  "F4": {
+   "observable": 28,
+   "source_not_covered": 3,
+   "no_symptom": 8,
+   "source_relabelled": 1
+  }
+ },
+ "used_by_split": {
+  "test": 60,
+  "dev": 106
+ }
+}
+excluded: {'DIAG-0002': ('THUE-027', 'source_not_covered'), 'DIAG-0023': ('THUE-039', 'source_not_covered'), 'DIAG-0055': ('LD-005', 'source_not_covered'), 'DIAG-0060': ('THUE-027', 'source_not_covered'), 'DIAG-0066': ('DN-060', 'source_relabelled'), 'DIAG-0105': ('THUE-039', 'source_not_covered'), 'DIAG-0112': ('LD-021', 'source_not_covered'), 'DIAG-0118': ('LN-039', 'source_not_covered'), 'DIAG-0126': ('LN-039', 'source_not_covered'), 'DIAG-0143': ('LN-018', 'source_not_covered'), 'DIAG-0184': ('LN-018', 'source_not_covered'), 'DIAG-0189': ('LD-021', 'source_not_covered'), 'DIAG-0196': ('LD-005', 'source_not_covered'), 'DIAG-0207': ('DN-060', 'source_relabelled')}
+  [base_nesy] 25/166 (0s)
+  [base_nesy] 50/166 (0s)
+  [base_nesy] 75/166 (0s)
+  [base_nesy] 100/166 (0s)
+  [base_nesy] 125/166 (0s)
+  [base_nesy] 150/166 (0s)
+[base_nesy] {"all": {"n": 166, "sources": 73, "final_answer_acc": 0.18674698795180722, "final_answer_acc_ci95": [0.12269938650306748, 0.25862068965517243]}, "dev": {"n": 106, "sources": 46, "final_answer_acc": 0.16037735849056603, "final_answer_acc_ci95": [0.08, 0.24545454545454545]}, "test": {"n": 60, "sources": 27, "final_answer_acc": 0.23333333333333334, "final_answer_acc_ci95": [0.10526315789473684, 0.3559322033898305]}, "no_symptom": {"n": 34, "sources": 27, "final_answer_acc": 0.4117647058823529, "final_answer_acc_ci95": [0.22580645161290322, 0.6]}}
+  [nesy_diag] 25/166 (1s)
+  [nesy_diag] 50/166 (2s)
+  [nesy_diag] 75/166 (2s)
+  [nesy_diag] 100/166 (2s)
+  [nesy_diag] 125/166 (4s)
+  [nesy_diag] 150/166 (5s)
+[nesy_diag] {"all": {"n": 166, "sources": 73, "final_answer_acc": 0.7108433734939759, "final_answer_acc_ci95": [0.6196319018404908, 0.8034682080924855], "diagnosis_acc_observable": 0.625, "diagnosis_acc_observable_ci95": [0.5045871559633027, 0.7321428571428571], "n_observable": 112, "correct_action_observable": 0.6339285714285714, "correct_action_observable_ci95": [0.5217391304347826, 0.7350427350427351], "false_alarm_rate_control": 0.1, "per_mode_diag_acc_observable": {"F1": 0.406, "F2": 0.654, "F3": 0.808, "F4": 0.679}}, "dev": {"n": 106, "sources": 46, "final_answer_acc": 0.6981132075471698, "final_answer_acc_ci95": [0.5784313725490197, 0.8090909090909091], "diagnosis_acc_observable": 0.5866666666666667, "diagnosis_acc_observable_ci95": [0.4583333333333333, 0.7297297297297297], "n_observable": 75, "correct_action_observable": 0.5866666666666667, "correct_action_observable_ci95": [0.4583333333333333, 0.7297297297297297], "false_alarm_rate_control": 0.0, "per_mode_diag_acc_observable": {"F1": 0.286, "F2": 0.737, "F3": 0.778, "F4": 0.588}}, "test": {"n": 60, "sources": 27, "final_answer_acc": 0.7333333333333333, "final_answer_acc_ci95": [0.576271186440678, 0.8688524590163934], "diagnosis_acc_observable": 0.7027027027027027, "diagnosis_acc_observable_ci95": [0.5128205128205128, 0.8717948717948718], "n_observable": 37, "correct_action_observable": 0.7297297297297297, "correct_action_observable_ci95": [0.5454545454545454, 0.8837209302325582], "false_alarm_rate_control": 0.3333333333333333, "per_mode_diag_acc_observable": {"F1": 0.636, "F2": 0.429, "F3": 0.875, "F4": 0.818}}, "no_symptom": {"n": 34, "sources": 27, "final_answer_acc": 0.6764705882352942, "final_answer_acc_ci95": [0.4838709677419355, 0.8285714285714286], "per_mode_diag_acc_observable": {"F1": 0.0, "F2": 0.0, "F3": 0.0, "F4": 0.0}}}
+  [no_mbd] 25/166 (0s)
+  [no_mbd] 50/166 (0s)
+  [no_mbd] 75/166 (0s)
+  [no_mbd] 100/166 (0s)
+  [no_mbd] 125/166 (0s)
+  [no_mbd] 150/166 (0s)
+[no_mbd] {"all": {"n": 166, "sources": 73, "final_answer_acc": 0.5602409638554217, "final_answer_acc_ci95": [0.4939759036144578, 0.6287425149700598], "diagnosis_acc_observable": 0.2857142857142857, "diagnosis_acc_observable_ci95": [0.21487603305785125, 0.3577981651376147], "n_observable": 112, "correct_action_observable": 0.2857142857142857, "correct_action_observable_ci95": [0.21487603305785125, 0.3577981651376147], "false_alarm_rate_control": 0.2, "per_mode_diag_acc_observable": {"F1": 1.0, "F2": 0.0, "F3": 0.0, "F4": 0.0}}, "dev": {"n": 106, "sources": 46, "final_answer_acc": 0.5283018867924528, "final_answer_acc_ci95": [0.44545454545454544, 0.6018518518518519], "diagnosis_acc_observable": 0.28, "diagnosis_acc_observable_ci95": [0.19753086419753085, 0.36764705882352944], "n_observable": 75, "correct_action_observable": 0.28, "correct_action_observable_ci95": [0.19753086419753085, 0.36764705882352944], "false_alarm_rate_control": 0.2857142857142857, "per_mode_diag_acc_observable": {"F1": 1.0, "F2": 0.0, "F3": 0.0, "F4": 0.0}}, "test": {"n": 60, "sources": 27, "final_answer_acc": 0.6166666666666667, "final_answer_acc_ci95": [0.5079365079365079, 0.7213114754098361], "diagnosis_acc_observable": 0.2972972972972973, "diagnosis_acc_observable_ci95": [0.18421052631578946, 0.4166666666666667], "n_observable": 37, "correct_action_observable": 0.2972972972972973, "correct_action_observable_ci95": [0.18421052631578946, 0.4166666666666667], "false_alarm_rate_control": 0.0, "per_mode_diag_acc_observable": {"F1": 1.0, "F2": 0.0, "F3": 0.0, "F4": 0.0}}, "no_symptom": {"n": 34, "sources": 27, "final_answer_acc": 0.6176470588235294, "final_answer_acc_ci95": [0.42105263157894735, 0.8], "per_mode_diag_acc_observable": {"F1": 0.0, "F2": 0.0, "F3": 0.0, "F4": 0.0}}}
+  [rule_check] 25/166 (0s)
+  [rule_check] 50/166 (0s)
+  [rule_check] 75/166 (0s)
+  [rule_check] 100/166 (0s)
+  [rule_check] 125/166 (0s)
+  [rule_check] 150/166 (1s)
+[rule_check] {"all": {"n": 166, "sources": 73, "final_answer_acc": 0.7469879518072289, "final_answer_acc_ci95": [0.6585365853658537, 0.8353658536585366], "diagnosis_acc_observable": 0.6517857142857143, "diagnosis_acc_observable_ci95": [0.5391304347826087, 0.7523809523809524], "n_observable": 112, "correct_action_observable": 0.6517857142857143, "correct_action_observable_ci95": [0.5391304347826087, 0.7523809523809524], "false_alarm_rate_control": 0.15, "per_mode_diag_acc_observable": {"F1": 0.469, "F2": 0.692, "F3": 0.808, "F4": 0.679}}, "dev": {"n": 106, "sources": 46, "final_answer_acc": 0.7641509433962265, "final_answer_acc_ci95": [0.6415094339622641, 0.8611111111111112], "diagnosis_acc_observable": 0.6133333333333333, "diagnosis_acc_observable_ci95": [0.49295774647887325, 0.7534246575342466], "n_observable": 75, "correct_action_observable": 0.6133333333333333, "correct_action_observable_ci95": [0.49295774647887325, 0.7534246575342466], "false_alarm_rate_control": 0.07142857142857142, "per_mode_diag_acc_observable": {"F1": 0.333, "F2": 0.789, "F3": 0.778, "F4": 0.588}}, "test": {"n": 60, "sources": 27, "final_answer_acc": 0.7166666666666667, "final_answer_acc_ci95": [0.559322033898305, 0.8548387096774194], "diagnosis_acc_observable": 0.7297297297297297, "diagnosis_acc_observable_ci95": [0.5454545454545454, 0.8837209302325582], "n_observable": 37, "correct_action_observable": 0.7297297297297297, "correct_action_observable_ci95": [0.5454545454545454, 0.8837209302325582], "false_alarm_rate_control": 0.3333333333333333, "per_mode_diag_acc_observable": {"F1": 0.727, "F2": 0.429, "F3": 0.875, "F4": 0.818}}, "no_symptom": {"n": 34, "sources": 27, "final_answer_acc": 0.6470588235294118, "final_answer_acc_ci95": [0.45454545454545453, 0.8], "per_mode_diag_acc_observable": {"F1": 0.0, "F2": 0.0, "F3": 0.0, "F4": 0.0}}}
+  [raw_nli] 25/166 (1s)
+  [raw_nli] 50/166 (1s)
+  [raw_nli] 75/166 (2s)
+  [raw_nli] 100/166 (3s)
+  [raw_nli] 125/166 (4s)
+  [raw_nli] 150/166 (7s)
+[raw_nli] {"all": {"n": 166, "sources": 73, "final_answer_acc": 0.7048192771084337, "final_answer_acc_ci95": [0.6035502958579881, 0.8], "diagnosis_acc_observable": 0.5982142857142857, "diagnosis_acc_observable_ci95": [0.4774774774774775, 0.7064220183486238], "n_observable": 112, "correct_action_observable": 0.5982142857142857, "correct_action_observable_ci95": [0.4774774774774775, 0.7064220183486238], "false_alarm_rate_control": 0.25, "per_mode_diag_acc_observable": {"F1": 0.406, "F2": 0.577, "F3": 0.808, "F4": 0.643}}, "dev": {"n": 106, "sources": 46, "final_answer_acc": 0.6792452830188679, "final_answer_acc_ci95": [0.5523809523809524, 0.7962962962962963], "diagnosis_acc_observable": 0.5733333333333334, "diagnosis_acc_observable_ci95": [0.44, 0.7162162162162162], "n_observable": 75, "correct_action_observable": 0.5733333333333334, "correct_action_observable_ci95": [0.44, 0.7162162162162162], "false_alarm_rate_control": 0.21428571428571427, "per_mode_diag_acc_observable": {"F1": 0.286, "F2": 0.684, "F3": 0.778, "F4": 0.588}}, "test": {"n": 60, "sources": 27, "final_answer_acc": 0.75, "final_answer_acc_ci95": [0.5932203389830508, 0.8833333333333333], "diagnosis_acc_observable": 0.6486486486486487, "diagnosis_acc_observable_ci95": [0.4375, 0.825], "n_observable": 37, "correct_action_observable": 0.6486486486486487, "correct_action_observable_ci95": [0.4375, 0.825], "false_alarm_rate_control": 0.3333333333333333, "per_mode_diag_acc_observable": {"F1": 0.636, "F2": 0.286, "F3": 0.875, "F4": 0.727}}, "no_symptom": {"n": 34, "sources": 27, "final_answer_acc": 0.6764705882352942, "final_answer_acc_ci95": [0.4838709677419355, 0.8285714285714286], "per_mode_diag_acc_observable": {"F1": 0.0, "F2": 0.0, "F3": 0.0, "F4": 0.0}}}

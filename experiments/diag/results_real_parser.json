@@ -1,0 +1,2549 @@
+{
+ "summary": {
+  "parser_model": "gpt-4o",
+  "instances": 93,
+  "parse_fact_precision": 0.8340248962655602,
+  "parse_fact_recall": 0.8305785123966942,
+  "parse_fact_f1": 0.8322981366459627,
+  "parse_exact_rate": 0.46236559139784944,
+  "parse_error_counts": {
+   "omitted": 40,
+   "wrong_value": 1,
+   "spurious": 39
+  },
+  "base_nesy_acc": 0.23655913978494625,
+  "nesy_diag_acc": 0.8709677419354839,
+  "instances_with_parse_error": 50,
+  "base_nesy_acc_on_parse_errors": 0.14,
+  "nesy_diag_acc_on_parse_errors": 0.8,
+  "parser_faults_diagnosed": {
+   "ParserOmission": 66,
+   "MissingCaseInformation": 48,
+   "ParserMisinterpretation": 7,
+   "UnsupportedParserFact": 13,
+   "ResolvableRuleOverlap": 2,
+   "UnresolvedKBConflict": 3
+  },
+  "measurements_per_query": 3.827956989247312,
+  "by_gold_category": {
+   "MissingCaseInformation": {
+    "n": 55,
+    "base_acc": 0.03636363636363636,
+    "diag_acc": 0.8909090909090909
+   },
+   "Normal": {
+    "n": 27,
+    "base_acc": 0.5555555555555556,
+    "diag_acc": 0.9259259259259259
+   },
+   "ResolvableRuleOverlap": {
+    "n": 5,
+    "base_acc": 0.4,
+    "diag_acc": 0.8
+   },
+   "UnresolvedKBConflict": {
+    "n": 6,
+    "base_acc": 0.5,
+    "diag_acc": 0.5
+   }
+  }
+ },
+ "rows": [
+  {
+   "iid": "BHXH-068#normal",
+   "gold_category": "Normal",
+   "question": "Tôi ký hợp đồng lao động 12 tháng với công ty tư nhân. Xin hỏi trường hợp này có bắt buộc phải tham gia BHXH không?",
+   "parse_errors": {
+    "omitted": [
+     "term_at_least_1_month"
+    ],
+    "wrong_value": [],
+    "spurious": [
+     "term_at_least_12_months"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "measurements": 3
+  },
+  {
+   "iid": "BHXH-068#missing:signed_labor_contract",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi 12 tháng với công ty tư nhân. Xin hỏi trường hợp này có bắt buộc phải tham gia BHXH không?",
+   "parse_errors": {
+    "omitted": [
+     "term_at_least_1_month"
+    ],
+    "wrong_value": [],
+    "spurious": [
+     "term_at_least_12_months"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "MissingCaseInformation(paid_wage)",
+    "MissingCaseInformation(under_management)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(paid_wage)",
+    "MissingCaseInformation(under_management)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "measurements": 5
+  },
+  {
+   "iid": "BHXH-068#missing:term_at_least_1_month",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi ký hợp đồng lao động với công ty tư nhân. Xin hỏi trường hợp này có bắt buộc phải tham gia BHXH không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "MissingCaseInformation(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(term_at_least_1_month)"
+   ],
+   "measurements": 2
+  },
+  {
+   "iid": "BHXH-069#normal",
+   "gold_category": "Normal",
+   "question": "Tôi chỉ ký hợp đồng lao động 20 ngày để làm việc ngắn hạn. Vậy tôi có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "false",
+   "base_answer": "false",
+   "base_ok": true,
+   "diag_answer": "false",
+   "diag_ok": true,
+   "diagnosis": [
+    "ParserMisinterpretation(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "ParserMisinterpretation(term_at_least_1_month)",
+    "ParserMisinterpretation(term_at_least_1_month)",
+    "ParserMisinterpretation(term_at_least_1_month)"
+   ],
+   "measurements": 2
+  },
+  {
+   "iid": "BHXH-069#missing:term_at_least_1_month",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi chỉ ký hợp đồng lao động để làm việc ngắn hạn. Vậy tôi có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [
+     "signed_labor_contract"
+    ],
+    "wrong_value": [],
+    "spurious": [
+     "term_at_least_1_month"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "false",
+   "base_answer": "false",
+   "base_ok": true,
+   "diag_answer": "false",
+   "diag_ok": true,
+   "diagnosis": [
+    "UnsupportedParserFact(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "UnsupportedParserFact(term_at_least_1_month)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "MissingCaseInformation(under_management)",
+    "ParserOmission(paid_wage)",
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "measurements": 4
+  },
+  {
+   "iid": "BHXH-089#normal",
+   "gold_category": "Normal",
+   "question": "Tôi ký hợp đồng lao động 45 ngày. Xin hỏi trường hợp này có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [
+     "term_at_least_1_month"
+    ],
+    "spurious": []
+   },
+   "parse_exact": false,
+   "expected": "true",
+   "base_answer": "false",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "ParserMisinterpretation(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "ParserMisinterpretation(term_at_least_1_month)"
+   ],
+   "measurements": 2
+  },
+  {
+   "iid": "BHXH-089#missing:signed_labor_contract",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi 45 ngày. Xin hỏi trường hợp này có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [
+     "term_at_least_1_month"
+    ],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": false,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "MissingCaseInformation(paid_wage)",
+    "MissingCaseInformation(signed_labor_contract)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "MissingCaseInformation(under_management)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(paid_wage)",
+    "MissingCaseInformation(signed_labor_contract)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "MissingCaseInformation(under_management)"
+   ],
+   "measurements": 4
+  },
+  {
+   "iid": "BHXH-089#missing:term_at_least_1_month",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi ký hợp đồng lao động. Xin hỏi trường hợp này có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "MissingCaseInformation(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(term_at_least_1_month)"
+   ],
+   "measurements": 2
+  },
+  {
+   "iid": "BHXH-004#normal",
+   "gold_category": "Normal",
+   "question": "Tôi làm việc thời vụ chưa tới 01 tháng, công ty bảo chưa phải đóng BHXH. Như vậy có đúng không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "false",
+   "base_answer": "false",
+   "base_ok": true,
+   "diag_answer": "false",
+   "diag_ok": true,
+   "diagnosis": [
+    "ParserMisinterpretation(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "ParserMisinterpretation(term_at_least_1_month)",
+    "ParserMisinterpretation(term_at_least_1_month)",
+    "ParserMisinterpretation(term_at_least_1_month)"
+   ],
+   "measurements": 1
+  },
+  {
+   "iid": "BHXH-004#missing:term_at_least_1_month",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi làm việc thời vụ, công ty bảo chưa phải đóng BHXH. Như vậy có đúng không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": [
+     "signed_labor_contract"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "false",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "false",
+   "diag_ok": true,
+   "diagnosis": [
+    "ParserMisinterpretation(signed_labor_contract)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "ParserMisinterpretation(signed_labor_contract)",
+    "MissingCaseInformation(term_at_least_1_month)"
+   ],
+   "measurements": 2
+  },
+  {
+   "iid": "BHXH-059#normal",
+   "gold_category": "Normal",
+   "question": "Công ty nói phải làm đủ 2 tháng mới được đóng BHXH. Trong khi tôi đã ký hợp đồng lao động 12 tháng từ ngày đầu tiên. Công ty nói vậy có đúng không?",
+   "parse_errors": {
+    "omitted": [
+     "term_at_least_1_month"
+    ],
+    "wrong_value": [],
+    "spurious": [
+     "term_at_least_12_months"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "measurements": 3
+  },
+  {
+   "iid": "BHXH-059#missing:signed_labor_contract",
+   "gold_category": "MissingCaseInformation",
+   "question": "Công ty nói phải làm đủ 2 tháng mới được đóng BHXH. Trong khi tôi 12 tháng từ ngày đầu tiên. Công ty nói vậy có đúng không?",
+   "parse_errors": {
+    "omitted": [
+     "term_at_least_1_month"
+    ],
+    "wrong_value": [],
+    "spurious": [
+     "term_at_least_12_months"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "MissingCaseInformation(paid_wage)",
+    "MissingCaseInformation(under_management)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(paid_wage)",
+    "MissingCaseInformation(under_management)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "measurements": 5
+  },
+  {
+   "iid": "BHXH-059#missing:term_at_least_1_month",
+   "gold_category": "MissingCaseInformation",
+   "question": "Công ty nói phải làm đủ 2 tháng mới được đóng BHXH. Trong khi tôi đã ký hợp đồng lao động từ ngày đầu tiên. Công ty nói vậy có đúng không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "measurements": 2
+  },
+  {
+   "iid": "BHXH-084#normal",
+   "gold_category": "Normal",
+   "question": "Tôi ký hợp đồng 1 năm nhưng công ty bảo làm qua 2 tháng mới đóng BHXH. Công ty làm vậy có đúng không?",
+   "parse_errors": {
+    "omitted": [
+     "term_at_least_1_month"
+    ],
+    "wrong_value": [],
+    "spurious": [
+     "term_at_least_12_months"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "measurements": 3
+  },
+  {
+   "iid": "BHXH-084#missing:signed_labor_contract",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi 1 năm nhưng công ty bảo làm qua 2 tháng mới đóng BHXH. Công ty làm vậy có đúng không?",
+   "parse_errors": {
+    "omitted": [
+     "term_at_least_1_month"
+    ],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": false,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "MissingCaseInformation(paid_wage)",
+    "MissingCaseInformation(under_management)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(paid_wage)",
+    "MissingCaseInformation(under_management)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "measurements": 4
+  },
+  {
+   "iid": "BHXH-084#missing:term_at_least_1_month",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi ký hợp đồng nhưng công ty bảo làm qua 2 tháng mới đóng BHXH. Công ty làm vậy có đúng không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "measurements": 2
+  },
+  {
+   "iid": "BHXH-073#normal",
+   "gold_category": "Normal",
+   "question": "Tôi là giám đốc công ty và có nhận lương hằng tháng. Tôi có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "true",
+   "base_answer": "true",
+   "base_ok": true,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [],
+   "diag_status": "unique",
+   "recovery": [],
+   "measurements": 2
+  },
+  {
+   "iid": "BHXH-073#missing:receives_salary",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi là giám đốc công ty và. Tôi có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "MissingCaseInformation(signed_labor_contract)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "ParserOmission(paid_wage)",
+    "ParserOmission(receives_salary)",
+    "ParserOmission(under_management)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(signed_labor_contract)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "ParserOmission(paid_wage)",
+    "ParserOmission(receives_salary)",
+    "ParserOmission(under_management)"
+   ],
+   "measurements": 6
+  },
+  {
+   "iid": "BHXH-074#normal",
+   "gold_category": "Normal",
+   "question": "Tôi đứng tên giám đốc nhưng không hưởng lương. Vậy tôi có bắt buộc phải đóng BHXH không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "true",
+   "base_answer": "true",
+   "base_ok": true,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [],
+   "diag_status": "unique",
+   "recovery": [],
+   "measurements": 2
+  },
+  {
+   "iid": "BHXH-074#missing:receives_salary",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi đứng tên giám đốc nhưng. Vậy tôi có bắt buộc phải đóng BHXH không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "MissingCaseInformation(term_at_least_1_month)",
+    "ParserOmission(paid_wage)",
+    "ParserOmission(receives_salary)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(under_management)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(term_at_least_1_month)",
+    "ParserOmission(paid_wage)",
+    "ParserOmission(receives_salary)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(under_management)"
+   ],
+   "measurements": 6
+  },
+  {
+   "iid": "BHXH-079#normal",
+   "gold_category": "Normal",
+   "question": "Tôi chỉ ký hợp đồng thử việc riêng, chưa ký hợp đồng lao động. Trường hợp này có phải đóng BHXH không?",
+   "parse_errors": {
+    "omitted": [
+     "signed_labor_contract"
+    ],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": false,
+   "expected": "false",
+   "base_answer": "false",
+   "base_ok": true,
+   "diag_answer": "false",
+   "diag_ok": true,
+   "diagnosis": [],
+   "diag_status": "unique",
+   "recovery": [],
+   "measurements": 1
+  },
+  {
+   "iid": "BHXH-080#normal",
+   "gold_category": "Normal",
+   "question": "Tôi đã nhận lương hưu, nay đi làm lại cho doanh nghiệp. Tôi có phải đóng BHXH bắt buộc nữa không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "false",
+   "base_answer": "false",
+   "base_ok": true,
+   "diag_answer": "false",
+   "diag_ok": true,
+   "diagnosis": [],
+   "diag_status": "unique",
+   "recovery": [],
+   "measurements": 1
+  },
+  {
+   "iid": "BHXH-054#normal",
+   "gold_category": "Normal",
+   "question": "Tôi đã hưởng lương hưu nhưng nay đi làm lại cho doanh nghiệp tư nhân. Trường hợp này có tiếp tục phải đóng BHXH bắt buộc nữa không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "false",
+   "base_answer": "false",
+   "base_ok": true,
+   "diag_answer": "false",
+   "diag_ok": true,
+   "diagnosis": [],
+   "diag_status": "unique",
+   "recovery": [],
+   "measurements": 1
+  },
+  {
+   "iid": "BHXH-078#natural",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi làm việc 6 tháng, nhận lương đều nhưng công ty không ký hợp đồng bằng văn bản. Tôi có thể yêu cầu đóng BHXH được không?",
+   "parse_errors": {
+    "omitted": [
+     "term_at_least_1_month"
+    ],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": false,
+   "expected": "clarification_requested",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "clarification_requested",
+   "diag_ok": true,
+   "diagnosis": [
+    "MissingCaseInformation(term_at_least_1_month)",
+    "MissingCaseInformation(under_management)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(term_at_least_1_month)",
+    "MissingCaseInformation(under_management)"
+   ],
+   "measurements": 3
+  },
+  {
+   "iid": "BHXH-063#natural",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi không được ký hợp đồng bằng văn bản nhưng làm việc ổn định đã hơn 6 tháng và nhận lương đều hằng tháng. Trường hợp này có thể yêu cầu đóng BHXH không?",
+   "parse_errors": {
+    "omitted": [
+     "term_at_least_1_month"
+    ],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": false,
+   "expected": "clarification_requested",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "clarification_requested",
+   "diag_ok": true,
+   "diagnosis": [
+    "MissingCaseInformation(under_management)",
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(under_management)",
+    "ParserOmission(term_at_least_1_month)",
+    "MissingCaseInformation(under_management)"
+   ],
+   "measurements": 3
+  },
+  {
+   "iid": "BHXH-044#natural",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi ký giấy tờ ghi là hợp đồng khoán việc 2 tháng, nhưng thực tế vẫn đi làm giờ hành chính và chịu sự quản lý của công ty. Trong trường hợp này có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": [
+     "signed_labor_contract"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "clarification_requested",
+   "base_answer": "true",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": false,
+   "diagnosis": [],
+   "diag_status": "unique",
+   "recovery": [],
+   "measurements": 2
+  },
+  {
+   "iid": "BHXH-083#natural",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi ký hợp đồng cộng tác viên nhưng bị quản lý giờ giấc và KPI như nhân viên chính thức. Vậy tôi có phải đóng BHXH không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": [
+     "signed_labor_contract"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "clarification_requested",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "insufficient",
+   "diag_ok": false,
+   "diagnosis": [
+    "ParserMisinterpretation(signed_labor_contract)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "ParserMisinterpretation(signed_labor_contract)",
+    "ParserMisinterpretation(signed_labor_contract)",
+    "ParserMisinterpretation(signed_labor_contract)"
+   ],
+   "measurements": 1
+  },
+  {
+   "iid": "BHXH-081#natural",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi là người nước ngoài làm việc tại Việt Nam theo hợp đồng lao động. Tôi có phải tham gia BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "clarification_requested",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "clarification_requested",
+   "diag_ok": true,
+   "diagnosis": [
+    "MissingCaseInformation(term_at_least_12_months)",
+    "MissingCaseInformation(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(term_at_least_12_months)",
+    "MissingCaseInformation(term_at_least_1_month)"
+   ],
+   "measurements": 4
+  },
+  {
+   "iid": "BHXH-071#natural",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi làm bán thời gian nhưng lương tháng vẫn cao. Trường hợp này có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "clarification_requested",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "clarification_requested",
+   "diag_ok": true,
+   "diagnosis": [
+    "UnsupportedParserFact(wage_at_least_min_base)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "UnsupportedParserFact(wage_at_least_min_base)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "MissingCaseInformation(under_management)",
+    "MissingCaseInformation(wage_at_least_min_base)",
+    "ParserOmission(paid_wage)",
+    "ParserOmission(signed_labor_contract)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "MissingCaseInformation(wage_at_least_min_base)"
+   ],
+   "measurements": 6
+  },
+  {
+   "iid": "BHXH-088#natural",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi làm việc online tại nhà cho công ty trong nước và nhận lương hằng tháng. Trường hợp này có phải đóng BHXH không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": [
+     "under_management"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "clarification_requested",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "clarification_requested",
+   "diag_ok": true,
+   "diagnosis": [
+    "UnsupportedParserFact(under_management)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "UnsupportedParserFact(under_management)",
+    "MissingCaseInformation(signed_labor_contract)",
+    "MissingCaseInformation(under_management)",
+    "ParserOmission(term_at_least_1_month)",
+    "MissingCaseInformation(signed_labor_contract)",
+    "MissingCaseInformation(under_management)"
+   ],
+   "measurements": 3
+  },
+  {
+   "iid": "S01#normal",
+   "gold_category": "Normal",
+   "question": "Tôi ký hợp đồng lao động thời hạn 24 tháng với công ty, làm toàn thời gian. Tôi có thuộc diện đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [
+     "term_at_least_1_month"
+    ],
+    "wrong_value": [],
+    "spurious": [
+     "term_at_least_12_months"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "measurements": 4
+  },
+  {
+   "iid": "S01#missing:signed_labor_contract",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi thời hạn 24 tháng với công ty, làm toàn thời gian. Tôi có thuộc diện đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [
+     "term_at_least_1_month"
+    ],
+    "wrong_value": [],
+    "spurious": [
+     "term_at_least_12_months"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "MissingCaseInformation(under_management)",
+    "ParserOmission(paid_wage)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(under_management)",
+    "ParserOmission(paid_wage)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "measurements": 6
+  },
+  {
+   "iid": "S01#missing:term_at_least_1_month",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi ký hợp đồng lao động với công ty, làm toàn thời gian. Tôi có thuộc diện đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "MissingCaseInformation(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(term_at_least_1_month)"
+   ],
+   "measurements": 3
+  },
+  {
+   "iid": "S02#normal",
+   "gold_category": "Normal",
+   "question": "Tôi làm bán thời gian theo hợp đồng lao động 6 tháng, lương mỗi tháng cao hơn mức lương thấp nhất đóng BHXH. Tôi có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "true",
+   "base_answer": "true",
+   "base_ok": true,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [],
+   "diag_status": "unique",
+   "recovery": [],
+   "measurements": 4
+  },
+  {
+   "iid": "S02#missing:signed_labor_contract",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi làm bán thời gian 6 tháng, lương mỗi tháng cao hơn mức lương thấp nhất đóng BHXH. Tôi có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [
+     "term_at_least_1_month"
+    ],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": false,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "MissingCaseInformation(under_management)",
+    "ParserOmission(paid_wage)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(under_management)",
+    "ParserOmission(paid_wage)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "measurements": 6
+  },
+  {
+   "iid": "S02#missing:term_at_least_1_month",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi làm bán thời gian theo hợp đồng lao động, lương mỗi tháng cao hơn mức lương thấp nhất đóng BHXH. Tôi có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "measurements": 4
+  },
+  {
+   "iid": "S02#missing:wage_at_least_min_base",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi làm bán thời gian theo hợp đồng lao động 6 tháng. Tôi có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "ParserOmission(wage_at_least_min_base)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "ParserOmission(wage_at_least_min_base)"
+   ],
+   "measurements": 4
+  },
+  {
+   "iid": "S03#normal",
+   "gold_category": "Normal",
+   "question": "Tôi làm bán thời gian theo hợp đồng lao động 6 tháng, lương mỗi tháng thấp hơn mức lương thấp nhất đóng BHXH. Tôi có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [
+     "signed_labor_contract"
+    ],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": false,
+   "expected": "false",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "false",
+   "diag_ok": true,
+   "diagnosis": [
+    "MissingCaseInformation(under_management)",
+    "ParserOmission(paid_wage)",
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(under_management)",
+    "ParserOmission(paid_wage)",
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "measurements": 6
+  },
+  {
+   "iid": "S03#missing:signed_labor_contract",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi làm bán thời gian 6 tháng, lương mỗi tháng thấp hơn mức lương thấp nhất đóng BHXH. Tôi có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [
+     "term_at_least_1_month"
+    ],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": false,
+   "expected": "false",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "false",
+   "diag_ok": true,
+   "diagnosis": [
+    "MissingCaseInformation(under_management)",
+    "ParserOmission(paid_wage)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(under_management)",
+    "ParserOmission(paid_wage)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "measurements": 6
+  },
+  {
+   "iid": "S03#missing:term_at_least_1_month",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi làm bán thời gian theo hợp đồng lao động, lương mỗi tháng thấp hơn mức lương thấp nhất đóng BHXH. Tôi có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "false",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "insufficient",
+   "diag_ok": false,
+   "diagnosis": [
+    "ParserMisinterpretation(wage_at_least_min_base)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "ParserMisinterpretation(wage_at_least_min_base)",
+    "ParserMisinterpretation(wage_at_least_min_base)",
+    "ParserMisinterpretation(wage_at_least_min_base)"
+   ],
+   "measurements": 3
+  },
+  {
+   "iid": "S04#normal",
+   "gold_category": "Normal",
+   "question": "Tôi không ký hợp đồng nhưng được công ty trả lương hằng tháng và chịu sự quản lý, chấm công như nhân viên; công việc kéo dài 8 tháng. Tôi có thuộc diện BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "true",
+   "base_answer": "true",
+   "base_ok": true,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [],
+   "diag_status": "unique",
+   "recovery": [],
+   "measurements": 4
+  },
+  {
+   "iid": "S04#missing:paid_wage",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi không ký hợp đồng nhưng và chịu sự quản lý, chấm công như nhân viên; công việc kéo dài 8 tháng. Tôi có thuộc diện BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "ParserOmission(paid_wage)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "ParserOmission(paid_wage)"
+   ],
+   "measurements": 4
+  },
+  {
+   "iid": "S04#missing:under_management",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi không ký hợp đồng nhưng được công ty trả lương hằng tháng và; công việc kéo dài 8 tháng. Tôi có thuộc diện BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "MissingCaseInformation(under_management)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(under_management)"
+   ],
+   "measurements": 4
+  },
+  {
+   "iid": "S04#missing:term_at_least_1_month",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi không ký hợp đồng nhưng được công ty trả lương hằng tháng và chịu sự quản lý, chấm công như nhân viên; công việc. Tôi có thuộc diện BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "MissingCaseInformation(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(term_at_least_1_month)"
+   ],
+   "measurements": 4
+  },
+  {
+   "iid": "S05#natural",
+   "gold_category": "ResolvableRuleOverlap",
+   "question": "Tôi đang hưởng lương hưu và vừa ký hợp đồng lao động 12 tháng với một công ty, làm toàn thời gian. Tôi có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [
+     "signed_labor_contract",
+     "term_at_least_1_month"
+    ],
+    "wrong_value": [],
+    "spurious": [
+     "term_at_least_12_months"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "false",
+   "base_answer": "false",
+   "base_ok": true,
+   "diag_answer": "false",
+   "diag_ok": true,
+   "diagnosis": [],
+   "diag_status": "unique",
+   "recovery": [],
+   "measurements": 3
+  },
+  {
+   "iid": "S05#kbconflict",
+   "gold_category": "UnresolvedKBConflict",
+   "question": "Tôi đang hưởng lương hưu và vừa ký hợp đồng lao động 12 tháng với một công ty, làm toàn thời gian. Tôi có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [
+     "signed_labor_contract",
+     "term_at_least_1_month"
+    ],
+    "wrong_value": [],
+    "spurious": [
+     "term_at_least_12_months"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "abstain",
+   "base_answer": "false",
+   "base_ok": false,
+   "diag_answer": "false",
+   "diag_ok": false,
+   "diagnosis": [],
+   "diag_status": "unique",
+   "recovery": [],
+   "measurements": 3
+  },
+  {
+   "iid": "S06#normal",
+   "gold_category": "Normal",
+   "question": "Tôi là người nước ngoài, ký hợp đồng lao động 2 năm với công ty tại Việt Nam. Tôi có phải tham gia BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "true",
+   "base_answer": "true",
+   "base_ok": true,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [],
+   "diag_status": "unique",
+   "recovery": [],
+   "measurements": 3
+  },
+  {
+   "iid": "S06#missing:signed_labor_contract",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi là người nước ngoài, 2 năm với công ty tại Việt Nam. Tôi có phải tham gia BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [
+     "term_at_least_12_months"
+    ],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": false,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "MissingCaseInformation(paid_wage)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "MissingCaseInformation(under_management)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_12_months)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(paid_wage)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "MissingCaseInformation(under_management)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_12_months)"
+   ],
+   "measurements": 6
+  },
+  {
+   "iid": "S06#missing:term_at_least_12_months",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi là người nước ngoài, ký hợp đồng lao động với công ty tại Việt Nam. Tôi có phải tham gia BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "MissingCaseInformation(term_at_least_12_months)",
+    "MissingCaseInformation(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(term_at_least_12_months)",
+    "MissingCaseInformation(term_at_least_1_month)"
+   ],
+   "measurements": 4
+  },
+  {
+   "iid": "S07#natural",
+   "gold_category": "ResolvableRuleOverlap",
+   "question": "Tôi là người nước ngoài được điều chuyển nội bộ doanh nghiệp sang Việt Nam, ký hợp đồng lao động 2 năm. Tôi có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "false",
+   "base_answer": "abstain",
+   "base_ok": false,
+   "diag_answer": "false",
+   "diag_ok": true,
+   "diagnosis": [
+    "ResolvableRuleOverlap(R11, R12)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "ResolvableRuleOverlap(R11, R12)"
+   ],
+   "measurements": 5
+  },
+  {
+   "iid": "S07#kbconflict",
+   "gold_category": "UnresolvedKBConflict",
+   "question": "Tôi là người nước ngoài được điều chuyển nội bộ doanh nghiệp sang Việt Nam, ký hợp đồng lao động 2 năm. Tôi có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "abstain",
+   "base_answer": "abstain",
+   "base_ok": true,
+   "diag_answer": "abstain",
+   "diag_ok": true,
+   "diagnosis": [
+    "UnresolvedKBConflict(R11, R12)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "UnresolvedKBConflict(R11, R12)"
+   ],
+   "measurements": 5
+  },
+  {
+   "iid": "S08#natural",
+   "gold_category": "ResolvableRuleOverlap",
+   "question": "Tôi là người nước ngoài, khi ký hợp đồng lao động 18 tháng thì đã đủ tuổi nghỉ hưu. Tôi có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [
+     "signed_labor_contract",
+     "retirement_age_at_signing"
+    ],
+    "wrong_value": [],
+    "spurious": [
+     "reached_retirement_age"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "false",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": false,
+   "diagnosis": [
+    "MissingCaseInformation(paid_wage)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)",
+    "ParserOmission(under_management)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(paid_wage)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)",
+    "ParserOmission(under_management)"
+   ],
+   "measurements": 6
+  },
+  {
+   "iid": "S08#kbconflict",
+   "gold_category": "UnresolvedKBConflict",
+   "question": "Tôi là người nước ngoài, khi ký hợp đồng lao động 18 tháng thì đã đủ tuổi nghỉ hưu. Tôi có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [
+     "signed_labor_contract",
+     "retirement_age_at_signing"
+    ],
+    "wrong_value": [],
+    "spurious": [
+     "reached_retirement_age"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "abstain",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": false,
+   "diagnosis": [
+    "MissingCaseInformation(paid_wage)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)",
+    "ParserOmission(under_management)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(paid_wage)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)",
+    "ParserOmission(under_management)"
+   ],
+   "measurements": 6
+  },
+  {
+   "iid": "S09#normal",
+   "gold_category": "Normal",
+   "question": "Tôi là người nước ngoài, ký hợp đồng lao động 6 tháng với công ty Việt Nam. Tôi có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [
+     "term_at_least_12_months"
+    ],
+    "wrong_value": [],
+    "spurious": [
+     "term_at_least_1_month"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "false",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "false",
+   "diag_ok": true,
+   "diagnosis": [
+    "ParserOmission(term_at_least_12_months)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "ParserOmission(term_at_least_12_months)"
+   ],
+   "measurements": 4
+  },
+  {
+   "iid": "S09#missing:signed_labor_contract",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi là người nước ngoài, 6 tháng với công ty Việt Nam. Tôi có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [
+     "term_at_least_12_months"
+    ],
+    "wrong_value": [],
+    "spurious": [
+     "term_at_least_1_month"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "false",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "false",
+   "diag_ok": true,
+   "diagnosis": [
+    "ParserOmission(paid_wage)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_12_months)",
+    "ParserOmission(under_management)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "ParserOmission(paid_wage)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_12_months)",
+    "ParserOmission(under_management)"
+   ],
+   "measurements": 6
+  },
+  {
+   "iid": "S09#missing:term_at_least_12_months",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi là người nước ngoài, ký hợp đồng lao động với công ty Việt Nam. Tôi có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "false",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "false",
+   "diag_ok": true,
+   "diagnosis": [
+    "MissingCaseInformation(term_at_least_12_months)",
+    "MissingCaseInformation(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(term_at_least_12_months)",
+    "MissingCaseInformation(term_at_least_1_month)"
+   ],
+   "measurements": 4
+  },
+  {
+   "iid": "S10#normal",
+   "gold_category": "Normal",
+   "question": "Tôi ký hợp đồng lao động 12 tháng, làm toàn thời gian, nhưng tháng này tôi nghỉ không lương 16 ngày làm việc và không có thỏa thuận gì với công ty. Tháng này tôi có phải đóng BHXH không?",
+   "parse_errors": {
+    "omitted": [
+     "term_at_least_1_month"
+    ],
+    "wrong_value": [],
+    "spurious": [
+     "term_at_least_12_months"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "false",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "false",
+   "diag_ok": true,
+   "diagnosis": [
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "measurements": 6
+  },
+  {
+   "iid": "S10#missing:signed_labor_contract",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi 12 tháng, làm toàn thời gian, nhưng tháng này tôi nghỉ không lương 16 ngày làm việc và không có thỏa thuận gì với công ty. Tháng này tôi có phải đóng BHXH không?",
+   "parse_errors": {
+    "omitted": [
+     "term_at_least_1_month"
+    ],
+    "wrong_value": [],
+    "spurious": [
+     "term_at_least_12_months"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "false",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "insufficient",
+   "diag_ok": false,
+   "diagnosis": [
+    "ParserOmission(paid_wage)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)",
+    "ParserOmission(under_management)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "ParserOmission(paid_wage)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)",
+    "ParserOmission(under_management)",
+    "ParserMisinterpretation(paid_wage)",
+    "ParserMisinterpretation(paid_wage)"
+   ],
+   "measurements": 7
+  },
+  {
+   "iid": "S10#missing:term_at_least_1_month",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi ký hợp đồng lao động, làm toàn thời gian, nhưng tháng này tôi nghỉ không lương 16 ngày làm việc và không có thỏa thuận gì với công ty. Tháng này tôi có phải đóng BHXH không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "false",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "false",
+   "diag_ok": true,
+   "diagnosis": [
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "measurements": 5
+  },
+  {
+   "iid": "S11#normal",
+   "gold_category": "Normal",
+   "question": "Tôi ký hợp đồng lao động không xác định thời hạn, làm toàn thời gian và tháng này hưởng lương đủ tháng. Tháng này tôi có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [
+     "term_at_least_1_month"
+    ],
+    "wrong_value": [],
+    "spurious": [
+     "term_at_least_12_months"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "insufficient",
+   "diag_ok": false,
+   "diagnosis": [
+    "ParserMisinterpretation(term_at_least_12_months)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "ParserMisinterpretation(term_at_least_12_months)",
+    "ParserMisinterpretation(term_at_least_12_months)",
+    "ParserMisinterpretation(term_at_least_12_months)"
+   ],
+   "measurements": 4
+  },
+  {
+   "iid": "S11#missing:signed_labor_contract",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi không xác định thời hạn, làm toàn thời gian và tháng này hưởng lương đủ tháng. Tháng này tôi có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [
+     "term_at_least_1_month"
+    ],
+    "wrong_value": [],
+    "spurious": [
+     "term_at_least_12_months"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "UnsupportedParserFact(term_at_least_12_months)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "UnsupportedParserFact(term_at_least_12_months)",
+    "MissingCaseInformation(under_management)",
+    "ParserOmission(paid_wage)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "measurements": 7
+  },
+  {
+   "iid": "S11#missing:term_at_least_1_month",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi ký hợp đồng lao động, làm toàn thời gian và tháng này hưởng lương đủ tháng. Tháng này tôi có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "measurements": 4
+  },
+  {
+   "iid": "S12#normal",
+   "gold_category": "Normal",
+   "question": "Tôi ký hợp đồng lao động 12 tháng, làm toàn thời gian, hiện hợp đồng đang tạm hoãn và hai bên không thỏa thuận đóng BHXH trong thời gian này. Tôi có phải đóng BHXH tháng này không?",
+   "parse_errors": {
+    "omitted": [
+     "term_at_least_1_month"
+    ],
+    "wrong_value": [],
+    "spurious": [
+     "term_at_least_12_months"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "false",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "false",
+   "diag_ok": true,
+   "diagnosis": [
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "measurements": 6
+  },
+  {
+   "iid": "S12#missing:signed_labor_contract",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi 12 tháng, làm toàn thời gian, hiện hợp đồng đang tạm hoãn và hai bên không thỏa thuận đóng BHXH trong thời gian này. Tôi có phải đóng BHXH tháng này không?",
+   "parse_errors": {
+    "omitted": [
+     "term_at_least_1_month"
+    ],
+    "wrong_value": [],
+    "spurious": [
+     "term_at_least_12_months"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "false",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "false",
+   "diag_ok": true,
+   "diagnosis": [
+    "MissingCaseInformation(under_management)",
+    "ParserOmission(paid_wage)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(under_management)",
+    "ParserOmission(paid_wage)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)",
+    "ParserMisinterpretation(paid_wage)",
+    "ParserMisinterpretation(paid_wage)"
+   ],
+   "measurements": 8
+  },
+  {
+   "iid": "S12#missing:term_at_least_1_month",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi ký hợp đồng lao động, làm toàn thời gian, hiện hợp đồng đang tạm hoãn và hai bên không thỏa thuận đóng BHXH trong thời gian này. Tôi có phải đóng BHXH tháng này không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "false",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "false",
+   "diag_ok": true,
+   "diagnosis": [
+    "MissingCaseInformation(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(term_at_least_1_month)"
+   ],
+   "measurements": 5
+  },
+  {
+   "iid": "S13#normal",
+   "gold_category": "Normal",
+   "question": "Tôi ký hợp đồng lao động 1 năm với công ty A, sau đó ký thêm hợp đồng lao động với công ty B. Tôi có tham gia BHXH bắt buộc theo hợp đồng ký đầu tiên không?",
+   "parse_errors": {
+    "omitted": [
+     "term_at_least_1_month"
+    ],
+    "wrong_value": [],
+    "spurious": [
+     "term_at_least_12_months"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "false",
+   "diag_ok": false,
+   "diagnosis": [
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "ParserOmission(term_at_least_1_month)",
+    "UnsupportedParserFact(multiple_contracts)"
+   ],
+   "measurements": 3
+  },
+  {
+   "iid": "S13#missing:signed_labor_contract",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi 1 năm với công ty A, sau đó ký thêm hợp đồng lao động với công ty B. Tôi có tham gia BHXH bắt buộc theo hợp đồng ký đầu tiên không?",
+   "parse_errors": {
+    "omitted": [
+     "term_at_least_1_month"
+    ],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": false,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "false",
+   "diag_ok": false,
+   "diagnosis": [
+    "MissingCaseInformation(paid_wage)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "MissingCaseInformation(under_management)",
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(paid_wage)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "MissingCaseInformation(under_management)",
+    "ParserOmission(signed_labor_contract)",
+    "UnsupportedParserFact(multiple_contracts)"
+   ],
+   "measurements": 5
+  },
+  {
+   "iid": "S13#missing:term_at_least_1_month",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi ký hợp đồng lao động với công ty A, sau đó ký thêm hợp đồng lao động với công ty B. Tôi có tham gia BHXH bắt buộc theo hợp đồng ký đầu tiên không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "MissingCaseInformation(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(term_at_least_1_month)"
+   ],
+   "measurements": 3
+  },
+  {
+   "iid": "S14#normal",
+   "gold_category": "Normal",
+   "question": "Tôi đã nghỉ việc, đã đủ tuổi nghỉ hưu và đóng BHXH bắt buộc được 18 năm. Tôi có được hưởng lương hưu không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "true",
+   "base_answer": "true",
+   "base_ok": true,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [],
+   "diag_status": "unique",
+   "recovery": [],
+   "measurements": 3
+  },
+  {
+   "iid": "S14#missing:stopped_working",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi, đã đủ tuổi nghỉ hưu và đóng BHXH bắt buộc được 18 năm. Tôi có được hưởng lương hưu không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "ParserOmission(stopped_working)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "ParserOmission(stopped_working)"
+   ],
+   "measurements": 3
+  },
+  {
+   "iid": "S14#missing:reached_retirement_age",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi đã nghỉ việc, và đóng BHXH bắt buộc được 18 năm. Tôi có được hưởng lương hưu không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "MissingCaseInformation(reached_retirement_age)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(reached_retirement_age)"
+   ],
+   "measurements": 3
+  },
+  {
+   "iid": "S14#missing:contribution_15_years",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi đã nghỉ việc, đã đủ tuổi nghỉ hưu và. Tôi có được hưởng lương hưu không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "MissingCaseInformation(contribution_15_years)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(contribution_15_years)",
+    "UnsupportedParserFact(reached_retirement_age)",
+    "MissingCaseInformation(reached_retirement_age)"
+   ],
+   "measurements": 3
+  },
+  {
+   "iid": "S15#normal",
+   "gold_category": "Normal",
+   "question": "Tôi đã nghỉ việc và đủ tuổi nghỉ hưu nhưng mới đóng BHXH được 10 năm. Tôi có được hưởng lương hưu không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "false",
+   "base_answer": "false",
+   "base_ok": true,
+   "diag_answer": "false",
+   "diag_ok": true,
+   "diagnosis": [],
+   "diag_status": "unique",
+   "recovery": [],
+   "measurements": 1
+  },
+  {
+   "iid": "S15#missing:contribution_15_years",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi đã nghỉ việc và đủ tuổi nghỉ hưu nhưng. Tôi có được hưởng lương hưu không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "false",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "false",
+   "diag_ok": true,
+   "diagnosis": [
+    "MissingCaseInformation(contribution_15_years)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(contribution_15_years)"
+   ],
+   "measurements": 1
+  },
+  {
+   "iid": "S16#normal",
+   "gold_category": "Normal",
+   "question": "Tôi đã nghỉ việc và chốt sổ BHXH, đã đủ tuổi nghỉ hưu nhưng mới đóng BHXH được 10 năm. Tôi muốn nhận BHXH một lần thì có được không?",
+   "parse_errors": {
+    "omitted": [
+     "terminated_participation"
+    ],
+    "wrong_value": [],
+    "spurious": [
+     "stopped_working"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "ParserOmission(terminated_participation)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "ParserOmission(terminated_participation)"
+   ],
+   "measurements": 4
+  },
+  {
+   "iid": "S16#missing:terminated_participation",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi đã nghỉ việc và, đã đủ tuổi nghỉ hưu nhưng mới đóng BHXH được 10 năm. Tôi muốn nhận BHXH một lần thì có được không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": [
+     "stopped_working"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "ParserOmission(terminated_participation)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "ParserOmission(terminated_participation)",
+    "ParserMisinterpretation(terminated_participation)",
+    "ParserMisinterpretation(terminated_participation)"
+   ],
+   "measurements": 4
+  },
+  {
+   "iid": "S16#missing:reached_retirement_age",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi đã nghỉ việc và chốt sổ BHXH, nhưng mới đóng BHXH được 10 năm. Tôi muốn nhận BHXH một lần thì có được không?",
+   "parse_errors": {
+    "omitted": [
+     "terminated_participation"
+    ],
+    "wrong_value": [],
+    "spurious": [
+     "stopped_working"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "MissingCaseInformation(reached_retirement_age)",
+    "ParserOmission(terminated_participation)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(reached_retirement_age)",
+    "ParserOmission(terminated_participation)"
+   ],
+   "measurements": 4
+  },
+  {
+   "iid": "S16#missing:contribution_15_years",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi đã nghỉ việc và chốt sổ BHXH, đã đủ tuổi nghỉ hưu nhưng. Tôi muốn nhận BHXH một lần thì có được không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": [
+     "stopped_working"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "MissingCaseInformation(contribution_15_years)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(contribution_15_years)"
+   ],
+   "measurements": 4
+  },
+  {
+   "iid": "S16#missing:requested_lump_sum",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi đã nghỉ việc và chốt sổ BHXH, đã đủ tuổi nghỉ hưu nhưng mới đóng BHXH được 10 năm. Tôi thì có được không?",
+   "parse_errors": {
+    "omitted": [
+     "terminated_participation"
+    ],
+    "wrong_value": [],
+    "spurious": [
+     "stopped_working"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [
+    "ParserOmission(requested_lump_sum)",
+    "ParserOmission(terminated_participation)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "ParserOmission(requested_lump_sum)",
+    "ParserOmission(terminated_participation)"
+   ],
+   "measurements": 4
+  },
+  {
+   "iid": "S17#normal",
+   "gold_category": "Normal",
+   "question": "Tôi 40 tuổi, chưa đủ tuổi nghỉ hưu, đã nghỉ việc và chốt sổ BHXH, muốn nhận BHXH một lần. Tôi không định cư nước ngoài và không mắc bệnh hiểm nghèo. Tôi có được nhận không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": [
+     "stopped_working"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "false",
+   "base_answer": "false",
+   "base_ok": true,
+   "diag_answer": "false",
+   "diag_ok": true,
+   "diagnosis": [
+    "UnsupportedParserFact(emigrating)",
+    "UnsupportedParserFact(serious_illness)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "UnsupportedParserFact(emigrating)",
+    "UnsupportedParserFact(serious_illness)"
+   ],
+   "measurements": 5
+  },
+  {
+   "iid": "S17#missing:reached_retirement_age",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi 40 tuổi, đã nghỉ việc và chốt sổ BHXH, muốn nhận BHXH một lần. Tôi không định cư nước ngoài và không mắc bệnh hiểm nghèo. Tôi có được nhận không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": [
+     "stopped_working"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "false",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "false",
+   "diag_ok": true,
+   "diagnosis": [
+    "UnsupportedParserFact(emigrating)",
+    "UnsupportedParserFact(serious_illness)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "UnsupportedParserFact(emigrating)",
+    "UnsupportedParserFact(serious_illness)",
+    "MissingCaseInformation(contribution_15_years)",
+    "ParserOmission(reached_retirement_age)",
+    "ParserMisinterpretation(reached_retirement_age)"
+   ],
+   "measurements": 6
+  },
+  {
+   "iid": "S17#missing:terminated_participation",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi 40 tuổi, chưa đủ tuổi nghỉ hưu, đã nghỉ việc và, muốn nhận BHXH một lần. Tôi không định cư nước ngoài và không mắc bệnh hiểm nghèo. Tôi có được nhận không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": [
+     "stopped_working"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "false",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "false",
+   "diag_ok": true,
+   "diagnosis": [
+    "UnsupportedParserFact(emigrating)",
+    "UnsupportedParserFact(serious_illness)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "UnsupportedParserFact(emigrating)",
+    "UnsupportedParserFact(serious_illness)",
+    "ParserOmission(terminated_participation)"
+   ],
+   "measurements": 5
+  },
+  {
+   "iid": "S17#missing:requested_lump_sum",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi 40 tuổi, chưa đủ tuổi nghỉ hưu, đã nghỉ việc và chốt sổ BHXH. Tôi không định cư nước ngoài và không mắc bệnh hiểm nghèo. Tôi có được nhận không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": [
+     "stopped_working"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "false",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "false",
+   "diag_ok": true,
+   "diagnosis": [
+    "UnsupportedParserFact(emigrating)",
+    "UnsupportedParserFact(serious_illness)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "UnsupportedParserFact(emigrating)",
+    "UnsupportedParserFact(serious_illness)",
+    "MissingCaseInformation(requested_lump_sum)"
+   ],
+   "measurements": 5
+  },
+  {
+   "iid": "S18#normal",
+   "gold_category": "Normal",
+   "question": "Tôi đã chấm dứt hợp đồng, chốt sổ BHXH và sắp ra nước ngoài định cư. Tôi muốn hưởng BHXH một lần có được không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "true",
+   "base_answer": "true",
+   "base_ok": true,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [],
+   "diag_status": "unique",
+   "recovery": [],
+   "measurements": 3
+  },
+  {
+   "iid": "S18#missing:terminated_participation",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi đã chấm dứt hợp đồng, và sắp ra nước ngoài định cư. Tôi muốn hưởng BHXH một lần có được không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": [
+     "terminated_participation"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "true",
+   "base_answer": "true",
+   "base_ok": true,
+   "diag_answer": "true",
+   "diag_ok": true,
+   "diagnosis": [],
+   "diag_status": "unique",
+   "recovery": [],
+   "measurements": 3
+  },
+  {
+   "iid": "S18#missing:requested_lump_sum",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi đã chấm dứt hợp đồng, chốt sổ BHXH và sắp ra nước ngoài định cư. Tôi có được không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "true",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "clarification_requested",
+   "diag_ok": false,
+   "diagnosis": [
+    "UnsupportedParserFact(emigrating)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "UnsupportedParserFact(emigrating)",
+    "MissingCaseInformation(contribution_15_years)",
+    "MissingCaseInformation(reached_retirement_age)",
+    "ParserOmission(requested_lump_sum)",
+    "MissingCaseInformation(contribution_15_years)",
+    "MissingCaseInformation(reached_retirement_age)"
+   ],
+   "measurements": 4
+  },
+  {
+   "iid": "S19#natural",
+   "gold_category": "ResolvableRuleOverlap",
+   "question": "Tôi là người giúp việc gia đình, ký hợp đồng lao động 12 tháng với chủ nhà, làm toàn thời gian. Tôi có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [
+     "term_at_least_1_month"
+    ],
+    "wrong_value": [],
+    "spurious": [
+     "term_at_least_12_months"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "false",
+   "base_answer": "false",
+   "base_ok": true,
+   "diag_answer": "false",
+   "diag_ok": true,
+   "diagnosis": [],
+   "diag_status": "unique",
+   "recovery": [],
+   "measurements": 4
+  },
+  {
+   "iid": "S19#kbconflict",
+   "gold_category": "UnresolvedKBConflict",
+   "question": "Tôi là người giúp việc gia đình, ký hợp đồng lao động 12 tháng với chủ nhà, làm toàn thời gian. Tôi có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [
+     "term_at_least_1_month"
+    ],
+    "wrong_value": [],
+    "spurious": [
+     "term_at_least_12_months"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "abstain",
+   "base_answer": "false",
+   "base_ok": false,
+   "diag_answer": "false",
+   "diag_ok": false,
+   "diagnosis": [],
+   "diag_status": "unique",
+   "recovery": [],
+   "measurements": 4
+  },
+  {
+   "iid": "S20#natural",
+   "gold_category": "UnresolvedKBConflict",
+   "question": "Tôi đang thử việc, chỉ ký hợp đồng thử việc 2 tháng, công ty vẫn trả lương và quản lý, chấm công như nhân viên. Tôi có được xem là có quan hệ lao động không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "abstain",
+   "base_answer": "abstain",
+   "base_ok": true,
+   "diag_answer": "abstain",
+   "diag_ok": true,
+   "diagnosis": [
+    "UnresolvedKBConflict(R01, R03)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "UnresolvedKBConflict(R01, R03)"
+   ],
+   "measurements": 4
+  },
+  {
+   "iid": "S21#normal",
+   "gold_category": "Normal",
+   "question": "Tôi ký hợp đồng lao động 3 tuần với một cửa hàng. Tôi có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "false",
+   "base_answer": "false",
+   "base_ok": true,
+   "diag_answer": "false",
+   "diag_ok": true,
+   "diagnosis": [],
+   "diag_status": "unique",
+   "recovery": [],
+   "measurements": 2
+  },
+  {
+   "iid": "S21#missing:term_at_least_1_month",
+   "gold_category": "MissingCaseInformation",
+   "question": "Tôi ký hợp đồng lao động với một cửa hàng. Tôi có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": []
+   },
+   "parse_exact": true,
+   "expected": "false",
+   "base_answer": "insufficient",
+   "base_ok": false,
+   "diag_answer": "false",
+   "diag_ok": true,
+   "diagnosis": [
+    "MissingCaseInformation(term_at_least_1_month)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "MissingCaseInformation(term_at_least_1_month)"
+   ],
+   "measurements": 2
+  },
+  {
+   "iid": "S22#natural",
+   "gold_category": "ResolvableRuleOverlap",
+   "question": "Tôi làm giám đốc và nhận lương hằng tháng, đồng thời đã đủ tuổi nghỉ hưu và đang hưởng lương hưu. Tôi có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": [
+     "reached_retirement_age"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "false",
+   "base_answer": "abstain",
+   "base_ok": false,
+   "diag_answer": "false",
+   "diag_ok": true,
+   "diagnosis": [
+    "ResolvableRuleOverlap(R09, R14)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "ResolvableRuleOverlap(R09, R14)"
+   ],
+   "measurements": 4
+  },
+  {
+   "iid": "S22#kbconflict",
+   "gold_category": "UnresolvedKBConflict",
+   "question": "Tôi làm giám đốc và nhận lương hằng tháng, đồng thời đã đủ tuổi nghỉ hưu và đang hưởng lương hưu. Tôi có phải đóng BHXH bắt buộc không?",
+   "parse_errors": {
+    "omitted": [],
+    "wrong_value": [],
+    "spurious": [
+     "reached_retirement_age"
+    ]
+   },
+   "parse_exact": false,
+   "expected": "abstain",
+   "base_answer": "abstain",
+   "base_ok": true,
+   "diag_answer": "abstain",
+   "diag_ok": true,
+   "diagnosis": [
+    "UnresolvedKBConflict(R09, R14)"
+   ],
+   "diag_status": "unique",
+   "recovery": [
+    "UnresolvedKBConflict(R09, R14)"
+   ],
+   "measurements": 4
+  }
+ ]
+}

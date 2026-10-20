@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Legal QA diagnostic dataset item",
+  "type": "object",
+  "required": ["id", "domain", "question_type", "question", "goal", "facts", "expected", "reasoning_chain", "legal_basis", "answer"],
+  "properties": {
+    "id": {"type": "string", "description": "e.g. BHXH-001, DN-001, THUE-001, LD-001, LN-001"},
+    "domain": {"enum": ["bhxh", "doanh_nghiep", "thue", "lao_dong", "lien_nganh"]},
+    "question_type": {"enum": ["application", "lookup"]},
+    "info_level": {"enum": ["complete", "missing", "exception_or_conflict"]},
+    "question": {"type": "string"},
+    "goal": {
+      "type": "object",
+      "required": ["pred", "description"],
+      "properties": {"pred": {"type": "string"}, "description": {"type": "string"}}
+    },
+    "facts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["pred", "value", "span"],
+        "properties": {"pred": {"type": "string"}, "value": {"type": "boolean"}, "span": {"type": "string"}}
+      }
+    },
+    "expected": {"enum": ["true", "false", "insufficient"]},
+    "missing_facts": {"type": "array", "items": {"type": "string"}},
+    "reasoning_chain": {"type": "array", "items": {"type": "string"}},
+    "legal_basis": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["doc", "article"],
+        "properties": {
+          "doc": {"type": "string"}, "article": {"type": "string"}, "clause": {"type": "string"},
+          "point": {"type": "string"}, "quote": {"type": "string"}
+        }
+      }
+    },
+    "answer": {"type": "string"},
+    "multi_hop": {"type": "boolean"},
+    "new_predicates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["pred", "kind", "template_pos", "template_neg"],
+        "properties": {
+          "pred": {"type": "string"}, "kind": {"enum": ["input", "derived"]},
+          "template_pos": {"type": "string"}, "template_neg": {"type": "string"}, "ask": {"type": "string"}
+        }
+      }
+    }
+  }
+}

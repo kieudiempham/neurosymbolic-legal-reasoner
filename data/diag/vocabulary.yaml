@@ -1,0 +1,227 @@
+# Predicate vocabulary for the BHXH diagnostic KB (Luật BHXH 41/2024/QH15).
+# Mỗi predicate là một mệnh đề về một người lao động duy nhất (subject = nld).
+# template_pos / template_neg: câu tiếng Việt dùng làm hypothesis cho NLI.
+# ask: câu hỏi làm rõ khi chẩn đoán là Missing Case Information.
+# default: giá trị mặc định khi câu hỏi không nhắc tới (chỉ dùng cho điều kiện ngoại lệ,
+#          theo nguyên tắc "ngoại lệ phải được nêu ra mới áp dụng").
+# kind: input = sự kiện của vụ việc (parser sinh ra); derived = kết luận pháp lý (chỉ do rule sinh ra).
+
+predicates:
+  # ---------- Sự kiện vụ việc ----------
+  signed_labor_contract:
+    kind: input
+    template_pos: "Người lao động đã ký hợp đồng lao động."
+    template_neg: "Người lao động không ký hợp đồng lao động."
+    ask: "Bạn đã ký hợp đồng lao động với bên sử dụng lao động chưa?"
+  paid_wage:
+    kind: input
+    template_pos: "Người lao động được trả lương hoặc tiền công cho công việc."
+    template_neg: "Người lao động không được trả lương cho công việc."
+    ask: "Bạn có được trả lương hoặc tiền công cho công việc này không?"
+  under_management:
+    kind: input
+    template_pos: "Người lao động chịu sự quản lý, điều hành, giám sát của bên sử dụng lao động."
+    template_neg: "Người lao động không chịu sự quản lý, điều hành của bên sử dụng lao động."
+    ask: "Bạn có chịu sự quản lý, điều hành, giám sát của công ty (chấm công, giao việc, kỷ luật) không?"
+  term_at_least_1_month:
+    kind: input
+    template_pos: "Hợp đồng có thời hạn từ đủ 01 tháng trở lên."
+    template_neg: "Hợp đồng có thời hạn dưới 01 tháng."
+    ask: "Hợp đồng của bạn có thời hạn bao lâu (từ đủ 01 tháng trở lên hay không)?"
+  term_at_least_12_months:
+    kind: input
+    template_pos: "Hợp đồng có thời hạn từ đủ 12 tháng trở lên."
+    template_neg: "Hợp đồng có thời hạn dưới 12 tháng."
+    ask: "Hợp đồng lao động của bạn có thời hạn từ đủ 12 tháng trở lên không?"
+  probation_only:
+    kind: input
+    default: false
+    template_pos: "Người lao động chỉ ký hợp đồng thử việc, chưa ký hợp đồng lao động."
+    template_neg: "Người lao động không chỉ ký hợp đồng thử việc."
+    ask: "Bạn chỉ đang ký hợp đồng thử việc phải không?"
+  foreign_citizen:
+    kind: input
+    default: false
+    template_pos: "Người lao động là công dân nước ngoài."
+    template_neg: "Người lao động là công dân Việt Nam."
+    ask: "Bạn là công dân Việt Nam hay công dân nước ngoài?"
+  part_time:
+    kind: input
+    default: false
+    template_pos: "Người lao động làm việc không trọn thời gian."
+    template_neg: "Người lao động làm việc trọn thời gian."
+    ask: "Bạn làm việc toàn thời gian hay bán thời gian?"
+  wage_at_least_min_base:
+    kind: input
+    template_pos: "Tiền lương trong tháng của người lao động bằng hoặc cao hơn mức lương thấp nhất làm căn cứ đóng bảo hiểm xã hội."
+    template_neg: "Tiền lương trong tháng của người lao động thấp hơn mức lương thấp nhất làm căn cứ đóng bảo hiểm xã hội."
+    ask: "Tiền lương mỗi tháng của bạn khoảng bao nhiêu?"
+  enterprise_manager:
+    kind: input
+    default: false
+    template_pos: "Người này là người quản lý doanh nghiệp."
+    template_neg: "Người này không phải là người quản lý doanh nghiệp."
+    ask: "Bạn có giữ chức danh quản lý doanh nghiệp (giám đốc, thành viên HĐQT...) không?"
+  receives_salary:
+    kind: input
+    template_pos: "Người này nhận tiền lương từ doanh nghiệp."
+    template_neg: "Người này không nhận tiền lương từ doanh nghiệp."
+    ask: "Bạn có nhận tiền lương hằng tháng từ doanh nghiệp không?"
+  receiving_pension:
+    kind: input
+    default: false
+    template_pos: "Người lao động đang hưởng lương hưu."
+    template_neg: "Người lao động không hưởng lương hưu."
+    ask: "Bạn có đang hưởng lương hưu hoặc trợ cấp BHXH hằng tháng không?"
+  domestic_worker:
+    kind: input
+    default: false
+    template_pos: "Người lao động là người giúp việc gia đình."
+    template_neg: "Người lao động không phải là người giúp việc gia đình."
+    ask: "Bạn có làm giúp việc gia đình không?"
+  intra_company_transfer:
+    kind: input
+    default: false
+    template_pos: "Người lao động nước ngoài di chuyển trong nội bộ doanh nghiệp."
+    template_neg: "Người lao động nước ngoài không di chuyển trong nội bộ doanh nghiệp."
+    ask: "Bạn sang Việt Nam làm việc theo diện di chuyển nội bộ doanh nghiệp phải không?"
+  retirement_age_at_signing:
+    kind: input
+    default: false
+    template_pos: "Tại thời điểm ký hợp đồng, người lao động đã đủ tuổi nghỉ hưu."
+    template_neg: "Tại thời điểm ký hợp đồng, người lao động chưa đủ tuổi nghỉ hưu."
+    ask: "Khi ký hợp đồng, bạn đã đủ tuổi nghỉ hưu chưa?"
+  contract_suspended:
+    kind: input
+    default: false
+    template_pos: "Hợp đồng lao động đang tạm hoãn thực hiện."
+    template_neg: "Hợp đồng lao động không bị tạm hoãn."
+    ask: "Hợp đồng lao động của bạn có đang tạm hoãn không?"
+  unpaid_14_days:
+    kind: input
+    default: false
+    template_pos: "Trong tháng, người lao động không hưởng tiền lương từ 14 ngày làm việc trở lên."
+    template_neg: "Trong tháng, người lao động có hưởng lương phần lớn số ngày làm việc."
+    ask: "Trong tháng đó bạn có nghỉ không hưởng lương từ 14 ngày làm việc trở lên không?"
+  agreed_contribution:
+    kind: input
+    default: false
+    template_pos: "Người lao động và công ty thỏa thuận vẫn đóng bảo hiểm xã hội trong thời gian này."
+    template_neg: "Người lao động và công ty không có thỏa thuận về việc đóng bảo hiểm xã hội trong thời gian này."
+    ask: "Bạn và công ty có thỏa thuận vẫn đóng BHXH trong thời gian này không?"
+  multiple_contracts:
+    kind: input
+    default: false
+    template_pos: "Người lao động giao kết hợp đồng lao động với nhiều người sử dụng lao động."
+    template_neg: "Người lao động chỉ làm việc cho một người sử dụng lao động."
+    ask: "Bạn có đang ký hợp đồng lao động với nhiều công ty cùng lúc không?"
+  reached_retirement_age:
+    kind: input
+    template_pos: "Người lao động đã đủ tuổi nghỉ hưu."
+    template_neg: "Người lao động chưa đủ tuổi nghỉ hưu."
+    ask: "Bạn đã đủ tuổi nghỉ hưu chưa?"
+  contribution_15_years:
+    kind: input
+    template_pos: "Người lao động đã đóng bảo hiểm xã hội bắt buộc từ đủ 15 năm trở lên."
+    template_neg: "Người lao động đóng bảo hiểm xã hội chưa đủ 15 năm."
+    ask: "Bạn đã đóng BHXH bắt buộc được bao nhiêu năm?"
+  stopped_working:
+    kind: input
+    template_pos: "Người lao động đã nghỉ việc."
+    template_neg: "Người lao động vẫn đang làm việc."
+    ask: "Bạn đã nghỉ việc chưa?"
+  terminated_participation:
+    kind: input
+    template_pos: "Người lao động đã chấm dứt tham gia bảo hiểm xã hội."
+    template_neg: "Người lao động vẫn đang tham gia bảo hiểm xã hội."
+    ask: "Bạn đã chấm dứt tham gia BHXH (nghỉ việc, chốt sổ) chưa?"
+  requested_lump_sum:
+    kind: input
+    template_pos: "Người lao động đề nghị hưởng bảo hiểm xã hội một lần."
+    template_neg: "Người lao động không muốn hưởng bảo hiểm xã hội một lần."
+    ask: "Bạn có muốn đề nghị hưởng BHXH một lần không?"
+  emigrating:
+    kind: input
+    default: false
+    template_pos: "Người lao động ra nước ngoài để định cư."
+    template_neg: "Người lao động không ra nước ngoài định cư."
+    ask: "Bạn có ra nước ngoài để định cư không?"
+  serious_illness:
+    kind: input
+    default: false
+    template_pos: "Người lao động đang mắc bệnh ung thư, bại liệt, xơ gan mất bù, lao nặng hoặc AIDS."
+    template_neg: "Người lao động không mắc bệnh hiểm nghèo."
+    ask: "Bạn có đang mắc bệnh hiểm nghèo (ung thư, bại liệt, xơ gan mất bù, lao nặng, AIDS) không?"
+
+  monthly_benefit:
+    kind: input
+    default: false
+    template_pos: "Người này đang hưởng trợ cấp BHXH hoặc trợ cấp hằng tháng."
+    template_neg: "Người này không hưởng trợ cấp BHXH hoặc trợ cấp hằng tháng."
+    ask: "Bạn có đang hưởng trợ cấp BHXH hoặc trợ cấp hằng tháng không?"
+  first_contract_suspended:
+    kind: input
+    default: false
+    template_pos: "Hợp đồng lao động đầu tiên đang tạm hoãn thực hiện."
+    template_neg: "Hợp đồng lao động đầu tiên không bị tạm hoãn."
+    ask: "Hợp đồng lao động ký đầu tiên của bạn có đang tạm hoãn không?"
+  second_contract_active:
+    kind: input
+    template_pos: "Có hợp đồng lao động thứ hai đang có hiệu lực."
+    template_neg: "Không có hợp đồng lao động thứ hai đang có hiệu lực."
+    ask: "Hợp đồng lao động thứ hai của bạn có đang có hiệu lực không?"
+  is_business_owner:
+    kind: input
+    default: false
+    template_pos: "Người này là chủ hộ kinh doanh."
+    template_neg: "Người này không phải là chủ hộ kinh doanh."
+    ask: "Bạn có phải là chủ hộ kinh doanh không?"
+  business_registered:
+    kind: input
+    template_pos: "Hộ kinh doanh đã đăng ký kinh doanh."
+    template_neg: "Hộ kinh doanh chưa đăng ký kinh doanh."
+    ask: "Hộ kinh doanh của bạn đã đăng ký kinh doanh chưa?"
+  declaration_tax_method:
+    kind: input
+    template_pos: "Hộ kinh doanh nộp thuế theo phương pháp kê khai."
+    template_neg: "Hộ kinh doanh không nộp thuế theo phương pháp kê khai."
+    ask: "Hộ kinh doanh của bạn nộp thuế theo phương pháp kê khai hay khoán?"
+  date_before_2029:
+    kind: input
+    template_pos: "Thời điểm áp dụng trước ngày 01/07/2029."
+    template_neg: "Thời điểm áp dụng từ ngày 01/07/2029 trở đi."
+    ask: "Bạn hỏi cho thời điểm trước hay sau ngày 01/07/2029?"
+
+  # ---------- Kết luận pháp lý (derived) ----------
+  labor_relation:
+    kind: derived
+    template_pos: "Giữa hai bên tồn tại quan hệ lao động."
+    template_neg: "Giữa hai bên không tồn tại quan hệ lao động."
+  covered_point_a:
+    kind: derived
+    template_pos: "Người lao động thuộc diện quy định tại điểm a khoản 1 Điều 2 Luật BHXH."
+    template_neg: "Người lao động không thuộc diện quy định tại điểm a khoản 1 Điều 2 Luật BHXH."
+  compulsory_si:
+    kind: derived
+    template_pos: "Người lao động thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc."
+    template_neg: "Người lao động không thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc."
+  must_contribute_month:
+    kind: derived
+    template_pos: "Người lao động phải đóng bảo hiểm xã hội bắt buộc trong tháng đó."
+    template_neg: "Người lao động không phải đóng bảo hiểm xã hội bắt buộc trong tháng đó."
+  contribute_at_first_contract:
+    kind: derived
+    template_pos: "Người lao động tham gia bảo hiểm xã hội bắt buộc theo hợp đồng lao động giao kết đầu tiên."
+    template_neg: "Người lao động không tham gia theo hợp đồng giao kết đầu tiên."
+  voluntary_si_eligible:
+    kind: derived
+    template_pos: "Người lao động thuộc đối tượng tham gia bảo hiểm xã hội tự nguyện."
+    template_neg: "Người lao động không thuộc đối tượng tham gia bảo hiểm xã hội tự nguyện."
+  entitled_pension:
+    kind: derived
+    template_pos: "Người lao động đủ điều kiện hưởng lương hưu."
+    template_neg: "Người lao động không đủ điều kiện hưởng lương hưu."
+  entitled_lump_sum:
+    kind: derived
+    template_pos: "Người lao động được hưởng bảo hiểm xã hội một lần."
+    template_neg: "Người lao động không được hưởng bảo hiểm xã hội một lần."

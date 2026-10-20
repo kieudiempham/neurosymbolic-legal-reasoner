@@ -1,0 +1,245 @@
+{
+  "ll13": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "13",
+    "clause": "1",
+    "point": "",
+    "quote": "Trường hợp hai bên thỏa thuận bằng tên gọi khác nhưng có nội dung thể hiện",
+    "source_code": "LL",
+    "domain": "lao_dong"
+  },
+  "ll20_2": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "20",
+    "clause": "2",
+    "point": "b",
+    "quote": "Nếu hết thời hạn 30 ngày kể từ ngày hợp đồng lao động hết hạn mà hai bên không ký kết",
+    "source_code": "LL",
+    "domain": "lao_dong"
+  },
+  "ll30_1": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "30",
+    "clause": "1",
+    "point": "h",
+    "quote": "Trường hợp khác do hai bên thỏa thuận. 2. Trong thời gian tạm hoãn",
+    "source_code": "LL",
+    "domain": "lao_dong"
+  },
+  "ll30_2": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "30",
+    "clause": "2",
+    "point": "",
+    "quote": "Trong thời gian tạm hoãn thực hiện hợp đồng lao động, người lao động không được hưởng",
+    "source_code": "LL",
+    "domain": "lao_dong"
+  },
+  "ll90": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "90",
+    "clause": "1",
+    "point": "",
+    "quote": "Tiền lương là số tiền mà người sử dụng lao động trả cho người lao động theo thỏa",
+    "source_code": "LL",
+    "domain": "lao_dong"
+  },
+  "si2_a": {
+    "doc": "Luật BHXH 41/2024/QH15",
+    "article": "2",
+    "clause": "1",
+    "point": "a",
+    "quote": "Người làm việc theo hợp đồng lao động không xác định thời hạn, hợp đồng lao động xác định",
+    "source_code": "SI",
+    "domain": "bhxh"
+  },
+  "si2_l": {
+    "doc": "Luật BHXH 41/2024/QH15",
+    "article": "2",
+    "clause": "1",
+    "point": "l",
+    "quote": "Đối tượng quy định tại điểm a khoản này làm việc không trọn thời gian, có tiền lương trong tháng bằng",
+    "source_code": "SI",
+    "domain": "bhxh"
+  },
+  "si2_i": {
+    "doc": "Luật BHXH 41/2024/QH15",
+    "article": "2",
+    "clause": "1",
+    "point": "i",
+    "quote": "Người quản lý doanh nghiệp, kiểm soát viên, người đại diện phần vốn nhà",
+    "source_code": "SI",
+    "domain": "bhxh"
+  },
+  "si2_n": {
+    "doc": "Luật BHXH 41/2024/QH15",
+    "article": "2",
+    "clause": "1",
+    "point": "n",
+    "quote": "Người quản lý doanh nghiệp, kiểm soát viên, người đại diện phần vốn nhà nước, người đại diện phần",
+    "source_code": "SI",
+    "domain": "bhxh"
+  },
+  "si2_multi": {
+    "doc": "Luật BHXH 41/2024/QH15",
+    "article": "2",
+    "clause": "5",
+    "point": "a",
+    "quote": "Đối tượng quy định tại điểm a và điểm l khoản 1 Điều này mà giao kết hợp đồng lao động với nhiều người sử dụng lao động thì tham gia bảo hiểm xã",
+    "source_code": "SI",
+    "domain": "bhxh"
+  },
+  "si33_5": {
+    "doc": "Luật BHXH 41/2024/QH15",
+    "article": "33",
+    "clause": "5",
+    "point": "",
+    "quote": "mà không hưởng tiền lương từ 14 ngày làm việc trở lên trong tháng thì người lao động không phải",
+    "source_code": "SI",
+    "domain": "bhxh"
+  },
+  "dn4_mgr": {
+    "doc": "Luật Doanh nghiệp (VBHN 67/VBHN-VPQH)",
+    "article": "4",
+    "clause": "24",
+    "point": "",
+    "quote": "Người quản lý doanh nghiệp là người quản lý doanh nghiệp tư nhân và người quản lý công ty,",
+    "source_code": "DN",
+    "domain": "doanh_nghiep"
+  },
+  "dn4_entity": {
+    "doc": "Luật Doanh nghiệp (VBHN 67/VBHN-VPQH)",
+    "article": "4",
+    "clause": "10",
+    "point": "",
+    "quote": "Doanh nghiệp là tổ chức có tên riêng, có tài sản, có trụ sở",
+    "source_code": "DN",
+    "domain": "doanh_nghiep"
+  },
+  "dn46": {
+    "doc": "Luật Doanh nghiệp (VBHN 67/VBHN-VPQH)",
+    "article": "46",
+    "clause": "1",
+    "point": "",
+    "quote": "Công ty trách nhiệm hữu hạn hai thành viên trở lên là doanh nghiệp có từ 02 đến 50 thành",
+    "source_code": "DN",
+    "domain": "doanh_nghiep"
+  },
+  "dn74": {
+    "doc": "Luật Doanh nghiệp (VBHN 67/VBHN-VPQH)",
+    "article": "74",
+    "clause": "1",
+    "point": "",
+    "quote": "Công ty trách nhiệm hữu hạn một thành viên là doanh nghiệp do một tổ chức hoặc một",
+    "source_code": "DN",
+    "domain": "doanh_nghiep"
+  },
+  "dn111": {
+    "doc": "Luật Doanh nghiệp (VBHN 67/VBHN-VPQH)",
+    "article": "111",
+    "clause": "1",
+    "point": "",
+    "quote": "Công ty cổ phần là doanh nghiệp, trong đó: a) Vốn điều lệ được",
+    "source_code": "DN",
+    "domain": "doanh_nghiep"
+  },
+  "dn44_branch": {
+    "doc": "Luật Doanh nghiệp (VBHN 67/VBHN-VPQH)",
+    "article": "44",
+    "clause": "1",
+    "point": "",
+    "quote": "Chi nhánh là đơn vị phụ thuộc của doanh nghiệp, có nhiệm vụ thực hiện toàn",
+    "source_code": "DN",
+    "domain": "doanh_nghiep"
+  },
+  "cit2": {
+    "doc": "Luật TNDN 67/2025/QH15",
+    "article": "2",
+    "clause": "1",
+    "point": "a",
+    "quote": "Doanh nghiệp được thành lập theo quy định của pháp luật Việt Nam; b) Doanh nghiệp được thành lập",
+    "source_code": "CIT",
+    "domain": "thue"
+  },
+  "cit2_income": {
+    "doc": "Luật TNDN 67/2025/QH15",
+    "article": "2",
+    "clause": "1",
+    "point": "",
+    "quote": "Người nộp thuế thu nhập doanh nghiệp là tổ chức hoạt động sản xuất, kinh doanh hàng hóa, dịch vụ",
+    "source_code": "CIT",
+    "domain": "thue"
+  },
+  "cit3": {
+    "doc": "Luật TNDN 67/2025/QH15",
+    "article": "3",
+    "clause": "1",
+    "point": "",
+    "quote": "Thu nhập chịu thuế thu nhập doanh nghiệp bao gồm thu nhập từ hoạt động sản xuất, kinh doanh hàng hóa, dịch vụ",
+    "source_code": "CIT",
+    "domain": "thue"
+  },
+  "cit9_1": {
+    "doc": "Luật TNDN 67/2025/QH15",
+    "article": "9",
+    "clause": "1",
+    "point": "",
+    "quote": "doanh nghiệp được trừ các khoản chi khi xác định thu nhập chịu thuế nếu đáp ứng đủ các điều",
+    "source_code": "CIT",
+    "domain": "thue"
+  },
+  "cit9_2": {
+    "doc": "Luật TNDN 67/2025/QH15",
+    "article": "9",
+    "clause": "2",
+    "point": "h",
+    "quote": "tiền lương, tiền công, các khoản hạch toán chi khác để chi trả cho người lao động nhưng thực tế không chi trả hoặc không có hoá đơn, chứng",
+    "source_code": "CIT",
+    "domain": "thue"
+  },
+  "cit10_15": {
+    "doc": "Luật TNDN 67/2025/QH15",
+    "article": "10",
+    "clause": "2",
+    "point": "",
+    "quote": "Thuế suất 15% áp dụng đối với doanh nghiệp có tổng doanh thu năm không quá 03 tỷ đồng. 3.",
+    "source_code": "CIT",
+    "domain": "thue"
+  },
+  "cit10_17": {
+    "doc": "Luật TNDN 67/2025/QH15",
+    "article": "10",
+    "clause": "3",
+    "point": "",
+    "quote": "Thuế suất 17% áp dụng đối với doanh nghiệp có tổng doanh thu năm từ trên 03 tỷ đồng đến",
+    "source_code": "CIT",
+    "domain": "thue"
+  },
+  "vat3": {
+    "doc": "Luật thuế GTGT 48/2024/QH15",
+    "article": "3",
+    "clause": "",
+    "point": "",
+    "quote": "Hàng hóa, dịch vụ sử dụng cho sản xuất, kinh doanh và tiêu dùng ở Việt Nam là đối tượng chịu thuế giá",
+    "source_code": "VAT",
+    "domain": "thue"
+  },
+  "vat4": {
+    "doc": "Luật thuế GTGT 48/2024/QH15",
+    "article": "4",
+    "clause": "1",
+    "point": "",
+    "quote": "Tổ chức, hộ, cá nhân sản xuất, kinh doanh hàng hóa, dịch vụ chịu thuế giá trị",
+    "source_code": "VAT",
+    "domain": "thue"
+  },
+  "vat5": {
+    "doc": "Luật thuế GTGT 48/2024/QH15",
+    "article": "5",
+    "clause": "1",
+    "point": "",
+    "quote": "Sản phẩm cây trồng, rừng trồng, chăn nuôi, thủy sản nuôi trồng, đánh bắt chưa chế biến thành",
+    "source_code": "VAT",
+    "domain": "thue"
+  }
+}

@@ -1,0 +1,18 @@
+# Patches to kb_ln_v2, derived ONLY from failures on the development split (ln_dev.jsonl).
+add_rules:
+  - id: LN-P01
+    premises: [converted_to_indefinite_contract]
+    conclusion: labor_relation
+    source: "08_luat_lao_dong_45_2019_QH14, Điều 20 khoản 2"
+    reason: "cầu nối BLLĐ -> BHXH: hợp đồng đã giao kết trở thành HĐLĐ không xác định thời hạn nên quan hệ lao động tồn tại (dev: LN-011/012)"
+  - id: LN-P02
+    premises: [~signed_labor_contract, ~under_management]
+    conclusion: ~labor_relation
+    source: "08_luat_lao_dong_45_2019_QH14, Điều 13 khoản 1"
+    reason: "suy ngược Điều 13.1: không có hợp đồng lao động và không chịu quản lý, điều hành thì không có quan hệ lao động (dev: LN-010)"
+
+add_exception_of:
+  # Luật BHXH Điều 2 khoản 4 điểm b / Điều 33 khoản 5: "trừ trường hợp hai bên có thỏa thuận" đóng BHXH
+  # khi tạm hoãn hoặc nghỉ không lương (dev: LN-014/017/018, lộ ra sau khi chuỗi contract_suspended thông)
+  - [LN2-R046, LN2-R045]
+  - [LN2-R043, LN2-R045]

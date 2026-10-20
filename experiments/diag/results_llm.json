@@ -1,0 +1,1851 @@
+{
+ "summary": {
+  "model": "gpt-4o",
+  "final_answer_acc": 0.8136882129277566,
+  "final_answer_acc_faulty": 0.8050847457627118,
+  "measurements_per_query": 0.0
+ },
+ "rows": [
+  {
+   "iid": "BHXH-068#normal",
+   "gold_category": "Normal",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-068#missing:signed_labor_contract",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-068#omission:signed_labor_contract",
+   "gold_category": "ParserOmission",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-068#misinterp:signed_labor_contract",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-068#missing:term_at_least_1_month",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-068#omission:term_at_least_1_month",
+   "gold_category": "ParserOmission",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-068#misinterp:term_at_least_1_month",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-068#unsupported:foreign_citizen=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-068#unsupported:part_time=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-069#normal",
+   "gold_category": "Normal",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-069#missing:term_at_least_1_month",
+   "gold_category": "MissingCaseInformation",
+   "answer": "insufficient",
+   "expected": "false",
+   "answer_ok": false
+  },
+  {
+   "iid": "BHXH-069#omission:term_at_least_1_month",
+   "gold_category": "ParserOmission",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-069#misinterp:term_at_least_1_month",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-069#unsupported:enterprise_manager=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-089#normal",
+   "gold_category": "Normal",
+   "answer": "false",
+   "expected": "true",
+   "answer_ok": false
+  },
+  {
+   "iid": "BHXH-089#missing:signed_labor_contract",
+   "gold_category": "MissingCaseInformation",
+   "answer": "insufficient",
+   "expected": "true",
+   "answer_ok": false
+  },
+  {
+   "iid": "BHXH-089#omission:signed_labor_contract",
+   "gold_category": "ParserOmission",
+   "answer": "false",
+   "expected": "true",
+   "answer_ok": false
+  },
+  {
+   "iid": "BHXH-089#misinterp:signed_labor_contract",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "true",
+   "answer_ok": false
+  },
+  {
+   "iid": "BHXH-089#missing:term_at_least_1_month",
+   "gold_category": "MissingCaseInformation",
+   "answer": "insufficient",
+   "expected": "true",
+   "answer_ok": false
+  },
+  {
+   "iid": "BHXH-089#omission:term_at_least_1_month",
+   "gold_category": "ParserOmission",
+   "answer": "false",
+   "expected": "true",
+   "answer_ok": false
+  },
+  {
+   "iid": "BHXH-089#misinterp:term_at_least_1_month",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "true",
+   "answer_ok": false
+  },
+  {
+   "iid": "BHXH-089#unsupported:foreign_citizen=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "false",
+   "expected": "true",
+   "answer_ok": false
+  },
+  {
+   "iid": "BHXH-089#unsupported:part_time=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "false",
+   "expected": "true",
+   "answer_ok": false
+  },
+  {
+   "iid": "BHXH-004#normal",
+   "gold_category": "Normal",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-004#missing:term_at_least_1_month",
+   "gold_category": "MissingCaseInformation",
+   "answer": "insufficient",
+   "expected": "false",
+   "answer_ok": false
+  },
+  {
+   "iid": "BHXH-004#omission:term_at_least_1_month",
+   "gold_category": "ParserOmission",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-004#misinterp:term_at_least_1_month",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-004#unsupported:enterprise_manager=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-059#normal",
+   "gold_category": "Normal",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-059#missing:signed_labor_contract",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-059#omission:signed_labor_contract",
+   "gold_category": "ParserOmission",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-059#misinterp:signed_labor_contract",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-059#missing:term_at_least_1_month",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-059#omission:term_at_least_1_month",
+   "gold_category": "ParserOmission",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-059#misinterp:term_at_least_1_month",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-059#unsupported:foreign_citizen=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-059#unsupported:part_time=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-084#normal",
+   "gold_category": "Normal",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-084#missing:signed_labor_contract",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-084#omission:signed_labor_contract",
+   "gold_category": "ParserOmission",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-084#misinterp:signed_labor_contract",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-084#missing:term_at_least_1_month",
+   "gold_category": "MissingCaseInformation",
+   "answer": "insufficient",
+   "expected": "true",
+   "answer_ok": false
+  },
+  {
+   "iid": "BHXH-084#omission:term_at_least_1_month",
+   "gold_category": "ParserOmission",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-084#misinterp:term_at_least_1_month",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-084#unsupported:foreign_citizen=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-084#unsupported:part_time=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-073#normal",
+   "gold_category": "Normal",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-073#misinterp:enterprise_manager",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-073#missing:receives_salary",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-073#omission:receives_salary",
+   "gold_category": "ParserOmission",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-073#unsupported:receiving_pension=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-073#unsupported:domestic_worker=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-074#normal",
+   "gold_category": "Normal",
+   "answer": "false",
+   "expected": "true",
+   "answer_ok": false
+  },
+  {
+   "iid": "BHXH-074#misinterp:enterprise_manager",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "true",
+   "answer_ok": false
+  },
+  {
+   "iid": "BHXH-074#missing:receives_salary",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-074#omission:receives_salary",
+   "gold_category": "ParserOmission",
+   "answer": "false",
+   "expected": "true",
+   "answer_ok": false
+  },
+  {
+   "iid": "BHXH-074#unsupported:receiving_pension=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "false",
+   "expected": "true",
+   "answer_ok": false
+  },
+  {
+   "iid": "BHXH-074#unsupported:domestic_worker=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "false",
+   "expected": "true",
+   "answer_ok": false
+  },
+  {
+   "iid": "BHXH-079#normal",
+   "gold_category": "Normal",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-079#misinterp:probation_only",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-079#misinterp:signed_labor_contract",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-079#unsupported:enterprise_manager=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-080#normal",
+   "gold_category": "Normal",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-080#misinterp:receiving_pension",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-054#normal",
+   "gold_category": "Normal",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-054#misinterp:receiving_pension",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "BHXH-078#natural",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "clarification_requested",
+   "answer_ok": false
+  },
+  {
+   "iid": "BHXH-063#natural",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "clarification_requested",
+   "answer_ok": false
+  },
+  {
+   "iid": "BHXH-044#natural",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "clarification_requested",
+   "answer_ok": false
+  },
+  {
+   "iid": "BHXH-083#natural",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "clarification_requested",
+   "answer_ok": false
+  },
+  {
+   "iid": "BHXH-081#natural",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "clarification_requested",
+   "answer_ok": false
+  },
+  {
+   "iid": "BHXH-071#natural",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "clarification_requested",
+   "answer_ok": false
+  },
+  {
+   "iid": "BHXH-088#natural",
+   "gold_category": "MissingCaseInformation",
+   "answer": "insufficient",
+   "expected": "clarification_requested",
+   "answer_ok": false
+  },
+  {
+   "iid": "S01#normal",
+   "gold_category": "Normal",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S01#missing:signed_labor_contract",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S01#omission:signed_labor_contract",
+   "gold_category": "ParserOmission",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S01#misinterp:signed_labor_contract",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S01#missing:term_at_least_1_month",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S01#omission:term_at_least_1_month",
+   "gold_category": "ParserOmission",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S01#misinterp:term_at_least_1_month",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S01#misinterp:part_time",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S01#unsupported:foreign_citizen=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S01#unsupported:receiving_pension=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S02#normal",
+   "gold_category": "Normal",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S02#missing:signed_labor_contract",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S02#omission:signed_labor_contract",
+   "gold_category": "ParserOmission",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S02#misinterp:signed_labor_contract",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S02#missing:term_at_least_1_month",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S02#omission:term_at_least_1_month",
+   "gold_category": "ParserOmission",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S02#misinterp:term_at_least_1_month",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S02#missing:wage_at_least_min_base",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S02#omission:wage_at_least_min_base",
+   "gold_category": "ParserOmission",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S02#misinterp:wage_at_least_min_base",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S02#unsupported:foreign_citizen=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S02#unsupported:receiving_pension=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S03#normal",
+   "gold_category": "Normal",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S03#misinterp:part_time",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S03#missing:signed_labor_contract",
+   "gold_category": "MissingCaseInformation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S03#omission:signed_labor_contract",
+   "gold_category": "ParserOmission",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S03#misinterp:signed_labor_contract",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S03#missing:term_at_least_1_month",
+   "gold_category": "MissingCaseInformation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S03#omission:term_at_least_1_month",
+   "gold_category": "ParserOmission",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S03#missing:wage_at_least_min_base",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "false",
+   "answer_ok": false
+  },
+  {
+   "iid": "S03#omission:wage_at_least_min_base",
+   "gold_category": "ParserOmission",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S03#misinterp:wage_at_least_min_base",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S03#unsupported:foreign_citizen=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S03#unsupported:probation_only=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S04#normal",
+   "gold_category": "Normal",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S04#missing:paid_wage",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S04#omission:paid_wage",
+   "gold_category": "ParserOmission",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S04#misinterp:paid_wage",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S04#missing:under_management",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S04#omission:under_management",
+   "gold_category": "ParserOmission",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S04#misinterp:under_management",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S04#missing:term_at_least_1_month",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S04#omission:term_at_least_1_month",
+   "gold_category": "ParserOmission",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S04#misinterp:term_at_least_1_month",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S04#unsupported:foreign_citizen=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S04#unsupported:part_time=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S05#natural",
+   "gold_category": "ResolvableRuleOverlap",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S05#kbconflict",
+   "gold_category": "UnresolvedKBConflict",
+   "answer": "false",
+   "expected": "abstain",
+   "answer_ok": false
+  },
+  {
+   "iid": "S05#misinterp:receiving_pension",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S05#misinterp:signed_labor_contract",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S05#misinterp:term_at_least_1_month",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S05#misinterp:part_time",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S05#unsupported:foreign_citizen=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S05#unsupported:probation_only=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S06#normal",
+   "gold_category": "Normal",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S06#misinterp:foreign_citizen",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S06#missing:signed_labor_contract",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S06#omission:signed_labor_contract",
+   "gold_category": "ParserOmission",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S06#misinterp:signed_labor_contract",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S06#missing:term_at_least_12_months",
+   "gold_category": "MissingCaseInformation",
+   "answer": "insufficient",
+   "expected": "true",
+   "answer_ok": false
+  },
+  {
+   "iid": "S06#omission:term_at_least_12_months",
+   "gold_category": "ParserOmission",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S06#misinterp:term_at_least_12_months",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S06#unsupported:intra_company_transfer=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S06#unsupported:retirement_age_at_signing=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S07#natural",
+   "gold_category": "ResolvableRuleOverlap",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S07#kbconflict",
+   "gold_category": "UnresolvedKBConflict",
+   "answer": "false",
+   "expected": "abstain",
+   "answer_ok": false
+  },
+  {
+   "iid": "S07#misinterp:foreign_citizen",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S07#misinterp:intra_company_transfer",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S07#misinterp:signed_labor_contract",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S07#misinterp:term_at_least_12_months",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S07#unsupported:probation_only=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S08#natural",
+   "gold_category": "ResolvableRuleOverlap",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S08#kbconflict",
+   "gold_category": "UnresolvedKBConflict",
+   "answer": "false",
+   "expected": "abstain",
+   "answer_ok": false
+  },
+  {
+   "iid": "S08#misinterp:foreign_citizen",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S08#misinterp:signed_labor_contract",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S08#misinterp:term_at_least_12_months",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S08#misinterp:retirement_age_at_signing",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S08#unsupported:probation_only=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S09#normal",
+   "gold_category": "Normal",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S09#misinterp:foreign_citizen",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S09#missing:signed_labor_contract",
+   "gold_category": "MissingCaseInformation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S09#omission:signed_labor_contract",
+   "gold_category": "ParserOmission",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S09#misinterp:signed_labor_contract",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S09#missing:term_at_least_12_months",
+   "gold_category": "MissingCaseInformation",
+   "answer": "insufficient",
+   "expected": "false",
+   "answer_ok": false
+  },
+  {
+   "iid": "S09#omission:term_at_least_12_months",
+   "gold_category": "ParserOmission",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S09#misinterp:term_at_least_12_months",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S09#unsupported:probation_only=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S10#normal",
+   "gold_category": "Normal",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S10#missing:signed_labor_contract",
+   "gold_category": "MissingCaseInformation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S10#omission:signed_labor_contract",
+   "gold_category": "ParserOmission",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S10#misinterp:signed_labor_contract",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S10#missing:term_at_least_1_month",
+   "gold_category": "MissingCaseInformation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S10#omission:term_at_least_1_month",
+   "gold_category": "ParserOmission",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S10#misinterp:part_time",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S10#misinterp:unpaid_14_days",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S10#unsupported:foreign_citizen=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S10#unsupported:receiving_pension=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S11#normal",
+   "gold_category": "Normal",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S11#missing:signed_labor_contract",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S11#omission:signed_labor_contract",
+   "gold_category": "ParserOmission",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S11#misinterp:signed_labor_contract",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S11#missing:term_at_least_1_month",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S11#omission:term_at_least_1_month",
+   "gold_category": "ParserOmission",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S11#misinterp:term_at_least_1_month",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S11#misinterp:part_time",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S11#misinterp:unpaid_14_days",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S11#unsupported:contract_suspended=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S11#unsupported:foreign_citizen=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S12#normal",
+   "gold_category": "Normal",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S12#missing:signed_labor_contract",
+   "gold_category": "MissingCaseInformation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S12#omission:signed_labor_contract",
+   "gold_category": "ParserOmission",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S12#misinterp:signed_labor_contract",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S12#missing:term_at_least_1_month",
+   "gold_category": "MissingCaseInformation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S12#omission:term_at_least_1_month",
+   "gold_category": "ParserOmission",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S12#misinterp:part_time",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S12#misinterp:contract_suspended",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S12#unsupported:foreign_citizen=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S12#unsupported:receiving_pension=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S13#normal",
+   "gold_category": "Normal",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S13#missing:signed_labor_contract",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S13#omission:signed_labor_contract",
+   "gold_category": "ParserOmission",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S13#misinterp:signed_labor_contract",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S13#missing:term_at_least_1_month",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S13#omission:term_at_least_1_month",
+   "gold_category": "ParserOmission",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S13#misinterp:term_at_least_1_month",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S13#misinterp:multiple_contracts",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S13#unsupported:probation_only=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S14#normal",
+   "gold_category": "Normal",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S14#missing:stopped_working",
+   "gold_category": "MissingCaseInformation",
+   "answer": "false",
+   "expected": "true",
+   "answer_ok": false
+  },
+  {
+   "iid": "S14#omission:stopped_working",
+   "gold_category": "ParserOmission",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S14#misinterp:stopped_working",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S14#missing:reached_retirement_age",
+   "gold_category": "MissingCaseInformation",
+   "answer": "insufficient",
+   "expected": "true",
+   "answer_ok": false
+  },
+  {
+   "iid": "S14#omission:reached_retirement_age",
+   "gold_category": "ParserOmission",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S14#misinterp:reached_retirement_age",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S14#missing:contribution_15_years",
+   "gold_category": "MissingCaseInformation",
+   "answer": "insufficient",
+   "expected": "true",
+   "answer_ok": false
+  },
+  {
+   "iid": "S14#omission:contribution_15_years",
+   "gold_category": "ParserOmission",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S14#misinterp:contribution_15_years",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S15#normal",
+   "gold_category": "Normal",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S15#missing:contribution_15_years",
+   "gold_category": "MissingCaseInformation",
+   "answer": "insufficient",
+   "expected": "false",
+   "answer_ok": false
+  },
+  {
+   "iid": "S15#omission:contribution_15_years",
+   "gold_category": "ParserOmission",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S15#misinterp:contribution_15_years",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S16#normal",
+   "gold_category": "Normal",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S16#missing:terminated_participation",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S16#omission:terminated_participation",
+   "gold_category": "ParserOmission",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S16#misinterp:terminated_participation",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S16#missing:reached_retirement_age",
+   "gold_category": "MissingCaseInformation",
+   "answer": "insufficient",
+   "expected": "true",
+   "answer_ok": false
+  },
+  {
+   "iid": "S16#omission:reached_retirement_age",
+   "gold_category": "ParserOmission",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S16#misinterp:reached_retirement_age",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S16#missing:contribution_15_years",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S16#omission:contribution_15_years",
+   "gold_category": "ParserOmission",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S16#misinterp:contribution_15_years",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S16#missing:requested_lump_sum",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S16#omission:requested_lump_sum",
+   "gold_category": "ParserOmission",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S16#misinterp:requested_lump_sum",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S17#normal",
+   "gold_category": "Normal",
+   "answer": "insufficient",
+   "expected": "false",
+   "answer_ok": false
+  },
+  {
+   "iid": "S17#missing:reached_retirement_age",
+   "gold_category": "MissingCaseInformation",
+   "answer": "insufficient",
+   "expected": "false",
+   "answer_ok": false
+  },
+  {
+   "iid": "S17#omission:reached_retirement_age",
+   "gold_category": "ParserOmission",
+   "answer": "insufficient",
+   "expected": "false",
+   "answer_ok": false
+  },
+  {
+   "iid": "S17#misinterp:reached_retirement_age",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "insufficient",
+   "expected": "false",
+   "answer_ok": false
+  },
+  {
+   "iid": "S17#missing:terminated_participation",
+   "gold_category": "MissingCaseInformation",
+   "answer": "insufficient",
+   "expected": "false",
+   "answer_ok": false
+  },
+  {
+   "iid": "S17#omission:terminated_participation",
+   "gold_category": "ParserOmission",
+   "answer": "insufficient",
+   "expected": "false",
+   "answer_ok": false
+  },
+  {
+   "iid": "S17#missing:requested_lump_sum",
+   "gold_category": "MissingCaseInformation",
+   "answer": "insufficient",
+   "expected": "false",
+   "answer_ok": false
+  },
+  {
+   "iid": "S17#omission:requested_lump_sum",
+   "gold_category": "ParserOmission",
+   "answer": "insufficient",
+   "expected": "false",
+   "answer_ok": false
+  },
+  {
+   "iid": "S17#misinterp:emigrating",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "insufficient",
+   "expected": "false",
+   "answer_ok": false
+  },
+  {
+   "iid": "S17#misinterp:serious_illness",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "insufficient",
+   "expected": "false",
+   "answer_ok": false
+  },
+  {
+   "iid": "S18#normal",
+   "gold_category": "Normal",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S18#missing:terminated_participation",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S18#omission:terminated_participation",
+   "gold_category": "ParserOmission",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S18#misinterp:terminated_participation",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S18#misinterp:emigrating",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S18#missing:requested_lump_sum",
+   "gold_category": "MissingCaseInformation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S18#omission:requested_lump_sum",
+   "gold_category": "ParserOmission",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S18#misinterp:requested_lump_sum",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "true",
+   "expected": "true",
+   "answer_ok": true
+  },
+  {
+   "iid": "S19#natural",
+   "gold_category": "ResolvableRuleOverlap",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S19#kbconflict",
+   "gold_category": "UnresolvedKBConflict",
+   "answer": "false",
+   "expected": "abstain",
+   "answer_ok": false
+  },
+  {
+   "iid": "S19#misinterp:domestic_worker",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S19#misinterp:signed_labor_contract",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S19#misinterp:term_at_least_1_month",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S19#misinterp:part_time",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S19#unsupported:foreign_citizen=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S19#unsupported:probation_only=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S20#natural",
+   "gold_category": "UnresolvedKBConflict",
+   "answer": "true",
+   "expected": "abstain",
+   "answer_ok": false
+  },
+  {
+   "iid": "S21#normal",
+   "gold_category": "Normal",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S21#missing:term_at_least_1_month",
+   "gold_category": "MissingCaseInformation",
+   "answer": "insufficient",
+   "expected": "false",
+   "answer_ok": false
+  },
+  {
+   "iid": "S21#omission:term_at_least_1_month",
+   "gold_category": "ParserOmission",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S21#misinterp:term_at_least_1_month",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S21#unsupported:enterprise_manager=True",
+   "gold_category": "UnsupportedParserFact",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S22#natural",
+   "gold_category": "ResolvableRuleOverlap",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S22#kbconflict",
+   "gold_category": "UnresolvedKBConflict",
+   "answer": "false",
+   "expected": "abstain",
+   "answer_ok": false
+  },
+  {
+   "iid": "S22#misinterp:enterprise_manager",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  },
+  {
+   "iid": "S22#misinterp:receiving_pension",
+   "gold_category": "ParserMisinterpretation",
+   "answer": "false",
+   "expected": "false",
+   "answer_ok": true
+  }
+ ]
+}

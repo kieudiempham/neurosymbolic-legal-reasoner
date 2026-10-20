@@ -1,0 +1,81 @@
+{
+  "status": "DRAFT_DIAGNOSTIC_FIXTURES_NOT_INDEPENDENT_GOLD",
+  "seed": 20261018,
+  "total_diagnostic_cases": 216,
+  "counts_by_mode": {
+    "F1": 40,
+    "F2": 40,
+    "CONTROL": 20,
+    "F5": 16,
+    "F3": 40,
+    "F6": 20,
+    "F4": 40
+  },
+  "counts_by_domain": {
+    "lien_nganh": 38,
+    "thue": 43,
+    "doanh_nghiep": 45,
+    "lao_dong": 41,
+    "bhxh": 49
+  },
+  "by_mode_domain": {
+    "F1": {
+      "lien_nganh": 7,
+      "doanh_nghiep": 9,
+      "thue": 8,
+      "lao_dong": 7,
+      "bhxh": 9
+    },
+    "F2": {
+      "thue": 8,
+      "lien_nganh": 8,
+      "bhxh": 8,
+      "lao_dong": 8,
+      "doanh_nghiep": 8
+    },
+    "F3": {
+      "lao_dong": 8,
+      "lien_nganh": 8,
+      "thue": 8,
+      "bhxh": 8,
+      "doanh_nghiep": 8
+    },
+    "F4": {
+      "lien_nganh": 7,
+      "bhxh": 9,
+      "doanh_nghiep": 9,
+      "thue": 8,
+      "lao_dong": 7
+    },
+    "F5": {
+      "thue": 3,
+      "bhxh": 7,
+      "lao_dong": 3,
+      "doanh_nghiep": 3
+    },
+    "F6": {
+      "bhxh": 4,
+      "lien_nganh": 4,
+      "lao_dong": 4,
+      "doanh_nghiep": 4,
+      "thue": 4
+    },
+    "CONTROL": {
+      "doanh_nghiep": 4,
+      "lao_dong": 4,
+      "bhxh": 4,
+      "thue": 4,
+      "lien_nganh": 4
+    }
+  },
+  "source_QA_draft_count": 300,
+  "unique_source_question_ids": 109,
+  "F5_real_KB_verified_count": 0,
+  "F6_real_KB_conflicts_claimed": 0,
+  "F4_requires_multiset_parser_facts": false,
+  "human_legal_gold_review": "NOT_DONE",
+  "actual_reasoner_MBD_executed": "NOT_DONE",
+  "real_KB_rule_id_mapping": "NOT_AVAILABLE",
+  "source_gold_independence_warning": "BHXH 90 used in KB development; no case claimed held-out.",
+  "legal_gold_policy": "Gold independent of KB; absent general legal premise => insufficient; wholly unmentioned exceptions ignored by benchmark convention; partially triggered exception with decision-critical unknown => insufficient."
+}

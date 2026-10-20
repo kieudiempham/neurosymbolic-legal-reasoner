@@ -1,0 +1,12 @@
+# Patches to kb_thue_v2, derived ONLY from failures on the development split (thue_dev.jsonl).
+# The test split (thue_test.jsonl) is measured, never used to patch.
+
+add_rules:
+  - id: TX-P01
+    premises: []
+    conclusion: ~cit_income_exempt
+    source: "06_luat_TNDN_67_2025_QH15, Điều 4 (thu nhập được miễn thuế là danh mục liệt kê)"
+    reason: "quy tắc chung: thu nhập không được miễn thuế trừ các trường hợp Điều 4 liệt kê; mỗi khoản miễn là ngoại lệ (dev: THUE-058)"
+
+# every rule concluding cit_income_exempt is an exception of the general rule TX-P01
+defeated_by_all: [TX-P01]

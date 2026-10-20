@@ -1,0 +1,323 @@
+{
+  "all_enterprise_debts_paid": {
+    "kind": "input",
+    "template_pos": "Doanh nghiệp đã thanh toán toàn bộ các khoản nợ và nghĩa vụ tài sản.",
+    "template_neg": "Doanh nghiệp chưa thanh toán hết nợ và nghĩa vụ tài sản.",
+    "ask": "Doanh nghiệp đã thanh toán hết nợ chưa?"
+  },
+  "already_owns_private_enterprise": {
+    "kind": "input",
+    "template_pos": "Người này đã làm chủ một doanh nghiệp tư nhân.",
+    "template_neg": "Người này chưa làm chủ doanh nghiệp tư nhân nào.",
+    "ask": "Bạn đang làm chủ một doanh nghiệp tư nhân nào không?"
+  },
+  "alternative_capital_asset_permitted": {
+    "kind": "derived",
+    "template_pos": "Việc đổi loại tài sản góp vốn được chấp thuận theo điều kiện pháp luật.",
+    "template_neg": "Việc đổi loại tài sản góp vốn không được chấp thuận theo điều kiện pháp luật."
+  },
+  "asset_handover_record_exists": {
+    "kind": "input",
+    "template_pos": "Đã có biên bản giao nhận tài sản góp vốn.",
+    "template_neg": "Không lập biên bản giao nhận tài sản góp vốn.",
+    "ask": "Đã lập biên bản giao nhận tài sản chưa?"
+  },
+  "business_sector_permitted": {
+    "kind": "input",
+    "template_pos": "Ngành nghề đăng ký kinh doanh không thuộc danh mục bị cấm.",
+    "template_neg": "Ngành nghề đăng ký kinh doanh bị cấm.",
+    "ask": "Ngành nghề dự kiến kinh doanh có bị cấm không?"
+  },
+  "buyer_is_nonfounder": {
+    "kind": "input",
+    "template_pos": "Người nhận chuyển nhượng không phải cổ đông sáng lập.",
+    "template_neg": "Người nhận chuyển nhượng là cổ đông sáng lập.",
+    "ask": "Người nhận có phải cổ đông sáng lập không?"
+  },
+  "capital_asset_different_from_commitment": {
+    "kind": "input",
+    "template_pos": "Thành viên góp tài sản khác loại với cam kết.",
+    "template_neg": "Thành viên góp đúng loại tài sản đã cam kết.",
+    "ask": "Tài sản góp thực tế có khác loại đã cam kết không?"
+  },
+  "capital_asset_requires_title_registration": {
+    "kind": "input",
+    "template_pos": "Tài sản góp vốn là loại phải đăng ký quyền sở hữu.",
+    "template_neg": "Tài sản góp vốn không phải đăng ký quyền sở hữu.",
+    "ask": "Tài sản này có phải đăng ký quyền sở hữu không?"
+  },
+  "capital_asset_title_transferred": {
+    "kind": "input",
+    "template_pos": "Đã làm thủ tục chuyển quyền sở hữu tài sản góp vốn cho công ty.",
+    "template_neg": "Chưa làm thủ tục chuyển quyền sở hữu tài sản góp vốn cho công ty.",
+    "ask": "Đã chuyển quyền sở hữu tài sản cho công ty chưa?"
+  },
+  "capital_asset_transfer_compliant": {
+    "kind": "derived",
+    "template_pos": "Việc chuyển giao tài sản góp vốn đáp ứng thủ tục đang xét.",
+    "template_neg": "Việc chuyển giao tài sản góp vốn chưa đáp ứng thủ tục đang xét."
+  },
+  "capital_contributed_in_full": {
+    "kind": "input",
+    "template_pos": "Thành viên đã góp đủ vốn đã cam kết.",
+    "template_neg": "Thành viên chưa góp đủ vốn đã cam kết.",
+    "ask": "Thành viên đã góp đủ vốn chưa?"
+  },
+  "capital_contribution_via_account": {
+    "kind": "input",
+    "template_pos": "Việc góp tài sản được thực hiện qua tài khoản.",
+    "template_neg": "Việc góp tài sản không thực hiện qua tài khoản.",
+    "ask": "Việc góp vốn có được thực hiện qua tài khoản không?"
+  },
+  "capital_contribution_within_90_days": {
+    "kind": "input",
+    "template_pos": "Thời gian góp vốn được tính theo luật không vượt quá 90 ngày.",
+    "template_neg": "Thời gian góp vốn được tính theo luật đã quá 90 ngày.",
+    "ask": "Đã bao nhiêu ngày được tính vào thời hạn góp vốn?"
+  },
+  "capital_transfer_delay_excluded": {
+    "kind": "input",
+    "template_pos": "Có thời gian vận chuyển, nhập khẩu hoặc thủ tục chuyển quyền sở hữu được loại khỏi thời hạn góp vốn.",
+    "template_neg": "Không có thời gian cần loại trừ khỏi thời hạn góp vốn.",
+    "ask": "Có thời gian vận chuyển/nhập khẩu hoặc thủ tục chuyển quyền sở hữu cần loại trừ không?"
+  },
+  "change_required_by_court_ruling": {
+    "kind": "input",
+    "template_pos": "Việc đăng ký thay đổi theo bản án hoặc quyết định của Tòa án đã có hiệu lực.",
+    "template_neg": "Việc thay đổi không xuất phát từ bản án hay quyết định của Tòa án.",
+    "ask": "Việc đăng ký thay đổi có theo quyết định của Tòa án không?"
+  },
+  "changed_certificate_content": {
+    "kind": "input",
+    "template_pos": "Doanh nghiệp thay đổi nội dung trên Giấy chứng nhận đăng ký doanh nghiệp.",
+    "template_neg": "Doanh nghiệp không thay đổi nội dung trên Giấy chứng nhận đăng ký doanh nghiệp.",
+    "ask": "Có thay đổi nội dung trên giấy chứng nhận đăng ký doanh nghiệp không?"
+  },
+  "charter_share_transfer_restriction": {
+    "kind": "input",
+    "template_pos": "Điều lệ có hạn chế chuyển nhượng có hiệu lực đối với cổ phần này.",
+    "template_neg": "Không có hạn chế chuyển nhượng có hiệu lực trong Điều lệ đối với cổ phần này.",
+    "ask": "Điều lệ có điều khoản hạn chế chuyển nhượng có hiệu lực đối với cổ phần này không?"
+  },
+  "converting_to_joint_stock": {
+    "kind": "input",
+    "template_pos": "Công ty đang thực hiện chuyển đổi thành công ty cổ phần.",
+    "template_neg": "Công ty không thực hiện chuyển đổi thành công ty cổ phần.",
+    "ask": "Việc phát hành có phục vụ chuyển đổi thành công ty cổ phần không?"
+  },
+  "dissolution_ground_exists": {
+    "kind": "input",
+    "template_pos": "Có quyết định hoặc căn cứ giải thể thuộc Điều 207 khoản 1.",
+    "template_neg": "Chưa có căn cứ giải thể thuộc Điều 207 khoản 1.",
+    "ask": "Có quyết định hoặc căn cứ giải thể hợp lệ chưa?"
+  },
+  "eligible_registration_certificate": {
+    "kind": "derived",
+    "template_pos": "Doanh nghiệp đáp ứng điều kiện được cấp Giấy chứng nhận đăng ký doanh nghiệp.",
+    "template_neg": "Doanh nghiệp không đáp ứng điều kiện được cấp Giấy chứng nhận đăng ký doanh nghiệp."
+  },
+  "enterprise_change_registration_timely": {
+    "kind": "derived",
+    "template_pos": "Việc đăng ký thay đổi nội dung doanh nghiệp đúng hạn theo điều khoản áp dụng.",
+    "template_neg": "Việc đăng ký thay đổi nội dung doanh nghiệp quá hạn theo điều khoản áp dụng."
+  },
+  "enterprise_dissolution_conditions_met": {
+    "kind": "derived",
+    "template_pos": "Doanh nghiệp đáp ứng điều kiện giải thể đang xét.",
+    "template_neg": "Doanh nghiệp chưa đáp ứng điều kiện giải thể đang xét."
+  },
+  "enterprise_name_compliant": {
+    "kind": "input",
+    "template_pos": "Tên dự kiến tuân thủ quy định đặt tên doanh nghiệp.",
+    "template_neg": "Tên dự kiến trái quy định đặt tên doanh nghiệp.",
+    "ask": "Tên doanh nghiệp dự kiến có hợp lệ không?"
+  },
+  "enterprise_name_duplicate": {
+    "kind": "input",
+    "template_pos": "Tên doanh nghiệp trùng tên doanh nghiệp đã đăng ký.",
+    "template_neg": "Tên doanh nghiệp không trùng tên doanh nghiệp đã đăng ký.",
+    "ask": "Tên doanh nghiệp có trùng tên đã đăng ký không?"
+  },
+  "enterprise_name_permitted": {
+    "kind": "derived",
+    "template_pos": "Tên doanh nghiệp phù hợp với các điều cấm được xét.",
+    "template_neg": "Tên doanh nghiệp vi phạm các điều cấm được xét."
+  },
+  "enterprise_name_state_body": {
+    "kind": "input",
+    "template_pos": "Tên riêng doanh nghiệp sử dụng tên cơ quan nhà nước.",
+    "template_neg": "Tên riêng doanh nghiệp không sử dụng tên cơ quan nhà nước.",
+    "ask": "Tên riêng có sử dụng tên của cơ quan nhà nước không?"
+  },
+  "founder_held_shares_from_registration": {
+    "kind": "input",
+    "template_pos": "Cổ phần được cổ đông sáng lập sở hữu từ lúc đăng ký thành lập.",
+    "template_neg": "Cổ phần này được mua bổ sung sau khi đăng ký thành lập.",
+    "ask": "Cổ phần đó có phải được nắm giữ từ thời điểm đăng ký không?"
+  },
+  "founder_share_transfer_needs_agm_approval": {
+    "kind": "derived",
+    "template_pos": "Cần Đại hội đồng cổ đông chấp thuận chuyển nhượng cổ phần sáng lập trong tình huống này.",
+    "template_neg": "Không cần phê duyệt theo hạn chế ba năm đối với chuyển nhượng này."
+  },
+  "founder_shareholding": {
+    "kind": "input",
+    "template_pos": "Người chuyển nhượng là cổ đông sáng lập.",
+    "template_neg": "Người chuyển nhượng không phải cổ đông sáng lập.",
+    "ask": "Người chuyển nhượng có phải cổ đông sáng lập không?"
+  },
+  "founder_shares_within_first_3_years": {
+    "kind": "input",
+    "template_pos": "Việc chuyển nhượng nằm trong ba năm đầu từ đăng ký doanh nghiệp.",
+    "template_neg": "Đã quá ba năm từ ngày đăng ký doanh nghiệp.",
+    "ask": "Đã quá ba năm kể từ khi công ty được cấp giấy chứng nhận chưa?"
+  },
+  "founder_transfer_agm_approved": {
+    "kind": "input",
+    "template_pos": "Đại hội đồng cổ đông chấp thuận việc chuyển nhượng.",
+    "template_neg": "Đại hội đồng cổ đông chưa chấp thuận việc chuyển nhượng.",
+    "ask": "Đại hội đồng cổ đông có chấp thuận không?"
+  },
+  "founder_transfer_restriction_applies": {
+    "kind": "derived",
+    "template_pos": "Hạn chế ba năm đối với chuyển nhượng cổ phần sáng lập đang áp dụng.",
+    "template_neg": "Hạn chế ba năm đối với chuyển nhượng cổ phần sáng lập không áp dụng."
+  },
+  "llc_2plus_membership_valid": {
+    "kind": "derived",
+    "template_pos": "Số lượng thành viên phù hợp mô hình TNHH hai thành viên trở lên.",
+    "template_neg": "Số lượng thành viên không phù hợp mô hình TNHH hai thành viên trở lên."
+  },
+  "llc_capital_contribution_timely": {
+    "kind": "derived",
+    "template_pos": "Thành viên TNHH góp đủ vốn trong hạn luật định.",
+    "template_neg": "Thành viên TNHH góp đủ vốn sau hạn luật định hoặc chưa góp đủ khi hết hạn."
+  },
+  "llc_company": {
+    "kind": "input",
+    "template_pos": "Pháp nhân là công ty trách nhiệm hữu hạn.",
+    "template_neg": "Pháp nhân không phải là công ty trách nhiệm hữu hạn.",
+    "ask": "Loại hình công ty là gì?"
+  },
+  "llc_member_count_valid": {
+    "kind": "input",
+    "template_pos": "Công ty TNHH hai thành viên trở lên có từ hai tới năm mươi thành viên.",
+    "template_neg": "Số thành viên của công ty TNHH hai thành viên trở lên nằm ngoài khoảng từ hai tới năm mươi.",
+    "ask": "Số thành viên chính thức của công ty là bao nhiêu?"
+  },
+  "llc_share_issuance_prohibited": {
+    "kind": "derived",
+    "template_pos": "Công ty trách nhiệm hữu hạn bị cấm phát hành cổ phần trong tình huống này.",
+    "template_neg": "Lệnh cấm phát hành cổ phần theo điều khoản đang xét không áp dụng do chuyển đổi."
+  },
+  "llc_single_owner": {
+    "kind": "input",
+    "template_pos": "Công ty TNHH có đúng một chủ sở hữu.",
+    "template_neg": "Công ty TNHH có nhiều hơn một chủ sở hữu.",
+    "ask": "Công ty có bao nhiêu chủ sở hữu?"
+  },
+  "ordinary_share_transfer_unrestricted": {
+    "kind": "derived",
+    "template_pos": "Việc chuyển nhượng cổ phần này không chịu các hạn chế đang xét.",
+    "template_neg": "Việc chuyển nhượng cổ phần này chịu một hạn chế đang xét."
+  },
+  "ordinary_shares": {
+    "kind": "input",
+    "template_pos": "Các cổ phần chuyển nhượng là cổ phần phổ thông.",
+    "template_neg": "Các cổ phần không phải cổ phần phổ thông.",
+    "ask": "Cổ phần dự định chuyển nhượng thuộc loại nào?"
+  },
+  "other_members_majority_approval": {
+    "kind": "input",
+    "template_pos": "Trên một nửa các thành viên còn lại đồng ý thay đổi loại tài sản góp vốn.",
+    "template_neg": "Không quá một nửa các thành viên còn lại đồng ý.",
+    "ask": "Có trên 50% thành viên còn lại đồng ý không?"
+  },
+  "pending_court_arbitration_dispute": {
+    "kind": "input",
+    "template_pos": "Doanh nghiệp đang trong quá trình giải quyết tranh chấp tại Tòa án hoặc Trọng tài.",
+    "template_neg": "Doanh nghiệp không trong quá trình giải quyết tranh chấp tại Tòa án hoặc Trọng tài.",
+    "ask": "Doanh nghiệp có tranh chấp đang được giải quyết tại Tòa án hoặc Trọng tài không?"
+  },
+  "private_enterprise_exclusivity_violated": {
+    "kind": "derived",
+    "template_pos": "Hành vi dự định vi phạm quy định độc quyền sở hữu doanh nghiệp tư nhân.",
+    "template_neg": "Hành vi dự định không vi phạm quy định độc quyền đang xét."
+  },
+  "registered_change_within_10_days": {
+    "kind": "input",
+    "template_pos": "Đăng ký thay đổi trong thời hạn mười ngày kể từ ngày có thay đổi.",
+    "template_neg": "Đăng ký thay đổi sau mười ngày kể từ ngày có thay đổi.",
+    "ask": "Đã đăng ký thay đổi trong mười ngày chưa?"
+  },
+  "registered_change_within_15_days_from_judgment": {
+    "kind": "input",
+    "template_pos": "Đã gửi yêu cầu thay đổi trong mười lăm ngày từ khi bản án có hiệu lực.",
+    "template_neg": "Đã gửi yêu cầu quá mười lăm ngày từ khi bản án có hiệu lực.",
+    "ask": "Đã yêu cầu thay đổi trong 15 ngày kể từ khi bản án có hiệu lực chưa?"
+  },
+  "registration_application_valid": {
+    "kind": "input",
+    "template_pos": "Hồ sơ đăng ký doanh nghiệp hợp lệ.",
+    "template_neg": "Hồ sơ đăng ký doanh nghiệp không hợp lệ.",
+    "ask": "Hồ sơ đăng ký đã hợp lệ chưa?"
+  },
+  "registration_fee_paid": {
+    "kind": "input",
+    "template_pos": "Đã nộp đủ lệ phí đăng ký doanh nghiệp.",
+    "template_neg": "Chưa nộp đủ lệ phí đăng ký doanh nghiệp.",
+    "ask": "Đã nộp đủ lệ phí đăng ký chưa?"
+  },
+  "share_payment_deadline_elapsed": {
+    "kind": "input",
+    "template_pos": "Thời hạn thanh toán cổ phần đã kết thúc.",
+    "template_neg": "Thời hạn thanh toán cổ phần chưa kết thúc.",
+    "ask": "Thời hạn thanh toán cổ phần đã hết chưa?"
+  },
+  "shares_subscribed_unpaid": {
+    "kind": "input",
+    "template_pos": "Cổ đông chưa thanh toán số cổ phần đăng ký mua.",
+    "template_neg": "Cổ đông đã thanh toán đủ cổ phần đăng ký mua.",
+    "ask": "Cổ đông đã thanh toán đủ số cổ phần đăng ký mua chưa?"
+  },
+  "shorter_charter_share_payment_deadline": {
+    "kind": "input",
+    "template_pos": "Điều lệ hoặc hợp đồng quy định thời hạn thanh toán ngắn hơn 90 ngày.",
+    "template_neg": "Điều lệ và hợp đồng không quy định thời hạn ngắn hơn 90 ngày.",
+    "ask": "Điều lệ hoặc hợp đồng có quy định thời hạn ngắn hơn không?"
+  },
+  "simultaneously_general_partner": {
+    "kind": "input",
+    "template_pos": "Người này đồng thời là thành viên hợp danh của công ty hợp danh.",
+    "template_neg": "Người này không phải thành viên hợp danh.",
+    "ask": "Bạn có là thành viên hợp danh không?"
+  },
+  "simultaneously_household_business_owner": {
+    "kind": "input",
+    "template_pos": "Người này đồng thời là chủ hộ kinh doanh.",
+    "template_neg": "Người này không phải chủ hộ kinh doanh.",
+    "ask": "Bạn có đồng thời là chủ hộ kinh doanh không?"
+  },
+  "sole_owner_capital_shortfall_after_deadline": {
+    "kind": "input",
+    "template_pos": "Chủ sở hữu chưa góp đủ vốn sau thời hạn tính theo luật.",
+    "template_neg": "Chủ sở hữu đã góp đủ vốn trong thời hạn tính theo luật.",
+    "ask": "Sau thời hạn góp vốn, chủ sở hữu còn thiếu phần vốn cam kết không?"
+  },
+  "sole_owner_must_adjust_registered_capital": {
+    "kind": "derived",
+    "template_pos": "Chủ sở hữu phải đăng ký điều chỉnh vốn điều lệ do không góp đủ.",
+    "template_neg": "Không phát sinh nghĩa vụ điều chỉnh vốn vì lý do không góp đủ sau hạn."
+  },
+  "state_body_name_consent": {
+    "kind": "input",
+    "template_pos": "Cơ quan có tên được sử dụng đã đồng ý.",
+    "template_neg": "Cơ quan có tên được sử dụng chưa đồng ý.",
+    "ask": "Cơ quan có tên đó đã chấp thuận chưa?"
+  },
+  "unpaid_share_subscription_causes_loss_of_status": {
+    "kind": "derived",
+    "template_pos": "Không thanh toán cổ phần sau hạn dẫn đến mất tư cách cổ đông theo điều khoản.",
+    "template_neg": "Không phát sinh mất tư cách cổ đông vì không thanh toán theo điều khoản này."
+  }
+}

@@ -1,0 +1,1140 @@
+predicates:
+  cash_deposited_into_seller_account:
+    ask: Bên mua có thanh toán bằng cách nộp tiền mặt vào tài khoản của bên bán không?
+    kind: input
+    template_neg: Bên mua không thanh toán bằng cách nộp tiền mặt vào tài khoản bên
+      bán.
+    template_pos: Bên mua nộp tiền mặt vào tài khoản của bên bán.
+  cit_30pct_special_workers:
+    ask: 'Xin cho biết: Ít nhất 30% lao động bình quân thuộc các nhóm nêu ở điều luật.'
+    kind: input
+    template_neg: Tỷ lệ các nhóm lao động nêu ở điều luật dưới 30%.
+    template_pos: Ít nhất 30% lao động bình quân thuộc các nhóm nêu ở điều luật.
+  cit_accrual_improper:
+    ask: Khoản trích trước vào chi phí có sai quy định không?
+    kind: input
+    template_neg: Khoản trích trước đúng quy định.
+    template_pos: Khoản trích trước vào chi phí không đúng quy định.
+  cit_administrative_fine:
+    ask: 'Xin cho biết: Khoản chi là tiền phạt vi phạm hành chính.'
+    kind: input
+    template_neg: Khoản chi không phải tiền phạt vi phạm hành chính.
+    template_pos: Khoản chi là tiền phạt vi phạm hành chính.
+  cit_agri_cooperative:
+    ask: 'Xin cho biết: Chủ thể là hợp tác xã sản xuất nông sản.'
+    kind: input
+    template_neg: Chủ thể không phải hợp tác xã sản xuất nông sản.
+    template_pos: Chủ thể là hợp tác xã sản xuất nông sản.
+  cit_agri_production_or_processing_income:
+    ask: Thu nhập có từ trồng trọt, rừng trồng, chăn nuôi, nuôi trồng thủy sản hoặc
+      chế biến nông/thủy sản không?
+    kind: input
+    template_neg: Thu nhập không từ trồng trọt, chăn nuôi, thủy sản nuôi trồng hay
+      chế biến nông/thủy sản.
+    template_pos: Thu nhập từ trồng trọt, rừng trồng, chăn nuôi, thủy sản nuôi trồng
+      hoặc chế biến nông sản, thủy sản.
+  cit_agricultural_technical_service:
+    ask: 'Xin cho biết: Thu nhập từ dịch vụ kỹ thuật trực tiếp phục vụ nông nghiệp.'
+    kind: input
+    template_neg: Thu nhập không từ dịch vụ kỹ thuật trực tiếp phục vụ nông nghiệp.
+    template_pos: Thu nhập từ dịch vụ kỹ thuật trực tiếp phục vụ nông nghiệp.
+  cit_asset_revaluation_soe_restructuring:
+    ask: Khoản thu có phải chênh lệch đánh giá lại tài sản để cổ phần hóa hoặc sắp
+      xếp DN 100% vốn Nhà nước không?
+    kind: input
+    template_neg: Không phải chênh lệch đánh giá lại tài sản khi cổ phần hóa/sắp xếp
+      DN 100% vốn Nhà nước.
+    template_pos: Chênh lệch đánh giá lại tài sản để cổ phần hóa, sắp xếp DN 100%
+      vốn Nhà nước.
+  cit_average_workers_at_least_20:
+    ask: 'Xin cho biết: Doanh nghiệp có từ 20 lao động bình quân trong năm.'
+    kind: input
+    template_neg: Doanh nghiệp có dưới 20 lao động bình quân trong năm.
+    template_pos: Doanh nghiệp có từ 20 lao động bình quân trong năm.
+  cit_business_expense_qualified:
+    ask: ''
+    kind: derived
+    template_neg: cit business expense qualified không được xác lập.
+    template_pos: cit business expense qualified được xác lập.
+  cit_business_related_expense:
+    ask: 'Xin cho biết: Khoản chi thực tế liên quan hoạt động kinh doanh.'
+    kind: input
+    template_neg: Khoản chi không liên quan hoạt động kinh doanh.
+    template_pos: Khoản chi thực tế liên quan hoạt động kinh doanh.
+  cit_capex_investment_phase:
+    ask: Khoản chi có phải đầu tư xây dựng cơ bản để hình thành TSCĐ không?
+    kind: input
+    template_neg: Không phải chi XDCB giai đoạn đầu tư.
+    template_pos: Chi đầu tư XDCB trong giai đoạn đầu tư hình thành TSCĐ.
+  cit_carbon_credit_first_transfer_income:
+    ask: Có phải DN được cấp chuyển nhượng lần đầu chứng chỉ giảm phát thải hoặc tín
+      chỉ các-bon không?
+    kind: input
+    template_neg: Không phải chuyển nhượng lần đầu chứng chỉ giảm phát thải/tín chỉ
+      các-bon.
+    template_pos: Thu nhập từ chuyển nhượng lần đầu chứng chỉ giảm phát thải/tín chỉ
+      các-bon của DN được cấp.
+  cit_cooperative_in_agri_forestry_fishery_salt_sector:
+    ask: Đây có phải HTX hoạt động trong lĩnh vực nông, lâm, ngư hoặc diêm nghiệp
+      không?
+    kind: input
+    template_neg: HTX không hoạt động trong lĩnh vực nông, lâm, ngư, diêm nghiệp.
+    template_pos: HTX/liên hiệp HTX hoạt động trong lĩnh vực nông, lâm, ngư, diêm
+      nghiệp.
+  cit_cooperative_indivisible_fund_income:
+    ask: Có phải phần thu nhập hình thành quỹ chung, tài sản chung không chia của
+      HTX không?
+    kind: input
+    template_neg: Không phải thu nhập hình thành quỹ/tài sản chung không chia của
+      HTX.
+    template_pos: Phần thu nhập hình thành quỹ chung, tài sản chung không chia của
+      HTX.
+  cit_defense_security_expense:
+    ask: Khoản chi có phục vụ giáo dục quốc phòng an ninh, dân quân tự vệ hoặc nhiệm
+      vụ QP-AN không?
+    kind: input
+    template_neg: Khoản chi không thuộc nhiệm vụ quốc phòng, an ninh.
+    template_pos: Khoản chi cho giáo dục quốc phòng an ninh, dân quân tự vệ, nhiệm
+      vụ QP-AN.
+  cit_depreciation_improper:
+    ask: Khấu hao tài sản cố định có sai hoặc vượt mức không?
+    kind: input
+    template_neg: Khấu hao TSCĐ đúng quy định.
+    template_pos: Khấu hao TSCĐ không đúng hoặc vượt mức.
+  cit_designated_fund_contribution:
+    ask: Có phải đóng góp vào quỹ được thành lập theo quyết định của Thủ tướng hoặc
+      quy định Chính phủ không?
+    kind: input
+    template_neg: Không phải đóng góp vào quỹ do Thủ tướng/Chính phủ quy định.
+    template_pos: Khoản đóng góp vào quỹ thành lập theo quyết định Thủ tướng/quy định
+      Chính phủ.
+  cit_direct_state_support:
+    ask: Khoản thu có phải hỗ trợ trực tiếp từ ngân sách nhà nước hoặc Quỹ hỗ trợ
+      đầu tư của Chính phủ không?
+    kind: input
+    template_neg: Không phải hỗ trợ trực tiếp từ NSNN hay Quỹ hỗ trợ đầu tư.
+    template_pos: Khoản hỗ trợ trực tiếp từ ngân sách nhà nước hoặc Quỹ hỗ trợ đầu
+      tư do Chính phủ thành lập.
+  cit_distributed_domestic_income:
+    ask: 'Xin cho biết: Có khoản thu được chia từ vốn góp vào doanh nghiệp trong nước.'
+    kind: input
+    template_neg: Không có khoản thu chia từ vốn góp doanh nghiệp trong nước.
+    template_pos: Có khoản thu được chia từ vốn góp vào doanh nghiệp trong nước.
+  cit_donation_received_charity:
+    ask: 'Xin cho biết: Có khoản tài trợ nhận về dành cho hoạt động từ thiện.'
+    kind: input
+    template_neg: Khoản nhận không phải tài trợ dành cho hoạt động từ thiện.
+    template_pos: Có khoản tài trợ nhận về dành cho hoạt động từ thiện.
+  cit_donation_received_rnd_from_unrelated:
+    ask: Có nhận tài trợ từ bên không liên kết để dùng cho nghiên cứu khoa học, công
+      nghệ, đổi mới sáng tạo không?
+    kind: input
+    template_neg: Khoản nhận không phải tài trợ NCKH/ĐMST từ bên không liên kết.
+    template_pos: Khoản tài trợ nhận từ bên không có quan hệ liên kết để dùng cho
+      NCKH, phát triển công nghệ, ĐMST, chuyển đổi số.
+  cit_donation_used_correctly:
+    ask: 'Xin cho biết: Khoản tài trợ được sử dụng đúng mục đích từ thiện.'
+    kind: input
+    template_neg: Khoản tài trợ bị sử dụng sai mục đích từ thiện.
+    template_pos: Khoản tài trợ được sử dụng đúng mục đích từ thiện.
+  cit_emission_reduction_expense:
+    ask: Khoản chi có nhằm giảm phát thải, giảm ô nhiễm và gắn với SXKD không?
+    kind: input
+    template_neg: Không phải chi giảm phát thải gắn với SXKD.
+    template_pos: Chi phí giảm phát thải, trung hòa các-bon, giảm ô nhiễm gắn với
+      SXKD.
+  cit_employee_paid_noncash_authorized:
+    ask: Người lao động có được ủy quyền mua hộ, trả không tiền mặt và DN hoàn lại
+      theo quy chế không?
+    kind: input
+    template_neg: Không phải trường hợp người lao động được ủy quyền thanh toán không
+      tiền mặt.
+    template_pos: Người lao động được ủy quyền mua hộ, thanh toán không dùng tiền
+      mặt và được DN hoàn lại theo quy chế.
+  cit_employee_vocational_training_expense:
+    ask: Khoản chi có phải chi đào tạo nghề cho người lao động không?
+    kind: input
+    template_neg: Khoản chi không phải đào tạo nghề cho người lao động.
+    template_pos: Khoản chi giáo dục, đào tạo nghề cho người lao động.
+  cit_equity_change_expense:
+    ask: Khoản chi có liên quan trực tiếp tăng, giảm vốn chủ sở hữu không?
+    kind: input
+    template_neg: Không phải chi liên quan tăng, giảm vốn chủ sở hữu.
+    template_pos: Chi liên quan trực tiếp đến tăng, giảm vốn chủ sở hữu.
+  cit_expected_revenue_above_3_up_to_50bn:
+    ask: Doanh thu dự kiến trong kỳ có trên 3 tỷ và không quá 50 tỷ đồng không?
+    kind: input
+    template_neg: Tổng doanh thu dự kiến nằm ngoài khoảng trên 3 đến 50 tỷ đồng.
+    template_pos: Tổng doanh thu dự kiến trong kỳ trên 3 tỷ đến không quá 50 tỷ đồng.
+  cit_expected_revenue_le_3bn:
+    ask: Doanh thu dự kiến trong kỳ có không quá 3 tỷ đồng không?
+    kind: input
+    template_neg: Tổng doanh thu dự kiến trong kỳ trên 3 tỷ đồng.
+    template_pos: Tổng doanh thu dự kiến trong kỳ không quá 3 tỷ đồng.
+  cit_expense_at_least_5m:
+    ask: 'Xin cho biết: Khoản chi mua sắm mỗi lần từ 5 triệu đồng.'
+    kind: input
+    template_neg: Khoản chi mua sắm mỗi lần dưới 5 triệu đồng.
+    template_pos: Khoản chi mua sắm mỗi lần từ 5 triệu đồng.
+  cit_expense_deductible:
+    ask: ''
+    kind: derived
+    template_neg: Khoản chi không được trừ khi tính thu nhập chịu thuế TNDN.
+    template_pos: Khoản chi được trừ khi tính thu nhập chịu thuế TNDN.
+  cit_expense_documentation_ok:
+    ask: ''
+    kind: derived
+    template_neg: Khoản chi không đáp ứng điều kiện hóa đơn, chứng từ thanh toán.
+    template_pos: Khoản chi đáp ứng điều kiện hóa đơn, chứng từ và thanh toán không
+      dùng tiền mặt.
+  cit_expense_exceeds_government_cap:
+    ask: Khoản chi có vượt mức Chính phủ quy định không?
+    kind: input
+    template_neg: Khoản chi không vượt mức Chính phủ quy định.
+    template_pos: Phần chi vượt mức Chính phủ quy định.
+  cit_expense_invoice:
+    ask: 'Xin cho biết: Khoản chi có hóa đơn chứng từ theo quy định.'
+    kind: input
+    template_neg: Khoản chi không có hóa đơn chứng từ theo quy định.
+    template_pos: Khoản chi có hóa đơn chứng từ theo quy định.
+  cit_expense_is_donation:
+    ask: Khoản chi có phải là khoản tài trợ không?
+    kind: input
+    template_neg: Khoản chi không phải khoản tài trợ.
+    template_pos: Khoản chi là khoản tài trợ.
+  cit_expense_not_matching_taxable_revenue:
+    ask: Khoản chi có tương ứng với doanh thu tính thuế không?
+    kind: input
+    template_neg: Khoản chi tương ứng với doanh thu tính thuế.
+    template_pos: Khoản chi không tương ứng với doanh thu tính thuế.
+  cit_expense_payment_proof:
+    ask: 'Xin cho biết: Có chứng từ thanh toán không dùng tiền mặt theo quy định đối
+      với khoản chi.'
+    kind: input
+    template_neg: Không có chứng từ thanh toán không dùng tiền mặt theo quy định.
+    template_pos: Có chứng từ thanh toán không dùng tiền mặt theo quy định đối với
+      khoản chi.
+  cit_expense_reimbursed:
+    ask: 'Xin cho biết: Khoản chi đã được bù đắp bằng nguồn kinh phí khác.'
+    kind: input
+    template_neg: Khoản chi không được bù đắp bằng nguồn kinh phí khác.
+    template_pos: Khoản chi đã được bù đắp bằng nguồn kinh phí khác.
+  cit_expense_unpaid_at_recognition:
+    ask: Khi ghi nhận chi phí, DN đã thanh toán khoản chi chưa?
+    kind: input
+    template_neg: DN đã thanh toán khoản chi khi ghi nhận chi phí.
+    template_pos: Đến thời điểm ghi nhận chi phí, DN chưa thanh toán khoản chi.
+  cit_expense_violates_sector_conditions:
+    ask: Khoản chi có trái điều kiện chi của pháp luật chuyên ngành không?
+    kind: input
+    template_neg: Khoản chi đáp ứng pháp luật chuyên ngành.
+    template_pos: Khoản chi không đáp ứng điều kiện, nội dung chi theo pháp luật chuyên
+      ngành.
+  cit_fishing_income:
+    ask: 'Xin cho biết: Thu nhập đến từ hoạt động đánh bắt hải sản.'
+    kind: input
+    template_neg: Thu nhập không từ đánh bắt hải sản.
+    template_pos: Thu nhập đến từ hoạt động đánh bắt hải sản.
+  cit_founder_remuneration_non_executive:
+    ask: Có phải thù lao cho sáng lập viên không trực tiếp điều hành không?
+    kind: input
+    template_neg: Không phải thù lao sáng lập viên không điều hành.
+    template_pos: Thù lao trả cho sáng lập viên không trực tiếp điều hành.
+  cit_green_bond_first_transfer_income:
+    ask: Có phải chuyển nhượng trái phiếu xanh lần đầu sau phát hành không?
+    kind: input
+    template_neg: Không phải chuyển nhượng trái phiếu xanh lần đầu.
+    template_pos: Thu nhập từ chuyển nhượng trái phiếu xanh lần đầu sau phát hành.
+  cit_green_bond_interest_income:
+    ask: Thu nhập có phải lãi trái phiếu xanh không?
+    kind: input
+    template_neg: Không phải lãi trái phiếu xanh.
+    template_pos: Thu nhập từ tiền lãi trái phiếu xanh.
+  cit_in_art12_3_incentive_area:
+    ask: Hoạt động có nằm tại địa bàn ưu đãi thuế (khoản 3 Điều 12 Luật TNDN) không?
+    kind: input
+    template_neg: Hoạt động/dự án không nằm tại địa bàn ưu đãi theo khoản 3 Điều 12.
+    template_pos: Hoạt động/dự án nằm tại địa bàn ưu đãi thuế quy định tại khoản 3
+      Điều 12 Luật TNDN.
+  cit_in_difficult_area:
+    ask: Hoạt động có ở địa bàn kinh tế - xã hội khó khăn không?
+    kind: input
+    template_neg: Không ở địa bàn có điều kiện kinh tế - xã hội khó khăn.
+    template_pos: Hoạt động ở địa bàn có điều kiện kinh tế - xã hội khó khăn.
+  cit_in_especially_difficult_area:
+    ask: Hoạt động có ở địa bàn kinh tế - xã hội đặc biệt khó khăn không?
+    kind: input
+    template_neg: Không ở địa bàn có điều kiện kinh tế - xã hội đặc biệt khó khăn.
+    template_pos: Hoạt động ở địa bàn có điều kiện kinh tế - xã hội đặc biệt khó khăn.
+  cit_income_art12_2_l_activity:
+    ask: Thu nhập có từ ngành, nghề ưu đãi tại điểm l khoản 2 Điều 12 Luật Thuế TNDN
+      không?
+    kind: input
+    template_neg: Thu nhập không thuộc ngành, nghề điểm l khoản 2 Điều 12.
+    template_pos: Thu nhập từ hoạt động thuộc ngành, nghề điểm l khoản 2 Điều 12 Luật
+      TNDN.
+  cit_income_art12_2_p:
+    ask: Thu nhập có thuộc trường hợp tại điểm p khoản 2 Điều 12 Luật Thuế TNDN không?
+    kind: input
+    template_neg: Thu nhập không thuộc điểm p khoản 2 Điều 12.
+    template_pos: Thu nhập của doanh nghiệp thuộc điểm p khoản 2 Điều 12 Luật TNDN.
+  cit_income_exempt:
+    ask: ''
+    kind: derived
+    template_neg: Khoản thu nhập không thuộc diện miễn thuế TNDN.
+    template_pos: Khoản thu nhập thuộc diện miễn thuế TNDN.
+  cit_input_vat_already_deducted:
+    ask: Khoản chi có phải thuế GTGT đầu vào đã được khấu trừ không?
+    kind: input
+    template_neg: Khoản chi không phải thuế GTGT đã khấu trừ.
+    template_pos: Khoản chi là thuế GTGT đầu vào đã khấu trừ hoặc thuế GTGT nộp theo
+      phương pháp khấu trừ.
+  cit_interest_nondeductible_portion:
+    ask: Lãi vay có ứng với vốn điều lệ còn thiếu, đã vốn hóa, cho hợp đồng dầu khí
+      hoặc vượt mức Bộ luật Dân sự không?
+    kind: input
+    template_neg: Lãi vay không thuộc phần bị loại trừ.
+    template_pos: Khoản lãi vay thuộc phần không được trừ (vốn điều lệ còn thiếu,
+      đã vốn hóa, dầu khí, vượt mức BLDS).
+  cit_is_cooperative:
+    ask: Chủ thể có phải hợp tác xã hoặc liên hiệp hợp tác xã không?
+    kind: input
+    template_neg: Chủ thể không phải hợp tác xã/liên hiệp hợp tác xã.
+    template_pos: Chủ thể là hợp tác xã hoặc liên hiệp hợp tác xã.
+  cit_new_project_art12_2_m_n_o:
+    ask: Có phải dự án đầu tư mới thuộc ngành, nghề tại điểm m, n hoặc o khoản 2 Điều
+      12 không?
+    kind: input
+    template_neg: Không phải dự án đầu tư mới thuộc điểm m, n, o khoản 2 Điều 12.
+    template_pos: Dự án đầu tư mới thuộc ngành, nghề ưu đãi tại điểm m, n hoặc o khoản
+      2 Điều 12 Luật TNDN.
+  cit_new_project_economic_zone_outside_art12_3ab:
+    ask: Có phải dự án đầu tư mới tại khu kinh tế không nằm trên địa bàn ưu đãi điểm
+      a, b khoản 3 Điều 12 không?
+    kind: input
+    template_neg: Không phải dự án mới tại khu kinh tế ngoài địa bàn điểm a, b khoản
+      3 Điều 12.
+    template_pos: Dự án đầu tư mới tại khu kinh tế không nằm trên địa bàn điểm a,
+      b khoản 3 Điều 12.
+  cit_new_project_in_art12_3b_area:
+    ask: Có phải dự án đầu tư mới tại địa bàn điểm b khoản 3 Điều 12 Luật Thuế TNDN
+      không?
+    kind: input
+    template_neg: Dự án không phải dự án mới tại địa bàn điểm b khoản 3 Điều 12.
+    template_pos: Dự án đầu tư mới thực hiện tại địa bàn điểm b khoản 3 Điều 12 Luật
+      TNDN.
+  cit_new_technology_product_income:
+    ask: Sản phẩm có làm ra từ công nghệ mới lần đầu áp dụng ở Việt Nam không?
+    kind: input
+    template_neg: Thu nhập không từ sản phẩm công nghệ mới lần đầu áp dụng ở Việt
+      Nam.
+    template_pos: Thu nhập từ bán sản phẩm làm ra từ công nghệ mới lần đầu áp dụng
+      ở Việt Nam.
+  cit_newly_established_in_period:
+    ask: DN có mới thành lập trong kỳ tính thuế này không?
+    kind: input
+    template_neg: DN không mới thành lập trong kỳ tính thuế.
+    template_pos: DN mới thành lập trong kỳ tính thuế.
+  cit_no_special_rate_regime:
+    ask: 'Xin cho biết: Doanh nghiệp không thuộc diện ưu đãi thuế suất hoặc nhóm thuế
+      suất đặc biệt.'
+    kind: input
+    template_neg: Doanh nghiệp thuộc diện ưu đãi hoặc nhóm thuế suất đặc biệt.
+    template_pos: Doanh nghiệp không thuộc diện ưu đãi thuế suất hoặc nhóm thuế suất
+      đặc biệt.
+  cit_nondeductible_tax_or_late_interest:
+    ask: Khoản chi có phải thuế TNDN, tiền chậm nộp hoặc thuế phí không được tính
+      vào chi phí không?
+    kind: input
+    template_neg: Khoản chi không phải thuế TNDN, thuế phí bị loại trừ hay tiền chậm
+      nộp.
+    template_pos: Khoản chi là thuế TNDN, thuế phí không được tính vào chi phí hoặc
+      tiền chậm nộp.
+  cit_not_finance_or_realestate:
+    ask: 'Xin cho biết: Doanh nghiệp không kinh doanh tài chính hoặc bất động sản.'
+    kind: input
+    template_neg: Doanh nghiệp kinh doanh tài chính hoặc bất động sản.
+    template_pos: Doanh nghiệp không kinh doanh tài chính hoặc bất động sản.
+  cit_not_linked_subsidiary:
+    ask: 'Xin cho biết: Doanh nghiệp không phải công ty con hay công ty liên kết thuộc
+      nhóm bị loại trừ mức thuế suất 15% và 17%.'
+    kind: input
+    template_neg: Doanh nghiệp thuộc trường hợp công ty con/liên kết bị loại trừ mức
+      thuế suất này.
+    template_pos: Doanh nghiệp không phải công ty con hay công ty liên kết thuộc nhóm
+      bị loại trừ mức thuế suất 15% và 17%.
+  cit_oil_gas_cost_recovery_excess:
+    ask: Chi phí có vượt tỷ lệ thu hồi của hợp đồng dầu khí không?
+    kind: input
+    template_neg: Chi phí không vượt tỷ lệ thu hồi hợp đồng dầu khí.
+    template_pos: Chi phí thu hồi vượt tỷ lệ của hợp đồng dầu khí.
+  cit_other_listed_expense:
+    ask: ''
+    kind: derived
+    template_neg: Khoản chi không thuộc nhóm chi thực tế khác được liệt kê.
+    template_pos: Khoản chi thuộc nhóm chi thực tế khác được liệt kê tại điểm b khoản
+      1 Điều 9.
+  cit_party_union_support_expense:
+    ask: Khoản chi có hỗ trợ tổ chức đảng, tổ chức chính trị - xã hội trong DN không?
+    kind: input
+    template_neg: Khoản chi không hỗ trợ tổ chức đảng/đoàn thể trong DN.
+    template_pos: Khoản chi hỗ trợ tổ chức đảng, tổ chức chính trị - xã hội trong
+      DN.
+  cit_preparatory_expense_no_revenue_yet:
+    ask: Khoản chi có thuộc nhóm chi chưa tương ứng doanh thu (dự thầu không trúng,
+      nghiên cứu sản phẩm mới thất bại) không?
+    kind: input
+    template_neg: Không thuộc nhóm chi chưa tương ứng doanh thu được Chính phủ cho
+      trừ.
+    template_pos: Khoản chi phục vụ SXKD nhưng chưa tương ứng doanh thu trong kỳ theo
+      quy định Chính phủ.
+  cit_prior_revenue_above_3_up_to_50bn:
+    ask: 'Xin cho biết: Tổng doanh thu kỳ trước trên 3 tỷ và không quá 50 tỷ đồng.'
+    kind: input
+    template_neg: Tổng doanh thu kỳ trước nằm ngoài mức trên 3 đến 50 tỷ đồng.
+    template_pos: Tổng doanh thu kỳ trước trên 3 tỷ và không quá 50 tỷ đồng.
+  cit_prior_revenue_le_3bn:
+    ask: 'Xin cho biết: Tổng doanh thu kỳ tính thuế trước liền kề không quá 3 tỷ đồng.'
+    kind: input
+    template_neg: Tổng doanh thu kỳ tính thuế trước liền kề lớn hơn 3 tỷ đồng.
+    template_pos: Tổng doanh thu kỳ tính thuế trước liền kề không quá 3 tỷ đồng.
+  cit_priority_tech_transfer_to_difficult_area:
+    ask: Có phải chuyển giao công nghệ thuộc lĩnh vực ưu tiên cho tổ chức, cá nhân
+      ở địa bàn đặc biệt khó khăn không?
+    kind: input
+    template_neg: Không phải chuyển giao công nghệ ưu tiên cho địa bàn ĐBKK.
+    template_pos: Thu nhập từ chuyển giao công nghệ ưu tiên cho tổ chức, cá nhân ở
+      địa bàn ĐBKK.
+  cit_private_owner_salary:
+    ask: 'Xin cho biết: Khoản chi là tiền lương của chủ doanh nghiệp tư nhân.'
+    kind: input
+    template_neg: Khoản chi không phải tiền lương của chủ doanh nghiệp tư nhân.
+    template_pos: Khoản chi là tiền lương của chủ doanh nghiệp tư nhân.
+  cit_provision_improper:
+    ask: Khoản trích lập dự phòng có sai hoặc vượt mức không?
+    kind: input
+    template_neg: Trích lập dự phòng đúng quy định.
+    template_pos: Trích lập dự phòng không đúng hoặc vượt mức.
+  cit_public_service_basic_essential:
+    ask: Dịch vụ có thuộc danh mục dịch vụ sự nghiệp công cơ bản, thiết yếu sử dụng
+      NSNN không?
+    kind: input
+    template_neg: Không thuộc danh mục dịch vụ sự nghiệp công cơ bản, thiết yếu.
+    template_pos: Dịch vụ sự nghiệp công cơ bản, thiết yếu thuộc danh mục sử dụng
+      NSNN.
+  cit_public_service_state_subsidized:
+    ask: Nhà nước có phải hỗ trợ kinh phí cho dịch vụ này vì giá chưa đủ chi phí không?
+    kind: input
+    template_neg: Dịch vụ không được Nhà nước hỗ trợ kinh phí.
+    template_pos: Dịch vụ sự nghiệp công Nhà nước phải hỗ trợ kinh phí do giá chưa
+      tính đủ chi phí.
+  cit_public_unit_service_income:
+    ask: Có phải thu nhập của đơn vị sự nghiệp công lập từ dịch vụ sự nghiệp công
+      không?
+    kind: input
+    template_neg: Không phải thu nhập dịch vụ sự nghiệp công của đơn vị sự nghiệp
+      công lập.
+    template_pos: Thu nhập của đơn vị sự nghiệp công lập từ cung cấp dịch vụ sự nghiệp
+      công.
+  cit_public_works_support_expense:
+    ask: Khoản chi có hỗ trợ xây công trình công cộng đồng thời phục vụ SXKD không?
+    kind: input
+    template_neg: Không phải chi hỗ trợ công trình công cộng phục vụ SXKD.
+    template_pos: Khoản chi hỗ trợ xây công trình công cộng đồng thời phục vụ SXKD.
+  cit_qualifying_donation_expense:
+    ask: Khoản tài trợ có cho giáo dục, y tế, văn hóa, thiên tai/dịch bệnh, nhà tình
+      nghĩa, chương trình địa bàn ĐBKK hoặc NCKH không?
+    kind: input
+    template_neg: Khoản tài trợ không thuộc các diện được trừ.
+    template_pos: Khoản tài trợ thuộc diện được trừ (giáo dục, y tế, văn hóa, thiên
+      tai, nhà tình nghĩa, địa bàn ĐBKK, NCKH/ĐMST).
+  cit_rate_15_applicable:
+    ask: ''
+    kind: derived
+    template_neg: Doanh nghiệp không đủ điều kiện áp dụng thuế suất TNDN 15%.
+    template_pos: Doanh nghiệp đủ điều kiện áp dụng thuế suất TNDN 15%.
+  cit_rate_17_applicable:
+    ask: ''
+    kind: derived
+    template_neg: Doanh nghiệp không đủ điều kiện áp dụng thuế suất TNDN 17%.
+    template_pos: Doanh nghiệp đủ điều kiện áp dụng thuế suất TNDN 17%.
+  cit_regulated_sector_expense_excess:
+    ask: Khoản chi ngành ngân hàng, bảo hiểm, xổ số, chứng khoán hay BOT có sai hoặc
+      vượt mức không?
+    kind: input
+    template_neg: Chi ngành đặc thù đúng quy định.
+    template_pos: Chi của hoạt động ngân hàng, bảo hiểm, xổ số, chứng khoán, BT/BOT/BTO
+      không đúng hoặc vượt mức.
+  cit_rnd_contract_income:
+    ask: Thu nhập có từ hợp đồng nghiên cứu khoa học, phát triển công nghệ, đổi mới
+      sáng tạo hoặc chuyển đổi số không?
+    kind: input
+    template_neg: Thu nhập không từ hợp đồng NCKH, phát triển công nghệ, ĐMST, chuyển
+      đổi số.
+    template_pos: Thu nhập từ thực hiện hợp đồng NCKH, phát triển công nghệ, ĐMST,
+      chuyển đổi số.
+  cit_rnd_expense:
+    ask: Khoản chi có phải chi nghiên cứu khoa học, phát triển công nghệ, đổi mới
+      sáng tạo không?
+    kind: input
+    template_neg: Khoản chi không phải chi NCKH/ĐMST.
+    template_pos: Khoản chi cho NCKH, phát triển công nghệ, ĐMST, chuyển đổi số.
+  cit_salt_production_income:
+    ask: Thu nhập có từ sản xuất muối không?
+    kind: input
+    template_neg: Thu nhập không từ sản xuất muối.
+    template_pos: Thu nhập từ sản xuất muối.
+  cit_same_seller_same_day_total_at_least_5m:
+    ask: Có mua nhiều lần của cùng người bán trong một ngày với tổng từ 5 triệu đồng
+      không?
+    kind: input
+    template_neg: Tổng mua trong ngày của một người bán dưới 5 triệu đồng.
+    template_pos: Mua nhiều lần của một người bán trong cùng ngày, tổng từ 5 triệu
+      đồng.
+  cit_seconded_credit_institution_staff_expense:
+    ask: Khoản chi có trả cho người được biệt phái quản trị tổ chức tín dụng bị kiểm
+      soát đặc biệt không?
+    kind: input
+    template_neg: Không phải chi cho người biệt phái tại TCTD kiểm soát đặc biệt.
+    template_pos: Khoản chi cho người biệt phái quản trị TCTD được kiểm soát đặc biệt/NHTM
+      chuyển giao bắt buộc.
+  cit_socialization_retained_income:
+    ask: Có phải phần thu nhập không chia của cơ sở xã hội hóa để lại đầu tư đạt tỷ
+      lệ tối thiểu không?
+    kind: input
+    template_neg: Không phải thu nhập không chia để lại đầu tư của cơ sở xã hội hóa.
+    template_pos: Phần thu nhập không chia của cơ sở xã hội hóa để lại đầu tư phát
+      triển, đạt tỷ lệ tối thiểu.
+  cit_state_compensation:
+    ask: Khoản thu có phải bồi thường của Nhà nước theo pháp luật không?
+    kind: input
+    template_neg: Không phải khoản bồi thường của Nhà nước.
+    template_pos: Khoản bồi thường của Nhà nước theo quy định của pháp luật.
+  cit_state_nonprofit_fund_income:
+    ask: Chủ thể có phải quỹ tài chính nhà nước hoặc quỹ/tổ chức Nhà nước không vì
+      lợi nhuận không?
+    kind: input
+    template_neg: Không phải thu nhập của quỹ/tổ chức Nhà nước không vì lợi nhuận.
+    template_pos: Thu nhập từ hoạt động có thu của quỹ tài chính nhà nước, quỹ/tổ
+      chức Nhà nước không vì lợi nhuận.
+  cit_training_specified_in_hr_documents:
+    ask: Việc đào tạo có được quy định trong hợp đồng lao động, thỏa ước tập thể hoặc
+      quy chế tài chính không?
+    kind: input
+    template_neg: Hoạt động đào tạo không được quy định trong các hồ sơ này.
+    template_pos: Hoạt động đào tạo được quy định trong HĐLĐ, thỏa ước lao động tập
+      thể hoặc quy chế tài chính.
+  cit_trial_production_income:
+    ask: Thu nhập có từ bán sản phẩm sản xuất thử nghiệm trong thời gian thử nghiệm
+      không?
+    kind: input
+    template_neg: Thu nhập không từ sản phẩm sản xuất thử nghiệm.
+    template_pos: Thu nhập từ bán sản phẩm sản xuất thử nghiệm trong thời gian thử
+      nghiệm.
+  cit_uncompensated_force_majeure_loss:
+    ask: Có phải tổn thất do thiên tai, dịch bệnh, bất khả kháng mà không được bồi
+      thường không?
+    kind: input
+    template_neg: Không phải tổn thất bất khả kháng chưa được bồi thường.
+    template_pos: Phần tổn thất do thiên tai, dịch bệnh, bất khả kháng không được
+      bồi thường.
+  cit_underlying_cit_paid:
+    ask: 'Xin cho biết: Khoản lợi nhuận được chia từ doanh nghiệp đã nộp TNDN.'
+    kind: input
+    template_neg: Khoản lợi nhuận được chia từ doanh nghiệp chưa nộp TNDN.
+    template_pos: Khoản lợi nhuận được chia từ doanh nghiệp đã nộp TNDN.
+  cit_vamc_income:
+    ask: Chủ thể có phải Công ty quản lý tài sản của các tổ chức tín dụng Việt Nam
+      không?
+    kind: input
+    template_neg: Không phải thu nhập của công ty quản lý tài sản các TCTD.
+    template_pos: Thu nhập của Công ty TNHH MTV quản lý tài sản của các TCTD Việt
+      Nam.
+  cit_vbsp_policy_credit_income:
+    ask: Có phải thu nhập của Ngân hàng Chính sách xã hội từ tín dụng cho người nghèo,
+      đối tượng chính sách không?
+    kind: input
+    template_neg: Không phải thu nhập tín dụng chính sách của Ngân hàng Chính sách
+      xã hội.
+    template_pos: Thu nhập của Ngân hàng Chính sách xã hội từ tín dụng cho người nghèo,
+      đối tượng chính sách.
+  cit_vdb_development_export_credit_income:
+    ask: Có phải thu nhập của Ngân hàng Phát triển Việt Nam từ tín dụng đầu tư phát
+      triển hoặc tín dụng xuất khẩu không?
+    kind: input
+    template_neg: Không phải thu nhập tín dụng đầu tư phát triển/xuất khẩu của Ngân
+      hàng Phát triển VN.
+    template_pos: Thu nhập của Ngân hàng Phát triển VN từ tín dụng đầu tư phát triển,
+      tín dụng xuất khẩu.
+  cit_vocational_training_for_disadvantaged_income:
+    ask: Hoạt động đào tạo nghề có dành riêng cho dân tộc thiểu số, người khuyết tật,
+      trẻ em hoàn cảnh đặc biệt hoặc đối tượng tệ nạn xã hội không?
+    kind: input
+    template_neg: Hoạt động đào tạo nghề không dành riêng cho các đối tượng này.
+    template_pos: Thu nhập từ giáo dục, đào tạo nghề dành riêng cho người dân tộc
+      thiểu số, người khuyết tật, trẻ em hoàn cảnh đặc biệt, đối tượng tệ nạn xã hội.
+  cit_wage_not_paid_or_undocumented:
+    ask: Khoản lương có thực trả và có chứng từ không?
+    kind: input
+    template_neg: Lương được thực trả và có chứng từ.
+    template_pos: Lương, chi cho người lao động hạch toán nhưng không thực trả hoặc
+      không có chứng từ.
+  cit_within_3_year_exemption_period:
+    ask: Thu nhập có còn trong thời gian miễn thuế tối đa 3 năm không?
+    kind: input
+    template_neg: Đã quá thời gian miễn thuế tối đa 3 năm.
+    template_pos: Thu nhập phát sinh trong thời gian miễn thuế tối đa 3 năm.
+  cit_workplace_hiv_prevention_expense:
+    ask: Khoản chi có phục vụ phòng, chống HIV/AIDS nơi làm việc không?
+    kind: input
+    template_neg: Khoản chi không phải phòng, chống HIV/AIDS nơi làm việc.
+    template_pos: Khoản chi phòng, chống HIV/AIDS nơi làm việc.
+  consumed_outside_vietnam:
+    ask: 'Xin cho biết: Hàng hóa/dịch vụ được tiêu dùng ngoài Việt Nam.'
+    kind: input
+    template_neg: Hàng hóa/dịch vụ được tiêu dùng tại Việt Nam.
+    template_pos: Hàng hóa/dịch vụ được tiêu dùng ngoài Việt Nam.
+  credit_capital_transfer_or_derivative:
+    ask: Có phải dịch vụ cấp tín dụng, chuyển nhượng vốn hoặc sản phẩm phái sinh không?
+    kind: input
+    template_neg: Không phải cấp tín dụng, chuyển nhượng vốn hay phái sinh.
+    template_pos: Giao dịch là dịch vụ cấp tín dụng, chuyển nhượng vốn hoặc sản phẩm
+      phái sinh.
+  debt_customs_fee_transit_goods:
+    ask: Khoản nợ có phải là phí hải quan hoặc lệ phí hàng hóa, phương tiện vận tải
+      quá cảnh không?
+    kind: input
+    template_neg: Khoản nợ không phải phí hải quan, lệ phí hàng hóa, phương tiện quá
+      cảnh.
+    template_pos: Khoản nợ là phí hải quan, lệ phí hàng hóa, phương tiện vận tải quá
+      cảnh.
+  export_customs_declaration:
+    ask: 'Xin cho biết: Có tờ khai hải quan xuất khẩu.'
+    kind: input
+    template_neg: Không có tờ khai hải quan xuất khẩu.
+    template_pos: Có tờ khai hải quan xuất khẩu.
+  export_goods_contract:
+    ask: 'Xin cho biết: Có hợp đồng bán hàng hóa xuất khẩu.'
+    kind: input
+    template_neg: Không có hợp đồng bán hàng hóa xuất khẩu.
+    template_pos: Có hợp đồng bán hàng hóa xuất khẩu.
+  export_goods_transaction:
+    ask: 'Xin cho biết: Đã bán hàng từ Việt Nam cho khách nước ngoài để xuất khẩu.'
+    kind: input
+    template_neg: Không phải giao dịch xuất khẩu hàng từ Việt Nam.
+    template_pos: Đã bán hàng từ Việt Nam cho khách nước ngoài để xuất khẩu.
+  export_service_contract:
+    ask: 'Xin cho biết: Có hợp đồng dịch vụ với tổ chức/cá nhân ở nước ngoài.'
+    kind: input
+    template_neg: Không có hợp đồng dịch vụ với tổ chức/cá nhân ở nước ngoài.
+    template_pos: Có hợp đồng dịch vụ với tổ chức/cá nhân ở nước ngoài.
+  export_service_transaction:
+    ask: 'Xin cho biết: Đã cung cấp trực tiếp dịch vụ cho khách ở nước ngoài.'
+    kind: input
+    template_neg: Không phải dịch vụ cung cấp trực tiếp cho khách ở nước ngoài.
+    template_pos: Đã cung cấp trực tiếp dịch vụ cho khách ở nước ngoài.
+  foreign_customer:
+    ask: 'Xin cho biết: Khách hàng là tổ chức hoặc cá nhân ở nước ngoài.'
+    kind: input
+    template_neg: Khách hàng không ở nước ngoài.
+    template_pos: Khách hàng là tổ chức hoặc cá nhân ở nước ngoài.
+  foreign_event_in_vietnam:
+    ask: 'Xin cho biết: Dịch vụ tổ chức hội nghị ở Việt Nam cho khách nước ngoài.'
+    kind: input
+    template_neg: Không phải hội nghị tổ chức tại Việt Nam cho khách nước ngoài.
+    template_pos: Dịch vụ tổ chức hội nghị ở Việt Nam cho khách nước ngoài.
+  fuel_or_car_sold_into_non_tariff_zone:
+    ask: Có phải bán xăng dầu mua nội địa hoặc ô tô cho khu phi thuế quan không?
+    kind: input
+    template_neg: Không phải xăng dầu/ô tô bán vào khu phi thuế quan.
+    template_pos: Xăng dầu mua nội địa bán cho cơ sở trong khu phi thuế quan hoặc
+      ô tô bán cho tổ chức, cá nhân trong khu phi thuế quan.
+  goods_sold_to_non_tariff_zone_for_export_production:
+    ask: Hàng hóa có bán cho tổ chức trong khu phi thuế quan để phục vụ trực tiếp
+      sản xuất xuất khẩu không?
+    kind: input
+    template_neg: Không phải hàng bán vào khu phi thuế quan phục vụ sản xuất xuất
+      khẩu.
+    template_pos: Hàng hóa từ nội địa bán cho tổ chức trong khu phi thuế quan, tiêu
+      dùng trong khu phục vụ trực tiếp sản xuất xuất khẩu.
+  import_free_gift_or_sample:
+    ask: Hàng nhập khẩu có phải quà biếu, quà tặng hoặc hàng mẫu không phải trả tiền
+      từ nước ngoài không?
+    kind: input
+    template_neg: Hàng nhập khẩu không phải quà biếu, quà tặng, hàng mẫu không trả
+      tiền.
+    template_pos: Hàng nhập khẩu là quà biếu, quà tặng, hàng mẫu không phải trả tiền
+      của tổ chức, cá nhân nước ngoài.
+  input_used_exclusively_for_nontaxable:
+    ask: 'Xin cho biết: Đầu vào được dùng riêng cho hoạt động không chịu VAT.'
+    kind: input
+    template_neg: Đầu vào không dùng riêng cho hoạt động không chịu VAT.
+    template_pos: Đầu vào được dùng riêng cho hoạt động không chịu VAT.
+  input_used_for_mixed_sales:
+    ask: Hàng hóa, dịch vụ mua vào có dùng chung cho cả hoạt động chịu VAT và không
+      chịu VAT không?
+    kind: input
+    template_neg: Đầu vào không dùng chung cho cả hoạt động chịu và không chịu VAT.
+    template_pos: Đầu vào dùng chung cho hoạt động chịu VAT và không chịu VAT.
+  input_used_for_oil_gas_exploration:
+    ask: Đầu vào có dùng cho tìm kiếm thăm dò, phát triển mỏ dầu khí không?
+    kind: input
+    template_neg: Đầu vào không dùng cho tìm kiếm thăm dò, phát triển mỏ dầu khí.
+    template_pos: Đầu vào dùng cho hoạt động tìm kiếm thăm dò, phát triển mỏ dầu khí.
+  input_used_for_taxable_sales:
+    ask: 'Xin cho biết: Hàng mua vào phục vụ riêng hoạt động chịu VAT.'
+    kind: input
+    template_neg: Hàng mua vào không phục vụ hoạt động chịu VAT.
+    template_pos: Hàng mua vào phục vụ riêng hoạt động chịu VAT.
+  installment_payment_not_yet_due:
+    ask: Khoản mua có phải trả chậm, trả góp chưa đến hạn thanh toán theo hợp đồng
+      không?
+    kind: input
+    template_neg: Không phải mua trả chậm/trả góp chưa đến hạn thanh toán.
+    template_pos: Hàng mua trả chậm, trả góp chưa đến thời điểm thanh toán theo hợp
+      đồng.
+  international_transport_contract:
+    ask: Có hợp đồng vận chuyển (hoặc vé) theo chặng quốc tế không?
+    kind: input
+    template_neg: Không có hợp đồng vận chuyển quốc tế.
+    template_pos: Có hợp đồng vận chuyển (vé đối với hành khách) theo chặng quốc tế.
+  international_transport_service:
+    ask: Có phải dịch vụ vận tải quốc tế không?
+    kind: input
+    template_neg: Không phải vận tải quốc tế.
+    template_pos: Dịch vụ vận tải quốc tế (chặng từ/đến nước ngoài hoặc cả hai đầu
+      ở nước ngoài).
+  invoice_from_prohibited_act:
+    ask: Hóa đơn, chứng từ có được lập từ hành vi bị nghiêm cấm (ví dụ hóa đơn khống,
+      mua bán hóa đơn) không?
+    kind: input
+    template_neg: Hóa đơn, chứng từ không lập từ hành vi bị nghiêm cấm.
+    template_pos: Hóa đơn, chứng từ được lập từ hành vi bị nghiêm cấm.
+  non_tariff_zone_excluded_service:
+    ask: Dịch vụ cho khu phi thuế quan có phải cho thuê nhà/văn phòng/kho bãi, đưa
+      đón công nhân hoặc ăn uống không?
+    kind: input
+    template_neg: Không thuộc nhóm dịch vụ cho khu phi thuế quan bị loại khỏi 0%.
+    template_pos: Dịch vụ cho khu phi thuế quan là cho thuê nhà, hội trường, văn phòng,
+      khách sạn, kho bãi; đưa đón người lao động; ăn uống (trừ suất ăn công nghiệp,
+      ăn uống trong khu).
+  outbound_technology_transfer:
+    ask: 'Xin cho biết: Giao dịch là chuyển giao công nghệ ra nước ngoài.'
+    kind: input
+    template_neg: Giao dịch không phải chuyển giao công nghệ ra nước ngoài.
+    template_pos: Giao dịch là chuyển giao công nghệ ra nước ngoài.
+  paid_non_cash:
+    ask: 'Xin cho biết: Khoản mua được thanh toán không dùng tiền mặt.'
+    kind: input
+    template_neg: Khoản mua được thanh toán bằng tiền mặt.
+    template_pos: Khoản mua được thanh toán không dùng tiền mặt.
+  penalty_decision_postponed_or_suspended:
+    ask: Quyết định xử phạt có đang được hoãn hoặc tạm đình chỉ thi hành không?
+    kind: input
+    template_neg: Quyết định xử phạt không được hoãn hay tạm đình chỉ thi hành.
+    template_pos: Quyết định xử phạt được hoãn hoặc tạm đình chỉ thi hành.
+  penalty_noncompliance_enforcement_ground:
+    ask: ''
+    kind: derived
+    template_neg: Không thỏa căn cứ cưỡng chế do không chấp hành quyết định xử phạt.
+    template_pos: Thỏa căn cứ cưỡng chế do không chấp hành quyết định xử phạt.
+  postal_telecom_service:
+    ask: Có phải dịch vụ bưu chính, viễn thông không?
+    kind: input
+    template_neg: Không phải dịch vụ bưu chính, viễn thông.
+    template_pos: Dịch vụ bưu chính, viễn thông.
+  purchase_amount_at_least_5m:
+    ask: 'Xin cho biết: Giá trị thanh toán mua vào từ 5 triệu đồng.'
+    kind: input
+    template_neg: Giá trị thanh toán mua vào dưới 5 triệu đồng.
+    template_pos: Giá trị thanh toán mua vào từ 5 triệu đồng.
+  purchase_has_valid_vat_invoice:
+    ask: 'Xin cho biết: Doanh nghiệp có hóa đơn GTGT mua hàng hợp lệ.'
+    kind: input
+    template_neg: Doanh nghiệp không có hóa đơn GTGT mua hàng hợp lệ.
+    template_pos: Doanh nghiệp có hóa đơn GTGT mua hàng hợp lệ.
+  purchase_offset_with_reconciliation_record:
+    ask: Khoản mua có thanh toán bằng bù trừ công nợ ghi trong hợp đồng và có biên
+      bản đối chiếu không?
+    kind: input
+    template_neg: Không có thanh toán bù trừ hợp lệ kèm biên bản đối chiếu.
+    template_pos: Thanh toán bằng bù trừ được quy định trong hợp đồng và có biên bản
+      đối chiếu, xác nhận bù trừ.
+  reinsurance_abroad:
+    ask: Có phải dịch vụ tái bảo hiểm ra nước ngoài không?
+    kind: input
+    template_neg: Không phải tái bảo hiểm ra nước ngoài.
+    template_pos: Dịch vụ tái bảo hiểm ra nước ngoài.
+  same_seller_same_day_total_at_least_5m:
+    ask: Có mua nhiều lần của cùng một người bán trong một ngày với tổng giá trị từ
+      5 triệu đồng trở lên không?
+    kind: input
+    template_neg: Không có nhiều lần mua cùng ngày của một người bán với tổng từ 5
+      triệu đồng.
+    template_pos: Mua nhiều lần của cùng một người bán trong cùng một ngày, tổng giá
+      trị từ 5 triệu đồng trở lên.
+  service_in_vietnam_to_foreigner_excluded:
+    ask: Dịch vụ có được cung cấp tại Việt Nam cho bên nước ngoài thuộc nhóm thể thao,
+      biểu diễn, giải trí, khách sạn, đào tạo, quảng cáo, du lịch... không?
+    kind: input
+    template_neg: Không thuộc nhóm dịch vụ tại Việt Nam bị loại khỏi thuế suất 0%.
+    template_pos: Dịch vụ cung cấp tại Việt Nam cho bên nước ngoài thuộc nhóm thi
+      đấu thể thao, biểu diễn, văn hóa, giải trí, khách sạn, đào tạo, quảng cáo, du
+      lịch lữ hành, gắn với bán hàng tại Việt Nam hoặc thanh toán không dùng tiền
+      mặt.
+  service_to_non_tariff_zone_for_export_production:
+    ask: Dịch vụ có cung cấp cho tổ chức trong khu phi thuế quan để phục vụ trực tiếp
+      sản xuất xuất khẩu không?
+    kind: input
+    template_neg: Không phải dịch vụ cho khu phi thuế quan phục vụ sản xuất xuất khẩu.
+    template_pos: Dịch vụ cung cấp trực tiếp cho tổ chức trong khu phi thuế quan,
+      tiêu dùng trong khu phục vụ trực tiếp sản xuất xuất khẩu.
+  sold_to_humanitarian_aid_funded_buyer:
+    ask: Hàng hóa, dịch vụ có bán cho tổ chức, cá nhân sử dụng vốn viện trợ nhân đạo/không
+      hoàn lại không?
+    kind: input
+    template_neg: Không bán cho tổ chức, cá nhân sử dụng vốn viện trợ nhân đạo, không
+      hoàn lại.
+    template_pos: Hàng hóa, dịch vụ bán cho tổ chức, cá nhân sử dụng vốn viện trợ
+      nhân đạo, viện trợ không hoàn lại.
+  tax_debt_exists:
+    ask: 'Xin cho biết: Đang có tiền thuế nợ.'
+    kind: input
+    template_neg: Không có tiền thuế nợ.
+    template_pos: Đang có tiền thuế nợ.
+  tax_debt_installment_approved_guaranteed:
+    ask: Khoản nợ có đang được nộp dần (không quá 12 tháng) với thư bảo lãnh của tổ
+      chức tín dụng còn hiệu lực không?
+    kind: input
+    template_neg: Khoản nợ không thuộc diện được nộp dần có bảo lãnh còn hiệu lực.
+    template_pos: Khoản nợ được chấp nhận nộp dần trong thời hạn không quá 12 tháng,
+      có bảo lãnh của tổ chức tín dụng còn hiệu lực.
+  tax_debt_more_than_90days:
+    ask: 'Xin cho biết: Khoản tiền thuế nợ đã quá 90 ngày tính từ hạn nộp.'
+    kind: input
+    template_neg: Khoản tiền thuế nợ chưa quá 90 ngày kể từ hạn nộp.
+    template_pos: Khoản tiền thuế nợ đã quá 90 ngày tính từ hạn nộp.
+  tax_debt_no_late_interest:
+    ask: Khoản nợ thuế có được cơ quan quản lý thuế không tính tiền chậm nộp không?
+    kind: input
+    template_neg: Khoản nợ vẫn bị tính tiền chậm nộp.
+    template_pos: Khoản nợ được cơ quan quản lý thuế không tính tiền chậm nộp.
+  tax_debt_offset_refund_processing:
+    ask: 'Xin cho biết: Tiền thuế nợ đang được cơ quan thuế làm thủ tục bù trừ qua
+      hoàn thuế.'
+    kind: input
+    template_neg: Tiền thuế nợ không trong thủ tục bù trừ qua hoàn thuế.
+    template_pos: Tiền thuế nợ đang được cơ quan thuế làm thủ tục bù trừ qua hoàn
+      thuế.
+  tax_enforcement_90day_ground:
+    ask: ''
+    kind: derived
+    template_neg: Khoản nợ không thỏa căn cứ cưỡng chế do quá 90 ngày.
+    template_pos: Khoản nợ thỏa căn cứ cưỡng chế do quá 90 ngày.
+  tax_enforcement_allowed_for_offset:
+    ask: ''
+    kind: derived
+    template_neg: Cơ quan thuế không cưỡng chế đối với số tiền nợ đang bù trừ qua
+      hoàn thuế.
+    template_pos: Cơ quan thuế được cưỡng chế đối với số tiền nợ đang bù trừ qua hoàn
+      thuế.
+  tax_enforcement_ground:
+    ask: ''
+    kind: derived
+    template_neg: Tình huống không thuộc căn cứ cưỡng chế thuế đang được hỏi.
+    template_pos: Tình huống thuộc một căn cứ cưỡng chế thuế được nêu.
+  tax_enforcement_measure_allowed:
+    ask: ''
+    kind: derived
+    template_neg: Không/chưa thực hiện biện pháp cưỡng chế đối với khoản nợ.
+    template_pos: Được thực hiện biện pháp cưỡng chế đối với khoản nợ.
+  tax_payment_extension_expired:
+    ask: 'Xin cho biết: Đã hết thời hạn gia hạn nộp tiền thuế.'
+    kind: input
+    template_neg: Chưa hết thời hạn gia hạn nộp tiền thuế.
+    template_pos: Đã hết thời hạn gia hạn nộp tiền thuế.
+  tax_pays_under_deduction:
+    ask: 'Xin cho biết: Doanh nghiệp kê khai VAT theo phương pháp khấu trừ.'
+    kind: input
+    template_neg: Doanh nghiệp kê khai VAT theo phương pháp trực tiếp.
+    template_pos: Doanh nghiệp kê khai VAT theo phương pháp khấu trừ.
+  taxpayer_absent_at_registered_address:
+    ask: 'Xin cho biết: Người nộp thuế không hoạt động ở địa chỉ đã đăng ký.'
+    kind: input
+    template_neg: Người nộp thuế vẫn hoạt động ở địa chỉ đã đăng ký.
+    template_pos: Người nộp thuế không hoạt động ở địa chỉ đã đăng ký.
+  taxpayer_continues_inspection_noncompliance:
+    ask: Sau khi bị phạt, người nộp thuế có tiếp tục không chấp hành quyết định kiểm
+      tra thuế không?
+    kind: input
+    template_neg: Người nộp thuế đã chấp hành quyết định kiểm tra thuế.
+    template_pos: Người nộp thuế tiếp tục không chấp hành quyết định kiểm tra thuế.
+  taxpayer_dispersing_assets:
+    ask: Người nộp thuế có hành vi phát tán tài sản không?
+    kind: input
+    template_neg: Người nộp thuế không có hành vi phát tán tài sản.
+    template_pos: Người nộp thuế có hành vi phát tán tài sản.
+  taxpayer_not_comply_penalty_decision_on_time:
+    ask: Người nộp thuế có không chấp hành quyết định xử phạt vi phạm hành chính về
+      thuế đúng thời hạn không?
+    kind: input
+    template_neg: Người nộp thuế đã chấp hành quyết định xử phạt đúng thời hạn.
+    template_pos: Người nộp thuế không chấp hành quyết định xử phạt VPHC về quản lý
+      thuế đúng thời hạn ghi trên quyết định.
+  taxpayer_penalized_for_inspection_noncompliance:
+    ask: Người nộp thuế đã bị xử phạt vì không chấp hành quyết định kiểm tra thuế
+      chưa?
+    kind: input
+    template_neg: Người nộp thuế chưa bị xử phạt vì không chấp hành quyết định kiểm
+      tra thuế.
+    template_pos: Người nộp thuế đã bị xử phạt vì không chấp hành quyết định kiểm
+      tra thuế.
+  tobacco_alcohol_beer_imported_then_exported:
+    ask: Có phải thuốc lá, rượu, bia nhập khẩu sau đó xuất khẩu không?
+    kind: input
+    template_neg: Không phải thuốc lá, rượu, bia nhập khẩu rồi xuất khẩu.
+    template_pos: Thuốc lá, rượu, bia nhập khẩu sau đó xuất khẩu.
+  vat_agri_irrigation:
+    ask: 'Xin cho biết: Cung ứng tưới tiêu phục vụ sản xuất nông nghiệp.'
+    kind: input
+    template_neg: Không cung ứng tưới tiêu nông nghiệp.
+    template_pos: Cung ứng tưới tiêu phục vụ sản xuất nông nghiệp.
+  vat_agri_tillage_dredging_harvest:
+    ask: Có phải dịch vụ cày bừa, nạo vét kênh mương nội đồng hoặc thu hoạch nông
+      sản không?
+    kind: input
+    template_neg: Không phải dịch vụ cày bừa, nạo vét nội đồng hay thu hoạch nông
+      sản.
+    template_pos: Dịch vụ cày, bừa đất; nạo vét kênh, mương nội đồng phục vụ nông
+      nghiệp; thu hoạch nông sản.
+  vat_animal_or_aquatic_feed:
+    ask: Hàng hóa có phải thức ăn chăn nuôi hoặc thức ăn thủy sản không?
+    kind: input
+    template_neg: Không phải thức ăn chăn nuôi, thủy sản.
+    template_pos: Hàng hóa là thức ăn chăn nuôi hoặc thức ăn thủy sản theo quy định.
+  vat_breeding_stock_or_seed:
+    ask: Hàng hóa có phải giống vật nuôi hoặc vật liệu nhân giống cây trồng không?
+    kind: input
+    template_neg: Không phải giống vật nuôi hay vật liệu nhân giống cây trồng.
+    template_pos: Hàng hóa là giống vật nuôi hoặc vật liệu nhân giống cây trồng theo
+      quy định.
+  vat_community_funded_public_works:
+    ask: Công trình có dùng vốn đóng góp của nhân dân/viện trợ nhân đạo từ 50% tổng
+      vốn trở lên không?
+    kind: input
+    template_neg: Không thuộc công trình bằng vốn nhân dân/viện trợ từ 50% theo khoản
+      12.
+    template_pos: Duy tu, sửa chữa, xây dựng công trình theo khoản 12 Điều 5 bằng
+      vốn đóng góp của nhân dân, viện trợ nhân đạo chiếm từ 50% tổng vốn.
+  vat_defense_security_product:
+    ask: Có phải sản phẩm quốc phòng, an ninh theo danh mục không?
+    kind: input
+    template_neg: Không phải sản phẩm quốc phòng, an ninh theo danh mục.
+    template_pos: Sản phẩm quốc phòng, an ninh hoặc hàng nhập khẩu phục vụ công nghiệp
+      quốc phòng, an ninh theo danh mục.
+  vat_documentation_sufficient:
+    ask: ''
+    kind: derived
+    template_neg: Hồ sơ hóa đơn, thanh toán không đáp ứng yêu cầu khấu trừ VAT.
+    template_pos: Hồ sơ hóa đơn, thanh toán đáp ứng yêu cầu khấu trừ VAT.
+  vat_education_service:
+    ask: 'Xin cho biết: Cung ứng hoạt động dạy nghề theo pháp luật giáo dục nghề nghiệp.'
+    kind: input
+    template_neg: Không phải hoạt động dạy nghề theo pháp luật giáo dục nghề nghiệp.
+    template_pos: Cung ứng hoạt động dạy nghề theo pháp luật giáo dục nghề nghiệp.
+  vat_exempt_financial_service:
+    ask: Có phải dịch vụ tín dụng, cho vay, chứng khoán, chuyển nhượng vốn, bán nợ,
+      ngoại tệ hoặc phái sinh không?
+    kind: input
+    template_neg: Không thuộc dịch vụ tài chính không chịu thuế tại khoản 9 Điều 5.
+    template_pos: Dịch vụ cấp tín dụng, cho vay, kinh doanh chứng khoán, chuyển nhượng
+      vốn, bán nợ, kinh doanh ngoại tệ, phái sinh hoặc bán tài sản bảo đảm theo khoản
+      9 Điều 5.
+  vat_exempt_import_gift_or_relief:
+    ask: Hàng nhập khẩu có phải quà tặng, hành lý trong định mức miễn thuế, hàng ủng
+      hộ thiên tai hoặc cổ vật theo khoản 26 không?
+    kind: input
+    template_neg: Hàng nhập khẩu không thuộc khoản 26 Điều 5.
+    template_pos: Hàng nhập khẩu thuộc khoản 26 Điều 5 (quà tặng, quà biếu, hành lý,
+      đồ dùng miễn trừ trong định mức; hàng ủng hộ thiên tai, dịch bệnh; hàng cư dân
+      biên giới; cổ vật).
+  vat_exempt_publication:
+    ask: Có phải báo, tạp chí, sách chính trị/giáo khoa/pháp luật/khoa học kỹ thuật...
+      theo khoản 15 Điều 5 không?
+    kind: input
+    template_neg: Không thuộc ấn phẩm/hoạt động tại khoản 15 Điều 5.
+    template_pos: Xuất bản, nhập khẩu, phát hành báo, tạp chí, sách thuộc khoản 15
+      Điều 5 hoặc tiền, in tiền.
+  vat_export_qualifies:
+    ask: ''
+    kind: derived
+    template_neg: Hàng hóa hoặc dịch vụ không thỏa điều kiện cơ bản xuất khẩu áp dụng
+      mức 0%.
+    template_pos: Hàng hóa hoặc dịch vụ có điều kiện cơ bản để được coi là xuất khẩu
+      áp dụng mức 0%.
+  vat_export_unprocessed_resources:
+    ask: Hàng xuất khẩu có phải tài nguyên, khoáng sản thô (hoặc thuộc Danh mục hạn
+      chế xuất khẩu) không?
+    kind: input
+    template_neg: Không phải tài nguyên, khoáng sản xuất khẩu thuộc khoản 23 Điều
+      5.
+    template_pos: Sản phẩm xuất khẩu là tài nguyên, khoáng sản chưa chế biến hoặc
+      đã chế biến thuộc Danh mục Chính phủ quy định.
+  vat_funeral_service:
+    ask: Có phải dịch vụ tang lễ không?
+    kind: input
+    template_neg: Không phải dịch vụ tang lễ.
+    template_pos: Dịch vụ tang lễ.
+  vat_household_revenue_le_200m:
+    ask: Người bán có phải hộ, cá nhân kinh doanh với doanh thu năm từ 200 triệu đồng
+      trở xuống không?
+    kind: input
+    template_neg: Hộ, cá nhân kinh doanh có doanh thu năm trên 200 triệu đồng (hoặc
+      không phải hộ, cá nhân).
+    template_pos: Hàng hóa, dịch vụ của hộ, cá nhân kinh doanh có doanh thu năm từ
+      200 triệu đồng trở xuống.
+  vat_humanitarian_aid_goods:
+    ask: Có phải hàng viện trợ nhân đạo, viện trợ không hoàn lại không?
+    kind: input
+    template_neg: Không phải hàng viện trợ nhân đạo, không hoàn lại.
+    template_pos: Hàng nhập khẩu viện trợ nhân đạo, không hoàn lại hoặc hàng bán cho
+      bên nước ngoài để viện trợ cho Việt Nam.
+  vat_import_equipment_not_domestically_produced:
+    ask: Có phải nhập khẩu máy móc, thiết bị trong nước chưa sản xuất được cho nghiên
+      cứu khoa học, dầu khí hoặc tạo tài sản cố định theo khoản 17 không?
+    kind: input
+    template_neg: Không thuộc hàng nhập khẩu trong nước chưa sản xuất được theo khoản
+      17.
+    template_pos: Nhập khẩu máy móc, thiết bị, vật tư, phương tiện trong nước chưa
+      sản xuất được cho mục đích nêu tại khoản 17 Điều 5.
+  vat_import_raw_gold:
+    ask: 'Xin cho biết: Nhập khẩu vàng thỏi chưa chế tác.'
+    kind: input
+    template_neg: Không nhập khẩu vàng thỏi chưa chế tác.
+    template_pos: Nhập khẩu vàng thỏi chưa chế tác.
+  vat_import_unprocessed_agri_product:
+    ask: Có phải nhập khẩu nông, lâm, thủy sản chưa chế biến (hoặc chỉ sơ chế thông
+      thường) không?
+    kind: input
+    template_neg: Không phải nhập khẩu nông, lâm, thủy sản chưa chế biến.
+    template_pos: Nhập khẩu sản phẩm trồng trọt, rừng trồng, chăn nuôi, thủy sản chưa
+      chế biến hoặc chỉ sơ chế thông thường.
+  vat_input_deductible:
+    ask: ''
+    kind: derived
+    template_neg: Thuế GTGT đầu vào của giao dịch không được khấu trừ.
+    template_pos: Thuế GTGT đầu vào của giao dịch được khấu trừ.
+  vat_land_use_transfer:
+    ask: 'Xin cho biết: Giao dịch là chuyển quyền sử dụng đất.'
+    kind: input
+    template_neg: Giao dịch không phải chuyển quyền sử dụng đất.
+    template_pos: Giao dịch là chuyển quyền sử dụng đất.
+  vat_life_insurance:
+    ask: 'Xin cho biết: Giao dịch là bảo hiểm nhân thọ.'
+    kind: input
+    template_neg: Giao dịch không phải bảo hiểm nhân thọ.
+    template_pos: Giao dịch là bảo hiểm nhân thọ.
+  vat_medical_service:
+    ask: 'Xin cho biết: Dịch vụ khám hoặc chữa bệnh cho người.'
+    kind: input
+    template_neg: Không phải dịch vụ khám hoặc chữa bệnh cho người.
+    template_pos: Dịch vụ khám hoặc chữa bệnh cho người.
+  vat_non_business_asset_reserve_or_fee:
+    ask: Có phải tài sản của người không kinh doanh bán ra, hàng dự trữ quốc gia hoặc
+      khoản thu phí, lệ phí không?
+    kind: input
+    template_neg: Không thuộc tài sản không kinh doanh, hàng dự trữ quốc gia hay phí,
+      lệ phí.
+    template_pos: Tài sản của tổ chức, cá nhân không kinh doanh bán ra, hàng dự trữ
+      quốc gia bán ra hoặc khoản thu phí, lệ phí.
+  vat_non_taxable:
+    ask: ''
+    kind: derived
+    template_neg: Giao dịch không thuộc đối tượng không chịu thuế GTGT.
+    template_pos: Giao dịch thuộc đối tượng không chịu thuế GTGT.
+  vat_other_exempt_insurance:
+    ask: Có phải bảo hiểm sức khỏe/người học/liên quan con người/nông nghiệp/tàu cá/tái
+      bảo hiểm không?
+    kind: input
+    template_neg: Không thuộc các loại bảo hiểm không chịu thuế khác tại khoản 8 Điều
+      5.
+    template_pos: Bảo hiểm sức khỏe, người học, bảo hiểm liên quan con người, bảo
+      hiểm nông nghiệp, tàu cá, tái bảo hiểm hoặc công trình dầu khí theo khoản 8
+      Điều 5.
+  vat_prosthetic_or_disability_aid:
+    ask: Có phải bộ phận cơ thể nhân tạo, nạng, xe lăn hoặc dụng cụ cho người khuyết
+      tật không?
+    kind: input
+    template_neg: Không phải sản phẩm thay thế bộ phận cơ thể hay dụng cụ cho người
+      khuyết tật.
+    template_pos: Sản phẩm nhân tạo thay thế bộ phận cơ thể người bệnh; nạng, xe lăn,
+      dụng cụ chuyên dùng cho người khuyết tật.
+  vat_public_bus:
+    ask: 'Xin cho biết: Cung cấp dịch vụ xe buýt công cộng.'
+    kind: input
+    template_neg: Không cung cấp dịch vụ xe buýt công cộng.
+    template_pos: Cung cấp dịch vụ xe buýt công cộng.
+  vat_public_tram_or_inland_waterway:
+    ask: Có phải vận chuyển hành khách công cộng bằng tàu điện hoặc phương tiện thủy
+      nội địa không?
+    kind: input
+    template_neg: Không phải vận chuyển công cộng bằng tàu điện, phương tiện thủy
+      nội địa.
+    template_pos: Vận chuyển hành khách công cộng bằng tàu điện hoặc phương tiện thủy
+      nội địa.
+  vat_sale_raw_crops_own_production:
+    ask: 'Xin cho biết: Bán nông sản tự trồng chưa chế biến.'
+    kind: input
+    template_neg: Không phải nông sản tự trồng chưa chế biến.
+    template_pos: Bán nông sản tự trồng chưa chế biến.
+  vat_sale_salt:
+    ask: 'Xin cho biết: Sản xuất và bán muối từ nước biển.'
+    kind: input
+    template_neg: Không sản xuất bán muối từ nước biển.
+    template_pos: Sản xuất và bán muối từ nước biển.
+  vat_software_service:
+    ask: 'Xin cho biết: Giao dịch là dịch vụ phần mềm theo quy định.'
+    kind: input
+    template_neg: Không phải dịch vụ phần mềm theo quy định.
+    template_pos: Giao dịch là dịch vụ phần mềm theo quy định.
+  vat_state_funded_broadcasting:
+    ask: Có phải phát sóng truyền thanh, truyền hình bằng vốn ngân sách nhà nước không?
+    kind: input
+    template_neg: Không phải phát sóng bằng vốn ngân sách nhà nước.
+    template_pos: Phát sóng truyền thanh, truyền hình bằng nguồn vốn ngân sách nhà
+      nước.
+  vat_state_housing_sold_to_tenant:
+    ask: Có phải Nhà nước bán nhà ở thuộc tài sản công cho người đang thuê không?
+    kind: input
+    template_neg: Không phải nhà ở tài sản công bán cho người đang thuê.
+    template_pos: Nhà ở thuộc tài sản công do Nhà nước bán cho người đang thuê.
+  vat_teaching_service:
+    ask: Có phải hoạt động dạy học theo pháp luật về giáo dục không?
+    kind: input
+    template_neg: Không phải hoạt động dạy học theo pháp luật giáo dục.
+    template_pos: Hoạt động dạy học theo quy định của pháp luật về giáo dục.
+  vat_technology_transfer_or_ip_transfer:
+    ask: Có phải chuyển giao công nghệ hoặc chuyển nhượng quyền sở hữu trí tuệ không?
+    kind: input
+    template_neg: Không phải chuyển giao công nghệ hay chuyển nhượng quyền sở hữu
+      trí tuệ.
+    template_pos: Chuyển giao công nghệ hoặc chuyển nhượng quyền sở hữu trí tuệ theo
+      luật.
+  vat_transit_or_temporary_import_export:
+    ask: Có phải hàng quá cảnh, chuyển khẩu, tạm nhập tái xuất, nguyên liệu gia công
+      xuất khẩu hoặc mua bán với khu phi thuế quan không?
+    kind: input
+    template_neg: Không thuộc các trường hợp tại khoản 20 Điều 5.
+    template_pos: Hàng chuyển khẩu, quá cảnh, tạm nhập tái xuất, tạm xuất tái nhập,
+      nguyên liệu nhập để gia công xuất khẩu hoặc hàng mua bán với/giữa khu phi thuế
+      quan.
+  vat_veterinary_service:
+    ask: Có phải dịch vụ thú y không?
+    kind: input
+    template_neg: Không phải dịch vụ thú y.
+    template_pos: Dịch vụ khám, chữa, phòng bệnh cho vật nuôi.
+  vat_zero_rate_applicable:
+    ask: ''
+    kind: derived
+    template_neg: Giao dịch không đủ điều kiện áp dụng thuế suất GTGT 0%.
+    template_pos: Giao dịch đủ điều kiện áp dụng thuế suất GTGT 0%.

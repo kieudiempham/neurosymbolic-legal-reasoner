@@ -1,0 +1,25 @@
+{
+ "model": "gpt-4o-mini",
+ "articles": 141,
+ "rules": 856,
+ "condition_rules": 810,
+ "lookup_rules": 46,
+ "condition_rules_multi_premise": 350,
+ "rules_with_undeclared_predicates": 127,
+ "predicates_total": 368,
+ "predicates_new": 334,
+ "exception_references": 23,
+ "exception_of_resolved": 40,
+ "by_domain": {
+  "labor": 856
+ },
+ "by_doc": {
+  "10_bao_hiem_xa_hoi_41_2024_QH15": 856
+ },
+ "api_calls": 142,
+ "tokens_in": 778186,
+ "tokens_out": 138215,
+ "estimated_cost_usd": 0.2,
+ "seconds": 238,
+ "review_status": "draft (LLM-extracted, not manually verified)"
+}

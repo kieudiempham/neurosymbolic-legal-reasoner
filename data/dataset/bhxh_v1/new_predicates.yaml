@@ -1,0 +1,104 @@
+predicates:
+  alternative_work_agreement:
+    ask: Hai bên có thỏa thuận làm việc dưới tên gọi khác hay không?
+    first_declared_in: BHXH-011
+    kind: input
+    pred: alternative_work_agreement
+    template_neg: Hai bên không có thỏa thuận làm việc dưới tên gọi khác.
+    template_pos: Hai bên có thỏa thuận làm việc được đặt tên khác hợp đồng lao động.
+  business_registered:
+    ask: Hộ kinh doanh đã đăng ký kinh doanh chưa?
+    first_declared_in: BHXH-057
+    kind: input
+    pred: business_registered
+    template_neg: Hộ kinh doanh chưa đăng ký kinh doanh.
+    template_pos: Hộ kinh doanh đã đăng ký kinh doanh.
+  date_before_2029:
+    ask: Thời điểm áp dụng quy định là ngày nào?
+    first_declared_in: BHXH-064
+    kind: input
+    pred: date_before_2029
+    template_neg: Thời điểm áp dụng từ ngày 01/07/2029 trở đi.
+    template_pos: Thời điểm áp dụng trước ngày 01/07/2029.
+  declaration_tax_method:
+    ask: Hộ kinh doanh đang nộp thuế theo phương pháp kê khai không?
+    first_declared_in: BHXH-057
+    kind: input
+    pred: declaration_tax_method
+    template_neg: Hộ kinh doanh không nộp thuế theo phương pháp kê khai.
+    template_pos: Hộ kinh doanh nộp thuế theo phương pháp kê khai.
+  eligible_request:
+    first_declared_in: BHXH-085
+    kind: derived
+    pred: eligible_request
+    template_neg: Người này chưa thỏa các tiền đề thủ tục đang xét.
+    template_pos: Người này đã chấm dứt tham gia BHXH và đã đề nghị giải quyết BHXH
+      một lần.
+  employer_in_vietnam:
+    ask: Đơn vị ký hợp đồng có phải người sử dụng lao động tại Việt Nam không?
+    first_declared_in: BHXH-031
+    kind: input
+    pred: employer_in_vietnam
+    template_neg: Người sử dụng lao động không ở Việt Nam.
+    template_pos: Người sử dụng lao động ở Việt Nam.
+  first_contract_suspended:
+    ask: Hợp đồng đầu tiên có đang tạm hoãn không?
+    first_declared_in: BHXH-073
+    kind: input
+    pred: first_contract_suspended
+    template_neg: Hợp đồng lao động đầu tiên không tạm hoãn thực hiện.
+    template_pos: Hợp đồng lao động đầu tiên đang tạm hoãn thực hiện.
+  foreign_covered:
+    first_declared_in: BHXH-031
+    kind: derived
+    pred: foreign_covered
+    template_neg: Lao động nước ngoài không thuộc diện này.
+    template_pos: Lao động nước ngoài thuộc diện tham gia BHXH bắt buộc theo khoản
+      2 Điều 2.
+  household_covered:
+    first_declared_in: BHXH-057
+    kind: derived
+    pred: household_covered
+    template_neg: Chủ hộ kinh doanh không thuộc diện này.
+    template_pos: Chủ hộ kinh doanh thuộc diện BHXH bắt buộc theo quy định hiện hành.
+  manager_covered:
+    first_declared_in: BHXH-049
+    kind: derived
+    pred: manager_covered
+    template_neg: Người quản lý doanh nghiệp không thuộc đối tượng này.
+    template_pos: Người quản lý doanh nghiệp thuộc đối tượng tham gia BHXH bắt buộc.
+  mandatory_si_history:
+    ask: Anh/chị từng tham gia BHXH bắt buộc chưa?
+    first_declared_in: BHXH-079
+    kind: input
+    pred: mandatory_si_history
+    template_neg: Người này không từng tham gia BHXH bắt buộc theo nhóm này.
+    template_pos: Người này từng tham gia BHXH bắt buộc theo đối tượng được quy định.
+  monthly_benefit:
+    ask: Anh/chị có đang hưởng trợ cấp BHXH hoặc trợ cấp hằng tháng không?
+    first_declared_in: BHXH-001
+    kind: input
+    pred: monthly_benefit
+    template_neg: Người này không hưởng trợ cấp BHXH hoặc trợ cấp hằng tháng.
+    template_pos: Người này đang hưởng trợ cấp BHXH hoặc trợ cấp hằng tháng.
+  pension_contribution_condition:
+    first_declared_in: BHXH-079
+    kind: derived
+    pred: pension_contribution_condition
+    template_neg: Người này chưa đủ ngưỡng thời gian đóng BHXH bắt buộc.
+    template_pos: Người này đủ ngưỡng thời gian đóng BHXH bắt buộc cho mục đích xét
+      lương hưu.
+  second_contract_active:
+    ask: Hợp đồng thứ hai có hiệu lực không?
+    first_declared_in: BHXH-073
+    kind: input
+    pred: second_contract_active
+    template_neg: Không có hợp đồng lao động thứ hai đang có hiệu lực.
+    template_pos: Có hợp đồng lao động thứ hai đang có hiệu lực.
+  treaty_exception:
+    ask: Có điều ước quốc tế quy định khác áp dụng cho trường hợp này không?
+    first_declared_in: BHXH-031
+    kind: input
+    pred: treaty_exception
+    template_neg: Không có điều ước quốc tế quy định khác áp dụng cho trường hợp này.
+    template_pos: Có điều ước quốc tế quy định khác áp dụng cho trường hợp này.

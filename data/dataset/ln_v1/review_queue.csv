@@ -1,0 +1,41 @@
+id,topic,info_level,expected,grounded_domains,source_articles,profile_hash,review_status,note
+LN-001,collaborator_6m,complete,true,bhxh|lao_dong,LL:13; SI:2,8c781e357146,DRAFT_PENDING_LEGAL_REVIEW,
+LN-002,collaborator_no_term,missing,insufficient,bhxh|lao_dong,LL:13; SI:2,46a7291c8ed5,DRAFT_PENDING_LEGAL_REVIEW,
+LN-003,content_missing_supervision,missing,insufficient,bhxh|lao_dong,LL:13; SI:2,84e6acf63706,DRAFT_PENDING_LEGAL_REVIEW,
+LN-004,content_missing_payment,missing,insufficient,bhxh|lao_dong,LL:13; SI:2,17ea342eeb85,DRAFT_PENDING_LEGAL_REVIEW,
+LN-005,short_duration_20days,complete,false,bhxh|lao_dong,LL:13; SI:2,2efa2df96169,DRAFT_PENDING_LEGAL_REVIEW,
+LN-006,online_tutor_2months,complete,true,bhxh|lao_dong,LL:13; SI:2,8c781e357146,DRAFT_PENDING_LEGAL_REVIEW,
+LN-007,deliverer_3weeks,complete,false,bhxh|lao_dong,LL:13; SI:2,2efa2df96169,DRAFT_PENDING_LEGAL_REVIEW,
+LN-008,content_unknown_tenure,missing,insufficient,bhxh|lao_dong,LL:13; SI:2,46a7291c8ed5,DRAFT_PENDING_LEGAL_REVIEW,
+LN-009,paid_and_managed_12month,complete,true,bhxh|lao_dong,LL:13; SI:2,8c781e357146,DRAFT_PENDING_LEGAL_REVIEW,
+LN-010,content_no_management,complete,false,bhxh|lao_dong,LL:13; SI:2,53f7aade6851,DRAFT_PENDING_LEGAL_REVIEW,
+LN-011,converted_contract_35days,complete,true,bhxh|lao_dong,LL:20; SI:2,e928b34a6e69,DRAFT_PENDING_LEGAL_REVIEW,
+LN-012,converted_contract_60days,complete,true,bhxh|lao_dong,LL:20; SI:2,e928b34a6e69,DRAFT_PENDING_LEGAL_REVIEW,
+LN-013,suspend_unpaid_no_agree,complete,false,bhxh|lao_dong,SI:2; LL:30; LL:30; SI:33,20d1eaa36bbd,DRAFT_PENDING_LEGAL_REVIEW,Chỉ xét nghĩa vụ đóng BHXH theo Điều 33.5 đối với người thuộc nhóm hợp đồng lao động; giả định người hỏi đang tham gia diện này.
+LN-014,suspend_unpaid_agree,exception_or_conflict,true,bhxh|lao_dong,SI:2; LL:30; LL:30; SI:33,9295c7e1b285,DRAFT_PENDING_LEGAL_REVIEW,Chỉ xét nghĩa vụ đóng BHXH theo Điều 33.5 đối với người thuộc nhóm hợp đồng lao động; giả định người hỏi đang tham gia diện này.
+LN-015,suspend_unpaid_unknown_agree,missing,insufficient,bhxh|lao_dong,SI:2; LL:30; LL:30; SI:33,aa6a487223c3,DRAFT_PENDING_LEGAL_REVIEW,Chỉ xét nghĩa vụ đóng BHXH theo Điều 33.5 đối với người thuộc nhóm hợp đồng lao động; giả định người hỏi đang tham gia diện này.
+LN-016,suspend_unpaid_exact14,complete,false,bhxh|lao_dong,SI:2; LL:30; LL:30; SI:33,20d1eaa36bbd,DRAFT_PENDING_LEGAL_REVIEW,Chỉ xét nghĩa vụ đóng BHXH theo Điều 33.5 đối với người thuộc nhóm hợp đồng lao động; giả định người hỏi đang tham gia diện này.
+LN-017,suspend_unpaid_22_with_agreement,exception_or_conflict,true,bhxh|lao_dong,SI:2; LL:30; LL:30; SI:33,9295c7e1b285,DRAFT_PENDING_LEGAL_REVIEW,Chỉ xét nghĩa vụ đóng BHXH theo Điều 33.5 đối với người thuộc nhóm hợp đồng lao động; giả định người hỏi đang tham gia diện này.
+LN-018,suspend_unknown_unpaid_days,missing,insufficient,bhxh|lao_dong,SI:2; LL:30; LL:30; SI:33,601cb00bbc9c,DRAFT_PENDING_LEGAL_REVIEW,Chỉ xét nghĩa vụ đóng BHXH theo Điều 33.5 đối với người thuộc nhóm hợp đồng lao động; giả định người hỏi đang tham gia diện này.
+LN-019,director_paid,complete,true,bhxh|doanh_nghiep,DN:4; SI:2,6003f14df561,DRAFT_PENDING_LEGAL_REVIEW,"Chỉ phân loại nhóm người quản lý theo điểm i/n, chưa tính những ngoại lệ theo thông tin bổ sung."
+LN-020,board_chair_unpaid,complete,true,bhxh|doanh_nghiep,DN:4; SI:2,3811fe46ec0e,DRAFT_PENDING_LEGAL_REVIEW,"Chỉ phân loại nhóm người quản lý theo điểm i/n, chưa tính những ngoại lệ theo thông tin bổ sung."
+LN-021,llc_council_paid,complete,true,bhxh|doanh_nghiep,DN:4; SI:2,6003f14df561,DRAFT_PENDING_LEGAL_REVIEW,"Chỉ phân loại nhóm người quản lý theo điểm i/n, chưa tính những ngoại lệ theo thông tin bổ sung."
+LN-022,llc_chair_unpaid,complete,true,bhxh|doanh_nghiep,DN:4; SI:2,3811fe46ec0e,DRAFT_PENDING_LEGAL_REVIEW,"Chỉ phân loại nhóm người quản lý theo điểm i/n, chưa tính những ngoại lệ theo thông tin bổ sung."
+LN-023,ceo_unknown_pay,missing,insufficient,bhxh|doanh_nghiep,DN:4; SI:2,4dcc47805796,DRAFT_PENDING_LEGAL_REVIEW,"Chỉ phân loại nhóm người quản lý theo điểm i/n, chưa tính những ngoại lệ theo thông tin bổ sung."
+LN-024,board_member_paid,complete,true,bhxh|doanh_nghiep,DN:4; SI:2,6003f14df561,DRAFT_PENDING_LEGAL_REVIEW,"Chỉ phân loại nhóm người quản lý theo điểm i/n, chưa tính những ngoại lệ theo thông tin bổ sung."
+LN-025,partnership_member_unpaid,complete,true,bhxh|doanh_nghiep,DN:4; SI:2,3811fe46ec0e,DRAFT_PENDING_LEGAL_REVIEW,"Chỉ phân loại nhóm người quản lý theo điểm i/n, chưa tính những ngoại lệ theo thông tin bổ sung."
+LN-026,manager_unknown_all,missing,insufficient,bhxh|doanh_nghiep,DN:4; SI:2,4dcc47805796,DRAFT_PENDING_LEGAL_REVIEW,"Chỉ phân loại nhóm người quản lý theo điểm i/n, chưa tính những ngoại lệ theo thông tin bổ sung."
+LN-027,llc_1_product_profit,complete,true,doanh_nghiep|thue,DN:74; CIT:3; CIT:2; CIT:2,c29a655fcbdb,DRAFT_PENDING_LEGAL_REVIEW,Tình huống năm 2026. Thuế suất chỉ xét ngưỡng doanh thu và các điều kiện đã nêu; chi tiết xác định doanh thu theo nghị định cần thẩm định thêm.
+LN-028,llc_2_service_profit,complete,true,doanh_nghiep|thue,DN:46; CIT:3; CIT:2; CIT:2,b9f2803debb1,DRAFT_PENDING_LEGAL_REVIEW,Tình huống năm 2026. Thuế suất chỉ xét ngưỡng doanh thu và các điều kiện đã nêu; chi tiết xác định doanh thu theo nghị định cần thẩm định thêm.
+LN-029,stock_design_profit,complete,true,doanh_nghiep|thue,DN:111; CIT:3; CIT:2; CIT:2,95aa226b5e08,DRAFT_PENDING_LEGAL_REVIEW,Tình huống năm 2026. Thuế suất chỉ xét ngưỡng doanh thu và các điều kiện đã nêu; chi tiết xác định doanh thu theo nghị định cần thẩm định thêm.
+LN-030,llc_1_no_income_info,missing,insufficient,doanh_nghiep|thue,DN:74; CIT:3; CIT:2; CIT:2,c29a655fcbdb,DRAFT_PENDING_LEGAL_REVIEW,Tình huống năm 2026. Thuế suất chỉ xét ngưỡng doanh thu và các điều kiện đã nêu; chi tiết xác định doanh thu theo nghị định cần thẩm định thêm.
+LN-031,stock_new_missing_income,missing,insufficient,doanh_nghiep|thue,DN:111; CIT:3; CIT:2; CIT:2,d6814065ed5a,DRAFT_PENDING_LEGAL_REVIEW,Tình huống năm 2026. Thuế suất chỉ xét ngưỡng doanh thu và các điều kiện đã nêu; chi tiết xác định doanh thu theo nghị định cần thẩm định thêm.
+LN-032,llc_1_small_rate,complete,true,doanh_nghiep|thue,DN:74; CIT:3; CIT:2; CIT:2; CIT:10,f4e7a7de4caf,DRAFT_PENDING_LEGAL_REVIEW,Tình huống năm 2026. Thuế suất chỉ xét ngưỡng doanh thu và các điều kiện đã nêu; chi tiết xác định doanh thu theo nghị định cần thẩm định thêm.
+LN-033,llc_2_medium_rate,complete,true,doanh_nghiep|thue,DN:46; CIT:3; CIT:2; CIT:2; CIT:10,dac41eae4de9,DRAFT_PENDING_LEGAL_REVIEW,Tình huống năm 2026. Thuế suất chỉ xét ngưỡng doanh thu và các điều kiện đã nêu; chi tiết xác định doanh thu theo nghị định cần thẩm định thêm.
+LN-034,stock_medium_rate,complete,true,doanh_nghiep|thue,DN:111; CIT:3; CIT:2; CIT:2; CIT:10,a0b0a7151d46,DRAFT_PENDING_LEGAL_REVIEW,Tình huống năm 2026. Thuế suất chỉ xét ngưỡng doanh thu và các điều kiện đã nêu; chi tiết xác định doanh thu theo nghị định cần thẩm định thêm.
+LN-035,stock_unknown_prior_revenue,missing,insufficient,doanh_nghiep|thue,DN:111; CIT:3; CIT:2; CIT:2; CIT:10,ed93d563a0c6,DRAFT_PENDING_LEGAL_REVIEW,Tình huống năm 2026. Thuế suất chỉ xét ngưỡng doanh thu và các điều kiện đã nêu; chi tiết xác định doanh thu theo nghị định cần thẩm định thêm.
+LN-036,branch_sells_machines,complete,true,doanh_nghiep|thue,DN:44; VAT:3; VAT:4,5d9bd0fdf8e7,DRAFT_PENDING_LEGAL_REVIEW,
+LN-037,branch_sells_furniture,complete,true,doanh_nghiep|thue,DN:44; VAT:3; VAT:4,5d9bd0fdf8e7,DRAFT_PENDING_LEGAL_REVIEW,
+LN-038,branch_service_unknown,missing,insufficient,doanh_nghiep|thue,DN:44; VAT:3; VAT:4,9342e6c53f3c,DRAFT_PENDING_LEGAL_REVIEW,
+LN-039,wage_cost_documented,complete,true,lao_dong|thue,LL:90; CIT:9; CIT:9,191e8c031cbe,DRAFT_PENDING_LEGAL_REVIEW,Cần rà soát thêm các giới hạn và loại chứng từ được chấp nhận theo văn bản hướng dẫn.
+LN-040,wage_cost_missing_proofs,missing,insufficient,lao_dong|thue,LL:90; CIT:9; CIT:9,216db05c997f,DRAFT_PENDING_LEGAL_REVIEW,Cần rà soát thêm các giới hạn và loại chứng từ được chấp nhận theo văn bản hướng dẫn.

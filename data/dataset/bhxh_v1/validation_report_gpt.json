@@ -1,0 +1,31 @@
+{
+  "total": 90,
+  "by_info_level": {
+    "complete": 54,
+    "missing": 23,
+    "exception_or_conflict": 13
+  },
+  "by_expected": {
+    "true": 48,
+    "insufficient": 23,
+    "false": 19
+  },
+  "by_question_type": {
+    "application": 90
+  },
+  "multihop": 75,
+  "quoted_bases_verified": 208,
+  "schema_errors": 0,
+  "new_predicates": 15,
+  "all_cases_require_legal_review": true,
+  "distinct_questions": 90,
+  "semantic_distinct_cases": 45,
+  "paraphrase_variants": 45,
+  "automatic_proof_warnings": [],
+  "automatic_proof_warnings_count": 0,
+  "json_schema_pass": true,
+  "legal_expert_review_complete": false,
+  "repo_validator_executed": false,
+  "is_final_benchmark": false,
+  "validation_scope": "JSON schema; exact spans; distinct strings; article-extract quote substring; basic symbolic chain; grouping (NOT expert correctness)"
+}

@@ -1,0 +1,31 @@
+﻿id,topic,profile_hash,info_level,validation_status,notes
+LD-001,different_named_labor_agreement,0ae2c049431b,complete,STRUCTURE_VALID_PENDING_HUMAN_REVIEW,Nội dung thỏa thuận có trả lương và chịu quản lý quan trọng hơn tên gọi.
+LD-002,missing_control_for_labor_agreement,aaf6ef1cb578,missing,STRUCTURE_VALID_PENDING_HUMAN_REVIEW,
+LD-003,oral_short_contract_allowed,0d06a4e84c4b,complete,STRUCTURE_VALID_PENDING_HUMAN_REVIEW,
+LD-004,oral_contract_minor_under15,f8e661aefffc,exception_or_conflict,STRUCTURE_VALID_PENDING_HUMAN_REVIEW,Ngoại lệ theo Điều 145 yêu cầu hợp đồng bằng văn bản.
+LD-005,oral_contract_duration_missing,b5466af90317,missing,STRUCTURE_VALID_PENDING_HUMAN_REVIEW,
+LD-006,fixed_contract_max36,adb4896cd437,complete,STRUCTURE_VALID_PENDING_HUMAN_REVIEW,
+LD-007,fixed_contract_over36,65c4fd1c3b51,complete,STRUCTURE_VALID_PENDING_HUMAN_REVIEW,
+LD-008,expired_fixed_auto_indefinite,7c8f423df70c,complete,STRUCTURE_VALID_PENDING_HUMAN_REVIEW,
+LD-009,probation_exception_short_contract,6c89f4a03068,exception_or_conflict,STRUCTURE_VALID_PENDING_HUMAN_REVIEW,
+LD-010,probation_college60,6ff8ff7c0433,complete,STRUCTURE_VALID_PENDING_HUMAN_REVIEW,Chỉ đánh giá giới hạn thời gian thử việc theo nhóm chức danh cao đẳng trở lên.
+LD-011,probation_category_unknown,b2d4a88f8e7e,missing,STRUCTURE_VALID_PENDING_HUMAN_REVIEW,"Nếu không thuộc nhóm trình độ cao đẳng trở lên, giới hạn thời gian có thể khác; cần biết chức danh."
+LD-012,cancel_during_probation,253ea6fb6591,complete,STRUCTURE_VALID_PENDING_HUMAN_REVIEW,
+LD-013,notice_fixed18_full30,12e35a2becf7,complete,STRUCTURE_VALID_PENDING_HUMAN_REVIEW,
+LD-014,notice_fixed24_under30,ec644214c90c,complete,STRUCTURE_VALID_PENDING_HUMAN_REVIEW,
+LD-015,notice_fixed13_missing,46553718bd60,missing,STRUCTURE_VALID_PENDING_HUMAN_REVIEW,
+LD-016,no_notice_unpaid_wages,6eaa1f2ef4a5,exception_or_conflict,STRUCTURE_VALID_PENDING_HUMAN_REVIEW,Theo benchmark policy: không có dữ kiện kích hoạt ngoại lệ Điều 97 khoản 4.
+LD-017,transfer_70_no_consent,d0c54e36ddec,complete,STRUCTURE_VALID_PENDING_HUMAN_REVIEW,
+LD-018,transfer_75_consent_unknown,11cef27b7a73,missing,STRUCTURE_VALID_PENDING_HUMAN_REVIEW,
+LD-019,overtime_weekly_rest_200,96e5e6e94796,complete,STRUCTURE_VALID_PENDING_HUMAN_REVIEW,
+LD-020,overtime_public_holiday_300,07b9224093a8,complete,STRUCTURE_VALID_PENDING_HUMAN_REVIEW,
+LD-021,overtime_unknown_day_type,2e658319ad06,missing,STRUCTURE_VALID_PENDING_HUMAN_REVIEW,Biểu diễn missing_fact theo nhánh cần xác định; cần phân biệt ngày thường/nghỉ tuần/lễ khi hoàn thiện schema đa giá trị.
+LD-022,no_overtime_agreement,9c0ca6b59a49,complete,STRUCTURE_VALID_PENDING_HUMAN_REVIEW,
+LD-023,night_work_break_45,703dda78b478,complete,STRUCTURE_VALID_PENDING_HUMAN_REVIEW,
+LD-024,shift_change_10hours,71388db88622,complete,STRUCTURE_VALID_PENDING_HUMAN_REVIEW,
+LD-025,annual_leave_full_year_normal,a89d5f5aeaa7,complete,STRUCTURE_VALID_PENDING_HUMAN_REVIEW,
+LD-026,annual_leave_missing_tenure,55c1d84d7b19,missing,STRUCTURE_VALID_PENDING_HUMAN_REVIEW,
+LD-027,internal_rules_12_workers,a457c431ffdc,complete,STRUCTURE_VALID_PENDING_HUMAN_REVIEW,
+LD-028,discipline_pregnant_worker,fdc816a50206,exception_or_conflict,STRUCTURE_VALID_PENDING_HUMAN_REVIEW,
+LD-029,nightwork_pregnant_month7,f2d1706bc175,complete,STRUCTURE_VALID_PENDING_HUMAN_REVIEW,
+LD-030,nursing_night_with_consent,38c47fcb386a,exception_or_conflict,STRUCTURE_VALID_PENDING_HUMAN_REVIEW,Chỉ xét ngoại lệ đồng ý tại Điều 137.1.b; không kết luận mọi điều kiện khác đã thỏa.

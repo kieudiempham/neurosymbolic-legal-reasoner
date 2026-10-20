@@ -1,0 +1,272 @@
+{
+  "ll13": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "13",
+    "clause": "1",
+    "point": "",
+    "quote": "Trường hợp hai bên thỏa thuận bằng tên gọi khác nhưng có nội dung",
+    "source_key": "LL",
+    "text_verified": true
+  },
+  "ll14_1": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "14",
+    "clause": "1",
+    "point": "",
+    "quote": "Hợp đồng lao động phải được giao kết bằng văn bản và được làm thành",
+    "source_key": "LL",
+    "text_verified": true
+  },
+  "ll14_2": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "14",
+    "clause": "2",
+    "point": "",
+    "quote": "Hai bên có thể giao kết hợp đồng lao động bằng lời nói đối với hợp đồng",
+    "source_key": "LL",
+    "text_verified": true
+  },
+  "ll20_1": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "20",
+    "clause": "1",
+    "point": "b",
+    "quote": "Hợp đồng lao động xác định thời hạn là hợp đồng mà trong đó hai",
+    "source_key": "LL",
+    "text_verified": true
+  },
+  "ll20_2": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "20",
+    "clause": "2",
+    "point": "b",
+    "quote": "Nếu hết thời hạn 30 ngày kể từ ngày hợp đồng lao động hết hạn mà hai bên không",
+    "source_key": "LL",
+    "text_verified": true
+  },
+  "ll24": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "24",
+    "clause": "3",
+    "point": "",
+    "quote": "Không áp dụng thử việc đối với người lao động giao kết hợp đồng lao động có thời hạn dưới 01 tháng.",
+    "source_key": "LL",
+    "text_verified": true
+  },
+  "ll25": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "25",
+    "clause": "2",
+    "point": "",
+    "quote": "Không quá 60 ngày đối với công việc có chức danh nghề nghiệp cần trình độ chuyên môn, kỹ thuật từ cao",
+    "source_key": "LL",
+    "text_verified": true
+  },
+  "ll27": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "27",
+    "clause": "2",
+    "point": "",
+    "quote": "Trong thời gian thử việc, mỗi bên có quyền hủy bỏ hợp đồng thử việc hoặc hợp đồng lao",
+    "source_key": "LL",
+    "text_verified": true
+  },
+  "ll29": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "29",
+    "clause": "1",
+    "point": "",
+    "quote": "trường hợp chuyển người lao động làm công việc khác so với hợp đồng lao động quá 60 ngày làm việc cộng dồn",
+    "source_key": "LL",
+    "text_verified": true
+  },
+  "ll35_1": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "35",
+    "clause": "1",
+    "point": "b",
+    "quote": "Ít nhất 30 ngày nếu làm việc theo hợp đồng lao động xác định thời hạn có thời hạn từ",
+    "source_key": "LL",
+    "text_verified": true
+  },
+  "ll35_45": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "35",
+    "clause": "1",
+    "point": "a",
+    "quote": "Ít nhất 45 ngày nếu làm việc theo hợp đồng lao động không xác định thời hạn; b) Ít nhất 30",
+    "source_key": "LL",
+    "text_verified": true
+  },
+  "ll35_2": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "35",
+    "clause": "2",
+    "point": "b",
+    "quote": "Không được trả đủ lương hoặc trả lương không đúng thời hạn, trừ trường hợp quy",
+    "source_key": "LL",
+    "text_verified": true
+  },
+  "ll98_week": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "98",
+    "clause": "1",
+    "point": "b",
+    "quote": "Vào ngày nghỉ hằng tuần, ít nhất bằng 200%; c) Vào ngày nghỉ",
+    "source_key": "LL",
+    "text_verified": true
+  },
+  "ll98_holiday": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "98",
+    "clause": "1",
+    "point": "c",
+    "quote": "Vào ngày nghỉ lễ, tết, ngày nghỉ có hưởng lương, ít nhất bằng 300% chưa kể tiền lương",
+    "source_key": "LL",
+    "text_verified": true
+  },
+  "ll98_regular": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "98",
+    "clause": "1",
+    "point": "a",
+    "quote": "Vào ngày thường, ít nhất bằng 150%; b) Vào ngày nghỉ hằng tuần,",
+    "source_key": "LL",
+    "text_verified": true
+  },
+  "ll107": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "107",
+    "clause": "2",
+    "point": "a",
+    "quote": "Phải được sự đồng ý của người lao động; b) Bảo đảm số",
+    "source_key": "LL",
+    "text_verified": true
+  },
+  "ll109": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "109",
+    "clause": "1",
+    "point": "",
+    "quote": "Người lao động làm việc theo thời giờ làm việc quy định tại Điều 105 của Bộ luật này",
+    "source_key": "LL",
+    "text_verified": true
+  },
+  "ll110": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "110",
+    "clause": "",
+    "point": "",
+    "quote": "Người lao động làm việc theo ca được nghỉ ít nhất 12 giờ trước khi chuyển sang",
+    "source_key": "LL",
+    "text_verified": true
+  },
+  "ll113": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "113",
+    "clause": "1",
+    "point": "a",
+    "quote": "12 ngày làm việc đối với người làm công việc trong điều kiện bình thường; b) 14 ngày làm",
+    "source_key": "LL",
+    "text_verified": true
+  },
+  "ll118": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "118",
+    "clause": "1",
+    "point": "",
+    "quote": "nếu sử dụng từ 10 người lao động trở lên thì nội quy lao động phải bằng văn bản. 2. Nội dung nội",
+    "source_key": "LL",
+    "text_verified": true
+  },
+  "ll119": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "119",
+    "clause": "1",
+    "point": "",
+    "quote": "Người sử dụng lao động sử dụng từ 10 người lao động trở lên phải đăng ký nội quy lao động tại cơ quan chuyên",
+    "source_key": "LL",
+    "text_verified": true
+  },
+  "ll122": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "122",
+    "clause": "4",
+    "point": "d",
+    "quote": "Người lao động nữ mang thai; người lao động nghỉ thai sản, nuôi con dưới 12 tháng tuổi. 5. Không xử lý",
+    "source_key": "LL",
+    "text_verified": true
+  },
+  "ll137_preg": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "137",
+    "clause": "1",
+    "point": "a",
+    "quote": "Mang thai từ tháng thứ 07 hoặc từ tháng thứ 06 nếu làm việc ở",
+    "source_key": "LL",
+    "text_verified": true
+  },
+  "ll137_nurse": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "137",
+    "clause": "1",
+    "point": "b",
+    "quote": "Đang nuôi con dưới 12 tháng tuổi, trừ trường hợp được người lao động đồng ý. 2. Lao động nữ",
+    "source_key": "LL",
+    "text_verified": true
+  },
+  "ll143": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "143",
+    "clause": "1",
+    "point": "",
+    "quote": "Lao động chưa thành niên là người lao động chưa đủ 18 tuổi. 2. Người từ đủ",
+    "source_key": "LL",
+    "text_verified": true
+  },
+  "ll145": {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "145",
+    "clause": "1",
+    "point": "a",
+    "quote": "Phải giao kết hợp đồng lao động bằng văn bản với người chưa đủ 15 tuổi và người đại diện",
+    "source_key": "LL",
+    "text_verified": true
+  },
+  "nd59": {
+    "doc": "Nghị định 145/2020/NĐ-CP",
+    "article": "59",
+    "clause": "1",
+    "point": "",
+    "quote": "người sử dụng lao động phải được sự đồng ý của người lao động tham gia làm thêm về các nội dung",
+    "source_key": "ND",
+    "text_verified": true
+  },
+  "nd64": {
+    "doc": "Nghị định 145/2020/NĐ-CP",
+    "article": "64",
+    "clause": "1",
+    "point": "",
+    "quote": "ít nhất 03 giờ làm việc trong khung giờ làm việc ban đêm quy định tại Điều",
+    "source_key": "ND",
+    "text_verified": true
+  },
+  "nd55": {
+    "doc": "Nghị định 145/2020/NĐ-CP",
+    "article": "55",
+    "clause": "1",
+    "point": "b",
+    "quote": "mức ít nhất bằng 200% so với tiền lương giờ thực trả của công việc đang",
+    "source_key": "ND",
+    "text_verified": true
+  },
+  "nd69": {
+    "doc": "Nghị định 145/2020/NĐ-CP",
+    "article": "69",
+    "clause": "1",
+    "point": "",
+    "quote": "nếu sử dụng từ 10 người lao động trở lên thì nội quy lao động phải bằng văn bản, nếu sử dụng dưới",
+    "source_key": "ND",
+    "text_verified": true
+  }
+}

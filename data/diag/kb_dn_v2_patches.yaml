@@ -1,0 +1,48 @@
+# Patches to kb_dn_v2, derived ONLY from failures on the development split (data/dataset/dn_v1/dn_dev.jsonl).
+# The test split (dn_test.jsonl) is measured, never used to patch.
+
+remove_rules:
+  - {id: DN-R31, reason: "goal llc_2plus_membership_valid đã hàm ý loại hình công ty TNHH 2+ thành viên; điều kiện llc_company/~llc_single_owner thừa (dev: DN-011/012/013)"}
+  - {id: DN-R32, reason: "như trên"}
+  - {id: DN-R37, reason: "goal llc_capital_contribution_timely hỏi theo chế độ góp vốn của công ty TNHH (Điều 47); điều kiện loại hình thừa (dev: DN-021/022)"}
+  - {id: DN-R38, reason: "như trên"}
+  - {id: DN-R42, reason: "goal alternative_capital_asset_permitted là chế độ Điều 47 (thành viên còn lại tán thành); điều kiện llc_company thừa (dev: DN-026/027/028/030)"}
+  - {id: DN-R43, reason: "như trên"}
+
+add_rules:
+  - id: DN-P31
+    premises: [llc_member_count_valid]
+    conclusion: llc_2plus_membership_valid
+    source: "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 46 khoản 1"
+    reason: "thay DN-R31, bỏ điều kiện loại hình đã hàm ý trong goal"
+  - id: DN-P32
+    premises: [~llc_member_count_valid]
+    conclusion: ~llc_2plus_membership_valid
+    source: "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 46 khoản 1"
+    reason: "thay DN-R32"
+  - id: DN-P37
+    premises: [capital_contributed_in_full, capital_contribution_within_90_days]
+    conclusion: llc_capital_contribution_timely
+    source: "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 47 khoản 2"
+    reason: "thay DN-R37"
+  - id: DN-P38
+    premises: [~capital_contribution_within_90_days]
+    conclusion: ~llc_capital_contribution_timely
+    source: "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 47 khoản 2"
+    reason: "thay DN-R38"
+  - id: DN-P42
+    premises: [capital_asset_different_from_commitment, other_members_majority_approval]
+    conclusion: alternative_capital_asset_permitted
+    source: "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 47 khoản 2"
+    reason: "thay DN-R42"
+  - id: DN-P43
+    premises: [capital_asset_different_from_commitment, ~other_members_majority_approval]
+    conclusion: ~alternative_capital_asset_permitted
+    source: "01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 47 khoản 2"
+    reason: "thay DN-R43"
+
+add_exception_of:
+  - [DN-R36, DN-R33]   # Điều 74 khoản 3: TNHH 1TV chuyển đổi thành CTCP được phát hành cổ phần (dev: DN-017)
+  - [DN-R34, DN-R35]
+  - [DN-R36, DN-R35]
+  - [DN-R34, DN-R33]

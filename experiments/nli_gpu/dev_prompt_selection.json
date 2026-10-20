@@ -1,0 +1,68 @@
+{
+ "mdeberta": {
+  "n": 1306,
+  "accuracy": 0.5559,
+  "macro_f1": 0.4417,
+  "per_label": {
+   "entail": {
+    "recall": 0.842,
+    "precision": 0.244,
+    "n": 101
+   },
+   "neutral": {
+    "recall": 0.509,
+    "precision": 0.985,
+    "n": 1143
+   },
+   "contra": {
+    "recall": 0.952,
+    "precision": 0.161,
+    "n": 62
+   }
+  }
+ },
+ "qwen_v1": {
+  "n": 1306,
+  "accuracy": 0.9035,
+  "macro_f1": 0.6744,
+  "per_label": {
+   "entail": {
+    "recall": 0.624,
+    "precision": 0.75,
+    "n": 101
+   },
+   "neutral": {
+    "recall": 0.958,
+    "precision": 0.934,
+    "n": 1143
+   },
+   "contra": {
+    "recall": 0.355,
+    "precision": 0.449,
+    "n": 62
+   }
+  }
+ },
+ "qwen_v2": {
+  "n": 1306,
+  "accuracy": 0.2167,
+  "macro_f1": 0.1477,
+  "per_label": {
+   "entail": {
+    "recall": 0.277,
+    "precision": 0.063,
+    "n": 101
+   },
+   "neutral": {
+    "recall": 0.223,
+    "precision": 0.716,
+    "n": 1143
+   },
+   "contra": {
+    "recall": 0.0,
+    "precision": 0.0,
+    "n": 62
+   }
+  }
+ }
+}

@@ -1,0 +1,150 @@
+predicates:
+  branch_business_class:
+    first_declared_in: LN-036
+    kind: derived
+    pred: branch_business_class
+    template_neg: Giao dịch chưa được xác định là hoạt động kinh doanh của doanh nghiệp.
+    template_pos: Giao dịch do chi nhánh thực hiện là hoạt động kinh doanh của doanh
+      nghiệp.
+  branch_conducts_business:
+    ask: 'Anh/chị có thể xác nhận: Chi nhánh đang trực tiếp bán hàng hoặc cung cấp
+      dịch vụ không?'
+    first_declared_in: LN-036
+    kind: input
+    pred: branch_conducts_business
+    template_neg: Chi nhánh không trực tiếp bán hàng hoặc cung cấp dịch vụ.
+    template_pos: Chi nhánh đang trực tiếp bán hàng hoặc cung cấp dịch vụ.
+  business_income_taxable:
+    first_declared_in: LN-027
+    kind: derived
+    pred: business_income_taxable
+    template_neg: Thu nhập hoạt động kinh doanh không thuộc diện thu nhập chịu thuế
+      TNDN.
+    template_pos: Thu nhập hoạt động kinh doanh thuộc diện thu nhập chịu thuế TNDN.
+  cit_taxpayer:
+    first_declared_in: LN-027
+    kind: derived
+    pred: cit_taxpayer
+    template_neg: Doanh nghiệp không thuộc nhóm người nộp thuế TNDN đối với thu nhập
+      đang xét.
+    template_pos: Doanh nghiệp thuộc nhóm người nộp thuế TNDN đối với thu nhập đang
+      xét.
+  dn_enterprise_entity:
+    first_declared_in: LN-027
+    kind: derived
+    pred: dn_enterprise_entity
+    template_neg: Tổ chức chưa được xác định là doanh nghiệp thành lập theo pháp luật
+      Việt Nam.
+    template_pos: Tổ chức được xác định là doanh nghiệp thành lập theo pháp luật Việt
+      Nam.
+  dn_manager_status:
+    first_declared_in: LN-019
+    kind: derived
+    pred: dn_manager_status
+    template_neg: Chức danh không thuộc nhóm người quản lý doanh nghiệp theo luật
+      doanh nghiệp.
+    template_pos: Chức danh thuộc phạm vi người quản lý doanh nghiệp theo luật doanh
+      nghiệp.
+  legal_wage_expense:
+    first_declared_in: LN-039
+    kind: derived
+    pred: legal_wage_expense
+    template_neg: Khoản trả không phải tiền lương theo Bộ luật Lao động.
+    template_pos: Khoản trả cho người lao động là tiền lương theo Bộ luật Lao động.
+  llc_multi_member:
+    ask: 'Anh/chị có thể xác nhận: Doanh nghiệp là công ty TNHH hai thành viên trở
+      lên không?'
+    first_declared_in: LN-028
+    kind: input
+    pred: llc_multi_member
+    template_neg: Doanh nghiệp không phải công ty TNHH hai thành viên trở lên.
+    template_pos: Doanh nghiệp là công ty TNHH hai thành viên trở lên.
+  mutually_suspended_contract:
+    ask: 'Anh/chị có thể xác nhận: Hai bên thống nhất tạm hoãn hợp đồng lao động không?'
+    first_declared_in: LN-013
+    kind: input
+    pred: mutually_suspended_contract
+    template_neg: Hai bên không thống nhất tạm hoãn hợp đồng lao động.
+    template_pos: Hai bên thống nhất tạm hoãn hợp đồng lao động.
+  ongoing_employment:
+    ask: 'Anh/chị có thể xác nhận: Người lao động vẫn tiếp tục làm việc sau khi hết
+      hạn hợp đồng không?'
+    first_declared_in: LN-011
+    kind: input
+    pred: ongoing_employment
+    template_neg: Người lao động không tiếp tục làm việc.
+    template_pos: Người lao động vẫn tiếp tục làm việc sau khi hết hạn hợp đồng.
+  payroll_papers_complete:
+    ask: 'Anh/chị có thể xác nhận: Khoản tiền lương có đầy đủ hóa đơn, chứng từ cần
+      thiết theo quy định không?'
+    first_declared_in: LN-039
+    kind: input
+    pred: payroll_papers_complete
+    template_neg: Khoản tiền lương chưa có đủ chứng từ theo quy định.
+    template_pos: Khoản tiền lương có đầy đủ hóa đơn, chứng từ cần thiết theo quy
+      định.
+  si_paid_manager_category:
+    first_declared_in: LN-019
+    kind: derived
+    pred: si_paid_manager_category
+    template_neg: Người quản lý không thuộc diện có hưởng lương theo Điều 2 khoản
+      1 điểm i.
+    template_pos: Người quản lý thuộc diện có hưởng lương theo Điều 2 khoản 1 điểm
+      i Luật BHXH.
+  si_unpaid_manager_category:
+    first_declared_in: LN-020
+    kind: derived
+    pred: si_unpaid_manager_category
+    template_neg: Người quản lý không thuộc diện không hưởng lương theo Điều 2 khoản
+      1 điểm n.
+    template_pos: Người quản lý thuộc diện không hưởng lương theo Điều 2 khoản 1 điểm
+      n Luật BHXH.
+  stock_company:
+    ask: 'Anh/chị có thể xác nhận: Doanh nghiệp là công ty cổ phần không?'
+    first_declared_in: LN-029
+    kind: input
+    pred: stock_company
+    template_neg: Doanh nghiệp không phải công ty cổ phần.
+    template_pos: Doanh nghiệp là công ty cổ phần.
+  taxable_business_income:
+    ask: 'Anh/chị có thể xác nhận: Doanh nghiệp có thu nhập từ hoạt động kinh doanh
+      hàng hóa hoặc dịch vụ không?'
+    first_declared_in: LN-027
+    kind: input
+    pred: taxable_business_income
+    template_neg: Doanh nghiệp không có thu nhập từ hoạt động kinh doanh hàng hóa
+      hoặc dịch vụ.
+    template_pos: Doanh nghiệp có thu nhập từ hoạt động kinh doanh hàng hóa hoặc dịch
+      vụ.
+  vat_non_exempt_goods:
+    ask: 'Anh/chị có thể xác nhận: Hàng hóa, dịch vụ bán ra không thuộc các nhóm không
+      chịu thuế GTGT theo luật không?'
+    first_declared_in: LN-036
+    kind: input
+    pred: vat_non_exempt_goods
+    template_neg: Hàng hóa, dịch vụ thuộc nhóm không chịu thuế GTGT.
+    template_pos: Hàng hóa, dịch vụ bán ra không thuộc các nhóm không chịu thuế GTGT
+      theo luật.
+  vat_taxpayer_on_branch_sale:
+    first_declared_in: LN-036
+    kind: derived
+    pred: vat_taxpayer_on_branch_sale
+    template_neg: Doanh nghiệp không phải người nộp thuế GTGT cho hoạt động bán hàng
+      đang xét.
+    template_pos: Doanh nghiệp là người nộp thuế GTGT cho hoạt động bán hàng thuộc
+      diện chịu thuế.
+  wage_expense_for_business:
+    ask: 'Anh/chị có thể xác nhận: Doanh nghiệp chi lương để phục vụ trực tiếp hoạt
+      động kinh doanh không?'
+    first_declared_in: LN-039
+    kind: input
+    pred: wage_expense_for_business
+    template_neg: Khoản chi không phục vụ hoạt động kinh doanh.
+    template_pos: Doanh nghiệp chi lương để phục vụ trực tiếp hoạt động kinh doanh.
+  wages_paid_in_reality:
+    ask: 'Anh/chị có thể xác nhận: Doanh nghiệp đã thực tế chi trả tiền lương không?'
+    first_declared_in: LN-039
+    kind: input
+    pred: wages_paid_in_reality
+    template_neg: Doanh nghiệp chưa thực tế chi trả tiền lương.
+    template_pos: Doanh nghiệp đã thực tế chi trả tiền lương.

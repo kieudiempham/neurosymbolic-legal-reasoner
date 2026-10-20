@@ -1,0 +1,31 @@
+{
+ "files": [
+  "data/dataset/ld_v1/lao_dong_30_DRAFT.jsonl"
+ ],
+ "items": 30,
+ "errors": 0,
+ "warnings": 0,
+ "by_domain": {
+  "lao_dong": 30
+ },
+ "by_question_type": {
+  "application": 30
+ },
+ "by_expected": {
+  "true": 14,
+  "insufficient": 7,
+  "false": 9
+ },
+ "by_info_level": {
+  "complete": 18,
+  "missing": 7,
+  "exception_or_conflict": 5
+ },
+ "multi_hop": 17,
+ "predicates_used": 53,
+ "predicates_from_handoff": 5,
+ "predicates_declared_new": 60,
+ "undeclared_predicates": [],
+ "error_list": [],
+ "warning_list": []
+}
