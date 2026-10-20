@@ -104,11 +104,11 @@ diagnosis accuracy [51, 87] and 73.0% correct action with 0.55 clarifications pe
 
 | Measurement | NLI macro-F1 (dev) | Diag. acc. | Correct action | QA acc. | Clarif./query |
 |---|---|---|---|---|---|
-| mDeBERTa-v3 (XNLI) | 0.44 | 35.1 | 51.4 | 53.3 | 0.32 |
-| Qwen2.5-7B-Instruct | 0.68 | 32.4 | 35.1 | 65.0 | 1.02 |
-| GPT-4o-mini | 0.71 | 62.2 | 64.9 | 71.7 | 0.75 |
-| mDeBERTa + Qwen2.5-7B | 0.68 | 45.9 | 56.8 | 65.0 | 0.58 |
-| **mDeBERTa + GPT-4o-mini** | 0.70 | **70.3** | **73.0** | **73.3** | 0.58 |
+| mDeBERTa-v3 (XNLI) | 0.44 | 35.1 | 51.4 | 56.7 | 1.40 |
+| Qwen2.5-7B-Instruct | 0.68 | 32.4 | 35.1 | 80.0 | 4.38 |
+| GPT-4o-mini | 0.71 | 62.2 | 64.9 | 71.7 | 0.72 |
+| mDeBERTa + Qwen2.5-7B | 0.68 | 45.9 | 59.5 | 75.0 | 3.72 |
+| **mDeBERTa + GPT-4o-mini** | 0.70 | **70.3** | **73.0** | 73.3 | 0.55 |
 | Perfect measurement (upper bound) | 1.00 | 100.0 | 100.0 | 91.7 | – |
 
 **Table 5. Ablation (injected faults, test).**
@@ -169,9 +169,12 @@ almost completely (1.9%).
 (3) *The bottleneck is measurement, not the diagnostic logic.* With perfect measurements, MBD diagnoses 100%
 of the observable external faults and 88–100% overall; with real NLI the gap is entirely explained by
 measurement errors (in an error analysis on the development set with the mDeBERTa + Qwen measurement,
-20 of 24 remaining errors trace back to a wrong or rejected NLI label). Better measurement translates monotonically into better diagnosis (Table 4): an open-weight
-Qwen2.5-7B alone is too conservative (it labels stated facts as "not mentioned"), whereas averaging a
-classifier that is precise on stated facts with an LLM that is precise on unstated ones gives the best result.
+20 of 24 remaining errors trace back to a wrong or rejected NLI label). Diagnosis quality follows measurement quality (Table 4): the best measurement roughly doubles
+diagnosis accuracy over the XNLI classifier alone. QA accuracy alone is a misleading criterion here: with the
+over-cautious open-weight Qwen2.5-7B ("not mentioned" for stated facts), the system wrongly suspects
+missing information and asks the user 4.4 times per query, which the omniscient simulated user rewards with
+80% QA accuracy despite 32% correct diagnoses. Averaging a classifier that is precise on stated facts with
+an LLM that is precise on unstated ones gives the best diagnoses with the fewest clarifications.
 (4) *GPT-4o versus proof-grounded answers.* [GPT-4o / IRAC: QA accuracy, IRAC components; expected
 pattern to check: GPT-4o writes fluent applications but cites superseded laws (R), since several
 provisions in force in 2026 postdate its training data.]

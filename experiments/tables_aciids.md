@@ -34,10 +34,10 @@ Correct action = diagnosis correct, or the only open choice is missing-vs-omitte
 
 | Measurement | NLI macro-F1 (dev pairs) | Diagnosis acc. | Correct action | QA acc. | False alarms | Clarifications / query |
 |---|---|---|---|---|---|---|
-| mDeBERTa-v3 (XNLI classifier) | 0.44 | 35.1 | 51.4 | 53.3 | 16.7 | 0.32 |
-| Qwen2.5-7B-Instruct (open LLM) | 0.68 | 32.4 | 35.1 | 65.0 | 50.0 | 1.02 |
-| GPT-4o-mini | 0.71 | 62.2 | 64.9 | 71.7 | 33.3 | 0.75 |
-| mDeBERTa + Qwen2.5-7B | 0.68 | 45.9 | 56.8 | 65.0 | 16.7 | 0.58 |
+| mDeBERTa-v3 (XNLI classifier) | 0.44 | 35.1 | 51.4 | 56.7 | 16.7 | 1.40 |
+| Qwen2.5-7B-Instruct (open LLM) | 0.68 | 32.4 | 35.1 | 80.0 | 50.0 | 4.38 |
+| GPT-4o-mini | 0.71 | 62.2 | 64.9 | 71.7 | 33.3 | 0.72 |
+| mDeBERTa + Qwen2.5-7B | 0.68 | 45.9 | 59.5 | 75.0 | 16.7 | 3.72 |
 | **mDeBERTa + GPT-4o-mini** | 0.70 | 70.3 | 73.0 | 73.3 | 33.3 | 0.55 |
 | Perfect measurement (oracle, upper bound) | 1.00 | 100.0 | 100.0 | 91.7 | 0.0 | – |
 
