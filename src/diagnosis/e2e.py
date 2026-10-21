@@ -116,8 +116,10 @@ def main() -> None:
     for p in parsers.values():
         p.cache = shared
     any_p = parsers["bhxh"]
-    order = sorted(items)
     irac_ids = set(select_irac(items, split))
+    # --test-only: the held-out test questions plus the IRAC sample (social insurance has no test split)
+    order = sorted(i for i in items if "--test-only" not in sys.argv or split[i] == "test" or i in irac_ids)
+    print(f"{len(order)} questions", flush=True)
 
     # 1. parse every question with its domain KB vocabulary (GPT-4o, cached)
     import hashlib
