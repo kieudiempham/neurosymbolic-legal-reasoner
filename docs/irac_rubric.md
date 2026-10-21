@@ -20,7 +20,7 @@ Protocol
   gold conclusion and gold legal basis, the rubric, and one anonymised answer at a time.
 - Human check: at least 20 questions scored by hand with the same rubric; agreement with the judge
   reported (Cohen's kappa per component, and correlation of the total).
-- The rubric is not changed after seeing results.
+- The rubric is not changed after seeing results; the one exception (v2 below) is reported alongside v1 and applied to all methods.
 
 ## Revision v2 (post hoc, after the first scoring; reported alongside v1)
 The v1 Rule levels overlap ("a key provision missing" = 0.5 vs "key provisions missing" = 0), and the judge
