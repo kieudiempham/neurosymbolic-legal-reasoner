@@ -219,17 +219,22 @@ correct document and article numbers of the governing provisions; 0.5 at least o
 0 no article number, a wrong article or a superseded law), left I, A and C unchanged, and re-scored all
 four methods with the same judge. Under v2 the IRAC scores are 57.7 (GPT-4o), 60.8 (Symbolic QA),
 64.6 (Heuristic) and 63.7 (Ours), with R = 0.18 for GPT-4o against 0.46–0.51 for the KB-grounded systems.
-Both versions are reported; the human scoring of 20 questions (pending) is used to check which one the
-judge's R agrees with.
+In the objective variant, which removes the judge from the two components that can be checked
+mechanically, the proof-grounded answers score highest (Ours 69.1, Heuristic 68.0, Symbolic 64.5) and
+GPT-4o lowest (55.6): its answers state the issue and argue fluently (I = 1.00, A = 0.79) but rarely cite
+the governing articles (R = 0.13). All three variants are reported; the human scoring of 20 questions
+(pending) is used to check the judged components.
 
-**Table 8b. IRAC under the pre-registered rubric (v1) and with the precise Rule criterion (v2, post hoc).**
+**Table 8b. IRAC under the pre-registered rubric (v1), with the precise Rule criterion (v2, post hoc), and
+objective (R and C computed, not judged: R = 1 if all gold articles are cited, 0.5 if some, 0 if none;
+C = 1 iff the verdict equals the gold conclusion; I and A from the v2 judge).**
 
-| Method | IRAC v1 | R v1 | IRAC v2 | R v2 | I | A | C (v2) |
-|---|---|---|---|---|---|---|---|
-| GPT-4o (pure LLM) | 71.2 | 0.55 | 57.7 | 0.18 | 1.00 | 0.79 | 0.68 |
-| Symbolic QA | 68.8 | 0.61 | 60.8 | 0.46 | 0.75 | 0.69 | 0.64 |
-| Heuristic | 71.1 | 0.63 | 64.6 | 0.51 | 0.64 | 0.71 | 0.79 |
-| **Ours** | 70.0 | 0.64 | 63.7 | 0.46 | 0.65 | 0.74 | 0.76 |
+| Method | IRAC v1 | R v1 | IRAC v2 | R v2 | IRAC objective | R auto | C auto | I | A |
+|---|---|---|---|---|---|---|---|---|---|
+| GPT-4o (pure LLM) | 71.2 | 0.55 | 57.7 | 0.18 | 55.6 | 0.13 | 0.65 | 1.00 | 0.79 |
+| Symbolic QA | 68.8 | 0.61 | 60.8 | 0.46 | 64.5 | 0.58 | 0.63 | 0.75 | 0.69 |
+| Heuristic | 71.1 | 0.63 | 64.6 | 0.51 | 68.0 | 0.63 | 0.75 | 0.64 | 0.71 |
+| **Ours** | 70.0 | 0.64 | 63.7 | 0.46 | **69.1** | 0.63 | 0.75 | 0.65 | 0.74 |
 
 **Limitations.** Gold labels are LLM-generated and still under legal review; faults are single and
 injected; the simulated user knows all case facts; the legal goal is given (oracle goal); the test split
