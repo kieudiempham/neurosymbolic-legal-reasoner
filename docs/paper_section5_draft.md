@@ -186,7 +186,14 @@ GPT-4o, 70.0 for Ours, 71.1 heuristic, 68.8 symbolic): GPT-4o states the issue b
 the KB-grounded answers phrase the issue from a predicate template) and argues more fluently (A 0.79 vs
 0.73), whereas the proof-grounded answers cite the governing provisions more accurately (R 0.64 vs 0.55;
 GPT-4o often cites superseded laws, several 2024–2025 statutes postdating its training data) and reach the
-correct conclusion more often (C 0.78 vs 0.70). [Human agreement on 20 questions: pending.]
+correct conclusion more often (C 0.78 vs 0.70). A rule-based check of the R component, defined after the
+judging and reported as a secondary analysis, explains the narrow IRAC gap: GPT-4o names a specific article
+in only 22.5% of its answers ("under the Law on Social Insurance, …") and cites 12.5% of the gold articles,
+against 77.5% and 62.5% for the proof-grounded answers; the judge scored such unspecific citations 0.5
+("correct law, key provisions missing"). Scoring R = 0 whenever no article is named — the stricter reading
+of the rubric's lowest level — gives IRAC 55.9 for GPT-4o and 66.6 for Ours. The human scoring of 20
+questions (pending) decides which reading the judge should follow; the primary IRAC numbers above are
+the judge's, unchanged.
 
 **Limitations.** Gold labels are LLM-generated and still under legal review; faults are single and
 injected; the simulated user knows all case facts; the legal goal is given (oracle goal); the test split
