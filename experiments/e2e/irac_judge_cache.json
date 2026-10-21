@@ -1118,5 +1118,1125 @@
   "A": 1,
   "C": 1,
   "reason": "Xác định đúng vấn đề, viện dẫn đúng luật và điều khoản then chốt, đối chiếu đầy đủ dữ kiện với quy định, kết luận đúng và nhất quán."
+ },
+ "A001|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 0.5,
+  "C": 1,
+  "reason": "Nêu đúng vấn đề và kết luận chuẩn, nhưng dẫn sai điều luật (Điều 56 thay vì Điều 30), lập luận có đối chiếu nhưng chưa đầy đủ vì không xác định rõ ngày làm việc."
+ },
+ "A002|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định vấn đề còn chung chung nhưng căn cứ pháp lý, lập luận và kết luận đều đúng và đầy đủ."
+ },
+ "A003|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định vấn đề còn chung chung (chỉ nói người lao động thuộc đối tượng BHXH bắt buộc, chưa nêu rõ vấn đề là trường hợp đang hưởng lương hưu có phải tham gia BHXH bắt buộc không); các phần còn lại đúng và đầy đủ."
+ },
+ "A004|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 1,
+  "C": 0,
+  "reason": "Không nêu đúng số điều khoản và văn bản pháp lý; kết luận không trùng đáp án chuẩn (phải là KHÔNG, không phải CHƯA ĐỦ DỮ KIỆN)."
+ },
+ "A005|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 0,
+  "C": 0,
+  "reason": "Không dẫn đúng căn cứ pháp lý chuẩn, áp dụng sai quy định, kết luận sai với đáp án chuẩn."
+ },
+ "A006|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Không nêu số điều, khoản cụ thể của Bộ luật Lao động và Nghị định 145/2020/NĐ-CP ở phần R."
+ },
+ "A007|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định vấn đề còn chung chung, dẫn sai căn cứ pháp lý, lập luận và kết luận đúng đáp án chuẩn."
+ },
+ "A008|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 1,
+  "A": 0,
+  "C": 0,
+  "reason": "Chưa xác định rõ tình huống là hợp đồng thử việc độc lập hay hợp đồng lao động, nhưng lại kết luận chắc chắn KHÔNG thuộc diện tham gia BHXH bắt buộc, trong khi đáp án chuẩn là CHƯA ĐỦ DỮ KIỆN."
+ },
+ "A009|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 0.5,
+  "A": 0.5,
+  "C": 1,
+  "reason": "Chỉ xác định chung chung về đối tượng tham gia BHXH bắt buộc, thiếu căn cứ Luật BHXH và các điều khoản then chốt, đối chiếu chưa đầy đủ các điều kiện nhưng kết luận đúng."
+ },
+ "A010|gpt-4.1|v2": {
+  "I": 1,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định đúng vấn đề, nêu đúng căn cứ pháp lý với số điều khoản, lập luận đầy đủ và kết luận đúng đáp án chuẩn."
+ },
+ "A011|gpt-4.1|v2": {
+  "I": 0,
+  "R": 0,
+  "A": 0,
+  "C": 0,
+  "reason": "Không xác định đúng vấn đề, không nêu căn cứ pháp lý, không phân tích dữ kiện, kết luận không đúng đáp án chuẩn."
+ },
+ "A012|gpt-4.1|v2": {
+  "I": 0,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Phần I xác định sai vấn đề pháp lý; phần R không nêu đúng căn cứ pháp lý; phần A và C đúng đáp án chuẩn."
+ },
+ "A013|gpt-4.1|v2": {
+  "I": 0,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Phần I xác định sai vấn đề pháp lý (kết luận ngược với đáp án chuẩn), các phần còn lại đúng và nhất quán với đáp án chuẩn."
+ },
+ "A014|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 0,
+  "C": 0,
+  "reason": "Sai căn cứ pháp lý, áp dụng sai quy định, kết luận không đúng đáp án chuẩn."
+ },
+ "A015|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 1,
+  "A": 0.5,
+  "C": 1,
+  "reason": "Xác định vấn đề còn chung chung, đối chiếu quy định chưa đầy đủ nhưng kết luận đúng và căn cứ pháp lý chuẩn."
+ },
+ "A016|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Không nêu đúng số điều, khoản, điểm và tên/số văn bản pháp luật theo yêu cầu của rubric."
+ },
+ "A017|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Không nêu rõ tên/số điều luật cụ thể, phần I xác định vấn đề còn chung chung, nhưng lập luận và kết luận đúng."
+ },
+ "A018|gpt-4.1|v2": {
+  "I": 1,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định đúng vấn đề, nêu đúng căn cứ pháp lý và điều khoản then chốt, đối chiếu đầy đủ dữ kiện với quy định, kết luận trùng đáp án chuẩn."
+ },
+ "A019|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0.5,
+  "A": 1,
+  "C": 1,
+  "reason": "Nêu đúng vấn đề, lập luận và kết luận đúng, nhưng phần R không dẫn số điều khoản cụ thể."
+ },
+ "A020|gpt-4.1|v2": {
+  "I": 0,
+  "R": 0,
+  "A": 0,
+  "C": 0,
+  "reason": "Xác định sai vấn đề pháp lý, dẫn sai căn cứ pháp lý, lập luận và kết luận đều không đúng với đáp án chuẩn."
+ },
+ "A021|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0.5,
+  "A": 1,
+  "C": 1,
+  "reason": "Nêu đúng vấn đề, thiếu số điều khoản cụ thể, lập luận và kết luận đúng đáp án chuẩn."
+ },
+ "A022|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "I xác định vấn đề còn chung chung, R không nêu đúng số điều luật, A và C đúng và nhất quán với đáp án chuẩn."
+ },
+ "A023|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Không nêu đúng số điều, khoản, điểm theo căn cứ pháp lý chuẩn; các phần còn lại đạt yêu cầu."
+ },
+ "A024|gpt-4.1|v2": {
+  "I": 0,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Không xác định đúng vấn đề pháp lý; không nêu đúng tên/số điều luật; lập luận và kết luận phù hợp đáp án chuẩn."
+ },
+ "A025|gpt-4.1|v2": {
+  "I": 1,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định đúng vấn đề, nêu đúng căn cứ pháp lý với số điều khoản cụ thể, lập luận đầy đủ và kết luận trùng đáp án chuẩn."
+ },
+ "A026|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0.5,
+  "A": 1,
+  "C": 1,
+  "reason": "Nêu đúng vấn đề, áp dụng và kết luận chuẩn, nhưng phần R không nêu đầy đủ tên/số văn bản và số điều khoản then chốt, chỉ mã hóa quy tắc."
+ },
+ "A027|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định vấn đề còn chung chung (chỉ nói người lao động thuộc đối tượng BHXH bắt buộc, chưa nêu rõ vấn đề là trường hợp đang hưởng lương hưu có phải tham gia BHXH bắt buộc không), các phần còn lại đúng và đầy đủ."
+ },
+ "A028|gpt-4.1|v2": {
+  "I": 0,
+  "R": 0,
+  "A": 0,
+  "C": 0,
+  "reason": "Lạc đề, không xác định đúng vấn đề pháp lý, không nêu căn cứ pháp lý, không đối chiếu dữ kiện với quy định, kết luận sai."
+ },
+ "A029|gpt-4.1|v2": {
+  "I": 1,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Đáp án xác định đúng vấn đề, nêu đúng căn cứ pháp lý, áp dụng quy định đầy đủ và kết luận trùng đáp án chuẩn."
+ },
+ "A030|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 0.5,
+  "C": 1,
+  "reason": "Nêu đúng vấn đề và kết luận chuẩn, nhưng phần R không dẫn đúng số điều khoản, phần A lập luận hợp lý nhưng chưa đối chiếu đầy đủ điều kiện luật định."
+ },
+ "A031|gpt-4.1|v2": {
+  "I": 0,
+  "R": 1,
+  "A": 0,
+  "C": 0,
+  "reason": "Xác định sai vấn đề pháp lý cốt lõi và kết luận sai; chưa hết thời hạn góp vốn nên chưa phải đăng ký điều chỉnh vốn điều lệ."
+ },
+ "A032|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 0,
+  "A": 0.5,
+  "C": 1,
+  "reason": "Xác định vấn đề còn chung chung, không nêu căn cứ pháp lý cụ thể, có đối chiếu nhưng chưa đầy đủ, kết luận đúng và nhất quán."
+ },
+ "A033|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0.5,
+  "A": 1,
+  "C": 0,
+  "reason": "Không kết luận đúng đáp án chuẩn (phải là KHÔNG), phần R thiếu Bộ luật Lao động và số điều khoản then chốt."
+ },
+ "A034|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0.5,
+  "A": 1,
+  "C": 1,
+  "reason": "Thiếu dẫn Điều 75 khoản 2, chỉ nêu khoản 3; các phần khác đúng và đầy đủ."
+ },
+ "A035|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 0.5,
+  "A": 1,
+  "C": 1,
+  "reason": "I xác định vấn đề còn chung chung, R chỉ nêu một khoản điều luật, thiếu khoản 2, A và C đúng và đầy đủ."
+ },
+ "A036|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Không nêu tên/số và số điều khoản của văn bản pháp luật, chỉ mã hóa quy tắc, còn lại xác định đúng vấn đề, lập luận và kết luận đúng."
+ },
+ "A037|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Không nêu đúng tên/số điều khoản pháp luật, chỉ mã hóa nội bộ (LD0-R073, LD0-R075), còn lại đúng và đầy đủ."
+ },
+ "A038|gpt-4.1|v2": {
+  "I": 1,
+  "R": 1,
+  "A": 0,
+  "C": 1,
+  "reason": "Phần A sai khi khẳng định hợp đồng dưới 1 tháng dù dữ kiện không nêu rõ, các phần khác đạt yêu cầu."
+ },
+ "A039|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 1,
+  "A": 0,
+  "C": 0,
+  "reason": "Chưa đủ dữ kiện để kết luận, nhưng câu trả lời lại kết luận KHÔNG thay vì CHƯA ĐỦ DỮ KIỆN; phần I xác định vấn đề còn chung chung."
+ },
+ "A040|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0.5,
+  "A": 1,
+  "C": 1,
+  "reason": "Nêu đúng vấn đề, áp dụng và kết luận chuẩn, nhưng phần R không nêu đầy đủ tên/số văn bản và số điều khoản then chốt theo yêu cầu."
+ },
+ "A041|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0.5,
+  "A": 0,
+  "C": 0,
+  "reason": "Không xác định thiếu dữ kiện về loại dịch vụ, áp dụng sai khi chưa đủ thông tin, kết luận sai với đáp án chuẩn."
+ },
+ "A042|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Không nêu đúng số điều khoản và tên văn bản luật, chỉ nói chung chung về điều kiện."
+ },
+ "A043|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 0.5,
+  "A": 0,
+  "C": 0,
+  "reason": "Chưa xác định rõ vấn đề cần bổ sung điều kiện về sự đồng ý của cơ quan nhà nước; thiếu khoản 1 Điều 38; không phân tích điều kiện ngoại lệ; kết luận sai với đáp án chuẩn."
+ },
+ "A044|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 0,
+  "C": 0,
+  "reason": "Nêu đúng vấn đề nhưng dẫn sai luật, áp dụng sai quy định và kết luận sai so với đáp án chuẩn."
+ },
+ "A045|gpt-4.1|v2": {
+  "I": 0,
+  "R": 0,
+  "A": 0.5,
+  "C": 0.5,
+  "reason": "Không xác định đúng vấn đề pháp lý; không nêu đúng tên/số điều luật; có đối chiếu điều kiện nhưng thiếu căn cứ; kết luận chưa đủ rõ ràng và không trùng đáp án chuẩn."
+ },
+ "A046|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 0.5,
+  "C": 1,
+  "reason": "Không nêu đúng tên/số điều luật và văn bản pháp lý chuẩn; lập luận có đối chiếu dữ kiện nhưng căn cứ ký hiệu nội bộ, không phải điều luật; kết luận đúng."
+ },
+ "A047|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 0.5,
+  "A": 0,
+  "C": 0,
+  "reason": "Chưa xác định rõ vấn đề cần bổ sung điều kiện về sự đồng ý của cơ quan nhà nước; thiếu khoản 1 Điều 38; không phân tích điều kiện ngoại lệ; kết luận sai với đáp án chuẩn."
+ },
+ "A048|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "I nêu vấn đề còn chung chung, R không nêu số điều khoản cụ thể, A và C đúng và nhất quán với đáp án chuẩn."
+ },
+ "A049|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0.5,
+  "A": 0.5,
+  "C": 0,
+  "reason": "Không nêu đủ căn cứ pháp lý (thiếu Bộ luật Lao động và số điều khoản cụ thể), lập luận bỏ sót điều kiện về thời hạn hợp đồng, kết luận sai so với đáp án chuẩn."
+ },
+ "A050|gpt-4.1|v2": {
+  "I": 1,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định đúng vấn đề, nêu đúng căn cứ pháp lý với số điều khoản cụ thể, áp dụng đầy đủ dữ kiện, kết luận đúng và nhất quán với đáp án chuẩn."
+ },
+ "A051|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định vấn đề còn chung chung (chỉ nói người lao động thuộc đối tượng BHXH bắt buộc), các phần còn lại đúng và đầy đủ theo đáp án chuẩn."
+ },
+ "A052|gpt-4.1|v2": {
+  "I": 1,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Đáp án xác định đúng vấn đề, nêu đúng căn cứ pháp lý, đối chiếu đầy đủ dữ kiện với điều kiện luật định và kết luận trùng đáp án chuẩn."
+ },
+ "A053|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 0,
+  "A": 0.5,
+  "C": 1,
+  "reason": "Xác định vấn đề còn chung chung, không nêu rõ điều kiện pháp lý cốt lõi; không dẫn đúng điều khoản luật; đối chiếu dữ kiện chưa đầy đủ nhưng kết luận đúng và rõ ràng."
+ },
+ "A054|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0.5,
+  "A": 1,
+  "C": 1,
+  "reason": "Thiếu dẫn Điều 75 khoản 2, chỉ nêu khoản 3; các phần khác đúng và đầy đủ."
+ },
+ "A055|gpt-4.1|v2": {
+  "I": 1,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định đúng vấn đề, nêu đúng căn cứ pháp lý và điều khoản then chốt, lập luận đầy đủ, kết luận trùng đáp án chuẩn."
+ },
+ "A056|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 0.5,
+  "C": 1,
+  "reason": "Không nêu căn cứ pháp lý cụ thể, nhưng xác định đúng vấn đề, đối chiếu một phần dữ kiện và kết luận đúng đáp án chuẩn."
+ },
+ "A057|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0.5,
+  "A": 0.5,
+  "C": 0,
+  "reason": "Nêu đúng vấn đề; viện dẫn đúng văn bản và một điều then chốt nhưng thiếu điều khoản then chốt còn lại; đối chiếu dữ kiện nhưng bỏ sót điều kiện về loại hợp đồng; kết luận sai đáp án chuẩn."
+ },
+ "A058|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Không nêu số điều luật cụ thể, các phần còn lại đúng và đầy đủ."
+ },
+ "A059|gpt-4.1|v2": {
+  "I": 0,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Phần I không nêu đúng vấn đề pháp lý cần giải quyết mà khẳng định sai kết quả; các phần còn lại đúng và đầy đủ theo đáp án chuẩn."
+ },
+ "A060|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 0.5,
+  "C": 0,
+  "reason": "Không nêu căn cứ pháp lý cụ thể (số điều, khoản); bỏ sót điều kiện về hóa đơn hợp pháp; kết luận sai so với đáp án chuẩn."
+ },
+ "A061|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Không nêu đúng tên/số điều khoản pháp luật, chỉ mã hóa nội bộ (LD0-R073...), còn lại xác định vấn đề, lập luận và kết luận đều đúng."
+ },
+ "A062|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Không nêu số điều khoản và tên văn bản cụ thể, chỉ nói chung chung về luật."
+ },
+ "A063|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 0.5,
+  "A": 1,
+  "C": 1,
+  "reason": "I xác định vấn đề còn chung chung, R chỉ nêu một căn cứ và ký hiệu không chuẩn, thiếu các điểm a và khoản 7; A và C đúng và đầy đủ."
+ },
+ "A064|gpt-4.1|v2": {
+  "I": 1,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định đúng vấn đề, nêu đủ căn cứ pháp lý chuẩn, lập luận đầy đủ và kết luận đúng đáp án chuẩn."
+ },
+ "A065|gpt-4.1|v2": {
+  "I": 0,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Phần I xác định sai vấn đề pháp lý (trả lời là phải đóng BHXH, trái với đáp án chuẩn); các phần còn lại đúng và đầy đủ theo rubric."
+ },
+ "A066|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 0.5,
+  "C": 0,
+  "reason": "Không nêu đúng số điều khoản pháp luật, kết luận sai đáp án chuẩn (phải là 'chưa đủ dữ kiện'), phần áp dụng chưa chỉ ra điều kiện cần sự đồng ý đa số thành viên."
+ },
+ "A067|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 0.5,
+  "A": 0.5,
+  "C": 1,
+  "reason": "Chỉ xác định chung chung về đối tượng tham gia BHXH bắt buộc, thiếu căn cứ Luật BHXH và các điều khoản then chốt, đối chiếu chưa đầy đủ các điều kiện, nhưng kết luận đúng."
+ },
+ "A068|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định vấn đề còn chung chung, dẫn sai căn cứ pháp lý, lập luận và kết luận đúng đáp án chuẩn."
+ },
+ "A069|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 1,
+  "C": 0,
+  "reason": "Không nêu căn cứ pháp lý cụ thể; kết luận sai so với đáp án chuẩn."
+ },
+ "A070|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định vấn đề còn chung chung nhưng nêu đúng căn cứ pháp lý, đối chiếu và kết luận đúng đáp án chuẩn."
+ },
+ "A071|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0.5,
+  "A": 1,
+  "C": 1,
+  "reason": "Nêu đúng vấn đề, áp dụng và kết luận chuẩn, nhưng phần R không ghi rõ số điều khoản mà chỉ mã nội bộ."
+ },
+ "A072|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định vấn đề còn chung chung (chỉ nói chung về đối tượng tham gia BHXH bắt buộc), các phần còn lại đúng và đầy đủ theo đáp án chuẩn."
+ },
+ "A073|gpt-4.1|v2": {
+  "I": 1,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định đúng vấn đề, nêu đúng căn cứ pháp lý và điều khoản then chốt, đối chiếu đầy đủ dữ kiện, kết luận đúng và nhất quán."
+ },
+ "A074|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 0,
+  "A": 0.5,
+  "C": 1,
+  "reason": "Xác định vấn đề còn chung chung, không nêu đúng căn cứ pháp lý, đối chiếu dữ kiện chưa đầy đủ, kết luận đúng đáp án chuẩn."
+ },
+ "A075|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 0.5,
+  "C": 0,
+  "reason": "Không viện dẫn đúng điều khoản pháp lý chuẩn; chưa chỉ ra thiếu dữ kiện hóa đơn VAT hợp lệ; kết luận sai so với đáp án chuẩn."
+ },
+ "A076|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0.5,
+  "A": 1,
+  "C": 1,
+  "reason": "Thiếu dẫn chiếu Bộ luật Lao động và số điều khoản cụ thể, nhưng các phần còn lại đúng và lập luận đầy đủ."
+ },
+ "A077|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 0.5,
+  "C": 0.5,
+  "reason": "Xác định đúng vấn đề, nhưng không nêu căn cứ pháp lý cụ thể; đối chiếu dữ kiện chưa đầy đủ và kết luận chưa rõ ràng, không trùng đáp án chuẩn."
+ },
+ "A078|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0.5,
+  "A": 1,
+  "C": 1,
+  "reason": "Thiếu dẫn chiếu Luật Doanh nghiệp và số điều khoản cụ thể, còn lại đúng và đầy đủ."
+ },
+ "A079|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 0,
+  "A": 0,
+  "C": 1,
+  "reason": "Xác định vấn đề còn chung chung, không nêu căn cứ pháp lý, không phân tích dữ kiện, nhưng kết luận đúng đáp án chuẩn."
+ },
+ "A080|gpt-4.1|v2": {
+  "I": 1,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định đúng vấn đề, nêu đúng căn cứ pháp lý và điều khoản then chốt, đối chiếu đầy đủ dữ kiện với quy định, kết luận đúng và nhất quán với phần lập luận."
+ },
+ "A081|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0.5,
+  "A": 1,
+  "C": 1,
+  "reason": "Nêu đúng vấn đề, áp dụng và kết luận đúng, nhưng phần R thiếu số khoản, số điều cụ thể và số hiệu văn bản."
+ },
+ "A082|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Không nêu đúng số điều khoản và tên văn bản luật theo căn cứ pháp lý chuẩn, chỉ nói chung chung 'theo Luật Thuế giá trị gia tăng'."
+ },
+ "A083|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Không nêu đúng tên/số văn bản và số điều khoản cụ thể, chỉ nói chung chung về Luật BHXH."
+ },
+ "A084|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 0.5,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định vấn đề còn chung chung, nêu đúng văn bản và điều khoản chính nhưng thiếu Bộ luật Lao động, đối chiếu dữ kiện hợp lý, kết luận đúng đáp án chuẩn."
+ },
+ "A085|gpt-4.1|v2": {
+  "I": 1,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định đúng vấn đề, nêu đúng căn cứ pháp lý và điều khoản, đối chiếu dữ kiện đầy đủ, kết luận đúng và nhất quán."
+ },
+ "A086|gpt-4.1|v2": {
+  "I": 1,
+  "R": 1,
+  "A": 0.5,
+  "C": 0,
+  "reason": "Đã xác định đúng vấn đề và căn cứ pháp lý, nhưng phần áp dụng lập luận chưa đầy đủ, còn băn khoăn không cần thiết về danh mục liệt kê, và không đưa ra kết luận đúng theo đáp án chuẩn."
+ },
+ "A087|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Không nêu đúng số điều, khoản và tên văn bản pháp lý cụ thể theo đáp án chuẩn ở phần R."
+ },
+ "A088|gpt-4.1|v2": {
+  "I": 0,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Phần I xác định sai vấn đề pháp lý (kết luận ngược đáp án chuẩn), phần R không nêu căn cứ pháp lý cụ thể, phần A và C đúng với đáp án chuẩn."
+ },
+ "A089|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Không nêu đúng căn cứ pháp lý (thiếu tên/số điều luật), các phần còn lại đạt yêu cầu."
+ },
+ "A090|gpt-4.1|v2": {
+  "I": 1,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định đúng vấn đề, nêu đúng căn cứ pháp lý với số điều khoản, lập luận đầy đủ và kết luận đúng đáp án chuẩn."
+ },
+ "A091|gpt-4.1|v2": {
+  "I": 1,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định đúng vấn đề, nêu đúng căn cứ pháp lý với số điều khoản, đối chiếu đầy đủ dữ kiện với quy định và kết luận trùng đáp án chuẩn."
+ },
+ "A092|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 0,
+  "A": 0.5,
+  "C": 1,
+  "reason": "Xác định vấn đề còn chung chung, không nêu căn cứ pháp lý, đối chiếu dữ kiện chưa đầy đủ nhưng kết luận đúng và rõ ràng."
+ },
+ "A093|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0.5,
+  "A": 1,
+  "C": 1,
+  "reason": "R chỉ nêu mã nội bộ và tên văn bản, không ghi rõ số điều khoản như đáp án chuẩn; các phần khác đạt tối đa."
+ },
+ "A094|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0.5,
+  "A": 1,
+  "C": 1,
+  "reason": "Thiếu Điều 75 khoản 2, chỉ nêu khoản 3; các phần còn lại đúng và đầy đủ."
+ },
+ "A095|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Không nêu số điều khoản cụ thể của Bộ luật Lao động, chỉ nói chung chung nên R = 0; các phần khác đạt tối đa."
+ },
+ "A096|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 0,
+  "A": 0,
+  "C": 0,
+  "reason": "Xác định vấn đề còn chung chung, dẫn sai căn cứ pháp lý, không áp dụng đúng quy định, kết luận sai so với đáp án chuẩn."
+ },
+ "A097|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Không nêu đúng số điều, khoản, điểm và tên/số văn bản pháp luật theo yêu cầu của rubric."
+ },
+ "A098|gpt-4.1|v2": {
+  "I": 1,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Đáp án xác định đúng vấn đề, nêu đúng căn cứ pháp lý, áp dụng đầy đủ và kết luận trùng đáp án chuẩn."
+ },
+ "A099|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0.5,
+  "A": 1,
+  "C": 1,
+  "reason": "Phần R không nêu số điều cụ thể (Điều 110) của Bộ luật Lao động."
+ },
+ "A100|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0.5,
+  "A": 1,
+  "C": 1,
+  "reason": "Thiếu dẫn Điều 75 khoản 2, chỉ nêu khoản 3; các phần khác đúng và đầy đủ."
+ },
+ "A101|gpt-4.1|v2": {
+  "I": 0,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Không xác định đúng vấn đề pháp lý (lẽ ra phải hỏi về xác định quan hệ lao động chứ không phải khẳng định thuộc diện BHXH), không nêu đúng căn cứ pháp lý (không ghi số điều khoản cụ thể), nhưng có đối chiếu dữ kiện và kết luận phù hợp với đáp án chuẩn."
+ },
+ "A102|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 0,
+  "C": 0,
+  "reason": "Sai căn cứ pháp lý, áp dụng sai quy định, kết luận không đúng đáp án chuẩn."
+ },
+ "A103|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 1,
+  "C": 0,
+  "reason": "Nêu đúng vấn đề và áp dụng quy định hợp lý, nhưng dẫn sai căn cứ pháp lý (dẫn Luật BHXH 2014 thay vì Luật BHXH 2024), kết luận sai so với đáp án chuẩn."
+ },
+ "A104|gpt-4.1|v2": {
+  "I": 1,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định đúng vấn đề, nêu đúng căn cứ pháp lý với số điều khoản, đối chiếu đầy đủ dữ kiện, kết luận đúng và nhất quán."
+ },
+ "A105|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 0,
+  "A": 0,
+  "C": 1,
+  "reason": "Xác định vấn đề còn chung chung, không nêu căn cứ pháp lý cụ thể, không phân tích dữ kiện theo luật, nhưng kết luận đúng đáp án chuẩn."
+ },
+ "A106|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 0,
+  "A": 0.5,
+  "C": 0,
+  "reason": "Xác định vấn đề còn chung chung; dẫn sai điều khoản, thiếu số điều cụ thể; đối chiếu dữ kiện chưa đầy đủ; kết luận sai so với đáp án chuẩn."
+ },
+ "A107|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 0.5,
+  "C": 1,
+  "reason": "Không nêu đúng tên/số điều luật và số điều khoản theo căn cứ pháp lý chuẩn; phần A đối chiếu đúng nhưng viện dẫn quy định không chuẩn xác."
+ },
+ "A108|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 0.5,
+  "A": 0.5,
+  "C": 1,
+  "reason": "Chỉ xác định chung chung về đối tượng tham gia BHXH bắt buộc, thiếu căn cứ Luật BHXH và các điều khoản then chốt, đối chiếu chưa đầy đủ các điều kiện nhưng kết luận đúng."
+ },
+ "A109|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Không nêu căn cứ pháp lý cụ thể (số điều, khoản), các phần còn lại đúng và đầy đủ."
+ },
+ "A110|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0.5,
+  "A": 1,
+  "C": 1,
+  "reason": "Phần R không nêu số điều khoản cụ thể, chỉ nói chung chung về Bộ luật Lao động hiện hành."
+ },
+ "A111|gpt-4.1|v2": {
+  "I": 1,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định đúng vấn đề, nêu đúng căn cứ pháp lý và điều khoản then chốt, đối chiếu đầy đủ dữ kiện, kết luận đúng và nhất quán."
+ },
+ "A112|gpt-4.1|v2": {
+  "I": 1,
+  "R": 1,
+  "A": 1,
+  "C": 0,
+  "reason": "Kết luận không trùng đáp án chuẩn; đáp án chuẩn là KHÔNG, không phải CHƯA ĐỦ DỮ KIỆN."
+ },
+ "A113|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 0.5,
+  "A": 0,
+  "C": 0,
+  "reason": "Chỉ xác định vấn đề chung chung, thiếu điều khoản then chốt về ngoại lệ, không đối chiếu điều kiện ngoại lệ, kết luận sai với đáp án chuẩn."
+ },
+ "A114|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0.5,
+  "A": 1,
+  "C": 1,
+  "reason": "Thiếu dẫn Điều 75 khoản 2, chỉ nêu khoản 3; các phần khác đúng và đầy đủ."
+ },
+ "A115|gpt-4.1|v2": {
+  "I": 1,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định đúng vấn đề, nêu đúng căn cứ pháp lý với số điều khoản, đối chiếu đầy đủ dữ kiện với quy định, kết luận đúng và nhất quán với đáp án chuẩn."
+ },
+ "A116|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0.5,
+  "A": 1,
+  "C": 1,
+  "reason": "Thiếu dẫn Điều 75 khoản 2, chỉ nêu khoản 3; các phần khác đúng và đầy đủ."
+ },
+ "A117|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0.5,
+  "A": 1,
+  "C": 1,
+  "reason": "Không nêu đúng số điều, khoản và số luật; các phần còn lại đúng và đầy đủ."
+ },
+ "A118|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0.5,
+  "A": 1,
+  "C": 1,
+  "reason": "Nêu đúng vấn đề, thiếu số điều khoản cụ thể, lập luận và kết luận đúng đáp án chuẩn."
+ },
+ "A119|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Phần I xác định vấn đề còn chung chung, chưa nêu rõ tình huống cụ thể của người hỏi; các phần còn lại đạt yêu cầu theo rubric và đáp án chuẩn."
+ },
+ "A120|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Không nêu số điều khoản, văn bản cụ thể ở phần R; các phần khác đạt yêu cầu."
+ },
+ "A121|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Không nêu đúng tên/số điều khoản pháp luật, chỉ mã hóa nội bộ (LD0-R073, LD0-R075), còn lại đúng và đầy đủ."
+ },
+ "A122|gpt-4.1|v2": {
+  "I": 0,
+  "R": 0,
+  "A": 0,
+  "C": 0,
+  "reason": "Không xác định đúng vấn đề, không nêu căn cứ pháp lý, không phân tích dữ kiện, kết luận sai so với đáp án chuẩn."
+ },
+ "A123|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định vấn đề còn chung chung (chỉ nói người lao động thuộc đối tượng BHXH bắt buộc), các phần còn lại đúng và đầy đủ theo đáp án chuẩn."
+ },
+ "A124|gpt-4.1|v2": {
+  "I": 1,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định đúng vấn đề, nêu đúng căn cứ pháp lý và điều khoản, đối chiếu đầy đủ dữ kiện với quy định, kết luận đúng và nhất quán."
+ },
+ "A125|gpt-4.1|v2": {
+  "I": 0,
+  "R": 0,
+  "A": 0.5,
+  "C": 0,
+  "reason": "Xác định sai vấn đề pháp lý (khẳng định thuộc diện trong khi đáp án chuẩn là không), không nêu đúng tên/số điều luật, lập luận có đối chiếu dữ kiện nhưng kết luận sai."
+ },
+ "A126|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Không nêu đúng số điều khoản và tên văn bản pháp luật cụ thể ở phần R."
+ },
+ "A127|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 0,
+  "A": 0.5,
+  "C": 0.5,
+  "reason": "Xác định vấn đề còn chung chung, không nêu đúng số điều luật, đối chiếu điều kiện chưa đầy đủ, kết luận chưa đúng đáp án chuẩn."
+ },
+ "A128|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 0.5,
+  "C": 0,
+  "reason": "Không nêu đúng căn cứ pháp lý chuẩn (không dẫn Điều 35 khoản 2 điểm b Bộ luật Lao động 2019); không kết luận; lập luận có đối chiếu nhưng thiếu thuyết phục do nhầm lẫn quy định."
+ },
+ "A129|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 0.5,
+  "C": 0,
+  "reason": "Không nêu đúng số điều khoản và văn bản pháp lý chuẩn; lập luận thiếu đối chiếu ngoại lệ tại Nghị định 181/2025/NĐ-CP; kết luận sai so với đáp án chuẩn."
+ },
+ "A130|gpt-4.1|v2": {
+  "I": 1,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định đúng vấn đề, nêu đủ căn cứ pháp lý chuẩn, lập luận đầy đủ và kết luận đúng đáp án."
+ },
+ "A131|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 0.5,
+  "C": 0,
+  "reason": "Không nêu số điều, khoản cụ thể của văn bản pháp luật; bỏ sót điều kiện về chứng từ thanh toán không dùng tiền mặt; kết luận sai so với đáp án chuẩn."
+ },
+ "A132|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0.5,
+  "A": 1,
+  "C": 1,
+  "reason": "Nêu đúng vấn đề, áp dụng và kết luận chuẩn, nhưng phần R không ghi rõ số điều khoản mà chỉ mã nội bộ."
+ },
+ "A133|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0.5,
+  "A": 0,
+  "C": 0,
+  "reason": "Nêu đúng vấn đề, dẫn đúng văn bản và một điều then chốt nhưng thiếu Bộ luật Lao động, lập luận sai khi cho rằng đủ điều kiện hợp đồng lao động, kết luận sai với đáp án chuẩn."
+ },
+ "A134|gpt-4.1|v2": {
+  "I": 1,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định đúng vấn đề, nêu đủ căn cứ pháp lý chuẩn, lập luận đầy đủ và kết luận đúng đáp án chuẩn."
+ },
+ "A135|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Phần R không nêu số điều khoản cụ thể, chỉ nói chung chung về Bộ luật Lao động."
+ },
+ "A136|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định vấn đề còn chung chung, không nêu rõ điều kiện về thời gian đóng BHXH; không nêu căn cứ pháp lý; đối chiếu dữ kiện hợp lý; kết luận đúng đáp án chuẩn."
+ },
+ "A137|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0.5,
+  "A": 0.5,
+  "C": 0,
+  "reason": "Không xét đến ngoại lệ về sự chấp thuận của cơ quan nhà nước, kết luận sai so với đáp án chuẩn."
+ },
+ "A138|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định vấn đề còn chung chung (chỉ nói người lao động thuộc đối tượng BHXH bắt buộc, chưa nêu rõ vấn đề là thử việc có thuộc diện không), các phần còn lại đúng và đầy đủ."
+ },
+ "A139|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Không nêu đúng số điều, khoản và tên văn bản pháp lý chuẩn; các phần còn lại đạt yêu cầu."
+ },
+ "A140|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 0.5,
+  "A": 1,
+  "C": 1,
+  "reason": "Phần I xác định vấn đề còn chung chung, phần R chỉ nêu đúng một khoản điều luật, thiếu khoản 2 theo đáp án chuẩn."
+ },
+ "A141|gpt-4.1|v2": {
+  "I": 1,
+  "R": 1,
+  "A": 0.5,
+  "C": 0,
+  "reason": "Đã xác định đúng vấn đề và căn cứ pháp lý, nhưng phần áp dụng lập luận chưa đầy đủ, nhầm lẫn về điều kiện loại trừ; kết luận không trùng đáp án chuẩn."
+ },
+ "A142|gpt-4.1|v2": {
+  "I": 0,
+  "R": 0,
+  "A": 0,
+  "C": 0,
+  "reason": "Xác định sai vấn đề pháp lý, dẫn sai căn cứ pháp lý, lập luận và kết luận đều không đúng với đáp án chuẩn."
+ },
+ "A143|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0.5,
+  "A": 1,
+  "C": 1,
+  "reason": "Nêu đúng vấn đề, áp dụng và kết luận chuẩn, nhưng phần R thiếu số điều khoản cụ thể của Luật Doanh nghiệp."
+ },
+ "A144|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 0,
+  "C": 0,
+  "reason": "Không viện dẫn đúng điều khoản pháp lý chuẩn, không chỉ ra thiếu dữ kiện hóa đơn VAT hợp lệ, kết luận sai so với đáp án chuẩn."
+ },
+ "A145|gpt-4.1|v2": {
+  "I": 0,
+  "R": 1,
+  "A": 1,
+  "C": 0,
+  "reason": "Không xác định đúng vấn đề pháp lý (trả lời ngược với đáp án chuẩn), nhưng nêu đúng căn cứ pháp lý và áp dụng đúng quy định, kết luận sai."
+ },
+ "A146|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 0.5,
+  "C": 0,
+  "reason": "Không nêu đúng căn cứ pháp lý chuẩn, lập luận chưa đầy đủ và kết luận sai đáp án chuẩn."
+ },
+ "A147|gpt-4.1|v2": {
+  "I": 1,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định đúng vấn đề, nêu đúng căn cứ pháp lý và điều khoản then chốt, đối chiếu đầy đủ dữ kiện với quy định, kết luận đúng và nhất quán với đáp án chuẩn."
+ },
+ "A148|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 0,
+  "C": 0,
+  "reason": "Xác định đúng vấn đề nhưng dẫn sai căn cứ pháp lý, áp dụng sai quy định và kết luận sai so với đáp án chuẩn."
+ },
+ "A149|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Không nêu đúng số điều khoản và văn bản pháp lý cụ thể, chỉ nói chung chung 'theo Luật Doanh nghiệp Việt Nam'."
+ },
+ "A150|gpt-4.1|v2": {
+  "I": 0,
+  "R": 0,
+  "A": 0,
+  "C": 0,
+  "reason": "Lạc đề, không xác định đúng vấn đề pháp lý và không sử dụng đúng căn cứ pháp lý chuẩn."
+ },
+ "A151|gpt-4.1|v2": {
+  "I": 1,
+  "R": 1,
+  "A": 1,
+  "C": 1,
+  "reason": "Xác định đúng vấn đề, nêu đúng căn cứ pháp lý với số điều khoản, lập luận đầy đủ và kết luận đúng đáp án chuẩn."
+ },
+ "A152|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 1,
+  "C": 1,
+  "reason": "Không nêu đúng số điều, khoản và văn bản theo căn cứ pháp lý chuẩn, chỉ nói chung chung Luật BHXH."
+ },
+ "A153|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 0.5,
+  "A": 1,
+  "C": 1,
+  "reason": "I xác định vấn đề còn chung chung, R chỉ nêu một khoản của điều luật và thiếu khoản 2, A và C đều đúng và nhất quán với đáp án chuẩn."
+ },
+ "A154|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 0,
+  "C": 0,
+  "reason": "Không viện dẫn đúng điều khoản pháp lý mới (Điều 33 khoản 5 Luật BHXH 2024), lập luận và kết luận sai với đáp án chuẩn."
+ },
+ "A155|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 0,
+  "A": 0.5,
+  "C": 1,
+  "reason": "Xác định vấn đề còn chung chung, không nêu căn cứ pháp lý, đối chiếu dữ kiện chưa đầy đủ nhưng kết luận đúng và rõ ràng."
+ },
+ "A156|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 0.5,
+  "A": 0,
+  "C": 0,
+  "reason": "Xác định vấn đề còn chung chung, thiếu căn cứ Luật BHXH, lập luận và kết luận sai vì thiếu dữ kiện về loại hợp đồng và thời hạn."
+ },
+ "A157|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0,
+  "A": 0.5,
+  "C": 1,
+  "reason": "Không nêu đúng tên/số điều luật và số điều khoản cụ thể theo căn cứ pháp lý chuẩn; phần A đối chiếu đúng nhưng viện dẫn điều khoản ký hiệu nội bộ, không phải điều luật; kết luận đúng."
+ },
+ "A158|gpt-4.1|v2": {
+  "I": 0,
+  "R": 1,
+  "A": 0,
+  "C": 0,
+  "reason": "Xác định sai vấn đề pháp lý cốt lõi và kết luận sai; chưa hết thời hạn góp vốn nên chưa phải đăng ký điều chỉnh vốn điều lệ."
+ },
+ "A159|gpt-4.1|v2": {
+  "I": 1,
+  "R": 0.5,
+  "A": 1,
+  "C": 1,
+  "reason": "Nêu đúng vấn đề, lập luận và kết luận chuẩn, nhưng phần R thiếu số điều, khoản, điểm cụ thể theo căn cứ pháp lý chuẩn."
+ },
+ "A160|gpt-4.1|v2": {
+  "I": 0.5,
+  "R": 0.5,
+  "A": 1,
+  "C": 1,
+  "reason": "I và R chưa nêu đủ tên/số văn bản và số điều khoản then chốt; A và C đúng và nhất quán với đáp án chuẩn."
  }
 }

@@ -21,3 +21,13 @@ Protocol
 - Human check: at least 20 questions scored by hand with the same rubric; agreement with the judge
   reported (Cohen's kappa per component, and correlation of the total).
 - The rubric is not changed after seeing results.
+
+## Revision v2 (post hoc, after the first scoring; reported alongside v1)
+The v1 Rule levels overlap ("a key provision missing" = 0.5 vs "key provisions missing" = 0), and the judge
+gave 0.5 to answers that name no article at all. v2 makes R precise; I, A, C unchanged; all methods
+re-scored with the same judge:
+- R = 1: correct document (name/number) and the article (clause) numbers of the governing provisions, complete;
+  an equivalent provision is accepted only from a document in force.
+- R = 0.5: correct document and at least one correct key article, but another key provision or the
+  implementing document is missing.
+- R = 0: no specific article number (only "under the Law on …"), a wrong article, or a superseded document.

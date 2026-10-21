@@ -76,12 +76,12 @@ conclusion and legal basis; 20 questions are also scored by a human to report ag
 **Table 2. Main comparison (held-out test).** QA on the 106 test questions end to end; diagnosis on the
 451 injected test instances.
 
-| System | QA acc. (end-to-end) | QA acc. on faulty inputs | Diag. macro-F1 | Recovery gain (pp) | Clarif./query | NLI meas./query | IRAC |
+| System | QA acc. (end-to-end) | QA acc. on faulty inputs | Diag. macro-F1 | Recovery gain (pp) | Clarif./query | NLI meas./query | IRAC v1 / v2 |
 |---|---|---|---|---|---|---|---|
-| GPT-4o (pure LLM) | **70.8** | – | N/A | N/A | – | – | **71.2** |
-| Symbolic QA | 61.3 | 4.3 | N/A | N/A | 0.00 | 0.00 | 68.8 |
-| Heuristic diagnosis | 66.0 | 85.7 | 67.4 | +81.5 | 3.71 | 5.79 | 71.1 |
-| **Ours (cross-layer MBD)** | 65.1 | 85.7 | 66.8 | +81.5 | **1.70** | 5.56 | 70.0 |
+| GPT-4o (pure LLM) | **70.8** | – | N/A | N/A | – | – | 71.2 / 57.7 |
+| Symbolic QA | 61.3 | 4.3 | N/A | N/A | 0.00 | 0.00 | 68.8 / 60.8 |
+| Heuristic diagnosis | 66.0 | 85.7 | 67.4 | +81.5 | 3.71 | 5.79 | 71.1 / 64.6 |
+| **Ours (cross-layer MBD)** | 65.1 | 85.7 | 66.8 | +81.5 | **1.70** | 5.56 | 70.0 / 63.7 |
 
 **Table 3. Diagnosis by category (injected faults, test, n = 451).**
 
@@ -186,14 +186,26 @@ GPT-4o, 70.0 for Ours, 71.1 heuristic, 68.8 symbolic): GPT-4o states the issue b
 the KB-grounded answers phrase the issue from a predicate template) and argues more fluently (A 0.79 vs
 0.73), whereas the proof-grounded answers cite the governing provisions more accurately (R 0.64 vs 0.55;
 GPT-4o often cites superseded laws, several 2024–2025 statutes postdating its training data) and reach the
-correct conclusion more often (C 0.78 vs 0.70). A rule-based check of the R component, defined after the
-judging and reported as a secondary analysis, explains the narrow IRAC gap: GPT-4o names a specific article
-in only 22.5% of its answers ("under the Law on Social Insurance, …") and cites 12.5% of the gold articles,
-against 77.5% and 62.5% for the proof-grounded answers; the judge scored such unspecific citations 0.5
-("correct law, key provisions missing"). Scoring R = 0 whenever no article is named — the stricter reading
-of the rubric's lowest level — gives IRAC 55.9 for GPT-4o and 66.6 for Ours. The human scoring of 20
-questions (pending) decides which reading the judge should follow; the primary IRAC numbers above are
-the judge's, unchanged.
+correct conclusion more often (C 0.78 vs 0.70). The narrow IRAC gap comes from the R component. GPT-4o names a specific article in
+only 22.5% of its answers ("under the Law on Social Insurance, …") and cites 12.5% of the gold articles,
+against 77.5% and 62.5% for the proof-grounded answers, yet the judge gave such unspecific citations 0.5:
+the pre-registered rubric (v1) does not separate "correct law, a key provision missing" (0.5) from "key
+provisions missing" (0). We therefore made R precise after the first scoring (rubric v2: R = 1 requires the
+correct document and article numbers of the governing provisions; 0.5 at least one correct article;
+0 no article number, a wrong article or a superseded law), left I, A and C unchanged, and re-scored all
+four methods with the same judge. Under v2 the IRAC scores are 57.7 (GPT-4o), 60.8 (Symbolic QA),
+64.6 (Heuristic) and 63.7 (Ours), with R = 0.18 for GPT-4o against 0.46–0.51 for the KB-grounded systems.
+Both versions are reported; the human scoring of 20 questions (pending) is used to check which one the
+judge's R agrees with.
+
+**Table 8b. IRAC under the pre-registered rubric (v1) and with the precise Rule criterion (v2, post hoc).**
+
+| Method | IRAC v1 | R v1 | IRAC v2 | R v2 | I | A | C (v2) |
+|---|---|---|---|---|---|---|---|
+| GPT-4o (pure LLM) | 71.2 | 0.55 | 57.7 | 0.18 | 1.00 | 0.79 | 0.68 |
+| Symbolic QA | 68.8 | 0.61 | 60.8 | 0.46 | 0.75 | 0.69 | 0.64 |
+| Heuristic | 71.1 | 0.63 | 64.6 | 0.51 | 0.64 | 0.71 | 0.79 |
+| **Ours** | 70.0 | 0.64 | 63.7 | 0.46 | 0.65 | 0.74 | 0.76 |
 
 **Limitations.** Gold labels are LLM-generated and still under legal review; faults are single and
 injected; the simulated user knows all case facts; the legal goal is given (oracle goal); the test split
