@@ -139,7 +139,12 @@ checks per query); under an equal clarification budget the two stay within about
 difference lies in interaction: the heuristic turns every unresolved condition into a "missing information"
 diagnosis and asks about it (3.71 clarification requests per query, 11.8 on the tax test set), whereas MBD
 asks only when the remaining set-minimal diagnoses are genuinely indistinguishable (1.70 per query, 4.8 on
-tax). On single-fault inputs we therefore claim parity in accuracy at roughly half the user interaction,
+tax). The diagnosis-accuracy metric tolerates extra faults that are true of the instance (an unstated
+condition reported as missing); the heuristic benefits more from this (34 of its 309 correct diagnoses
+contain extra faults, 25 of 298 for MBD). Requiring the diagnosis to be exactly the injected fault (a
+secondary, stricter analysis) gives 61.4% for the heuristic and 61.0% for MBD, and the heuristic's
+diagnoses are a third larger (3.12 vs 2.11 faults on average, up to 36): set-minimality keeps MBD's
+explanations parsimonious. On single-fault inputs we therefore claim parity in accuracy at roughly half the user interaction,
 together with explicit ambiguity and set-minimal, observation-consistent explanations, not higher accuracy.
 Two design points were necessary for this (identified on the development set before testing): an encoded,
 resolvable overlap must not end the search for an input fault, and when the bounded joint search finds no
