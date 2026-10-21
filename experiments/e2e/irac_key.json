@@ -1,0 +1,642 @@
+{
+ "A001": {
+  "question_id": "DN-064",
+  "method": "gpt4o"
+ },
+ "A002": {
+  "question_id": "LD-011",
+  "method": "ours"
+ },
+ "A003": {
+  "question_id": "BHXH-010",
+  "method": "symbolic"
+ },
+ "A004": {
+  "question_id": "DN-005",
+  "method": "gpt4o"
+ },
+ "A005": {
+  "question_id": "THUE-005",
+  "method": "gpt4o"
+ },
+ "A006": {
+  "question_id": "LD-020",
+  "method": "gpt4o"
+ },
+ "A007": {
+  "question_id": "THUE-040",
+  "method": "heuristic"
+ },
+ "A008": {
+  "question_id": "BHXH-046",
+  "method": "symbolic"
+ },
+ "A009": {
+  "question_id": "BHXH-058",
+  "method": "ours"
+ },
+ "A010": {
+  "question_id": "LD-016",
+  "method": "ours"
+ },
+ "A011": {
+  "question_id": "LD-024",
+  "method": "heuristic"
+ },
+ "A012": {
+  "question_id": "THUE-035",
+  "method": "symbolic"
+ },
+ "A013": {
+  "question_id": "THUE-035",
+  "method": "heuristic"
+ },
+ "A014": {
+  "question_id": "LD-020",
+  "method": "symbolic"
+ },
+ "A015": {
+  "question_id": "THUE-006",
+  "method": "symbolic"
+ },
+ "A016": {
+  "question_id": "BHXH-024",
+  "method": "gpt4o"
+ },
+ "A017": {
+  "question_id": "LN-009",
+  "method": "heuristic"
+ },
+ "A018": {
+  "question_id": "DN-064",
+  "method": "heuristic"
+ },
+ "A019": {
+  "question_id": "DN-032",
+  "method": "gpt4o"
+ },
+ "A020": {
+  "question_id": "THUE-005",
+  "method": "heuristic"
+ },
+ "A021": {
+  "question_id": "LD-015",
+  "method": "gpt4o"
+ },
+ "A022": {
+  "question_id": "LN-002",
+  "method": "heuristic"
+ },
+ "A023": {
+  "question_id": "THUE-040",
+  "method": "symbolic"
+ },
+ "A024": {
+  "question_id": "LN-005",
+  "method": "ours"
+ },
+ "A025": {
+  "question_id": "LD-029",
+  "method": "ours"
+ },
+ "A026": {
+  "question_id": "DN-005",
+  "method": "ours"
+ },
+ "A027": {
+  "question_id": "BHXH-010",
+  "method": "ours"
+ },
+ "A028": {
+  "question_id": "THUE-001",
+  "method": "symbolic"
+ },
+ "A029": {
+  "question_id": "THUE-051",
+  "method": "ours"
+ },
+ "A030": {
+  "question_id": "THUE-051",
+  "method": "gpt4o"
+ },
+ "A031": {
+  "question_id": "DN-034",
+  "method": "ours"
+ },
+ "A032": {
+  "question_id": "DN-029",
+  "method": "ours"
+ },
+ "A033": {
+  "question_id": "LN-007",
+  "method": "symbolic"
+ },
+ "A034": {
+  "question_id": "DN-035",
+  "method": "symbolic"
+ },
+ "A035": {
+  "question_id": "DN-007",
+  "method": "heuristic"
+ },
+ "A036": {
+  "question_id": "LN-009",
+  "method": "ours"
+ },
+ "A037": {
+  "question_id": "LD-014",
+  "method": "symbolic"
+ },
+ "A038": {
+  "question_id": "LN-002",
+  "method": "symbolic"
+ },
+ "A039": {
+  "question_id": "BHXH-046",
+  "method": "heuristic"
+ },
+ "A040": {
+  "question_id": "DN-005",
+  "method": "heuristic"
+ },
+ "A041": {
+  "question_id": "LN-038",
+  "method": "symbolic"
+ },
+ "A042": {
+  "question_id": "BHXH-083",
+  "method": "gpt4o"
+ },
+ "A043": {
+  "question_id": "DN-010",
+  "method": "heuristic"
+ },
+ "A044": {
+  "question_id": "LD-020",
+  "method": "ours"
+ },
+ "A045": {
+  "question_id": "LN-007",
+  "method": "ours"
+ },
+ "A046": {
+  "question_id": "LN-029",
+  "method": "symbolic"
+ },
+ "A047": {
+  "question_id": "DN-010",
+  "method": "ours"
+ },
+ "A048": {
+  "question_id": "LD-011",
+  "method": "symbolic"
+ },
+ "A049": {
+  "question_id": "LN-002",
+  "method": "gpt4o"
+ },
+ "A050": {
+  "question_id": "LD-029",
+  "method": "heuristic"
+ },
+ "A051": {
+  "question_id": "BHXH-043",
+  "method": "heuristic"
+ },
+ "A052": {
+  "question_id": "THUE-056",
+  "method": "heuristic"
+ },
+ "A053": {
+  "question_id": "BHXH-083",
+  "method": "ours"
+ },
+ "A054": {
+  "question_id": "DN-032",
+  "method": "symbolic"
+ },
+ "A055": {
+  "question_id": "DN-005",
+  "method": "symbolic"
+ },
+ "A056": {
+  "question_id": "THUE-025",
+  "method": "symbolic"
+ },
+ "A057": {
+  "question_id": "LN-005",
+  "method": "gpt4o"
+ },
+ "A058": {
+  "question_id": "LD-015",
+  "method": "ours"
+ },
+ "A059": {
+  "question_id": "THUE-005",
+  "method": "symbolic"
+ },
+ "A060": {
+  "question_id": "THUE-025",
+  "method": "gpt4o"
+ },
+ "A061": {
+  "question_id": "LD-014",
+  "method": "ours"
+ },
+ "A062": {
+  "question_id": "THUE-006",
+  "method": "gpt4o"
+ },
+ "A063": {
+  "question_id": "BHXH-024",
+  "method": "ours"
+ },
+ "A064": {
+  "question_id": "LN-024",
+  "method": "heuristic"
+ },
+ "A065": {
+  "question_id": "BHXH-066",
+  "method": "heuristic"
+ },
+ "A066": {
+  "question_id": "DN-029",
+  "method": "gpt4o"
+ },
+ "A067": {
+  "question_id": "BHXH-058",
+  "method": "heuristic"
+ },
+ "A068": {
+  "question_id": "THUE-040",
+  "method": "ours"
+ },
+ "A069": {
+  "question_id": "BHXH-081",
+  "method": "symbolic"
+ },
+ "A070": {
+  "question_id": "LD-011",
+  "method": "heuristic"
+ },
+ "A071": {
+  "question_id": "LD-013",
+  "method": "ours"
+ },
+ "A072": {
+  "question_id": "BHXH-010",
+  "method": "heuristic"
+ },
+ "A073": {
+  "question_id": "LN-019",
+  "method": "heuristic"
+ },
+ "A074": {
+  "question_id": "BHXH-083",
+  "method": "heuristic"
+ },
+ "A075": {
+  "question_id": "THUE-025",
+  "method": "ours"
+ },
+ "A076": {
+  "question_id": "LN-009",
+  "method": "gpt4o"
+ },
+ "A077": {
+  "question_id": "DN-034",
+  "method": "symbolic"
+ },
+ "A078": {
+  "question_id": "LN-019",
+  "method": "ours"
+ },
+ "A079": {
+  "question_id": "DN-029",
+  "method": "symbolic"
+ },
+ "A080": {
+  "question_id": "DN-064",
+  "method": "symbolic"
+ },
+ "A081": {
+  "question_id": "DN-007",
+  "method": "gpt4o"
+ },
+ "A082": {
+  "question_id": "THUE-001",
+  "method": "gpt4o"
+ },
+ "A083": {
+  "question_id": "LN-024",
+  "method": "gpt4o"
+ },
+ "A084": {
+  "question_id": "LN-002",
+  "method": "ours"
+ },
+ "A085": {
+  "question_id": "LD-024",
+  "method": "symbolic"
+ },
+ "A086": {
+  "question_id": "THUE-051",
+  "method": "symbolic"
+ },
+ "A087": {
+  "question_id": "LN-038",
+  "method": "gpt4o"
+ },
+ "A088": {
+  "question_id": "THUE-035",
+  "method": "ours"
+ },
+ "A089": {
+  "question_id": "LD-015",
+  "method": "heuristic"
+ },
+ "A090": {
+  "question_id": "LD-029",
+  "method": "symbolic"
+ },
+ "A091": {
+  "question_id": "THUE-056",
+  "method": "ours"
+ },
+ "A092": {
+  "question_id": "LN-038",
+  "method": "ours"
+ },
+ "A093": {
+  "question_id": "LD-013",
+  "method": "symbolic"
+ },
+ "A094": {
+  "question_id": "DN-032",
+  "method": "ours"
+ },
+ "A095": {
+  "question_id": "LD-029",
+  "method": "gpt4o"
+ },
+ "A096": {
+  "question_id": "THUE-001",
+  "method": "ours"
+ },
+ "A097": {
+  "question_id": "BHXH-010",
+  "method": "gpt4o"
+ },
+ "A098": {
+  "question_id": "THUE-051",
+  "method": "heuristic"
+ },
+ "A099": {
+  "question_id": "LD-024",
+  "method": "gpt4o"
+ },
+ "A100": {
+  "question_id": "DN-032",
+  "method": "heuristic"
+ },
+ "A101": {
+  "question_id": "LN-007",
+  "method": "heuristic"
+ },
+ "A102": {
+  "question_id": "LD-020",
+  "method": "heuristic"
+ },
+ "A103": {
+  "question_id": "BHXH-081",
+  "method": "gpt4o"
+ },
+ "A104": {
+  "question_id": "THUE-006",
+  "method": "heuristic"
+ },
+ "A105": {
+  "question_id": "DN-029",
+  "method": "heuristic"
+ },
+ "A106": {
+  "question_id": "BHXH-024",
+  "method": "symbolic"
+ },
+ "A107": {
+  "question_id": "LN-029",
+  "method": "heuristic"
+ },
+ "A108": {
+  "question_id": "BHXH-058",
+  "method": "symbolic"
+ },
+ "A109": {
+  "question_id": "LD-015",
+  "method": "symbolic"
+ },
+ "A110": {
+  "question_id": "LD-014",
+  "method": "gpt4o"
+ },
+ "A111": {
+  "question_id": "THUE-006",
+  "method": "ours"
+ },
+ "A112": {
+  "question_id": "BHXH-066",
+  "method": "symbolic"
+ },
+ "A113": {
+  "question_id": "DN-010",
+  "method": "symbolic"
+ },
+ "A114": {
+  "question_id": "DN-035",
+  "method": "ours"
+ },
+ "A115": {
+  "question_id": "BHXH-081",
+  "method": "ours"
+ },
+ "A116": {
+  "question_id": "DN-035",
+  "method": "heuristic"
+ },
+ "A117": {
+  "question_id": "THUE-056",
+  "method": "gpt4o"
+ },
+ "A118": {
+  "question_id": "LD-011",
+  "method": "gpt4o"
+ },
+ "A119": {
+  "question_id": "BHXH-024",
+  "method": "heuristic"
+ },
+ "A120": {
+  "question_id": "LN-029",
+  "method": "gpt4o"
+ },
+ "A121": {
+  "question_id": "LD-014",
+  "method": "heuristic"
+ },
+ "A122": {
+  "question_id": "LD-024",
+  "method": "ours"
+ },
+ "A123": {
+  "question_id": "BHXH-043",
+  "method": "ours"
+ },
+ "A124": {
+  "question_id": "BHXH-081",
+  "method": "heuristic"
+ },
+ "A125": {
+  "question_id": "LN-005",
+  "method": "symbolic"
+ },
+ "A126": {
+  "question_id": "LN-019",
+  "method": "gpt4o"
+ },
+ "A127": {
+  "question_id": "LN-005",
+  "method": "heuristic"
+ },
+ "A128": {
+  "question_id": "LD-016",
+  "method": "symbolic"
+ },
+ "A129": {
+  "question_id": "THUE-035",
+  "method": "gpt4o"
+ },
+ "A130": {
+  "question_id": "LN-019",
+  "method": "symbolic"
+ },
+ "A131": {
+  "question_id": "THUE-040",
+  "method": "gpt4o"
+ },
+ "A132": {
+  "question_id": "LD-013",
+  "method": "heuristic"
+ },
+ "A133": {
+  "question_id": "LN-007",
+  "method": "gpt4o"
+ },
+ "A134": {
+  "question_id": "LN-024",
+  "method": "ours"
+ },
+ "A135": {
+  "question_id": "LD-013",
+  "method": "gpt4o"
+ },
+ "A136": {
+  "question_id": "BHXH-083",
+  "method": "symbolic"
+ },
+ "A137": {
+  "question_id": "DN-010",
+  "method": "gpt4o"
+ },
+ "A138": {
+  "question_id": "BHXH-043",
+  "method": "symbolic"
+ },
+ "A139": {
+  "question_id": "BHXH-046",
+  "method": "gpt4o"
+ },
+ "A140": {
+  "question_id": "DN-007",
+  "method": "ours"
+ },
+ "A141": {
+  "question_id": "THUE-056",
+  "method": "symbolic"
+ },
+ "A142": {
+  "question_id": "THUE-005",
+  "method": "ours"
+ },
+ "A143": {
+  "question_id": "DN-035",
+  "method": "gpt4o"
+ },
+ "A144": {
+  "question_id": "THUE-025",
+  "method": "heuristic"
+ },
+ "A145": {
+  "question_id": "BHXH-066",
+  "method": "ours"
+ },
+ "A146": {
+  "question_id": "LN-009",
+  "method": "symbolic"
+ },
+ "A147": {
+  "question_id": "DN-064",
+  "method": "ours"
+ },
+ "A148": {
+  "question_id": "BHXH-058",
+  "method": "gpt4o"
+ },
+ "A149": {
+  "question_id": "DN-034",
+  "method": "gpt4o"
+ },
+ "A150": {
+  "question_id": "THUE-001",
+  "method": "heuristic"
+ },
+ "A151": {
+  "question_id": "LD-016",
+  "method": "heuristic"
+ },
+ "A152": {
+  "question_id": "BHXH-043",
+  "method": "gpt4o"
+ },
+ "A153": {
+  "question_id": "DN-007",
+  "method": "symbolic"
+ },
+ "A154": {
+  "question_id": "BHXH-066",
+  "method": "gpt4o"
+ },
+ "A155": {
+  "question_id": "LN-038",
+  "method": "heuristic"
+ },
+ "A156": {
+  "question_id": "BHXH-046",
+  "method": "ours"
+ },
+ "A157": {
+  "question_id": "LN-029",
+  "method": "ours"
+ },
+ "A158": {
+  "question_id": "DN-034",
+  "method": "heuristic"
+ },
+ "A159": {
+  "question_id": "LD-016",
+  "method": "gpt4o"
+ },
+ "A160": {
+  "question_id": "LN-024",
+  "method": "symbolic"
+ }
+}

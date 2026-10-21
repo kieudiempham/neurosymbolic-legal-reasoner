@@ -104,14 +104,20 @@ def judge_all(entries: list[dict]) -> dict:
                 r = client.chat.completions.create(model=JUDGE, temperature=0, seed=0, response_format={"type": "json_object"},
                                                    messages=[{"role": "user", "content": prompt(e)}])
                 return k, json.loads(r.choices[0].message.content)
-            except Exception:
+            except Exception as ex:
+                if "insufficient_quota" in str(ex):  # out of credits: stop, keep what is done
+                    raise RuntimeError("OpenAI credits exhausted; top up and re-run (scored answers are cached)") from ex
                 time.sleep(min(60, 3 * 2 ** attempt))
         raise RuntimeError("judge failed")
 
-    with ThreadPoolExecutor(12) as pool:
-        for k, v in pool.map(call, entries):
-            cache[k] = v
-    cache_f.write_text(json.dumps(cache, ensure_ascii=False, indent=1), encoding="utf-8")
+    try:
+        with ThreadPoolExecutor(12) as pool:
+            for n, (k, v) in enumerate(pool.map(call, entries), 1):
+                cache[k] = v
+                if n % 20 == 0:
+                    cache_f.write_text(json.dumps(cache, ensure_ascii=False, indent=1), encoding="utf-8")
+    finally:
+        cache_f.write_text(json.dumps(cache, ensure_ascii=False, indent=1), encoding="utf-8")
     return {e["anon"]: cache[e["anon"] + "|" + JUDGE] for e in entries}
 
 

@@ -187,6 +187,27 @@ def main() -> None:
             L.append(f"| {name} | {' | '.join(cells)} | {br[f'{cfg}|inf']['nli_per_query']:.2f} | "
                      f"{br[f'{cfg}|inf']['kb_checks_per_query']:.2f} |")
         L.append("")
+    # ---- Table 8: end-to-end QA (real GPT-4o parser) + IRAC ----
+    qf, jf = ROOT / "experiments" / "e2e" / "qa_results.json", ROOT / "experiments" / "e2e" / "irac_scores.json"
+    if qf.exists():
+        q = json.loads(qf.read_text(encoding="utf-8"))["summary"]
+        ir = json.loads(jf.read_text(encoding="utf-8"))["summary"] if jf.exists() else {}
+        L += ["## Table 8 — End-to-end QA on the 300 questions (real GPT-4o parser, oracle goal, no simulated user) and IRAC", "",
+              f"Parser vs gold facts: precision {pct(q['parser']['precision'])}, recall {pct(q['parser']['recall'])}. "
+              "IRAC: 40 stratified questions, blind, judge GPT-4.1, rubric 100·(0.10 I + 0.35 R + 0.40 A + 0.15 C).", "",
+              "| Method | QA test (n=106) | QA dev (n=194) | QA all (n=300) | yes / no / insufficient (all) | IRAC | I | R | A | C |",
+              "|---|---|---|---|---|---|---|---|---|---|"]
+        for m, name in [("gpt4o", "GPT-4o (pure LLM)"), ("symbolic", "Symbolic QA"), ("heuristic", "Heuristic IF–THEN"),
+                        ("ours", "**Ours: Cross-Layer MBD**")]:
+            g = q["by_gold_label_all"]
+            i = ir.get(m, {})
+            L.append(f"| {name} | {pct(q['test'][m])} | {pct(q['dev'][m])} | {pct(q['all'][m])} | "
+                     f"{pct(g['true'][m])} / {pct(g['false'][m])} / {pct(g['insufficient'][m])} | "
+                     f"{i.get('IRAC_0_100', '–')} | {i.get('I', '–')} | {i.get('R', '–')} | {i.get('A', '–')} | {i.get('C', '–')} |")
+        L += ["", "Test QA by domain (social insurance: dev): " + "; ".join(
+            f"{d}: " + ", ".join(f"{m} {pct(v[m])}" for m in ("gpt4o", "heuristic", "ours")) + f" (n={v['n']})"
+            for d, v in q["by_domain_test_or_all"].items()), ""]
+
     # ---- Table 7: two simultaneous faults ----
     mf = ROOT / "experiments" / "multi_fault" / "results.json"
     if mf.exists():

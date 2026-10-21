@@ -1,0 +1,1159 @@
+{
+ "judge": "gpt-4.1",
+ "summary": {
+  "gpt4o": {
+   "n": 40,
+   "I": 1.0,
+   "R": 0.55,
+   "A": 0.787,
+   "C": 0.7,
+   "IRAC_0_100": 71.2
+  },
+  "ours": {
+   "n": 40,
+   "I": 0.713,
+   "R": 0.637,
+   "A": 0.725,
+   "C": 0.775,
+   "IRAC_0_100": 70.0
+  },
+  "symbolic": {
+   "n": 40,
+   "I": 0.775,
+   "R": 0.613,
+   "A": 0.738,
+   "C": 0.675,
+   "IRAC_0_100": 68.8
+  },
+  "heuristic": {
+   "n": 40,
+   "I": 0.675,
+   "R": 0.625,
+   "A": 0.762,
+   "C": 0.8,
+   "IRAC_0_100": 71.1
+  }
+ },
+ "scores": {
+  "A001": {
+   "I": 1,
+   "R": 0,
+   "A": 0.5,
+   "C": 1,
+   "reason": "Viện dẫn sai điều luật (Điều 56 thay vì Điều 30), lập luận có đối chiếu nhưng chưa đầy đủ về ngày làm việc, kết luận đúng."
+  },
+  "A002": {
+   "I": 0.5,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định vấn đề còn chung chung, chưa nêu rõ vấn đề pháp lý là xác định tính hợp lệ của thời gian thử việc 50 ngày dựa trên trình độ chuyên môn yêu cầu; các phần còn lại đạt yêu cầu."
+  },
+  "A003": {
+   "I": 0.5,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định vấn đề còn chung chung (chỉ nói người lao động thuộc đối tượng BHXH bắt buộc, chưa nêu rõ vấn đề là người đang hưởng lương hưu có thuộc diện không), các phần còn lại đúng và đầy đủ."
+  },
+  "A004": {
+   "I": 1,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Nêu đúng vấn đề, lập luận đầy đủ, kết luận đúng; phần R thiếu viện dẫn điều khoản cụ thể của Luật Doanh nghiệp."
+  },
+  "A005": {
+   "I": 1,
+   "R": 0.5,
+   "A": 0,
+   "C": 0,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng nguyên tắc chung nhưng thiếu điều khoản loại trừ dịch vụ khám chữa bệnh, áp dụng sai vì dịch vụ này không chịu thuế GTGT, kết luận sai."
+  },
+  "A006": {
+   "I": 1,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Thiếu viện dẫn điều khoản cụ thể và nghị định hướng dẫn, còn lại đúng và đầy đủ."
+  },
+  "A007": {
+   "I": 1,
+   "R": 0,
+   "A": 1,
+   "C": 1,
+   "reason": "Phần R viện dẫn sai điều khoản, các phần còn lại đạt yêu cầu theo đáp án chuẩn và rubric."
+  },
+  "A008": {
+   "I": 0.5,
+   "R": 1,
+   "A": 0,
+   "C": 0,
+   "reason": "Chưa xác định rõ tình huống là hợp đồng thử việc độc lập hay hợp đồng lao động, kết luận KHÔNG là sai với đáp án chuẩn CHƯA ĐỦ DỮ KIỆN."
+  },
+  "A009": {
+   "I": 0.5,
+   "R": 0.5,
+   "A": 0.5,
+   "C": 1,
+   "reason": "Xác định vấn đề và căn cứ pháp lý còn chung chung, thiếu viện dẫn Luật BHXH và các điều khoản then chốt; lập luận chưa đầy đủ khi không phân tích hết điều kiện, nhưng kết luận đúng."
+  },
+  "A010": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng điều luật, áp dụng đầy đủ dữ kiện, kết luận đúng đáp án chuẩn."
+  },
+  "A011": {
+   "I": 0.5,
+   "R": 0,
+   "A": 0,
+   "C": 0,
+   "reason": "Xác định vấn đề còn chung chung, không viện dẫn đúng căn cứ pháp lý, không phân tích dữ kiện, kết luận sai so với đáp án chuẩn."
+  },
+  "A012": {
+   "I": 0,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định sai vấn đề pháp lý cần giải quyết, nhưng viện dẫn và áp dụng đúng quy định, kết luận đúng."
+  },
+  "A013": {
+   "I": 0,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định sai vấn đề pháp lý cần giải quyết, nhưng viện dẫn đúng căn cứ pháp lý, áp dụng đúng và kết luận đúng đáp án chuẩn."
+  },
+  "A014": {
+   "I": 1,
+   "R": 0,
+   "A": 0,
+   "C": 0,
+   "reason": "Sai căn cứ pháp lý và kết luận trái đáp án chuẩn, lập luận không đúng quy định về lương làm thêm ngày lễ."
+  },
+  "A015": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng điều luật, phân tích đủ điều kiện, kết luận đúng đáp án chuẩn."
+  },
+  "A016": {
+   "I": 1,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Nêu đúng vấn đề, lập luận và kết luận chuẩn, nhưng phần R thiếu viện dẫn điều khoản cụ thể và văn bản hướng dẫn."
+  },
+  "A017": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đầy đủ căn cứ pháp lý, phân tích đúng dữ kiện và kết luận trùng đáp án chuẩn."
+  },
+  "A018": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đầy đủ điều luật, áp dụng đúng dữ kiện, kết luận trùng đáp án chuẩn."
+  },
+  "A019": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng quy định, áp dụng đầy đủ vào tình huống, kết luận đúng và rõ ràng."
+  },
+  "A020": {
+   "I": 0.5,
+   "R": 0,
+   "A": 0,
+   "C": 0,
+   "reason": "Không xác định đúng vấn đề cốt lõi, viện dẫn sai căn cứ pháp lý, không áp dụng đúng quy định và kết luận sai so với đáp án chuẩn."
+  },
+  "A021": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Đáp án xác định đúng vấn đề, viện dẫn đúng luật, phân tích đầy đủ và kết luận trùng đáp án chuẩn."
+  },
+  "A022": {
+   "I": 0.5,
+   "R": 0,
+   "A": 1,
+   "C": 1,
+   "reason": "Phần I xác định vấn đề còn chung chung, phần R không viện dẫn đúng điều khoản luật, các phần còn lại đạt yêu cầu."
+  },
+  "A023": {
+   "I": 1,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Viện dẫn sai khoản điều luật (khoản 2 thay vì khoản 1), còn lại đúng và đầy đủ theo đáp án chuẩn."
+  },
+  "A024": {
+   "I": 0.5,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định vấn đề còn chung chung, viện dẫn luật thiếu Bộ luật Lao động, nhưng phân tích và kết luận đúng theo đáp án chuẩn."
+  },
+  "A025": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng điều luật, phân tích đầy đủ dữ kiện và kết luận trùng đáp án chuẩn."
+  },
+  "A026": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng điều luật, phân tích đầy đủ dữ kiện và kết luận trùng đáp án chuẩn."
+  },
+  "A027": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng và đầy đủ căn cứ pháp lý, áp dụng quy định vào dữ kiện hợp lý, kết luận đúng và nhất quán."
+  },
+  "A028": {
+   "I": 0,
+   "R": 0,
+   "A": 0,
+   "C": 0.5,
+   "reason": "Lạc đề, không viện dẫn luật, không phân tích đúng dữ kiện, kết luận chưa đủ dữ kiện nhưng không đúng bản chất vấn đề."
+  },
+  "A029": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng điều luật, áp dụng đầy đủ dữ kiện, kết luận trùng đáp án chuẩn."
+  },
+  "A030": {
+   "I": 1,
+   "R": 0.5,
+   "A": 0.5,
+   "C": 1,
+   "reason": "Nêu đúng vấn đề và kết luận chuẩn, nhưng phần R thiếu viện dẫn điều khoản cụ thể, phần A lập luận còn chung chung, chưa đối chiếu đầy đủ với quy định."
+  },
+  "A031": {
+   "I": 0,
+   "R": 1,
+   "A": 0,
+   "C": 0,
+   "reason": "Xác định sai vấn đề pháp lý cốt lõi và áp dụng sai quy định về thời hạn góp vốn, dẫn đến kết luận sai."
+  },
+  "A032": {
+   "I": 0.5,
+   "R": 0,
+   "A": 0,
+   "C": 1,
+   "reason": "Xác định vấn đề còn chung chung, không viện dẫn điều luật, không phân tích dữ kiện, nhưng kết luận đúng đáp án chuẩn."
+  },
+  "A033": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 0.5,
+   "reason": "Kết luận chưa nhất quán với lập luận và đáp án chuẩn, lẽ ra phải kết luận KHÔNG thay vì CHƯA ĐỦ DỮ KIỆN."
+  },
+  "A034": {
+   "I": 1,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Thiếu viện dẫn Điều 75 khoản 2, còn lại đầy đủ và đúng trọng tâm."
+  },
+  "A035": {
+   "I": 0.5,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định vấn đề còn chung chung, viện dẫn thiếu khoản 2 Điều 38, còn lại đúng và đầy đủ."
+  },
+  "A036": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đầy đủ căn cứ pháp lý, phân tích đúng dữ kiện và kết luận trùng đáp án chuẩn."
+  },
+  "A037": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng và đầy đủ căn cứ pháp lý, phân tích đúng dữ kiện với quy định, kết luận trùng đáp án chuẩn."
+  },
+  "A038": {
+   "I": 1,
+   "R": 1,
+   "A": 0.5,
+   "C": 1,
+   "reason": "A đối chiếu dữ kiện nhưng nhầm rằng hợp đồng dưới 1 tháng, trong khi thực tế chưa xác định được thời hạn; các phần khác đạt yêu cầu."
+  },
+  "A039": {
+   "I": 0.5,
+   "R": 0.5,
+   "A": 0,
+   "C": 0,
+   "reason": "Chưa xác định rõ vấn đề cốt lõi là thiếu dữ kiện về loại hợp đồng; viện dẫn thiếu Luật BHXH và chưa đầy đủ; áp dụng quy định khi dữ kiện chưa đủ; kết luận sai so với đáp án chuẩn."
+  },
+  "A040": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng điều luật, phân tích đầy đủ dữ kiện và kết luận trùng đáp án chuẩn."
+  },
+  "A041": {
+   "I": 1,
+   "R": 0.5,
+   "A": 0,
+   "C": 0,
+   "reason": "Lập luận thiếu đối chiếu dữ kiện với điều kiện luật, kết luận sai so với đáp án chuẩn (phải là 'chưa đủ dữ kiện')."
+  },
+  "A042": {
+   "I": 1,
+   "R": 0,
+   "A": 1,
+   "C": 1,
+   "reason": "Sai điều kiện về số năm đóng BHXH tối thiểu (20 năm thay vì 15 năm theo luật mới), thiếu căn cứ pháp lý chuẩn."
+  },
+  "A043": {
+   "I": 0,
+   "R": 0.5,
+   "A": 0,
+   "C": 0,
+   "reason": "Không xác định đúng vấn đề pháp lý (chỉ xét Điều 38 nhưng không đề cập ngoại lệ cho phép khi có sự chấp thuận); viện dẫn đúng điều luật nhưng thiếu khoản 1; không phân tích điều kiện ngoại lệ; kết luận sai so với đáp án chuẩn."
+  },
+  "A044": {
+   "I": 1,
+   "R": 0,
+   "A": 0,
+   "C": 0,
+   "reason": "Sai căn cứ pháp lý và kết luận trái đáp án chuẩn, lập luận không đúng quy định về lương làm thêm ngày lễ."
+  },
+  "A045": {
+   "I": 0,
+   "R": 0.5,
+   "A": 0.5,
+   "C": 0,
+   "reason": "Xác định sai vấn đề cốt lõi (kết luận thuộc diện BHXH, trong khi đáp án chuẩn là không); viện dẫn luật đúng nhưng mã điều khoản không chuẩn; lập luận có đối chiếu nhưng thiếu điều kiện then chốt về thời hạn hợp đồng; kết luận sai so với đáp án chuẩn."
+  },
+  "A046": {
+   "I": 1,
+   "R": 0.5,
+   "A": 0.5,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề và kết luận đúng, nhưng phần R không viện dẫn đúng điều khoản luật, phần A đối chiếu chưa đầy đủ với căn cứ pháp lý chuẩn."
+  },
+  "A047": {
+   "I": 0.5,
+   "R": 0.5,
+   "A": 0,
+   "C": 0,
+   "reason": "Xác định vấn đề còn chung chung, viện dẫn thiếu khoản 1 Điều 38, không phân tích điều kiện ngoại lệ, kết luận sai với đáp án chuẩn."
+  },
+  "A048": {
+   "I": 0.5,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "I và R đều chưa nêu rõ điều kiện về trình độ chuyên môn là yếu tố quyết định thời gian thử việc, nhưng A và C đúng và nhất quán với đáp án chuẩn."
+  },
+  "A049": {
+   "I": 1,
+   "R": 0.5,
+   "A": 0.5,
+   "C": 0,
+   "reason": "Thiếu xem xét điều kiện về thời hạn hợp đồng (ít nhất 1 tháng), kết luận sai so với đáp án chuẩn."
+  },
+  "A050": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng điều luật, phân tích đầy đủ dữ kiện và kết luận trùng đáp án chuẩn."
+  },
+  "A051": {
+   "I": 0.5,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định vấn đề còn chung chung (chỉ nói người lao động thuộc đối tượng BHXH bắt buộc, chưa nêu rõ vấn đề là thử việc có thuộc diện không), các phần còn lại đúng và đầy đủ."
+  },
+  "A052": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Đáp án xác định đúng vấn đề, viện dẫn đầy đủ căn cứ pháp lý, phân tích đúng và đầy đủ các điều kiện, kết luận chính xác và nhất quán."
+  },
+  "A053": {
+   "I": 0.5,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định vấn đề còn chung chung, viện dẫn luật chưa đầy đủ và thiếu điều khoản then chốt, đối chiếu dữ kiện hợp lý, kết luận đúng đáp án chuẩn."
+  },
+  "A054": {
+   "I": 1,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Thiếu viện dẫn Điều 75 khoản 2, còn lại đầy đủ và đúng đáp án chuẩn."
+  },
+  "A055": {
+   "I": 0.5,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định vấn đề còn chung chung (không nêu rõ thiếu lệ phí), nhưng viện dẫn đúng luật, lập luận và kết luận đúng đáp án chuẩn."
+  },
+  "A056": {
+   "I": 1,
+   "R": 0,
+   "A": 0.5,
+   "C": 1,
+   "reason": "Không viện dẫn bất kỳ căn cứ pháp lý nào, phần A có đối chiếu dữ kiện nhưng thiếu sót về phương pháp kê khai VAT, các phần còn lại đạt yêu cầu."
+  },
+  "A057": {
+   "I": 1,
+   "R": 0.5,
+   "A": 0.5,
+   "C": 0,
+   "reason": "Kết luận sai đáp án chuẩn; phần R thiếu viện dẫn Bộ luật Lao động, phần A chưa xét ngoại lệ cộng tác viên không thuộc diện lao động bắt buộc."
+  },
+  "A058": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng luật, phân tích đúng điều kiện còn thiếu, kết luận trùng đáp án chuẩn."
+  },
+  "A059": {
+   "I": 0,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Phần I xác định sai vấn đề pháp lý (khấu trừ hay không), các phần còn lại đúng và đầy đủ."
+  },
+  "A060": {
+   "I": 1,
+   "R": 0.5,
+   "A": 0.5,
+   "C": 0,
+   "reason": "Thiếu xem xét điều kiện về hóa đơn hợp pháp; kết luận sai vì chưa đủ dữ kiện về hóa đơn."
+  },
+  "A061": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng điều luật, phân tích đầy đủ dữ kiện và kết luận trùng đáp án chuẩn."
+  },
+  "A062": {
+   "I": 1,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Thiếu viện dẫn điều khoản cụ thể của Luật Thuế GTGT 48/2024/QH15 nhưng lập luận và kết luận đúng."
+  },
+  "A063": {
+   "I": 1,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Viện dẫn đúng điều kiện nhưng thiếu/liệt kê chưa đầy đủ các căn cứ pháp lý chuẩn theo đáp án (chỉ nêu 1 điều khoản, thiếu các điểm a và khoản 7)."
+  },
+  "A064": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đầy đủ căn cứ pháp lý, phân tích đúng dữ kiện và kết luận trùng đáp án chuẩn."
+  },
+  "A065": {
+   "I": 0,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Phần I xác định sai vấn đề pháp lý cần giải quyết (kết luận ngược với đáp án chuẩn), các phần còn lại đúng và đầy đủ."
+  },
+  "A066": {
+   "I": 1,
+   "R": 0.5,
+   "A": 0.5,
+   "C": 0,
+   "reason": "Kết luận sai đáp án chuẩn (phải là 'chưa đủ dữ kiện'), phần R thiếu viện dẫn điều khoản cụ thể, phần A chưa chỉ ra điều kiện cần sự đồng ý đa số thành viên."
+  },
+  "A067": {
+   "I": 0.5,
+   "R": 0.5,
+   "A": 0.5,
+   "C": 1,
+   "reason": "Chỉ xác định chung chung về đối tượng tham gia BHXH bắt buộc, thiếu viện dẫn Luật BHXH và các điều khoản then chốt, lập luận chưa đầy đủ khi không phân tích hết các điều kiện, nhưng kết luận đúng."
+  },
+  "A068": {
+   "I": 1,
+   "R": 0,
+   "A": 1,
+   "C": 1,
+   "reason": "Phần R viện dẫn sai điều khoản, các phần còn lại đạt yêu cầu theo đáp án chuẩn và rubric."
+  },
+  "A069": {
+   "I": 1,
+   "R": 1,
+   "A": 0.5,
+   "C": 0,
+   "reason": "A đối chiếu dữ kiện nhưng sai khi cho rằng chưa đủ điều kiện do thiếu 1 năm đóng BHXH, trong khi Luật BHXH 2024 đã giảm điều kiện còn 15 năm; C kết luận sai so với đáp án chuẩn."
+  },
+  "A070": {
+   "I": 0.5,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định vấn đề còn chung chung, chưa nêu rõ vấn đề pháp lý là xác định tính hợp lệ của thời gian thử việc 50 ngày dựa trên trình độ chuyên môn; các phần còn lại đạt yêu cầu."
+  },
+  "A071": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng điều luật, phân tích đầy đủ dữ kiện, kết luận đúng và nhất quán."
+  },
+  "A072": {
+   "I": 0.5,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định vấn đề còn chung chung (chỉ nêu người lao động thuộc đối tượng BHXH bắt buộc, chưa nêu rõ vấn đề là người đang hưởng lương hưu có thuộc diện không), các phần còn lại đúng và đầy đủ."
+  },
+  "A073": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng luật và điều khoản, đối chiếu đầy đủ dữ kiện, kết luận đúng và nhất quán."
+  },
+  "A074": {
+   "I": 0.5,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định vấn đề còn chung chung, viện dẫn điều kiện chưa đầy đủ, nhưng phân tích và kết luận đúng đáp án chuẩn."
+  },
+  "A075": {
+   "I": 1,
+   "R": 0,
+   "A": 0,
+   "C": 0,
+   "reason": "Không viện dẫn đúng căn cứ pháp lý chuẩn, không chỉ ra thiếu dữ kiện hóa đơn hợp lệ, kết luận sai với đáp án chuẩn."
+  },
+  "A076": {
+   "I": 1,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Thiếu viện dẫn Bộ luật Lao động 2019 là căn cứ then chốt để xác định quan hệ lao động, còn lại các phần đều đúng và đầy đủ."
+  },
+  "A077": {
+   "I": 1,
+   "R": 0,
+   "A": 0.5,
+   "C": 0,
+   "reason": "Không viện dẫn điều luật nào, kết luận sai so với đáp án chuẩn, lập luận chưa đầy đủ."
+  },
+  "A078": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng luật và điều khoản, đối chiếu đầy đủ dữ kiện, kết luận đúng và nhất quán."
+  },
+  "A079": {
+   "I": 0.5,
+   "R": 0,
+   "A": 0.5,
+   "C": 1,
+   "reason": "Xác định vấn đề còn chung chung, không viện dẫn điều luật, có đối chiếu nhưng sơ sài, kết luận đúng đáp án chuẩn."
+  },
+  "A080": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng điều luật, áp dụng đầy đủ dữ kiện, kết luận đúng đáp án chuẩn."
+  },
+  "A081": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng và đầy đủ điều luật, phân tích đúng dữ kiện, kết luận trùng đáp án chuẩn."
+  },
+  "A082": {
+   "I": 1,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Thiếu viện dẫn điều khoản cụ thể của Luật 48/2024/QH15 nhưng lập luận và kết luận đúng, các phần còn lại đạt yêu cầu."
+  },
+  "A083": {
+   "I": 1,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Nêu đúng vấn đề, lập luận và kết luận chuẩn, nhưng phần R thiếu viện dẫn điều khoản cụ thể và văn bản hướng dẫn."
+  },
+  "A084": {
+   "I": 0.5,
+   "R": 0,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định vấn đề còn chung chung, không nêu rõ cần xác định quan hệ lao động và thời hạn hợp đồng; phần R không viện dẫn đúng điều khoản luật; phần A và C phù hợp đáp án chuẩn."
+  },
+  "A085": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng điều luật, phân tích dữ kiện phù hợp và kết luận trùng đáp án chuẩn."
+  },
+  "A086": {
+   "I": 1,
+   "R": 1,
+   "A": 0.5,
+   "C": 0,
+   "reason": "Đã xác định đúng vấn đề và viện dẫn đúng điều luật, nhưng phần áp dụng chưa đối chiếu đầy đủ, còn nêu xung đột không có thật; không đưa ra kết luận rõ ràng."
+  },
+  "A087": {
+   "I": 1,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Nêu đúng vấn đề, viện dẫn luật đúng nhưng thiếu điều khoản cụ thể, phân tích và kết luận phù hợp đáp án chuẩn."
+  },
+  "A088": {
+   "I": 0,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Phần I xác định sai vấn đề pháp lý (kết luận luôn là đủ điều kiện, trái với đáp án chuẩn); các phần còn lại đúng và nhất quán với đáp án chuẩn."
+  },
+  "A089": {
+   "I": 0.5,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định vấn đề còn chung chung, viện dẫn thiếu điều khoản cụ thể, đối chiếu và kết luận đúng đáp án chuẩn."
+  },
+  "A090": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng điều luật, áp dụng đầy đủ dữ kiện, kết luận trùng đáp án chuẩn."
+  },
+  "A091": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Đáp án xác định đúng vấn đề, viện dẫn đầy đủ căn cứ pháp lý, phân tích đúng và đầy đủ các điều kiện, kết luận chính xác và nhất quán."
+  },
+  "A092": {
+   "I": 0.5,
+   "R": 0,
+   "A": 0.5,
+   "C": 1,
+   "reason": "Xác định vấn đề còn chung chung, thiếu căn cứ pháp lý, đối chiếu dữ kiện chưa đầy đủ nhưng kết luận đúng và rõ ràng."
+  },
+  "A093": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng điều luật, phân tích đầy đủ dữ kiện, kết luận đúng và nhất quán."
+  },
+  "A094": {
+   "I": 1,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Thiếu viện dẫn Điều 75 khoản 2, còn lại đầy đủ và đúng đáp án chuẩn."
+  },
+  "A095": {
+   "I": 1,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Thiếu viện dẫn điều khoản cụ thể của Bộ luật Lao động nhưng lập luận và kết luận đúng, xác định đúng vấn đề pháp lý."
+  },
+  "A096": {
+   "I": 0,
+   "R": 0,
+   "A": 0,
+   "C": 0,
+   "reason": "Lạc đề, sai căn cứ pháp lý, không áp dụng đúng quy định về nông sản chưa chế biến, kết luận sai."
+  },
+  "A097": {
+   "I": 1,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Thiếu viện dẫn điều khoản, văn bản cụ thể trong phần R nhưng các phần còn lại đúng và đầy đủ."
+  },
+  "A098": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng điều luật, áp dụng đầy đủ dữ kiện, kết luận trùng đáp án chuẩn."
+  },
+  "A099": {
+   "I": 1,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Thiếu viện dẫn điều khoản cụ thể (Điều 110), nhưng các phần khác đều đúng và đầy đủ."
+  },
+  "A100": {
+   "I": 1,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Thiếu viện dẫn Điều 75 khoản 2, còn lại đầy đủ và đúng đáp án chuẩn."
+  },
+  "A101": {
+   "I": 0,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Không xác định đúng vấn đề pháp lý (kết luận sai), viện dẫn luật đúng nhưng thiếu điều khoản then chốt về hợp đồng lao động, lập luận và kết luận phù hợp với dữ kiện và đáp án chuẩn."
+  },
+  "A102": {
+   "I": 1,
+   "R": 0,
+   "A": 0,
+   "C": 0,
+   "reason": "Sai căn cứ pháp lý và kết luận trái đáp án chuẩn, lập luận không đúng quy định về lương làm thêm ngày lễ."
+  },
+  "A103": {
+   "I": 1,
+   "R": 0,
+   "A": 1,
+   "C": 0,
+   "reason": "Viện dẫn sai căn cứ pháp lý (Luật BHXH 2014, không phải Luật BHXH 2024); kết luận sai so với đáp án chuẩn."
+  },
+  "A104": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng điều luật, đối chiếu đầy đủ dữ kiện với quy định, kết luận đúng và nhất quán."
+  },
+  "A105": {
+   "I": 0.5,
+   "R": 0,
+   "A": 0.5,
+   "C": 1,
+   "reason": "Xác định vấn đề còn chung chung, không viện dẫn điều luật, có đối chiếu nhưng chưa đầy đủ, kết luận đúng và nhất quán."
+  },
+  "A106": {
+   "I": 1,
+   "R": 0.5,
+   "A": 0.5,
+   "C": 0,
+   "reason": "R viện dẫn sai điều khoản (khoản 2 thay vì khoản 1), A bỏ sót dữ kiện đã có hợp đồng, C kết luận sai đáp án chuẩn."
+  },
+  "A107": {
+   "I": 1,
+   "R": 0.5,
+   "A": 0.5,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề và kết luận chuẩn, nhưng phần R không viện dẫn đúng điều khoản luật, phần A đối chiếu chưa đầy đủ với các điều kiện luật định."
+  },
+  "A108": {
+   "I": 0.5,
+   "R": 0.5,
+   "A": 0.5,
+   "C": 1,
+   "reason": "Xác định vấn đề và căn cứ pháp lý còn thiếu, chưa đầy đủ các điều khoản then chốt; lập luận chưa đối chiếu hết điều kiện, nhưng kết luận đúng."
+  },
+  "A109": {
+   "I": 1,
+   "R": 0,
+   "A": 1,
+   "C": 1,
+   "reason": "Không viện dẫn căn cứ pháp lý, các phần còn lại đúng và đầy đủ."
+  },
+  "A110": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng luật, áp dụng đầy đủ, kết luận trùng đáp án chuẩn."
+  },
+  "A111": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng điều luật, phân tích đủ điều kiện và kết luận đúng đáp án chuẩn."
+  },
+  "A112": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 0,
+   "reason": "Kết luận không đúng đáp án chuẩn; lẽ ra phải trả lời KHÔNG thay vì CHƯA ĐỦ DỮ KIỆN."
+  },
+  "A113": {
+   "I": 0.5,
+   "R": 0.5,
+   "A": 0.5,
+   "C": 0,
+   "reason": "Chưa xác định rõ vấn đề cần bổ sung điều kiện về sự đồng ý của cơ quan nhà nước; viện dẫn luật thiếu khoản 1 Điều 38; lập luận thiếu đối chiếu ngoại lệ; kết luận sai so với đáp án chuẩn."
+  },
+  "A114": {
+   "I": 1,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Thiếu viện dẫn Điều 75 khoản 2, còn lại đầy đủ và đúng đáp án chuẩn."
+  },
+  "A115": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng và đầy đủ điều luật, phân tích đủ điều kiện, kết luận đúng đáp án chuẩn."
+  },
+  "A116": {
+   "I": 1,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Thiếu viện dẫn Điều 75 khoản 2, còn lại đầy đủ và đúng đáp án chuẩn."
+  },
+  "A117": {
+   "I": 1,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Nêu đúng vấn đề, lập luận và kết luận chuẩn, nhưng phần R không viện dẫn đúng điều khoản và luật mới nhất."
+  },
+  "A118": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đầy đủ căn cứ pháp lý, phân tích đúng theo dữ kiện và kết luận trùng đáp án chuẩn."
+  },
+  "A119": {
+   "I": 1,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Thiếu viện dẫn đầy đủ các điểm a và 7a Điều 2 Luật BHXH 2024, còn lại đúng và đầy đủ."
+  },
+  "A120": {
+   "I": 1,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Nêu đúng vấn đề, lập luận và kết luận chuẩn, nhưng phần R thiếu viện dẫn điều khoản cụ thể và văn bản hướng dẫn theo đáp án chuẩn."
+  },
+  "A121": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng điều luật, phân tích đầy đủ dữ kiện và kết luận trùng đáp án chuẩn."
+  },
+  "A122": {
+   "I": 0,
+   "R": 0,
+   "A": 0,
+   "C": 0,
+   "reason": "Xác định sai vấn đề, không viện dẫn điều luật, không phân tích dữ kiện, kết luận không đúng đáp án chuẩn."
+  },
+  "A123": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng điều khoản, áp dụng đầy đủ dữ kiện, kết luận đúng và nhất quán."
+  },
+  "A124": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng và đầy đủ điều luật, phân tích đầy đủ dữ kiện, kết luận đúng và nhất quán."
+  },
+  "A125": {
+   "I": 0.5,
+   "R": 0,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định vấn đề còn chung chung, viện dẫn sai căn cứ pháp lý, lập luận và kết luận phù hợp với dữ kiện và đáp án chuẩn."
+  },
+  "A126": {
+   "I": 1,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Thiếu viện dẫn điều khoản cụ thể và văn bản hướng dẫn trong phần R, các phần còn lại đạt yêu cầu."
+  },
+  "A127": {
+   "I": 0.5,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định vấn đề còn chung chung, viện dẫn căn cứ pháp lý không đầy đủ, lập luận và kết luận phù hợp đáp án chuẩn."
+  },
+  "A128": {
+   "I": 1,
+   "R": 0,
+   "A": 0.5,
+   "C": 0,
+   "reason": "Không viện dẫn đúng căn cứ pháp lý chuẩn, không kết luận rõ ràng, lập luận chưa nhất quán với đáp án chuẩn."
+  },
+  "A129": {
+   "I": 1,
+   "R": 0.5,
+   "A": 0,
+   "C": 0,
+   "reason": "Sai căn cứ pháp lý và áp dụng sai quy định, kết luận không đúng đáp án chuẩn."
+  },
+  "A130": {
+   "I": 0.5,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Thiếu viện dẫn Luật Doanh nghiệp để xác định khái niệm người quản lý doanh nghiệp, chỉ nêu vấn đề và căn cứ theo Luật BHXH nên chưa đầy đủ."
+  },
+  "A131": {
+   "I": 1,
+   "R": 0.5,
+   "A": 0.5,
+   "C": 0,
+   "reason": "Thiếu xem xét điều kiện về chứng từ thanh toán không dùng tiền mặt cho khoản chi trên 15 triệu đồng, dẫn đến kết luận sai và thiếu dữ kiện cần bổ sung."
+  },
+  "A132": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng điều luật, phân tích đầy đủ dữ kiện, kết luận đúng và nhất quán."
+  },
+  "A133": {
+   "I": 1,
+   "R": 1,
+   "A": 0.5,
+   "C": 0,
+   "reason": "Lập luận phần A chưa đầy đủ vì bỏ qua điều kiện về hợp đồng lao động theo Điều 13 Bộ luật Lao động; kết luận sai so với đáp án chuẩn."
+  },
+  "A134": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đầy đủ căn cứ pháp lý, phân tích đúng dữ kiện và kết luận trùng đáp án chuẩn."
+  },
+  "A135": {
+   "I": 1,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "R thiếu viện dẫn điều khoản cụ thể (Điều 35 khoản 1 điểm b Bộ luật Lao động 2019), chỉ nêu chung chung theo luật."
+  },
+  "A136": {
+   "I": 0.5,
+   "R": 0,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định vấn đề còn chung chung, không viện dẫn căn cứ pháp lý, đối chiếu dữ kiện hợp lý, kết luận đúng và nhất quán."
+  },
+  "A137": {
+   "I": 1,
+   "R": 0.5,
+   "A": 0.5,
+   "C": 0,
+   "reason": "Không xét đến ngoại lệ về sự chấp thuận của cơ quan nhà nước, kết luận sai so với đáp án chuẩn."
+  },
+  "A138": {
+   "I": 0.5,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định vấn đề còn chung chung (chỉ nói người lao động thuộc đối tượng BHXH bắt buộc), các phần còn lại đúng và đầy đủ."
+  },
+  "A139": {
+   "I": 1,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, lập luận và kết luận phù hợp đáp án chuẩn, nhưng phần R thiếu viện dẫn điều khoản và văn bản hướng dẫn cụ thể."
+  },
+  "A140": {
+   "I": 0.5,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định vấn đề còn chung chung, viện dẫn thiếu khoản 2 Điều 38, còn lại đúng và đầy đủ."
+  },
+  "A141": {
+   "I": 1,
+   "R": 0.5,
+   "A": 0.5,
+   "C": 0,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng luật nhưng giải thích sai về điều kiện loại trừ, lập luận chưa đầy đủ và không kết luận đúng đáp án chuẩn."
+  },
+  "A142": {
+   "I": 0.5,
+   "R": 0,
+   "A": 0,
+   "C": 0,
+   "reason": "Không xác định đúng vấn đề cốt lõi, viện dẫn sai căn cứ pháp lý, không áp dụng đúng quy định và kết luận sai so với đáp án chuẩn."
+  },
+  "A143": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng luật và điều khoản, áp dụng đầy đủ vào tình huống, kết luận đúng và rõ ràng."
+  },
+  "A144": {
+   "I": 1,
+   "R": 0,
+   "A": 0.5,
+   "C": 0,
+   "reason": "Không viện dẫn đúng căn cứ pháp lý chuẩn, bỏ sót điều kiện hóa đơn hợp lệ, kết luận sai so với đáp án chuẩn."
+  },
+  "A145": {
+   "I": 0,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Phần I xác định sai vấn đề pháp lý (kết luận ngược với đáp án chuẩn), các phần còn lại đúng và đầy đủ theo rubric."
+  },
+  "A146": {
+   "I": 1,
+   "R": 0.5,
+   "A": 0.5,
+   "C": 0,
+   "reason": "Xác định đúng vấn đề nhưng viện dẫn thiếu Bộ luật Lao động, lập luận chưa đầy đủ và kết luận sai so với đáp án chuẩn."
+  },
+  "A147": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đầy đủ điều khoản, đối chiếu dữ kiện với quy định và kết luận trùng đáp án chuẩn."
+  },
+  "A148": {
+   "I": 1,
+   "R": 0,
+   "A": 0,
+   "C": 0,
+   "reason": "Sai căn cứ pháp lý, áp dụng luật cũ, kết luận sai hoàn toàn so với đáp án chuẩn."
+  },
+  "A149": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn và áp dụng đúng quy định, kết luận trùng đáp án chuẩn."
+  },
+  "A150": {
+   "I": 0,
+   "R": 0,
+   "A": 0,
+   "C": 0,
+   "reason": "Lạc đề, sai luật áp dụng, không nhận diện đúng vấn đề và căn cứ pháp lý, lập luận và kết luận đều sai."
+  },
+  "A151": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng điều luật, áp dụng đầy đủ dữ kiện, kết luận đúng đáp án chuẩn."
+  },
+  "A152": {
+   "I": 1,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Nêu đúng vấn đề, lập luận và kết luận chuẩn, nhưng phần R thiếu viện dẫn Nghị định 158/2025/NĐ-CP là căn cứ pháp lý then chốt."
+  },
+  "A153": {
+   "I": 0.5,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định vấn đề còn chung chung, viện dẫn thiếu khoản 2 Điều 38, lập luận và kết luận đúng."
+  },
+  "A154": {
+   "I": 1,
+   "R": 0.5,
+   "A": 0,
+   "C": 0,
+   "reason": "Nêu đúng vấn đề, viện dẫn luật chung chung thiếu điều khoản then chốt, áp dụng sai vì không xét quy định về không đóng BHXH khi không có lương, kết luận sai với đáp án chuẩn."
+  },
+  "A155": {
+   "I": 0.5,
+   "R": 0,
+   "A": 0.5,
+   "C": 1,
+   "reason": "Xác định vấn đề còn chung chung, thiếu căn cứ pháp lý, đối chiếu dữ kiện chưa đầy đủ nhưng kết luận đúng và rõ ràng."
+  },
+  "A156": {
+   "I": 0.5,
+   "R": 0.5,
+   "A": 0,
+   "C": 0,
+   "reason": "Chưa xác định rõ vấn đề pháp lý và thiếu dữ kiện then chốt; viện dẫn thiếu Luật BHXH; áp dụng sai vì chưa đủ dữ kiện; kết luận không đúng đáp án chuẩn."
+  },
+  "A157": {
+   "I": 1,
+   "R": 0.5,
+   "A": 0.5,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề và kết luận đúng, nhưng phần R không viện dẫn đúng điều khoản luật, phần A đối chiếu chưa đầy đủ với căn cứ pháp lý chuẩn."
+  },
+  "A158": {
+   "I": 0,
+   "R": 1,
+   "A": 0,
+   "C": 0,
+   "reason": "Lập luận sai trọng tâm: chưa hết thời hạn góp vốn nên chưa phát sinh nghĩa vụ điều chỉnh vốn điều lệ."
+  },
+  "A159": {
+   "I": 1,
+   "R": 0.5,
+   "A": 1,
+   "C": 1,
+   "reason": "Viện dẫn đúng luật nhưng thiếu khoản, điểm cụ thể của Điều 35; các phần còn lại đạt yêu cầu."
+  },
+  "A160": {
+   "I": 1,
+   "R": 1,
+   "A": 1,
+   "C": 1,
+   "reason": "Xác định đúng vấn đề, viện dẫn đúng luật và điều khoản then chốt, đối chiếu đầy đủ dữ kiện với quy định, kết luận đúng và nhất quán."
+  }
+ }
+}

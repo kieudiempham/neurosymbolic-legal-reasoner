@@ -94,6 +94,9 @@ class NLIModel:
         """Scores for many (premise, hypothesis) pairs; uncached pairs are run in padded batches."""
         keys = [p + "␞" + h for p, h in pairs]
         todo = list(dict.fromkeys(k for k in keys if k not in self._cache))
+        if todo and BACKEND in ("gpt4omini", "ensemble_gpt"):
+            self._score_new_gpt(todo)  # rare new pairs (e.g. a fact only the real parser produces): score now
+            todo = []
         if todo and BACKEND != "mdeberta":
             raise RuntimeError(f"{len(todo)} pairs missing from the {BACKEND} cache; score them on GPU "
                                "(python -m diagnosis.nli_gpu export, then kaggle/nli_qwen_kaggle.py)")
@@ -111,6 +114,39 @@ class NLIModel:
                     self._cache[k] = {_LABEL[model.config.id2label[j].lower()]: p for j, p in enumerate(row)}
         self.calls += len(pairs)
         return [self._cache[k] for k in keys]
+
+    def _score_new_gpt(self, keys: list[str]) -> None:
+        """Score unseen pairs with GPT-4o-mini (prompt v4) and, for the ensemble, mDeBERTa on CPU; both
+        persistent backend caches are extended so later runs reuse the scores."""
+        import torch
+        from dotenv import load_dotenv
+        from openai import OpenAI
+        from transformers import AutoModelForSequenceClassification, AutoTokenizer
+
+        from .nli_openai import score_pair
+
+        load_dotenv(_DIAG.parents[1] / ".env")
+        client = OpenAI(api_key=os.environ["LLM_API_KEY"], base_url=os.environ.get("LLM_BASE_URL") or None)
+        gf, mf = _DIAG / BACKENDS["gpt4omini"][1], _DIAG / BACKENDS["mdeberta"][1]
+        gc, mc = json.loads(gf.read_text(encoding="utf-8")), json.loads(mf.read_text(encoding="utf-8"))
+        need_md = [k for k in keys if k not in mc]
+        if need_md and BACKEND == "ensemble_gpt":
+            name = BACKENDS["mdeberta"][0]
+            tok = AutoTokenizer.from_pretrained(name)
+            model = AutoModelForSequenceClassification.from_pretrained(name).eval()
+            for k in need_md:
+                prem, hyp = k.split("␞", 1)
+                enc = tok([prem], [hyp], return_tensors="pt", truncation=True, max_length=256)
+                with torch.inference_mode():
+                    row = torch.softmax(model(**enc).logits, dim=-1)[0].tolist()
+                mc[k] = {_LABEL[model.config.id2label[j].lower()]: v for j, v in enumerate(row)}
+            mf.write_text(json.dumps(mc, ensure_ascii=False), encoding="utf-8")
+        for k in keys:
+            if k not in gc:
+                gc[k] = score_pair(client, "gpt-4o-mini", *k.split("␞", 1), prompt="v4")
+        gf.write_text(json.dumps(gc, ensure_ascii=False), encoding="utf-8")
+        for k in keys:
+            self._cache[k] = gc[k] if BACKEND == "gpt4omini" else {l: (mc[k][l] + gc[k][l]) / 2 for l in gc[k]}
 
     def predict(self, premise: str, hypothesis: str) -> tuple[str, dict[str, float]]:
         scores = self.predict_many([(premise, hypothesis)])[0]

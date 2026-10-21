@@ -77,6 +77,19 @@ The simulated user answers at most B clarification questions per query (budgets 
 | Heuristic IF–THEN | 72.5 | 82.7 | 82.9 | 85.1 | 5.79 | 0.37 |
 | **Ours: Cross-Layer MBD** | 71.4 | 81.6 | 82.3 | 85.1 | 5.56 | 0.37 |
 
+## Table 8 — End-to-end QA on the 300 questions (real GPT-4o parser, oracle goal, no simulated user) and IRAC
+
+Parser vs gold facts: precision 88.9, recall 84.7. IRAC: 40 stratified questions, blind, judge GPT-4.1, rubric 100·(0.10 I + 0.35 R + 0.40 A + 0.15 C).
+
+| Method | QA test (n=106) | QA dev (n=194) | QA all (n=300) | yes / no / insufficient (all) | IRAC | I | R | A | C |
+|---|---|---|---|---|---|---|---|---|---|
+| GPT-4o (pure LLM) | 70.8 | 71.7 | 71.3 | 82.6 / 68.2 / 52.1 | 71.2 | 1.0 | 0.55 | 0.787 | 0.7 |
+| Symbolic QA | 61.3 | 68.0 | 65.7 | 57.6 / 67.1 / 80.3 | 68.8 | 0.775 | 0.613 | 0.738 | 0.675 |
+| Heuristic IF–THEN | 66.0 | 86.1 | 79.0 | 89.6 / 68.2 / 70.4 | 71.1 | 0.675 | 0.625 | 0.762 | 0.8 |
+| **Ours: Cross-Layer MBD** | 65.1 | 85.6 | 78.3 | 88.2 / 68.2 / 70.4 | 70.0 | 0.713 | 0.637 | 0.725 | 0.775 |
+
+Test QA by domain (social insurance: dev): bhxh: gpt4o 68.9, heuristic 92.2, ours 92.2 (n=90); doanh_nghiep: gpt4o 74.3, heuristic 62.9, ours 62.9 (n=35); thue: gpt4o 63.9, heuristic 58.3, ours 55.6 (n=36); lao_dong: gpt4o 80.0, heuristic 60.0, ours 60.0 (n=15); lien_nganh: gpt4o 70.0, heuristic 90.0, ours 90.0 (n=20)
+
 ## Table 7 — Two simultaneous faults on different propositions (test; dev in parentheses)
 
 | Method | Both faults found | ≥ 1 found | QA acc. | Clarifications / query | n |
