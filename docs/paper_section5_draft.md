@@ -95,6 +95,25 @@ conclusion and legal basis; 20 questions are also scored by a human to report ag
 | Resolvable Rule Overlap | 82.4 / 93.3 / 87.5 | 82.4 / 93.3 / 87.5 | 15 |
 | Unresolved Encoded-KB Conflict | 87.5 / 93.3 / 90.3 | 87.5 / 93.3 / 90.3 | 15 |
 
+**Table 3b. Fault-level evaluation (standard MBD metrics; every reported fault that was not injected is a
+false positive; test).** Differences Ours − Heuristic with 95% paired-bootstrap intervals.
+
+| Setting | Method | Fault precision | Fault recall | Fault F1 | Exact isolation | Faults per diagnosis | Unnecessary clarif./query | Clarif. per correct answer | QA acc. |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 fault (n=451) | Heuristic | 24.0 | 74.8 | 36.4 | 59.0 | 3.07 | 3.54 | 4.35 | 85.1 |
+| 1 fault (n=451) | **Ours** | **34.5** | 73.5 | **47.0** | 58.8 | **2.10** | **1.53** | **1.99** | 85.1 |
+| | Δ [95% CI] | +10.5 [6.5, 14.9] | | +10.6 [6.5, 14.6] | | | −2.00 [−2.84, −1.26] | | |
+| 2 faults (n=104) | Heuristic | 40.8 | 48.1 | 44.2 | 7.7 | 2.40 | 5.54 | 7.08 | 81.7 |
+| 2 faults (n=104) | **Ours** | **56.7** | 46.6 | **51.2** | 7.7 | **1.68** | **2.12** | **2.92** | 81.7 |
+| | Δ [95% CI] | +15.9 [0.0, 28.9] | | +7.0 [0.0, 12.5] | | | −3.42 [−5.83, −1.56] | | |
+
+Judged by the standard criteria of model-based diagnosis — every reported fault must be a real one — MBD is
+significantly more precise than the matched heuristic (fault F1 +10.6 points on single faults), with the same
+fault recall, the same exact-isolation rate and the same QA accuracy, and it asks the user about
+non-faulty conditions 2.0–3.4 times less per query. The heuristic's higher instance-level diagnosis
+accuracy (Table 2) comes from listing many candidate faults (3.07 per diagnosis, up to 36), which that
+lenient metric does not penalise.
+
 On the external F1–F4 set (faults chosen without the KB, 37 observable test faults) Ours reaches 70.3%
 diagnosis accuracy [51, 87] and 73.0% correct action with 0.55 clarifications per query, against 73.0%
 [55, 88] and 1.58 for the heuristic.

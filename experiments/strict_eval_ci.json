@@ -1,0 +1,48 @@
+{
+ "single_test": {
+  "fault_f1_diff": [
+   0.1061,
+   [
+    0.0654,
+    0.146
+   ]
+  ],
+  "fault_precision_diff": [
+   0.1049,
+   [
+    0.0646,
+    0.1485
+   ]
+  ],
+  "unnecessary_q_diff": [
+   -2.0044,
+   [
+    -2.8381,
+    -1.2616
+   ]
+  ]
+ },
+ "two_faults_test": {
+  "fault_f1_diff": [
+   0.0704,
+   [
+    0.0,
+    0.1252
+   ]
+  ],
+  "fault_precision_diff": [
+   0.1591,
+   [
+    0.0,
+    0.2889
+   ]
+  ],
+  "unnecessary_q_diff": [
+   -3.4231,
+   [
+    -5.8269,
+    -1.5577
+   ]
+  ]
+ }
+}
