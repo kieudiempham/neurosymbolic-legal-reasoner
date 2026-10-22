@@ -36,14 +36,14 @@ def style(ax) -> None:
 
 
 def fig_budget() -> None:
-    b = json.loads((ROOT / "experiments" / "budget" / "budget_results.json").read_text(encoding="utf-8"))
+    b = json.loads((ROOT / "experiments" / "final_tables.json").read_text(encoding="utf-8"))["budget"]
     xs, ticks = [0, 1, 2, 3], ["0", "1", "2", "unlimited"]
     series = [("nesy_diag", "Ours (MBD)", BLUE, "o"), ("rule_check", "Heuristic", ORANGE, "s"),
               ("no_mbd", "No MBD", AQUA, "^")]
     fig, ax = plt.subplots(figsize=(4.6, 3.0), dpi=200)
-    offsets = {"nesy_diag": -9, "rule_check": 9, "no_mbd": 0}  # Ours and Heuristic end at the same value
+    offsets = {"nesy_diag": -9, "rule_check": 9, "no_mbd": 0}  # Ours and Heuristic end close together  # Ours and Heuristic end at the same value
     for key, name, color, marker in series:
-        ys = [100 * b[f"{key}|{k}"]["qa_acc"] for k in ("0", "1", "2", "inf")]
+        ys = [100 * b[key][k] for k in ("0", "1", "2", "inf")]
         ax.plot(xs, ys, color=color, linewidth=2, marker=marker, markersize=6, markeredgecolor="white",
                 markeredgewidth=1, label=name, zorder=3)
         ax.annotate(f"{name}  {ys[-1]:.1f}", (xs[-1], ys[-1]), xytext=(8, offsets[key]), textcoords="offset points",
@@ -62,14 +62,11 @@ def fig_budget() -> None:
 
 
 def fig_ablation() -> None:
-    b = json.loads((ROOT / "experiments" / "budget" / "budget_results.json").read_text(encoding="utf-8"))
-    st = json.loads((ROOT / "experiments" / "strict_eval.json").read_text(encoding="utf-8"))
-    rows = [("Ours\n(full)", "nesy_diag", "single|test|nesy_diag"),
-            ("− acceptance\ntest", "raw_nli", "single|test|raw_nli"),
-            ("− MBD", "no_mbd", "single|test|no_mbd"),
-            ("− diagnosis\n& recovery", None, None)]
-    qa = [100 * b[f"{k}|inf"]["qa_acc"] if k else 15.3 for _, k, _ in rows]
-    f1 = [100 * st[s]["fault_f1"] if s else None for *_, s in rows]
+    sf = json.loads((ROOT / "experiments" / "final_tables.json").read_text(encoding="utf-8"))["single_fault"]
+    rows = [("Ours (full)", "nesy_diag"), ("− acceptance\ntest", "raw_nli"), ("− MBD", "no_mbd"),
+            ("− diagnosis\n& recovery", "base_nesy")]
+    qa = [100 * sf[k]["qa_acc"] for _, k in rows]
+    f1 = [100 * sf[k]["fault_f1"] if "fault_f1" in sf[k] else None for _, k in rows]
     fig, ax = plt.subplots(figsize=(4.6, 3.0), dpi=200)
     xs = range(len(rows))
     bars = ax.bar(xs, qa, width=0.62, color=BLUE, edgecolor="white", linewidth=2, zorder=3)
