@@ -3,7 +3,8 @@ reasoning, step by step, so it can be read again or compared across runs.
 
 Tables
   runs              one row per question asked: time, text, KB used, parser model, the parser's raw output;
-                    for a dataset run (batch.py) also the batch name, the item id, its gold answer and any error
+                    for a dataset run (batch.py) also the batch name, the item id, its gold answer and any error;
+                    final_answer: the answer in words written from the run (answer_gen.py, step 5)
   run_facts         case facts read from the question (fact / false_fact) and the KB parameters used (parameter)
   run_steps         the pipeline steps of the run in order: parse, then per sub-question reason (case question)
                     or lookup (law question), with a short summary and the time each took
@@ -32,7 +33,8 @@ RUNS_DB = DB_FILE.with_name("runs.sqlite")
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS runs (
   run_id INTEGER PRIMARY KEY AUTOINCREMENT, time TEXT, question TEXT, kb_program TEXT, kb_database TEXT,
-  parser_model TEXT, parser_output TEXT, batch TEXT, item_id TEXT, gold TEXT, error TEXT);
+  parser_model TEXT, parser_output TEXT, batch TEXT, item_id TEXT, gold TEXT, error TEXT, final_answer TEXT,
+  answer_model TEXT);
 CREATE TABLE IF NOT EXISTS run_facts (
   run_id INTEGER NOT NULL REFERENCES runs(run_id), kind TEXT CHECK (kind IN ('fact','false_fact','parameter')),
   fact TEXT);
@@ -63,7 +65,7 @@ def connect_runs(path: Path = RUNS_DB) -> sqlite3.Connection:
     con.execute("PRAGMA foreign_keys = ON")
     con.executescript(SCHEMA)
     have = {r[1] for r in con.execute("PRAGMA table_info(runs)")}
-    for col in ("batch", "item_id", "gold", "error"):  # databases created before these columns existed
+    for col in ("batch", "item_id", "gold", "error", "final_answer", "answer_model"):  # older databases
         if col not in have:
             con.execute(f"ALTER TABLE runs ADD COLUMN {col} TEXT")
     con.execute("CREATE INDEX IF NOT EXISTS ix_runs_batch ON runs(batch, item_id)")
@@ -122,14 +124,15 @@ def save_run(con, *, time: str, question: str, kb_program: str, kb_database: str
 
 def show_run(con, run: int) -> str:
     """A run read back from the database, as indented text."""
-    r = con.execute("SELECT time, question, kb_program, parser_model, batch, item_id, gold, error FROM runs "
-                    "WHERE run_id=?", (run,)).fetchone()
+    r = con.execute("SELECT time, question, kb_program, parser_model, batch, item_id, gold, error, final_answer "
+                    "FROM runs WHERE run_id=?", (run,)).fetchone()
     if not r:
         return f"no run {run}"
     out = [f"run {run}  {r[0]}  KB {r[2]}  parser {r[3]}"
            + (f"  batch {r[4]} câu {r[5]} (đáp án đúng: {r[6]})" if r[4] else ""), f"CÂU HỎI: {r[1]}"]
     if r[7]:
         out.append(f"LỖI: {r[7]}")
+    out += ["", "TRẢ LỜI:", r[8] or "(chưa sinh: python -m legalkb.answer_gen)"]
     out += ["", "bước:"]
     out += [f"  {s}. {st}{'' if q is None else f' (câu hỏi con {q})'}: {sm}  [{sec}s]" for s, st, q, sm, sec in
             con.execute("SELECT step_no, stage, q_no, summary, seconds FROM run_steps WHERE run_id=? ORDER BY step_no",

@@ -187,8 +187,9 @@ class Parser:
                 args.append(q(x))
             return f"{a['pred']}({', '.join(args)})"
 
-        facts += [atom(a) for a in out["facts"]]
         false_facts = [atom(a) for a in out["false_facts"]]
+        # a fact also stated as false: the negation is the explicit one ("tôi không hưởng lương hưu")
+        facts += [x for x in (atom(a) for a in out["facts"]) if x not in false_facts]
         facts += [f"instance_of({e}, {t})" for t, e in implicit.items() if t != "thuc_the"]
         for a in out["attributes"]:
             if a["value_number"] is not None:

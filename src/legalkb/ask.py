@@ -61,6 +61,16 @@ class Asker:
                            parser_model=self.parser.model, parser_output=raw, facts=facts, false_facts=false_facts,
                            parameters=self.parameters, parse_seconds=parse_seconds, parts=parts, batch=batch,
                            item_id=item_id, gold=gold, error=error)
+        if run and not error:
+            from .answer_gen import generate
+
+            try:  # step 5: the answer in words, from the stored run
+                generate(self.runs, run)
+            except Exception as e:  # noqa: BLE001
+                if "insufficient_quota" in str(e):
+                    raise
+                self.runs.execute("UPDATE runs SET error=? WHERE run_id=?", (f"answer: {e}"[:2000], run))
+                self.runs.commit()
         if error and not batch:
             raise RuntimeError(error)
         return run, parts
@@ -98,7 +108,8 @@ def main() -> None:
         for part in parts:
             print(show(part))
         if run:
-            print(f"(đã lưu: run {run} trong {RUNS_DB})")
+            answer_text = a.runs.execute("SELECT final_answer FROM runs WHERE run_id=?", (run,)).fetchone()[0]
+            print(f"\nCÂU TRẢ LỜI:\n{answer_text}\n(đã lưu: run {run} trong {RUNS_DB})")
 
 
 if __name__ == "__main__":
