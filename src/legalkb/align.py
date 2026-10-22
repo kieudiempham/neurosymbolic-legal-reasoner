@@ -167,10 +167,10 @@ def align(con, client, model: str, new: dict[str, set[str]], domain: str, worker
                     row = (b, link["premise_mode"], "implies", a, amap)
                 else:
                     continue
-                con.execute("INSERT OR REPLACE INTO predicate_links VALUES (?,?,?,?,?,?,?)", (*row, link["reason"], model))
+                con.execute("INSERT OR REPLACE INTO predicate_links VALUES (?,?,?,?,?,?)", (*row, link["reason"]))
             elif rel in ("same", "new_subtype_of_other") and (kind == "type" or rel == "same"):
                 r = "same" if rel == "same" else "subtype"
-                con.execute("INSERT OR REPLACE INTO name_links VALUES (?,?,?,?,?,?)", (kind, a, r, b, link["reason"], model))
+                con.execute("INSERT OR REPLACE INTO name_links VALUES (?,?,?,?,?)", (kind, a, r, b, link["reason"]))
                 if r == "subtype":
                     con.execute("UPDATE entity_types SET parent=? WHERE name=?", (b, a))
             else:

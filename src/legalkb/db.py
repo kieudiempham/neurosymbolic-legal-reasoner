@@ -10,7 +10,7 @@ Tables
   predicate_args    typed, named arguments of each predicate
   attributes        numeric / date / enum attributes of an entity type, with unit
   norms             one normative rule: modality, subject / bearer / beneficiary variables, action or conclusion,
-                    validity, source unit, quote, provenance
+                    validity, source unit, quote
   norm_variables    typed variables of a norm
   norm_conditions   conditions: atoms (relation over variables), comparisons (attribute op value unit),
                     alternatives (alt_group / alt_option: options of a group are OR-ed, conditions of an option AND-ed)
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS norms (
   subject_var TEXT, bearer_var TEXT, beneficiary_var TEXT,
   action_pred TEXT, action_args TEXT, conclusion_pred TEXT, conclusion_args TEXT, conclusion_negated INTEGER,
   valid_from TEXT, valid_to TEXT, validity_note TEXT, quote TEXT,
-  model TEXT, status TEXT DEFAULT 'draft', created_at TEXT DEFAULT CURRENT_TIMESTAMP);
+  status TEXT DEFAULT 'draft');
 CREATE TABLE IF NOT EXISTS norm_variables (
   norm_id TEXT NOT NULL REFERENCES norms(norm_id), var TEXT NOT NULL, type TEXT, PRIMARY KEY (norm_id, var));
 CREATE TABLE IF NOT EXISTS norm_conditions (
@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS norm_references (
   ref_text TEXT, target_unit_id TEXT, target_norm_id TEXT);
 CREATE TABLE IF NOT EXISTS predicate_links (
   src TEXT NOT NULL, src_mode TEXT NOT NULL CHECK (src_mode IN ('holds','obligation','right','prohibition')),
-  rel TEXT NOT NULL CHECK (rel IN ('same','implies')), dst TEXT NOT NULL, arg_map TEXT, reason TEXT, model TEXT,
+  rel TEXT NOT NULL CHECK (rel IN ('same','implies')), dst TEXT NOT NULL, arg_map TEXT, reason TEXT,
   PRIMARY KEY (src, src_mode, dst));
 CREATE TABLE IF NOT EXISTS condition_refs (
   cond_id INTEGER NOT NULL REFERENCES norm_conditions(cond_id), target_norm_id TEXT NOT NULL,
@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS condition_refs (
 CREATE TABLE IF NOT EXISTS embeddings (text_hash TEXT PRIMARY KEY, vec BLOB);
 CREATE TABLE IF NOT EXISTS name_links (
   kind TEXT NOT NULL CHECK (kind IN ('type','attr')), src TEXT NOT NULL,
-  rel TEXT NOT NULL CHECK (rel IN ('same','subtype')), dst TEXT NOT NULL, reason TEXT, model TEXT,
+  rel TEXT NOT NULL CHECK (rel IN ('same','subtype')), dst TEXT NOT NULL, reason TEXT,
   PRIMARY KEY (kind, src, dst));
 CREATE INDEX IF NOT EXISTS ix_units_doc ON units(doc_number, article);
 CREATE INDEX IF NOT EXISTS ix_norm_unit ON norms(unit_id);

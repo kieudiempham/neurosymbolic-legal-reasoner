@@ -190,7 +190,7 @@ def clear_units(con, unit_ids: set[str]) -> None:
         con.execute("UPDATE norm_references SET target_norm_id=NULL WHERE target_norm_id=?", (nid,))
 
 
-def store(con, out: dict, model: str, unit_ids: set[str], domain: str | None = None) -> list[str]:
+def store(con, out: dict, unit_ids: set[str], domain: str | None = None) -> list[str]:
     """Insert ontology additions (origin='extracted') and norms of one article response. Returns the new norm ids."""
     for t in out["entity_types"]:
         con.execute("INSERT OR IGNORE INTO entity_types VALUES (?,?,?,?,?)",
@@ -242,12 +242,12 @@ def store(con, out: dict, model: str, unit_ids: set[str], domain: str | None = N
             con.execute(f"DELETE FROM {t} WHERE norm_id=?", (nid,))
         con.execute("""INSERT INTO norms (norm_id, unit_id, modality, subject_var, bearer_var, beneficiary_var, action_pred,
                        action_args, conclusion_pred, conclusion_args, conclusion_negated, valid_from, valid_to,
-                       validity_note, quote, model) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                       validity_note, quote) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
                     (nid, unit, n["modality"], n["subject"], n["bearer"], n["beneficiary"],
                      canon_name(act["pred"]) if act else None, ",".join(act["args"]) if act else None,
                      canon_name(concl["pred"]) if concl else None, ",".join(concl["args"]) if concl else None,
                      int(concl["negated"]) if concl else None, n["valid_from"], n["valid_to"], n["validity_note"],
-                     n["quote"], model))
+                     n["quote"]))
         for v in n["variables"]:
             con.execute("INSERT OR IGNORE INTO norm_variables VALUES (?,?,?)", (nid, v["name"], canon_name(v["type"])))
         for c in n["conditions"]:

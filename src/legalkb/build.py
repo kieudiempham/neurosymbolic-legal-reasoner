@@ -106,7 +106,7 @@ def extract_document(con, ex, doc_id: str, articles: list[str], workers: int) ->
         clear_units(con, {u["unit_id"] for u in us})
     n = 0
     for a, out in run({a: (us, "") for a, us in groups.items()}).items():
-        n += len(store(con, out, ex.model, {u["unit_id"] for u in groups[a]}, doc["domain"]))
+        n += len(store(con, out, {u["unit_id"] for u in groups[a]}, doc["domain"]))
     missed = {a: m for a, us in groups.items() if (m := uncovered(con, us))}
     for _ in range(3):  # long articles: the model stops early, so re-ask for the skipped units while it helps
         if not missed:
@@ -117,7 +117,7 @@ def extract_document(con, ex, doc_id: str, articles: list[str], workers: int) ->
             jobs[a] = ([{**u, "text": (f"(câu dẫn: {by_id[u['parent']]['text']}) " if u["parent"] in by_id else "")
                          + u["text"]} for u in ms], RETRY_NOTE)
         for a, out in run(jobs).items():
-            n += len(store(con, out, ex.model, {u["unit_id"] for u in missed[a]}, doc["domain"]))
+            n += len(store(con, out, {u["unit_id"] for u in missed[a]}, doc["domain"]))
         still = {a: m for a in missed if (m := uncovered(con, groups[a]))}
         if sum(map(len, still.values())) == sum(map(len, missed.values())):
             break
