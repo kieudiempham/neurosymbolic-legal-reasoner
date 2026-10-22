@@ -17,7 +17,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 from .compile import write_and_check
 from .db import DB_FILE, connect
-from .normalize import document_relations, link_references, reference_predicates, repair_norms
+from .normalize import document_relations, link_references, reference_predicates, repair_norms, typed_holders
 from .structure import load_documents, read_document
 
 
@@ -162,7 +162,8 @@ def main() -> None:
             extract_document(con, ex, d, args.articles, args.workers)
         print("linked references:", link_references(con))
         con.commit()
-    print("repairs:", repair_norms(con), "condition refs:", reference_predicates(con))
+    print("repairs:", repair_norms(con), "typed holders:", typed_holders(con), "condition refs:",
+          reference_predicates(con))
     con.commit()
     if args.canon is not None:
         from .canon import CANON_MODEL, PASSES, canonicalise

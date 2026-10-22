@@ -187,3 +187,27 @@ def reference_predicates(con) -> int:
             con.execute("INSERT OR IGNORE INTO condition_refs VALUES (?,?)", (cond_id, t))
             n += 1
     return n
+
+
+def typed_holders(con) -> int:
+    """A holder written as a type name instead of a variable (subject_var = 'doanh_nghiep'): it becomes a variable
+    of that type, and the same token in the norm's arguments refers to that variable."""
+    n = 0
+    for nid, subj, bearer in con.execute("SELECT norm_id, subject_var, bearer_var FROM norms").fetchall():
+        declared = {v for (v,) in con.execute("SELECT var FROM norm_variables WHERE norm_id=?", (nid,))}
+        for col, name in (("subject_var", subj), ("bearer_var", bearer)):
+            if not name or name in declared or not re.fullmatch(r"[a-z][a-z0-9_]*", name):
+                continue
+            var = next(v for v in ("S", "S1", "S2", "S3") if v not in declared)
+            declared.add(var)
+            con.execute("INSERT INTO norm_variables VALUES (?,?,?)", (nid, var, name))
+            con.execute(f"UPDATE norms SET subject_var = CASE WHEN subject_var=? THEN ? ELSE subject_var END, "
+                        f"bearer_var = CASE WHEN bearer_var=? THEN ? ELSE bearer_var END WHERE norm_id=?",
+                        (name, var, name, var, nid))
+            swap = lambda s: ",".join(var if x.strip() == name else x for x in s.split(",")) if s else s  # noqa: E731
+            a, c = con.execute("SELECT action_args, conclusion_args FROM norms WHERE norm_id=?", (nid,)).fetchone()
+            con.execute("UPDATE norms SET action_args=?, conclusion_args=? WHERE norm_id=?", (swap(a), swap(c), nid))
+            for cid, args in con.execute("SELECT cond_id, args FROM norm_conditions WHERE norm_id=?", (nid,)).fetchall():
+                con.execute("UPDATE norm_conditions SET args=? WHERE cond_id=?", (swap(args), cid))
+            n += 1
+    return n

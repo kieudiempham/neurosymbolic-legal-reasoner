@@ -64,9 +64,13 @@ def at(name: str) -> str:
     return q(_AALIAS.get(name, name))
 
 
+_USED: set[tuple[str, int]] = set()  # (predicate, arity) of every atom written, declared dynamic by build_program
+
+
 def atom(pred: str, args: str | None, variables: set[str]) -> str:
     pred = _ALIAS.get(pred, pred)
     a = [s for s in (args or "").split(",") if s.strip()]
+    _USED.add((pred, len(a)))
     return f"{q(pred)}({', '.join(term(s, variables) for s in a)})" if a else q(pred)
 
 
@@ -343,10 +347,9 @@ def build_program(con) -> tuple[str, dict]:
            "is_a(X, T) :- instance_of(X, T0), subtype_star(T0, T).",
            "subtype_star(T, T).", "subtype_star(A, C) :- subtype(A, B), subtype_star(B, C).",
            "defeated(N, S) :- exception_of(E, N), applies(E, S).", ""]
-    for name, arity in con.execute("SELECT name, arity FROM predicates"):
-        if name not in alias:
-            out.append(f":- dynamic {q(name)}/{arity}.")
-    out += bridges
+    _USED.clear()
+    decl_at = len(out)  # every predicate an atom uses is declared (after the norms are compiled), so that a query
+    out += bridges      # reaching a predicate no fact or rule defines fails instead of raising an existence error
     for row in con.execute("SELECT number, doc_type, rank, effective_from, domain FROM documents"):
         out.append(f"document({', '.join(q(x) if not isinstance(x, int) else str(x) for x in row)}).")
     for row in con.execute("SELECT src_number, rel_type, dst_number FROM doc_relations"):
@@ -374,6 +377,8 @@ def build_program(con) -> tuple[str, dict]:
         pairs.add((tgt, nid) if kind == "has_exception" else (nid, tgt))
     out += [f"exception_of({q(e)}, {q(n)})." for e, n in sorted(pairs)]
     out += ["exception_of(_, _) :- fail."]
+    declared = {(n, a) for n, a in con.execute("SELECT name, arity FROM predicates") if n not in alias} | _USED
+    out[decl_at:decl_at] = [f":- dynamic {q(n)}/{a}." for n, a in sorted(declared)]
     if link_problems:
         problems["predicate_links"] = link_problems
     return "\n".join(out) + "\n", {"norms_by_modality": dict(stats), "aliases": len(alias),
