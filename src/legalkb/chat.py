@@ -54,10 +54,13 @@ class Dialogue:
         run, parts = self.asker.ask(text, session_id=sid, turn=s["turn"])
         row = self.asker.runs.execute("SELECT final_answer, error FROM runs WHERE run_id=?", (run,)).fetchone()
         briefs = [_brief(p) for p in parts]
-        s["needs_more"] = any(b.get("verdict") == "unknown" for b in briefs)
+        mbd = self.asker.last_mbd or {}
+        action = mbd.get("action")
+        s["needs_more"] = action in ("ask", "confirm") or any(b.get("verdict") == "unknown" for b in briefs)
         return {"session_id": sid, "turn": s["turn"], "run_id": run, "question": text, "answer": row[0],
                 "error": row[1], "needs_more": s["needs_more"], "facts": parts[0]["facts"] if parts else [],
-                "false_facts": parts[0]["false_facts"] if parts else [], "parts": briefs}
+                "false_facts": parts[0]["false_facts"] if parts else [], "parts": briefs, "action": action,
+                "mbd": mbd}
 
     def reset(self, sid: str) -> None:
         if sid in self.sessions:
@@ -92,7 +95,8 @@ def main() -> None:
         out = d.say(sid, msg)
         last = out["run_id"]
         verdicts = ", ".join(p["verdict_vi"] for p in out["parts"] if p["kind"] == "case")
-        print(f"\nHệ thống [{verdicts or 'tra luật'}]:\n{out['answer'] or out['error']}")
+        print(f"\nHệ thống [{verdicts or 'tra luật'}; kiểm tra: {out.get('action') or '-'}]:\n"
+              f"{out['answer'] or out['error']}")
         if out["needs_more"]:
             print("\n(Hãy trả lời để bổ sung thông tin; gõ /moi để hỏi câu khác.)")
         print(f"(run {last}, lượt {out['turn']})\n")

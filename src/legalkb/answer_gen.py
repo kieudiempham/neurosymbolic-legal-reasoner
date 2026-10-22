@@ -8,6 +8,7 @@ model's own knowledge. Stored in runs.final_answer.
 from __future__ import annotations
 
 import hashlib
+import json
 import os
 import re
 import sys
@@ -16,7 +17,7 @@ import time
 from .extract import CACHE, Extractor
 
 ANSWER_MODEL = os.environ.get("LEGALKB_ANSWER_MODEL", "gpt-4.1-mini")
-ANSWER_VERSION = "answer-v1"
+ANSWER_VERSION = "answer-v2"
 VERDICT = {"yes": "CÓ", "no": "KHÔNG", "unknown": "CHƯA ĐỦ THÔNG TIN"}
 
 PROMPT = """Bạn viết câu trả lời cuối cùng cho người hỏi về pháp luật Việt Nam, bằng tiếng Việt, dễ hiểu.
@@ -28,7 +29,9 @@ Trình bày ngắn gọn (tối đa khoảng 150 chữ) theo thứ tự:
 2. Căn cứ: điều, khoản, điểm, văn bản (viết như "điểm a khoản 1 Điều 2 Luật số 41/2024/QH15").
 3. Áp dụng: vì sao tình huống thỏa (hoặc không thỏa) điều kiện của căn cứ.
 4. Nếu CHƯA ĐỦ THÔNG TIN: nêu cụ thể cần người hỏi cho biết thêm điều gì.
-5. Lưu ý: kết luận chỉ đúng nếu không rơi vào các ngoại lệ đang giả định không có (nếu có).
+5. Lưu ý: kết luận chỉ đúng nếu không rơi vào các ngoại lệ đang giả định không có (chỉ khi có).
+Làm theo phần KIỂM TRA (chẩn đoán) ở cuối: nếu nó đề nghị hỏi lại, xác nhận hay cảnh báo thì câu trả lời phải làm
+đúng như vậy.
 
 CÂU HỎI: {question}
 
@@ -81,6 +84,19 @@ def context(runs, run: int) -> tuple[str, str, str]:
         if verdict == "no" and not runs.execute(
                 "SELECT 1 FROM run_answers WHERE run_id=? AND q_no=?", (run, q_no)).fetchone():
             res.append("  - không có quy phạm nào trong cơ sở tri thức dẫn tới điều được hỏi")
+    action = runs.execute("SELECT action, action_about FROM runs WHERE run_id=?", (run,)).fetchone()
+    if action and action[0]:
+        stmts = dict(runs.execute("SELECT comp_id, statement FROM run_mbd_components WHERE run_id=?", (run,)))
+        about = [stmts.get(c, c) for c in json.loads(action[1] or "[]")]
+        res.append("\nKIỂM TRA (chẩn đoán) TRƯỚC KHI TRẢ LỜI: " + {
+            "answer": "không phát hiện lỗi; trả lời bình thường.",
+            "ask": "thiếu thông tin trong câu hỏi; hỏi người dùng về: " + "; ".join(about),
+            "confirm": "có thể hệ thống đã hiểu sai câu hỏi ở các điểm sau; KHÔNG kết luận chắc chắn, hãy nêu cách "
+                       "hiểu này và đề nghị người dùng xác nhận hoặc sửa: " + "; ".join(about),
+            "warn": "luật được dùng có thể mã hoá không khớp nguyên văn; trả lời kèm cảnh báo rõ ràng về các luật: "
+                    + "; ".join(about),
+            "unresolved": "hệ thống phát hiện điểm bất thường nhưng không xác định được nguyên nhân; KHÔNG kết luận "
+                          "chắc chắn, nêu rằng cần người hỏi kiểm tra lại các điểm: " + "; ".join(about)}[action[0]])
     return question, facts or "(không có)", "\n".join(res) or "(không có kết quả)"
 
 

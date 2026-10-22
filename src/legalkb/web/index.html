@@ -29,6 +29,12 @@
   .badge { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 99px; color: #fff; }
   .badge.yes { background: var(--yes); } .badge.no { background: var(--no); }
   .badge.unknown { background: var(--unknown); } .badge.law { background: var(--law); }
+  .badge.act { background: #eef0f4; color: var(--text); border: 1px solid var(--line); }
+  .badge.act.confirm, .badge.act.unresolved { background: #fff1d6; color: var(--unknown); border-color: #f3d9a4; }
+  .badge.act.warn { background: #fde8e6; color: var(--no); border-color: #f5c2bd; }
+  table.mbd { border-collapse: collapse; width: 100%; font-size: 12px; margin-top: 4px; }
+  table.mbd td, table.mbd th { border: 1px solid var(--line); padding: 3px 5px; vertical-align: top; text-align: left; }
+  table.mbd tr.sym td { background: #fff6e5; }
   .ask-more { margin-top: 8px; padding: 8px 10px; border-radius: 8px; background: #fff6e5;
               border: 1px solid #f3d9a4; font-size: 14px; white-space: normal; }
   details { margin-top: 8px; white-space: normal; }
@@ -126,13 +132,27 @@ function details(out) {
     });
     if (!p.answers.length && !p.contrary.length) h += `<div>Không có quy phạm nào trong cơ sở tri thức dẫn tới điều được hỏi.</div>`;
   });
+  const m = out.mbd || {};
+  if (m.components && m.components.length) {
+    h += `<h4>Kiểm tra (MBD): hành động <b>${esc(m.action)}</b></h4><table class="mbd"><tr><th>id</th><th>tầng / loại</th>` +
+      `<th>câu kiểm tra</th><th>so với</th><th>NLI</th></tr>` +
+      m.components.map(c => `<tr class="${c.symptom ? "sym" : ""}"><td>${esc(c.id)}</td><td>${esc(c.layer)} / ${esc(c.kind)}</td>` +
+        `<td>${esc(c.statement)}<br><code>${esc(c.item)}</code></td><td>${c.premise === "question" ? "câu hỏi" : esc(c.premise)}</td>` +
+        `<td>${esc(c.label || "-")} (e ${(+c.p_entail).toFixed(2)}, n ${(+c.p_neutral).toFixed(2)}, c ${(+c.p_contra).toFixed(2)})` +
+        `${c.symptom ? "<br><b>triệu chứng</b>" : ""}</td></tr>`).join("") + `</table>`;
+    h += `<div><b>Chẩn đoán tối thiểu:</b><ul>` + (m.explanations || []).map(d =>
+      `<li>${d.length ? d.map(esc).join("<br>") : "không có lỗi"}</li>`).join("") + `</ul></div>`;
+  }
   return h + `</div>`;
 }
 
 function render(out) {
   if (out.error && !out.answer) return add("bot", `<b>Lỗi:</b> ${esc(out.error)}`);
+  const ACT = {answer: "kiểm tra: không phát hiện lỗi", ask: "kiểm tra: thiếu thông tin", confirm: "kiểm tra: cần xác nhận cách hiểu",
+               warn: "kiểm tra: luật có thể sai", unresolved: "kiểm tra: bất thường chưa rõ nguyên nhân"};
   const badges = out.parts.map(p => p.kind === "law" ? `<span class="badge law">tra luật</span>`
-    : `<span class="badge ${p.verdict}">${esc(p.verdict_vi)}</span>`).join("");
+    : `<span class="badge ${p.verdict}">${esc(p.verdict_vi)}</span>`).join("") +
+    (out.action ? `<span class="badge act ${out.action}">${ACT[out.action] || out.action}</span>` : "");
   const more = out.needs_more ? `<div class="ask-more">Hệ thống cần thêm thông tin. Hãy trả lời ngay bên dưới (câu trả lời sẽ được ghép vào câu hỏi), hoặc bấm “Câu hỏi mới”.</div>` : "";
   add("bot", `<div class="badges">${badges}</div>${esc(out.answer)}${more}` +
     `<details><summary>Chi tiết suy luận</summary>${details(out)}</details>` +

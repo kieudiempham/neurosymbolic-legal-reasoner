@@ -16,6 +16,15 @@ Tables
   run_proof_nodes   the proof tree of each answer, one row per node (parent_id links a node to its parent)
   run_basis         the legal basis of each answer: the units its proof uses, with their text
   run_law_norms     norms returned by a law question (who / conditions / exceptions / definition)
+  MBD (step 4, verify.py), so the diagnosis can be followed step by step:
+  run_mbd_components   each component: layer, kind (checked / required / presumed / rule), the atom or norm, its
+                       Vietnamese statement, the premise it was measured against (question / unit of the norm),
+                       the NLI label (null: below the threshold, unobserved), the three probabilities, and whether
+                       it is a symptom (inconsistent with everything working normally)
+  run_mbd_facts        the observations and the candidate fault atoms given to mbd.pl
+  run_mbd_diagnoses    every minimal diagnosis, with each fault explained in words
+  runs.action / action_about   the action chosen from the diagnoses (answer / ask / confirm / warn) and the
+                       components it is about
 
     PYTHONPATH=src .venv_diag/Scripts/python -m legalkb.trace            # list the runs
     PYTHONPATH=src .venv_diag/Scripts/python -m legalkb.trace 12         # print run 12
@@ -36,12 +45,12 @@ SCHEMA = """
 CREATE TABLE IF NOT EXISTS runs (
   run_id INTEGER PRIMARY KEY AUTOINCREMENT, time TEXT, question TEXT, kb_program TEXT, kb_database TEXT,
   parser_model TEXT, parser_output TEXT, batch TEXT, item_id TEXT, gold TEXT, error TEXT, final_answer TEXT,
-  answer_model TEXT, session_id TEXT, turn INTEGER);
+  answer_model TEXT, session_id TEXT, turn INTEGER, action TEXT, action_about TEXT);
 CREATE TABLE IF NOT EXISTS run_facts (
   run_id INTEGER NOT NULL REFERENCES runs(run_id), kind TEXT CHECK (kind IN ('fact','false_fact','parameter')),
   fact TEXT);
 CREATE TABLE IF NOT EXISTS run_steps (
-  run_id INTEGER NOT NULL REFERENCES runs(run_id), step_no INTEGER, stage TEXT CHECK (stage IN ('parse','reason','lookup')),
+  run_id INTEGER NOT NULL REFERENCES runs(run_id), step_no INTEGER, stage TEXT CHECK (stage IN ('parse','reason','lookup','verify')),
   q_no INTEGER, summary TEXT, seconds REAL, PRIMARY KEY (run_id, step_no));
 CREATE TABLE IF NOT EXISTS run_questions (
   run_id INTEGER NOT NULL REFERENCES runs(run_id), q_no INTEGER, type TEXT, kind TEXT, slots TEXT, goal TEXT,
@@ -55,6 +64,15 @@ CREATE TABLE IF NOT EXISTS run_proof_nodes (
   goal TEXT, kind TEXT, norm TEXT, PRIMARY KEY (answer_id, node_id));
 CREATE TABLE IF NOT EXISTS run_basis (
   answer_id INTEGER NOT NULL REFERENCES run_answers(answer_id), unit TEXT, norm TEXT, text TEXT);
+CREATE TABLE IF NOT EXISTS run_mbd_components (
+  run_id INTEGER NOT NULL REFERENCES runs(run_id), comp_id TEXT, layer TEXT, kind TEXT, item TEXT, statement TEXT,
+  premise TEXT, label TEXT, p_entail REAL, p_neutral REAL, p_contra REAL, symptom INTEGER,
+  PRIMARY KEY (run_id, comp_id));
+CREATE TABLE IF NOT EXISTS run_mbd_facts (
+  run_id INTEGER NOT NULL REFERENCES runs(run_id), kind TEXT CHECK (kind IN ('observation','candidate')), term TEXT);
+CREATE TABLE IF NOT EXISTS run_mbd_diagnoses (
+  run_id INTEGER NOT NULL REFERENCES runs(run_id), diag_no INTEGER, size INTEGER, faults TEXT, explanation TEXT,
+  PRIMARY KEY (run_id, diag_no));
 CREATE TABLE IF NOT EXISTS run_law_norms (
   run_id INTEGER NOT NULL REFERENCES runs(run_id), q_no INTEGER, norm TEXT, unit TEXT, modality TEXT, holder TEXT,
   conditions TEXT, head TEXT, exceptions TEXT, text TEXT);
@@ -67,9 +85,14 @@ def connect_runs(path: Path = RUNS_DB) -> sqlite3.Connection:
     con.execute("PRAGMA foreign_keys = ON")
     con.executescript(SCHEMA)
     have = {r[1] for r in con.execute("PRAGMA table_info(runs)")}
-    for col in ("batch", "item_id", "gold", "error", "final_answer", "answer_model", "session_id", "turn"):
+    for col in ("batch", "item_id", "gold", "error", "final_answer", "answer_model", "session_id", "turn",
+                "action", "action_about"):
         if col not in have:
             con.execute(f"ALTER TABLE runs ADD COLUMN {col} TEXT")
+    sql = con.execute("SELECT sql FROM sqlite_master WHERE name='run_steps'").fetchone()[0]
+    if "'verify'" not in sql:  # older databases: allow the verify step (SQLite cannot alter a CHECK in place)
+        con.executescript("ALTER TABLE run_steps RENAME TO run_steps_old;" + SCHEMA +
+                          "INSERT INTO run_steps SELECT * FROM run_steps_old; DROP TABLE run_steps_old;")
     con.execute("CREATE INDEX IF NOT EXISTS ix_runs_batch ON runs(batch, item_id)")
     return con
 
@@ -78,7 +101,7 @@ def save_run(con, *, time: str, question: str, kb_program: str, kb_database: str
              parser_output: dict, facts: list[str], false_facts: list[str], parameters: list[str],
              parse_seconds: float, parts: list[dict], batch: str | None = None, item_id: str | None = None,
              gold: str | None = None, error: str | None = None, session_id: str | None = None,
-             turn: int | None = None) -> int:
+             turn: int | None = None, mbd: dict | None = None, mbd_seconds: float = 0.0) -> int:
     """parts: one per sub-question, as returned by questions.answer plus 'parsed' (slots) and 'seconds'."""
     cur = con.execute("INSERT INTO runs (time, question, kb_program, kb_database, parser_model, parser_output, batch, "
                       "item_id, gold, error, session_id, turn) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
@@ -121,6 +144,27 @@ def save_run(con, *, time: str, question: str, kb_program: str, kb_database: str
                 con.executemany("INSERT INTO run_proof_nodes VALUES (?,?,?,?,?,?,?)", nodes)
                 con.executemany("INSERT INTO run_basis VALUES (?,?,?,?)",
                                 [(aid, b["unit"], b["norm"], b["text"]) for b in a["basis"]])
+    if mbd is not None:
+        from .verify import explain
+
+        step = 2 + len(parts)
+        con.execute("INSERT INTO run_steps VALUES (?,?,?,?,?,?)",
+                    (run, step, "verify", None, f"{len(mbd['components'])} components, {len(mbd['symptoms'])} "
+                                               f"symptoms, {len(mbd['diagnoses'])} minimal diagnoses, action "
+                                               f"{mbd['action']}", round(mbd_seconds, 3)))
+        con.executemany("INSERT INTO run_mbd_components VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", [
+            (run, c["id"], c["layer"], c["kind"], c["item"], c["statement"], c["premise"], c["label"],
+             c.get("p_entail"), c.get("p_neutral"), c.get("p_contra"), int(bool(c.get("symptom"))))
+            for c in mbd["components"]])
+        con.executemany("INSERT INTO run_mbd_facts VALUES (?,?,?)",
+                        [(run, "observation", o) for o in mbd["observations"]]
+                        + [(run, "candidate", f) for f in mbd["candidates"]])
+        con.executemany("INSERT INTO run_mbd_diagnoses VALUES (?,?,?,?,?)", [
+            (run, i, len(d), "[" + ", ".join(d) + "]",
+             "; ".join(explain(f, mbd["components"]) for f in d) or "không có lỗi (mọi thành phần bình thường)")
+            for i, d in enumerate(mbd["diagnoses"], 1)])
+        con.execute("UPDATE runs SET action=?, action_about=? WHERE run_id=?",
+                    (mbd["action"], json.dumps(mbd["about"]), run))
     con.commit()
     return run
 
@@ -163,6 +207,24 @@ def show_run(con, run: int) -> str:
                         (aid,))]
             out += [f"      căn cứ {u}: «{t}»" for u, t in con.execute(
                 "SELECT unit, text FROM run_basis WHERE answer_id=?", (aid,))]
+    comps = con.execute("SELECT comp_id, layer, kind, item, statement, premise, label, p_entail, p_neutral, "
+                        "p_contra, symptom FROM run_mbd_components WHERE run_id=? ORDER BY rowid", (run,)).fetchall()
+    if comps:
+        action = con.execute("SELECT action, action_about FROM runs WHERE run_id=?", (run,)).fetchone()
+        out += ["", "KIỂM TRA (MBD):", "  thành phần (nhãn NLI: entail / neutral / contra; '-' = dưới ngưỡng, "
+                "không dùng làm quan sát):"]
+        for cid, layer, kind, item, st, prem, lab, pe, pn, pc, sym in comps:
+            out.append(f"  {cid:4s} [{layer}/{kind}] {item}")
+            out.append(f"       «{st}»  so với {'câu hỏi' if prem == 'question' else prem}: {lab or '-'} "
+                       f"(e={pe:.2f} n={pn:.2f} c={pc:.2f})" + ("   <- TRIỆU CHỨNG" if sym else ""))
+        out.append("  quan sát đưa vào mbd.pl: " + "; ".join(t for (t,) in con.execute(
+            "SELECT term FROM run_mbd_facts WHERE run_id=? AND kind='observation'", (run,))))
+        out.append("  giả thuyết lỗi được xét: " + "; ".join(t for (t,) in con.execute(
+            "SELECT term FROM run_mbd_facts WHERE run_id=? AND kind='candidate'", (run,))))
+        out.append("  chẩn đoán tối thiểu:")
+        out += [f"    {n}. {f}  ->  {e}" for n, f, e in con.execute(
+            "SELECT diag_no, faults, explanation FROM run_mbd_diagnoses WHERE run_id=? ORDER BY diag_no", (run,))]
+        out.append(f"  HÀNH ĐỘNG: {action[0]}  (về: {action[1]})")
     return "\n".join(out)
 
 

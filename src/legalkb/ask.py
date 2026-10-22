@@ -25,8 +25,10 @@ VERDICT = {"yes": "CÓ", "no": "KHÔNG", "unknown": "CHƯA ĐỦ THÔNG TIN"}
 
 
 class Asker:
-    def __init__(self, sample: bool = False, record: bool = True):
+    def __init__(self, sample: bool = False, record: bool = True, verify: bool = True):
         from .sample_kb import PARAMETERS, SAMPLE_DB, SAMPLE_PL, build
+
+        self.verify, self.last_mbd = verify, None
 
         if sample:
             build()
@@ -41,7 +43,8 @@ class Asker:
             session_id: str | None = None, turn: int | None = None) -> tuple[int | None, list[dict]]:
         """Answer one question; the run is stored even when a step fails (with the error and what was done)."""
         started = datetime.now().isoformat(timespec="seconds")
-        facts, false_facts, raw, parts, error, parse_seconds = [], [], None, [], None, 0.0
+        facts, false_facts, raw, parts, error, parse_seconds, mbd_seconds = [], [], None, [], None, 0.0, 0.0
+        self.last_mbd = None
         try:
             t0 = time.perf_counter()
             facts, false_facts, questions, raw = self.parser.parse(text)
@@ -51,6 +54,12 @@ class Asker:
                 out = answer(q, self.parameters + facts, self.reasoner, self.con, false_facts)
                 parts.append({"question": text, "facts": facts, "false_facts": false_facts, "parsed": q.__dict__,
                               "seconds": time.perf_counter() - t1, **out})
+            if self.verify:  # step 4: diagnose the proofs before answering
+                from .verify import verify
+
+                t2 = time.perf_counter()
+                self.last_mbd = verify(text, facts, parts, self.con, self.parser.ex.client)
+                mbd_seconds = time.perf_counter() - t2
         except Exception as e:  # noqa: BLE001
             if "insufficient_quota" in str(e):
                 raise
@@ -60,7 +69,8 @@ class Asker:
             run = save_run(self.runs, time=started, question=text, kb_program=str(self.kb), kb_database=str(self.db),
                            parser_model=self.parser.model, parser_output=raw, facts=facts, false_facts=false_facts,
                            parameters=self.parameters, parse_seconds=parse_seconds, parts=parts, batch=batch,
-                           item_id=item_id, gold=gold, error=error, session_id=session_id, turn=turn)
+                           item_id=item_id, gold=gold, error=error, session_id=session_id, turn=turn,
+                           mbd=self.last_mbd if self.verify and not error else None, mbd_seconds=mbd_seconds)
         if run and not error:
             from .answer_gen import generate
 
