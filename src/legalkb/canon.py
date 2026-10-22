@@ -13,6 +13,7 @@ the pairs are labelled by align.align with a stronger model. Four passes:
 from __future__ import annotations
 
 import hashlib
+import os
 import time
 
 import numpy as np
@@ -21,7 +22,7 @@ from .align import align
 from .extract import Extractor
 
 EMBED_MODEL = "text-embedding-3-small"
-CANON_MODEL = "gpt-4.1"
+CANON_MODEL = os.environ.get("LEGALKB_CANON_MODEL", "gpt-4.1")
 _TABLE = {"pred": "predicates", "type": "entity_types", "attr": "attributes"}
 
 
@@ -69,8 +70,11 @@ def candidates(con, client, kind: str, sources: list[str], targets: list[str], k
     return out
 
 
-def canonicalise(con, workers: int = 16) -> dict:
-    ex = Extractor(CANON_MODEL)
+PASSES = ("types", "attrs", "chains", "vocab")
+
+
+def canonicalise(con, workers: int = 16, passes: tuple[str, ...] = PASSES, model: str = CANON_MODEL) -> dict:
+    ex = Extractor(model)
     q = lambda sql: [n for (n,) in con.execute(sql)]  # noqa: E731
     vocab = {kind: q(f"SELECT name FROM {t} WHERE origin='vocab'") for kind, t in _TABLE.items()}
     linked_types = set(q("SELECT src FROM name_links WHERE kind='type'"))
@@ -80,9 +84,11 @@ def canonicalise(con, workers: int = 16) -> dict:
     report = {}
 
     def run(name, kind, sources, targets, k, min_cos):
+        if name not in passes:
+            return
         c = candidates(con, ex.client, kind, sorted(sources), sorted(targets), k, min_cos)
         t0 = time.time()
-        n = align(con, ex.client, CANON_MODEL, {kind: set(c)}, "", workers, candidates=c)
+        n = align(con, ex.client, model, {kind: set(c)}, "", workers, candidates=c)
         con.commit()
         report[name] = {"sources": len(sources), "with_candidates": len(c), "links": n, "seconds": round(time.time() - t0)}
         print(name, report[name], flush=True)

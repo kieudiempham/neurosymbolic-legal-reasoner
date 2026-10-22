@@ -141,7 +141,9 @@ def main() -> None:
     ap.add_argument("--articles", nargs="*", default=[], help="article numbers (default: all of the document)")
     ap.add_argument("--model", default=None)
     ap.add_argument("--workers", type=int, default=16, help="parallel LLM requests")
-    ap.add_argument("--canon", action="store_true", help="map names onto the vocabulary corpus-wide (after extraction)")
+    ap.add_argument("--canon", nargs="*", default=None, metavar="PASS",
+                    help="map names onto the vocabulary corpus-wide (after extraction); passes: types attrs chains vocab")
+    ap.add_argument("--canon-model", default=None)
     args = ap.parse_args()
     con = connect()
     if args.structure or not con.execute("SELECT 1 FROM documents LIMIT 1").fetchone():
@@ -162,10 +164,10 @@ def main() -> None:
         con.commit()
     print("repairs:", repair_norms(con), "condition refs:", reference_predicates(con))
     con.commit()
-    if args.canon:
-        from .canon import canonicalise
+    if args.canon is not None:
+        from .canon import CANON_MODEL, PASSES, canonicalise
 
-        canonicalise(con, args.workers)
+        canonicalise(con, args.workers, tuple(args.canon) or PASSES, args.canon_model or CANON_MODEL)
     counts = {t: con.execute(f"SELECT COUNT(*) FROM {t}").fetchone()[0] for t in
               ("documents", "doc_relations", "units", "entity_types", "predicates", "predicate_links", "attributes", "norms",
                "norm_conditions", "norm_references", "norm_formulas", "norm_deadlines", "norm_sanctions")}
