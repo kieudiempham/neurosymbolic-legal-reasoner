@@ -133,65 +133,92 @@ def instance_workbook(path: Path) -> None:
                          g_["false_alarm_control"], g_["final_answer_acc"], "được chọn" if g_ == d.get("chosen") else ""])
     sheet(wb.create_sheet("Chọn tham số (dev)"), ["Dụng cụ đo", "τ", "Luật chấp nhận", "Điểm dev", "Chẩn đoán đúng (dev)",
                                                   "Báo lỗi oan (dev)", "Đúng đáp án (dev)", ""], grid, [22, 6, 12, 10, 12, 12, 12, 12])
+    add_final_sheets(wb)
     wb.save(path)
 
 
-README = """# Gói thực nghiệm — Cross-Layer Model-Based Diagnosis for Neuro-Symbolic Legal QA (ACIIDS)
+VERDICT_VI = {"true": "CÓ", "false": "KHÔNG", "insufficient": "CHƯA ĐỦ DỮ KIỆN", "abstain": "KHÔNG KẾT LUẬN", "other": "khác"}
+METHOD_VI = {"gpt4o": "GPT-4o thuần", "symbolic": "Symbolic QA", "heuristic": "Heuristic", "ours": "Ours (MBD)"}
 
-Mã nguồn đầy đủ và lịch sử thay đổi: GitHub `kieudiempham/neurosymbolic-legal-reasoner`, branch
-`feat/cross-layer-mbd-diagnosis`, commit `{commit}`. Gói này chứa đúng dữ liệu và kết quả của commit đó.
 
-## Mở gì trước
-1. `ket_qua/bang_ket_qua.md` — các bảng trong paper (Mục 5).
-2. `ket_qua/ket_qua_tung_ca.xlsx` — **kết quả từng ca** của Ours và Heuristic (mỗi dòng một ca), đủ để tự tính lại
-   mọi con số trong bảng; sheet "Chọn tham số (dev)" cho thấy tham số được chọn trên dev.
-3. `du_lieu/CrossLayer_MBD_Benchmark_300QA.xlsx` — 300 câu hỏi, dữ kiện, đáp án, căn cứ (để thẩm định nhãn).
-4. `paper_section5_draft.md` — bản nháp Mục 5.
+def add_final_sheets(wb) -> None:
+    import re
 
-## Cấu trúc
-- `du_lieu/dataset/` — 300 câu hỏi theo domain (jsonl, kèm split dev/test, nhãn đã sửa `label_revisions.json`),
-  bộ lỗi F1–F4 ngoài (`diag_gpt_v1/`).
-- `du_lieu/kb/` — 5 KB dùng khi suy luận (`kb_*.yaml` = rule + quan hệ ngoại lệ; `*_vocabulary.yaml` = nghĩa
-  vị từ; `*_patches.yaml` = các bản vá, CHỈ từ lỗi trên dev, có ghi lý do). `draft_rules_7906.zip` = rule nháp.
-- `ket_qua/` — kết quả gốc dạng JSON (`chan_doan_ngoai/` = bộ F1–F4, `tiem_loi_theo_domain/` = benchmark tiêm
-  lỗi, mỗi file có `per_instance` từng ca và mọi cấu hình), lưới hiệu chỉnh, chỉ số NLI trên dev.
-- `nli_cache/` — điểm NLI đã tính (mDeBERTa, Qwen2.5-7B, GPT-4o-mini) để chạy lại KHÔNG cần GPU hay API.
-- `ma_nguon/` — `src/diagnosis` (pipeline, MBD Prolog `mbd.pl`, thực nghiệm), `kaggle/` (script GPU).
-- `docs/` — rubric IRAC, quy ước nhãn, checklist sửa paper.
+    E = ROOT / "experiments" / "e2e"
+    W = {"I": 0.10, "R": 0.35, "A": 0.40, "C": 0.15}
+    snap = lambda v: min((0.0, 0.5, 1.0), key=lambda x: abs(x - float(v)))
+    items = {}
+    for d in ("bhxh_v1", "dn_v1", "thue_v1", "ld_v1", "ln_v1"):
+        for f in (ROOT / "data" / "dataset" / d).glob("*.jsonl"):
+            if f.stem.endswith(("_dev", "_test")) or f.stem == "bhxh_90":
+                for it in load_items([str(f)]):
+                    items[it["id"]] = it
 
-## Quy trình (tóm tắt)
-- KB: 18 văn bản → 7.906 rule nháp (GPT-4o-mini) → chọn theo điều luật được trích dẫn, viết lại theo bộ vị từ
-  chung, rà soát → 636 rule, 422 quan hệ ngoại lệ.
-- Split theo tình huống pháp lý (câu diễn đạt lại đi cùng nhau): dev 194 / test 106; BHXH toàn bộ là dev.
-- Mọi lựa chọn (bản vá KB, mô hình đo NLI, prompt, ngưỡng τ) chỉ dựa trên dev; tiêu chí chọn đặt trước
-  (trung bình của độ chính xác chẩn đoán và 1 − tỉ lệ báo lỗi oan). Test chỉ chạy một lần với cấu hình đã chọn.
-- Chẩn đoán: tập chẩn đoán tối thiểu (Reiter) liệt kê trong SWI-Prolog 10.0.2; NLI là phép đo, chỉ thành quan sát
-  khi xác suất ≥ τ.
+    # --- QA end-to-end, 300 questions ---
+    qa = json.loads((E / "qa_results.json").read_text(encoding="utf-8"))["rows"]
+    rows = []
+    for r in qa:
+        it = items[r["id"]]
+        rows.append([r["id"], r["domain"], r["split"], it["question"], VERDICT_VI[r["expected"]],
+                     ", ".join(f"{'' if v else '¬'}{k}" for k, v in r["parsed"].items())]
+                    + [x for m in ("gpt4o", "symbolic", "heuristic", "ours")
+                       for x in (VERDICT_VI.get(r[m], r[m]), "đúng" if r[m] == r["expected"] else "sai")]
+                    + ["; ".join(r["ours_diagnosis"]) or "(không lỗi)", "; ".join(r["heuristic_diagnosis"]) or "(không lỗi)"])
+    hdr = ["ID", "Lĩnh vực", "Split", "Câu hỏi", "Đáp án gold", "Dữ kiện parser GPT-4o trích"] + \
+          [f"{METHOD_VI[m]}: {x}" for m in ("gpt4o", "symbolic", "heuristic", "ours") for x in ("kết luận", "đúng/sai")] + \
+          ["Ours: chẩn đoán", "Heuristic: chẩn đoán"]
+    sheet(wb.create_sheet("QA 300 câu (end-to-end)"), hdr, rows, [10, 12, 6, 55, 14, 40] + [14, 8] * 4 + [40, 40])
 
-## Chạy lại (Windows, Python 3.14, SWI-Prolog 10)
-```
-python -m venv .venv && .venv\\Scripts\\pip install -r ma_nguon/requirements_diag.txt
-set PYTHONPATH=ma_nguon/src
-set NLI_BACKEND=ensemble_gpt& set NLI_TAU=0.5& set NLI_RULE=pos_only
-python -m diagnosis.external_diag --configs base_nesy,nesy_diag,no_mbd,rule_check,raw_nli
-python -m diagnosis.run_eval --dataset <file jsonl của domain> --kb <kb_*.yaml> --configs base_nesy,nesy_diag,no_mbd,rule_check,raw_nli
-python -m diagnosis.make_aciids_tables
-```
-(cần đặt `nli_cache/*.json` vào `experiments/diag/` như trong repo; đường dẫn chi tiết xem README của repo.)
+    # --- IRAC, 1,200 answers ---
+    ans = {q["id"]: q for q in json.loads((E / "irac_answers_all.json").read_text(encoding="utf-8"))}
+    key = json.loads((E / "irac_key_all.json").read_text(encoding="utf-8"))
+    sc = json.loads((E / "irac_scores_v2_all.json").read_text(encoding="utf-8"))["scores"]
+    rows = []
+    for anon in sorted(key, key=lambda a: (key[a]["question_id"], key[a]["method"])):
+        k = key[anon]
+        q, s_ = ans[k["question_id"]], sc[anon]
+        comp = {c: snap(s_.get(c, 0)) for c in W}
+        a = q["answers"][k["method"]]
+        rows.append([q["id"], q["domain"], q["split"], METHOD_VI[k["method"]], anon, VERDICT_VI[q["gold_expected"]],
+                     comp["I"], comp["R"], comp["A"], comp["C"], round(100 * sum(W[c] * comp[c] for c in W), 1),
+                     s_.get("reason", ""), a.get("issue", ""), a.get("rule", ""), a.get("application", ""), a.get("conclusion", ""),
+                     "; ".join(f"{b.get('doc', '')} Đ{b.get('article', '')}" for b in q["gold_legal_basis"])])
+    sheet(wb.create_sheet("IRAC 300 câu (từng câu trả lời)"),
+          ["ID câu", "Lĩnh vực", "Split", "Phương pháp", "Mã ẩn danh", "Đáp án gold", "I", "R", "A", "C", "IRAC (0-100)",
+           "Lý do của giám khảo", "[I] Vấn đề", "[R] Quy định", "[A] Áp dụng", "[C] Kết luận", "Căn cứ gold"],
+          rows, [10, 12, 6, 14, 9, 14, 5, 5, 5, 5, 8, 40, 30, 40, 55, 35, 35])
 
-## Hạn chế đã biết (ghi trong paper)
-Nhãn gold do GPT sinh, đang chờ thẩm định pháp lý; mỗi ca chỉ một lỗi; người dùng mô phỏng biết đủ dữ kiện;
-câu hỏi pháp lý (goal) được cho sẵn; tập test nhỏ (106 câu).
-"""
+    # --- two simultaneous faults ---
+    mf = json.loads((ROOT / "experiments" / "multi_fault" / "results.json").read_text(encoding="utf-8"))["rows"]
+    rows = []
+    for split in ("test", "dev"):
+        H = {r["iid"]: r for r in mf[f"{split}|rule_check"]}
+        for o in mf[f"{split}|nesy_diag"]:
+            h = H[o["iid"]]
+            rows.append([o["iid"], o["domain"], split, o["combo"], o["expected"],
+                         "; ".join(o["first_diagnosis"]) or "(không lỗi)", "đúng" if o["both_found"] else "sai", o["answer"],
+                         "đúng" if o["answer_ok"] else "sai", o["asks"],
+                         "; ".join(h["first_diagnosis"]) or "(không lỗi)", "đúng" if h["both_found"] else "sai", h["answer"],
+                         "đúng" if h["answer_ok"] else "sai", h["asks"]])
+    sheet(wb.create_sheet("Hai lỗi cùng lúc"),
+          ["Ca", "Lĩnh vực", "Split", "Kiểu ghép lỗi", "Đáp án đúng", "Ours: chẩn đoán đầu", "Ours: tìm đủ 2 lỗi", "Ours: đáp án",
+           "Ours: đúng đáp án", "Ours: số lần hỏi", "Heur.: chẩn đoán đầu", "Heur.: tìm đủ 2 lỗi", "Heur.: đáp án",
+           "Heur.: đúng đáp án", "Heur.: số lần hỏi"], rows, [40, 8, 6, 22, 10, 45, 9, 12, 9, 7, 45, 9, 12, 9, 7])
 
+    # --- summary of the headline metrics ---
+    g = wb.create_sheet("Bảng tổng hợp", 1)
+    for line in (ROOT / "experiments" / "tables_aciids.md").read_text(encoding="utf-8").splitlines():
+        g.append([line])
+    g.append([])
+    for line in (ROOT / "experiments" / "strict_eval.md").read_text(encoding="utf-8").splitlines():
+        g.append([line])
+    g.column_dimensions["A"].width = 200
 
 def main() -> None:
     sys.stdout.reconfigure(encoding="utf-8")
     if B.exists():
         shutil.rmtree(B)
     (B / "ket_qua").mkdir(parents=True)
-    commit = subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=ROOT, capture_output=True, text=True).stdout.strip()
-    (B / "README_VI.md").write_text(README.format(commit=commit), encoding="utf-8")
 
     def cp(src: Path, dst: Path) -> None:
         dst.parent.mkdir(parents=True, exist_ok=True)
@@ -217,6 +244,14 @@ def main() -> None:
         cp(f, B / "ket_qua" / "hieu_chinh_dev" / f.name)
     cp(ROOT / "experiments" / "diag_dataset" / "ensemble_gpt", B / "ket_qua" / "tiem_loi_theo_domain")
     cp(ROOT / "experiments" / "nli_gpu" / "nli_dev_metrics.json", B / "ket_qua" / "nli_dev_metrics.json")
+    cp(ROOT / "experiments" / "multi_fault" / "results.json", B / "ket_qua" / "hai_loi" / "results.json")
+    cp(ROOT / "experiments" / "budget" / "budget_results.json", B / "ket_qua" / "gioi_han_hoi_lai" / "budget_results.json")
+    cp(ROOT / "experiments" / "strict_eval.json", B / "ket_qua" / "danh_gia_chat_tung_loi.json")
+    cp(ROOT / "experiments" / "strict_eval.md", B / "ket_qua" / "danh_gia_chat_tung_loi.md")
+    cp(ROOT / "experiments" / "strict_eval_ci.json", B / "ket_qua" / "danh_gia_chat_khoang_tin_cay.json")
+    for f in ("qa_results.json", "irac_answers_all.json", "irac_scores_v2_all.json", "irac_key_all.json",
+              "irac_answers.json", "irac_scores.json", "irac_scores_v2.json", "irac_key.json", "irac_human_sheet.xlsx"):
+        cp(ROOT / "experiments" / "e2e" / f, B / "ket_qua" / "end_to_end" / f)
     for f in ("nli_cache.json", "nli_cache_qwen2.5-7b.json", "nli_cache_gpt4omini.json"):
         cp(ROOT / "experiments" / "diag" / f, B / "nli_cache" / f)
     cp(ROOT / "src" / "diagnosis", B / "ma_nguon" / "src" / "diagnosis")
@@ -229,10 +264,12 @@ def main() -> None:
     cp(ROOT / "docs" / "paper_section5_draft.md", B / "paper_section5_draft.md")
     for p in B.rglob("__pycache__"):
         shutil.rmtree(p)
+    for p in B.rglob("README*"):
+        p.unlink()
     print("building per-instance workbook...", flush=True)
-    instance_workbook(B / "ket_qua" / "ket_qua_tung_ca.xlsx")
+    instance_workbook(B / "ket_qua" / "ket_qua_thuc_nghiem.xlsx")
 
-    z = REL / "aciids_experiment_bundle.zip"
+    z = REL / "aciids_experiment_bundle_final.zip"
     with zipfile.ZipFile(z, "w", zipfile.ZIP_DEFLATED) as zf:
         for f in sorted(B.rglob("*")):
             if f.is_file():
