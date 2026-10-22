@@ -236,6 +236,22 @@ C = 1 iff the verdict equals the gold conclusion; I and A from the v2 judge).**
 | Heuristic | 71.1 | 0.63 | 64.6 | 0.51 | 68.0 | 0.63 | 0.75 | 0.64 | 0.71 |
 | **Ours** | 70.0 | 0.64 | 63.7 | 0.46 | **69.1** | 0.63 | 0.75 | 0.65 | 0.74 |
 
+**Table 8c. IRAC on all 300 questions (1,200 answers, same blind judge, rubric v2; objective = R and C
+computed against gold).** Test (n = 106) in parentheses.
+
+| Method | IRAC v2 | IRAC objective | I | R auto | A | C auto |
+|---|---|---|---|---|---|---|
+| GPT-4o (pure LLM) | 58.0 (58.0) | 57.5 (56.8) | 1.00 | 0.11 | 0.83 | 0.71 |
+| Symbolic QA | 66.2 (62.8) | 69.5 (65.1) | 0.76 | 0.60 | 0.78 | 0.66 |
+| Heuristic | 70.9 (64.3) | 75.7 (67.9) | 0.74 | 0.68 | 0.82 | 0.79 |
+| **Ours** | 70.7 (62.8) | 75.1 (66.6) | 0.74 | 0.68 | 0.81 | 0.78 |
+
+On the full set the picture of the 40-question sample holds: the proof-grounded answers score 8–18
+points above pure GPT-4o under both the v2 and the objective scoring, driven by the Rule component
+(0.68 vs 0.11 of answers citing the governing articles), while GPT-4o leads on Issue and is close on
+Application; MBD and the heuristic produce answers of equal IRAC quality (within 1.5 points), as expected
+since both verbalise the same verified proof and differ only in the diagnosis that precedes it.
+
 **Limitations.** Gold labels are LLM-generated and still under legal review; faults are single and
 injected; the simulated user knows all case facts; the legal goal is given (oracle goal); the test split
 is small (106 questions), so per-domain differences are not significant.

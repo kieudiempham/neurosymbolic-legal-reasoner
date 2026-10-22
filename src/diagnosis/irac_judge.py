@@ -73,8 +73,11 @@ def snap(v) -> float:
     return min((0.0, 0.5, 1.0), key=lambda x: abs(x - v))
 
 
+SET = "40"  # "40" = stratified sample (irac_answers.json); "all" = every question (irac_answers_all.json)
+
+
 def build_entries() -> tuple[list[dict], dict]:
-    data = json.loads((OUT / "irac_answers.json").read_text(encoding="utf-8"))
+    data = json.loads((OUT / ("irac_answers.json" if SET == "40" else "irac_answers_all.json")).read_text(encoding="utf-8"))
     entries = []
     for q in data:
         for method, ans in q["answers"].items():
@@ -82,7 +85,7 @@ def build_entries() -> tuple[list[dict], dict]:
     rng = random.Random(SEED)
     rng.shuffle(entries)
     for n, e in enumerate(entries, 1):
-        e["anon"] = f"A{n:03d}"
+        e["anon"] = f"A{n:03d}" if SET == "40" else f"B{n:04d}"
     key = {e["anon"]: {"question_id": e["question_id"], "method": e["method"]} for e in entries}
     return entries, key
 
@@ -208,22 +211,24 @@ def agreement(key: dict, scores: dict) -> None:
 
 
 def main() -> None:
-    global RUBRIC
+    global RUBRIC, SET
     sys.stdout.reconfigure(encoding="utf-8")
+    if "--all" in sys.argv:
+        SET = "all"
     if "--rubric" in sys.argv:
         RUBRIC = sys.argv[sys.argv.index("--rubric") + 1]
-    suffix = "" if RUBRIC == "v1" else f"_{RUBRIC}"
+    suffix = ("" if RUBRIC == "v1" else f"_{RUBRIC}") + ("" if SET == "40" else "_all")
     entries, key = build_entries()
     if len(sys.argv) > 1 and sys.argv[1] == "agreement":
         scores = json.loads((OUT / f"irac_scores{suffix}.json").read_text(encoding="utf-8"))["scores"]
         agreement(key, scores)
         return
-    (OUT / "irac_key.json").write_text(json.dumps(key, indent=1), encoding="utf-8")
+    (OUT / ("irac_key.json" if SET == "40" else "irac_key_all.json")).write_text(json.dumps(key, indent=1), encoding="utf-8")
     scores = judge_all(entries)
     summ = summarise(scores, key)
     (OUT / f"irac_scores{suffix}.json").write_text(json.dumps({"judge": JUDGE, "rubric": RUBRIC, "summary": summ, "scores": scores},
                                                               ensure_ascii=False, indent=1), encoding="utf-8")
-    if RUBRIC == "v1":
+    if RUBRIC == "v1" and SET == "40":
         human_sheet(entries)
     print(json.dumps(summ, indent=1))
 
