@@ -274,6 +274,19 @@ def add_final_sheets(wb) -> None:
     # --- summary: every table rendered as a real, formatted Excel table ---
     g = wb.create_sheet("Bảng tổng hợp", 1)
     render_md_tables(g, [("KẾT QUẢ CHÍNH (Mục 5 của paper)", ROOT / "docs" / "paper_section5_draft.md")])
+    # the two paper figures, as images under the tables
+    from openpyxl.drawing.image import Image as XLImage
+
+    row = g.max_row + 3
+    g.cell(row=row, column=1, value="Figure 1. QA accuracy vs. clarification budget").font = Font(bold=True, size=12, color="1F3864")
+    img = XLImage(str(ROOT / "experiments" / "figures" / "fig1_clarification_budget.png"))
+    img.width, img.height = img.width * 0.62, img.height * 0.62
+    g.add_image(img, f"A{row + 1}")
+    row += 24
+    g.cell(row=row, column=1, value="Figure 2. Ablation (QA accuracy; fault F1-score under each bar)").font = Font(bold=True, size=12, color="1F3864")
+    img = XLImage(str(ROOT / "experiments" / "figures" / "fig2_ablation.png"))
+    img.width, img.height = img.width * 0.62, img.height * 0.62
+    g.add_image(img, f"A{row + 1}")
 
 def main() -> None:
     sys.stdout.reconfigure(encoding="utf-8")
@@ -297,6 +310,7 @@ def main() -> None:
         if src.exists():
             cp(src, B / "du_lieu" / f)
     cp(ROOT / "experiments" / "tables_aciids.md", B / "ket_qua" / "bang_ket_qua.md")
+    cp(ROOT / "experiments" / "figures", B / "ket_qua" / "hinh")
     cp(ROOT / "experiments" / "diag_external" / "ensemble_gpt", B / "ket_qua" / "chan_doan_ngoai" / "ensemble_gpt")
     for tool in ("mdeberta", "qwen", "gpt4omini", "ensemble"):
         cp(ROOT / "experiments" / "diag_external" / tool / "results_nesy_diag.json",

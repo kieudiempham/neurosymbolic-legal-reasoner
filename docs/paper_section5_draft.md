@@ -65,62 +65,43 @@ judge give 0.5 to answers naming no article; it was then fixed and applied uncha
 
 ## 5.4 Results
 
-**Table 2. Answer accuracy.** End-to-end QA with the real parser (no simulated user), and QA on the 451 injected
-test instances where the input contains a fault.
+**Table 1. Main comparison.** E2E QA: end-to-end with the real parser, 106 held-out test questions. Faulty QA:
+451 injected test instances whose input contains a fault. IRAC: all 300 questions, 1,200 blind-judged answers.
 
-| Method | QA, test (106) | QA, all (300) | QA, faulty inputs | Questions / query |
+| Method | E2E QA Acc. ↑ | Faulty QA Acc. ↑ | Clarif. / query ↓ | IRAC ↑ |
 |---|---|---|---|---|
-| GPT-4o (pure LLM) | **70.8** | 71.3 | – | – |
-| Symbolic QA | 61.3 | 65.7 | 4.3 | 0.00 |
-| Heuristic diagnosis | 66.0 | **79.0** | **85.7** | 3.71 |
-| **Ours (MBD)** | 65.1 | 78.3 | **85.7** | **1.70** |
+| GPT-4o (pure LLM) | **70.8** | N/A | N/A | 58.0 |
+| Symbolic QA | 61.3 | 4.3 | 0.00 | 66.2 |
+| Heuristic diagnosis | 66.0 | **85.7** | 3.71 | **70.9** |
+| **Ours (cross-layer MBD)** | 65.1 | **85.7** | **1.70** | 70.7 |
 
-**Table 3. Diagnosis quality (test, fault level).** A reported fault counts as correct only if it was injected.
+**Table 2. Diagnostic performance (injected faults, test).** A reported fault counts as correct only if it was
+injected.
 
-| Method | Fault F1, 1 fault | Fault F1, 2 faults | Faults / diagnosis | Unnecessary questions / query |
+| Method | Fault F1-score (single-fault) ↑ | Fault F1-score (two-fault) ↑ | Extra faults / query ↓ | Unnecessary questions / query ↓ |
 |---|---|---|---|---|
-| Symptom → cause (no MBD) | 14.1 | 7.0 | 4.56 | 2.68 |
-| Heuristic diagnosis | 36.4 | 44.2 | 3.07 | 3.54 |
-| **Ours (MBD)** | **47.0** | **51.2** | **2.10** | **1.53** |
+| Direct symptom→cause mapping | 14.1 | 7.0 | 3.08 | 2.68 |
+| Heuristic diagnosis | 36.4 | 44.2 | 2.10 | 3.54 |
+| **Ours (cross-layer MBD)** | **47.0** | **51.2** | **1.24** | **1.53** |
 
-**Table 4. Ablation (injected faults, test).**
+**Figure 1. QA accuracy vs. clarification budget** (`experiments/figures/fig1_clarification_budget.pdf`): QA
+accuracy on the injected test instances when the simulated user answers at most 0, 1, 2 or unlimited
+clarification questions per query, for Ours, the heuristic and the direct mapping.
 
-| Variant | Fault F1 | QA | Questions / query |
-|---|---|---|---|
-| **Ours (full)** | **47.0** | **85.1** | 1.70 |
-| − acceptance test | 46.0 | 85.1 | 1.69 |
-| − MBD | 14.1 | 57.0 | 3.16 |
-| − diagnosis and recovery | – | 15.3 | 0.00 |
-
-**Table 5. Measurement model (Ours, KB-independent fault set, test).**
-
-| Measurement | NLI F1 (dev) | Diagnosis acc. | QA | Questions / query |
-|---|---|---|---|---|
-| mDeBERTa-v3 | 0.44 | 35.1 | 56.7 | 1.40 |
-| Qwen2.5-7B | 0.68 | 32.4 | 80.0 | 4.38 |
-| GPT-4o-mini | 0.71 | 62.2 | 71.7 | 0.72 |
-| **mDeBERTa + GPT-4o-mini** | 0.70 | **70.3** | 73.3 | **0.55** |
-| Perfect measurement | 1.00 | 100.0 | 91.7 | – |
-
-**Table 6. IRAC quality (all 300 questions, 1,200 blind-judged answers).**
-
-| Method | IRAC | I | R | A | C |
-|---|---|---|---|---|---|
-| GPT-4o (pure LLM) | 58.0 | **1.00** | 0.12 | **0.83** | 0.72 |
-| Symbolic QA | 66.2 | 0.76 | 0.51 | 0.78 | 0.66 |
-| Heuristic diagnosis | **70.9** | 0.74 | 0.54 | 0.82 | **0.80** |
-| **Ours (MBD)** | 70.7 | 0.74 | **0.55** | 0.81 | 0.79 |
+**Figure 2. Ablation** (`experiments/figures/fig2_ablation.pdf`): QA accuracy of Ours, without the acceptance
+test, without MBD (direct mapping) and without diagnosis and recovery (Symbolic QA); the fault-level F1-score
+is given under each bar.
 
 **Discussion.**
 *Diagnosis-guided recovery is what makes the symbolic pipeline usable.* With one fault per input, Symbolic QA
-answers 4.3% of faulty inputs correctly; diagnosis and recovery raise this to 85.7% (Table 2). Replacing
+answers 4.3% of faulty inputs correctly; diagnosis and recovery raise this to 85.7% (Table 1). Replacing
 consistency-based diagnosis by a direct symptom-to-cause mapping loses 28 points of QA accuracy and two thirds of
-the fault F1 (Tables 3–4), and with two simultaneous faults it fails almost completely (QA 1.9%).
+the fault F1-score (Table 2, Figure 2), and with two simultaneous faults it fails almost completely (QA 1.9%).
 
 *MBD versus a matched heuristic.* With identical evidence, MBD and the IF–THEN heuristic reach the same QA
-accuracy and the same fault recall, with one and with two faults, and stay within about one point when both may ask at most one
-clarification question (81.6 vs 82.7%) or none (71.4 vs 72.5%). MBD is significantly more precise: fault F1 +10.6 points (95% paired-bootstrap CI [6.5, 14.6]) on
-single faults and +7.0 [0.0, 12.5] on pairs (Table 3), because its set-minimal diagnoses contain about a third fewer faults (2.1 vs
+accuracy and the same fault recall, with one and with two faults, and stay within about one point at every clarification budget (Figure 1: 81.6 vs 82.7% with one
+question, 71.4 vs 72.5% with none). MBD is significantly more precise: fault F1 +10.6 points (95% paired-bootstrap CI [6.5, 14.6]) on
+single faults and +7.0 [0.0, 12.5] on pairs (Table 2), because its set-minimal diagnoses contain about a third fewer faults (2.1 vs
 3.1 per diagnosis; the heuristic, which labels every unresolved condition as missing, reports up to 36). This
 translates directly into interaction: MBD asks 2.0 fewer unnecessary questions per query on single faults
 ([−2.84, −1.26]) and 3.4 fewer on pairs ([−5.83, −1.56]), i.e. it obtains the same answers with about half the questions. We
@@ -130,20 +111,20 @@ the development set (an encoded, resolvable overlap must not end the search for 
 components are diagnosed separately when the bounded joint search finds no diagnosis); the test set was re-run
 once after these changes.
 
-*The bottleneck is measurement.* With perfect measurements MBD localises every observable fault of the
-KB-independent set (Table 5). Diagnosis quality follows measurement quality; an over-cautious open-weight LLM
-(Qwen2.5-7B labels stated facts as "not mentioned") makes the system suspect missing information and ask 4.4
-questions per query, which the omniscient simulated user rewards with high QA accuracy despite poor diagnoses.
-Averaging a classifier that is precise on stated facts with an LLM that is precise on unstated ones gives the
-best diagnoses with the fewest questions. Dropping the acceptance test changes little once the measurement is
-good (Table 4).
+*The bottleneck is measurement.* On the KB-independent F1–F4 fault set, diagnostic accuracy of Ours is 70.3%
+with the selected mDeBERTa + GPT-4o-mini measurement, against 62.2% with GPT-4o-mini alone, 35.1% with mDeBERTa
+alone and 32.4% with the open-weight Qwen2.5-7B (which labels stated facts as "not mentioned"), and 100% with
+perfect measurements: diagnostic accuracy follows measurement quality, and complementary measurements (a
+classifier precise on stated facts, an LLM precise on unstated ones) improve cross-layer fault localisation.
+Dropping the acceptance test changes little once the measurement is good (Figure 2).
 
 *GPT-4o versus proof-grounded answers.* End to end, pure GPT-4o is more accurate on the held-out questions
 (70.8% vs 65.1%), whereas the KB-based systems are far better on the development questions (85.6–86.1% vs 71.7%),
 on which the KBs were completed: the test gap reflects KB coverage of unseen cases (92/106 test
 questions are reproducible from gold facts) and parser recall (84.7%; precision 88.9%), not diagnosis. The
-proof-grounded answers are clearly better legal answers by IRAC (66–71 vs 58; Table 6): GPT-4o states the issue well and
-argues fluently but rarely names the governing articles (R = 0.12 against 0.51–0.55; several provisions in force
+proof-grounded answers are clearly better legal answers by IRAC (66–71 vs 58; Table 1): GPT-4o states the issue well
+(I = 1.00 vs 0.74–0.76) and argues fluently (A = 0.83 vs 0.78–0.82) but rarely names the governing articles
+(R = 0.12 against 0.51–0.55; several provisions in force
 in 2026 postdate its training data), and it recognises insufficient information in only 52% of such questions
 (70% for the diagnosing systems). MBD and the heuristic give answers of equal IRAC quality, as both verbalise
 the same verified proof.
