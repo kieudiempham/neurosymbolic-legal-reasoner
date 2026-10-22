@@ -5,6 +5,11 @@ Components are read off the proofs of the run (verify):
   required   facts a conditional answer still needs   (parser output: none)
   presumed   exceptions presumed absent               (parser output: none)
   rule       norms used by a certain proof; competing pairs of norms proving opposite conclusions
+  near_miss  norms step 2 did not select whose text is closest to the question (embeddings): their text is
+             checked against the goal of the question (retrieval layer: a normal selection leaves out only
+             norms that are not about it)
+When no proof exists, the exploring proofs (more missing facts allowed) give the components, and every parsed
+fact is checked, so a parser error that kills every proof is not silent.
 Each is verbalised in Vietnamese (one call, VERBALISE_MODEL) and measured by NLI with a different model
 (NLI_MODEL, prompt v4 of the paper, by default gpt-4.1): a fact against the question, a rule against the
 source text of its unit. A label below the acceptance threshold TAU is left unobserved. mbd.pl returns the
@@ -37,7 +42,8 @@ TAU = float(os.environ.get("LEGALKB_NLI_TAU", 0.5))
 MAX_K = 6  # bound on the size of a diagnosis (the search starts at the number of symptoms needed)
 MBD_PL = Path(__file__).with_name("mbd.pl")
 LAYER = {"missing": "user", "omission": "parser", "misinterp": "parser", "unsupported": "parser",
-         "misencoded": "kb", "kbconflict": "kb"}
+         "misencoded": "kb", "kbconflict": "kb", "omitted": "retrieval"}
+NEAR_MISS = 3  # norms left out by step 2 that are checked against the goal of the question
 
 VERBALISE = """Diễn đạt mỗi mục dưới đây thành MỘT câu tiếng Việt tự nhiên, khẳng định, đúng nghĩa của mục,
 không thêm và không bớt điều kiện. Gọi thực thể theo cách câu hỏi gọi nó ("toi" là "người hỏi"; "công ty";
@@ -48,6 +54,8 @@ dùng mã như hd1, cong_ty.
 - Mục loại "fact": một sự kiện của tình huống. attr(X, thuoc_tinh, gia_tri) là "thuộc tính của X là giá trị";
   so sánh như attr(X, thoi_han) >= 1 là "thời hạn của X từ 1 trở lên" (đơn vị theo ngữ cảnh: tháng, đồng).
 - Mục loại "rule": một luật "nếu ... thì ...": viết "Nếu <các điều kiện> thì <kết luận / nghĩa vụ>".
+- Mục loại "goal": điều câu hỏi muốn biết, viết thành một câu khẳng định với chủ thể chung theo loại (vd
+  "Người lao động thuộc diện tham gia bảo hiểm xã hội bắt buộc", "Người lao động phải đóng bảo hiểm xã hội").
 
 Câu hỏi (để biết các thực thể là ai): {question}
 Loại của các thực thể: {types}
@@ -67,6 +75,17 @@ LAW_PROMPT = (
     "A. Đúng — quy định nêu (hoặc suy ra trực tiếp) đúng như mệnh đề\n"
     "B. Không xác định — quy định không đề cập đến nội dung của mệnh đề\n"
     "C. Sai — mệnh đề khác quy định (điều kiện, ngưỡng, đối tượng hoặc kết luận khác)\n"
+    "Trả lời A, B hoặc C.")
+
+
+# NLI-style prompt for the retrieval layer: is a norm left out ABOUT what the question asks?
+ABOUT_PROMPT = (
+    "Đoạn văn là một quy định pháp luật (kèm câu dẫn của khoản / điều chứa nó). Mệnh đề nêu điều mà người hỏi muốn "
+    "biết.\n\nĐoạn văn:\n{premise}\n\nMệnh đề:\n{hypothesis}\n\n"
+    "Quy định này có quyết định nội dung của mệnh đề không?\n"
+    "A. Có — quy định nêu khi nào (với ai, điều kiện gì) nội dung của mệnh đề là đúng\n"
+    "B. Không — quy định nói về việc khác (kể cả khi chỉ dùng nội dung của mệnh đề làm điều kiện cho một việc khác)\n"
+    "C. Có — quy định nêu khi nào (với ai, trường hợp nào) nội dung của mệnh đề là không đúng (loại trừ, ngoại lệ)\n"
     "Trả lời A, B hoặc C.")
 
 
@@ -102,11 +121,14 @@ def components(parts: list[dict], facts: list[str]) -> dict:
         atoms[cid] = {"atom": text, "kind": kind}
         return cid
 
+    goals = []
     for p in parts:
         if p["kind"] != "case":
             continue
+        goals.append({"id": f"g{len(goals) + 1}", "question": p["parsed"], "goal": p["goal"],
+                      "retrieved": p.get("retrieved", {})})
         heads = {"answer": set(), "contrary": set()}
-        for role in ("answers", "contrary"):
+        for role in ("answers", "contrary", "explore"):
             for a in p.get(role, []):
                 for m in a["missing"]:
                     atom_id(m, "required")
@@ -115,10 +137,14 @@ def components(parts: list[dict], facts: list[str]) -> dict:
                 for n in _leaves(a["proof"]):
                     if n.get("kind") == "fact" and not n["goal"].startswith("attr(tham_so"):
                         atom_id(fact_text.get(key(n["goal"]), n["goal"]), "checked")
-                    if a["status"] == "certain" and n.get("kind") == "rule" and n.get("norm") not in (None, "derived"):
+                    if role != "explore" and a["status"] == "certain" and n.get("kind") == "rule" \
+                            and n.get("norm") not in (None, "derived"):
                         if n["norm"] not in {r["norm"] for r in rules.values()}:
                             rules[f"n{len(rules) + 1}"] = {"norm": n["norm"]}
                         heads["answer" if role == "answers" else "contrary"].add(n["norm"])
+        if not (p.get("answers") or p.get("contrary") or p.get("explore")):
+            for f in facts:  # nothing was proved, even with assumptions: every parsed fact is suspect
+                atom_id(f, "checked")
         if any(a["status"] == "certain" for a in p.get("answers", [])) and \
                 any(a["status"] == "certain" for a in p.get("contrary", [])):
             rid = {r["norm"]: k for k, r in rules.items()}
@@ -128,7 +154,31 @@ def components(parts: list[dict], facts: list[str]) -> dict:
         if f.startswith("instance_of(") and any(f[12:].split(",")[0] in a["atom"] for a in list(atoms.values())
                                                 if a["kind"] != "presumed"):
             atom_id(f, "checked")
-    return {"atoms": atoms, "rules": rules, "competing": competing}
+    return {"atoms": atoms, "rules": rules, "competing": competing, "goals": goals, "near": {}}
+
+
+def near_misses(con, client, question: str, comps: dict) -> None:
+    """For each goal, the NEAR_MISS norms in force but not selected whose text is closest to the question."""
+    import numpy as np
+
+    from .canon import embed
+    from .retrieve import in_force
+
+    if not comps["goals"]:
+        return
+    on = __import__("datetime").date.today().isoformat()
+    norms = [(n, u) for n, u in con.execute("SELECT norm_id, unit_id FROM norms")]
+    texts = {u: law_premise(con, u) for _, u in norms}
+    qv = embed(con, client, [question])[0]
+    unit_ids = sorted(texts)
+    sims = dict(zip(unit_ids, (embed(con, client, [texts[u][:1500] for u in unit_ids]) @ qv).tolist())) \
+        if unit_ids else {}
+    for g in comps["goals"]:
+        left = [(sims[u], n, u) for n, u in norms if n not in g["retrieved"] and in_force(con, n, on)]
+        for _, n, u in sorted(left, reverse=True)[:NEAR_MISS]:
+            if n not in {r["norm"] for r in comps["near"].values()}:
+                comps["near"][f"r{len(comps['near']) + 1}"] = {"norm": n, "unit": u, "text": texts[u],
+                                                               "goal": g["id"]}
 
 
 def _cached_call(name: str, payload: str, fn):
@@ -149,6 +199,10 @@ def verbalise(client, question: str, facts: list[str], comps: dict, con) -> dict
         r.update(unit=d["unit"], text=law_premise(con, d["unit"]))
         items.append(f"- {nid} (rule): nếu {' VÀ '.join(d['conditions']) or '(không điều kiện)'} thì {d['head']} "
                      f"(chủ thể {d['holder']})")
+    for g in comps["goals"]:
+        q = g["question"]
+        items.append(f"- {g['id']} (goal): loại câu hỏi {q['type']}; truy vấn {g['goal']}; vị từ {q.get('pred')}; "
+                     f"thuộc tính {q.get('attr')}; phủ định {q.get('negated')}")
     types = ", ".join(f[12:-1] for f in facts if f.startswith("instance_of("))
     prompt = VERBALISE.format(question=question, types=types, items="\n".join(items))
 
@@ -172,10 +226,12 @@ def verbalise(client, question: str, facts: list[str], comps: dict, con) -> dict
 
 
 def nli(client, pairs: list[tuple[str, str, str]]) -> list[dict]:
-    """pairs: (premise, hypothesis, prompt) with prompt 'v4' (question premise) or 'law' (source text premise)."""
+    """pairs: (premise, hypothesis, prompt): 'v4' (a fact against the question), 'law' (a rule against its source
+    text) or 'about' (does the text of a norm left out decide the goal: entail / contra = yes, neutral = no)."""
     from diagnosis import nli_openai
 
     nli_openai.PROMPTS.setdefault("law", LAW_PROMPT)
+    nli_openai.PROMPTS.setdefault("about", ABOUT_PROMPT)
 
     def one(pair):
         p, h, pr = pair
@@ -232,25 +288,35 @@ def choose(diagnoses: list[list[str]], symptoms: list[str]) -> tuple[str, list[s
     user_only = [d for d in mins if layers(d) == {"user"}]
     if user_only:
         return "ask", sorted({comp(f) for d in user_only for f in d})
-    case_only = [d for d in mins if "kb" not in layers(d)]
+    case_only = [d for d in mins if not layers(d) & {"kb", "retrieval"}]
     if case_only:
         return "confirm", sorted({comp(f) for d in case_only for f in d if LAYER[f.split("(")[0]] == "parser"})
-    return "warn", sorted({c for d in mins for f in d if LAYER[f.split("(")[0]] == "kb" for c in comp(f).split(",")})
+    return "warn", sorted({c.strip() for d in mins for f in d if LAYER[f.split("(")[0]] in ("kb", "retrieval")
+                           for c in comp(f).split(",")})
 
 
 def verify(question: str, facts: list[str], parts: list[dict], con, client=None) -> dict:
     """Diagnose a run. Returns the components with their statements and NLI labels, the minimal diagnoses
     (fault atoms over component ids) and the chosen action with the components it is about."""
     comps = components(parts, facts)
-    if not comps["atoms"] and not comps["rules"]:
+    client = client or Extractor(VERBALISE_MODEL).client
+    near_misses(con, client, question, comps)
+    if not comps["atoms"] and not comps["rules"] and not comps["near"]:
         return {"components": [], "observations": [], "candidates": [], "symptoms": [], "diagnoses": [[]],
                 "action": "answer", "about": []}
-    client = client or Extractor(VERBALISE_MODEL).client
     stmt = verbalise(client, question, facts, comps, con)
-    ids = list(comps["atoms"]) + list(comps["rules"])
-    premises = [question if i in comps["atoms"] else comps["rules"][i]["text"] for i in ids]
-    scores = nli(client, [(p, stmt.get(i, ""), "v4" if i in comps["atoms"] else "law")
-                          for p, i in zip(premises, ids)])
+    ids = list(comps["atoms"]) + list(comps["rules"]) + list(comps["near"])
+
+    def pair(i):
+        if i in comps["atoms"]:
+            return question, stmt.get(i, ""), "v4"
+        if i in comps["rules"]:
+            return comps["rules"][i]["text"], stmt.get(i, ""), "law"
+        r = comps["near"][i]  # does the text of a norm left out say anything about what is asked?
+        return r["text"], stmt.get(r["goal"], ""), "about"
+
+    pairs = [pair(i) for i in ids]
+    scores = nli(client, pairs)
     obs, faults, table = [], [], []
     for i, sc in zip(ids, scores):
         best = max(sc, key=sc.get)
@@ -270,6 +336,15 @@ def verify(question: str, facts: list[str], parts: list[dict], con, client=None)
                 obs.append(f"q({i}, {label})")
             table.append({"id": i, "layer": "case", "kind": a["kind"], "item": a["atom"], "statement": stmt.get(i, ""),
                           "premise": "question", "label": label, **{f"p_{k}": round(v, 4) for k, v in sc.items()}})
+        elif i in comps["near"]:
+            r = comps["near"][i]
+            obs.append(f"near_miss({i})")
+            faults.append(f"omitted({i})")
+            if label:
+                obs.append(f"rettext({i}, {label})")
+            table.append({"id": i, "layer": "retrieval", "kind": "near_miss", "item": r["norm"],
+                          "statement": stmt.get(r["goal"], ""), "premise": r["unit"], "label": label,
+                          **{f"p_{k}": round(v, 4) for k, v in sc.items()}})
         else:
             r = comps["rules"][i]
             obs.append(f"rule_used({i})")
@@ -293,7 +368,8 @@ def verify(question: str, facts: list[str], parts: list[dict], con, client=None)
 FAULT_VI = {"missing": "câu hỏi không nêu", "omission": "bộ đọc câu hỏi bỏ sót (câu hỏi có nêu)",
             "misinterp": "bộ đọc câu hỏi đọc sai (câu hỏi nói điều ngược lại / giá trị khác)",
             "unsupported": "bộ đọc câu hỏi tự thêm (câu hỏi không nêu)",
-            "misencoded": "luật mã hoá không khớp nguyên văn", "kbconflict": "hai luật mâu thuẫn chưa được giải quyết"}
+            "misencoded": "luật mã hoá không khớp nguyên văn", "kbconflict": "hai luật mâu thuẫn chưa được giải quyết",
+         "omitted": "bước chọn luật bỏ sót một quy định nói về điều được hỏi"}
 ACTIONS = ("answer", "ask", "confirm", "warn", "unresolved")
 
 

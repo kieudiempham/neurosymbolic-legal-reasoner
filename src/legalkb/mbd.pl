@@ -10,6 +10,8 @@
       rule_used(N)    norm N is a step of a certain proof
       kbtext(N, L)    NLI between the source text of N and the verbalised N
       competing(N1, N2)          two norms prove incompatible conclusions about the same entity
+      near_miss(N)    norm N was not selected by step 2 although its text is close to the question
+      rettext(N, L)   NLI between the text of N and the verbalised goal of the question
     Missing NLI observations (unverified measurements) leave the label free.
 
     Fault atoms (one mode per component):
@@ -17,11 +19,13 @@
       parser layer  omission(C)       the question states C (or its negation) but the parser did not output it
                     misinterp(C)      the parser output C with the wrong polarity / value
                     unsupported(C)    the parser output C although the question does not state it
+      retrieval     omitted(N)        step 2 left out a norm that is about what the question asks
       KB layer      misencoded(N)     the rule N does not say what its source text says
                     kbconflict(N1, N2)  two applicable rules conflict and no exception or priority resolves them
 */
 
-:- dynamic required/1, presumed/1, checked/1, parsed/2, q/2, rule_used/1, kbtext/2, competing/2.
+:- dynamic required/1, presumed/1, checked/1, parsed/2, q/2, rule_used/1, kbtext/2, competing/2, near_miss/1,
+   rettext/2.
 
 relevant(C) :- required(C).
 relevant(C) :- presumed(C), \+ required(C).
@@ -68,6 +72,14 @@ rule_consistent(D, N) :-
     kb_label(N, L),
     ( memberchk(misencoded(N), D) -> L \== entail ; L == entail ), !.
 
+% Retrieval layer: a normal selection leaves out only norms that are not about the goal of the question.
+ret_label(N, L) :- rettext(N, L0), !, L = L0.
+ret_label(_, L) :- member(L, [entail, neutral, contra]).
+
+retrieval_consistent(D, N) :-
+    ret_label(N, L),
+    ( memberchk(omitted(N), D) -> L \== neutral ; L == neutral ), !.
+
 % Two competing applicable rules: consistent only if the pair is diagnosed as a conflict or one of the two
 % rules is misencoded (a normal KB has no unresolved conflict).
 pair_consistent(D, N1, N2) :-
@@ -78,12 +90,14 @@ well_formed(omission(C)) :- ( required(C) ; presumed(C) ).
 well_formed(misinterp(C)) :- checked(C).
 well_formed(unsupported(C)) :- checked(C).
 well_formed(misencoded(N)) :- rule_used(N).
+well_formed(omitted(N)) :- near_miss(N).
 well_formed(kbconflict(N1, N2)) :- competing(N1, N2).
 
 consistent(D) :-
     forall(member(F, D), well_formed(F)),
     forall(relevant(C), prop_consistent(D, C)),
     forall(rule_used(N), rule_consistent(D, N)),
+    forall(near_miss(N), retrieval_consistent(D, N)),
     forall(competing(N1, N2), pair_consistent(D, N1, N2)).
 
 % Minimum-cardinality diagnoses: sizes 0, 1, ... up to MaxK, stopping at the first size that has any.
@@ -108,6 +122,7 @@ component(omission(C), parser(C)).
 component(misinterp(C), parser(C)).
 component(unsupported(C), parser(C)).
 component(misencoded(N), kb(N)).
+component(omitted(N), retrieval(N)).
 component(kbconflict(A, B), kb(A, B)).
 
 one_mode_per_component(S) :-
@@ -123,12 +138,14 @@ serve :-
         writeln('END'), flush_output, fail ).
 
 handle(diag(Obs, Atoms, K)) :-
-    forall(member(P, [required/1, presumed/1, checked/1, parsed/2, q/2, rule_used/1, kbtext/2, competing/2]),
+    forall(member(P, [required/1, presumed/1, checked/1, parsed/2, q/2, rule_used/1, kbtext/2, competing/2,
+                      near_miss/1, rettext/2]),
            ( P = F/A, functor(H, F, A), retractall(H) )),
     maplist(assertz, Obs),
     % symptoms: components whose observations contradict the assumption that everything works normally
     forall(( relevant(C), \+ prop_consistent([], C) ), format("SYMPTOM ~q~n", [C])),
     forall(( rule_used(N), \+ rule_consistent([], N) ), format("SYMPTOM ~q~n", [N])),
     forall(competing(N1, N2), format("SYMPTOM ~q~n", [N1-N2])),
+    forall(( near_miss(N), \+ retrieval_consistent([], N) ), format("SYMPTOM ~q~n", [N])),
     minimal_diagnoses(Atoms, K, Ds),
     forall(member(D, Ds), (write_canonical(D), nl)).

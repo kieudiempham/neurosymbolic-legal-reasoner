@@ -86,14 +86,25 @@ def context(runs, run: int) -> tuple[str, str, str]:
             res.append("  - không có quy phạm nào trong cơ sở tri thức dẫn tới điều được hỏi")
     action = runs.execute("SELECT action, action_about FROM runs WHERE run_id=?", (run,)).fetchone()
     if action and action[0]:
-        stmts = dict(runs.execute("SELECT comp_id, statement FROM run_mbd_components WHERE run_id=?", (run,)))
-        about = [stmts.get(c, c) for c in json.loads(action[1] or "[]")]
+        comps = {c: (layer, item, st) for c, layer, item, st in runs.execute(
+            "SELECT comp_id, layer, item, statement FROM run_mbd_components WHERE run_id=?", (run,))}
+
+        def name(c):  # a fact by its statement; a rule / a norm left out by its source unit
+            layer, item, st = comps.get(c, ("", c, c))
+            if layer == "kb":
+                return f"luật theo {cite(item.split('#')[0])}: {st}"
+            if layer == "retrieval":
+                return f"quy định {cite(item.split('#')[0])} (có thể đã bị bỏ sót khi chọn luật)"
+            return st
+
+        about = [name(c) for c in json.loads(action[1] or "[]")]
         res.append("\nKIỂM TRA (chẩn đoán) TRƯỚC KHI TRẢ LỜI: " + {
             "answer": "không phát hiện lỗi; trả lời bình thường.",
             "ask": "thiếu thông tin trong câu hỏi; hỏi người dùng về: " + "; ".join(about),
             "confirm": "có thể hệ thống đã hiểu sai câu hỏi ở các điểm sau; KHÔNG kết luận chắc chắn, hãy nêu cách "
                        "hiểu này và đề nghị người dùng xác nhận hoặc sửa: " + "; ".join(about),
-            "warn": "luật được dùng có thể mã hoá không khớp nguyên văn; trả lời kèm cảnh báo rõ ràng về các luật: "
+            "warn": "luật được dùng có thể sai hoặc có quy định bị bỏ sót; KHÔNG kết luận chắc chắn, nói rõ kết luận "
+                    "có thể sai và nêu các điểm: "
                     + "; ".join(about),
             "unresolved": "hệ thống phát hiện điểm bất thường nhưng không xác định được nguyên nhân; KHÔNG kết luận "
                           "chắc chắn, nêu rằng cần người hỏi kiểm tra lại các điểm: " + "; ".join(about)}[action[0]])

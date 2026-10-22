@@ -36,8 +36,10 @@ class Reasoner:
         atexit.register(self.close)
 
     def query(self, facts: list[str], goal: str, false_facts: list[str] = (), max_missing: int = 2,
-              limit: int = 50) -> dict:
-        req = f"q([{', '.join(facts)}], [{', '.join(false_facts)}], ({goal}), {max_missing}, {limit}).\n"
+              limit: int = 50, allowed: list[str] | None = None) -> dict:
+        """allowed: the norms the proofs may use (step 2 candidates); None: every norm of the KB."""
+        allow = "all" if allowed is None else "[" + ", ".join("'" + n.replace("'", "\\'") + "'" for n in allowed) + "]"
+        req = f"q([{', '.join(facts)}], [{', '.join(false_facts)}], ({goal}), {max_missing}, {limit}, {allow}).\n"
         with self.lock:
             self.proc.stdin.write(req)
             self.proc.stdin.flush()

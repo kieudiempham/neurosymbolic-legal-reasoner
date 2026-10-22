@@ -126,16 +126,34 @@ def law_answer(con, q: Question) -> list[dict]:
     return [describe_norm(con, n) for n in ids]
 
 
-def answer(q: Question, facts: list[str], reasoner, con, false_facts: list[str] = ()) -> dict:
+EXPLORE_MISSING = 4  # when no proof exists: how many missing facts the exploring proofs may assume
+
+
+def answer(q: Question, facts: list[str], reasoner, con, false_facts: list[str] = (), on: str | None = None,
+           retrieval: bool = True, drop: set[str] = frozenset(), add: set[str] = frozenset()) -> dict:
+    """on: the date the question is about (ISO); norms not in force then are not candidates.
+    drop: norms removed from the candidates (fault injection of a retrieval omission); add: norms added to them
+    (repair after the diagnosis blamed step 2)."""
+    from .retrieve import candidates
+
     if q.type in ("who", "conditions", "exceptions", "definition", "validity"):
         return {"type": q.type, "kind": "law", "norms": law_answer(con, q)}
-    answers = reasoner.query(facts, goal(q), list(false_facts))["answers"]
+    retrieved = {n: w for n, w in candidates(con, q, on).items() if n not in drop} if retrieval else {}
+    retrieved.update({n: "thêm lại sau chẩn đoán (bước chọn luật đã bỏ sót)" for n in add})
+    allowed = list(retrieved) if retrieval else None
+    answers = reasoner.query(facts, goal(q), list(false_facts), allowed=allowed)["answers"]
     contrary = []
     if q.type == "status" and not any(a["status"] == "certain" for a in answers):
         # "is X in scope?" -> also look for a proof of the opposite (an exclusion), which makes the answer "no"
         flipped = Question(**{**q.__dict__, "negated": not q.negated})
-        contrary = reasoner.query(facts, goal(flipped), list(false_facts))["answers"]
-    for a in answers + contrary:  # the norms a proof uses, with their text, are the legal basis of the answer
+        contrary = reasoner.query(facts, goal(flipped), list(false_facts), allowed=allowed)["answers"]
+    explore = []
+    if not answers and not contrary:
+        # no proof at all: proofs that may assume more missing facts show what the answer would have needed,
+        # so the diagnosis still has components (a parser error that kills every proof is not silent)
+        explore = reasoner.query(facts, goal(q), list(false_facts), max_missing=EXPLORE_MISSING,
+                                 allowed=allowed)["answers"]
+    for a in answers + contrary + explore:  # the norms a proof uses, with their text, are the legal basis
         used, stack = [], [a["proof"]]
         while stack:
             n = stack.pop()
@@ -153,4 +171,4 @@ def answer(q: Question, facts: list[str], reasoner, con, false_facts: list[str] 
     else:
         verdict = "no"           # no norm leads to it
     return {"type": q.type, "kind": "case", "goal": goal(q), "verdict": verdict, "answers": answers,
-            "contrary": contrary}
+            "contrary": contrary, "explore": explore, "retrieved": retrieved}

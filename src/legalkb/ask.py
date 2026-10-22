@@ -17,7 +17,7 @@ from datetime import datetime
 from .compile import PL_FILE
 from .db import DB_FILE, connect
 from .parse import Parser
-from .questions import answer
+from .questions import Question, answer
 from .reason import Reasoner, render
 from .trace import RUNS_DB, connect_runs, save_run
 
@@ -59,6 +59,16 @@ class Asker:
 
                 t2 = time.perf_counter()
                 self.last_mbd = verify(text, facts, parts, self.con, self.parser.ex.client)
+                omitted = {c["item"] for c in self.last_mbd["components"]
+                           if c["layer"] == "retrieval" and c["id"] in self.last_mbd["about"]}
+                if self.last_mbd["action"] == "warn" and omitted:
+                    # repair: step 2 left out norms about the goal; reason again with them, then diagnose again
+                    first = self.last_mbd
+                    parts = [{**p, **answer(Question(**p["parsed"]), self.parameters + facts, self.reasoner, self.con,
+                                            false_facts, add=omitted)} if p["kind"] == "case" else p for p in parts]
+                    self.last_mbd = verify(text, facts, parts, self.con, self.parser.ex.client)
+                    self.last_mbd["repaired_from"] = {"action": first["action"], "added_norms": sorted(omitted),
+                                                      "diagnoses": first["diagnoses"]}
                 mbd_seconds = time.perf_counter() - t2
         except Exception as e:  # noqa: BLE001
             if "insufficient_quota" in str(e):

@@ -24,7 +24,7 @@ BASE = ["instance_of(toi, nguoi_lao_dong)", "instance_of(cong_ty, nguoi_su_dung_
 INDEFINITE = "attr(hd1, loai_hop_dong, khong_xac_dinh_thoi_han)"
 PENSION = "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
 
-# name, question, facts, false facts, KB variant, expected action, expected fault mode
+# name, question, facts, false facts, KB variant, expected action, expected fault mode[, norms dropped by step 2]
 CASES = [
     ("normal", "Tôi làm việc cho công ty theo hợp đồng lao động không xác định thời hạn và không hưởng lương hưu. "
                "Tôi có thuộc diện bảo hiểm xã hội bắt buộc không?",
@@ -43,6 +43,13 @@ CASES = [
     ("misencoded", "Tôi ký hợp đồng lao động xác định thời hạn 3 tháng với công ty và không hưởng lương hưu. "
                    "Tôi có thuộc diện bảo hiểm xã hội bắt buộc không?",
      BASE + ["attr(hd1, thoi_han, 3)"], [PENSION], "half_month", "warn", "misencoded"),
+    ("retrieval", "Tôi đang hưởng lương hưu và vẫn làm việc cho công ty theo hợp đồng lao động không xác định thời "
+                  "hạn. Tôi có thuộc diện bảo hiểm xã hội bắt buộc không?",
+     BASE + [INDEFINITE, PENSION], [], "ok", "warn", "omitted", {"41/2024/QH15:D2.K7.a#2"}),
+    ("no_proof", "Tôi làm việc cho công ty theo hợp đồng lao động không xác định thời hạn và không hưởng lương hưu. "
+                 "Tôi có thuộc diện bảo hiểm xã hội bắt buộc không?",
+     ["instance_of(toi, nguoi_su_dung_lao_dong)"] + BASE[1:] + [INDEFINITE], [PENSION], "ok", "confirm",
+     "misinterp"),
 ]
 
 
@@ -67,9 +74,9 @@ def main() -> int:
     reasoners = {k: Reasoner(pl) for k, (_, pl) in kbs.items()}
     runs = connect_runs()
     ok = True
-    for name, question, facts, false_facts, kb, want_action, want_mode in CASES:
+    for name, question, facts, false_facts, kb, want_action, want_mode, *drop in CASES:
         con, pl = kbs[kb]
-        part = answer(STATUS, PARAMETERS + facts, reasoners[kb], con, false_facts)
+        part = answer(STATUS, PARAMETERS + facts, reasoners[kb], con, false_facts, drop=drop[0] if drop else set())
         part.update(question=question, facts=facts, false_facts=false_facts, parsed=STATUS.__dict__, seconds=0)
         mbd = verify(question, facts, [part], con)
         run = save_run(runs, time="test", question=question, kb_program=str(pl), kb_database="", parser_model="(hand)",

@@ -14,12 +14,13 @@
     (a dependency cycle cannot loop).
 
     Server protocol (stdin/stdout, one request per line):
-      q(Facts, FalseFacts, Goal, MaxMissing, Limit).   ->  one JSON line with the answers, then END
+      q(Facts, FalseFacts, Goal, MaxMissing, Limit[, Allowed]).   ->  one JSON line with the answers, then END
+    Allowed: the candidate norms of the question (step 2); a rule of another norm is not used. Default: all.
 */
 
 :- use_module(library(http/json)).
 :- use_module(library(solution_sequences)).
-:- dynamic case_fact/1, false_fact/1, known_entity/1.
+:- dynamic case_fact/1, false_fact/1, known_entity/1, allowed/1, restricted/0.
 
 % ---------------------------------------------------------------------------------------------------- the case
 load_case(Facts, FalseFacts) :-
@@ -70,6 +71,7 @@ prove(G, P, A0, A, S) :- derived(G), !,
     length(S, D), D < 60,
     clause(G, Body),
     source(G, Src),
+    ( Src == derived ; \+ restricted ; allowed(Src) ),   % only the candidate norms of the question (step 2)
     prove(Body, PB, A0, A, [G|S]),
     P = node(G, Src, PB).
 prove(G, P, A0, A, _) :-                       % base predicate: a case fact, or an assumable missing fact
@@ -150,7 +152,10 @@ serve :-
     ;   catch(handle(T), E, (print_message(error, E), format("ERROR ~q~n", [E]))),
         format("END~n"), flush_output, fail ).
 
-handle(q(Facts, FalseFacts, Goal, Max, Limit)) :-
+handle(q(Facts, FalseFacts, Goal, Max, Limit)) :- handle(q(Facts, FalseFacts, Goal, Max, Limit, all)).
+handle(q(Facts, FalseFacts, Goal, Max, Limit, Allowed)) :-
+    retractall(allowed(_)), retractall(restricted),
+    ( Allowed == all -> true ; assertz(restricted), forall(member(N, Allowed), assertz(allowed(N))) ),
     load_case(Facts, FalseFacts),
     solve(Goal, Max, Limit, Answers),
     json_write_dict(user_output, _{answers: Answers}, [width(0)]), nl.

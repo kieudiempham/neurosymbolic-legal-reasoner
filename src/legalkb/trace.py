@@ -16,6 +16,7 @@ Tables
   run_proof_nodes   the proof tree of each answer, one row per node (parent_id links a node to its parent)
   run_basis         the legal basis of each answer: the units its proof uses, with their text
   run_law_norms     norms returned by a law question (who / conditions / exceptions / definition)
+  run_candidates    the candidate norms step 2 selected for each case sub-question, with the reason
   MBD (step 4, verify.py), so the diagnosis can be followed step by step:
   run_mbd_components   each component: layer, kind (checked / required / presumed / rule), the atom or norm, its
                        Vietnamese statement, the premise it was measured against (question / unit of the norm),
@@ -64,6 +65,8 @@ CREATE TABLE IF NOT EXISTS run_proof_nodes (
   goal TEXT, kind TEXT, norm TEXT, PRIMARY KEY (answer_id, node_id));
 CREATE TABLE IF NOT EXISTS run_basis (
   answer_id INTEGER NOT NULL REFERENCES run_answers(answer_id), unit TEXT, norm TEXT, text TEXT);
+CREATE TABLE IF NOT EXISTS run_candidates (
+  run_id INTEGER NOT NULL REFERENCES runs(run_id), q_no INTEGER, norm TEXT, reason TEXT);
 CREATE TABLE IF NOT EXISTS run_mbd_components (
   run_id INTEGER NOT NULL REFERENCES runs(run_id), comp_id TEXT, layer TEXT, kind TEXT, item TEXT, statement TEXT,
   premise TEXT, label TEXT, p_entail REAL, p_neutral REAL, p_contra REAL, symptom INTEGER,
@@ -129,6 +132,8 @@ def save_run(con, *, time: str, question: str, kb_program: str, kb_database: str
                 (run, q_no, n["norm"], n["unit"], n["modality"], n["holder"], " AND ".join(n["conditions"]),
                  n["head"], ", ".join(n["exceptions"]), n["text"]) for n in p["norms"]])
             continue
+        con.executemany("INSERT INTO run_candidates VALUES (?,?,?,?)",
+                        [(run, q_no, n, why) for n, why in p.get("retrieved", {}).items()])
         for role, answers in (("answer", p["answers"]), ("contrary", p.get("contrary", []))):
             for a_no, a in enumerate(answers, 1):
                 aid = con.execute(
@@ -163,6 +168,12 @@ def save_run(con, *, time: str, question: str, kb_program: str, kb_database: str
             (run, i, len(d), "[" + ", ".join(d) + "]",
              "; ".join(explain(f, mbd["components"]) for f in d) or "không có lỗi (mọi thành phần bình thường)")
             for i, d in enumerate(mbd["diagnoses"], 1)])
+        if mbd.get("repaired_from"):
+            r = mbd["repaired_from"]
+            con.execute("INSERT INTO run_steps VALUES (?,?,?,?,?,?)",
+                        (run, step + 1, "verify", None, f"repair: first diagnosis {r['diagnoses']} (action "
+                                                        f"{r['action']}), norms added to the candidates "
+                                                        f"{r['added_norms']}, reasoned and diagnosed again", 0))
         con.execute("UPDATE runs SET action=?, action_about=? WHERE run_id=?",
                     (mbd["action"], json.dumps(mbd["about"]), run))
     con.commit()
@@ -195,6 +206,9 @@ def show_run(con, run: int) -> str:
                         "SELECT unit, modality, holder, conditions, head, exceptions FROM run_law_norms "
                         "WHERE run_id=? AND q_no=?", (run, q_no))]
             continue
+        cands = con.execute("SELECT norm, reason FROM run_candidates WHERE run_id=? AND q_no=?", (run, q_no)).fetchall()
+        if cands:
+            out.append(f"  luật ứng viên (bước 2): " + "; ".join(f"{n} ({w})" for n, w in cands))
         out.append(f"  truy vấn {goal}  ->  {verdict}")
         for aid, role, status, g, missing, presumed in con.execute(
                 "SELECT answer_id, role, status, goal, missing, presumed_absent FROM run_answers WHERE run_id=? AND "
