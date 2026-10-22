@@ -1,0 +1,76 @@
+{
+ "model": "gpt-4o-mini",
+ "embedding_model": "intfloat/multilingual-e5-base",
+ "cluster_similarity_threshold": 0.955,
+ "max_cluster_size": 8,
+ "before": {
+  "rules": 7906,
+  "predicates_used": 5410,
+  "predicates_declared": 3891,
+  "predicates_used_by_2plus_rules": 2034,
+  "reuse_rate": 0.376,
+  "mean_rules_per_predicate": 3.241,
+  "cross_domain_shared_predicates": 62,
+  "rules_with_premise_derivable_by_another_rule": 2928,
+  "rules_with_premise_derivable_pct": 0.3704,
+  "rules_with_undeclared_predicates": 1921,
+  "undeclared_predicates": 1520
+ },
+ "before_dedup_only": {
+  "rules": 6653,
+  "predicates_used": 5386,
+  "predicates_declared": 3891,
+  "predicates_used_by_2plus_rules": 1971,
+  "reuse_rate": 0.3659,
+  "mean_rules_per_predicate": 2.816,
+  "cross_domain_shared_predicates": 62,
+  "rules_with_premise_derivable_by_another_rule": 2310,
+  "rules_with_premise_derivable_pct": 0.3472,
+  "rules_with_undeclared_predicates": 1852,
+  "undeclared_predicates": 1516
+ },
+ "after": {
+  "rules": 6616,
+  "predicates_used": 5279,
+  "predicates_declared": 5280,
+  "predicates_used_by_2plus_rules": 1949,
+  "reuse_rate": 0.3692,
+  "mean_rules_per_predicate": 2.854,
+  "cross_domain_shared_predicates": 61,
+  "rules_with_premise_derivable_by_another_rule": 2346,
+  "rules_with_premise_derivable_pct": 0.3546,
+  "rules_with_undeclared_predicates": 0,
+  "undeclared_predicates": 0
+ },
+ "rules_dropped_by_dedup_only": {
+  "duplicate_in_same_document": 1124,
+  "trivial_conclusion_in_premises": 127,
+  "contradictory_premises": 2
+ },
+ "undeclared_declared_by_llm": 1520,
+ "undeclared_dropped": 0,
+ "candidate_clusters": 1041,
+ "predicates_in_candidate_clusters": 2684,
+ "pair_checks": {
+  "candidate_pairs": 2749,
+  "stage_a_accepted": 204,
+  "stage_a_negation": 47,
+  "stage_b_accepted": 90,
+  "stage_b_negation": 25
+ },
+ "merge_groups": 81,
+ "predicates_merged_away": 83,
+ "negation_merges": 23,
+ "rules_renamed": 192,
+ "rules_dropped": {
+  "duplicate_in_same_document": 1129,
+  "trivial_conclusion_in_premises": 159,
+  "contradictory_premises": 2
+ },
+ "api_calls": 1196,
+ "tokens_in": 961757,
+ "tokens_out": 295911,
+ "estimated_cost_usd": 0.3218,
+ "seconds": 45,
+ "review_status": "draft (LLM-merged, not manually verified)"
+}

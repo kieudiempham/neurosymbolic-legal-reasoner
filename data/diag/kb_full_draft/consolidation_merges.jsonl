@@ -1,0 +1,81 @@
+{"canonical": "allowed_to_work_light_jobs", "members": [{"pred": "age_at_least_13", "neg": false}], "reason": "Tên rõ nghĩa, khẳng định và cụ thể về quyền làm việc của người lao động trong độ tuổi từ 13 đến 15."}
+{"canonical": "worker_minor", "members": [{"pred": "age_under_18", "neg": false}], "reason": "Tên rõ nghĩa, cụ thể và phù hợp với ngữ cảnh lao động chưa thành niên."}
+{"canonical": "arbitration_council_reports_annually", "members": [{"pred": "arbitration_council_reports_to_provincial_committee", "neg": false}], "reason": "Tên này rõ ràng và cụ thể hơn, nhấn mạnh vào tần suất báo cáo hàng năm."}
+{"canonical": "base_salary_abrogated", "members": [{"pred": "base_salary_not_abrogated", "neg": true}], "reason": "Tên này rõ ràng và ưu tiên dạng khẳng định, phù hợp với yêu cầu."}
+{"canonical": "both_parents_insured", "members": [{"pred": "is_both_parents_insured", "neg": false}], "reason": "Tên này rõ ràng, khẳng định và được sử dụng trong nhiều luật."}
+{"canonical": "reporting_usage_is_required", "members": [{"pred": "both_parties_must_report_usage", "neg": false}], "reason": "Tên này rõ ràng và cụ thể hơn, nhấn mạnh vào yêu cầu báo cáo."}
+{"canonical": "business_renting_out_must_deposit", "members": [{"pred": "business_renting_out_must_deposit_money", "neg": false}], "reason": "fallback: most used"}
+{"canonical": "can_access_workers_at_workplace", "members": [{"pred": "can_access_workers_for_tasks", "neg": false}], "reason": "Tên này rõ ràng và cụ thể hơn, đồng thời được sử dụng trong nhiều luật hơn."}
+{"canonical": "can_account_separately_vat", "members": [{"pred": "not_can_account_separately_vat", "neg": true}], "reason": "Dạng khẳng định, rõ nghĩa và cụ thể."}
+{"canonical": "can_advance_salary", "members": [{"pred": "not_can_advance_salary", "neg": true}], "reason": "Tên khẳng định rõ ràng và cụ thể về khả năng tạm ứng tiền lương của người lao động."}
+{"canonical": "can_agree_on_additional_time_for_representation", "members": [{"pred": "can_negotiation_time_with_employer", "neg": false}], "reason": "Tên này rõ nghĩa và cụ thể hơn, nhấn mạnh vào khả năng thỏa thuận về thời gian."}
+{"canonical": "is_preferred_dividend_shareholder", "members": [{"pred": "can_receive_dividend", "neg": false}], "reason": "fallback: most used"}
+{"canonical": "freedom_to_choose_job", "members": [{"pred": "can_choose_job", "neg": false}], "reason": "Tên rõ nghĩa, khẳng định quyền tự do lựa chọn việc làm."}
+{"canonical": "can_temporarily_close_workplace", "members": [{"pred": "not_allowed_to_temporarily_close_workplace", "neg": true}], "reason": "Dạng khẳng định rõ ràng và cụ thể hơn."}
+{"canonical": "can_withdraw_deposit", "members": [{"pred": "cannot_withdraw_deposit", "neg": true}], "reason": "fallback: most used"}
+{"canonical": "child_under_3_years", "members": [{"pred": "child_age_under_3", "neg": false}], "reason": "Tên rõ nghĩa, cụ thể và được sử dụng phổ biến hơn."}
+{"canonical": "tax_management_force_built", "members": [{"pred": "clean_and_strong_tax_management_force", "neg": false}], "reason": "Tên này rõ ràng và cụ thể hơn, dễ hiểu và không bắt đầu bằng phủ định."}
+{"canonical": "compulsory_si", "members": [{"pred": "not_compulsory_si", "neg": true}], "reason": "curated"}
+{"canonical": "eligible_for_social_assistance", "members": [{"pred": "covered_by_article_21", "neg": false}], "reason": "Tên này rõ nghĩa và khẳng định hơn, phù hợp với ngữ cảnh về việc đủ điều kiện nhận trợ cấp xã hội."}
+{"canonical": "entitled_pension", "members": [{"pred": "covered_point_n", "neg": false}], "reason": "curated"}
+{"canonical": "overtime_hours_within_limit", "members": [{"pred": "not_exceed_50_percent_overtime", "neg": false}], "reason": "Tên này rõ nghĩa, khẳng định và được sử dụng nhiều hơn trong các quy định pháp lý."}
+{"canonical": "daily_overtime_limit", "members": [{"pred": "not_exceed_12_hours_daily", "neg": false}], "reason": "Tên này rõ nghĩa, khẳng định và mô tả chính xác giới hạn giờ làm việc hàng ngày."}
+{"canonical": "deceased", "members": [{"pred": "is_worker_dead", "neg": false}], "reason": "Tên ngắn gọn, rõ nghĩa và không bắt đầu bằng phủ định, phù hợp với ngữ cảnh pháp lý."}
+{"canonical": "dialogue_between_workers_and_employers", "members": [{"pred": "employer_and_employee_dialogue", "neg": false}], "reason": "Tên này rõ nghĩa, cụ thể và được sử dụng nhiều hơn trong các văn bản pháp lý."}
+{"canonical": "must_agree_on_salary", "members": [{"pred": "must_negotiation_salary", "neg": false}], "reason": "Tên này rõ ràng và cụ thể, thể hiện yêu cầu thỏa thuận về tiền lương giữa người lao động và người sử dụng lao động."}
+{"canonical": "employer_has_less_than_1000_workers", "members": [{"pred": "employer_has_between_500_and_1000_workers", "neg": true}], "reason": "Tên này rõ ràng và tổng quát hơn, dễ hiểu và không bắt đầu bằng phủ định."}
+{"canonical": "overtime_hours_above_200_and_below_300", "members": [{"pred": "employer_location", "neg": false}], "reason": "Tên này rõ ràng, cụ thể và đã được sử dụng trong nhiều luật, phù hợp với yêu cầu về tính khẳng định."}
+{"canonical": "entitled_lump_sum", "members": [{"pred": "not_entitled_lump_sum", "neg": true}], "reason": "curated"}
+{"canonical": "government_regulation_detail", "members": [{"pred": "government_regulates_details", "neg": false}], "reason": "Tên này rõ ràng và cụ thể hơn, đồng thời đã được sử dụng trong nhiều luật."}
+{"canonical": "has_given_birth", "members": [{"pred": "has_child_birth", "neg": false}], "reason": "Được sử dụng trong nhiều luật hơn và rõ nghĩa hơn."}
+{"canonical": "has_direct_caregiver", "members": [{"pred": "has_no_direct_caregiver", "neg": true}], "reason": "Dạng khẳng định rõ ràng và cụ thể, dễ hiểu."}
+{"canonical": "has_full_salary_during_detention", "members": [{"pred": "not_has_full_salary_during_detention", "neg": true}], "reason": "Dạng khẳng định, rõ nghĩa và cụ thể."}
+{"canonical": "has_full_salary_during_suspension", "members": [{"pred": "not_has_full_salary_during_suspension", "neg": true}], "reason": "Dạng khẳng định, rõ nghĩa và cụ thể."}
+{"canonical": "has_heirs", "members": [{"pred": "has_no_heirs", "neg": true}], "reason": "Dạng khẳng định rõ ràng và cụ thể hơn, phù hợp với ưu tiên không bắt đầu bằng phủ định."}
+{"canonical": "has_investment_scale_at_least_12000_billion", "members": [{"pred": "taxpayer_includes_large_investment_project", "neg": false}], "reason": "Tên này rõ ràng, cụ thể và được sử dụng nhiều hơn trong các luật."}
+{"canonical": "new_companies_inherit_rights_and_obligations", "members": [{"pred": "has_new_companies", "neg": false}], "reason": "Tên này rõ ràng, cụ thể và không bắt đầu bằng phủ định, phù hợp với yêu cầu."}
+{"canonical": "is_independent_enterprise", "members": [{"pred": "has_rights_and_duties_of_independent_enterprise", "neg": false}], "reason": "Tên này ngắn gọn, rõ nghĩa và phù hợp với ngữ cảnh pháp lý, đồng thời không bắt đầu bằng phủ định."}
+{"canonical": "is_electronic_invoice_with_tax_code", "members": [{"pred": "is_electronic_invoice_without_tax_code", "neg": true}], "reason": "Tên này rõ nghĩa, khẳng định và được sử dụng nhiều hơn trong các quy định pháp lý."}
+{"canonical": "invoice_has_no_tax_code", "members": [{"pred": "invoice_has_tax_code", "neg": true}], "reason": "fallback: most used"}
+{"canonical": "has_worker_organization", "members": [{"pred": "must_have_worker_organization", "neg": false}], "reason": "Tên này rõ nghĩa, khẳng định và được sử dụng nhiều trong các quy định pháp lý."}
+{"canonical": "invoice_content_must_be_consistent", "members": [{"pred": "invoice_is_legal_document", "neg": false}], "reason": "Tên này rõ ràng, cụ thể và ưu tiên dạng khẳng định, phù hợp với nội dung của cả hai predicate."}
+{"canonical": "taxpayer_authorized_to_use_invoice", "members": [{"pred": "is_taxpayer_authorized_to_use_invoice", "neg": false}], "reason": "Tên ngắn gọn, rõ nghĩa và không bắt đầu bằng phủ định."}
+{"canonical": "is_electronic_invoice", "members": [{"pred": "invoice_type_is_electronic", "neg": false}], "reason": "Tên ngắn gọn, rõ nghĩa và được sử dụng trong nhiều ngữ cảnh."}
+{"canonical": "is_falsified_registration_content", "members": [{"pred": "is_application_fraudulent", "neg": false}], "reason": "fallback: most used"}
+{"canonical": "is_case_a", "members": [{"pred": "is_case_b", "neg": false}, {"pred": "is_case_c", "neg": false}, {"pred": "is_case_d", "neg": false}], "reason": "fallback: most used"}
+{"canonical": "is_tax_deduction", "members": [{"pred": "is_expense_not_deductible", "neg": true}], "reason": "Tên này rõ nghĩa, khẳng định và được sử dụng nhiều hơn trong ngữ cảnh pháp lý liên quan đến khoản chi được trừ thuế."}
+{"canonical": "is_general_partner", "members": [{"pred": "must_be_fully_responsible", "neg": false}], "reason": "Tên này rõ nghĩa và cụ thể hơn, chỉ rõ vai trò của thành viên hợp danh trong doanh nghiệp."}
+{"canonical": "is_high_technology_enterprise", "members": [{"pred": "is_high_technology_business", "neg": false}], "reason": "Tên này được sử dụng trong nhiều luật và rõ ràng hơn về đối tượng là doanh nghiệp."}
+{"canonical": "is_individual_or_family", "members": [{"pred": "taxpayer_is_individual_or_family", "neg": false}], "reason": "Tên này rõ nghĩa, tổng quát và được sử dụng nhiều hơn trong các luật."}
+{"canonical": "must_not_issue_securities", "members": [{"pred": "is_not_allowed_to_issue_securities", "neg": false}], "reason": "fallback: most used"}
+{"canonical": "is_not_an_enterprise", "members": [{"pred": "is_not_type_of_enterprise", "neg": false}], "reason": "fallback: most used"}
+{"canonical": "is_processed_product", "members": [{"pred": "is_not_processed", "neg": true}], "reason": "Tên này rõ nghĩa, khẳng định và được sử dụng phổ biến để chỉ sản phẩm đã qua chế biến."}
+{"canonical": "is_small_and_medium_enterprise", "members": [{"pred": "is_not_small_and_medium_enterprise", "neg": true}], "reason": "Tên khẳng định rõ ràng và cụ thể, phù hợp với định nghĩa về doanh nghiệp nhỏ và vừa."}
+{"canonical": "must_have_quorum_for_meeting", "members": [{"pred": "is_present_members_at_least_75_percent", "neg": false}], "reason": "Tên này rõ nghĩa, khẳng định yêu cầu về số lượng thành viên tham dự trong cuộc họp."}
+{"canonical": "is_processing_termination", "members": [{"pred": "is_processing_termination_of_activity", "neg": false}], "reason": "Tên ngắn gọn, rõ nghĩa và đã được sử dụng trong cả hai predicate."}
+{"canonical": "labor_arbitrators_follow_regulations", "members": [{"pred": "labor_arbitrators_perform_tasks_as_per_regulations", "neg": false}], "reason": "Tên này rõ ràng và cụ thể, không bắt đầu bằng phủ định, phù hợp với yêu cầu về tính khẳng định."}
+{"canonical": "labor_arbitrators_participate_in_labor_arbitration_board", "members": [{"pred": "labor_arbitrators_perform_tasks_of_labor_arbitration_board", "neg": false}], "reason": "Tên này rõ ràng và khẳng định, phù hợp với yêu cầu ưu tiên dạng khẳng định."}
+{"canonical": "labor_export_payment_document_exists", "members": [{"pred": "valid_labor_export_payment_document", "neg": false}], "reason": "Tên này rõ nghĩa và cụ thể, phù hợp với yêu cầu về dạng khẳng định."}
+{"canonical": "loss_transfer_period", "members": [{"pred": "loss_transfer_limit_5_years", "neg": false}], "reason": "Tên này rõ nghĩa, khẳng định và tổng quát hơn, phù hợp với nội dung quy định về thời gian chuyển lỗ."}
+{"canonical": "not_required_mediation", "members": [{"pred": "mediation_not_required", "neg": false}], "reason": "fallback: most used"}
+{"canonical": "must_include_decisions", "members": [{"pred": "must_include_discussion_summary", "neg": false}], "reason": "fallback: most used"}
+{"canonical": "must_enforce_tax_collection_measures", "members": [{"pred": "tax_authority_must_enforce_tax_collection_measures", "neg": false}], "reason": "Tên này rõ nghĩa, cụ thể và không bắt đầu bằng phủ định, phù hợp với yêu cầu."}
+{"canonical": "must_issue_business_certificate", "members": [{"pred": "must_issue_business_registration_certificate", "neg": false}], "reason": "Tên này rõ ràng, cụ thể và được sử dụng nhiều hơn trong các văn bản pháp lý."}
+{"canonical": "must_include_vote_results_in_registration_documents", "members": [{"pred": "must_include_ballot_results_in_registration_documents", "neg": false}], "reason": "Tên này rõ nghĩa và cụ thể hơn, sử dụng từ 'vote' phổ biến hơn trong ngữ cảnh pháp lý."}
+{"canonical": "must_not_pay_service_fee_for_e_invoice_with_tax_code", "members": [{"pred": "must_pay_service_fee_for_e_invoice_with_tax_code", "neg": true}], "reason": "fallback: most used"}
+{"canonical": "must_provide_investment_certificate", "members": [{"pred": "must_not_provide_investment_certificate", "neg": true}], "reason": "fallback: most used"}
+{"canonical": "must_pay_registration_fee", "members": [{"pred": "must_not_refund_registration_fee", "neg": true}], "reason": "fallback: most used"}
+{"canonical": "must_notify_workers", "members": [{"pred": "must_notify_worker", "neg": false}], "reason": "Tên này rõ ràng, cụ thể và được sử dụng trong nhiều luật, phù hợp với dạng khẳng định."}
+{"canonical": "not_return_to_work", "members": [{"pred": "must_return_to_work", "neg": true}], "reason": "fallback: most used"}
+{"canonical": "taxpayer_must_use_electronic_transactions", "members": [{"pred": "must_use_electronic_transactions", "neg": false}], "reason": "Tên rõ nghĩa, cụ thể và được sử dụng trong ngữ cảnh pháp lý."}
+{"canonical": "natural_disaster", "members": [{"pred": "natural_disaster_occurs", "neg": false}], "reason": "Tên ngắn gọn, rõ nghĩa và không bắt đầu bằng phủ định."}
+{"canonical": "negotiation_deadline_expired", "members": [{"pred": "negotiation_deadline_not_expired", "neg": true}], "reason": "Dễ hiểu và rõ ràng, thể hiện trạng thái đã hết thời hạn thương lượng."}
+{"canonical": "not_receive_award", "members": [{"pred": "not_receive_awards", "neg": false}], "reason": "fallback: most used"}
+{"canonical": "organization_must_delegate_invoice_creation", "members": [{"pred": "third_party_issued_receipt", "neg": false}], "reason": "Tên này rõ ràng, khẳng định và mô tả chính xác nghĩa vụ của tổ chức trong việc ủy nhiệm lập biên lai."}
+{"canonical": "secretary_performs_admin_tasks", "members": [{"pred": "secretary_ensures_arbitration_council_operations", "neg": false}], "reason": "Tên này rõ ràng, khẳng định và tổng quát hơn, phù hợp với nhiều ngữ cảnh."}
+{"canonical": "secretary_performs_other_tasks", "members": [{"pred": "secretary_follows_chairman_assignments", "neg": false}], "reason": "fallback: most used"}
+{"canonical": "secretary_participates_in_labor_arbitration_board", "members": [{"pred": "secretary_performs_tasks_of_labor_arbitration_board", "neg": false}], "reason": "Tên này rõ ràng và cụ thể, thể hiện sự tham gia của thư ký trong Ban trọng tài lao động."}
+{"canonical": "shift_transition_time", "members": [{"pred": "shift_transition_time_not_exceed_45_minutes", "neg": false}], "reason": "Tên khẳng định, rõ nghĩa và được sử dụng trong nhiều luật."}
+{"canonical": "worked_for_12_months", "members": [{"pred": "worked_less_than_12_months", "neg": true}], "reason": "Dạng khẳng định, rõ nghĩa và cụ thể hơn."}
+{"canonical": "working_hours_at_least_6", "members": [{"pred": "working_in_shifts", "neg": false}], "reason": "Tên này rõ nghĩa, cụ thể và được sử dụng nhiều hơn trong các quy định về giờ làm việc."}
+{"canonical": "working_time_day", "members": [{"pred": "worker_shift_duration_at_least_6_hours", "neg": false}], "reason": "fallback: most used"}
