@@ -13,7 +13,9 @@ Case facts use: instance_of(X, Type), attr(X, Name, Value), and the relation pre
 
 from __future__ import annotations
 
+import ast
 import re
+import unicodedata
 import subprocess
 from collections import defaultdict
 from pathlib import Path
@@ -33,22 +35,72 @@ def q(atom: str | None) -> str:
     return "'" + str(atom).replace("\\", "\\\\").replace("'", "\\'") + "'"
 
 
+def pvar(x: str) -> str:
+    """A Prolog variable name in ASCII (the model may name variables NLĐ, TN-1...)."""
+    v = re.sub(r"[^A-Za-z0-9_]", "_", unicodedata.normalize("NFD", x.strip().replace("Đ", "D").replace("đ", "d"))
+               .encode("ascii", "ignore").decode())
+    return v if re.match(r"[A-Z_]", v) else f"V{v}"
+
+
 def term(x: str, variables: set[str]) -> str:
     x = x.strip()
-    if x in variables or re.fullmatch(r"[A-Z][A-Za-z0-9_]*", x):
-        return x
+    if x in variables or re.fullmatch(r"[A-ZĐ][A-Za-zĐđ0-9_]*", x):
+        return pvar(x)
     if re.fullmatch(r"-?\d+(\.\d+)?", x):
         return x
     return q(x)
 
 
 _ALIAS: dict[str, str] = {}  # predicate -> canonical predicate (predicate_links rel 'same'), set by build_program
+_TALIAS: dict[str, str] = {}  # entity type -> canonical type (name_links kind 'type' rel 'same')
+_AALIAS: dict[str, str] = {}  # attribute -> canonical attribute (name_links kind 'attr' rel 'same')
+
+
+def ty(name: str) -> str:
+    return q(_TALIAS.get(name, name))
+
+
+def at(name: str) -> str:
+    return q(_AALIAS.get(name, name))
 
 
 def atom(pred: str, args: str | None, variables: set[str]) -> str:
     pred = _ALIAS.get(pred, pred)
     a = [s for s in (args or "").split(",") if s.strip()]
     return f"{q(pred)}({', '.join(term(s, variables) for s in a)})" if a else q(pred)
+
+
+_FUNCS = {"min", "max", "abs", "round", "floor", "ceiling", "truncate"}  # arithmetic functions kept as they are
+_TOKEN = re.compile(r"([A-Za-z_][A-Za-z0-9_]*)\s*(\(\s*([A-Z][A-Za-z0-9_]*)\s*\))?(\s*\()?|(\d+(?:\.\d+)?)|([-+*/(),%\s])")
+
+
+def formula(expr: str, of: str, vs: set[str]) -> tuple[str | None, list[str]]:
+    """'0.08 * tien_luong', 'max(muc_phu_cap(PC), luong_co_so)' -> Prolog arithmetic + attr/3 reads.
+    name(Var) reads the attribute of that variable, a bare name the attribute of `of`. None if not understood."""
+    out, reads, k, pos = [], [], 0, 0
+    while pos < len(expr):
+        m = _TOKEN.match(expr, pos)
+        if not m:
+            return None, []
+        pos = m.end()
+        name, _, owner, call, num, sym = m.groups()
+        if num or sym:
+            out.append("/ 100" if sym == "%" else (num or sym))
+        elif call:  # function application
+            if name not in _FUNCS:
+                return None, []
+            out.append(f"{name}(")
+        else:
+            k += 1
+            x = f"F{k}"
+            reads.append(f"attr({term(owner, vs) if owner else of}, {at(name)}, {x})")
+            out.append(x)
+    e = "".join(out)
+    try:  # the model sometimes leaves a parenthesis open: check the arithmetic before it reaches Prolog
+        ast.parse(e.replace("/ 100", "/100"), mode="eval")
+    except SyntaxError:
+        return None, []
+    return e, reads
 
 
 def compile_norm(con, nid: str) -> tuple[list[str], list[str]]:
@@ -59,7 +111,7 @@ def compile_norm(con, nid: str) -> tuple[list[str], list[str]]:
     variables = {v: t for v, t in con.execute("SELECT var, type FROM norm_variables WHERE norm_id=?", (nid,))}
     vs = set(variables)
     problems = []
-    body = [f"is_a({v}, {q(t)})" for v, t in variables.items()]
+    body = [f"is_a({pvar(v)}, {ty(t)})" for v, t in variables.items()]
     groups: dict[int, dict[int, list[str]]] = defaultdict(lambda: defaultdict(list))
     used = set(variables)
     for i, (g, o, kind, pred, args, neg, attr, of, op, num, txt, unit_c, vattr, vof) in enumerate(con.execute(
@@ -68,6 +120,13 @@ def compile_norm(con, nid: str) -> tuple[list[str], list[str]]:
         if kind == "atom":
             if not pred:
                 problems.append("atom condition without predicate")
+                continue
+            a = [x.strip() for x in (args or "").split(",") if x.strip()]
+            if len(a) == 1 and not neg and con.execute("SELECT 1 FROM entity_types WHERE name=?", (pred,)).fetchone():
+                groups[g][o].append(f"is_a({term(a[0], vs)}, {ty(pred)})")  # a type written as a predicate
+                continue
+            if pred == cpred and (args or "") == (cargs or "") and not cneg:
+                problems.append(f"condition equal to the conclusion dropped: {pred}")
                 continue
             if not con.execute("SELECT 1 FROM predicates WHERE name=?", (pred,)).fetchone():
                 problems.append(f"undeclared predicate {pred}")
@@ -86,13 +145,13 @@ def compile_norm(con, nid: str) -> tuple[list[str], list[str]]:
                     continue
                 f = 1 if num is None else num
                 rhs = y if f == 1 else f"{f:g} * {y}"
-                lit = (f"attr({term(of, vs)}, {q(attr)}, {x}), attr({term(vof, vs)}, {q(vattr)}, {y}), "
+                lit = (f"attr({term(of, vs)}, {at(attr)}, {x}), attr({term(vof, vs)}, {at(vattr)}, {y}), "
                        f"number({x}), number({y}), {x} {_OPS[op]} {rhs}")
             elif num is not None:
-                lit = f"attr({term(of, vs)}, {q(attr)}, {x}), number({x}), {x} {_OPS[op]} {num:g}"
+                lit = f"attr({term(of, vs)}, {at(attr)}, {x}), number({x}), {x} {_OPS[op]} {num:g}"
             else:
                 rel = "==" if op == "=" else "\\=="
-                lit = f"attr({term(of, vs)}, {q(attr)}, {x}), {x} {rel} {q(txt)}"
+                lit = f"attr({term(of, vs)}, {at(attr)}, {x}), {x} {rel} {q(txt)}"
             lit = f"\\+ ({lit})" if neg else lit
         groups[g][o].append(lit)
     body += [lit for lits in groups.pop(0, {}).values() for lit in lits]  # mandatory conditions
@@ -135,11 +194,12 @@ def compile_norm(con, nid: str) -> tuple[list[str], list[str]]:
     for v in head_vars - vs:
         problems.append(f"head variable {v} not declared")
     for tgt, of, expr, u in con.execute("SELECT target_attr, of_var, expression, unit FROM norm_formulas WHERE norm_id=?", (nid,)):
-        names = sorted(set(re.findall(r"[a-z_][a-z0-9_]*", expr)))
-        reads = ", ".join(f"attr({term(of, vs)}, {q(n)}, V_{n})" for n in names)
-        e = re.sub(r"[a-z_][a-z0-9_]*", lambda m: f"V_{m.group(0)}", expr)
-        body_f = ", ".join(x for x in (f"applies({q(nid)}, {s})", reads, f"V is {e}") if x)
-        clauses.append(f"computed({q(nid)}, {term(of, vs)}, {q(tgt)}, V) :- {body_f}.")
+        e, reads = formula(expr, term(of or subj or "S", vs), vs)
+        if e is None:
+            problems.append(f"formula not understood: {expr}")
+            continue
+        body_f = ", ".join([f"applies({q(nid)}, {s})", *reads, f"V is {e}"])
+        clauses.append(f"computed({q(nid)}, {term(of or subj or 'S', vs)}, {at(tgt)}, V) :- {body_f}.")
     return clauses, problems
 
 
@@ -191,6 +251,22 @@ def dependency_cycles(edges: dict[str, set[str]]) -> list[list[str]]:
         if v not in index:
             visit(v)
     return out
+
+
+def _resolve(pairs: list[tuple[str, str]]) -> dict[str, str]:
+    """Aliases from 'same' pairs, resolved transitively (the second name of a pair is the canonical one)."""
+    parent: dict[str, str] = {}
+
+    def find(x):
+        while parent.get(x, x) != x:
+            x = parent[x]
+        return x
+
+    for a, b in pairs:
+        ra, rb = find(a), find(b)
+        if ra != rb:
+            parent[ra] = rb
+    return {x: find(x) for x in parent}
 
 
 def predicate_links(con) -> tuple[dict[str, str], list[str], list[str]]:
@@ -252,7 +328,11 @@ def build_program(con) -> tuple[str, dict]:
     alias, bridges, link_problems = predicate_links(con)
     _ALIAS.clear()
     _ALIAS.update(alias)
-    out = [":- style_check(-discontiguous).",  # conclusion predicates are spread over many norms
+    for kind, table in (("type", _TALIAS), ("attr", _AALIAS)):
+        table.clear()
+        table.update(_resolve(con.execute("SELECT src, dst FROM name_links WHERE kind=? AND rel='same' ORDER BY rowid",
+                                          (kind,)).fetchall()))
+    out = [":- encoding(utf8).", ":- style_check(-discontiguous).",  # conclusions are spread over many norms
            ":- dynamic instance_of/2, attr/3, neg/1.",
            "is_a(X, T) :- instance_of(X, T0), subtype_star(T0, T).",
            "subtype_star(T, T).", "subtype_star(A, C) :- subtype(A, B), subtype_star(B, C).",
@@ -266,7 +346,8 @@ def build_program(con) -> tuple[str, dict]:
     for row in con.execute("SELECT src_number, rel_type, dst_number FROM doc_relations"):
         out.append(f"doc_relation({', '.join(q(x) for x in row)}).")
     for n, p in con.execute("SELECT name, parent FROM entity_types WHERE parent IS NOT NULL"):
-        out.append(f"subtype({q(n)}, {q(p)}).")
+        if n not in _TALIAS and _TALIAS.get(p, p) != n:
+            out.append(f"subtype({ty(n)}, {ty(p)}).")
     stats = defaultdict(int)
     problems = {}
     for (nid, unit, modality, vf, vt) in con.execute(

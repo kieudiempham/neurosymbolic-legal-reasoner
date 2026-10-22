@@ -21,8 +21,8 @@ from .db import ROOT
 from .normalize import canon_name, canon_unit
 
 CACHE = ROOT / "data" / "legalkb" / "cache"
-PROMPT_VERSION = "norm-v2"
-MODEL = os.environ.get("LEGALKB_MODEL", "gpt-4.1")
+PROMPT_VERSION = "norm-v3"
+MODEL = os.environ.get("LEGALKB_MODEL", "gpt-4.1-mini")
 
 _s = {"type": "string"}
 _n = {"type": "number"}
@@ -68,17 +68,16 @@ RESPONSE = _obj({
         "unit": _opt(_s), "description_vi": _s})},
     "norms": {"type": "array", "items": NORM}})
 
+
+
 PROMPT = """Bạn là chuyên gia mã hóa văn bản quy phạm pháp luật Việt Nam thành quy phạm logic bậc nhất (có biến).
 
-VĂN BẢN: {doc_title} — số {doc_number} ({doc_type}, hiệu lực từ {effective})
-ĐIỀU {article}. {title}
-Các đơn vị (mã đơn vị | nội dung):
-{units}
-
-ONTOLOGY HIỆN CÓ (dùng lại đúng tên nếu trùng nghĩa; chỉ khai báo mới khi chưa có):
-- Loại chủ thể/đối tượng: {types}
-- Vị từ (tên/số đối số: vai trò:loại): {preds}
+TỪ VỰNG CỐ ĐỊNH CỦA LĨNH VỰC (BẮT BUỘC dùng đúng các tên này; chỉ khai báo tên mới khi thật sự không có tên nào
+cùng nghĩa, và khai báo nó trong entity_types / predicates / attributes):
+- Loại chủ thể/đối tượng (loại⊂loại cha): {types}
+- Vị từ (tên/số đối số(vai trò:loại)): {preds}
 - Thuộc tính (tên của loại: kiểu, đơn vị): {attrs}
+Loại chủ thể dùng qua "variables" (biến P loại nguoi_lao_dong), KHÔNG viết thành điều kiện vị từ một ngôi.
 
 YÊU CẦU — mỗi quy phạm (norm) trong các đơn vị trên thành MỘT mục trong "norms":
 1. unit_id: mã đơn vị chứa quy phạm (Khoản/Điểm cụ thể nhất).
@@ -112,8 +111,13 @@ YÊU CẦU — mỗi quy phạm (norm) trong các đơn vị trên thành MỘT 
    "ngoai_le_cua: " (vd "ngoai_le_cua: khoản 1 Điều này"); other_refs: các dẫn chiếu khác.
 9. valid_from/valid_to: chỉ khi quy phạm có hiệu lực riêng khác văn bản (điều khoản chuyển tiếp), dạng YYYY-MM-DD.
 10. quote: trích nguyên văn ngắn. Bỏ qua phạm vi điều chỉnh, giải thích chung chung không có quy phạm, hiệu lực thi hành.
-11. Tên vị từ, loại, thuộc tính: tiếng Việt không dấu, snake_case (vd nguoi_lao_dong, hop_dong_lao_dong, tien_luong).
-    Khai báo mọi tên MỚI trong entity_types / predicates / attributes của câu trả lời.
+11. Tên vị từ, loại, thuộc tính: tiếng Việt không dấu, snake_case. Tên biến: chữ HOA không dấu (P, E, NLD).
+    Công thức chỉ dùng + - * / và min, max, round; thuộc tính của biến khác viết ten_thuoc_tinh(BIEN).
+
+VĂN BẢN: {doc_title} — số {doc_number} ({doc_type}, hiệu lực từ {effective})
+ĐIỀU {article}. {title}
+Các đơn vị (mã đơn vị | nội dung):
+{units}
 """
 
 
@@ -124,19 +128,26 @@ class Extractor:
         self.model = model
         CACHE.mkdir(parents=True, exist_ok=True)
 
-    def ontology_summary(self, con) -> tuple[str, str, str]:
-        types = ", ".join(f"{n}" + (f"⊂{p}" if p else "") for n, p in con.execute("SELECT name, parent FROM entity_types ORDER BY name"))
+    def ontology_summary(self, con, domain: str | None = None) -> tuple[str, str, str]:
+        """The vocabulary given to the model: the domain's fixed vocabulary and shared names. Names added by earlier
+        extractions are left out, otherwise every prompt would grow with the KB."""
+        where = "WHERE origin='vocab' AND domain IN (?, 'chung')" if domain else ""
+        arg = (domain,) if domain else ()
+        types = ", ".join(f"{n}" + (f"⊂{p}" if p else "") for n, p in con.execute(
+            f"SELECT name, parent FROM entity_types {where} ORDER BY name", arg))
         preds = []
-        for name, arity in con.execute("SELECT name, arity FROM predicates ORDER BY name"):
+        for name, arity in con.execute(f"SELECT name, arity FROM predicates {where} ORDER BY name", arg):
             args = ", ".join(f"{r}:{t}" for r, t in con.execute(
                 "SELECT role, type FROM predicate_args WHERE pred=? ORDER BY position", (name,)))
             preds.append(f"{name}/{arity}({args})")
         attrs = ", ".join(f"{n} của {o}: {v}" + (f", {u}" if u else "") for n, o, v, u in con.execute(
-            "SELECT name, of_type, value_type, unit FROM attributes ORDER BY name"))
+            f"SELECT name, of_type, value_type, unit FROM attributes {where} ORDER BY name", arg))
         return types or "(chưa có)", "; ".join(preds) or "(chưa có)", attrs or "(chưa có)"
 
-    def extract_article(self, con, doc: dict, units: list[dict], extra: str = "") -> dict:
-        types, preds, attrs = self.ontology_summary(con)
+    def extract_article(self, con, doc: dict, units: list[dict], extra: str = "", onto: tuple | None = None) -> dict:
+        """Norms of one article. If the answer does not fit in the output limit, the units are split in two halves
+        (recursively) and the halves' answers merged."""
+        types, preds, attrs = onto or self.ontology_summary(con)  # onto: precomputed, for calls from worker threads
         text = "\n".join(f"{u['unit_id']} | {u['text']}" for u in units)
         prompt = PROMPT.format(doc_title=doc["title"], doc_number=doc["number"], doc_type=doc["doc_type"],
                                effective=doc["effective_from"] or "?", article=units[0]["article"],
@@ -145,20 +156,28 @@ class Extractor:
         f = CACHE / f"{key}.json"
         if f.exists():
             return json.loads(f.read_text(encoding="utf-8"))
-        for attempt in range(6):
+        last = None
+        for attempt in range(10):
             try:
                 r = self.client.chat.completions.create(
                     model=self.model, temperature=0,
-                    response_format={"type": "json_schema", "json_schema": {"name": "legal_norms", "strict": True, "schema": RESPONSE}},
+                    response_format={"type": "json_schema", "json_schema": {"name": "legal_norms", "strict": True,
+                                                                            "schema": RESPONSE}},
                     messages=[{"role": "user", "content": prompt}])
+                if r.choices[0].finish_reason == "length" and len(units) > 1:
+                    half = len(units) // 2
+                    parts = [self.extract_article(con, doc, units[:half], extra, onto),
+                             self.extract_article(con, doc, units[half:], extra, onto)]
+                    return {k: parts[0][k] + parts[1][k] for k in parts[0]}
                 out = json.loads(r.choices[0].message.content)
                 f.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
                 return out
             except Exception as e:  # noqa: BLE001
                 if "insufficient_quota" in str(e):
                     raise
-                time.sleep(min(60, 3 * 2 ** attempt))
-        raise RuntimeError("extraction failed")
+                last = e
+                time.sleep(min(60, 5 * 2 ** attempt))  # rate limits (tokens per minute) clear within a minute
+        raise RuntimeError(f"extraction failed for {units[0]['unit_id']}: {last}")
 
 
 def clear_units(con, unit_ids: set[str]) -> None:
@@ -171,24 +190,28 @@ def clear_units(con, unit_ids: set[str]) -> None:
         con.execute("UPDATE norm_references SET target_norm_id=NULL WHERE target_norm_id=?", (nid,))
 
 
-def store(con, out: dict, model: str, unit_ids: set[str]) -> list[str]:
-    """Insert ontology additions and norms of one article response. Returns the new norm ids."""
+def store(con, out: dict, model: str, unit_ids: set[str], domain: str | None = None) -> list[str]:
+    """Insert ontology additions (origin='extracted') and norms of one article response. Returns the new norm ids."""
     for t in out["entity_types"]:
-        con.execute("INSERT OR IGNORE INTO entity_types VALUES (?,?,?)",
-                    (canon_name(t["name"]), canon_name(t["parent"]) if t["parent"] else None, t["description_vi"]))
+        con.execute("INSERT OR IGNORE INTO entity_types VALUES (?,?,?,?,?)",
+                    (canon_name(t["name"]), canon_name(t["parent"]) if t["parent"] else None, t["description_vi"],
+                     domain, "extracted"))
     for p in out["predicates"]:
         name = canon_name(p["name"])
         if con.execute("SELECT 1 FROM predicates WHERE name=?", (name,)).fetchone():
             continue
-        con.execute("INSERT INTO predicates VALUES (?,?,?,?)", (name, len(p["args"]), p["kind"], p["description_vi"]))
+        con.execute("INSERT INTO predicates VALUES (?,?,?,?,?,?)",
+                    (name, len(p["args"]), p["kind"], p["description_vi"], domain, "extracted"))
         for i, a in enumerate(p["args"]):
             con.execute("INSERT INTO predicate_args VALUES (?,?,?,?)", (name, i, a["role"], canon_name(a["type"])))
     for a in out["attributes"]:
-        con.execute("INSERT OR IGNORE INTO attributes VALUES (?,?,?,?,?)",
-                    (canon_name(a["name"]), canon_name(a["of_type"]), a["value_type"], canon_unit(a["unit"])[0], a["description_vi"]))
+        con.execute("INSERT OR IGNORE INTO attributes VALUES (?,?,?,?,?,?,?)",
+                    (canon_name(a["name"]), canon_name(a["of_type"]), a["value_type"], canon_unit(a["unit"])[0],
+                     a["description_vi"], domain, "extracted"))
     def declare(pred, args, kind):  # a predicate used in a norm but not declared: arity from the use
         if pred and not con.execute("SELECT 1 FROM predicates WHERE name=?", (pred,)).fetchone():
-            con.execute("INSERT INTO predicates VALUES (?,?,?,?)", (pred, len(args), kind, "(tự khai báo từ cách dùng)"))
+            con.execute("INSERT INTO predicates VALUES (?,?,?,?,?,?)",
+                        (pred, len(args), kind, "(tự khai báo từ cách dùng)", domain, "extracted"))
 
     ids = []
     for k, n in enumerate(out["norms"]):

@@ -3,7 +3,8 @@
 Tables
   documents         one row per legal document: number, type, issuer, hierarchy rank, dates, domain
   doc_relations     document -> document: replaces / amends / guides / consolidates
-  units             Chương / Điều / Khoản / Điểm with full text and parent unit
+  units             Chương / Điều / Khoản / Điểm with full text and parent unit; an article quoted in an amending
+                    document is a new version of the amended article (target_doc, valid_from; the old one gets valid_to)
   entity_types      ontology of legal subjects / objects, with is-a parent
   predicates        relations, properties, actions and legal statuses (name, arity, kind)
   predicate_args    typed, named arguments of each predicate
@@ -18,6 +19,7 @@ Tables
   norm_sanctions    sanctions with amount range
   norm_references   norm -> unit / norm links: has_exception (target is an exception of the norm),
                     exception_of, refers_to, implements, priority_over
+  name_links        entity types / attributes mapped onto the vocabulary: same (alias) or subtype
   predicate_links   alignment of predicates across articles: same (alias, renamed at compile time) or implies
                     (bridge rule; src_mode obligation/right/prohibition: having that deontic status implies dst)
 """
@@ -39,18 +41,19 @@ CREATE TABLE IF NOT EXISTS doc_relations (
   dst_number TEXT NOT NULL, PRIMARY KEY (src_number, rel_type, dst_number));
 CREATE TABLE IF NOT EXISTS units (
   unit_id TEXT PRIMARY KEY, doc_number TEXT NOT NULL REFERENCES documents(number), chapter TEXT, article TEXT,
-  clause TEXT, point TEXT, parent_id TEXT, title TEXT, text TEXT);
+  clause TEXT, point TEXT, parent_id TEXT, title TEXT, text TEXT,
+  target_doc TEXT, valid_from TEXT, valid_to TEXT);  -- versions: <doc>:D<n>@<amending doc> is the new wording
 CREATE TABLE IF NOT EXISTS entity_types (
-  name TEXT PRIMARY KEY, parent TEXT, description_vi TEXT);
+  name TEXT PRIMARY KEY, parent TEXT, description_vi TEXT, domain TEXT, origin TEXT);
 CREATE TABLE IF NOT EXISTS predicates (
   name TEXT PRIMARY KEY, arity INTEGER NOT NULL,
-  kind TEXT CHECK (kind IN ('relation','property','action','status')), description_vi TEXT);
+  kind TEXT CHECK (kind IN ('relation','property','action','status')), description_vi TEXT, domain TEXT, origin TEXT);
 CREATE TABLE IF NOT EXISTS predicate_args (
   pred TEXT NOT NULL REFERENCES predicates(name), position INTEGER NOT NULL, role TEXT, type TEXT,
   PRIMARY KEY (pred, position));
 CREATE TABLE IF NOT EXISTS attributes (
   name TEXT PRIMARY KEY, of_type TEXT, value_type TEXT CHECK (value_type IN ('number','date','enum','text','boolean')),
-  unit TEXT, description_vi TEXT);
+  unit TEXT, description_vi TEXT, domain TEXT, origin TEXT);  -- origin: vocab (fixed vocabulary) / extracted
 CREATE TABLE IF NOT EXISTS norms (
   norm_id TEXT PRIMARY KEY, unit_id TEXT NOT NULL REFERENCES units(unit_id),
   modality TEXT CHECK (modality IN ('obligation','right','prohibition','definition','consequence','procedure','sanction')),
@@ -80,6 +83,10 @@ CREATE TABLE IF NOT EXISTS predicate_links (
   src TEXT NOT NULL, src_mode TEXT NOT NULL CHECK (src_mode IN ('holds','obligation','right','prohibition')),
   rel TEXT NOT NULL CHECK (rel IN ('same','implies')), dst TEXT NOT NULL, arg_map TEXT, reason TEXT, model TEXT,
   PRIMARY KEY (src, src_mode, dst));
+CREATE TABLE IF NOT EXISTS name_links (
+  kind TEXT NOT NULL CHECK (kind IN ('type','attr')), src TEXT NOT NULL,
+  rel TEXT NOT NULL CHECK (rel IN ('same','subtype')), dst TEXT NOT NULL, reason TEXT, model TEXT,
+  PRIMARY KEY (kind, src, dst));
 CREATE INDEX IF NOT EXISTS ix_units_doc ON units(doc_number, article);
 CREATE INDEX IF NOT EXISTS ix_norm_unit ON norms(unit_id);
 CREATE INDEX IF NOT EXISTS ix_cond_norm ON norm_conditions(norm_id);
@@ -89,7 +96,7 @@ CREATE INDEX IF NOT EXISTS ix_ref_norm ON norm_references(norm_id);
 
 def connect(path: Path = DB_FILE) -> sqlite3.Connection:
     path.parent.mkdir(parents=True, exist_ok=True)
-    con = sqlite3.connect(str(path))
+    con = sqlite3.connect(str(path), timeout=120)  # several writers (one per domain) may wait for each other
     con.execute("PRAGMA foreign_keys = ON")
     con.executescript(SCHEMA)
     return con
