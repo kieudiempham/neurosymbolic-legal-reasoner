@@ -1,0 +1,130 @@
+{
+ "nesy_diag|0": {
+  "n": 451,
+  "qa_acc": 0.714,
+  "qa_acc_faulty": 0.7118,
+  "diag_acc": 0.6608,
+  "nli_per_query": 5.54,
+  "kb_checks_per_query": 0.35
+ },
+ "nesy_diag|1": {
+  "n": 451,
+  "qa_acc": 0.816,
+  "qa_acc_faulty": 0.817,
+  "diag_acc": 0.6608,
+  "nli_per_query": 5.55,
+  "kb_checks_per_query": 0.36
+ },
+ "nesy_diag|2": {
+  "n": 451,
+  "qa_acc": 0.8226,
+  "qa_acc_faulty": 0.8246,
+  "diag_acc": 0.6608,
+  "nli_per_query": 5.55,
+  "kb_checks_per_query": 0.36
+ },
+ "nesy_diag|inf": {
+  "n": 451,
+  "qa_acc": 0.8514,
+  "qa_acc_faulty": 0.8571,
+  "diag_acc": 0.6608,
+  "nli_per_query": 5.56,
+  "kb_checks_per_query": 0.37
+ },
+ "rule_check|0": {
+  "n": 451,
+  "qa_acc": 0.7251,
+  "qa_acc_faulty": 0.7243,
+  "diag_acc": 0.6851,
+  "nli_per_query": 5.77,
+  "kb_checks_per_query": 0.35
+ },
+ "rule_check|1": {
+  "n": 451,
+  "qa_acc": 0.8271,
+  "qa_acc_faulty": 0.8296,
+  "diag_acc": 0.6851,
+  "nli_per_query": 5.78,
+  "kb_checks_per_query": 0.36
+ },
+ "rule_check|2": {
+  "n": 451,
+  "qa_acc": 0.8293,
+  "qa_acc_faulty": 0.8321,
+  "diag_acc": 0.6851,
+  "nli_per_query": 5.78,
+  "kb_checks_per_query": 0.36
+ },
+ "rule_check|inf": {
+  "n": 451,
+  "qa_acc": 0.8514,
+  "qa_acc_faulty": 0.8571,
+  "diag_acc": 0.6851,
+  "nli_per_query": 5.79,
+  "kb_checks_per_query": 0.37
+ },
+ "no_mbd|0": {
+  "n": 451,
+  "qa_acc": 0.2062,
+  "qa_acc_faulty": 0.1028,
+  "diag_acc": 0.3969,
+  "nli_per_query": 0.0,
+  "kb_checks_per_query": 0.0
+ },
+ "no_mbd|1": {
+  "n": 451,
+  "qa_acc": 0.4856,
+  "qa_acc_faulty": 0.4185,
+  "diag_acc": 0.3969,
+  "nli_per_query": 0.0,
+  "kb_checks_per_query": 0.0
+ },
+ "no_mbd|2": {
+  "n": 451,
+  "qa_acc": 0.4945,
+  "qa_acc_faulty": 0.4286,
+  "diag_acc": 0.3969,
+  "nli_per_query": 0.0,
+  "kb_checks_per_query": 0.0
+ },
+ "no_mbd|inf": {
+  "n": 451,
+  "qa_acc": 0.5698,
+  "qa_acc_faulty": 0.5138,
+  "diag_acc": 0.3969,
+  "nli_per_query": 0.0,
+  "kb_checks_per_query": 0.0
+ },
+ "raw_nli|0": {
+  "n": 451,
+  "qa_acc": 0.7273,
+  "qa_acc_faulty": 0.7268,
+  "diag_acc": 0.6231,
+  "nli_per_query": 5.53,
+  "kb_checks_per_query": 0.35
+ },
+ "raw_nli|1": {
+  "n": 451,
+  "qa_acc": 0.8204,
+  "qa_acc_faulty": 0.8221,
+  "diag_acc": 0.6231,
+  "nli_per_query": 5.55,
+  "kb_checks_per_query": 0.36
+ },
+ "raw_nli|2": {
+  "n": 451,
+  "qa_acc": 0.8315,
+  "qa_acc_faulty": 0.8346,
+  "diag_acc": 0.6231,
+  "nli_per_query": 5.55,
+  "kb_checks_per_query": 0.36
+ },
+ "raw_nli|inf": {
+  "n": 451,
+  "qa_acc": 0.8514,
+  "qa_acc_faulty": 0.8571,
+  "diag_acc": 0.6231,
+  "nli_per_query": 5.56,
+  "kb_checks_per_query": 0.37
+ }
+}

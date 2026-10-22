@@ -1,0 +1,26 @@
+{
+ "gpt4o": {
+  "cites_any_article": 0.225,
+  "gold_article_recall": 0.125,
+  "irac": 71.2,
+  "irac_strictR": 55.9
+ },
+ "ours": {
+  "cites_any_article": 0.775,
+  "gold_article_recall": 0.625,
+  "irac": 70.1,
+  "irac_strictR": 66.6
+ },
+ "symbolic": {
+  "cites_any_article": 0.7,
+  "gold_article_recall": 0.571,
+  "irac": 68.8,
+  "irac_strictR": 65.3
+ },
+ "heuristic": {
+  "cites_any_article": 0.775,
+  "gold_article_recall": 0.625,
+  "irac": 71.1,
+  "irac_strictR": 68.1
+ }
+}

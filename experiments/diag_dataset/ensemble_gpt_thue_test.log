@@ -1,0 +1,34 @@
+dataset: {'items': 36, 'application_cases': 36, 'skipped': 0, 'kb_covered': 28, 'not_covered': {'kb_cannot_derive': 8}}
+200 rules, 28 gold cases, 130 instances
+instances by category: {'Normal': 18, 'MissingCaseInformation': 33, 'ParserOmission': 26, 'ParserMisinterpretation': 35, 'UnsupportedParserFact': 12, 'ResolvableRuleOverlap': 3, 'UnresolvedKBConflict': 3}
+  [base_nesy] 25/130 (0s)
+  [base_nesy] 50/130 (0s)
+  [base_nesy] 75/130 (0s)
+  [base_nesy] 100/130 (0s)
+  [base_nesy] 125/130 (0s)
+[base_nesy] done in 0.4s: {'final_answer_acc': 0.16153846153846155, 'nli_calls_per_query': 0.0, 'kb_checks_per_query': 0.0, 'measurements_per_query': 0.0, 'final_answer_acc_faulty': 0.026785714285714284, 'final_answer_acc_ci95': (0.1, 0.23076923076923078), 'final_answer_acc_faulty_ci95': (0.0, 0.0625), 'nli_model_calls_per_query': 0.0, 'seconds': 0.4}
+  [nesy_diag] 25/130 (7s)
+  [nesy_diag] 50/130 (10s)
+  [nesy_diag] 75/130 (13s)
+  [nesy_diag] 100/130 (13s)
+  [nesy_diag] 125/130 (13s)
+[nesy_diag] done in 13.4s: {'final_answer_acc': 0.8153846153846154, 'nli_calls_per_query': 12.492307692307692, 'kb_checks_per_query': 0.23076923076923078, 'measurements_per_query': 12.723076923076922, 'final_answer_acc_faulty': 0.8214285714285714, 'final_answer_acc_ci95': (0.7461538461538462, 0.8769230769230769), 'final_answer_acc_faulty_ci95': (0.75, 0.8839285714285714), 'nli_model_calls_per_query': 24.984615384615385, 'diagnosis_acc': 0.6076923076923076, 'diagnosis_acc_ci95': (0.5230769230769231, 0.6923076923076923), 'correct_action_acc': 0.6307692307692307, 'correct_action_acc_ci95': (0.5461538461538461, 0.7153846153846154), 'ambiguous_rate': 0.038461538461538464, 'recovery_success_rate': 0.5982142857142857, 'recovery_success_given_correct_diag': 1.0, 'seconds': 13.4}
+  [no_mbd] 25/130 (0s)
+  [no_mbd] 50/130 (0s)
+  [no_mbd] 75/130 (1s)
+  [no_mbd] 100/130 (1s)
+  [no_mbd] 125/130 (1s)
+[no_mbd] done in 1.4s: {'final_answer_acc': 0.5538461538461539, 'nli_calls_per_query': 0.0, 'kb_checks_per_query': 0.0, 'measurements_per_query': 0.0, 'final_answer_acc_faulty': 0.48214285714285715, 'final_answer_acc_ci95': (0.46153846153846156, 0.6384615384615384), 'final_answer_acc_faulty_ci95': (0.39285714285714285, 0.5714285714285714), 'nli_model_calls_per_query': 0.0, 'diagnosis_acc': 0.4153846153846154, 'diagnosis_acc_ci95': (0.33076923076923076, 0.5), 'correct_action_acc': 0.4153846153846154, 'correct_action_acc_ci95': (0.33076923076923076, 0.5), 'ambiguous_rate': 0.0, 'recovery_success_rate': 0.2857142857142857, 'recovery_success_given_correct_diag': 0.8888888888888888, 'seconds': 1.4}
+  [rule_check] 25/130 (0s)
+  [rule_check] 50/130 (0s)
+  [rule_check] 75/130 (1s)
+  [rule_check] 100/130 (1s)
+  [rule_check] 125/130 (1s)
+[rule_check] done in 1.4s: {'final_answer_acc': 0.8153846153846154, 'nli_calls_per_query': 12.73076923076923, 'kb_checks_per_query': 0.23076923076923078, 'measurements_per_query': 12.961538461538462, 'final_answer_acc_faulty': 0.8214285714285714, 'final_answer_acc_ci95': (0.7461538461538462, 0.8769230769230769), 'final_answer_acc_faulty_ci95': (0.75, 0.8839285714285714), 'nli_model_calls_per_query': 25.46153846153846, 'diagnosis_acc': 0.6384615384615384, 'diagnosis_acc_ci95': (0.5538461538461539, 0.7230769230769231), 'correct_action_acc': 0.6384615384615384, 'correct_action_acc_ci95': (0.5538461538461539, 0.7230769230769231), 'ambiguous_rate': 0.0, 'recovery_success_rate': 0.6339285714285714, 'recovery_success_given_correct_diag': 1.0, 'seconds': 1.4}
+  [raw_nli] 25/130 (11s)
+  [raw_nli] 50/130 (17s)
+  [raw_nli] 75/130 (21s)
+  [raw_nli] 100/130 (21s)
+  [raw_nli] 125/130 (21s)
+[raw_nli] done in 21.9s: {'final_answer_acc': 0.8153846153846154, 'nli_calls_per_query': 12.46923076923077, 'kb_checks_per_query': 0.23076923076923078, 'measurements_per_query': 12.7, 'final_answer_acc_faulty': 0.8214285714285714, 'final_answer_acc_ci95': (0.7461538461538462, 0.8769230769230769), 'final_answer_acc_faulty_ci95': (0.75, 0.8839285714285714), 'nli_model_calls_per_query': 24.93846153846154, 'diagnosis_acc': 0.45384615384615384, 'diagnosis_acc_ci95': (0.3769230769230769, 0.5384615384615384), 'correct_action_acc': 0.45384615384615384, 'correct_action_acc_ci95': (0.3769230769230769, 0.5384615384615384), 'ambiguous_rate': 0.0, 'recovery_success_rate': 0.4375, 'recovery_success_given_correct_diag': 1.0, 'seconds': 21.9}
+wrote experiments\diag_dataset\ensemble_gpt\thue_test\results_all.json

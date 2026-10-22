@@ -19,9 +19,9 @@
   },
   "nesy_diag": {
    "final_answer_acc": 1.0,
-   "nli_calls_per_query": 3.1320754716981134,
-   "kb_checks_per_query": 0.6981132075471698,
-   "measurements_per_query": 3.830188679245283,
+   "nli_calls_per_query": 3.1226415094339623,
+   "kb_checks_per_query": 0.8113207547169812,
+   "measurements_per_query": 3.9339622641509435,
    "final_answer_acc_faulty": 1.0,
    "final_answer_acc_ci95": [
     1.0,
@@ -31,19 +31,19 @@
     1.0,
     1.0
    ],
-   "nli_model_calls_per_query": 6.264150943396227,
-   "diagnosis_acc": 0.8018867924528302,
+   "nli_model_calls_per_query": 6.245283018867925,
+   "diagnosis_acc": 0.8867924528301887,
    "diagnosis_acc_ci95": [
-    0.7264150943396226,
-    0.8773584905660378
+    0.8207547169811321,
+    0.9433962264150944
    ],
-   "correct_action_acc": 0.8018867924528302,
+   "correct_action_acc": 0.8867924528301887,
    "correct_action_acc_ci95": [
-    0.7264150943396226,
-    0.8773584905660378
+    0.8207547169811321,
+    0.9433962264150944
    ],
    "ambiguous_rate": 0.0,
-   "recovery_success_rate": 0.7920792079207921,
+   "recovery_success_rate": 0.8811881188118812,
    "recovery_success_given_correct_diag": 1.0,
    "per_category": {
     "Normal": {
@@ -53,15 +53,15 @@
      "support": 5
     },
     "MissingCaseInformation": {
-     "precision": 0.72,
-     "recall": 0.5806451612903226,
-     "f1": 0.6428571428571428,
+     "precision": 0.7586206896551724,
+     "recall": 0.7096774193548387,
+     "f1": 0.7333333333333333,
      "support": 31
     },
     "ParserOmission": {
-     "precision": 0.6470588235294118,
-     "recall": 0.4583333333333333,
-     "f1": 0.5365853658536585,
+     "precision": 0.6538461538461539,
+     "recall": 0.7083333333333334,
+     "f1": 0.68,
      "support": 24
     },
     "ParserMisinterpretation": {
@@ -77,9 +77,9 @@
      "support": 6
     },
     "ResolvableRuleOverlap": {
-     "precision": 0.3157894736842105,
+     "precision": 1.0,
      "recall": 1.0,
-     "f1": 0.4799999999999999,
+     "f1": 1.0,
      "support": 6
     },
     "UnresolvedKBConflict": {
@@ -91,8 +91,8 @@
    },
    "per_category_acc": {
     "Normal": 1.0,
-    "MissingCaseInformation": 0.5161290322580645,
-    "ParserOmission": 0.75,
+    "MissingCaseInformation": 0.6129032258064516,
+    "ParserOmission": 1.0,
     "ParserMisinterpretation": 1.0,
     "UnsupportedParserFact": 1.0,
     "ResolvableRuleOverlap": 1.0,
@@ -106,14 +106,12 @@
      "ParserMisinterpretation": 28
     },
     "MissingCaseInformation": {
-     "ParserOmission": 6,
-     "MissingCaseInformation": 18,
-     "ResolvableRuleOverlap": 7
+     "ParserOmission": 9,
+     "MissingCaseInformation": 22
     },
     "ParserOmission": {
-     "ParserOmission": 11,
-     "MissingCaseInformation": 7,
-     "ResolvableRuleOverlap": 6
+     "ParserOmission": 17,
+     "MissingCaseInformation": 7
     },
     "UnsupportedParserFact": {
      "UnsupportedParserFact": 6
@@ -126,13 +124,13 @@
     }
    },
    "nli": {
-    "measurements": 332,
-    "accepted": 332,
+    "measurements": 331,
+    "accepted": 331,
     "acceptance_rate": 1.0,
-    "accuracy_accepted": 0.9668674698795181,
-    "macro_f1_accepted": 0.9608616283315078,
-    "accuracy_raw": 0.9668674698795181,
-    "macro_f1_raw": 0.9608616283315078,
+    "accuracy_accepted": 0.9667673716012085,
+    "macro_f1_accepted": 0.9603523337045662,
+    "accuracy_raw": 0.9667673716012085,
+    "macro_f1_raw": 0.9603523337045662,
     "per_label_accepted": {
      "entail": {
       "precision": 0.9483568075117371,
@@ -142,9 +140,9 @@
      },
      "neutral": {
       "precision": 1.0,
-      "recall": 0.8333333333333334,
-      "f1": 0.9090909090909091,
-      "support": 66
+      "recall": 0.8307692307692308,
+      "f1": 0.907563025210084,
+      "support": 65
      },
      "contra": {
       "precision": 1.0,
@@ -159,7 +157,7 @@
      },
      "neutral": {
       "entail": 11,
-      "neutral": 55
+      "neutral": 54
      },
      "contra": {
       "contra": 64
@@ -171,7 +169,7 @@
      },
      "neutral": {
       "entail": 11,
-      "neutral": 55
+      "neutral": 54
      },
      "contra": {
       "contra": 64
@@ -179,7 +177,7 @@
     },
     "rejected_by_reason": {}
    },
-   "seconds": 0.6
+   "seconds": 0.7
   },
   "no_mbd": {
    "final_answer_acc": 0.39622641509433965,
@@ -451,13 +449,13 @@
      "low_confidence": 2
     }
    },
-   "seconds": 0.3
+   "seconds": 0.4
   },
   "raw_nli": {
    "final_answer_acc": 1.0,
-   "nli_calls_per_query": 3.1320754716981134,
-   "kb_checks_per_query": 0.6981132075471698,
-   "measurements_per_query": 3.830188679245283,
+   "nli_calls_per_query": 3.1226415094339623,
+   "kb_checks_per_query": 0.8113207547169812,
+   "measurements_per_query": 3.9339622641509435,
    "final_answer_acc_faulty": 1.0,
    "final_answer_acc_ci95": [
     1.0,
@@ -467,19 +465,19 @@
     1.0,
     1.0
    ],
-   "nli_model_calls_per_query": 6.264150943396227,
-   "diagnosis_acc": 0.8018867924528302,
+   "nli_model_calls_per_query": 6.245283018867925,
+   "diagnosis_acc": 0.8867924528301887,
    "diagnosis_acc_ci95": [
-    0.7264150943396226,
-    0.8773584905660378
+    0.8207547169811321,
+    0.9433962264150944
    ],
-   "correct_action_acc": 0.8018867924528302,
+   "correct_action_acc": 0.8867924528301887,
    "correct_action_acc_ci95": [
-    0.7264150943396226,
-    0.8773584905660378
+    0.8207547169811321,
+    0.9433962264150944
    ],
    "ambiguous_rate": 0.0,
-   "recovery_success_rate": 0.7920792079207921,
+   "recovery_success_rate": 0.8811881188118812,
    "recovery_success_given_correct_diag": 1.0,
    "per_category": {
     "Normal": {
@@ -489,15 +487,15 @@
      "support": 5
     },
     "MissingCaseInformation": {
-     "precision": 0.72,
-     "recall": 0.5806451612903226,
-     "f1": 0.6428571428571428,
+     "precision": 0.7586206896551724,
+     "recall": 0.7096774193548387,
+     "f1": 0.7333333333333333,
      "support": 31
     },
     "ParserOmission": {
-     "precision": 0.6470588235294118,
-     "recall": 0.4583333333333333,
-     "f1": 0.5365853658536585,
+     "precision": 0.6538461538461539,
+     "recall": 0.7083333333333334,
+     "f1": 0.68,
      "support": 24
     },
     "ParserMisinterpretation": {
@@ -513,9 +511,9 @@
      "support": 6
     },
     "ResolvableRuleOverlap": {
-     "precision": 0.3157894736842105,
+     "precision": 1.0,
      "recall": 1.0,
-     "f1": 0.4799999999999999,
+     "f1": 1.0,
      "support": 6
     },
     "UnresolvedKBConflict": {
@@ -527,8 +525,8 @@
    },
    "per_category_acc": {
     "Normal": 1.0,
-    "MissingCaseInformation": 0.5161290322580645,
-    "ParserOmission": 0.75,
+    "MissingCaseInformation": 0.6129032258064516,
+    "ParserOmission": 1.0,
     "ParserMisinterpretation": 1.0,
     "UnsupportedParserFact": 1.0,
     "ResolvableRuleOverlap": 1.0,
@@ -542,14 +540,12 @@
      "ParserMisinterpretation": 28
     },
     "MissingCaseInformation": {
-     "ParserOmission": 6,
-     "MissingCaseInformation": 18,
-     "ResolvableRuleOverlap": 7
+     "ParserOmission": 9,
+     "MissingCaseInformation": 22
     },
     "ParserOmission": {
-     "ParserOmission": 11,
-     "MissingCaseInformation": 7,
-     "ResolvableRuleOverlap": 6
+     "ParserOmission": 17,
+     "MissingCaseInformation": 7
     },
     "UnsupportedParserFact": {
      "UnsupportedParserFact": 6
@@ -562,13 +558,13 @@
     }
    },
    "nli": {
-    "measurements": 332,
-    "accepted": 332,
+    "measurements": 331,
+    "accepted": 331,
     "acceptance_rate": 1.0,
-    "accuracy_accepted": 0.9668674698795181,
-    "macro_f1_accepted": 0.9608616283315078,
-    "accuracy_raw": 0.9668674698795181,
-    "macro_f1_raw": 0.9608616283315078,
+    "accuracy_accepted": 0.9667673716012085,
+    "macro_f1_accepted": 0.9603523337045662,
+    "accuracy_raw": 0.9667673716012085,
+    "macro_f1_raw": 0.9603523337045662,
     "per_label_accepted": {
      "entail": {
       "precision": 0.9483568075117371,
@@ -578,9 +574,9 @@
      },
      "neutral": {
       "precision": 1.0,
-      "recall": 0.8333333333333334,
-      "f1": 0.9090909090909091,
-      "support": 66
+      "recall": 0.8307692307692308,
+      "f1": 0.907563025210084,
+      "support": 65
      },
      "contra": {
       "precision": 1.0,
@@ -595,7 +591,7 @@
      },
      "neutral": {
       "entail": 11,
-      "neutral": 55
+      "neutral": 54
      },
      "contra": {
       "contra": 64
@@ -607,7 +603,7 @@
      },
      "neutral": {
       "entail": 11,
-      "neutral": 55
+      "neutral": 54
      },
      "contra": {
       "contra": 64
@@ -615,7 +611,7 @@
     },
     "rejected_by_reason": {}
    },
-   "seconds": 0.6
+   "seconds": 0.7
   }
  },
  "per_instance": {
@@ -6362,8 +6358,9 @@
     "origin": "natural",
     "gold_category": "MissingCaseInformation",
     "gold_fault": "MissingCaseInformation(agreed_contribution)",
-    "pred_category": "ResolvableRuleOverlap",
+    "pred_category": "MissingCaseInformation",
     "first_diagnosis": [
+     "MissingCaseInformation(first_month_sick_leave_14_days)",
      "ResolvableRuleOverlap(LN1-R016, LN1-R008)"
     ],
     "first_status": "unique",
@@ -6372,14 +6369,12 @@
     "answer": "clarification_requested",
     "expected": "clarification_requested",
     "answer_ok": true,
-    "nli_calls": 6,
-    "nli_model_calls": 12,
+    "nli_calls": 5,
+    "nli_model_calls": 10,
     "nli_unverified": 0,
     "kb_checks": 1,
-    "rounds": 2,
+    "rounds": 1,
     "recovery": [
-     "ResolvableRuleOverlap(LN1-R016, LN1-R008)",
-     "MissingCaseInformation(agreed_contribution)",
      "MissingCaseInformation(first_month_sick_leave_14_days)"
     ],
     "nli_log": [
@@ -6434,19 +6429,6 @@
       "neg_label": null,
       "reject_reason": "",
       "gold": "entail"
-     },
-     {
-      "prop": "agreed_contribution",
-      "label": "neutral",
-      "raw": "neutral",
-      "scores": {
-       "entail": 0.2171809214156427,
-       "neutral": 0.6840493466127509,
-       "contra": 0.09876971707044527
-      },
-      "neg_label": null,
-      "reject_reason": "",
-      "gold": "neutral"
      },
      {
       "prop": "first_month_sick_leave_14_days",
@@ -6797,8 +6779,9 @@
     "origin": "injected",
     "gold_category": "MissingCaseInformation",
     "gold_fault": "MissingCaseInformation(receives_salary)",
-    "pred_category": "ResolvableRuleOverlap",
+    "pred_category": "ParserOmission",
     "first_diagnosis": [
+     "ParserOmission(receives_salary)",
      "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "first_status": "unique",
@@ -6810,11 +6793,11 @@
     "nli_calls": 2,
     "nli_model_calls": 4,
     "nli_unverified": 0,
-    "kb_checks": 1,
+    "kb_checks": 2,
     "rounds": 3,
     "recovery": [
-     "ResolvableRuleOverlap(LN0-R005, LN0-R004)",
-     "ParserOmission(receives_salary)"
+     "ParserOmission(receives_salary)",
+     "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "nli_log": [
      {
@@ -6851,24 +6834,25 @@
     "origin": "injected",
     "gold_category": "ParserOmission",
     "gold_fault": "ParserOmission(receives_salary)",
-    "pred_category": "ResolvableRuleOverlap",
+    "pred_category": "ParserOmission",
     "first_diagnosis": [
+     "ParserOmission(receives_salary)",
      "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "first_status": "unique",
     "candidates_first": 1,
-    "hit": false,
+    "hit": true,
     "answer": "true",
     "expected": "true",
     "answer_ok": true,
     "nli_calls": 2,
     "nli_model_calls": 4,
     "nli_unverified": 0,
-    "kb_checks": 1,
+    "kb_checks": 2,
     "rounds": 3,
     "recovery": [
-     "ResolvableRuleOverlap(LN0-R005, LN0-R004)",
-     "ParserOmission(receives_salary)"
+     "ParserOmission(receives_salary)",
+     "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "nli_log": [
      {
@@ -7288,24 +7272,25 @@
     "origin": "injected",
     "gold_category": "MissingCaseInformation",
     "gold_fault": "MissingCaseInformation(receives_salary)",
-    "pred_category": "ResolvableRuleOverlap",
+    "pred_category": "MissingCaseInformation",
     "first_diagnosis": [
+     "MissingCaseInformation(receives_salary)",
      "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "first_status": "unique",
     "candidates_first": 1,
-    "hit": false,
+    "hit": true,
     "answer": "true",
     "expected": "true",
     "answer_ok": true,
     "nli_calls": 2,
     "nli_model_calls": 4,
     "nli_unverified": 0,
-    "kb_checks": 1,
+    "kb_checks": 2,
     "rounds": 3,
     "recovery": [
-     "ResolvableRuleOverlap(LN0-R005, LN0-R004)",
-     "MissingCaseInformation(receives_salary)"
+     "MissingCaseInformation(receives_salary)",
+     "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "nli_log": [
      {
@@ -7342,24 +7327,25 @@
     "origin": "injected",
     "gold_category": "ParserOmission",
     "gold_fault": "ParserOmission(receives_salary)",
-    "pred_category": "ResolvableRuleOverlap",
+    "pred_category": "ParserOmission",
     "first_diagnosis": [
+     "ParserOmission(receives_salary)",
      "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "first_status": "unique",
     "candidates_first": 1,
-    "hit": false,
+    "hit": true,
     "answer": "true",
     "expected": "true",
     "answer_ok": true,
     "nli_calls": 2,
     "nli_model_calls": 4,
     "nli_unverified": 0,
-    "kb_checks": 1,
+    "kb_checks": 2,
     "rounds": 3,
     "recovery": [
-     "ResolvableRuleOverlap(LN0-R005, LN0-R004)",
-     "ParserOmission(receives_salary)"
+     "ParserOmission(receives_salary)",
+     "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "nli_log": [
      {
@@ -7779,8 +7765,9 @@
     "origin": "injected",
     "gold_category": "MissingCaseInformation",
     "gold_fault": "MissingCaseInformation(receives_salary)",
-    "pred_category": "ResolvableRuleOverlap",
+    "pred_category": "ParserOmission",
     "first_diagnosis": [
+     "ParserOmission(receives_salary)",
      "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "first_status": "unique",
@@ -7792,11 +7779,11 @@
     "nli_calls": 2,
     "nli_model_calls": 4,
     "nli_unverified": 0,
-    "kb_checks": 1,
+    "kb_checks": 2,
     "rounds": 3,
     "recovery": [
-     "ResolvableRuleOverlap(LN0-R005, LN0-R004)",
-     "ParserOmission(receives_salary)"
+     "ParserOmission(receives_salary)",
+     "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "nli_log": [
      {
@@ -7833,24 +7820,25 @@
     "origin": "injected",
     "gold_category": "ParserOmission",
     "gold_fault": "ParserOmission(receives_salary)",
-    "pred_category": "ResolvableRuleOverlap",
+    "pred_category": "ParserOmission",
     "first_diagnosis": [
+     "ParserOmission(receives_salary)",
      "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "first_status": "unique",
     "candidates_first": 1,
-    "hit": false,
+    "hit": true,
     "answer": "true",
     "expected": "true",
     "answer_ok": true,
     "nli_calls": 2,
     "nli_model_calls": 4,
     "nli_unverified": 0,
-    "kb_checks": 1,
+    "kb_checks": 2,
     "rounds": 3,
     "recovery": [
-     "ResolvableRuleOverlap(LN0-R005, LN0-R004)",
-     "ParserOmission(receives_salary)"
+     "ParserOmission(receives_salary)",
+     "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "nli_log": [
      {
@@ -8270,24 +8258,25 @@
     "origin": "injected",
     "gold_category": "MissingCaseInformation",
     "gold_fault": "MissingCaseInformation(receives_salary)",
-    "pred_category": "ResolvableRuleOverlap",
+    "pred_category": "MissingCaseInformation",
     "first_diagnosis": [
+     "MissingCaseInformation(receives_salary)",
      "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "first_status": "unique",
     "candidates_first": 1,
-    "hit": false,
+    "hit": true,
     "answer": "true",
     "expected": "true",
     "answer_ok": true,
     "nli_calls": 2,
     "nli_model_calls": 4,
     "nli_unverified": 0,
-    "kb_checks": 1,
+    "kb_checks": 2,
     "rounds": 3,
     "recovery": [
-     "ResolvableRuleOverlap(LN0-R005, LN0-R004)",
-     "MissingCaseInformation(receives_salary)"
+     "MissingCaseInformation(receives_salary)",
+     "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "nli_log": [
      {
@@ -8324,24 +8313,25 @@
     "origin": "injected",
     "gold_category": "ParserOmission",
     "gold_fault": "ParserOmission(receives_salary)",
-    "pred_category": "ResolvableRuleOverlap",
+    "pred_category": "ParserOmission",
     "first_diagnosis": [
+     "ParserOmission(receives_salary)",
      "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "first_status": "unique",
     "candidates_first": 1,
-    "hit": false,
+    "hit": true,
     "answer": "true",
     "expected": "true",
     "answer_ok": true,
     "nli_calls": 2,
     "nli_model_calls": 4,
     "nli_unverified": 0,
-    "kb_checks": 1,
+    "kb_checks": 2,
     "rounds": 3,
     "recovery": [
-     "ResolvableRuleOverlap(LN0-R005, LN0-R004)",
-     "ParserOmission(receives_salary)"
+     "ParserOmission(receives_salary)",
+     "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "nli_log": [
      {
@@ -8761,8 +8751,9 @@
     "origin": "injected",
     "gold_category": "MissingCaseInformation",
     "gold_fault": "MissingCaseInformation(receives_salary)",
-    "pred_category": "ResolvableRuleOverlap",
+    "pred_category": "ParserOmission",
     "first_diagnosis": [
+     "ParserOmission(receives_salary)",
      "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "first_status": "unique",
@@ -8774,11 +8765,11 @@
     "nli_calls": 2,
     "nli_model_calls": 4,
     "nli_unverified": 0,
-    "kb_checks": 1,
+    "kb_checks": 2,
     "rounds": 3,
     "recovery": [
-     "ResolvableRuleOverlap(LN0-R005, LN0-R004)",
-     "ParserOmission(receives_salary)"
+     "ParserOmission(receives_salary)",
+     "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "nli_log": [
      {
@@ -8815,24 +8806,25 @@
     "origin": "injected",
     "gold_category": "ParserOmission",
     "gold_fault": "ParserOmission(receives_salary)",
-    "pred_category": "ResolvableRuleOverlap",
+    "pred_category": "ParserOmission",
     "first_diagnosis": [
+     "ParserOmission(receives_salary)",
      "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "first_status": "unique",
     "candidates_first": 1,
-    "hit": false,
+    "hit": true,
     "answer": "true",
     "expected": "true",
     "answer_ok": true,
     "nli_calls": 2,
     "nli_model_calls": 4,
     "nli_unverified": 0,
-    "kb_checks": 1,
+    "kb_checks": 2,
     "rounds": 3,
     "recovery": [
-     "ResolvableRuleOverlap(LN0-R005, LN0-R004)",
-     "ParserOmission(receives_salary)"
+     "ParserOmission(receives_salary)",
+     "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "nli_log": [
      {
@@ -9252,24 +9244,25 @@
     "origin": "injected",
     "gold_category": "MissingCaseInformation",
     "gold_fault": "MissingCaseInformation(receives_salary)",
-    "pred_category": "ResolvableRuleOverlap",
+    "pred_category": "MissingCaseInformation",
     "first_diagnosis": [
+     "MissingCaseInformation(receives_salary)",
      "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "first_status": "unique",
     "candidates_first": 1,
-    "hit": false,
+    "hit": true,
     "answer": "true",
     "expected": "true",
     "answer_ok": true,
     "nli_calls": 2,
     "nli_model_calls": 4,
     "nli_unverified": 0,
-    "kb_checks": 1,
+    "kb_checks": 2,
     "rounds": 3,
     "recovery": [
-     "ResolvableRuleOverlap(LN0-R005, LN0-R004)",
-     "MissingCaseInformation(receives_salary)"
+     "MissingCaseInformation(receives_salary)",
+     "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "nli_log": [
      {
@@ -9306,24 +9299,25 @@
     "origin": "injected",
     "gold_category": "ParserOmission",
     "gold_fault": "ParserOmission(receives_salary)",
-    "pred_category": "ResolvableRuleOverlap",
+    "pred_category": "ParserOmission",
     "first_diagnosis": [
+     "ParserOmission(receives_salary)",
      "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "first_status": "unique",
     "candidates_first": 1,
-    "hit": false,
+    "hit": true,
     "answer": "true",
     "expected": "true",
     "answer_ok": true,
     "nli_calls": 2,
     "nli_model_calls": 4,
     "nli_unverified": 0,
-    "kb_checks": 1,
+    "kb_checks": 2,
     "rounds": 3,
     "recovery": [
-     "ResolvableRuleOverlap(LN0-R005, LN0-R004)",
-     "ParserOmission(receives_salary)"
+     "ParserOmission(receives_salary)",
+     "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "nli_log": [
      {
@@ -24297,8 +24291,9 @@
     "origin": "natural",
     "gold_category": "MissingCaseInformation",
     "gold_fault": "MissingCaseInformation(agreed_contribution)",
-    "pred_category": "ResolvableRuleOverlap",
+    "pred_category": "MissingCaseInformation",
     "first_diagnosis": [
+     "MissingCaseInformation(first_month_sick_leave_14_days)",
      "ResolvableRuleOverlap(LN1-R016, LN1-R008)"
     ],
     "first_status": "unique",
@@ -24307,14 +24302,12 @@
     "answer": "clarification_requested",
     "expected": "clarification_requested",
     "answer_ok": true,
-    "nli_calls": 6,
-    "nli_model_calls": 12,
+    "nli_calls": 5,
+    "nli_model_calls": 10,
     "nli_unverified": 0,
     "kb_checks": 1,
-    "rounds": 2,
+    "rounds": 1,
     "recovery": [
-     "ResolvableRuleOverlap(LN1-R016, LN1-R008)",
-     "MissingCaseInformation(agreed_contribution)",
      "MissingCaseInformation(first_month_sick_leave_14_days)"
     ],
     "nli_log": [
@@ -24369,19 +24362,6 @@
       "neg_label": null,
       "reject_reason": "",
       "gold": "entail"
-     },
-     {
-      "prop": "agreed_contribution",
-      "label": "neutral",
-      "raw": "neutral",
-      "scores": {
-       "entail": 0.2171809214156427,
-       "neutral": 0.6840493466127509,
-       "contra": 0.09876971707044527
-      },
-      "neg_label": null,
-      "reject_reason": "",
-      "gold": "neutral"
      },
      {
       "prop": "first_month_sick_leave_14_days",
@@ -24732,8 +24712,9 @@
     "origin": "injected",
     "gold_category": "MissingCaseInformation",
     "gold_fault": "MissingCaseInformation(receives_salary)",
-    "pred_category": "ResolvableRuleOverlap",
+    "pred_category": "ParserOmission",
     "first_diagnosis": [
+     "ParserOmission(receives_salary)",
      "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "first_status": "unique",
@@ -24745,11 +24726,11 @@
     "nli_calls": 2,
     "nli_model_calls": 4,
     "nli_unverified": 0,
-    "kb_checks": 1,
+    "kb_checks": 2,
     "rounds": 3,
     "recovery": [
-     "ResolvableRuleOverlap(LN0-R005, LN0-R004)",
-     "ParserOmission(receives_salary)"
+     "ParserOmission(receives_salary)",
+     "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "nli_log": [
      {
@@ -24786,24 +24767,25 @@
     "origin": "injected",
     "gold_category": "ParserOmission",
     "gold_fault": "ParserOmission(receives_salary)",
-    "pred_category": "ResolvableRuleOverlap",
+    "pred_category": "ParserOmission",
     "first_diagnosis": [
+     "ParserOmission(receives_salary)",
      "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "first_status": "unique",
     "candidates_first": 1,
-    "hit": false,
+    "hit": true,
     "answer": "true",
     "expected": "true",
     "answer_ok": true,
     "nli_calls": 2,
     "nli_model_calls": 4,
     "nli_unverified": 0,
-    "kb_checks": 1,
+    "kb_checks": 2,
     "rounds": 3,
     "recovery": [
-     "ResolvableRuleOverlap(LN0-R005, LN0-R004)",
-     "ParserOmission(receives_salary)"
+     "ParserOmission(receives_salary)",
+     "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "nli_log": [
      {
@@ -25223,24 +25205,25 @@
     "origin": "injected",
     "gold_category": "MissingCaseInformation",
     "gold_fault": "MissingCaseInformation(receives_salary)",
-    "pred_category": "ResolvableRuleOverlap",
+    "pred_category": "MissingCaseInformation",
     "first_diagnosis": [
+     "MissingCaseInformation(receives_salary)",
      "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "first_status": "unique",
     "candidates_first": 1,
-    "hit": false,
+    "hit": true,
     "answer": "true",
     "expected": "true",
     "answer_ok": true,
     "nli_calls": 2,
     "nli_model_calls": 4,
     "nli_unverified": 0,
-    "kb_checks": 1,
+    "kb_checks": 2,
     "rounds": 3,
     "recovery": [
-     "ResolvableRuleOverlap(LN0-R005, LN0-R004)",
-     "MissingCaseInformation(receives_salary)"
+     "MissingCaseInformation(receives_salary)",
+     "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "nli_log": [
      {
@@ -25277,24 +25260,25 @@
     "origin": "injected",
     "gold_category": "ParserOmission",
     "gold_fault": "ParserOmission(receives_salary)",
-    "pred_category": "ResolvableRuleOverlap",
+    "pred_category": "ParserOmission",
     "first_diagnosis": [
+     "ParserOmission(receives_salary)",
      "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "first_status": "unique",
     "candidates_first": 1,
-    "hit": false,
+    "hit": true,
     "answer": "true",
     "expected": "true",
     "answer_ok": true,
     "nli_calls": 2,
     "nli_model_calls": 4,
     "nli_unverified": 0,
-    "kb_checks": 1,
+    "kb_checks": 2,
     "rounds": 3,
     "recovery": [
-     "ResolvableRuleOverlap(LN0-R005, LN0-R004)",
-     "ParserOmission(receives_salary)"
+     "ParserOmission(receives_salary)",
+     "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "nli_log": [
      {
@@ -25714,8 +25698,9 @@
     "origin": "injected",
     "gold_category": "MissingCaseInformation",
     "gold_fault": "MissingCaseInformation(receives_salary)",
-    "pred_category": "ResolvableRuleOverlap",
+    "pred_category": "ParserOmission",
     "first_diagnosis": [
+     "ParserOmission(receives_salary)",
      "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "first_status": "unique",
@@ -25727,11 +25712,11 @@
     "nli_calls": 2,
     "nli_model_calls": 4,
     "nli_unverified": 0,
-    "kb_checks": 1,
+    "kb_checks": 2,
     "rounds": 3,
     "recovery": [
-     "ResolvableRuleOverlap(LN0-R005, LN0-R004)",
-     "ParserOmission(receives_salary)"
+     "ParserOmission(receives_salary)",
+     "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "nli_log": [
      {
@@ -25768,24 +25753,25 @@
     "origin": "injected",
     "gold_category": "ParserOmission",
     "gold_fault": "ParserOmission(receives_salary)",
-    "pred_category": "ResolvableRuleOverlap",
+    "pred_category": "ParserOmission",
     "first_diagnosis": [
+     "ParserOmission(receives_salary)",
      "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "first_status": "unique",
     "candidates_first": 1,
-    "hit": false,
+    "hit": true,
     "answer": "true",
     "expected": "true",
     "answer_ok": true,
     "nli_calls": 2,
     "nli_model_calls": 4,
     "nli_unverified": 0,
-    "kb_checks": 1,
+    "kb_checks": 2,
     "rounds": 3,
     "recovery": [
-     "ResolvableRuleOverlap(LN0-R005, LN0-R004)",
-     "ParserOmission(receives_salary)"
+     "ParserOmission(receives_salary)",
+     "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "nli_log": [
      {
@@ -26205,24 +26191,25 @@
     "origin": "injected",
     "gold_category": "MissingCaseInformation",
     "gold_fault": "MissingCaseInformation(receives_salary)",
-    "pred_category": "ResolvableRuleOverlap",
+    "pred_category": "MissingCaseInformation",
     "first_diagnosis": [
+     "MissingCaseInformation(receives_salary)",
      "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "first_status": "unique",
     "candidates_first": 1,
-    "hit": false,
+    "hit": true,
     "answer": "true",
     "expected": "true",
     "answer_ok": true,
     "nli_calls": 2,
     "nli_model_calls": 4,
     "nli_unverified": 0,
-    "kb_checks": 1,
+    "kb_checks": 2,
     "rounds": 3,
     "recovery": [
-     "ResolvableRuleOverlap(LN0-R005, LN0-R004)",
-     "MissingCaseInformation(receives_salary)"
+     "MissingCaseInformation(receives_salary)",
+     "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "nli_log": [
      {
@@ -26259,24 +26246,25 @@
     "origin": "injected",
     "gold_category": "ParserOmission",
     "gold_fault": "ParserOmission(receives_salary)",
-    "pred_category": "ResolvableRuleOverlap",
+    "pred_category": "ParserOmission",
     "first_diagnosis": [
+     "ParserOmission(receives_salary)",
      "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "first_status": "unique",
     "candidates_first": 1,
-    "hit": false,
+    "hit": true,
     "answer": "true",
     "expected": "true",
     "answer_ok": true,
     "nli_calls": 2,
     "nli_model_calls": 4,
     "nli_unverified": 0,
-    "kb_checks": 1,
+    "kb_checks": 2,
     "rounds": 3,
     "recovery": [
-     "ResolvableRuleOverlap(LN0-R005, LN0-R004)",
-     "ParserOmission(receives_salary)"
+     "ParserOmission(receives_salary)",
+     "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "nli_log": [
      {
@@ -26696,8 +26684,9 @@
     "origin": "injected",
     "gold_category": "MissingCaseInformation",
     "gold_fault": "MissingCaseInformation(receives_salary)",
-    "pred_category": "ResolvableRuleOverlap",
+    "pred_category": "ParserOmission",
     "first_diagnosis": [
+     "ParserOmission(receives_salary)",
      "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "first_status": "unique",
@@ -26709,11 +26698,11 @@
     "nli_calls": 2,
     "nli_model_calls": 4,
     "nli_unverified": 0,
-    "kb_checks": 1,
+    "kb_checks": 2,
     "rounds": 3,
     "recovery": [
-     "ResolvableRuleOverlap(LN0-R005, LN0-R004)",
-     "ParserOmission(receives_salary)"
+     "ParserOmission(receives_salary)",
+     "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "nli_log": [
      {
@@ -26750,24 +26739,25 @@
     "origin": "injected",
     "gold_category": "ParserOmission",
     "gold_fault": "ParserOmission(receives_salary)",
-    "pred_category": "ResolvableRuleOverlap",
+    "pred_category": "ParserOmission",
     "first_diagnosis": [
+     "ParserOmission(receives_salary)",
      "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "first_status": "unique",
     "candidates_first": 1,
-    "hit": false,
+    "hit": true,
     "answer": "true",
     "expected": "true",
     "answer_ok": true,
     "nli_calls": 2,
     "nli_model_calls": 4,
     "nli_unverified": 0,
-    "kb_checks": 1,
+    "kb_checks": 2,
     "rounds": 3,
     "recovery": [
-     "ResolvableRuleOverlap(LN0-R005, LN0-R004)",
-     "ParserOmission(receives_salary)"
+     "ParserOmission(receives_salary)",
+     "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "nli_log": [
      {
@@ -27187,24 +27177,25 @@
     "origin": "injected",
     "gold_category": "MissingCaseInformation",
     "gold_fault": "MissingCaseInformation(receives_salary)",
-    "pred_category": "ResolvableRuleOverlap",
+    "pred_category": "MissingCaseInformation",
     "first_diagnosis": [
+     "MissingCaseInformation(receives_salary)",
      "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "first_status": "unique",
     "candidates_first": 1,
-    "hit": false,
+    "hit": true,
     "answer": "true",
     "expected": "true",
     "answer_ok": true,
     "nli_calls": 2,
     "nli_model_calls": 4,
     "nli_unverified": 0,
-    "kb_checks": 1,
+    "kb_checks": 2,
     "rounds": 3,
     "recovery": [
-     "ResolvableRuleOverlap(LN0-R005, LN0-R004)",
-     "MissingCaseInformation(receives_salary)"
+     "MissingCaseInformation(receives_salary)",
+     "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "nli_log": [
      {
@@ -27241,24 +27232,25 @@
     "origin": "injected",
     "gold_category": "ParserOmission",
     "gold_fault": "ParserOmission(receives_salary)",
-    "pred_category": "ResolvableRuleOverlap",
+    "pred_category": "ParserOmission",
     "first_diagnosis": [
+     "ParserOmission(receives_salary)",
      "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "first_status": "unique",
     "candidates_first": 1,
-    "hit": false,
+    "hit": true,
     "answer": "true",
     "expected": "true",
     "answer_ok": true,
     "nli_calls": 2,
     "nli_model_calls": 4,
     "nli_unverified": 0,
-    "kb_checks": 1,
+    "kb_checks": 2,
     "rounds": 3,
     "recovery": [
-     "ResolvableRuleOverlap(LN0-R005, LN0-R004)",
-     "ParserOmission(receives_salary)"
+     "ParserOmission(receives_salary)",
+     "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
     ],
     "nli_log": [
      {

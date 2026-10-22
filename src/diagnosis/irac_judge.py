@@ -26,6 +26,11 @@ from openai import OpenAI
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "experiments" / "e2e"
 JUDGE = "gpt-4.1"
+RUBRIC = "v1"  # v1 = pre-registered; v2 = R made precise after the first scoring (reported separately, all methods)
+R_LINE = {
+    "v1": "- R (Rule): đối chiếu với CĂN CỨ PHÁP LÝ CHUẨN (chấp nhận điều khoản tương đương nếu hợp lệ và còn hiệu lực). 1 = viện dẫn đúng, đầy đủ; 0.5 = đúng luật nhưng thiếu điều khoản then chốt hoặc thiếu văn bản hướng dẫn, hoặc lẫn điều khoản không áp dụng; 0 = sai điều luật, luật đã hết hiệu lực/bị thay thế, hoặc thiếu các điều khoản then chốt.",
+    "v2": "- R (Rule): đối chiếu với CĂN CỨ PHÁP LÝ CHUẨN; chấp nhận điều khoản tương đương chỉ khi thuộc văn bản đang có hiệu lực. 1 = nêu đúng TÊN/SỐ văn bản và đúng SỐ ĐIỀU (khoản) then chốt như căn cứ chuẩn, đầy đủ; 0.5 = nêu đúng văn bản và ít nhất một điều then chốt đúng nhưng còn thiếu điều khoản then chốt khác hoặc văn bản hướng dẫn; 0 = không nêu số điều cụ thể nào (chỉ nói chung chung như \"theo Luật ...\"), hoặc dẫn sai điều, hoặc dẫn văn bản đã hết hiệu lực/bị thay thế.",
+}
 SEED = 20261020
 W = {"I": 0.10, "R": 0.35, "A": 0.40, "C": 0.15}
 GOLD_TXT = {"true": "CÓ", "false": "KHÔNG", "insufficient": "CHƯA ĐỦ DỮ KIỆN"}
@@ -34,7 +39,7 @@ JUDGE_PROMPT = """Bạn là giám khảo chấm câu trả lời tư vấn pháp
 
 RUBRIC (mỗi thành phần chỉ được 0, 0.5 hoặc 1):
 - I (Issue): 1 = nêu chính xác vấn đề pháp lý cần giải quyết; 0.5 = xác định vấn đề nhưng còn chung chung, chưa vào trọng tâm; 0 = lạc đề hoặc không tìm ra vấn đề cốt lõi.
-- R (Rule): đối chiếu với CĂN CỨ PHÁP LÝ CHUẨN (chấp nhận điều khoản tương đương nếu hợp lệ và còn hiệu lực). 1 = viện dẫn đúng, đầy đủ; 0.5 = đúng luật nhưng thiếu điều khoản then chốt hoặc thiếu văn bản hướng dẫn, hoặc lẫn điều khoản không áp dụng; 0 = sai điều luật, luật đã hết hiệu lực/bị thay thế, hoặc thiếu các điều khoản then chốt.
+{rule_line}
 - A (Application): 1 = đối chiếu từng dữ kiện với điều kiện của quy định, xử lý ngoại lệ, giải thích vì sao áp dụng/không áp dụng; khi thiếu dữ kiện thì chỉ ra điều kiện nào chưa xác định được; 0.5 = có đối chiếu nhưng chưa đầy đủ hoặc chưa thuyết phục (bỏ sót điều kiện/ngoại lệ); 0 = chỉ lặp lại tình huống và điều luật, hoặc lập luận sai.
 - C (Conclusion): 1 = kết luận trùng ĐÁP ÁN CHUẨN (CÓ / KHÔNG / CHƯA ĐỦ DỮ KIỆN; nếu chưa đủ dữ kiện thì nêu cần bổ sung gì) và nhất quán với phần A; 0.5 = đúng một phần hoặc đúng nhưng mơ hồ; 0 = sai hoặc không trả lời trực tiếp.
 Không chấm văn phong. Độ dài câu trả lời không phải tiêu chí.
@@ -68,8 +73,11 @@ def snap(v) -> float:
     return min((0.0, 0.5, 1.0), key=lambda x: abs(x - v))
 
 
+SET = "40"  # "40" = stratified sample (irac_answers.json); "all" = every question (irac_answers_all.json)
+
+
 def build_entries() -> tuple[list[dict], dict]:
-    data = json.loads((OUT / "irac_answers.json").read_text(encoding="utf-8"))
+    data = json.loads((OUT / ("irac_answers.json" if SET == "40" else "irac_answers_all.json")).read_text(encoding="utf-8"))
     entries = []
     for q in data:
         for method, ans in q["answers"].items():
@@ -77,7 +85,7 @@ def build_entries() -> tuple[list[dict], dict]:
     rng = random.Random(SEED)
     rng.shuffle(entries)
     for n, e in enumerate(entries, 1):
-        e["anon"] = f"A{n:03d}"
+        e["anon"] = f"A{n:03d}" if SET == "40" else f"B{n:04d}"
     key = {e["anon"]: {"question_id": e["question_id"], "method": e["method"]} for e in entries}
     return entries, key
 
@@ -91,12 +99,12 @@ def judge_all(entries: list[dict]) -> dict:
     def prompt(e):
         q, a = e["q"], e["ans"]
         miss = f" (thông tin cần bổ sung: {', '.join(q['gold_missing'])})" if q["gold_expected"] == "insufficient" and q["gold_missing"] else ""
-        return JUDGE_PROMPT.format(question=q["question"], gold=GOLD_TXT[q["gold_expected"]], missing=miss,
+        return JUDGE_PROMPT.format(rule_line=R_LINE[RUBRIC], question=q["question"], gold=GOLD_TXT[q["gold_expected"]], missing=miss,
                                    basis=basis_text(q["gold_legal_basis"]), issue=a.get("issue", ""), rule=a.get("rule", ""),
                                    application=a.get("application", ""), conclusion=a.get("conclusion", ""))
 
     def call(e):
-        k = e["anon"] + "|" + JUDGE
+        k = e["anon"] + "|" + JUDGE + ("" if RUBRIC == "v1" else "|" + RUBRIC)
         if k in cache:
             return k, cache[k]
         for attempt in range(8):
@@ -104,15 +112,21 @@ def judge_all(entries: list[dict]) -> dict:
                 r = client.chat.completions.create(model=JUDGE, temperature=0, seed=0, response_format={"type": "json_object"},
                                                    messages=[{"role": "user", "content": prompt(e)}])
                 return k, json.loads(r.choices[0].message.content)
-            except Exception:
+            except Exception as ex:
+                if "insufficient_quota" in str(ex):  # out of credits: stop, keep what is done
+                    raise RuntimeError("OpenAI credits exhausted; top up and re-run (scored answers are cached)") from ex
                 time.sleep(min(60, 3 * 2 ** attempt))
         raise RuntimeError("judge failed")
 
-    with ThreadPoolExecutor(12) as pool:
-        for k, v in pool.map(call, entries):
-            cache[k] = v
-    cache_f.write_text(json.dumps(cache, ensure_ascii=False, indent=1), encoding="utf-8")
-    return {e["anon"]: cache[e["anon"] + "|" + JUDGE] for e in entries}
+    try:
+        with ThreadPoolExecutor(12) as pool:
+            for n, (k, v) in enumerate(pool.map(call, entries), 1):
+                cache[k] = v
+                if n % 20 == 0:
+                    cache_f.write_text(json.dumps(cache, ensure_ascii=False, indent=1), encoding="utf-8")
+    finally:
+        cache_f.write_text(json.dumps(cache, ensure_ascii=False, indent=1), encoding="utf-8")
+    return {e["anon"]: cache[e["anon"] + "|" + JUDGE + ("" if RUBRIC == "v1" else "|" + RUBRIC)] for e in entries}
 
 
 def human_sheet(entries: list[dict]) -> None:
@@ -197,18 +211,25 @@ def agreement(key: dict, scores: dict) -> None:
 
 
 def main() -> None:
+    global RUBRIC, SET
     sys.stdout.reconfigure(encoding="utf-8")
+    if "--all" in sys.argv:
+        SET = "all"
+    if "--rubric" in sys.argv:
+        RUBRIC = sys.argv[sys.argv.index("--rubric") + 1]
+    suffix = ("" if RUBRIC == "v1" else f"_{RUBRIC}") + ("" if SET == "40" else "_all")
     entries, key = build_entries()
     if len(sys.argv) > 1 and sys.argv[1] == "agreement":
-        scores = json.loads((OUT / "irac_scores.json").read_text(encoding="utf-8"))["scores"]
+        scores = json.loads((OUT / f"irac_scores{suffix}.json").read_text(encoding="utf-8"))["scores"]
         agreement(key, scores)
         return
-    (OUT / "irac_key.json").write_text(json.dumps(key, indent=1), encoding="utf-8")
+    (OUT / ("irac_key.json" if SET == "40" else "irac_key_all.json")).write_text(json.dumps(key, indent=1), encoding="utf-8")
     scores = judge_all(entries)
     summ = summarise(scores, key)
-    (OUT / "irac_scores.json").write_text(json.dumps({"judge": JUDGE, "summary": summ, "scores": scores}, ensure_ascii=False,
-                                                     indent=1), encoding="utf-8")
-    human_sheet(entries)
+    (OUT / f"irac_scores{suffix}.json").write_text(json.dumps({"judge": JUDGE, "rubric": RUBRIC, "summary": summ, "scores": scores},
+                                                              ensure_ascii=False, indent=1), encoding="utf-8")
+    if RUBRIC == "v1" and SET == "40":
+        human_sheet(entries)
     print(json.dumps(summ, indent=1))
 
 

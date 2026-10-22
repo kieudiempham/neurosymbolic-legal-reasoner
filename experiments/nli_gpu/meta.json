@@ -1,0 +1,6 @@
+{
+ "model": "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7",
+ "pairs_total": 47750,
+ "pairs_todo": 0,
+ "questions": 722
+}

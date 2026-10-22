@@ -1,0 +1,10 @@
+dataset: {'items': 90, 'application_cases': 90, 'skipped': 0, 'kb_covered': 90, 'not_covered': {}}
+149 rules, 90 gold cases, 149 instances
+instances by category: {'Normal': 61, 'UnsupportedParserFact': 12, 'MissingCaseInformation': 30, 'ParserMisinterpretation': 12, 'ResolvableRuleOverlap': 11, 'UnresolvedKBConflict': 11, 'ParserOmission': 12}
+  [no_mbd] 25/149 (0s)
+  [no_mbd] 50/149 (0s)
+  [no_mbd] 75/149 (0s)
+  [no_mbd] 100/149 (0s)
+  [no_mbd] 125/149 (1s)
+[no_mbd] done in 0.9s: {'final_answer_acc': 0.738255033557047, 'nli_calls_per_query': 0.0, 'kb_checks_per_query': 0.0, 'measurements_per_query': 0.0, 'final_answer_acc_faulty': 0.5568181818181818, 'final_answer_acc_ci95': (0.6644295302013423, 0.8053691275167785), 'final_answer_acc_faulty_ci95': (0.4431818181818182, 0.6590909090909091), 'nli_model_calls_per_query': 0.0, 'diagnosis_acc': 0.6778523489932886, 'diagnosis_acc_ci95': (0.6040268456375839, 0.7449664429530202), 'ambiguous_rate': 0.0, 'recovery_success_rate': 0.42045454545454547, 'recovery_success_given_correct_diag': 0.925, 'seconds': 0.9}
+wrote D:\note\neurosymbolic-legal-reasoner\experiments\diag_dataset\results_no_mbd.json

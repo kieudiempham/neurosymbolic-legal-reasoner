@@ -151,6 +151,13 @@ class Diagnoser:
         required = obs.required
         obs.required = set()
         diags = self._mbd_loop(question, state, obs, res)
+        # an encoded (resolvable) overlap is benign: it does not explain why the goal is unresolved, so it must
+        # not stop the search for an input fault in phase B
+        benign = len(diags) == 1 and diags[0] and all(f.kind == "overlap" for f in diags[0])
+        if benign and required:
+            obs.required = required
+            phase_b = self._mbd_loop(question, state, obs, res)
+            return (phase_b or diags), obs
         if len(diags) == 1 and not diags[0] and required:
             obs.required = required
             diags = self._mbd_loop(question, state, obs, res)
@@ -160,6 +167,11 @@ class Diagnoser:
 
     def _mbd_loop(self, question: str, state: ReasoningState, obs: Observations, res: QueryResult) -> list[Diagnosis]:
         diags = minimal_diagnoses(obs, max_size=5)
+        if not diags and len(obs.required | obs.checked) + len(obs.competing) > 1:
+            # The bounded joint search found nothing (too many components need a fault). Components are
+            # independent in the model (each constraint mentions one proposition or one rule pair), so the
+            # minimal diagnoses are exactly the products of the per-component minimal diagnoses.
+            return self._mbd_decomposed(question, state, obs, res)
         while len(diags) > 1:
             m = _pick_measurement(obs, diags, set(self._measured))
             if m is None:
@@ -172,6 +184,35 @@ class Diagnoser:
                 self._nli(res, question, target, obs)
             diags = minimal_diagnoses(obs, max_size=5)
         return diags
+
+    def _mbd_decomposed(self, question: str, state: ReasoningState, obs: Observations, res: QueryResult,
+                        cap: int = 512) -> list[Diagnosis]:
+        import itertools
+
+        local: list[list[Diagnosis]] = []
+        comps = [("p", c) for c in sorted(obs.required | obs.checked)] + [("r", pr) for pr in sorted(obs.competing)]
+        for kind, x in comps:
+            o = Observations()
+            if kind == "p":
+                o.required = {x} & obs.required
+                o.checked = {x} & obs.checked
+                o.parsed = {x: obs.parsed[x]} if x in obs.parsed else {}
+                o.q = {x: obs.q[x]} if x in obs.q else {}
+            else:
+                o.competing = {x}
+                o.resolution = {x: obs.resolution[x]} if x in obs.resolution else {}
+            d = self._mbd_loop(question, state, o, res)  # measurements stay local to the component
+            obs.q.update(o.q)
+            obs.resolution.update(o.resolution)
+            if not d:
+                return []
+            local.append(d)
+        out = []
+        for combo in itertools.product(*local):
+            out.append(frozenset().union(*combo))
+            if len(out) >= cap:
+                break
+        return out
 
     def _rule_check(self, question: str, state: ReasoningState, obs: Observations, res: QueryResult) -> list[Diagnosis]:
         """Matched baseline: first-matching if-else labels over the same evidence (all NLI + KB checks)."""

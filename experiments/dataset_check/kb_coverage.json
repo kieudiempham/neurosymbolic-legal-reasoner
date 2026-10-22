@@ -1,0 +1,560 @@
+{
+ "cases": 20,
+ "coverage_ok": 18,
+ "coverage_rate": 0.9,
+ "verdicts": {
+  "ok": 18,
+  "kb_cannot_derive": 2
+ },
+ "goals_without_any_rule": {},
+ "rows": [
+  {
+   "id": "LN-001",
+   "goal": "covered_point_a",
+   "expected": "true",
+   "kb_result": "true",
+   "verdict": "ok",
+   "required_unresolved": [],
+   "gold_missing": [],
+   "applied_rules": [
+    "LN0-R004",
+    "LN1-R002",
+    "LN1-R003",
+    "LN1-R008",
+    "LN2-R001",
+    "LN2-R004",
+    "LN2-R020"
+   ],
+   "goal_rules_in_kb": [
+    "LN2-R001",
+    "LN2-R002",
+    "LN2-R003",
+    "LN2-R004",
+    "LN2-R005",
+    "LN2-R006",
+    "LN2-R007",
+    "LN2-R008",
+    "LN2-R009"
+   ],
+   "competing": []
+  },
+  {
+   "id": "LN-002",
+   "goal": "covered_point_a",
+   "expected": "unknown",
+   "kb_result": "unknown",
+   "verdict": "ok",
+   "required_unresolved": [
+    "term_at_least_1_month"
+   ],
+   "gold_missing": [
+    "term_at_least_1_month"
+   ],
+   "applied_rules": [
+    "LN0-R004",
+    "LN1-R002",
+    "LN1-R003",
+    "LN1-R008"
+   ],
+   "goal_rules_in_kb": [
+    "LN2-R001",
+    "LN2-R002",
+    "LN2-R003",
+    "LN2-R004",
+    "LN2-R005",
+    "LN2-R006",
+    "LN2-R007",
+    "LN2-R008",
+    "LN2-R009"
+   ],
+   "competing": []
+  },
+  {
+   "id": "LN-004",
+   "goal": "covered_point_a",
+   "expected": "unknown",
+   "kb_result": "unknown",
+   "verdict": "ok",
+   "required_unresolved": [
+    "paid_wage"
+   ],
+   "gold_missing": [
+    "paid_wage"
+   ],
+   "applied_rules": [
+    "LN0-R004",
+    "LN1-R008"
+   ],
+   "goal_rules_in_kb": [
+    "LN2-R001",
+    "LN2-R002",
+    "LN2-R003",
+    "LN2-R004",
+    "LN2-R005",
+    "LN2-R006",
+    "LN2-R007",
+    "LN2-R008",
+    "LN2-R009"
+   ],
+   "competing": []
+  },
+  {
+   "id": "LN-005",
+   "goal": "covered_point_a",
+   "expected": "false",
+   "kb_result": "unknown",
+   "verdict": "kb_cannot_derive",
+   "required_unresolved": [
+    "ongoing_employment",
+    "contract_expired_over_30_days",
+    "no_new_contract"
+   ],
+   "gold_missing": [],
+   "applied_rules": [
+    "LN0-R004",
+    "LN1-R002",
+    "LN1-R003",
+    "LN1-R008"
+   ],
+   "goal_rules_in_kb": [
+    "LN2-R001",
+    "LN2-R002",
+    "LN2-R003",
+    "LN2-R004",
+    "LN2-R005",
+    "LN2-R006",
+    "LN2-R007",
+    "LN2-R008",
+    "LN2-R009"
+   ],
+   "competing": []
+  },
+  {
+   "id": "LN-006",
+   "goal": "covered_point_a",
+   "expected": "true",
+   "kb_result": "true",
+   "verdict": "ok",
+   "required_unresolved": [],
+   "gold_missing": [],
+   "applied_rules": [
+    "LN0-R004",
+    "LN1-R002",
+    "LN1-R003",
+    "LN1-R008",
+    "LN2-R001",
+    "LN2-R004",
+    "LN2-R020"
+   ],
+   "goal_rules_in_kb": [
+    "LN2-R001",
+    "LN2-R002",
+    "LN2-R003",
+    "LN2-R004",
+    "LN2-R005",
+    "LN2-R006",
+    "LN2-R007",
+    "LN2-R008",
+    "LN2-R009"
+   ],
+   "competing": []
+  },
+  {
+   "id": "LN-007",
+   "goal": "covered_point_a",
+   "expected": "false",
+   "kb_result": "unknown",
+   "verdict": "kb_cannot_derive",
+   "required_unresolved": [
+    "ongoing_employment",
+    "contract_expired_over_30_days",
+    "no_new_contract"
+   ],
+   "gold_missing": [],
+   "applied_rules": [
+    "LN0-R004",
+    "LN1-R002",
+    "LN1-R003",
+    "LN1-R008"
+   ],
+   "goal_rules_in_kb": [
+    "LN2-R001",
+    "LN2-R002",
+    "LN2-R003",
+    "LN2-R004",
+    "LN2-R005",
+    "LN2-R006",
+    "LN2-R007",
+    "LN2-R008",
+    "LN2-R009"
+   ],
+   "competing": []
+  },
+  {
+   "id": "LN-008",
+   "goal": "covered_point_a",
+   "expected": "unknown",
+   "kb_result": "unknown",
+   "verdict": "ok",
+   "required_unresolved": [
+    "term_at_least_1_month"
+   ],
+   "gold_missing": [
+    "term_at_least_1_month"
+   ],
+   "applied_rules": [
+    "LN0-R004",
+    "LN1-R002",
+    "LN1-R003",
+    "LN1-R008"
+   ],
+   "goal_rules_in_kb": [
+    "LN2-R001",
+    "LN2-R002",
+    "LN2-R003",
+    "LN2-R004",
+    "LN2-R005",
+    "LN2-R006",
+    "LN2-R007",
+    "LN2-R008",
+    "LN2-R009"
+   ],
+   "competing": []
+  },
+  {
+   "id": "LN-009",
+   "goal": "covered_point_a",
+   "expected": "true",
+   "kb_result": "true",
+   "verdict": "ok",
+   "required_unresolved": [],
+   "gold_missing": [],
+   "applied_rules": [
+    "LN0-R004",
+    "LN1-R002",
+    "LN1-R003",
+    "LN1-R008",
+    "LN2-R001",
+    "LN2-R004",
+    "LN2-R020"
+   ],
+   "goal_rules_in_kb": [
+    "LN2-R001",
+    "LN2-R002",
+    "LN2-R003",
+    "LN2-R004",
+    "LN2-R005",
+    "LN2-R006",
+    "LN2-R007",
+    "LN2-R008",
+    "LN2-R009"
+   ],
+   "competing": []
+  },
+  {
+   "id": "LN-015",
+   "goal": "must_contribute_month",
+   "expected": "unknown",
+   "kb_result": "unknown",
+   "verdict": "ok",
+   "required_unresolved": [
+    "first_month_sick_leave_14_days",
+    "agreed_contribution"
+   ],
+   "gold_missing": [
+    "agreed_contribution"
+   ],
+   "applied_rules": [
+    "LN0-R004",
+    "LN1-R001",
+    "LN1-R016",
+    "LN2-R001",
+    "LN2-R020",
+    "LN2-R037"
+   ],
+   "goal_rules_in_kb": [
+    "LN2-R039",
+    "LN2-R040",
+    "LN2-R041",
+    "LN2-R042",
+    "LN2-R043",
+    "LN2-R044",
+    "LN2-R045",
+    "LN2-R046"
+   ],
+   "competing": []
+  },
+  {
+   "id": "LN-019",
+   "goal": "si_paid_manager_category",
+   "expected": "true",
+   "kb_result": "true",
+   "verdict": "ok",
+   "required_unresolved": [],
+   "gold_missing": [],
+   "applied_rules": [
+    "LN0-R005",
+    "LN1-R008",
+    "LN2-R010",
+    "LN2-R011",
+    "LN2-R019",
+    "LN2-R021"
+   ],
+   "goal_rules_in_kb": [
+    "LN2-R010",
+    "LN2-R011",
+    "LN2-R012",
+    "LN2-R013",
+    "LN2-R014"
+   ],
+   "competing": []
+  },
+  {
+   "id": "LN-020",
+   "goal": "si_unpaid_manager_category",
+   "expected": "true",
+   "kb_result": "true",
+   "verdict": "ok",
+   "required_unresolved": [],
+   "gold_missing": [],
+   "applied_rules": [
+    "LN0-R005",
+    "LN1-R008",
+    "LN2-R014",
+    "LN2-R015",
+    "LN2-R016",
+    "LN2-R022",
+    "LN2-R039"
+   ],
+   "goal_rules_in_kb": [
+    "LN2-R015",
+    "LN2-R016",
+    "LN2-R017",
+    "LN2-R018",
+    "LN2-R019"
+   ],
+   "competing": []
+  },
+  {
+   "id": "LN-021",
+   "goal": "si_paid_manager_category",
+   "expected": "true",
+   "kb_result": "true",
+   "verdict": "ok",
+   "required_unresolved": [],
+   "gold_missing": [],
+   "applied_rules": [
+    "LN0-R005",
+    "LN1-R008",
+    "LN2-R010",
+    "LN2-R011",
+    "LN2-R019",
+    "LN2-R021"
+   ],
+   "goal_rules_in_kb": [
+    "LN2-R010",
+    "LN2-R011",
+    "LN2-R012",
+    "LN2-R013",
+    "LN2-R014"
+   ],
+   "competing": []
+  },
+  {
+   "id": "LN-022",
+   "goal": "si_unpaid_manager_category",
+   "expected": "true",
+   "kb_result": "true",
+   "verdict": "ok",
+   "required_unresolved": [],
+   "gold_missing": [],
+   "applied_rules": [
+    "LN0-R005",
+    "LN1-R008",
+    "LN2-R014",
+    "LN2-R015",
+    "LN2-R016",
+    "LN2-R022",
+    "LN2-R039"
+   ],
+   "goal_rules_in_kb": [
+    "LN2-R015",
+    "LN2-R016",
+    "LN2-R017",
+    "LN2-R018",
+    "LN2-R019"
+   ],
+   "competing": []
+  },
+  {
+   "id": "LN-024",
+   "goal": "si_paid_manager_category",
+   "expected": "true",
+   "kb_result": "true",
+   "verdict": "ok",
+   "required_unresolved": [],
+   "gold_missing": [],
+   "applied_rules": [
+    "LN0-R005",
+    "LN1-R008",
+    "LN2-R010",
+    "LN2-R011",
+    "LN2-R019",
+    "LN2-R021"
+   ],
+   "goal_rules_in_kb": [
+    "LN2-R010",
+    "LN2-R011",
+    "LN2-R012",
+    "LN2-R013",
+    "LN2-R014"
+   ],
+   "competing": []
+  },
+  {
+   "id": "LN-025",
+   "goal": "si_unpaid_manager_category",
+   "expected": "true",
+   "kb_result": "true",
+   "verdict": "ok",
+   "required_unresolved": [],
+   "gold_missing": [],
+   "applied_rules": [
+    "LN0-R005",
+    "LN1-R008",
+    "LN2-R014",
+    "LN2-R015",
+    "LN2-R016",
+    "LN2-R022",
+    "LN2-R039"
+   ],
+   "goal_rules_in_kb": [
+    "LN2-R015",
+    "LN2-R016",
+    "LN2-R017",
+    "LN2-R018",
+    "LN2-R019"
+   ],
+   "competing": []
+  },
+  {
+   "id": "LN-029",
+   "goal": "cit_taxpayer",
+   "expected": "true",
+   "kb_result": "true",
+   "verdict": "ok",
+   "required_unresolved": [],
+   "gold_missing": [],
+   "applied_rules": [
+    "LN0-R001",
+    "LN0-R004",
+    "LN0-R009",
+    "LN0-R011",
+    "LN1-R008"
+   ],
+   "goal_rules_in_kb": [
+    "LN0-R011",
+    "LN0-R012"
+   ],
+   "competing": []
+  },
+  {
+   "id": "LN-031",
+   "goal": "cit_taxpayer",
+   "expected": "unknown",
+   "kb_result": "unknown",
+   "verdict": "ok",
+   "required_unresolved": [
+    "taxable_business_income"
+   ],
+   "gold_missing": [
+    "taxable_business_income"
+   ],
+   "applied_rules": [
+    "LN0-R001",
+    "LN0-R004",
+    "LN1-R008"
+   ],
+   "goal_rules_in_kb": [
+    "LN0-R011",
+    "LN0-R012"
+   ],
+   "competing": []
+  },
+  {
+   "id": "LN-033",
+   "goal": "cit_rate_17_applicable",
+   "expected": "true",
+   "kb_result": "true",
+   "verdict": "ok",
+   "required_unresolved": [],
+   "gold_missing": [],
+   "applied_rules": [
+    "LN0-R002",
+    "LN0-R004",
+    "LN0-R009",
+    "LN0-R011",
+    "LN0-R016",
+    "LN1-R008"
+   ],
+   "goal_rules_in_kb": [
+    "LN0-R016",
+    "LN0-R017",
+    "LN0-R018"
+   ],
+   "competing": []
+  },
+  {
+   "id": "LN-035",
+   "goal": "cit_rate_15_applicable",
+   "expected": "unknown",
+   "kb_result": "unknown",
+   "verdict": "ok",
+   "required_unresolved": [
+    "cit_prior_revenue_le_3bn"
+   ],
+   "gold_missing": [
+    "cit_prior_revenue_le_3bn"
+   ],
+   "applied_rules": [
+    "LN0-R001",
+    "LN0-R004",
+    "LN0-R009",
+    "LN0-R011",
+    "LN1-R008"
+   ],
+   "goal_rules_in_kb": [
+    "LN0-R013",
+    "LN0-R014",
+    "LN0-R015"
+   ],
+   "competing": []
+  },
+  {
+   "id": "LN-038",
+   "goal": "vat_taxpayer_on_branch_sale",
+   "expected": "unknown",
+   "kb_result": "unknown",
+   "verdict": "ok",
+   "required_unresolved": [
+    "vat_non_exempt_goods"
+   ],
+   "gold_missing": [
+    "vat_non_exempt_goods"
+   ],
+   "applied_rules": [
+    "LN0-R004",
+    "LN0-R006",
+    "LN1-R008"
+   ],
+   "goal_rules_in_kb": [
+    "LN0-R007",
+    "LN0-R008"
+   ],
+   "competing": []
+  }
+ ],
+ "items": 20,
+ "skipped": [],
+ "skipped_by_reason": {}
+}

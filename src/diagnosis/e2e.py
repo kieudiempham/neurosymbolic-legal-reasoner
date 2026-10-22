@@ -116,8 +116,12 @@ def main() -> None:
     for p in parsers.values():
         p.cache = shared
     any_p = parsers["bhxh"]
-    order = sorted(items)
     irac_ids = set(select_irac(items, split))
+    if "--irac-all" in sys.argv:  # IRAC for every question (written to irac_answers_all.json)
+        irac_ids = set(items)
+    # --test-only: the held-out test questions plus the IRAC sample (social insurance has no test split)
+    order = sorted(i for i in items if "--test-only" not in sys.argv or split[i] == "test" or i in irac_ids)
+    print(f"{len(order)} questions", flush=True)
 
     # 1. parse every question with its domain KB vocabulary (GPT-4o, cached)
     import hashlib
@@ -199,7 +203,8 @@ def main() -> None:
                                  for lab in ("true", "false", "insufficient")}
     summ["verdict_distribution"] = {m: dict(Counter(r[m] for r in rows)) for m in names}
     summ["parser"] = {"precision": round(tp / max(1, tp + fp), 4), "recall": round(tp / max(1, tp + fn), 4)}
-    (OUT / "qa_results.json").write_text(json.dumps({"summary": summ, "rows": rows}, ensure_ascii=False, indent=1),
+    if "--irac-all" not in sys.argv:
+      (OUT / "qa_results.json").write_text(json.dumps({"summary": summ, "rows": rows}, ensure_ascii=False, indent=1),
                                          encoding="utf-8")
 
     irac = []
@@ -213,7 +218,8 @@ def main() -> None:
         irac.append({"id": iid, "domain": it["domain"], "split": split[iid], "question": it["question"],
                      "gold_expected": it["expected"], "gold_missing": it.get("missing_facts") or [],
                      "gold_legal_basis": it.get("legal_basis") or [], "answers": ans})
-    (OUT / "irac_answers.json").write_text(json.dumps(irac, ensure_ascii=False, indent=1), encoding="utf-8")
+    name = "irac_answers_all.json" if "--irac-all" in sys.argv else "irac_answers.json"
+    (OUT / name).write_text(json.dumps(irac, ensure_ascii=False, indent=1), encoding="utf-8")
     print(json.dumps(summ, ensure_ascii=False, indent=1))
 
 

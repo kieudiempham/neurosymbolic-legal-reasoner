@@ -1,0 +1,6922 @@
+{
+ "summary": {
+  "all": {
+   "gpt4o": 0.7133,
+   "symbolic": 0.6567,
+   "heuristic": 0.79,
+   "ours": 0.7833,
+   "n": 300
+  },
+  "dev": {
+   "gpt4o": 0.7165,
+   "symbolic": 0.6804,
+   "heuristic": 0.8608,
+   "ours": 0.8557,
+   "n": 194
+  },
+  "test": {
+   "gpt4o": 0.7075,
+   "symbolic": 0.6132,
+   "heuristic": 0.6604,
+   "ours": 0.6509,
+   "n": 106
+  },
+  "by_domain_test_or_all": {
+   "bhxh": {
+    "gpt4o": 0.6889,
+    "symbolic": 0.6111,
+    "heuristic": 0.9222,
+    "ours": 0.9222,
+    "n": 90
+   },
+   "doanh_nghiep": {
+    "gpt4o": 0.7429,
+    "symbolic": 0.6857,
+    "heuristic": 0.6286,
+    "ours": 0.6286,
+    "n": 35
+   },
+   "thue": {
+    "gpt4o": 0.6389,
+    "symbolic": 0.5833,
+    "heuristic": 0.5833,
+    "ours": 0.5556,
+    "n": 36
+   },
+   "lao_dong": {
+    "gpt4o": 0.8,
+    "symbolic": 0.5333,
+    "heuristic": 0.6,
+    "ours": 0.6,
+    "n": 15
+   },
+   "lien_nganh": {
+    "gpt4o": 0.7,
+    "symbolic": 0.6,
+    "heuristic": 0.9,
+    "ours": 0.9,
+    "n": 20
+   }
+  },
+  "by_gold_label_all": {
+   "true": {
+    "gpt4o": 0.8264,
+    "symbolic": 0.5764,
+    "heuristic": 0.8958,
+    "ours": 0.8819
+   },
+   "false": {
+    "gpt4o": 0.6824,
+    "symbolic": 0.6706,
+    "heuristic": 0.6824,
+    "ours": 0.6824
+   },
+   "insufficient": {
+    "gpt4o": 0.5211,
+    "symbolic": 0.8028,
+    "heuristic": 0.7042,
+    "ours": 0.7042
+   }
+  },
+  "verdict_distribution": {
+   "gpt4o": {
+    "true": 168,
+    "false": 83,
+    "insufficient": 49
+   },
+   "symbolic": {
+    "insufficient": 130,
+    "false": 70,
+    "true": 86,
+    "abstain": 14
+   },
+   "heuristic": {
+    "insufficient": 81,
+    "true": 149,
+    "false": 69,
+    "abstain": 1
+   },
+   "ours": {
+    "insufficient": 83,
+    "true": 147,
+    "false": 69,
+    "abstain": 1
+   }
+  },
+  "parser": {
+   "precision": 0.8891,
+   "recall": 0.8473
+  }
+ },
+ "rows": [
+  {
+   "id": "BHXH-001",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "domestic_worker": false,
+    "term_at_least_1_month": true,
+    "receiving_pension": false,
+    "monthly_benefit": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(wage_at_least_min_base)",
+    "ParserOmission(part_time)",
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(wage_at_least_min_base)",
+    "ParserOmission(part_time)",
+    "ParserOmission(signed_labor_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-002",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "domestic_worker": false,
+    "receiving_pension": false,
+    "monthly_benefit": false,
+    "term_at_least_1_month": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(wage_at_least_min_base)",
+    "ParserOmission(part_time)",
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(wage_at_least_min_base)",
+    "ParserOmission(part_time)",
+    "ParserOmission(signed_labor_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-003",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "domestic_worker": false,
+    "term_at_least_1_month": true,
+    "receiving_pension": false,
+    "monthly_benefit": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(part_time)",
+    "MissingCaseInformation(wage_at_least_min_base)",
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "MissingCaseInformation(part_time)",
+    "MissingCaseInformation(wage_at_least_min_base)",
+    "ParserOmission(signed_labor_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-004",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "domestic_worker": false,
+    "indefinite_term_contract": false,
+    "receiving_pension": false,
+    "monthly_benefit": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(alternative_work_agreement)",
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(is_cipher_worker_paid_as_soldier)",
+    "MissingCaseInformation(is_civil_servant)",
+    "MissingCaseInformation(is_defense_worker)",
+    "MissingCaseInformation(is_military_officer)",
+    "MissingCaseInformation(is_non_professional_worker)",
+    "MissingCaseInformation(is_police_professional_nco)",
+    "MissingCaseInformation(is_police_professional_officer)",
+    "MissingCaseInformation(is_police_technical_nco)",
+    "MissingCaseInformation(is_police_technical_officer)",
+    "MissingCaseInformation(is_professional_soldier)",
+    "MissingCaseInformation(is_regular_militia)",
+    "MissingCaseInformation(is_spouse_on_mission)",
+    "MissingCaseInformation(missing_contribution_max_6_months)",
+    "MissingCaseInformation(paid_wage)",
+    "MissingCaseInformation(part_time)",
+    "MissingCaseInformation(reached_retirement_age)",
+    "MissingCaseInformation(receives_salary)",
+    "MissingCaseInformation(sent_for_study_or_work)",
+    "MissingCaseInformation(still_receives_domestic_salary)",
+    "MissingCaseInformation(under_management)",
+    "MissingCaseInformation(wage_at_least_min_base)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "MissingCaseInformation(part_time)",
+    "MissingCaseInformation(wage_at_least_min_base)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ]
+  },
+  {
+   "id": "BHXH-005",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "domestic_worker": false,
+    "indefinite_term_contract": false,
+    "receiving_pension": false,
+    "monthly_benefit": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(alternative_work_agreement)",
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(is_cipher_worker_paid_as_soldier)",
+    "MissingCaseInformation(is_civil_servant)",
+    "MissingCaseInformation(is_defense_worker)",
+    "MissingCaseInformation(is_military_officer)",
+    "MissingCaseInformation(is_non_professional_worker)",
+    "MissingCaseInformation(is_police_professional_nco)",
+    "MissingCaseInformation(is_police_professional_officer)",
+    "MissingCaseInformation(is_police_technical_nco)",
+    "MissingCaseInformation(is_police_technical_officer)",
+    "MissingCaseInformation(is_professional_soldier)",
+    "MissingCaseInformation(is_regular_militia)",
+    "MissingCaseInformation(is_spouse_on_mission)",
+    "MissingCaseInformation(missing_contribution_max_6_months)",
+    "MissingCaseInformation(part_time)",
+    "MissingCaseInformation(reached_retirement_age)",
+    "MissingCaseInformation(sent_for_study_or_work)",
+    "MissingCaseInformation(still_receives_domestic_salary)",
+    "MissingCaseInformation(wage_at_least_min_base)",
+    "ParserOmission(paid_wage)",
+    "ParserOmission(receives_salary)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)",
+    "ParserOmission(under_management)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "MissingCaseInformation(part_time)",
+    "MissingCaseInformation(wage_at_least_min_base)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ]
+  },
+  {
+   "id": "BHXH-006",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "domestic_worker": false,
+    "indefinite_term_contract": false,
+    "receiving_pension": false,
+    "monthly_benefit": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(alternative_work_agreement)",
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(is_cipher_worker_paid_as_soldier)",
+    "MissingCaseInformation(is_civil_servant)",
+    "MissingCaseInformation(is_defense_worker)",
+    "MissingCaseInformation(is_military_officer)",
+    "MissingCaseInformation(is_non_professional_worker)",
+    "MissingCaseInformation(is_police_professional_nco)",
+    "MissingCaseInformation(is_police_professional_officer)",
+    "MissingCaseInformation(is_police_technical_nco)",
+    "MissingCaseInformation(is_police_technical_officer)",
+    "MissingCaseInformation(is_professional_soldier)",
+    "MissingCaseInformation(is_regular_militia)",
+    "MissingCaseInformation(is_spouse_on_mission)",
+    "MissingCaseInformation(missing_contribution_max_6_months)",
+    "MissingCaseInformation(reached_retirement_age)",
+    "MissingCaseInformation(sent_for_study_or_work)",
+    "MissingCaseInformation(still_receives_domestic_salary)",
+    "MissingCaseInformation(wage_at_least_min_base)",
+    "ParserOmission(paid_wage)",
+    "ParserOmission(part_time)",
+    "ParserOmission(receives_salary)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)",
+    "ParserOmission(under_management)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(wage_at_least_min_base)",
+    "ParserOmission(part_time)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ]
+  },
+  {
+   "id": "BHXH-007",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "foreign_citizen": false,
+    "domestic_worker": false,
+    "indefinite_term_contract": false,
+    "receiving_pension": false,
+    "monthly_benefit": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(indefinite_term_contract)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(indefinite_term_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-008",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "domestic_worker": false,
+    "term_at_least_1_month": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(part_time)",
+    "MissingCaseInformation(wage_at_least_min_base)",
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "MissingCaseInformation(part_time)",
+    "MissingCaseInformation(wage_at_least_min_base)",
+    "ParserOmission(signed_labor_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-009",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "foreign_citizen": false,
+    "domestic_worker": false,
+    "receiving_pension": false,
+    "monthly_benefit": false,
+    "alternative_work_agreement": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(is_cipher_worker_paid_as_soldier)",
+    "MissingCaseInformation(is_civil_servant)",
+    "MissingCaseInformation(is_defense_worker)",
+    "MissingCaseInformation(is_military_officer)",
+    "MissingCaseInformation(is_non_professional_worker)",
+    "MissingCaseInformation(is_police_professional_nco)",
+    "MissingCaseInformation(is_police_professional_officer)",
+    "MissingCaseInformation(is_police_technical_nco)",
+    "MissingCaseInformation(is_police_technical_officer)",
+    "MissingCaseInformation(is_professional_soldier)",
+    "MissingCaseInformation(is_regular_militia)",
+    "MissingCaseInformation(is_spouse_on_mission)",
+    "MissingCaseInformation(missing_contribution_max_6_months)",
+    "MissingCaseInformation(paid_wage)",
+    "MissingCaseInformation(part_time)",
+    "MissingCaseInformation(reached_retirement_age)",
+    "MissingCaseInformation(receives_salary)",
+    "MissingCaseInformation(sent_for_study_or_work)",
+    "MissingCaseInformation(signed_labor_contract)",
+    "MissingCaseInformation(still_receives_domestic_salary)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "MissingCaseInformation(under_management)",
+    "MissingCaseInformation(wage_at_least_min_base)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(is_cipher_worker_paid_as_soldier)",
+    "MissingCaseInformation(is_civil_servant)",
+    "MissingCaseInformation(is_defense_worker)",
+    "MissingCaseInformation(is_military_officer)",
+    "MissingCaseInformation(is_non_professional_worker)",
+    "MissingCaseInformation(is_police_professional_nco)",
+    "MissingCaseInformation(is_police_professional_officer)",
+    "MissingCaseInformation(is_police_technical_nco)",
+    "MissingCaseInformation(is_police_technical_officer)",
+    "MissingCaseInformation(is_professional_soldier)",
+    "MissingCaseInformation(is_regular_militia)",
+    "MissingCaseInformation(is_spouse_on_mission)",
+    "MissingCaseInformation(missing_contribution_max_6_months)",
+    "MissingCaseInformation(paid_wage)",
+    "MissingCaseInformation(part_time)",
+    "MissingCaseInformation(reached_retirement_age)",
+    "MissingCaseInformation(receives_salary)",
+    "MissingCaseInformation(sent_for_study_or_work)",
+    "MissingCaseInformation(signed_labor_contract)",
+    "MissingCaseInformation(still_receives_domestic_salary)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "MissingCaseInformation(under_management)",
+    "MissingCaseInformation(wage_at_least_min_base)",
+    "ParserOmission(paid_wage)"
+   ]
+  },
+  {
+   "id": "BHXH-010",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "foreign_citizen": false,
+    "domestic_worker": false,
+    "term_at_least_12_months": true,
+    "receiving_pension": true
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-011",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "alternative_work_agreement": true,
+    "paid_wage": true,
+    "under_management": true,
+    "term_at_least_1_month": true,
+    "receiving_pension": false,
+    "monthly_benefit": false,
+    "domestic_worker": false
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-012",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "alternative_work_agreement": true,
+    "paid_wage": true,
+    "under_management": true,
+    "term_at_least_1_month": true,
+    "receiving_pension": false,
+    "monthly_benefit": false,
+    "domestic_worker": false
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-013",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "alternative_work_agreement": true,
+    "paid_wage": true,
+    "under_management": true,
+    "term_at_least_1_month": true,
+    "receiving_pension": false,
+    "monthly_benefit": false,
+    "domestic_worker": false
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-014",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "alternative_work_agreement": true,
+    "paid_wage": true,
+    "under_management": true,
+    "term_at_least_1_month": true,
+    "receiving_pension": false,
+    "monthly_benefit": false,
+    "domestic_worker": false
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-015",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "alternative_work_agreement": true,
+    "paid_wage": true,
+    "under_management": true,
+    "term_at_least_1_month": true,
+    "receiving_pension": false,
+    "monthly_benefit": false,
+    "domestic_worker": false
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-016",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "alternative_work_agreement": true,
+    "paid_wage": true,
+    "under_management": true,
+    "term_at_least_1_month": true,
+    "receiving_pension": false,
+    "monthly_benefit": false,
+    "domestic_worker": false
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-017",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "foreign_citizen": false,
+    "alternative_work_agreement": true,
+    "paid_wage": true,
+    "term_at_least_1_month": true,
+    "receiving_pension": false,
+    "monthly_benefit": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(part_time)",
+    "MissingCaseInformation(wage_at_least_min_base)",
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(part_time)",
+    "MissingCaseInformation(wage_at_least_min_base)",
+    "ParserOmission(signed_labor_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-018",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "foreign_citizen": false,
+    "alternative_work_agreement": true,
+    "under_management": true,
+    "term_at_least_1_month": true,
+    "receiving_pension": false,
+    "monthly_benefit": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(part_time)",
+    "MissingCaseInformation(wage_at_least_min_base)",
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(part_time)",
+    "MissingCaseInformation(wage_at_least_min_base)",
+    "ParserOmission(signed_labor_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-019",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "foreign_citizen": false,
+    "alternative_work_agreement": true,
+    "paid_wage": true,
+    "under_management": true,
+    "receiving_pension": false,
+    "monthly_benefit": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(is_cipher_worker_paid_as_soldier)",
+    "MissingCaseInformation(is_civil_servant)",
+    "MissingCaseInformation(is_defense_worker)",
+    "MissingCaseInformation(is_military_officer)",
+    "MissingCaseInformation(is_non_professional_worker)",
+    "MissingCaseInformation(is_police_professional_nco)",
+    "MissingCaseInformation(is_police_professional_officer)",
+    "MissingCaseInformation(is_police_technical_nco)",
+    "MissingCaseInformation(is_police_technical_officer)",
+    "MissingCaseInformation(is_professional_soldier)",
+    "MissingCaseInformation(is_regular_militia)",
+    "MissingCaseInformation(is_spouse_on_mission)",
+    "MissingCaseInformation(missing_contribution_max_6_months)",
+    "MissingCaseInformation(part_time)",
+    "MissingCaseInformation(reached_retirement_age)",
+    "MissingCaseInformation(sent_for_study_or_work)",
+    "MissingCaseInformation(still_receives_domestic_salary)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "MissingCaseInformation(wage_at_least_min_base)",
+    "ParserOmission(receives_salary)",
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(part_time)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "MissingCaseInformation(wage_at_least_min_base)",
+    "ParserOmission(receives_salary)",
+    "ParserOmission(signed_labor_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-020",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "foreign_citizen": false,
+    "alternative_work_agreement": true,
+    "paid_wage": true,
+    "under_management": true,
+    "term_at_least_12_months": true,
+    "receiving_pension": true
+   },
+   "gpt4o": "true",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-021",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "part_time": true,
+    "term_at_least_1_month": true,
+    "wage_at_least_min_base": true,
+    "receiving_pension": false,
+    "monthly_benefit": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserOmission(signed_labor_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-022",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "part_time": true,
+    "term_at_least_1_month": true,
+    "wage_at_least_min_base": true,
+    "receiving_pension": false,
+    "monthly_benefit": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserOmission(signed_labor_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-023",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "part_time": true,
+    "term_at_least_1_month": true,
+    "wage_at_least_min_base": true,
+    "receiving_pension": false,
+    "monthly_benefit": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserOmission(signed_labor_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-024",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "part_time": true,
+    "term_at_least_1_month": true,
+    "wage_at_least_min_base": true,
+    "receiving_pension": false,
+    "monthly_benefit": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserOmission(signed_labor_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-025",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "part_time": true,
+    "term_at_least_12_months": true,
+    "wage_at_least_min_base": true,
+    "receiving_pension": false,
+    "monthly_benefit": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ]
+  },
+  {
+   "id": "BHXH-026",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "foreign_citizen": false,
+    "part_time": true,
+    "term_at_least_1_month": true,
+    "receiving_pension": false,
+    "monthly_benefit": false
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(wage_at_least_min_base)",
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(wage_at_least_min_base)",
+    "ParserOmission(signed_labor_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-027",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "foreign_citizen": false,
+    "part_time": true,
+    "term_at_least_1_month": true,
+    "term_at_least_12_months": false,
+    "receiving_pension": false,
+    "monthly_benefit": false
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(wage_at_least_min_base)",
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(wage_at_least_min_base)",
+    "ParserOmission(signed_labor_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-028",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "foreign_citizen": false,
+    "part_time": true,
+    "term_at_least_1_month": true,
+    "term_at_least_12_months": false,
+    "receiving_pension": false,
+    "monthly_benefit": false
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(wage_at_least_min_base)",
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(wage_at_least_min_base)",
+    "ParserOmission(signed_labor_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-029",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "foreign_citizen": false,
+    "part_time": true,
+    "term_at_least_1_month": true,
+    "wage_at_least_min_base": false,
+    "receiving_pension": false,
+    "monthly_benefit": false
+   },
+   "gpt4o": "false",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(alternative_work_agreement)",
+    "ParserOmission(paid_wage)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(under_management)"
+   ],
+   "ours": "false",
+   "ours_diagnosis": [
+    "MissingCaseInformation(alternative_work_agreement)",
+    "ParserOmission(paid_wage)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(under_management)"
+   ]
+  },
+  {
+   "id": "BHXH-030",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "foreign_citizen": false,
+    "part_time": true,
+    "term_at_least_12_months": true,
+    "wage_at_least_min_base": false,
+    "receiving_pension": false,
+    "monthly_benefit": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(alternative_work_agreement)",
+    "ParserOmission(indefinite_term_contract)",
+    "ParserOmission(paid_wage)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)",
+    "ParserOmission(under_management)"
+   ],
+   "ours": "false",
+   "ours_diagnosis": [
+    "MissingCaseInformation(alternative_work_agreement)",
+    "ParserOmission(indefinite_term_contract)",
+    "ParserOmission(paid_wage)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)",
+    "ParserOmission(under_management)"
+   ]
+  },
+  {
+   "id": "BHXH-031",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": true,
+    "term_at_least_12_months": true,
+    "intra_company_transfer": false,
+    "retirement_age_at_signing": false,
+    "treaty_exception": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserOmission(signed_labor_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-032",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": true,
+    "term_at_least_12_months": true,
+    "intra_company_transfer": false,
+    "retirement_age_at_signing": false,
+    "treaty_exception": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserOmission(signed_labor_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-033",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": true,
+    "term_at_least_12_months": true,
+    "intra_company_transfer": false,
+    "retirement_age_at_signing": false,
+    "treaty_exception": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserOmission(signed_labor_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-034",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": true,
+    "term_at_least_12_months": true,
+    "intra_company_transfer": false,
+    "retirement_age_at_signing": false,
+    "treaty_exception": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserOmission(signed_labor_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-035",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": true,
+    "term_at_least_12_months": true,
+    "intra_company_transfer": false,
+    "retirement_age_at_signing": false,
+    "treaty_exception": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserOmission(signed_labor_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-036",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": true,
+    "term_at_least_12_months": true,
+    "intra_company_transfer": false,
+    "retirement_age_at_signing": false,
+    "treaty_exception": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(intra_company_transfer)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(intra_company_transfer)"
+   ]
+  },
+  {
+   "id": "BHXH-037",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": true,
+    "term_at_least_12_months": true,
+    "intra_company_transfer": false,
+    "treaty_exception": false
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(intra_company_transfer)",
+    "UnsupportedParserFact(treaty_exception)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(intra_company_transfer)",
+    "UnsupportedParserFact(treaty_exception)"
+   ]
+  },
+  {
+   "id": "BHXH-038",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "foreign_citizen": true,
+    "term_at_least_12_months": true,
+    "employer_in_vietnam": true,
+    "intra_company_transfer": true
+   },
+   "gpt4o": "true",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-039",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "foreign_citizen": true,
+    "employer_in_vietnam": true,
+    "term_at_least_12_months": true,
+    "retirement_age_at_signing": true
+   },
+   "gpt4o": "true",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-040",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "foreign_citizen": true,
+    "term_at_least_12_months": true,
+    "intra_company_transfer": true,
+    "retirement_age_at_signing": true
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-041",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "foreign_citizen": false,
+    "receiving_pension": false,
+    "monthly_benefit": false,
+    "probation_only": true
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-042",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "foreign_citizen": false,
+    "receiving_pension": false,
+    "monthly_benefit": false,
+    "probation_only": true
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-043",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "foreign_citizen": false,
+    "receiving_pension": false,
+    "monthly_benefit": false,
+    "probation_only": true
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-044",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "foreign_citizen": false,
+    "receiving_pension": false,
+    "monthly_benefit": false,
+    "domestic_worker": true
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-045",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "foreign_citizen": false,
+    "receiving_pension": false,
+    "monthly_benefit": false,
+    "domestic_worker": true
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-046",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "foreign_citizen": false,
+    "receiving_pension": false,
+    "monthly_benefit": false,
+    "probation_only": true
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-047",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "receiving_pension": false,
+    "monthly_benefit": false,
+    "probation_only": false,
+    "term_at_least_12_months": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(alternative_work_agreement)",
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(indefinite_term_contract)",
+    "MissingCaseInformation(is_cipher_worker_paid_as_soldier)",
+    "MissingCaseInformation(is_civil_servant)",
+    "MissingCaseInformation(is_defense_worker)",
+    "MissingCaseInformation(is_military_officer)",
+    "MissingCaseInformation(is_non_professional_worker)",
+    "MissingCaseInformation(is_police_professional_nco)",
+    "MissingCaseInformation(is_police_professional_officer)",
+    "MissingCaseInformation(is_police_technical_nco)",
+    "MissingCaseInformation(is_police_technical_officer)",
+    "MissingCaseInformation(is_professional_soldier)",
+    "MissingCaseInformation(is_regular_militia)",
+    "MissingCaseInformation(is_spouse_on_mission)",
+    "MissingCaseInformation(missing_contribution_max_6_months)",
+    "MissingCaseInformation(paid_wage)",
+    "MissingCaseInformation(part_time)",
+    "MissingCaseInformation(reached_retirement_age)",
+    "MissingCaseInformation(sent_for_study_or_work)",
+    "MissingCaseInformation(still_receives_domestic_salary)",
+    "MissingCaseInformation(wage_at_least_min_base)",
+    "ParserOmission(receives_salary)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)",
+    "ParserOmission(under_management)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "MissingCaseInformation(part_time)",
+    "MissingCaseInformation(wage_at_least_min_base)",
+    "ParserOmission(signed_labor_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ]
+  },
+  {
+   "id": "BHXH-048",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "foreign_citizen": false,
+    "receiving_pension": false,
+    "monthly_benefit": false,
+    "probation_only": true,
+    "signed_labor_contract": false
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(signed_labor_contract)"
+   ],
+   "ours": "false",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(signed_labor_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-049",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "enterprise_manager": true,
+    "receives_salary": true,
+    "receiving_pension": false,
+    "monthly_benefit": false
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-050",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "enterprise_manager": true,
+    "receives_salary": true,
+    "receiving_pension": false,
+    "monthly_benefit": false
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-051",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "enterprise_manager": true,
+    "receives_salary": true,
+    "receiving_pension": false,
+    "monthly_benefit": false
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-052",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "enterprise_manager": true,
+    "receives_salary": false,
+    "reached_retirement_age": false,
+    "receiving_pension": false,
+    "monthly_benefit": false
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-053",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "enterprise_manager": true,
+    "receives_salary": false,
+    "reached_retirement_age": false,
+    "receiving_pension": false,
+    "monthly_benefit": false
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-054",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "enterprise_manager": true,
+    "receives_salary": true
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-055",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "enterprise_manager": true,
+    "receives_salary": true
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-056",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "foreign_citizen": false,
+    "enterprise_manager": true,
+    "receiving_pension": true
+   },
+   "gpt4o": "true",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-057",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "is_business_owner": true,
+    "business_registered": true,
+    "multiple_contracts": false,
+    "reached_retirement_age": false,
+    "receiving_pension": false,
+    "monthly_benefit": false,
+    "declaration_tax_method": true
+   },
+   "gpt4o": "false",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-058",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "is_business_owner": true,
+    "business_registered": true,
+    "multiple_contracts": false,
+    "reached_retirement_age": false,
+    "receiving_pension": false,
+    "monthly_benefit": false,
+    "declaration_tax_method": true
+   },
+   "gpt4o": "false",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-059",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "is_business_owner": true,
+    "business_registered": true,
+    "multiple_contracts": false,
+    "reached_retirement_age": false,
+    "receiving_pension": false,
+    "monthly_benefit": false,
+    "declaration_tax_method": true
+   },
+   "gpt4o": "false",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-060",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "is_business_owner": true,
+    "business_registered": true,
+    "multiple_contracts": false,
+    "reached_retirement_age": false,
+    "receiving_pension": false,
+    "monthly_benefit": false,
+    "declaration_tax_method": true
+   },
+   "gpt4o": "false",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-061",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "is_business_owner": true,
+    "business_registered": true,
+    "receiving_pension": false,
+    "monthly_benefit": false,
+    "declaration_tax_method": true,
+    "reached_retirement_age": false
+   },
+   "gpt4o": "false",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-062",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "foreign_citizen": false,
+    "is_business_owner": true,
+    "business_registered": true,
+    "multiple_contracts": false,
+    "reached_retirement_age": false,
+    "receiving_pension": false,
+    "monthly_benefit": false,
+    "declaration_tax_method": false
+   },
+   "gpt4o": "false",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(declaration_tax_method)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(declaration_tax_method)"
+   ]
+  },
+  {
+   "id": "BHXH-063",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "foreign_citizen": false,
+    "is_business_owner": true,
+    "business_registered": true,
+    "multiple_contracts": false,
+    "reached_retirement_age": false,
+    "receiving_pension": false,
+    "monthly_benefit": false,
+    "declaration_tax_method": false
+   },
+   "gpt4o": "false",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(declaration_tax_method)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(declaration_tax_method)"
+   ]
+  },
+  {
+   "id": "BHXH-064",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "foreign_citizen": false,
+    "is_business_owner": true,
+    "business_registered": true,
+    "multiple_contracts": false,
+    "reached_retirement_age": false,
+    "receiving_pension": false,
+    "monthly_benefit": false,
+    "declaration_tax_method": false,
+    "date_before_2029": true
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-065",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "foreign_citizen": false,
+    "signed_labor_contract": true,
+    "term_at_least_12_months": true,
+    "unpaid_14_days": true,
+    "agreed_contribution": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(indefinite_term_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "ours": "false",
+   "ours_diagnosis": [
+    "MissingCaseInformation(indefinite_term_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ]
+  },
+  {
+   "id": "BHXH-066",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "foreign_citizen": false,
+    "signed_labor_contract": true,
+    "term_at_least_12_months": true,
+    "unpaid_14_days": true,
+    "agreed_contribution": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(indefinite_term_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "ours": "false",
+   "ours_diagnosis": [
+    "MissingCaseInformation(indefinite_term_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ]
+  },
+  {
+   "id": "BHXH-067",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "foreign_citizen": false,
+    "signed_labor_contract": true,
+    "term_at_least_12_months": true,
+    "unpaid_14_days": true,
+    "agreed_contribution": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(indefinite_term_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "ours": "false",
+   "ours_diagnosis": [
+    "MissingCaseInformation(indefinite_term_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ]
+  },
+  {
+   "id": "BHXH-068",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "signed_labor_contract": true,
+    "term_at_least_12_months": true,
+    "unpaid_14_days": true,
+    "agreed_contribution": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(indefinite_term_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "MissingCaseInformation(indefinite_term_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ]
+  },
+  {
+   "id": "BHXH-069",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "signed_labor_contract": true,
+    "term_at_least_12_months": true,
+    "unpaid_14_days": true,
+    "agreed_contribution": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(indefinite_term_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "MissingCaseInformation(indefinite_term_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ]
+  },
+  {
+   "id": "BHXH-070",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "foreign_citizen": false,
+    "signed_labor_contract": true,
+    "term_at_least_12_months": true,
+    "unpaid_14_days": true,
+    "agreed_contribution": false
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(agreed_contribution)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(agreed_contribution)"
+   ]
+  },
+  {
+   "id": "BHXH-071",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "foreign_citizen": false,
+    "signed_labor_contract": true,
+    "term_at_least_12_months": true,
+    "unpaid_14_days": true,
+    "agreed_contribution": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(agreed_contribution)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(agreed_contribution)"
+   ]
+  },
+  {
+   "id": "BHXH-072",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "signed_labor_contract": true,
+    "term_at_least_12_months": true,
+    "unpaid_14_days": true,
+    "agreed_contribution": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(indefinite_term_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "MissingCaseInformation(indefinite_term_contract)",
+    "ParserOmission(term_at_least_1_month)"
+   ]
+  },
+  {
+   "id": "BHXH-073",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "multiple_contracts": true,
+    "term_at_least_12_months": true,
+    "second_contract_active": true,
+    "first_contract_suspended": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserOmission(signed_labor_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-074",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "multiple_contracts": true,
+    "term_at_least_12_months": true,
+    "second_contract_active": true,
+    "first_contract_suspended": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserOmission(signed_labor_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-075",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "multiple_contracts": true,
+    "term_at_least_12_months": true,
+    "second_contract_active": true,
+    "first_contract_suspended": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserOmission(signed_labor_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-076",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "foreign_citizen": false,
+    "multiple_contracts": true,
+    "term_at_least_12_months": true,
+    "second_contract_active": true,
+    "first_contract_suspended": true,
+    "agreed_contribution": false
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "ParserOmission(signed_labor_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-077",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "foreign_citizen": false,
+    "multiple_contracts": true,
+    "term_at_least_12_months": true,
+    "second_contract_active": true,
+    "first_contract_suspended": true,
+    "agreed_contribution": false
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "ParserOmission(signed_labor_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-078",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "foreign_citizen": false,
+    "multiple_contracts": true,
+    "term_at_least_12_months": true,
+    "second_contract_active": true,
+    "first_contract_suspended": true,
+    "agreed_contribution": false
+   },
+   "gpt4o": "false",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "ParserOmission(signed_labor_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-079",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "mandatory_si_history": true,
+    "stopped_working": true,
+    "reached_retirement_age": true,
+    "contribution_15_years": true
+   },
+   "gpt4o": "false",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-080",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "stopped_working": true,
+    "mandatory_si_history": true,
+    "reached_retirement_age": true,
+    "contribution_15_years": true
+   },
+   "gpt4o": "false",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-081",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "stopped_working": true,
+    "mandatory_si_history": true,
+    "reached_retirement_age": true,
+    "contribution_20_years": false
+   },
+   "gpt4o": "false",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(alternative_work_agreement)",
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(indefinite_term_contract)",
+    "MissingCaseInformation(paid_wage)",
+    "MissingCaseInformation(receives_salary)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "MissingCaseInformation(under_management)",
+    "ParserOmission(contribution_15_years)",
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(indefinite_term_contract)",
+    "MissingCaseInformation(receives_salary)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "ParserOmission(contribution_15_years)",
+    "ParserOmission(signed_labor_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-082",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "stopped_working": true,
+    "mandatory_si_history": true,
+    "reached_retirement_age": true,
+    "contribution_20_years": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(alternative_work_agreement)",
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(indefinite_term_contract)",
+    "MissingCaseInformation(paid_wage)",
+    "MissingCaseInformation(receives_salary)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "MissingCaseInformation(under_management)",
+    "ParserOmission(contribution_15_years)",
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(indefinite_term_contract)",
+    "MissingCaseInformation(receives_salary)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "ParserOmission(contribution_15_years)",
+    "ParserOmission(signed_labor_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-083",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "foreign_citizen": false,
+    "mandatory_si_history": true,
+    "stopped_working": true,
+    "reached_retirement_age": true
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(alternative_work_agreement)",
+    "MissingCaseInformation(contribution_15_years)",
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(indefinite_term_contract)",
+    "MissingCaseInformation(paid_wage)",
+    "MissingCaseInformation(receives_salary)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "MissingCaseInformation(under_management)",
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(contribution_15_years)",
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(indefinite_term_contract)",
+    "MissingCaseInformation(receives_salary)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "ParserOmission(signed_labor_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-084",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "foreign_citizen": false,
+    "mandatory_si_history": true,
+    "stopped_working": true,
+    "contribution_15_years": true
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(age_within_10_below_retirement)",
+    "MissingCaseInformation(alternative_work_agreement)",
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(heavy_hazardous_or_hardship_15_years)",
+    "MissingCaseInformation(hiv_from_occupational_accident)",
+    "MissingCaseInformation(indefinite_term_contract)",
+    "MissingCaseInformation(paid_wage)",
+    "MissingCaseInformation(reached_reduced_retirement_age)",
+    "MissingCaseInformation(reached_retirement_age)",
+    "MissingCaseInformation(receives_salary)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "MissingCaseInformation(under_management)",
+    "MissingCaseInformation(underground_coal_mining_15_years)",
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(age_within_10_below_retirement)",
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(heavy_hazardous_or_hardship_15_years)",
+    "MissingCaseInformation(hiv_from_occupational_accident)",
+    "MissingCaseInformation(indefinite_term_contract)",
+    "MissingCaseInformation(reached_reduced_retirement_age)",
+    "MissingCaseInformation(reached_retirement_age)",
+    "MissingCaseInformation(receives_salary)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "MissingCaseInformation(underground_coal_mining_15_years)",
+    "ParserOmission(signed_labor_contract)"
+   ]
+  },
+  {
+   "id": "BHXH-085",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "mandatory_si_history": true,
+    "terminated_participation": true,
+    "emigrating": true,
+    "requested_lump_sum": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-086",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "mandatory_si_history": true,
+    "terminated_participation": true,
+    "serious_illness": true,
+    "requested_lump_sum": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-087",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "mandatory_si_history": true,
+    "terminated_participation": true,
+    "serious_illness": true,
+    "requested_lump_sum": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-088",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "mandatory_si_history": true,
+    "terminated_participation": true,
+    "emigrating": true,
+    "requested_lump_sum": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-089",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "mandatory_si_history": true,
+    "terminated_participation": true,
+    "serious_illness": true,
+    "requested_lump_sum": true
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "BHXH-090",
+   "domain": "bhxh",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "foreign_citizen": false,
+    "mandatory_si_history": true,
+    "terminated_participation": true,
+    "emigrating": true
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ParserOmission(requested_lump_sum)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserOmission(requested_lump_sum)"
+   ]
+  },
+  {
+   "id": "DN-001",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "business_sector_permitted": true,
+    "enterprise_name_compliant": true,
+    "enterprise_name_confusing": false,
+    "registration_application_valid": true,
+    "registration_fee_paid": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-002",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "business_sector_permitted": false,
+    "enterprise_name_compliant": true,
+    "enterprise_name_confusing": false,
+    "registration_application_valid": true,
+    "registration_fee_paid": true
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(business_sector_permitted)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(business_sector_permitted)"
+   ]
+  },
+  {
+   "id": "DN-003",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "business_sector_permitted": true,
+    "enterprise_name_compliant": true,
+    "enterprise_name_confusing": false,
+    "registration_fee_paid": true
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(enterprise_name_confusing)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(enterprise_name_confusing)"
+   ]
+  },
+  {
+   "id": "DN-004",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "business_sector_permitted": true,
+    "enterprise_name_state_body": true,
+    "state_body_name_consent": true,
+    "registration_application_valid": true,
+    "registration_fee_paid": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ParserOmission(enterprise_name_compliant)",
+    "ResolvableRuleOverlap(DN-R26, DN-R23)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserOmission(enterprise_name_compliant)",
+    "ResolvableRuleOverlap(DN-R26, DN-R23)"
+   ]
+  },
+  {
+   "id": "DN-005",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "business_sector_permitted": true,
+    "enterprise_name_compliant": true,
+    "enterprise_name_confusing": false,
+    "registration_application_valid": true,
+    "registration_fee_paid": false
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-006",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "enterprise_name_duplicate": true
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-007",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "enterprise_name_duplicate": true
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-008",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "enterprise_name_state_body": true,
+    "state_body_name_consent": false
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-009",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "enterprise_name_state_body": true,
+    "state_body_name_consent": true
+   },
+   "gpt4o": "true",
+   "symbolic": "abstain",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ResolvableRuleOverlap(DN-R26, DN-R23)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ResolvableRuleOverlap(DN-R26, DN-R23)"
+   ]
+  },
+  {
+   "id": "DN-010",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "insufficient",
+   "parsed": {
+    "enterprise_name_state_body": true
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-011",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "intends_to_establish_private_enterprise": false,
+    "llc_member_count_valid": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-012",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "llc_member_count_valid": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-013",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "llc_member_count_valid": false
+   },
+   "gpt4o": "true",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-014",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "insufficient",
+   "parsed": {},
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ParserOmission(llc_member_count_valid)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserOmission(llc_member_count_valid)"
+   ]
+  },
+  {
+   "id": "DN-015",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "insufficient",
+   "parsed": {},
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(llc_member_count_valid)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(llc_member_count_valid)"
+   ]
+  },
+  {
+   "id": "DN-016",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "llc_company": true,
+    "llc_single_owner": true,
+    "converting_to_joint_stock": false
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-017",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "llc_single_owner": true,
+    "converting_to_joint_stock": true
+   },
+   "gpt4o": "true",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-018",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "llc_member_count_valid": true,
+    "converting_to_joint_stock": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ParserOmission(llc_company)",
+    "ParserOmission(llc_single_owner)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserOmission(llc_company)",
+    "ParserOmission(llc_single_owner)"
+   ]
+  },
+  {
+   "id": "DN-019",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "insufficient",
+   "parsed": {
+    "llc_single_owner": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-020",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "llc_single_owner": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-021",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "capital_contributed_in_full": true,
+    "capital_contribution_within_90_days": true,
+    "capital_transfer_delay_excluded": true,
+    "llc_member_count_valid": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-022",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "capital_contributed_in_full": true,
+    "capital_contribution_within_90_days": false,
+    "capital_transfer_delay_excluded": true,
+    "llc_member_count_valid": true
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-023",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "capital_contributed_in_full": true
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(capital_contribution_within_90_days)",
+    "MissingCaseInformation(llc_single_owner)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(capital_contribution_within_90_days)",
+    "MissingCaseInformation(llc_single_owner)"
+   ]
+  },
+  {
+   "id": "DN-024",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "capital_contributed_in_full": true,
+    "capital_transfer_delay_excluded": true,
+    "capital_contribution_within_90_days": true,
+    "llc_member_count_valid": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-025",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "capital_contributed_in_full": false,
+    "capital_contribution_within_90_days": false
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "ParserMisinterpretation(capital_contribution_within_90_days)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "ParserMisinterpretation(capital_contribution_within_90_days)"
+   ]
+  },
+  {
+   "id": "DN-026",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "capital_asset_different_from_commitment": true,
+    "other_members_majority_approval": true
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-027",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "capital_asset_different_from_commitment": true,
+    "other_members_majority_approval": false
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ParserMisinterpretation(other_members_majority_approval)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserMisinterpretation(other_members_majority_approval)"
+   ]
+  },
+  {
+   "id": "DN-028",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "capital_asset_different_from_commitment": true,
+    "other_members_majority_approval": false
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(capital_asset_different_from_commitment)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(capital_asset_different_from_commitment)"
+   ]
+  },
+  {
+   "id": "DN-029",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "insufficient",
+   "parsed": {
+    "capital_asset_different_from_commitment": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(other_members_majority_approval)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(other_members_majority_approval)"
+   ]
+  },
+  {
+   "id": "DN-030",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "other_members_majority_approval": true,
+    "capital_asset_different_from_commitment": true
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-031",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "llc_single_owner": true,
+    "capital_contributed_in_full": true
+   },
+   "gpt4o": "false",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ParserOmission(sole_owner_capital_shortfall_after_deadline)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserOmission(sole_owner_capital_shortfall_after_deadline)"
+   ]
+  },
+  {
+   "id": "DN-032",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "llc_single_owner": true,
+    "sole_owner_capital_shortfall_after_deadline": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-033",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "llc_single_owner": true,
+    "sole_owner_capital_shortfall_after_deadline": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-034",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "llc_single_owner": true,
+    "capital_asset_title_transferred": false,
+    "capital_contribution_within_90_days": true,
+    "capital_contributed_in_full": false,
+    "capital_transfer_delay_excluded": true
+   },
+   "gpt4o": "false",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ParserOmission(sole_owner_capital_shortfall_after_deadline)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserOmission(sole_owner_capital_shortfall_after_deadline)"
+   ]
+  },
+  {
+   "id": "DN-035",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "llc_single_owner": true,
+    "sole_owner_capital_shortfall_after_deadline": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-036",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "shares_subscribed_unpaid": true,
+    "share_payment_deadline_elapsed": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-037",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "shares_subscribed_unpaid": true,
+    "share_payment_deadline_elapsed": false
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(share_payment_deadline_elapsed)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(share_payment_deadline_elapsed)"
+   ]
+  },
+  {
+   "id": "DN-038",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "insufficient",
+   "parsed": {
+    "shares_subscribed_unpaid": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(share_payment_deadline_elapsed)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(share_payment_deadline_elapsed)"
+   ]
+  },
+  {
+   "id": "DN-039",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "shares_subscribed_unpaid": true,
+    "shorter_charter_share_payment_deadline": true,
+    "share_payment_deadline_elapsed": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-040",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "shares_subscribed_unpaid": false,
+    "share_payment_deadline_elapsed": true
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ParserMisinterpretation(shares_subscribed_unpaid)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserMisinterpretation(shares_subscribed_unpaid)"
+   ]
+  },
+  {
+   "id": "DN-041",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "buyer_is_nonfounder": true,
+    "founder_held_shares_from_registration": true,
+    "founder_shareholding": true,
+    "founder_shares_within_first_3_years": true
+   },
+   "gpt4o": "false",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(founder_shares_within_first_3_years)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(founder_shares_within_first_3_years)"
+   ]
+  },
+  {
+   "id": "DN-042",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "founder_shareholding": true,
+    "founder_shares_within_first_3_years": true,
+    "founder_transfer_agm_approved": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(buyer_is_nonfounder)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(buyer_is_nonfounder)",
+    "ParserOmission(buyer_is_nonfounder)"
+   ]
+  },
+  {
+   "id": "DN-043",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "founder_held_shares_from_registration": true,
+    "founder_shares_within_first_3_years": false,
+    "buyer_is_nonfounder": true
+   },
+   "gpt4o": "false",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(founder_shares_within_first_3_years)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(founder_shares_within_first_3_years)"
+   ]
+  },
+  {
+   "id": "DN-044",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "buyer_is_nonfounder": true,
+    "founder_held_shares_from_registration": false,
+    "founder_shares_within_first_3_years": true
+   },
+   "gpt4o": "false",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [
+    "ParserOmission(founder_shareholding)"
+   ],
+   "ours": "false",
+   "ours_diagnosis": [
+    "ParserOmission(founder_shareholding)"
+   ]
+  },
+  {
+   "id": "DN-045",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "insufficient",
+   "parsed": {
+    "founder_held_shares_from_registration": true,
+    "founder_shares_within_first_3_years": true,
+    "founder_transfer_agm_approved": true
+   },
+   "gpt4o": "false",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(buyer_is_nonfounder)",
+    "ParserOmission(founder_shareholding)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(buyer_is_nonfounder)",
+    "ParserOmission(buyer_is_nonfounder)",
+    "ParserOmission(founder_shareholding)"
+   ]
+  },
+  {
+   "id": "DN-046",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "already_owns_private_enterprise": true,
+    "intends_to_establish_private_enterprise": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-047",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "already_owns_private_enterprise": true,
+    "intends_to_establish_private_enterprise": false,
+    "simultaneously_household_business_owner": false
+   },
+   "gpt4o": "false",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ParserMisinterpretation(simultaneously_household_business_owner)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserMisinterpretation(simultaneously_household_business_owner)"
+   ]
+  },
+  {
+   "id": "DN-048",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "already_owns_private_enterprise": true,
+    "simultaneously_general_partner": true
+   },
+   "gpt4o": "false",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-049",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "insufficient",
+   "parsed": {
+    "already_owns_private_enterprise": false,
+    "intends_to_establish_private_enterprise": true
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-050",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "insufficient",
+   "parsed": {
+    "intends_to_establish_private_enterprise": true
+   },
+   "gpt4o": "false",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(already_owns_private_enterprise)",
+    "MissingCaseInformation(simultaneously_general_partner)",
+    "ParserOmission(simultaneously_household_business_owner)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "MissingCaseInformation(already_owns_private_enterprise)",
+    "MissingCaseInformation(simultaneously_general_partner)",
+    "ParserOmission(simultaneously_household_business_owner)"
+   ]
+  },
+  {
+   "id": "DN-051",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "all_enterprise_debts_paid": true,
+    "pending_court_arbitration_dispute": false,
+    "dissolution_ground_exists": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [
+    "ParserMisinterpretation(pending_court_arbitration_dispute)"
+   ],
+   "ours": "false",
+   "ours_diagnosis": [
+    "ParserMisinterpretation(pending_court_arbitration_dispute)"
+   ]
+  },
+  {
+   "id": "DN-052",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "all_enterprise_debts_paid": false,
+    "pending_court_arbitration_dispute": false
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-053",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "all_enterprise_debts_paid": true,
+    "pending_court_arbitration_dispute": true,
+    "dissolution_ground_exists": true
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-054",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "dissolution_ground_exists": true,
+    "pending_court_arbitration_dispute": false
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [
+    "ParserMisinterpretation(pending_court_arbitration_dispute)"
+   ],
+   "ours": "false",
+   "ours_diagnosis": [
+    "ParserMisinterpretation(pending_court_arbitration_dispute)"
+   ]
+  },
+  {
+   "id": "DN-055",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "all_enterprise_debts_paid": true
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(dissolution_ground_exists)",
+    "MissingCaseInformation(pending_court_arbitration_dispute)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(dissolution_ground_exists)",
+    "MissingCaseInformation(pending_court_arbitration_dispute)"
+   ]
+  },
+  {
+   "id": "DN-056",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "ordinary_shares": true,
+    "founder_shareholding": false,
+    "charter_share_transfer_restriction": false
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [
+    "ParserMisinterpretation(charter_share_transfer_restriction)"
+   ],
+   "ours": "false",
+   "ours_diagnosis": [
+    "ParserMisinterpretation(charter_share_transfer_restriction)"
+   ]
+  },
+  {
+   "id": "DN-057",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "founder_shareholding": true,
+    "ordinary_shares": true,
+    "founder_shares_within_first_3_years": true,
+    "buyer_is_nonfounder": true,
+    "founder_transfer_agm_approved": false
+   },
+   "gpt4o": "false",
+   "symbolic": "abstain",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [
+    "ResolvableRuleOverlap(DN-R58, DN-R59)"
+   ],
+   "ours": "false",
+   "ours_diagnosis": [
+    "ResolvableRuleOverlap(DN-R58, DN-R59)"
+   ]
+  },
+  {
+   "id": "DN-058",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "founder_shareholding": true,
+    "ordinary_shares": true,
+    "founder_shares_within_first_3_years": true,
+    "founder_transfer_agm_approved": true,
+    "charter_share_transfer_restriction": false
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [
+    "ParserMisinterpretation(charter_share_transfer_restriction)"
+   ],
+   "ours": "false",
+   "ours_diagnosis": [
+    "ParserMisinterpretation(charter_share_transfer_restriction)"
+   ]
+  },
+  {
+   "id": "DN-059",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "ordinary_shares": true,
+    "founder_shareholding": false,
+    "charter_share_transfer_restriction": true
+   },
+   "gpt4o": "true",
+   "symbolic": "abstain",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [
+    "ResolvableRuleOverlap(DN-R58, DN-R61)",
+    "ResolvableRuleOverlap(DN-R60, DN-R61)"
+   ],
+   "ours": "false",
+   "ours_diagnosis": [
+    "ResolvableRuleOverlap(DN-R58, DN-R61)",
+    "ResolvableRuleOverlap(DN-R60, DN-R61)"
+   ]
+  },
+  {
+   "id": "DN-060",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "ordinary_shares": true,
+    "founder_shareholding": false
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-061",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "changed_certificate_content": true,
+    "registered_change_within_10_days": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-062",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "changed_certificate_content": true,
+    "registered_change_within_10_days": false
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-063",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "changed_certificate_content": true
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(registered_change_within_10_days)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(registered_change_within_10_days)"
+   ]
+  },
+  {
+   "id": "DN-064",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "changed_certificate_content": true,
+    "change_required_by_court_ruling": true,
+    "registered_change_within_15_days_from_judgment": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-065",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "changed_certificate_content": true
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(registered_change_within_10_days)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(registered_change_within_10_days)"
+   ]
+  },
+  {
+   "id": "DN-066",
+   "domain": "doanh_nghiep",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "capital_asset_requires_title_registration": true,
+    "capital_asset_title_transferred": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-067",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "capital_asset_requires_title_registration": true,
+    "capital_asset_title_transferred": false
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "DN-068",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "capital_asset_requires_title_registration": true
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(capital_asset_title_transferred)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(capital_asset_title_transferred)"
+   ]
+  },
+  {
+   "id": "DN-069",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "capital_asset_requires_title_registration": false
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(asset_handover_record_exists)",
+    "MissingCaseInformation(capital_contribution_via_account)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(asset_handover_record_exists)",
+    "MissingCaseInformation(capital_contribution_via_account)"
+   ]
+  },
+  {
+   "id": "DN-070",
+   "domain": "doanh_nghiep",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "capital_asset_requires_title_registration": false,
+    "capital_contribution_via_account": true,
+    "asset_handover_record_exists": false
+   },
+   "gpt4o": "false",
+   "symbolic": "abstain",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ResolvableRuleOverlap(DN-R17, DN-R16)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ResolvableRuleOverlap(DN-R17, DN-R16)"
+   ]
+  },
+  {
+   "id": "LD-001",
+   "domain": "lao_dong",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "paid_monthly": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [],
+   "ours": "insufficient",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "LD-002",
+   "domain": "lao_dong",
+   "split": "test",
+   "expected": "insufficient",
+   "parsed": {
+    "paid_monthly": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [],
+   "ours": "insufficient",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "LD-003",
+   "domain": "lao_dong",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "contract_under_one_month": true,
+    "oral_contract_requested": true
+   },
+   "gpt4o": "true",
+   "symbolic": "abstain",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ResolvableRuleOverlap(LD0-R039, LD0-R041)",
+    "ResolvableRuleOverlap(LD0-R040, LD0-R038)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ResolvableRuleOverlap(LD0-R039, LD0-R041)",
+    "ResolvableRuleOverlap(LD0-R040, LD0-R038)"
+   ]
+  },
+  {
+   "id": "LD-004",
+   "domain": "lao_dong",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "worker_under_15": true,
+    "oral_contract_requested": true
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "LD-005",
+   "domain": "lao_dong",
+   "split": "test",
+   "expected": "insufficient",
+   "parsed": {
+    "oral_contract_requested": true
+   },
+   "gpt4o": "true",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "LD-006",
+   "domain": "lao_dong",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "fixed_term_months_le_36": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ParserOmission(fixed_term_contract)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserOmission(fixed_term_contract)"
+   ]
+  },
+  {
+   "id": "LD-007",
+   "domain": "lao_dong",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "fixed_term_months_le_36": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [
+    "ParserOmission(fixed_term_contract)"
+   ],
+   "ours": "false",
+   "ours_diagnosis": [
+    "ParserOmission(fixed_term_contract)"
+   ]
+  },
+  {
+   "id": "LD-008",
+   "domain": "lao_dong",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "fixed_term_contract": true,
+    "contract_expired_over_30_days": true,
+    "no_new_contract": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [],
+   "ours": "insufficient",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "LD-009",
+   "domain": "lao_dong",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "contract_under_one_month": true,
+    "probation_planned": true
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [
+    "ResolvableRuleOverlap(LD0-R039, LD0-R041)",
+    "ResolvableRuleOverlap(LD0-R040, LD0-R038)"
+   ],
+   "ours": "false",
+   "ours_diagnosis": [
+    "ResolvableRuleOverlap(LD0-R039, LD0-R041)",
+    "ResolvableRuleOverlap(LD0-R040, LD0-R038)"
+   ]
+  },
+  {
+   "id": "LD-010",
+   "domain": "lao_dong",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "college_level_position": true,
+    "probation_within_60_days": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ParserOmission(probation_planned)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserOmission(probation_planned)"
+   ]
+  },
+  {
+   "id": "LD-011",
+   "domain": "lao_dong",
+   "split": "test",
+   "expected": "insufficient",
+   "parsed": {
+    "probation_within_60_days": true
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(college_level_position)",
+    "ParserOmission(probation_planned)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(college_level_position)",
+    "ParserOmission(probation_planned)"
+   ]
+  },
+  {
+   "id": "LD-012",
+   "domain": "lao_dong",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "under_probation": true,
+    "notice_at_least_3_workdays": false
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "LD-013",
+   "domain": "lao_dong",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "fixed_term_from_12_to_36_months": true,
+    "notice_at_least_30_days": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "LD-014",
+   "domain": "lao_dong",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "fixed_term_from_12_to_36_months": true,
+    "notice_at_least_30_days": false
+   },
+   "gpt4o": "true",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "LD-015",
+   "domain": "lao_dong",
+   "split": "test",
+   "expected": "insufficient",
+   "parsed": {
+    "fixed_term_contract": true,
+    "fixed_term_from_12_to_36_months": true
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(notice_at_least_30_days)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(notice_at_least_30_days)"
+   ]
+  },
+  {
+   "id": "LD-016",
+   "domain": "lao_dong",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "wage_unpaid_or_late": true
+   },
+   "gpt4o": "true",
+   "symbolic": "abstain",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ResolvableRuleOverlap(LD0-R084, LD0-R081)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ResolvableRuleOverlap(LD0-R084, LD0-R081)"
+   ]
+  },
+  {
+   "id": "LD-017",
+   "domain": "lao_dong",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "temporary_transfer_over_60_workdays": true,
+    "written_transfer_consent": false
+   },
+   "gpt4o": "true",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "LD-018",
+   "domain": "lao_dong",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "temporary_transfer_over_60_workdays": true,
+    "written_transfer_consent": false
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(written_transfer_consent)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(written_transfer_consent)"
+   ]
+  },
+  {
+   "id": "LD-019",
+   "domain": "lao_dong",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "paid_by_hour_day_week": true,
+    "overtime_on_weekly_rest": true
+   },
+   "gpt4o": "true",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "LD-020",
+   "domain": "lao_dong",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "overtime_on_public_holiday": true,
+    "paid_by_hour_day_week": true
+   },
+   "gpt4o": "true",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "LD-021",
+   "domain": "lao_dong",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "overtime_event": true,
+    "overtime_on_public_holiday": false
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(overtime_on_public_holiday)"
+   ],
+   "ours": "false",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(overtime_on_public_holiday)"
+   ]
+  },
+  {
+   "id": "LD-022",
+   "domain": "lao_dong",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "worker_agreed_overtime": false
+   },
+   "gpt4o": "false",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(overtime_special_case_art108)",
+    "ParserOmission(overtime_event)"
+   ],
+   "ours": "false",
+   "ours_diagnosis": [
+    "MissingCaseInformation(overtime_special_case_art108)",
+    "ParserOmission(overtime_event)"
+   ]
+  },
+  {
+   "id": "LD-023",
+   "domain": "lao_dong",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "shift_at_least_six_hours": true,
+    "nightwork_at_least_three_hours": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "LD-024",
+   "domain": "lao_dong",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "continuous_shift_work": true,
+    "rest_between_shifts_at_least_12_hours": false
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(rest_between_shifts_at_least_12_hours)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(rest_between_shifts_at_least_12_hours)"
+   ]
+  },
+  {
+   "id": "LD-025",
+   "domain": "lao_dong",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "worked_full_12_months_same_employer": true,
+    "normal_working_conditions": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "LD-026",
+   "domain": "lao_dong",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "normal_working_conditions": true,
+    "worked_full_12_months_same_employer": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "LD-027",
+   "domain": "lao_dong",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "employer_at_least_10_workers": true
+   },
+   "gpt4o": "false",
+   "symbolic": "abstain",
+   "symbolic_diagnosis": [],
+   "heuristic": "abstain",
+   "heuristic_diagnosis": [
+    "ResolvableRuleOverlap(LD0-R021, LD0-R020)",
+    "ResolvableRuleOverlap(LD0-R023, LD0-R022)",
+    "UnresolvedKBConflict(LD1-R035, LD0-R020)"
+   ],
+   "ours": "abstain",
+   "ours_diagnosis": [
+    "ResolvableRuleOverlap(LD0-R021, LD0-R020)",
+    "ResolvableRuleOverlap(LD0-R023, LD0-R022)",
+    "UnresolvedKBConflict(LD1-R035, LD0-R020)"
+   ]
+  },
+  {
+   "id": "LD-028",
+   "domain": "lao_dong",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "pregnancy_at_least_month_six": false
+   },
+   "gpt4o": "false",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(nursing_child_under_12_months)",
+    "MissingCaseInformation(on_maternity_leave)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(nursing_child_under_12_months)",
+    "MissingCaseInformation(on_maternity_leave)",
+    "ParserOmission(nursing_child_under_12_months)"
+   ]
+  },
+  {
+   "id": "LD-029",
+   "domain": "lao_dong",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "pregnancy_at_least_month_seven": true,
+    "works_at_night": true
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "LD-030",
+   "domain": "lao_dong",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "nursing_child_under_12_months": true,
+    "consented_to_night_work": true
+   },
+   "gpt4o": "true",
+   "symbolic": "abstain",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ResolvableRuleOverlap(LD0-R037, LD0-R036)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ResolvableRuleOverlap(LD0-R037, LD0-R036)"
+   ]
+  },
+  {
+   "id": "LN-001",
+   "domain": "lien_nganh",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "term_at_least_1_month": true,
+    "paid_wage": true,
+    "under_management": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "LN-002",
+   "domain": "lien_nganh",
+   "split": "test",
+   "expected": "insufficient",
+   "parsed": {
+    "foreign_citizen": false,
+    "paid_wage": true,
+    "under_management": true,
+    "term_at_least_1_month": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(term_at_least_1_month)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(term_at_least_1_month)"
+   ]
+  },
+  {
+   "id": "LN-003",
+   "domain": "lien_nganh",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "foreign_citizen": false,
+    "term_at_least_1_month": true,
+    "paid_wage": true,
+    "under_management": false
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(term_at_least_1_month)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(term_at_least_1_month)"
+   ]
+  },
+  {
+   "id": "LN-004",
+   "domain": "lien_nganh",
+   "split": "test",
+   "expected": "insufficient",
+   "parsed": {
+    "foreign_citizen": false,
+    "term_at_least_1_month": true,
+    "under_management": true,
+    "paid_wage": false
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(paid_wage)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(paid_wage)"
+   ]
+  },
+  {
+   "id": "LN-005",
+   "domain": "lien_nganh",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "foreign_citizen": false,
+    "paid_wage": true,
+    "under_management": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(term_at_least_1_month)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(term_at_least_1_month)"
+   ]
+  },
+  {
+   "id": "LN-006",
+   "domain": "lien_nganh",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "term_at_least_1_month": true,
+    "paid_wage": true,
+    "under_management": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "LN-007",
+   "domain": "lien_nganh",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "foreign_citizen": false,
+    "term_at_least_1_month": false,
+    "paid_wage": true,
+    "under_management": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(term_at_least_1_month)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(term_at_least_1_month)"
+   ]
+  },
+  {
+   "id": "LN-008",
+   "domain": "lien_nganh",
+   "split": "test",
+   "expected": "insufficient",
+   "parsed": {
+    "foreign_citizen": false,
+    "paid_wage": true,
+    "under_management": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(term_at_least_1_month)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(term_at_least_1_month)"
+   ]
+  },
+  {
+   "id": "LN-009",
+   "domain": "lien_nganh",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "term_at_least_12_months": true,
+    "receives_salary": true,
+    "under_management": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(contract_expired_over_30_days)",
+    "MissingCaseInformation(indefinite_term_contract)",
+    "MissingCaseInformation(no_new_contract)",
+    "MissingCaseInformation(ongoing_employment)",
+    "ParserOmission(paid_wage)",
+    "ParserOmission(term_at_least_1_month)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "MissingCaseInformation(contract_expired_over_30_days)",
+    "MissingCaseInformation(indefinite_term_contract)",
+    "MissingCaseInformation(no_new_contract)",
+    "MissingCaseInformation(ongoing_employment)",
+    "ParserOmission(paid_wage)",
+    "ParserOmission(term_at_least_1_month)"
+   ]
+  },
+  {
+   "id": "LN-010",
+   "domain": "lien_nganh",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "foreign_citizen": false,
+    "under_management": false,
+    "signed_labor_contract": false
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(foreign_citizen)"
+   ],
+   "ours": "false",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(foreign_citizen)"
+   ]
+  },
+  {
+   "id": "LN-011",
+   "domain": "lien_nganh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "contract_expired_over_30_days": true,
+    "ongoing_employment": true,
+    "no_new_contract": true,
+    "indefinite_term_contract": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "LN-012",
+   "domain": "lien_nganh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "contract_expired_over_30_days": true,
+    "ongoing_employment": true,
+    "no_new_contract": true,
+    "indefinite_term_contract": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(foreign_citizen)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(foreign_citizen)"
+   ]
+  },
+  {
+   "id": "LN-013",
+   "domain": "lien_nganh",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "foreign_citizen": false,
+    "signed_labor_contract": true,
+    "term_at_least_12_months": true,
+    "mutually_suspended_contract": true,
+    "unpaid_14_days": true,
+    "agreed_contribution": false
+   },
+   "gpt4o": "false",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "ResolvableRuleOverlap(LN1-R016, LN1-R008)",
+    "UnsupportedParserFact(term_at_least_12_months)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "ResolvableRuleOverlap(LN1-R016, LN1-R008)",
+    "UnsupportedParserFact(term_at_least_12_months)"
+   ]
+  },
+  {
+   "id": "LN-014",
+   "domain": "lien_nganh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "signed_labor_contract": true,
+    "term_at_least_12_months": true,
+    "mutually_suspended_contract": true,
+    "unpaid_14_days": true,
+    "agreed_contribution": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ResolvableRuleOverlap(LN1-R016, LN1-R008)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ResolvableRuleOverlap(LN1-R016, LN1-R008)"
+   ]
+  },
+  {
+   "id": "LN-015",
+   "domain": "lien_nganh",
+   "split": "test",
+   "expected": "insufficient",
+   "parsed": {
+    "foreign_citizen": false,
+    "signed_labor_contract": true,
+    "term_at_least_12_months": true,
+    "mutually_suspended_contract": true,
+    "unpaid_14_days": true,
+    "agreed_contribution": false
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "ResolvableRuleOverlap(LN1-R016, LN1-R008)",
+    "UnsupportedParserFact(agreed_contribution)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "ResolvableRuleOverlap(LN1-R016, LN1-R008)",
+    "UnsupportedParserFact(agreed_contribution)"
+   ]
+  },
+  {
+   "id": "LN-016",
+   "domain": "lien_nganh",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "foreign_citizen": false,
+    "signed_labor_contract": true,
+    "indefinite_term_contract": false,
+    "term_at_least_12_months": true,
+    "mutually_suspended_contract": true,
+    "unpaid_14_days": true,
+    "agreed_contribution": false
+   },
+   "gpt4o": "false",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "ResolvableRuleOverlap(LN1-R016, LN1-R008)",
+    "UnsupportedParserFact(agreed_contribution)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "ResolvableRuleOverlap(LN1-R016, LN1-R008)",
+    "UnsupportedParserFact(agreed_contribution)"
+   ]
+  },
+  {
+   "id": "LN-017",
+   "domain": "lien_nganh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "signed_labor_contract": true,
+    "indefinite_term_contract": false,
+    "term_at_least_12_months": true,
+    "mutually_suspended_contract": true,
+    "unpaid_14_days": true,
+    "agreed_contribution": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ResolvableRuleOverlap(LN1-R016, LN1-R008)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ResolvableRuleOverlap(LN1-R016, LN1-R008)"
+   ]
+  },
+  {
+   "id": "LN-018",
+   "domain": "lien_nganh",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "foreign_citizen": false,
+    "signed_labor_contract": true,
+    "term_at_least_12_months": true,
+    "mutually_suspended_contract": true,
+    "agreed_contribution": false
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "ResolvableRuleOverlap(LN1-R016, LN1-R008)",
+    "UnsupportedParserFact(agreed_contribution)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "ResolvableRuleOverlap(LN1-R016, LN1-R008)",
+    "UnsupportedParserFact(agreed_contribution)"
+   ]
+  },
+  {
+   "id": "LN-019",
+   "domain": "lien_nganh",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "enterprise_manager": true,
+    "receives_salary": true,
+    "stock_company": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
+   ]
+  },
+  {
+   "id": "LN-020",
+   "domain": "lien_nganh",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "enterprise_manager": true,
+    "receives_salary": false,
+    "stock_company": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
+   ]
+  },
+  {
+   "id": "LN-021",
+   "domain": "lien_nganh",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "llc_multi_member": true,
+    "receives_salary": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(cooperative_elected_manager)",
+    "MissingCaseInformation(enterprise_controller_or_capital_representative)",
+    "ParserOmission(enterprise_manager)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "MissingCaseInformation(cooperative_elected_manager)",
+    "MissingCaseInformation(enterprise_controller_or_capital_representative)",
+    "ParserOmission(enterprise_manager)"
+   ]
+  },
+  {
+   "id": "LN-022",
+   "domain": "lien_nganh",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "llc_single_owner": true,
+    "receives_salary": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(cooperative_elected_manager)",
+    "MissingCaseInformation(enterprise_controller_or_capital_representative)",
+    "ParserOmission(enterprise_manager)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "MissingCaseInformation(cooperative_elected_manager)",
+    "MissingCaseInformation(enterprise_controller_or_capital_representative)",
+    "ParserOmission(enterprise_manager)"
+   ]
+  },
+  {
+   "id": "LN-023",
+   "domain": "lien_nganh",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "foreign_citizen": false,
+    "enterprise_manager": true
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(receives_salary)",
+    "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(receives_salary)",
+    "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
+   ]
+  },
+  {
+   "id": "LN-024",
+   "domain": "lien_nganh",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "enterprise_manager": true,
+    "receives_salary": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ResolvableRuleOverlap(LN0-R005, LN0-R004)"
+   ]
+  },
+  {
+   "id": "LN-025",
+   "domain": "lien_nganh",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "foreign_citizen": false,
+    "receives_salary": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(cooperative_elected_manager)",
+    "MissingCaseInformation(enterprise_controller_or_capital_representative)",
+    "ParserOmission(enterprise_manager)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "MissingCaseInformation(cooperative_elected_manager)",
+    "MissingCaseInformation(enterprise_controller_or_capital_representative)",
+    "ParserOmission(enterprise_manager)"
+   ]
+  },
+  {
+   "id": "LN-026",
+   "domain": "lien_nganh",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "foreign_citizen": false,
+    "enterprise_manager": true,
+    "receives_salary": false
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "ResolvableRuleOverlap(LN0-R005, LN0-R004)",
+    "UnsupportedParserFact(receives_salary)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "ResolvableRuleOverlap(LN0-R005, LN0-R004)",
+    "UnsupportedParserFact(receives_salary)"
+   ]
+  },
+  {
+   "id": "LN-027",
+   "domain": "lien_nganh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "llc_single_owner": true,
+    "taxable_business_income": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "LN-028",
+   "domain": "lien_nganh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "llc_multi_member": true,
+    "taxable_business_income": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "LN-029",
+   "domain": "lien_nganh",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "stock_company": true,
+    "taxable_business_income": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "LN-030",
+   "domain": "lien_nganh",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "llc_single_owner": true,
+    "taxable_business_income": false
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(taxable_business_income)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(taxable_business_income)"
+   ]
+  },
+  {
+   "id": "LN-031",
+   "domain": "lien_nganh",
+   "split": "test",
+   "expected": "insufficient",
+   "parsed": {
+    "stock_company": true,
+    "taxable_business_income": false
+   },
+   "gpt4o": "true",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(taxable_business_income)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(taxable_business_income)"
+   ]
+  },
+  {
+   "id": "LN-032",
+   "domain": "lien_nganh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "llc_single_owner": true,
+    "taxable_business_income": true,
+    "cit_prior_revenue_le_3bn": true,
+    "cit_no_special_rate_regime": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "LN-033",
+   "domain": "lien_nganh",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "llc_multi_member": true,
+    "taxable_business_income": true,
+    "cit_prior_revenue_above_3_up_to_50bn": true,
+    "cit_no_special_rate_regime": true
+   },
+   "gpt4o": "false",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "LN-034",
+   "domain": "lien_nganh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "stock_company": true,
+    "taxable_business_income": true,
+    "cit_prior_revenue_above_3_up_to_50bn": true,
+    "cit_no_special_rate_regime": true
+   },
+   "gpt4o": "false",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "LN-035",
+   "domain": "lien_nganh",
+   "split": "test",
+   "expected": "insufficient",
+   "parsed": {
+    "stock_company": true,
+    "taxable_business_income": true,
+    "cit_no_special_rate_regime": true
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(cit_prior_revenue_le_3bn)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(cit_prior_revenue_le_3bn)"
+   ]
+  },
+  {
+   "id": "LN-036",
+   "domain": "lien_nganh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "branch_conducts_business": true,
+    "vat_non_exempt_goods": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "LN-037",
+   "domain": "lien_nganh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "branch_conducts_business": true,
+    "vat_non_exempt_goods": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "LN-038",
+   "domain": "lien_nganh",
+   "split": "test",
+   "expected": "insufficient",
+   "parsed": {
+    "branch_conducts_business": true,
+    "vat_non_exempt_goods": false
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(vat_non_exempt_goods)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(vat_non_exempt_goods)"
+   ]
+  },
+  {
+   "id": "LN-039",
+   "domain": "lien_nganh",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "paid_wage": true,
+    "wages_paid_in_reality": true,
+    "wage_expense_for_business": true,
+    "payroll_papers_complete": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ParserOmission(under_management)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserOmission(under_management)"
+   ]
+  },
+  {
+   "id": "LN-040",
+   "domain": "lien_nganh",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "paid_wage": true,
+    "wage_expense_for_business": true,
+    "payroll_papers_complete": false
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(payroll_papers_complete)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(payroll_papers_complete)"
+   ]
+  },
+  {
+   "id": "THUE-001",
+   "domain": "thue",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "vat_sale_raw_crops_own_production": true,
+    "input_used_for_taxable_sales": true
+   },
+   "gpt4o": "false",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(cash_deposited_into_seller_account)",
+    "MissingCaseInformation(export_customs_declaration)",
+    "MissingCaseInformation(export_goods_contract)",
+    "MissingCaseInformation(export_goods_transaction)",
+    "MissingCaseInformation(export_service_contract)",
+    "MissingCaseInformation(export_service_transaction)",
+    "MissingCaseInformation(import_free_gift_or_sample)",
+    "MissingCaseInformation(installment_payment_not_yet_due)",
+    "MissingCaseInformation(paid_non_cash)",
+    "MissingCaseInformation(purchase_amount_at_least_5m)",
+    "MissingCaseInformation(purchase_offset_with_reconciliation_record)",
+    "MissingCaseInformation(same_seller_same_day_total_at_least_5m)",
+    "ParserOmission(purchase_has_valid_vat_invoice)",
+    "ParserOmission(tax_pays_under_deduction)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(import_free_gift_or_sample)",
+    "MissingCaseInformation(installment_payment_not_yet_due)",
+    "MissingCaseInformation(paid_non_cash)",
+    "MissingCaseInformation(purchase_amount_at_least_5m)",
+    "MissingCaseInformation(purchase_offset_with_reconciliation_record)",
+    "ParserOmission(purchase_has_valid_vat_invoice)",
+    "ParserOmission(tax_pays_under_deduction)"
+   ]
+  },
+  {
+   "id": "THUE-002",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "cit_agri_cooperative": true,
+    "vat_sale_salt": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ResolvableRuleOverlap(TX1-R03, TX-P01)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ResolvableRuleOverlap(TX1-R03, TX-P01)"
+   ]
+  },
+  {
+   "id": "THUE-003",
+   "domain": "thue",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "vat_land_use_transfer": true,
+    "input_used_exclusively_for_nontaxable": true
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(input_used_exclusively_for_nontaxable)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(input_used_exclusively_for_nontaxable)"
+   ]
+  },
+  {
+   "id": "THUE-004",
+   "domain": "thue",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "vat_life_insurance": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "THUE-005",
+   "domain": "thue",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "vat_medical_service": true,
+    "input_used_exclusively_for_nontaxable": true
+   },
+   "gpt4o": "true",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(input_used_exclusively_for_nontaxable)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(input_used_exclusively_for_nontaxable)"
+   ]
+  },
+  {
+   "id": "THUE-006",
+   "domain": "thue",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "cit_is_cooperative": true,
+    "vat_agri_irrigation": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "THUE-007",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "vat_education_service": true,
+    "input_used_exclusively_for_nontaxable": true
+   },
+   "gpt4o": "true",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "THUE-008",
+   "domain": "thue",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "vat_public_bus": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "THUE-009",
+   "domain": "thue",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "vat_software_service": true,
+    "input_used_for_taxable_sales": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(cash_deposited_into_seller_account)",
+    "MissingCaseInformation(export_customs_declaration)",
+    "MissingCaseInformation(export_goods_contract)",
+    "MissingCaseInformation(export_goods_transaction)",
+    "MissingCaseInformation(export_service_contract)",
+    "MissingCaseInformation(export_service_transaction)",
+    "MissingCaseInformation(import_free_gift_or_sample)",
+    "MissingCaseInformation(installment_payment_not_yet_due)",
+    "MissingCaseInformation(paid_non_cash)",
+    "MissingCaseInformation(purchase_amount_at_least_5m)",
+    "MissingCaseInformation(purchase_offset_with_reconciliation_record)",
+    "MissingCaseInformation(same_seller_same_day_total_at_least_5m)",
+    "ParserOmission(purchase_has_valid_vat_invoice)",
+    "ParserOmission(tax_pays_under_deduction)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(import_free_gift_or_sample)",
+    "MissingCaseInformation(installment_payment_not_yet_due)",
+    "MissingCaseInformation(paid_non_cash)",
+    "MissingCaseInformation(purchase_amount_at_least_5m)",
+    "MissingCaseInformation(purchase_offset_with_reconciliation_record)",
+    "ParserOmission(purchase_has_valid_vat_invoice)",
+    "ParserOmission(tax_pays_under_deduction)"
+   ]
+  },
+  {
+   "id": "THUE-010",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "vat_import_raw_gold": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "THUE-011",
+   "domain": "thue",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "input_used_for_taxable_sales": true,
+    "purchase_amount_at_least_5m": true,
+    "purchase_has_valid_vat_invoice": true,
+    "paid_non_cash": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(consumed_outside_vietnam)",
+    "MissingCaseInformation(export_customs_declaration)",
+    "MissingCaseInformation(export_goods_contract)",
+    "MissingCaseInformation(export_goods_transaction)",
+    "MissingCaseInformation(export_service_contract)",
+    "MissingCaseInformation(export_service_transaction)",
+    "MissingCaseInformation(foreign_customer)",
+    "MissingCaseInformation(goods_sold_to_non_tariff_zone_for_export_production)",
+    "MissingCaseInformation(input_used_exclusively_for_nontaxable)",
+    "MissingCaseInformation(international_transport_contract)",
+    "MissingCaseInformation(international_transport_service)",
+    "MissingCaseInformation(service_to_non_tariff_zone_for_export_production)",
+    "ParserOmission(tax_pays_under_deduction)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(consumed_outside_vietnam)",
+    "MissingCaseInformation(export_customs_declaration)",
+    "MissingCaseInformation(export_goods_contract)",
+    "MissingCaseInformation(export_goods_transaction)",
+    "MissingCaseInformation(export_service_contract)",
+    "MissingCaseInformation(export_service_transaction)",
+    "MissingCaseInformation(foreign_customer)",
+    "MissingCaseInformation(goods_sold_to_non_tariff_zone_for_export_production)",
+    "MissingCaseInformation(input_used_exclusively_for_nontaxable)",
+    "MissingCaseInformation(international_transport_contract)",
+    "MissingCaseInformation(international_transport_service)",
+    "MissingCaseInformation(service_to_non_tariff_zone_for_export_production)",
+    "ParserOmission(input_used_exclusively_for_nontaxable)",
+    "ParserOmission(tax_pays_under_deduction)"
+   ]
+  },
+  {
+   "id": "THUE-012",
+   "domain": "thue",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "input_used_for_taxable_sales": true,
+    "purchase_amount_at_least_5m": true,
+    "purchase_has_valid_vat_invoice": true,
+    "paid_non_cash": false
+   },
+   "gpt4o": "false",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(export_goods_transaction)",
+    "MissingCaseInformation(export_service_transaction)",
+    "MissingCaseInformation(input_used_exclusively_for_nontaxable)",
+    "MissingCaseInformation(purchase_offset_with_reconciliation_record)",
+    "ParserOmission(tax_pays_under_deduction)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(export_goods_transaction)",
+    "MissingCaseInformation(export_service_transaction)",
+    "MissingCaseInformation(input_used_exclusively_for_nontaxable)",
+    "MissingCaseInformation(purchase_offset_with_reconciliation_record)",
+    "ParserOmission(tax_pays_under_deduction)"
+   ]
+  },
+  {
+   "id": "THUE-013",
+   "domain": "thue",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "input_used_for_taxable_sales": true,
+    "purchase_amount_at_least_5m": false,
+    "purchase_has_valid_vat_invoice": true,
+    "paid_non_cash": false
+   },
+   "gpt4o": "false",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(purchase_amount_at_least_5m)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(purchase_amount_at_least_5m)"
+   ]
+  },
+  {
+   "id": "THUE-014",
+   "domain": "thue",
+   "split": "test",
+   "expected": "insufficient",
+   "parsed": {
+    "input_used_for_taxable_sales": true,
+    "purchase_amount_at_least_5m": true,
+    "purchase_has_valid_vat_invoice": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(import_free_gift_or_sample)",
+    "MissingCaseInformation(installment_payment_not_yet_due)",
+    "MissingCaseInformation(paid_non_cash)",
+    "MissingCaseInformation(purchase_offset_with_reconciliation_record)",
+    "ParserOmission(tax_pays_under_deduction)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(import_free_gift_or_sample)",
+    "MissingCaseInformation(installment_payment_not_yet_due)",
+    "MissingCaseInformation(paid_non_cash)",
+    "MissingCaseInformation(purchase_offset_with_reconciliation_record)",
+    "ParserOmission(tax_pays_under_deduction)"
+   ]
+  },
+  {
+   "id": "THUE-015",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "input_used_for_taxable_sales": true,
+    "purchase_amount_at_least_5m": true,
+    "purchase_has_valid_vat_invoice": false,
+    "paid_non_cash": true
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(purchase_amount_at_least_5m)"
+   ],
+   "ours": "false",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(purchase_amount_at_least_5m)"
+   ]
+  },
+  {
+   "id": "THUE-016",
+   "domain": "thue",
+   "split": "test",
+   "expected": "insufficient",
+   "parsed": {
+    "input_used_for_taxable_sales": true,
+    "purchase_amount_at_least_5m": true,
+    "paid_non_cash": true
+   },
+   "gpt4o": "false",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(purchase_amount_at_least_5m)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(purchase_amount_at_least_5m)"
+   ]
+  },
+  {
+   "id": "THUE-017",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "input_used_for_taxable_sales": true,
+    "purchase_amount_at_least_5m": false,
+    "purchase_has_valid_vat_invoice": false,
+    "paid_non_cash": false
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(purchase_amount_at_least_5m)"
+   ],
+   "ours": "false",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(purchase_amount_at_least_5m)"
+   ]
+  },
+  {
+   "id": "THUE-018",
+   "domain": "thue",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "input_used_for_taxable_sales": true,
+    "purchase_amount_at_least_5m": true,
+    "purchase_has_valid_vat_invoice": true,
+    "paid_non_cash": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(consumed_outside_vietnam)",
+    "MissingCaseInformation(export_customs_declaration)",
+    "MissingCaseInformation(export_goods_contract)",
+    "MissingCaseInformation(export_goods_transaction)",
+    "MissingCaseInformation(export_service_contract)",
+    "MissingCaseInformation(export_service_transaction)",
+    "MissingCaseInformation(foreign_customer)",
+    "MissingCaseInformation(goods_sold_to_non_tariff_zone_for_export_production)",
+    "MissingCaseInformation(input_used_exclusively_for_nontaxable)",
+    "MissingCaseInformation(international_transport_contract)",
+    "MissingCaseInformation(international_transport_service)",
+    "MissingCaseInformation(service_to_non_tariff_zone_for_export_production)",
+    "ParserOmission(tax_pays_under_deduction)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "MissingCaseInformation(consumed_outside_vietnam)",
+    "MissingCaseInformation(export_customs_declaration)",
+    "MissingCaseInformation(export_goods_contract)",
+    "MissingCaseInformation(export_goods_transaction)",
+    "MissingCaseInformation(export_service_contract)",
+    "MissingCaseInformation(export_service_transaction)",
+    "MissingCaseInformation(foreign_customer)",
+    "MissingCaseInformation(goods_sold_to_non_tariff_zone_for_export_production)",
+    "MissingCaseInformation(input_used_exclusively_for_nontaxable)",
+    "MissingCaseInformation(international_transport_contract)",
+    "MissingCaseInformation(international_transport_service)",
+    "MissingCaseInformation(service_to_non_tariff_zone_for_export_production)",
+    "ParserOmission(tax_pays_under_deduction)"
+   ]
+  },
+  {
+   "id": "THUE-019",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "input_used_for_taxable_sales": true,
+    "purchase_amount_at_least_5m": false,
+    "paid_non_cash": false
+   },
+   "gpt4o": "false",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(purchase_amount_at_least_5m)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(purchase_amount_at_least_5m)"
+   ]
+  },
+  {
+   "id": "THUE-020",
+   "domain": "thue",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "input_used_for_taxable_sales": true,
+    "purchase_amount_at_least_5m": true,
+    "purchase_has_valid_vat_invoice": true,
+    "paid_non_cash": false
+   },
+   "gpt4o": "false",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(purchase_amount_at_least_5m)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(purchase_amount_at_least_5m)"
+   ]
+  },
+  {
+   "id": "THUE-021",
+   "domain": "thue",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "input_used_for_taxable_sales": true,
+    "purchase_has_valid_vat_invoice": true,
+    "paid_non_cash": false
+   },
+   "gpt4o": "false",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(export_goods_transaction)",
+    "MissingCaseInformation(export_service_transaction)",
+    "MissingCaseInformation(import_free_gift_or_sample)",
+    "MissingCaseInformation(installment_payment_not_yet_due)",
+    "MissingCaseInformation(purchase_amount_at_least_5m)",
+    "MissingCaseInformation(purchase_offset_with_reconciliation_record)",
+    "MissingCaseInformation(same_seller_same_day_total_at_least_5m)",
+    "ParserOmission(input_used_exclusively_for_nontaxable)",
+    "ParserOmission(tax_pays_under_deduction)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(export_goods_transaction)",
+    "MissingCaseInformation(export_service_transaction)",
+    "MissingCaseInformation(import_free_gift_or_sample)",
+    "MissingCaseInformation(installment_payment_not_yet_due)",
+    "MissingCaseInformation(purchase_amount_at_least_5m)",
+    "MissingCaseInformation(purchase_offset_with_reconciliation_record)",
+    "MissingCaseInformation(same_seller_same_day_total_at_least_5m)",
+    "ParserOmission(input_used_exclusively_for_nontaxable)",
+    "ParserOmission(tax_pays_under_deduction)"
+   ]
+  },
+  {
+   "id": "THUE-022",
+   "domain": "thue",
+   "split": "test",
+   "expected": "insufficient",
+   "parsed": {
+    "input_used_for_taxable_sales": true,
+    "purchase_amount_at_least_5m": true,
+    "purchase_has_valid_vat_invoice": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(import_free_gift_or_sample)",
+    "MissingCaseInformation(installment_payment_not_yet_due)",
+    "MissingCaseInformation(paid_non_cash)",
+    "MissingCaseInformation(purchase_offset_with_reconciliation_record)",
+    "ParserOmission(tax_pays_under_deduction)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(import_free_gift_or_sample)",
+    "MissingCaseInformation(installment_payment_not_yet_due)",
+    "MissingCaseInformation(paid_non_cash)",
+    "MissingCaseInformation(purchase_offset_with_reconciliation_record)",
+    "ParserOmission(tax_pays_under_deduction)"
+   ]
+  },
+  {
+   "id": "THUE-023",
+   "domain": "thue",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "input_used_for_taxable_sales": true,
+    "purchase_amount_at_least_5m": true,
+    "purchase_has_valid_vat_invoice": true,
+    "paid_non_cash": false
+   },
+   "gpt4o": "false",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(purchase_amount_at_least_5m)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(purchase_amount_at_least_5m)"
+   ]
+  },
+  {
+   "id": "THUE-024",
+   "domain": "thue",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "input_used_for_taxable_sales": true,
+    "purchase_amount_at_least_5m": false,
+    "purchase_has_valid_vat_invoice": true,
+    "paid_non_cash": false
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(purchase_amount_at_least_5m)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(purchase_amount_at_least_5m)"
+   ]
+  },
+  {
+   "id": "THUE-025",
+   "domain": "thue",
+   "split": "test",
+   "expected": "insufficient",
+   "parsed": {
+    "input_used_for_taxable_sales": true,
+    "purchase_amount_at_least_5m": true,
+    "paid_non_cash": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(purchase_amount_at_least_5m)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(purchase_amount_at_least_5m)"
+   ]
+  },
+  {
+   "id": "THUE-026",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "input_used_for_taxable_sales": true,
+    "purchase_amount_at_least_5m": false,
+    "purchase_has_valid_vat_invoice": true,
+    "paid_non_cash": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(purchase_amount_at_least_5m)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(purchase_amount_at_least_5m)"
+   ]
+  },
+  {
+   "id": "THUE-027",
+   "domain": "thue",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "export_goods_transaction": true,
+    "consumed_outside_vietnam": true,
+    "export_goods_contract": true,
+    "export_customs_declaration": true,
+    "paid_non_cash": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ParserOmission(foreign_customer)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserOmission(foreign_customer)"
+   ]
+  },
+  {
+   "id": "THUE-028",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "export_goods_transaction": true,
+    "consumed_outside_vietnam": true,
+    "export_goods_contract": true,
+    "export_customs_declaration": true,
+    "paid_non_cash": false
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "THUE-029",
+   "domain": "thue",
+   "split": "test",
+   "expected": "insufficient",
+   "parsed": {
+    "export_goods_transaction": true,
+    "consumed_outside_vietnam": true,
+    "export_goods_contract": true,
+    "paid_non_cash": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ParserOmission(export_customs_declaration)",
+    "ParserOmission(foreign_customer)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserOmission(export_customs_declaration)",
+    "ParserOmission(foreign_customer)"
+   ]
+  },
+  {
+   "id": "THUE-030",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "export_goods_transaction": true,
+    "export_goods_contract": true,
+    "consumed_outside_vietnam": true,
+    "export_customs_declaration": false,
+    "paid_non_cash": true
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "THUE-031",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "export_goods_transaction": true,
+    "consumed_outside_vietnam": true,
+    "paid_non_cash": true,
+    "export_customs_declaration": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(export_goods_contract)",
+    "ParserOmission(foreign_customer)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(export_goods_contract)",
+    "ParserOmission(foreign_customer)"
+   ]
+  },
+  {
+   "id": "THUE-032",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "export_service_transaction": true,
+    "foreign_customer": true,
+    "consumed_outside_vietnam": true,
+    "export_service_contract": true,
+    "paid_non_cash": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "THUE-033",
+   "domain": "thue",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "export_service_transaction": true,
+    "foreign_customer": true,
+    "export_service_contract": true,
+    "paid_non_cash": false
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "THUE-034",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "export_service_transaction": true,
+    "export_service_contract": true,
+    "foreign_customer": true,
+    "consumed_outside_vietnam": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(paid_non_cash)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(paid_non_cash)"
+   ]
+  },
+  {
+   "id": "THUE-035",
+   "domain": "thue",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "export_goods_transaction": true,
+    "outbound_technology_transfer": true,
+    "foreign_customer": true,
+    "consumed_outside_vietnam": true
+   },
+   "gpt4o": "true",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "THUE-036",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "export_goods_transaction": true,
+    "foreign_event_in_vietnam": true,
+    "foreign_customer": true
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "THUE-037",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "cit_expense_at_least_5m": true,
+    "cit_business_related_expense": true,
+    "cit_expense_invoice": true,
+    "paid_non_cash": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(cit_expense_at_least_5m)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(cit_expense_at_least_5m)"
+   ]
+  },
+  {
+   "id": "THUE-038",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "cit_expense_at_least_5m": true,
+    "cit_business_related_expense": true,
+    "cit_expense_invoice": false,
+    "paid_non_cash": true
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(cit_expense_at_least_5m)"
+   ],
+   "ours": "false",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(cit_expense_at_least_5m)"
+   ]
+  },
+  {
+   "id": "THUE-039",
+   "domain": "thue",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "cit_expense_at_least_5m": true,
+    "cit_business_related_expense": true,
+    "cit_expense_invoice": true,
+    "cit_expense_payment_proof": false
+   },
+   "gpt4o": "false",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(cit_expense_at_least_5m)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(cit_expense_at_least_5m)"
+   ]
+  },
+  {
+   "id": "THUE-040",
+   "domain": "thue",
+   "split": "test",
+   "expected": "insufficient",
+   "parsed": {
+    "cit_expense_at_least_5m": true,
+    "cit_business_related_expense": true,
+    "cit_expense_invoice": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(cit_expense_unpaid_at_recognition)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(cit_expense_unpaid_at_recognition)",
+    "ParserOmission(cit_expense_unpaid_at_recognition)"
+   ]
+  },
+  {
+   "id": "THUE-041",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "cit_expense_at_least_5m": true,
+    "cit_expense_invoice": true,
+    "paid_non_cash": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(cit_defense_security_expense)",
+    "MissingCaseInformation(cit_designated_fund_contribution)",
+    "MissingCaseInformation(cit_emission_reduction_expense)",
+    "MissingCaseInformation(cit_employee_vocational_training_expense)",
+    "MissingCaseInformation(cit_expense_is_donation)",
+    "MissingCaseInformation(cit_expense_not_matching_taxable_revenue)",
+    "MissingCaseInformation(cit_party_union_support_expense)",
+    "MissingCaseInformation(cit_preparatory_expense_no_revenue_yet)",
+    "MissingCaseInformation(cit_public_works_support_expense)",
+    "MissingCaseInformation(cit_qualifying_donation_expense)",
+    "MissingCaseInformation(cit_rnd_expense)",
+    "MissingCaseInformation(cit_seconded_credit_institution_staff_expense)",
+    "MissingCaseInformation(cit_training_specified_in_hr_documents)",
+    "MissingCaseInformation(cit_uncompensated_force_majeure_loss)",
+    "MissingCaseInformation(cit_workplace_hiv_prevention_expense)",
+    "ParserOmission(cit_business_related_expense)",
+    "ParserOmission(cit_expense_unpaid_at_recognition)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserOmission(cit_business_related_expense)",
+    "ParserOmission(cit_expense_unpaid_at_recognition)"
+   ]
+  },
+  {
+   "id": "THUE-042",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "cit_expense_at_least_5m": true,
+    "cit_business_related_expense": false,
+    "purchase_has_valid_vat_invoice": true,
+    "paid_non_cash": true
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "THUE-043",
+   "domain": "thue",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "cit_administrative_fine": true
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "THUE-044",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "cit_expense_at_least_5m": true,
+    "cit_private_owner_salary": true,
+    "paid_non_cash": true
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(cit_expense_at_least_5m)"
+   ],
+   "ours": "false",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(cit_expense_at_least_5m)"
+   ]
+  },
+  {
+   "id": "THUE-045",
+   "domain": "thue",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "cit_expense_at_least_5m": true,
+    "cit_business_related_expense": true,
+    "cit_expense_reimbursed": true
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(cit_expense_at_least_5m)"
+   ],
+   "ours": "false",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(cit_expense_at_least_5m)"
+   ]
+  },
+  {
+   "id": "THUE-046",
+   "domain": "thue",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "cit_expense_at_least_5m": true,
+    "cit_business_related_expense": true,
+    "cit_expense_invoice": true,
+    "cit_expense_payment_proof": true,
+    "cit_administrative_fine": false
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "THUE-047",
+   "domain": "thue",
+   "split": "test",
+   "expected": "insufficient",
+   "parsed": {
+    "cit_expense_at_least_5m": true,
+    "cit_business_related_expense": true,
+    "cit_expense_payment_proof": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(cit_expense_at_least_5m)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(cit_expense_at_least_5m)"
+   ]
+  },
+  {
+   "id": "THUE-048",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "cit_expense_at_least_5m": true,
+    "cit_business_related_expense": false,
+    "cit_expense_invoice": true,
+    "cit_expense_payment_proof": true
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(cit_expense_at_least_5m)"
+   ],
+   "ours": "false",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(cit_expense_at_least_5m)"
+   ]
+  },
+  {
+   "id": "THUE-049",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "cit_fishing_income": true
+   },
+   "gpt4o": "true",
+   "symbolic": "abstain",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ResolvableRuleOverlap(TX1-R01, TX-P01)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ResolvableRuleOverlap(TX1-R01, TX-P01)"
+   ]
+  },
+  {
+   "id": "THUE-050",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "cit_agri_production_or_processing_income": true,
+    "cit_agri_cooperative": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "THUE-051",
+   "domain": "thue",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "cit_agricultural_technical_service": true
+   },
+   "gpt4o": "true",
+   "symbolic": "abstain",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ResolvableRuleOverlap(TX1-R08, TX-P01)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ResolvableRuleOverlap(TX1-R08, TX-P01)"
+   ]
+  },
+  {
+   "id": "THUE-052",
+   "domain": "thue",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "cit_distributed_domestic_income": true,
+    "cit_underlying_cit_paid": true
+   },
+   "gpt4o": "true",
+   "symbolic": "abstain",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ResolvableRuleOverlap(TX1-R15, TX-P01)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ResolvableRuleOverlap(TX1-R15, TX-P01)"
+   ]
+  },
+  {
+   "id": "THUE-053",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "cit_distributed_domestic_income": true
+   },
+   "gpt4o": "false",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ParserOmission(cit_underlying_cit_paid)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserOmission(cit_underlying_cit_paid)"
+   ]
+  },
+  {
+   "id": "THUE-054",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "cit_donation_received_charity": true,
+    "cit_donation_used_correctly": true
+   },
+   "gpt4o": "true",
+   "symbolic": "abstain",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ResolvableRuleOverlap(TX1-R16, TX-P01)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ResolvableRuleOverlap(TX1-R16, TX-P01)"
+   ]
+  },
+  {
+   "id": "THUE-055",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "cit_donation_received_charity": true,
+    "cit_donation_used_correctly": false
+   },
+   "gpt4o": "false",
+   "symbolic": "abstain",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ResolvableRuleOverlap(TX1-R16, TX-P01)",
+    "ResolvableRuleOverlap(TX1-R16, TX1-R20)",
+    "UnsupportedParserFact(cit_donation_used_correctly)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ResolvableRuleOverlap(TX1-R16, TX-P01)",
+    "ResolvableRuleOverlap(TX1-R16, TX1-R20)",
+    "UnsupportedParserFact(cit_donation_used_correctly)"
+   ]
+  },
+  {
+   "id": "THUE-056",
+   "domain": "thue",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "cit_30pct_special_workers": true,
+    "cit_average_workers_at_least_20": true,
+    "cit_not_finance_or_realestate": true
+   },
+   "gpt4o": "true",
+   "symbolic": "abstain",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ResolvableRuleOverlap(TX1-R12, TX-P01)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ResolvableRuleOverlap(TX1-R12, TX-P01)"
+   ]
+  },
+  {
+   "id": "THUE-057",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "cit_30pct_special_workers": true,
+    "cit_not_finance_or_realestate": true
+   },
+   "gpt4o": "true",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ParserOmission(cit_average_workers_at_least_20)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserOmission(cit_average_workers_at_least_20)"
+   ]
+  },
+  {
+   "id": "THUE-058",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "cit_30pct_special_workers": true,
+    "cit_average_workers_at_least_20": false,
+    "cit_not_finance_or_realestate": true
+   },
+   "gpt4o": "true",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "THUE-059",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "cit_no_special_rate_regime": true,
+    "cit_not_linked_subsidiary": true,
+    "cit_prior_revenue_le_3bn": true
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "THUE-060",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "cit_no_special_rate_regime": true,
+    "cit_not_linked_subsidiary": true,
+    "cit_prior_revenue_le_3bn": true
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "THUE-061",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "cit_no_special_rate_regime": true,
+    "cit_not_linked_subsidiary": true,
+    "cit_prior_revenue_above_3_up_to_50bn": true
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(cit_in_art12_3_incentive_area)",
+    "MissingCaseInformation(cit_income_art12_2_l_activity)",
+    "MissingCaseInformation(cit_newly_established_in_period)",
+    "ParserOmission(cit_expected_revenue_le_3bn)",
+    "ParserOmission(cit_prior_revenue_le_3bn)"
+   ],
+   "ours": "false",
+   "ours_diagnosis": [
+    "MissingCaseInformation(cit_in_art12_3_incentive_area)",
+    "MissingCaseInformation(cit_income_art12_2_l_activity)",
+    "MissingCaseInformation(cit_newly_established_in_period)",
+    "ParserOmission(cit_expected_revenue_le_3bn)",
+    "ParserOmission(cit_prior_revenue_le_3bn)"
+   ]
+  },
+  {
+   "id": "THUE-062",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "cit_no_special_rate_regime": true,
+    "cit_not_linked_subsidiary": true,
+    "cit_prior_revenue_above_3_up_to_50bn": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "THUE-063",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "false",
+   "parsed": {
+    "cit_no_special_rate_regime": true,
+    "cit_not_linked_subsidiary": true,
+    "cit_prior_revenue_above_3_up_to_50bn": false
+   },
+   "gpt4o": "true",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "THUE-064",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "cit_no_special_rate_regime": true,
+    "cit_not_linked_subsidiary": true
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "MissingCaseInformation(cit_expected_revenue_le_3bn)",
+    "MissingCaseInformation(cit_in_art12_3_incentive_area)",
+    "MissingCaseInformation(cit_income_art12_2_l_activity)",
+    "MissingCaseInformation(cit_newly_established_in_period)",
+    "MissingCaseInformation(cit_prior_revenue_le_3bn)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "MissingCaseInformation(cit_expected_revenue_le_3bn)",
+    "MissingCaseInformation(cit_in_art12_3_incentive_area)",
+    "MissingCaseInformation(cit_income_art12_2_l_activity)",
+    "MissingCaseInformation(cit_newly_established_in_period)",
+    "MissingCaseInformation(cit_prior_revenue_le_3bn)"
+   ]
+  },
+  {
+   "id": "THUE-065",
+   "domain": "thue",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "tax_debt_exists": true,
+    "tax_debt_more_than_90days": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "THUE-066",
+   "domain": "thue",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "tax_debt_exists": true,
+    "tax_debt_more_than_90days": false
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "insufficient",
+   "heuristic_diagnosis": [
+    "UnsupportedParserFact(tax_debt_more_than_90days)"
+   ],
+   "ours": "insufficient",
+   "ours_diagnosis": [
+    "UnsupportedParserFact(tax_debt_more_than_90days)"
+   ]
+  },
+  {
+   "id": "THUE-067",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "insufficient",
+   "parsed": {
+    "tax_debt_exists": true
+   },
+   "gpt4o": "insufficient",
+   "symbolic": "insufficient",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [
+    "ParserOmission(tax_debt_more_than_90days)"
+   ],
+   "ours": "true",
+   "ours_diagnosis": [
+    "ParserOmission(tax_debt_more_than_90days)"
+   ]
+  },
+  {
+   "id": "THUE-068",
+   "domain": "thue",
+   "split": "dev",
+   "expected": "true",
+   "parsed": {
+    "tax_debt_exists": true,
+    "tax_payment_extension_expired": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "THUE-069",
+   "domain": "thue",
+   "split": "test",
+   "expected": "true",
+   "parsed": {
+    "tax_debt_exists": true,
+    "taxpayer_absent_at_registered_address": true
+   },
+   "gpt4o": "true",
+   "symbolic": "true",
+   "symbolic_diagnosis": [],
+   "heuristic": "true",
+   "heuristic_diagnosis": [],
+   "ours": "true",
+   "ours_diagnosis": []
+  },
+  {
+   "id": "THUE-070",
+   "domain": "thue",
+   "split": "test",
+   "expected": "false",
+   "parsed": {
+    "tax_debt_exists": true,
+    "tax_debt_offset_refund_processing": true
+   },
+   "gpt4o": "false",
+   "symbolic": "false",
+   "symbolic_diagnosis": [],
+   "heuristic": "false",
+   "heuristic_diagnosis": [],
+   "ours": "false",
+   "ours_diagnosis": []
+  }
+ ]
+}

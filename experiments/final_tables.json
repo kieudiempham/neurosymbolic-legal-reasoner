@@ -1,0 +1,201 @@
+{
+ "scope": {
+  "qa_questions": 300,
+  "single_fault_instances": 1950,
+  "two_fault_instances": 453
+ },
+ "single_fault": {
+  "nesy_diag": {
+   "n": 1950,
+   "n_faulty": 1774,
+   "qa_acc": 0.8836,
+   "qa_acc_faulty": 0.8788,
+   "clarifications_per_query": 1.1441,
+   "fault_precision": 0.4122,
+   "fault_recall": 0.7757,
+   "fault_f1": 0.5383,
+   "extra_faults_per_query": 1.0092,
+   "unnecessary_questions_per_query": 0.9836
+  },
+  "rule_check": {
+   "n": 1950,
+   "n_faulty": 1774,
+   "qa_acc": 0.8913,
+   "qa_acc_faulty": 0.8873,
+   "clarifications_per_query": 2.2713,
+   "fault_precision": 0.2772,
+   "fault_recall": 0.7881,
+   "fault_f1": 0.4102,
+   "extra_faults_per_query": 1.8744,
+   "unnecessary_questions_per_query": 2.1103
+  },
+  "raw_nli": {
+   "n": 1950,
+   "n_faulty": 1774,
+   "qa_acc": 0.8856,
+   "qa_acc_faulty": 0.8822,
+   "clarifications_per_query": 1.1897,
+   "fault_precision": 0.4149,
+   "fault_recall": 0.7645,
+   "fault_f1": 0.5379,
+   "extra_faults_per_query": 0.9836,
+   "unnecessary_questions_per_query": 1.0344
+  },
+  "no_mbd": {
+   "n": 1950,
+   "n_faulty": 1774,
+   "qa_acc": 0.5462,
+   "qa_acc_faulty": 0.5011,
+   "clarifications_per_query": 3.7267,
+   "fault_precision": 0.0711,
+   "fault_recall": 0.3092,
+   "fault_f1": 0.1156,
+   "extra_faults_per_query": 3.6862,
+   "unnecessary_questions_per_query": 3.2374
+  },
+  "base_nesy": {
+   "n": 1950,
+   "n_faulty": 1774,
+   "qa_acc": 0.1236,
+   "qa_acc_faulty": 0.0366,
+   "clarifications_per_query": 0.0
+  }
+ },
+ "single_fault_ci": {
+  "fault_f1_diff": [
+   0.1281,
+   [
+    0.1087,
+    0.1486
+   ]
+  ],
+  "unnecessary_questions_diff": [
+   -1.1267,
+   [
+    -1.3856,
+    -0.8959
+   ]
+  ],
+  "extra_faults_diff": [
+   -0.8651,
+   [
+    -1.0518,
+    -0.6928
+   ]
+  ]
+ },
+ "two_faults": {
+  "nesy_diag": {
+   "n": 453,
+   "both_found": 0.6534,
+   "any_found": 0.9338,
+   "qa_acc": 0.8079,
+   "fault_f1": 0.5995,
+   "fault_precision": 0.7294,
+   "fault_recall": 0.5088,
+   "clarifications_per_query": 1.7815,
+   "unnecessary_questions_per_query": 1.4834
+  },
+  "rule_check": {
+   "n": 453,
+   "both_found": 0.66,
+   "any_found": 0.9382,
+   "qa_acc": 0.83,
+   "fault_f1": 0.5721,
+   "fault_precision": 0.648,
+   "fault_recall": 0.5121,
+   "clarifications_per_query": 3.3333,
+   "unnecessary_questions_per_query": 3.0552
+  },
+  "no_mbd": {
+   "n": 453,
+   "both_found": 0.0,
+   "any_found": 0.1965,
+   "qa_acc": 0.0155,
+   "fault_f1": 0.093,
+   "fault_precision": 0.0884,
+   "fault_recall": 0.0982,
+   "clarifications_per_query": 2.8102,
+   "unnecessary_questions_per_query": 2.4503
+  }
+ },
+ "two_faults_ci": {
+  "fault_f1_diff": [
+   0.0273,
+   [
+    0.0036,
+    0.0552
+   ]
+  ],
+  "unnecessary_questions_diff": [
+   -1.5717,
+   [
+    -2.1832,
+    -1.0221
+   ]
+  ]
+ },
+ "budget": {
+  "nesy_diag": {
+   "0": 0.7528,
+   "1": 0.8492,
+   "2": 0.861,
+   "inf": 0.8836,
+   "n": 1950
+  },
+  "rule_check": {
+   "0": 0.7631,
+   "1": 0.8595,
+   "2": 0.8703,
+   "inf": 0.8913,
+   "n": 1950
+  },
+  "no_mbd": {
+   "0": 0.1554,
+   "1": 0.4313,
+   "2": 0.4692,
+   "inf": 0.5462,
+   "n": 1950
+  },
+  "raw_nli": {
+   "0": 0.7574,
+   "1": 0.8538,
+   "2": 0.8682,
+   "inf": 0.8856,
+   "n": 1950
+  },
+  "base_nesy": {
+   "0": 0.1236,
+   "1": 0.1236,
+   "2": 0.1236,
+   "inf": 0.1236,
+   "n": 1950
+  }
+ },
+ "end_to_end": {
+  "gpt4o": {
+   "qa_acc_300": 0.7133,
+   "qa_acc_test_106": 0.7075,
+   "qa_acc_dev_194": 0.7165,
+   "irac_300": 58.0
+  },
+  "symbolic": {
+   "qa_acc_300": 0.6567,
+   "qa_acc_test_106": 0.6132,
+   "qa_acc_dev_194": 0.6804,
+   "irac_300": 66.2
+  },
+  "heuristic": {
+   "qa_acc_300": 0.79,
+   "qa_acc_test_106": 0.6604,
+   "qa_acc_dev_194": 0.8608,
+   "irac_300": 70.9
+  },
+  "ours": {
+   "qa_acc_300": 0.7833,
+   "qa_acc_test_106": 0.6509,
+   "qa_acc_dev_194": 0.8557,
+   "irac_300": 70.7
+  }
+ }
+}

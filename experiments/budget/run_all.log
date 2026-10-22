@@ -1,0 +1,17 @@
+all 1950 instances
+nesy_diag|0 {'n': 1950, 'qa_acc': 0.7528, 'qa_acc_faulty': 0.739, 'diag_acc': 0.6687, 'nli_per_query': 7.45, 'kb_checks_per_query': 0.39}
+nesy_diag|1 {'n': 1950, 'qa_acc': 0.8492, 'qa_acc_faulty': 0.841, 'diag_acc': 0.6687, 'nli_per_query': 7.58, 'kb_checks_per_query': 0.4}
+nesy_diag|2 {'n': 1950, 'qa_acc': 0.861, 'qa_acc_faulty': 0.854, 'diag_acc': 0.6687, 'nli_per_query': 7.59, 'kb_checks_per_query': 0.4}
+nesy_diag|inf {'n': 1950, 'qa_acc': 0.8836, 'qa_acc_faulty': 0.8788, 'diag_acc': 0.6687, 'nli_per_query': 7.61, 'kb_checks_per_query': 0.41}
+rule_check|0 {'n': 1950, 'qa_acc': 0.7631, 'qa_acc_faulty': 0.7503, 'diag_acc': 0.6744, 'nli_per_query': 7.66, 'kb_checks_per_query': 0.39}
+rule_check|1 {'n': 1950, 'qa_acc': 0.8595, 'qa_acc_faulty': 0.8523, 'diag_acc': 0.6744, 'nli_per_query': 7.78, 'kb_checks_per_query': 0.41}
+rule_check|2 {'n': 1950, 'qa_acc': 0.8703, 'qa_acc_faulty': 0.8641, 'diag_acc': 0.6744, 'nli_per_query': 7.79, 'kb_checks_per_query': 0.41}
+rule_check|inf {'n': 1950, 'qa_acc': 0.8913, 'qa_acc_faulty': 0.8873, 'diag_acc': 0.6744, 'nli_per_query': 7.82, 'kb_checks_per_query': 0.41}
+no_mbd|0 {'n': 1950, 'qa_acc': 0.1554, 'qa_acc_faulty': 0.0716, 'diag_acc': 0.3579, 'nli_per_query': 0.0, 'kb_checks_per_query': 0.0}
+no_mbd|1 {'n': 1950, 'qa_acc': 0.4313, 'qa_acc_faulty': 0.3749, 'diag_acc': 0.3579, 'nli_per_query': 0.0, 'kb_checks_per_query': 0.0}
+no_mbd|2 {'n': 1950, 'qa_acc': 0.4692, 'qa_acc_faulty': 0.4166, 'diag_acc': 0.3579, 'nli_per_query': 0.0, 'kb_checks_per_query': 0.0}
+no_mbd|inf {'n': 1950, 'qa_acc': 0.5462, 'qa_acc_faulty': 0.5011, 'diag_acc': 0.3579, 'nli_per_query': 0.0, 'kb_checks_per_query': 0.0}
+raw_nli|0 {'n': 1950, 'qa_acc': 0.7574, 'qa_acc_faulty': 0.7463, 'diag_acc': 0.6503, 'nli_per_query': 7.51, 'kb_checks_per_query': 0.39}
+raw_nli|1 {'n': 1950, 'qa_acc': 0.8538, 'qa_acc_faulty': 0.8472, 'diag_acc': 0.6503, 'nli_per_query': 7.63, 'kb_checks_per_query': 0.41}
+raw_nli|2 {'n': 1950, 'qa_acc': 0.8682, 'qa_acc_faulty': 0.863, 'diag_acc': 0.6503, 'nli_per_query': 7.65, 'kb_checks_per_query': 0.41}
+raw_nli|inf {'n': 1950, 'qa_acc': 0.8856, 'qa_acc_faulty': 0.8822, 'diag_acc': 0.6503, 'nli_per_query': 7.66, 'kb_checks_per_query': 0.41}

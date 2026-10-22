@@ -18,50 +18,50 @@
    "seconds": 0.2
   },
   "nesy_diag": {
-   "final_answer_acc": 0.9024390243902439,
-   "nli_calls_per_query": 2.9390243902439024,
-   "kb_checks_per_query": 0.43902439024390244,
-   "measurements_per_query": 3.3780487804878048,
-   "final_answer_acc_faulty": 0.8904109589041096,
+   "final_answer_acc": 0.926829268292683,
+   "nli_calls_per_query": 2.9634146341463414,
+   "kb_checks_per_query": 0.5121951219512195,
+   "measurements_per_query": 3.475609756097561,
+   "final_answer_acc_faulty": 0.9178082191780822,
    "final_answer_acc_ci95": [
-    0.8292682926829268,
-    0.9634146341463414
+    0.8658536585365854,
+    0.975609756097561
    ],
    "final_answer_acc_faulty_ci95": [
-    0.821917808219178,
-    0.9452054794520548
+    0.8493150684931506,
+    0.9726027397260274
    ],
-   "nli_model_calls_per_query": 5.878048780487805,
-   "diagnosis_acc": 0.7195121951219512,
+   "nli_model_calls_per_query": 5.926829268292683,
+   "diagnosis_acc": 0.7439024390243902,
    "diagnosis_acc_ci95": [
-    0.6219512195121951,
-    0.8048780487804879
+    0.6341463414634146,
+    0.8292682926829268
    ],
-   "correct_action_acc": 0.7195121951219512,
+   "correct_action_acc": 0.7439024390243902,
    "correct_action_acc_ci95": [
-    0.6219512195121951,
-    0.8048780487804879
+    0.6341463414634146,
+    0.8292682926829268
    ],
    "ambiguous_rate": 0.0,
-   "recovery_success_rate": 0.6712328767123288,
-   "recovery_success_given_correct_diag": 0.98,
+   "recovery_success_rate": 0.6986301369863014,
+   "recovery_success_given_correct_diag": 0.9807692307692307,
    "per_category": {
     "Normal": {
-     "precision": 0.75,
+     "precision": 1.0,
      "recall": 1.0,
-     "f1": 0.8571428571428571,
+     "f1": 1.0,
      "support": 9
     },
     "MissingCaseInformation": {
-     "precision": 0.75,
-     "recall": 0.2727272727272727,
-     "f1": 0.39999999999999997,
+     "precision": 0.7272727272727273,
+     "recall": 0.36363636363636365,
+     "f1": 0.4848484848484849,
      "support": 22
     },
     "ParserOmission": {
-     "precision": 0.5517241379310345,
-     "recall": 0.8,
-     "f1": 0.6530612244897959,
+     "precision": 0.5483870967741935,
+     "recall": 0.85,
+     "f1": 0.6666666666666665,
      "support": 20
     },
     "ParserMisinterpretation": {
@@ -77,9 +77,9 @@
      "support": 4
     },
     "ResolvableRuleOverlap": {
-     "precision": 0.4,
+     "precision": 0.6666666666666666,
      "recall": 0.6666666666666666,
-     "f1": 0.5,
+     "f1": 0.6666666666666666,
      "support": 3
     },
     "UnresolvedKBConflict": {
@@ -91,8 +91,8 @@
    },
    "per_category_acc": {
     "Normal": 1.0,
-    "MissingCaseInformation": 0.22727272727272727,
-    "ParserOmission": 0.9,
+    "MissingCaseInformation": 0.2727272727272727,
+    "ParserOmission": 0.95,
     "ParserMisinterpretation": 1.0,
     "UnsupportedParserFact": 0.5,
     "ResolvableRuleOverlap": 0.6666666666666666,
@@ -108,16 +108,12 @@
      "UnresolvedKBConflict": 1
     },
     "MissingCaseInformation": {
-     "ParserOmission": 13,
-     "MissingCaseInformation": 6,
-     "Normal": 2,
-     "ResolvableRuleOverlap": 1
+     "ParserOmission": 14,
+     "MissingCaseInformation": 8
     },
     "ParserOmission": {
-     "ParserOmission": 16,
-     "Normal": 1,
-     "ResolvableRuleOverlap": 1,
-     "MissingCaseInformation": 2
+     "ParserOmission": 17,
+     "MissingCaseInformation": 3
     },
     "ParserMisinterpretation": {
      "ParserMisinterpretation": 21
@@ -131,19 +127,19 @@
     }
    },
    "nli": {
-    "measurements": 241,
-    "accepted": 238,
-    "acceptance_rate": 0.9875518672199171,
-    "accuracy_accepted": 0.8697478991596639,
-    "macro_f1_accepted": 0.853901832948042,
-    "accuracy_raw": 0.8672199170124482,
-    "macro_f1_raw": 0.8482607725921785,
+    "measurements": 243,
+    "accepted": 240,
+    "acceptance_rate": 0.9876543209876543,
+    "accuracy_accepted": 0.8708333333333333,
+    "macro_f1_accepted": 0.8542646593658366,
+    "accuracy_raw": 0.8683127572016461,
+    "macro_f1_raw": 0.8486346592778067,
     "per_label_accepted": {
      "entail": {
-      "precision": 0.8411764705882353,
+      "precision": 0.8430232558139535,
       "recall": 1.0,
-      "f1": 0.9137380191693291,
-      "support": 143
+      "f1": 0.9148264984227129,
+      "support": 145
      },
      "neutral": {
       "precision": 1.0,
@@ -160,7 +156,7 @@
     },
     "confusion_accepted": {
      "entail": {
-      "entail": 143
+      "entail": 145
      },
      "neutral": {
       "neutral": 46,
@@ -173,7 +169,7 @@
     },
     "confusion_raw": {
      "entail": {
-      "entail": 143,
+      "entail": 145,
       "contra": 1
      },
      "neutral": {
@@ -189,7 +185,7 @@
      "low_confidence": 3
     }
    },
-   "seconds": 0.5
+   "seconds": 0.8
   },
   "no_mbd": {
    "final_answer_acc": 0.5853658536585366,
@@ -466,53 +462,53 @@
      "low_confidence": 3
     }
    },
-   "seconds": 0.3
+   "seconds": 0.4
   },
   "raw_nli": {
-   "final_answer_acc": 0.9024390243902439,
-   "nli_calls_per_query": 3.048780487804878,
-   "kb_checks_per_query": 0.43902439024390244,
-   "measurements_per_query": 3.4878048780487805,
-   "final_answer_acc_faulty": 0.8904109589041096,
+   "final_answer_acc": 0.926829268292683,
+   "nli_calls_per_query": 3.073170731707317,
+   "kb_checks_per_query": 0.4878048780487805,
+   "measurements_per_query": 3.5609756097560976,
+   "final_answer_acc_faulty": 0.9178082191780822,
    "final_answer_acc_ci95": [
-    0.8292682926829268,
-    0.9634146341463414
+    0.8658536585365854,
+    0.975609756097561
    ],
    "final_answer_acc_faulty_ci95": [
-    0.8082191780821918,
-    0.958904109589041
+    0.8493150684931506,
+    0.9726027397260274
    ],
-   "nli_model_calls_per_query": 6.097560975609756,
-   "diagnosis_acc": 0.7317073170731707,
+   "nli_model_calls_per_query": 6.146341463414634,
+   "diagnosis_acc": 0.7560975609756098,
    "diagnosis_acc_ci95": [
-    0.6341463414634146,
-    0.8170731707317073
+    0.6585365853658537,
+    0.8414634146341463
    ],
-   "correct_action_acc": 0.7317073170731707,
+   "correct_action_acc": 0.7560975609756098,
    "correct_action_acc_ci95": [
-    0.6341463414634146,
-    0.8170731707317073
+    0.6585365853658537,
+    0.8414634146341463
    ],
    "ambiguous_rate": 0.0,
-   "recovery_success_rate": 0.684931506849315,
-   "recovery_success_given_correct_diag": 0.9803921568627451,
+   "recovery_success_rate": 0.7123287671232876,
+   "recovery_success_given_correct_diag": 0.9811320754716981,
    "per_category": {
     "Normal": {
-     "precision": 0.75,
+     "precision": 1.0,
      "recall": 1.0,
-     "f1": 0.8571428571428571,
+     "f1": 1.0,
      "support": 9
     },
     "MissingCaseInformation": {
-     "precision": 0.75,
-     "recall": 0.2727272727272727,
-     "f1": 0.39999999999999997,
+     "precision": 0.7272727272727273,
+     "recall": 0.36363636363636365,
+     "f1": 0.4848484848484849,
      "support": 22
     },
     "ParserOmission": {
-     "precision": 0.5517241379310345,
-     "recall": 0.8,
-     "f1": 0.6530612244897959,
+     "precision": 0.5666666666666667,
+     "recall": 0.85,
+     "f1": 0.68,
      "support": 20
     },
     "ParserMisinterpretation": {
@@ -528,9 +524,9 @@
      "support": 4
     },
     "ResolvableRuleOverlap": {
-     "precision": 0.6666666666666666,
+     "precision": 1.0,
      "recall": 0.6666666666666666,
-     "f1": 0.6666666666666666,
+     "f1": 0.8,
      "support": 3
     },
     "UnresolvedKBConflict": {
@@ -542,8 +538,8 @@
    },
    "per_category_acc": {
     "Normal": 1.0,
-    "MissingCaseInformation": 0.22727272727272727,
-    "ParserOmission": 0.9,
+    "MissingCaseInformation": 0.2727272727272727,
+    "ParserOmission": 0.95,
     "ParserMisinterpretation": 1.0,
     "UnsupportedParserFact": 0.75,
     "ResolvableRuleOverlap": 0.6666666666666666,
@@ -559,15 +555,12 @@
     },
     "MissingCaseInformation": {
      "ParserOmission": 13,
-     "MissingCaseInformation": 6,
-     "Normal": 2,
+     "MissingCaseInformation": 8,
      "ParserMisinterpretation": 1
     },
     "ParserOmission": {
-     "ParserOmission": 16,
-     "Normal": 1,
-     "ResolvableRuleOverlap": 1,
-     "MissingCaseInformation": 2
+     "ParserOmission": 17,
+     "MissingCaseInformation": 3
     },
     "ParserMisinterpretation": {
      "ParserMisinterpretation": 21
@@ -581,19 +574,19 @@
     }
    },
    "nli": {
-    "measurements": 250,
-    "accepted": 250,
+    "measurements": 252,
+    "accepted": 252,
     "acceptance_rate": 1.0,
-    "accuracy_accepted": 0.856,
-    "macro_f1_accepted": 0.8430642997718617,
-    "accuracy_raw": 0.856,
-    "macro_f1_raw": 0.8430642997718617,
+    "accuracy_accepted": 0.8571428571428571,
+    "macro_f1_accepted": 0.8434809827152058,
+    "accuracy_raw": 0.8571428571428571,
+    "macro_f1_raw": 0.8434809827152058,
     "per_label_accepted": {
      "entail": {
-      "precision": 0.8218390804597702,
-      "recall": 0.9930555555555556,
-      "f1": 0.8993710691823901,
-      "support": 144
+      "precision": 0.8238636363636364,
+      "recall": 0.9931506849315068,
+      "f1": 0.9006211180124223,
+      "support": 146
      },
      "neutral": {
       "precision": 1.0,
@@ -610,7 +603,7 @@
     },
     "confusion_accepted": {
      "entail": {
-      "entail": 143,
+      "entail": 145,
       "contra": 1
      },
      "neutral": {
@@ -624,7 +617,7 @@
     },
     "confusion_raw": {
      "entail": {
-      "entail": 143,
+      "entail": 145,
       "contra": 1
      },
      "neutral": {
@@ -638,7 +631,7 @@
     },
     "rejected_by_reason": {}
    },
-   "seconds": 0.5
+   "seconds": 1.0
   }
  },
  "per_instance": {
@@ -4177,20 +4170,42 @@
     "origin": "injected",
     "gold_category": "MissingCaseInformation",
     "gold_fault": "MissingCaseInformation(contract_under_one_month)",
-    "pred_category": "Normal",
-    "first_diagnosis": [],
-    "first_status": "none",
-    "candidates_first": 0,
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(college_level_position)",
+     "MissingCaseInformation(enterprise_manager_position)",
+     "MissingCaseInformation(intermediate_level_position)",
+     "MissingCaseInformation(other_position)",
+     "ParserOmission(probation_within_180_days)",
+     "ParserOmission(probation_within_30_days)",
+     "ParserOmission(probation_within_60_days)",
+     "ParserOmission(probation_within_6_workdays)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
     "hit": false,
-    "answer": "insufficient",
+    "answer": "clarification_requested",
     "expected": "false",
     "answer_ok": false,
     "nli_calls": 10,
     "nli_model_calls": 20,
     "nli_unverified": 0,
     "kb_checks": 0,
-    "rounds": 1,
-    "recovery": [],
+    "rounds": 2,
+    "recovery": [
+     "MissingCaseInformation(college_level_position)",
+     "MissingCaseInformation(enterprise_manager_position)",
+     "MissingCaseInformation(intermediate_level_position)",
+     "MissingCaseInformation(other_position)",
+     "ParserOmission(probation_within_180_days)",
+     "ParserOmission(probation_within_30_days)",
+     "ParserOmission(probation_within_60_days)",
+     "ParserOmission(probation_within_6_workdays)",
+     "Clarify(college_level_position)",
+     "Clarify(enterprise_manager_position)",
+     "Clarify(intermediate_level_position)",
+     "Clarify(other_position)"
+    ],
     "nli_log": [
      {
       "prop": "college_level_position",
@@ -4330,20 +4345,42 @@
     "origin": "injected",
     "gold_category": "ParserOmission",
     "gold_fault": "ParserOmission(contract_under_one_month)",
-    "pred_category": "Normal",
-    "first_diagnosis": [],
-    "first_status": "none",
-    "candidates_first": 0,
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(college_level_position)",
+     "MissingCaseInformation(enterprise_manager_position)",
+     "MissingCaseInformation(intermediate_level_position)",
+     "MissingCaseInformation(other_position)",
+     "ParserOmission(contract_under_one_month)",
+     "ParserOmission(probation_within_180_days)",
+     "ParserOmission(probation_within_30_days)",
+     "ParserOmission(probation_within_60_days)",
+     "ParserOmission(probation_within_6_workdays)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
     "hit": false,
-    "answer": "insufficient",
+    "answer": "false",
     "expected": "false",
-    "answer_ok": false,
-    "nli_calls": 10,
-    "nli_model_calls": 20,
+    "answer_ok": true,
+    "nli_calls": 11,
+    "nli_model_calls": 22,
     "nli_unverified": 0,
-    "kb_checks": 0,
-    "rounds": 1,
-    "recovery": [],
+    "kb_checks": 2,
+    "rounds": 3,
+    "recovery": [
+     "MissingCaseInformation(college_level_position)",
+     "MissingCaseInformation(enterprise_manager_position)",
+     "MissingCaseInformation(intermediate_level_position)",
+     "MissingCaseInformation(other_position)",
+     "ParserOmission(contract_under_one_month)",
+     "ParserOmission(probation_within_180_days)",
+     "ParserOmission(probation_within_30_days)",
+     "ParserOmission(probation_within_60_days)",
+     "ParserOmission(probation_within_6_workdays)",
+     "ResolvableRuleOverlap(LD0-R039, LD0-R041)",
+     "ResolvableRuleOverlap(LD0-R040, LD0-R038)"
+    ],
     "nli_log": [
      {
       "prop": "college_level_position",
@@ -4474,6 +4511,19 @@
       "neg_label": null,
       "reject_reason": "",
       "gold": "neutral"
+     },
+     {
+      "prop": "probation_planned",
+      "label": "entail",
+      "raw": "entail",
+      "scores": {
+       "entail": 0.6324270238717693,
+       "neutral": 0.3284248686416951,
+       "contra": 0.03914811493711616
+      },
+      "neg_label": null,
+      "reject_reason": "",
+      "gold": "entail"
      }
     ]
    },
@@ -4655,8 +4705,9 @@
     "origin": "injected",
     "gold_category": "MissingCaseInformation",
     "gold_fault": "MissingCaseInformation(probation_planned)",
-    "pred_category": "ResolvableRuleOverlap",
+    "pred_category": "ParserOmission",
     "first_diagnosis": [
+     "ParserOmission(probation_planned)",
      "ResolvableRuleOverlap(LD0-R039, LD0-R041)",
      "ResolvableRuleOverlap(LD0-R040, LD0-R038)"
     ],
@@ -4669,12 +4720,12 @@
     "nli_calls": 2,
     "nli_model_calls": 4,
     "nli_unverified": 1,
-    "kb_checks": 2,
+    "kb_checks": 4,
     "rounds": 3,
     "recovery": [
+     "ParserOmission(probation_planned)",
      "ResolvableRuleOverlap(LD0-R039, LD0-R041)",
-     "ResolvableRuleOverlap(LD0-R040, LD0-R038)",
-     "ParserOmission(probation_planned)"
+     "ResolvableRuleOverlap(LD0-R040, LD0-R038)"
     ],
     "nli_log": [
      {
@@ -4711,26 +4762,27 @@
     "origin": "injected",
     "gold_category": "ParserOmission",
     "gold_fault": "ParserOmission(probation_planned)",
-    "pred_category": "ResolvableRuleOverlap",
+    "pred_category": "ParserOmission",
     "first_diagnosis": [
+     "ParserOmission(probation_planned)",
      "ResolvableRuleOverlap(LD0-R039, LD0-R041)",
      "ResolvableRuleOverlap(LD0-R040, LD0-R038)"
     ],
     "first_status": "unique",
     "candidates_first": 1,
-    "hit": false,
+    "hit": true,
     "answer": "false",
     "expected": "false",
     "answer_ok": true,
     "nli_calls": 2,
     "nli_model_calls": 4,
     "nli_unverified": 0,
-    "kb_checks": 2,
+    "kb_checks": 4,
     "rounds": 3,
     "recovery": [
+     "ParserOmission(probation_planned)",
      "ResolvableRuleOverlap(LD0-R039, LD0-R041)",
-     "ResolvableRuleOverlap(LD0-R040, LD0-R038)",
-     "ParserOmission(probation_planned)"
+     "ResolvableRuleOverlap(LD0-R040, LD0-R038)"
     ],
     "nli_log": [
      {
@@ -6504,20 +6556,36 @@
     "origin": "injected",
     "gold_category": "MissingCaseInformation",
     "gold_fault": "MissingCaseInformation(worker_agreed_overtime)",
-    "pred_category": "Normal",
-    "first_diagnosis": [],
-    "first_status": "none",
-    "candidates_first": 0,
-    "hit": false,
-    "answer": "insufficient",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(overtime_daily_limit_exceeded)",
+     "MissingCaseInformation(overtime_over_200h_year)",
+     "MissingCaseInformation(overtime_over_300h_year)",
+     "MissingCaseInformation(overtime_over_40h_month)",
+     "MissingCaseInformation(overtime_special_case_art108)",
+     "MissingCaseInformation(special_overtime_sector)",
+     "MissingCaseInformation(worker_agreed_overtime)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
     "expected": "false",
-    "answer_ok": false,
-    "nli_calls": 7,
-    "nli_model_calls": 14,
+    "answer_ok": true,
+    "nli_calls": 8,
+    "nli_model_calls": 16,
     "nli_unverified": 0,
     "kb_checks": 0,
-    "rounds": 1,
-    "recovery": [],
+    "rounds": 2,
+    "recovery": [
+     "MissingCaseInformation(overtime_daily_limit_exceeded)",
+     "MissingCaseInformation(overtime_over_200h_year)",
+     "MissingCaseInformation(overtime_over_300h_year)",
+     "MissingCaseInformation(overtime_over_40h_month)",
+     "MissingCaseInformation(overtime_special_case_art108)",
+     "MissingCaseInformation(special_overtime_sector)",
+     "MissingCaseInformation(worker_agreed_overtime)"
+    ],
     "nli_log": [
      {
       "prop": "overtime_daily_limit_exceeded",
@@ -6609,6 +6677,19 @@
       "neg_label": null,
       "reject_reason": "",
       "gold": "neutral"
+     },
+     {
+      "prop": "overtime_event",
+      "label": "entail",
+      "raw": "entail",
+      "scores": {
+       "entail": 0.965289988351929,
+       "neutral": 0.032876485062579244,
+       "contra": 0.0018334982965684656
+      },
+      "neg_label": null,
+      "reject_reason": "",
+      "gold": "entail"
      }
     ]
    },
@@ -17209,20 +17290,42 @@
     "origin": "injected",
     "gold_category": "MissingCaseInformation",
     "gold_fault": "MissingCaseInformation(contract_under_one_month)",
-    "pred_category": "Normal",
-    "first_diagnosis": [],
-    "first_status": "none",
-    "candidates_first": 0,
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(college_level_position)",
+     "MissingCaseInformation(enterprise_manager_position)",
+     "MissingCaseInformation(intermediate_level_position)",
+     "MissingCaseInformation(other_position)",
+     "ParserOmission(probation_within_180_days)",
+     "ParserOmission(probation_within_30_days)",
+     "ParserOmission(probation_within_60_days)",
+     "ParserOmission(probation_within_6_workdays)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
     "hit": false,
-    "answer": "insufficient",
+    "answer": "clarification_requested",
     "expected": "false",
     "answer_ok": false,
     "nli_calls": 10,
     "nli_model_calls": 20,
     "nli_unverified": 0,
     "kb_checks": 0,
-    "rounds": 1,
-    "recovery": [],
+    "rounds": 2,
+    "recovery": [
+     "MissingCaseInformation(college_level_position)",
+     "MissingCaseInformation(enterprise_manager_position)",
+     "MissingCaseInformation(intermediate_level_position)",
+     "MissingCaseInformation(other_position)",
+     "ParserOmission(probation_within_180_days)",
+     "ParserOmission(probation_within_30_days)",
+     "ParserOmission(probation_within_60_days)",
+     "ParserOmission(probation_within_6_workdays)",
+     "Clarify(college_level_position)",
+     "Clarify(enterprise_manager_position)",
+     "Clarify(intermediate_level_position)",
+     "Clarify(other_position)"
+    ],
     "nli_log": [
      {
       "prop": "college_level_position",
@@ -17362,20 +17465,42 @@
     "origin": "injected",
     "gold_category": "ParserOmission",
     "gold_fault": "ParserOmission(contract_under_one_month)",
-    "pred_category": "Normal",
-    "first_diagnosis": [],
-    "first_status": "none",
-    "candidates_first": 0,
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(college_level_position)",
+     "MissingCaseInformation(enterprise_manager_position)",
+     "MissingCaseInformation(intermediate_level_position)",
+     "MissingCaseInformation(other_position)",
+     "ParserOmission(contract_under_one_month)",
+     "ParserOmission(probation_within_180_days)",
+     "ParserOmission(probation_within_30_days)",
+     "ParserOmission(probation_within_60_days)",
+     "ParserOmission(probation_within_6_workdays)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
     "hit": false,
-    "answer": "insufficient",
+    "answer": "false",
     "expected": "false",
-    "answer_ok": false,
-    "nli_calls": 10,
-    "nli_model_calls": 20,
+    "answer_ok": true,
+    "nli_calls": 11,
+    "nli_model_calls": 22,
     "nli_unverified": 0,
-    "kb_checks": 0,
-    "rounds": 1,
-    "recovery": [],
+    "kb_checks": 2,
+    "rounds": 3,
+    "recovery": [
+     "MissingCaseInformation(college_level_position)",
+     "MissingCaseInformation(enterprise_manager_position)",
+     "MissingCaseInformation(intermediate_level_position)",
+     "MissingCaseInformation(other_position)",
+     "ParserOmission(contract_under_one_month)",
+     "ParserOmission(probation_within_180_days)",
+     "ParserOmission(probation_within_30_days)",
+     "ParserOmission(probation_within_60_days)",
+     "ParserOmission(probation_within_6_workdays)",
+     "ResolvableRuleOverlap(LD0-R039, LD0-R041)",
+     "ResolvableRuleOverlap(LD0-R040, LD0-R038)"
+    ],
     "nli_log": [
      {
       "prop": "college_level_position",
@@ -17506,6 +17631,19 @@
       "neg_label": null,
       "reject_reason": "",
       "gold": "neutral"
+     },
+     {
+      "prop": "probation_planned",
+      "label": "entail",
+      "raw": "entail",
+      "scores": {
+       "entail": 0.6324270238717693,
+       "neutral": 0.3284248686416951,
+       "contra": 0.03914811493711616
+      },
+      "neg_label": null,
+      "reject_reason": "",
+      "gold": "entail"
      }
     ]
    },
@@ -17696,16 +17834,29 @@
     "first_status": "unique",
     "candidates_first": 1,
     "hit": false,
-    "answer": "insufficient",
+    "answer": "clarification_requested",
     "expected": "false",
     "answer_ok": false,
     "nli_calls": 11,
     "nli_model_calls": 22,
     "nli_unverified": 0,
     "kb_checks": 2,
-    "rounds": 2,
+    "rounds": 3,
     "recovery": [
-     "ParserMisinterpretation(contract_under_one_month)"
+     "ParserMisinterpretation(contract_under_one_month)",
+     "MissingCaseInformation(college_level_position)",
+     "MissingCaseInformation(enterprise_manager_position)",
+     "MissingCaseInformation(intermediate_level_position)",
+     "MissingCaseInformation(other_position)",
+     "ParserOmission(probation_planned)",
+     "ParserOmission(probation_within_180_days)",
+     "ParserOmission(probation_within_30_days)",
+     "ParserOmission(probation_within_60_days)",
+     "ParserOmission(probation_within_6_workdays)",
+     "Clarify(college_level_position)",
+     "Clarify(enterprise_manager_position)",
+     "Clarify(intermediate_level_position)",
+     "Clarify(other_position)"
     ],
     "nli_log": [
      {
@@ -17859,26 +18010,27 @@
     "origin": "injected",
     "gold_category": "ParserOmission",
     "gold_fault": "ParserOmission(probation_planned)",
-    "pred_category": "ResolvableRuleOverlap",
+    "pred_category": "ParserOmission",
     "first_diagnosis": [
+     "ParserOmission(probation_planned)",
      "ResolvableRuleOverlap(LD0-R039, LD0-R041)",
      "ResolvableRuleOverlap(LD0-R040, LD0-R038)"
     ],
     "first_status": "unique",
     "candidates_first": 1,
-    "hit": false,
+    "hit": true,
     "answer": "false",
     "expected": "false",
     "answer_ok": true,
     "nli_calls": 2,
     "nli_model_calls": 4,
     "nli_unverified": 0,
-    "kb_checks": 2,
+    "kb_checks": 4,
     "rounds": 3,
     "recovery": [
+     "ParserOmission(probation_planned)",
      "ResolvableRuleOverlap(LD0-R039, LD0-R041)",
-     "ResolvableRuleOverlap(LD0-R040, LD0-R038)",
-     "ParserOmission(probation_planned)"
+     "ResolvableRuleOverlap(LD0-R040, LD0-R038)"
     ],
     "nli_log": [
      {
@@ -19651,20 +19803,36 @@
     "origin": "injected",
     "gold_category": "MissingCaseInformation",
     "gold_fault": "MissingCaseInformation(worker_agreed_overtime)",
-    "pred_category": "Normal",
-    "first_diagnosis": [],
-    "first_status": "none",
-    "candidates_first": 0,
-    "hit": false,
-    "answer": "insufficient",
+    "pred_category": "MissingCaseInformation",
+    "first_diagnosis": [
+     "MissingCaseInformation(overtime_daily_limit_exceeded)",
+     "MissingCaseInformation(overtime_over_200h_year)",
+     "MissingCaseInformation(overtime_over_300h_year)",
+     "MissingCaseInformation(overtime_over_40h_month)",
+     "MissingCaseInformation(overtime_special_case_art108)",
+     "MissingCaseInformation(special_overtime_sector)",
+     "MissingCaseInformation(worker_agreed_overtime)"
+    ],
+    "first_status": "unique",
+    "candidates_first": 1,
+    "hit": true,
+    "answer": "false",
     "expected": "false",
-    "answer_ok": false,
-    "nli_calls": 7,
-    "nli_model_calls": 14,
+    "answer_ok": true,
+    "nli_calls": 8,
+    "nli_model_calls": 16,
     "nli_unverified": 0,
     "kb_checks": 0,
-    "rounds": 1,
-    "recovery": [],
+    "rounds": 2,
+    "recovery": [
+     "MissingCaseInformation(overtime_daily_limit_exceeded)",
+     "MissingCaseInformation(overtime_over_200h_year)",
+     "MissingCaseInformation(overtime_over_300h_year)",
+     "MissingCaseInformation(overtime_over_40h_month)",
+     "MissingCaseInformation(overtime_special_case_art108)",
+     "MissingCaseInformation(special_overtime_sector)",
+     "MissingCaseInformation(worker_agreed_overtime)"
+    ],
     "nli_log": [
      {
       "prop": "overtime_daily_limit_exceeded",
@@ -19756,6 +19924,19 @@
       "neg_label": null,
       "reject_reason": "",
       "gold": "neutral"
+     },
+     {
+      "prop": "overtime_event",
+      "label": "entail",
+      "raw": "entail",
+      "scores": {
+       "entail": 0.965289988351929,
+       "neutral": 0.032876485062579244,
+       "contra": 0.0018334982965684656
+      },
+      "neg_label": null,
+      "reject_reason": "",
+      "gold": "entail"
      }
     ]
    },

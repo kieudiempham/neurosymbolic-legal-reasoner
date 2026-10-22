@@ -1,0 +1,4 @@
+dataset: {'items': 90, 'application_cases': 90, 'skipped': 0, 'kb_covered': 90, 'not_covered': {}}
+149 rules, 90 gold cases, 149 instances
+instances by category: {'Normal': 61, 'UnsupportedParserFact': 12, 'MissingCaseInformation': 30, 'ParserMisinterpretation': 12, 'ResolvableRuleOverlap': 11, 'UnresolvedKBConflict': 11, 'ParserOmission': 12}
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights:  22%|██▏       | 45/202 [00:00<00:00, 448.80it/s]Loading weights:  45%|████▍     | 90/202 [00:00<00:00, 350.39it/s]Loading weights: 100%|██████████| 202/202 [00:00<00:00, 798.94it/s]

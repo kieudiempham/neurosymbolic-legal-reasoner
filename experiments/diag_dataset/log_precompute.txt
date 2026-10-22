@@ -1,0 +1,8 @@
+149 instances, 2810 pairs, 2810 not cached
+Loading weights:   0%|          | 0/202 [00:00<?, ?it/s]Loading weights:  19%|█▉        | 39/202 [00:00<00:00, 373.87it/s]Loading weights: 100%|██████████| 202/202 [00:00<00:00, 1114.93it/s]
+  64/2810  5.82s/pair  eta 266 min
+  128/2810  5.50s/pair  eta 246 min
+  192/2810  5.44s/pair  eta 237 min
+  256/2810  5.29s/pair  eta 225 min
+  320/2810  5.16s/pair  eta 214 min
+  384/2810  5.29s/pair  eta 214 min

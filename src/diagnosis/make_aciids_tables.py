@@ -99,7 +99,7 @@ def main() -> None:
         gain = None if cfg == "base_nesy" else 100 * (p["ans_faulty"] - base["ans_faulty"])
         L.append(f"| {name} | {pct(p['ans'])} | {pct(p['ans_faulty'])} | {pct(p.get('diag'))} | {pct(p.get('f1'))} | "
                  f"{pct(p.get('act'))} | {'–' if gain is None else f'+{gain:.1f}'} | {p['asks']:.2f} |")
-    L += ["", "GPT-4o (pure LLM) and IRAC score: not run yet.", ""]
+    L += ["", "GPT-4o (pure LLM) and IRAC: see Table 8 (end-to-end QA and IRAC).", ""]
 
     # ---- Table 2: per fault type, external F1-F4 (KB-independent faults), test ----
     L += ["## Table 2 — Diagnosis by fault type (external F1–F4 set, faults chosen without the KB, test)", "",
@@ -173,6 +173,54 @@ def main() -> None:
         p = pooled(runs, "test", cfg)
         if p["n"]:
             L.append(f"| {name} | {pct(p['ans'])} | {pct(p.get('diag'))} | {p['asks']:.2f} |")
+    # ---- Table 6: equal clarification budget + measurement cost ----
+    bf = ROOT / "experiments" / "budget" / "budget_results.json"
+    if bf.exists():
+        br = json.loads(bf.read_text(encoding="utf-8"))
+        L += ["## Table 6 — QA accuracy under an equal clarification budget (injected faults, test, n = 451)", "",
+              "The simulated user answers at most B clarification questions per query (budgets fixed in advance).", "",
+              "| Method | B = 0 | B = 1 | B = 2 | unlimited | NLI measurements / query | KB checks / query |",
+              "|---|---|---|---|---|---|---|"]
+        for cfg, name in [("no_mbd", "Direct symptom→cause (no MBD)"), ("rule_check", "Heuristic IF–THEN"),
+                          ("nesy_diag", "**Ours: Cross-Layer MBD**")]:
+            cells = [pct(br[f"{cfg}|{b}"]["qa_acc"]) for b in ("0", "1", "2", "inf")]
+            L.append(f"| {name} | {' | '.join(cells)} | {br[f'{cfg}|inf']['nli_per_query']:.2f} | "
+                     f"{br[f'{cfg}|inf']['kb_checks_per_query']:.2f} |")
+        L.append("")
+    # ---- Table 8: end-to-end QA (real GPT-4o parser) + IRAC ----
+    qf, jf = ROOT / "experiments" / "e2e" / "qa_results.json", ROOT / "experiments" / "e2e" / "irac_scores.json"
+    if qf.exists():
+        q = json.loads(qf.read_text(encoding="utf-8"))["summary"]
+        ir = json.loads(jf.read_text(encoding="utf-8"))["summary"] if jf.exists() else {}
+        L += ["## Table 8 — End-to-end QA on the 300 questions (real GPT-4o parser, oracle goal, no simulated user) and IRAC", "",
+              f"Parser vs gold facts: precision {pct(q['parser']['precision'])}, recall {pct(q['parser']['recall'])}. "
+              "IRAC: 40 stratified questions, blind, judge GPT-4.1, rubric 100·(0.10 I + 0.35 R + 0.40 A + 0.15 C).", "",
+              "| Method | QA test (n=106) | QA dev (n=194) | QA all (n=300) | yes / no / insufficient (all) | IRAC | I | R | A | C |",
+              "|---|---|---|---|---|---|---|---|---|---|"]
+        for m, name in [("gpt4o", "GPT-4o (pure LLM)"), ("symbolic", "Symbolic QA"), ("heuristic", "Heuristic IF–THEN"),
+                        ("ours", "**Ours: Cross-Layer MBD**")]:
+            g = q["by_gold_label_all"]
+            i = ir.get(m, {})
+            L.append(f"| {name} | {pct(q['test'][m])} | {pct(q['dev'][m])} | {pct(q['all'][m])} | "
+                     f"{pct(g['true'][m])} / {pct(g['false'][m])} / {pct(g['insufficient'][m])} | "
+                     f"{i.get('IRAC_0_100', '–')} | {i.get('I', '–')} | {i.get('R', '–')} | {i.get('A', '–')} | {i.get('C', '–')} |")
+        L += ["", "Test QA by domain (social insurance: dev): " + "; ".join(
+            f"{d}: " + ", ".join(f"{m} {pct(v[m])}" for m in ("gpt4o", "heuristic", "ours")) + f" (n={v['n']})"
+            for d, v in q["by_domain_test_or_all"].items()), ""]
+
+    # ---- Table 7: two simultaneous faults ----
+    mf = ROOT / "experiments" / "multi_fault" / "results.json"
+    if mf.exists():
+        ms = json.loads(mf.read_text(encoding="utf-8"))["summary"]
+        L += ["## Table 7 — Two simultaneous faults on different propositions (test; dev in parentheses)", "",
+              "| Method | Both faults found | ≥ 1 found | QA acc. | Clarifications / query | n |", "|---|---|---|---|---|---|"]
+        for cfg, name in [("no_mbd", "Direct symptom→cause (no MBD)"), ("rule_check", "Heuristic IF–THEN"),
+                          ("nesy_diag", "**Ours: Cross-Layer MBD**")]:
+            t, d = ms[f"test|{cfg}"], ms[f"dev|{cfg}"]
+            L.append(f"| {name} | {pct(t['both_found'])} ({pct(d['both_found'])}) | {pct(t['any_found'])} "
+                     f"({pct(d['any_found'])}) | {pct(t['answer_ok'])} ({pct(d['answer_ok'])}) | "
+                     f"{t['asks_per_query']:.2f} ({d['asks_per_query']:.2f}) | {t['n']} ({d['n']}) |")
+        L.append("")
     OUT.write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L))
 

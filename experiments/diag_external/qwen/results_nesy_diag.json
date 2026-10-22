@@ -137,26 +137,26 @@
   "all": {
    "n": 166,
    "sources": 73,
-   "final_answer_acc": 0.6807228915662651,
+   "final_answer_acc": 0.8072289156626506,
    "final_answer_acc_ci95": [
-    0.5828220858895705,
-    0.774390243902439
+    0.7228915662650602,
+    0.8809523809523809
    ],
-   "diagnosis_acc_observable": 0.49107142857142855,
+   "diagnosis_acc_observable": 0.5178571428571429,
    "diagnosis_acc_observable_ci95": [
-    0.37962962962962965,
-    0.6083333333333333
+    0.4051724137931034,
+    0.638095238095238
    ],
    "n_observable": 112,
-   "correct_action_observable": 0.5089285714285714,
+   "correct_action_observable": 0.5357142857142857,
    "correct_action_observable_ci95": [
-    0.40350877192982454,
-    0.6238532110091743
+    0.41964285714285715,
+    0.6545454545454545
    ],
-   "false_alarm_rate_control": 0.45,
+   "false_alarm_rate_control": 0.5,
    "per_mode_diag_acc_observable": {
-    "F1": 0.438,
-    "F2": 0.5,
+    "F1": 0.5,
+    "F2": 0.538,
     "F3": 0.462,
     "F4": 0.571
    },
@@ -164,29 +164,28 @@
     "CONTROL": {
      "Normal": 10,
      "UnsupportedParserFact": 9,
-     "ResolvableRuleOverlap": 1
+     "MissingCaseInformation": 1
     },
     "F1": {
      "Ambiguous": 3,
-     "MissingCaseInformation": 17,
+     "MissingCaseInformation": 23,
      "UnsupportedParserFact": 8,
      "ParserOmission": 1,
-     "Normal": 6,
-     "ResolvableRuleOverlap": 1
+     "Normal": 1
     },
     "F2": {
      "UnsupportedParserFact": 9,
      "ParserOmission": 12,
-     "MissingCaseInformation": 4,
-     "Normal": 9,
-     "ResolvableRuleOverlap": 1,
-     "ParserMisinterpretation": 1,
-     "Ambiguous": 1
+     "MissingCaseInformation": 7,
+     "Ambiguous": 2,
+     "Normal": 6,
+     "ParserMisinterpretation": 1
     },
     "F3": {
      "ParserMisinterpretation": 23,
      "UnsupportedParserFact": 11,
-     "Normal": 3
+     "Normal": 2,
+     "Ambiguous": 1
     },
     "F4": {
      "Normal": 3,
@@ -199,26 +198,26 @@
   "dev": {
    "n": 106,
    "sources": 46,
-   "final_answer_acc": 0.6981132075471698,
+   "final_answer_acc": 0.8113207547169812,
    "final_answer_acc_ci95": [
-    0.5841584158415841,
-    0.8076923076923077
+    0.7064220183486238,
+    0.8962264150943396
    ],
-   "diagnosis_acc_observable": 0.5733333333333334,
+   "diagnosis_acc_observable": 0.6133333333333333,
    "diagnosis_acc_observable_ci95": [
-    0.44,
-    0.7101449275362319
+    0.4805194805194805,
+    0.7534246575342466
    ],
    "n_observable": 75,
-   "correct_action_observable": 0.5866666666666667,
+   "correct_action_observable": 0.6266666666666667,
    "correct_action_observable_ci95": [
-    0.45714285714285713,
-    0.7160493827160493
+    0.4935064935064935,
+    0.7638888888888888
    ],
-   "false_alarm_rate_control": 0.42857142857142855,
+   "false_alarm_rate_control": 0.5,
    "per_mode_diag_acc_observable": {
-    "F1": 0.476,
-    "F2": 0.579,
+    "F1": 0.571,
+    "F2": 0.632,
     "F3": 0.556,
     "F4": 0.706
    },
@@ -226,26 +225,24 @@
     "CONTROL": {
      "Normal": 7,
      "UnsupportedParserFact": 6,
-     "ResolvableRuleOverlap": 1
+     "MissingCaseInformation": 1
     },
     "F1": {
-     "MissingCaseInformation": 12,
+     "MissingCaseInformation": 17,
      "Ambiguous": 2,
-     "UnsupportedParserFact": 3,
-     "Normal": 5
+     "UnsupportedParserFact": 3
     },
     "F2": {
      "UnsupportedParserFact": 6,
      "ParserOmission": 10,
-     "MissingCaseInformation": 3,
-     "Normal": 3,
-     "ResolvableRuleOverlap": 1,
-     "Ambiguous": 1
+     "MissingCaseInformation": 4,
+     "Ambiguous": 2,
+     "Normal": 2
     },
     "F3": {
      "ParserMisinterpretation": 19,
      "UnsupportedParserFact": 4,
-     "Normal": 1
+     "Ambiguous": 1
     },
     "F4": {
      "Normal": 2,
@@ -257,10 +254,10 @@
   "test": {
    "n": 60,
    "sources": 27,
-   "final_answer_acc": 0.65,
+   "final_answer_acc": 0.8,
    "final_answer_acc_ci95": [
-    0.48333333333333334,
-    0.8166666666666667
+    0.6607142857142857,
+    0.9180327868852459
    ],
    "diagnosis_acc_observable": 0.32432432432432434,
    "diagnosis_acc_observable_ci95": [
@@ -287,18 +284,17 @@
     },
     "F1": {
      "Ambiguous": 1,
-     "MissingCaseInformation": 5,
+     "MissingCaseInformation": 6,
      "UnsupportedParserFact": 5,
      "ParserOmission": 1,
-     "ResolvableRuleOverlap": 1,
      "Normal": 1
     },
     "F2": {
-     "Normal": 6,
+     "Normal": 4,
+     "MissingCaseInformation": 3,
      "UnsupportedParserFact": 3,
      "ParserOmission": 2,
-     "ParserMisinterpretation": 1,
-     "MissingCaseInformation": 1
+     "ParserMisinterpretation": 1
     },
     "F3": {
      "ParserMisinterpretation": 4,
@@ -315,10 +311,10 @@
   "no_symptom": {
    "n": 34,
    "sources": 27,
-   "final_answer_acc": 0.6764705882352942,
+   "final_answer_acc": 0.6470588235294118,
    "final_answer_acc_ci95": [
-    0.5,
-    0.8378378378378378
+    0.46875,
+    0.8125
    ],
    "per_mode_diag_acc_observable": {
     "F1": 0.0,
@@ -329,9 +325,9 @@
    "confusion": {
     "CONTROL": {},
     "F1": {
-     "ResolvableRuleOverlap": 1,
+     "MissingCaseInformation": 2,
      "UnsupportedParserFact": 1,
-     "Normal": 2
+     "Normal": 1
     },
     "F2": {
      "UnsupportedParserFact": 3,
@@ -350,7 +346,7 @@
     }
    }
   },
-  "seconds": 4.1
+  "seconds": 5.2
  },
  "per_instance": [
   {
@@ -474,16 +470,26 @@
    "nli_calls": 17,
    "nli_model_calls": 34,
    "nli_unverified": 0,
-   "kb_checks": 2,
+   "kb_checks": 3,
    "rounds": 3,
    "recovery": [
     "UnsupportedParserFact(unpaid_14_days)",
-    "ResolvableRuleOverlap(LN1-R016, LN1-R008)",
-    "Clarify(contract_expired_over_30_days)",
-    "Clarify(indefinite_term_contract)",
-    "Clarify(no_new_contract)",
-    "Clarify(ongoing_employment)",
-    "Clarify(term_at_least_1_month)"
+    "MissingCaseInformation(appointed_manager_state_owned_llc)",
+    "MissingCaseInformation(authorized_enterprise_capital_representative)",
+    "MissingCaseInformation(authorized_state_capital_representative)",
+    "MissingCaseInformation(compulsory_detox_or_education_measure)",
+    "MissingCaseInformation(held_in_criminal_custody)",
+    "MissingCaseInformation(military_service_duty)",
+    "MissingCaseInformation(pregnancy_suspension_art138)",
+    "ParserOmission(term_at_least_1_month)",
+    "MissingCaseInformation(appointed_manager_state_owned_llc)",
+    "MissingCaseInformation(authorized_enterprise_capital_representative)",
+    "MissingCaseInformation(authorized_state_capital_representative)",
+    "MissingCaseInformation(compulsory_detox_or_education_measure)",
+    "MissingCaseInformation(held_in_criminal_custody)",
+    "MissingCaseInformation(military_service_duty)",
+    "MissingCaseInformation(pregnancy_suspension_art138)",
+    "MissingCaseInformation(unpaid_14_days)"
    ],
    "nli_log": [
     {
@@ -1286,12 +1292,29 @@
    "origin": "injected",
    "gold_category": "ParserOmission",
    "gold_fault": "ParserOmission(input_used_exclusively_for_nontaxable)",
-   "pred_category": "Normal",
-   "first_diagnosis": [],
-   "first_status": "none",
-   "candidates_first": 0,
+   "pred_category": "Ambiguous",
+   "first_diagnosis": [
+    "MissingCaseInformation(cash_deposited_into_seller_account)",
+    "MissingCaseInformation(export_customs_declaration)",
+    "MissingCaseInformation(export_goods_contract)",
+    "MissingCaseInformation(export_goods_transaction)",
+    "MissingCaseInformation(export_service_contract)",
+    "MissingCaseInformation(export_service_transaction)",
+    "MissingCaseInformation(import_free_gift_or_sample)",
+    "MissingCaseInformation(installment_payment_not_yet_due)",
+    "MissingCaseInformation(paid_non_cash)",
+    "MissingCaseInformation(purchase_amount_at_least_5m)",
+    "MissingCaseInformation(purchase_has_valid_vat_invoice)",
+    "MissingCaseInformation(purchase_offset_with_reconciliation_record)",
+    "MissingCaseInformation(same_seller_same_day_total_at_least_5m)",
+    "ParserOmission(input_used_for_taxable_sales)",
+    "ParserOmission(purchase_has_valid_vat_invoice)",
+    "ParserOmission(tax_pays_under_deduction)"
+   ],
+   "first_status": "ambiguous",
+   "candidates_first": 2,
    "hit": false,
-   "answer": "insufficient",
+   "answer": "clarification_requested",
    "expected": "false",
    "answer_ok": false,
    "nli_calls": 36,
@@ -1299,7 +1322,23 @@
    "nli_unverified": 2,
    "kb_checks": 0,
    "rounds": 1,
-   "recovery": [],
+   "recovery": [
+    "Clarify(cash_deposited_into_seller_account)",
+    "Clarify(export_customs_declaration)",
+    "Clarify(export_goods_contract)",
+    "Clarify(export_goods_transaction)",
+    "Clarify(export_service_contract)",
+    "Clarify(export_service_transaction)",
+    "Clarify(import_free_gift_or_sample)",
+    "Clarify(input_used_for_taxable_sales)",
+    "Clarify(installment_payment_not_yet_due)",
+    "Clarify(paid_non_cash)",
+    "Clarify(purchase_amount_at_least_5m)",
+    "Clarify(purchase_has_valid_vat_invoice)",
+    "Clarify(purchase_offset_with_reconciliation_record)",
+    "Clarify(same_seller_same_day_total_at_least_5m)",
+    "Clarify(tax_pays_under_deduction)"
+   ],
    "nli_log": [
     {
      "prop": "cash_deposited_into_seller_account",
@@ -2281,17 +2320,23 @@
    "first_status": "unique",
    "candidates_first": 1,
    "hit": false,
-   "answer": "insufficient",
+   "answer": "false",
    "expected": "false",
-   "answer_ok": false,
+   "answer_ok": true,
    "nli_calls": 22,
    "nli_model_calls": 44,
    "nli_unverified": 1,
    "kb_checks": 0,
-   "rounds": 2,
+   "rounds": 3,
    "recovery": [
     "UnsupportedParserFact(cit_expense_at_least_5m)",
-    "UnsupportedParserFact(cit_expense_payment_proof)"
+    "UnsupportedParserFact(cit_expense_payment_proof)",
+    "MissingCaseInformation(cit_employee_paid_noncash_authorized)",
+    "MissingCaseInformation(cit_expense_at_least_5m)",
+    "MissingCaseInformation(cit_expense_payment_proof)",
+    "MissingCaseInformation(cit_expense_unpaid_at_recognition)",
+    "MissingCaseInformation(cit_same_seller_same_day_total_at_least_5m)",
+    "ParserOmission(cit_business_related_expense)"
    ],
    "nli_log": [
     {
@@ -3090,17 +3135,17 @@
    "first_status": "unique",
    "candidates_first": 1,
    "hit": true,
-   "answer": "false",
+   "answer": "clarification_requested",
    "expected": "false",
-   "answer_ok": true,
-   "nli_calls": 5,
-   "nli_model_calls": 10,
+   "answer_ok": false,
+   "nli_calls": 6,
+   "nli_model_calls": 12,
    "nli_unverified": 0,
    "kb_checks": 2,
-   "rounds": 3,
+   "rounds": 2,
    "recovery": [
     "ParserMisinterpretation(term_at_least_1_month)",
-    "ResolvableRuleOverlap(LN1-R016, LN1-R008)"
+    "MissingCaseInformation(first_month_sick_leave_14_days)"
    ],
    "nli_log": [
     {
@@ -3167,6 +3212,19 @@
      "neg_label": null,
      "reject_reason": "",
      "gold": "entail"
+    },
+    {
+     "prop": "first_month_sick_leave_14_days",
+     "label": "neutral",
+     "raw": "neutral",
+     "scores": {
+      "entail": 1.605226840339924e-09,
+      "neutral": 0.9999992847442627,
+      "contra": 7.571149467366922e-07
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "neutral"
     }
    ],
    "mode": "F3",
@@ -3679,16 +3737,37 @@
    "first_status": "unique",
    "candidates_first": 1,
    "hit": true,
-   "answer": "insufficient",
+   "answer": "clarification_requested",
    "expected": "clarification_requested",
-   "answer_ok": false,
+   "answer_ok": true,
    "nli_calls": 28,
    "nli_model_calls": 56,
    "nli_unverified": 4,
    "kb_checks": 0,
    "rounds": 2,
    "recovery": [
-    "UnsupportedParserFact(under_management)"
+    "UnsupportedParserFact(under_management)",
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(is_cipher_worker_paid_as_soldier)",
+    "MissingCaseInformation(is_civil_servant)",
+    "MissingCaseInformation(is_defense_worker)",
+    "MissingCaseInformation(is_military_officer)",
+    "MissingCaseInformation(is_non_professional_worker)",
+    "MissingCaseInformation(is_police_professional_nco)",
+    "MissingCaseInformation(is_police_professional_officer)",
+    "MissingCaseInformation(is_police_technical_nco)",
+    "MissingCaseInformation(is_police_technical_officer)",
+    "MissingCaseInformation(is_professional_soldier)",
+    "MissingCaseInformation(is_regular_militia)",
+    "MissingCaseInformation(is_spouse_on_mission)",
+    "MissingCaseInformation(missing_contribution_max_6_months)",
+    "MissingCaseInformation(part_time)",
+    "MissingCaseInformation(reached_retirement_age)",
+    "MissingCaseInformation(receives_salary)",
+    "MissingCaseInformation(sent_for_study_or_work)",
+    "MissingCaseInformation(still_receives_domestic_salary)",
+    "MissingCaseInformation(under_management)",
+    "MissingCaseInformation(wage_at_least_min_base)"
    ],
    "nli_log": [
     {
@@ -4318,20 +4397,90 @@
    "origin": "injected",
    "gold_category": "ParserOmission",
    "gold_fault": "ParserOmission(vat_agri_irrigation)",
-   "pred_category": "Normal",
-   "first_diagnosis": [],
-   "first_status": "none",
-   "candidates_first": 0,
+   "pred_category": "MissingCaseInformation",
+   "first_diagnosis": [
+    "MissingCaseInformation(vat_agri_irrigation)",
+    "MissingCaseInformation(vat_agri_tillage_dredging_harvest)",
+    "MissingCaseInformation(vat_animal_or_aquatic_feed)",
+    "MissingCaseInformation(vat_breeding_stock_or_seed)",
+    "MissingCaseInformation(vat_community_funded_public_works)",
+    "MissingCaseInformation(vat_defense_security_product)",
+    "MissingCaseInformation(vat_education_service)",
+    "MissingCaseInformation(vat_exempt_financial_service)",
+    "MissingCaseInformation(vat_exempt_import_gift_or_relief)",
+    "MissingCaseInformation(vat_exempt_publication)",
+    "MissingCaseInformation(vat_export_unprocessed_resources)",
+    "MissingCaseInformation(vat_funeral_service)",
+    "MissingCaseInformation(vat_household_revenue_le_200m)",
+    "MissingCaseInformation(vat_humanitarian_aid_goods)",
+    "MissingCaseInformation(vat_import_equipment_not_domestically_produced)",
+    "MissingCaseInformation(vat_import_raw_gold)",
+    "MissingCaseInformation(vat_import_unprocessed_agri_product)",
+    "MissingCaseInformation(vat_land_use_transfer)",
+    "MissingCaseInformation(vat_life_insurance)",
+    "MissingCaseInformation(vat_medical_service)",
+    "MissingCaseInformation(vat_non_business_asset_reserve_or_fee)",
+    "MissingCaseInformation(vat_other_exempt_insurance)",
+    "MissingCaseInformation(vat_prosthetic_or_disability_aid)",
+    "MissingCaseInformation(vat_public_bus)",
+    "MissingCaseInformation(vat_public_tram_or_inland_waterway)",
+    "MissingCaseInformation(vat_sale_raw_crops_own_production)",
+    "MissingCaseInformation(vat_sale_salt)",
+    "MissingCaseInformation(vat_software_service)",
+    "MissingCaseInformation(vat_state_funded_broadcasting)",
+    "MissingCaseInformation(vat_state_housing_sold_to_tenant)",
+    "MissingCaseInformation(vat_teaching_service)",
+    "MissingCaseInformation(vat_technology_transfer_or_ip_transfer)",
+    "MissingCaseInformation(vat_transit_or_temporary_import_export)",
+    "MissingCaseInformation(vat_veterinary_service)"
+   ],
+   "first_status": "unique",
+   "candidates_first": 1,
    "hit": false,
-   "answer": "insufficient",
+   "answer": "true",
    "expected": "true",
-   "answer_ok": false,
+   "answer_ok": true,
    "nli_calls": 34,
    "nli_model_calls": 68,
    "nli_unverified": 0,
    "kb_checks": 0,
-   "rounds": 1,
-   "recovery": [],
+   "rounds": 2,
+   "recovery": [
+    "MissingCaseInformation(vat_agri_irrigation)",
+    "MissingCaseInformation(vat_agri_tillage_dredging_harvest)",
+    "MissingCaseInformation(vat_animal_or_aquatic_feed)",
+    "MissingCaseInformation(vat_breeding_stock_or_seed)",
+    "MissingCaseInformation(vat_community_funded_public_works)",
+    "MissingCaseInformation(vat_defense_security_product)",
+    "MissingCaseInformation(vat_education_service)",
+    "MissingCaseInformation(vat_exempt_financial_service)",
+    "MissingCaseInformation(vat_exempt_import_gift_or_relief)",
+    "MissingCaseInformation(vat_exempt_publication)",
+    "MissingCaseInformation(vat_export_unprocessed_resources)",
+    "MissingCaseInformation(vat_funeral_service)",
+    "MissingCaseInformation(vat_household_revenue_le_200m)",
+    "MissingCaseInformation(vat_humanitarian_aid_goods)",
+    "MissingCaseInformation(vat_import_equipment_not_domestically_produced)",
+    "MissingCaseInformation(vat_import_raw_gold)",
+    "MissingCaseInformation(vat_import_unprocessed_agri_product)",
+    "MissingCaseInformation(vat_land_use_transfer)",
+    "MissingCaseInformation(vat_life_insurance)",
+    "MissingCaseInformation(vat_medical_service)",
+    "MissingCaseInformation(vat_non_business_asset_reserve_or_fee)",
+    "MissingCaseInformation(vat_other_exempt_insurance)",
+    "MissingCaseInformation(vat_prosthetic_or_disability_aid)",
+    "MissingCaseInformation(vat_public_bus)",
+    "MissingCaseInformation(vat_public_tram_or_inland_waterway)",
+    "MissingCaseInformation(vat_sale_raw_crops_own_production)",
+    "MissingCaseInformation(vat_sale_salt)",
+    "MissingCaseInformation(vat_software_service)",
+    "MissingCaseInformation(vat_state_funded_broadcasting)",
+    "MissingCaseInformation(vat_state_housing_sold_to_tenant)",
+    "MissingCaseInformation(vat_teaching_service)",
+    "MissingCaseInformation(vat_technology_transfer_or_ip_transfer)",
+    "MissingCaseInformation(vat_transit_or_temporary_import_export)",
+    "MissingCaseInformation(vat_veterinary_service)"
+   ],
    "nli_log": [
     {
      "prop": "vat_agri_irrigation",
@@ -5457,16 +5606,50 @@
    "first_status": "unique",
    "candidates_first": 1,
    "hit": false,
-   "answer": "insufficient",
+   "answer": "true",
    "expected": "true",
-   "answer_ok": false,
+   "answer_ok": true,
    "nli_calls": 34,
    "nli_model_calls": 68,
    "nli_unverified": 0,
    "kb_checks": 0,
-   "rounds": 2,
+   "rounds": 3,
    "recovery": [
-    "UnsupportedParserFact(vat_agri_irrigation)"
+    "UnsupportedParserFact(vat_agri_irrigation)",
+    "MissingCaseInformation(vat_agri_irrigation)",
+    "MissingCaseInformation(vat_agri_tillage_dredging_harvest)",
+    "MissingCaseInformation(vat_animal_or_aquatic_feed)",
+    "MissingCaseInformation(vat_breeding_stock_or_seed)",
+    "MissingCaseInformation(vat_community_funded_public_works)",
+    "MissingCaseInformation(vat_defense_security_product)",
+    "MissingCaseInformation(vat_education_service)",
+    "MissingCaseInformation(vat_exempt_financial_service)",
+    "MissingCaseInformation(vat_exempt_import_gift_or_relief)",
+    "MissingCaseInformation(vat_exempt_publication)",
+    "MissingCaseInformation(vat_export_unprocessed_resources)",
+    "MissingCaseInformation(vat_funeral_service)",
+    "MissingCaseInformation(vat_household_revenue_le_200m)",
+    "MissingCaseInformation(vat_humanitarian_aid_goods)",
+    "MissingCaseInformation(vat_import_equipment_not_domestically_produced)",
+    "MissingCaseInformation(vat_import_raw_gold)",
+    "MissingCaseInformation(vat_import_unprocessed_agri_product)",
+    "MissingCaseInformation(vat_land_use_transfer)",
+    "MissingCaseInformation(vat_life_insurance)",
+    "MissingCaseInformation(vat_medical_service)",
+    "MissingCaseInformation(vat_non_business_asset_reserve_or_fee)",
+    "MissingCaseInformation(vat_other_exempt_insurance)",
+    "MissingCaseInformation(vat_prosthetic_or_disability_aid)",
+    "MissingCaseInformation(vat_public_bus)",
+    "MissingCaseInformation(vat_public_tram_or_inland_waterway)",
+    "MissingCaseInformation(vat_sale_raw_crops_own_production)",
+    "MissingCaseInformation(vat_sale_salt)",
+    "MissingCaseInformation(vat_software_service)",
+    "MissingCaseInformation(vat_state_funded_broadcasting)",
+    "MissingCaseInformation(vat_state_housing_sold_to_tenant)",
+    "MissingCaseInformation(vat_teaching_service)",
+    "MissingCaseInformation(vat_technology_transfer_or_ip_transfer)",
+    "MissingCaseInformation(vat_transit_or_temporary_import_export)",
+    "MissingCaseInformation(vat_veterinary_service)"
    ],
    "nli_log": [
     {
@@ -5991,16 +6174,37 @@
    "first_status": "unique",
    "candidates_first": 1,
    "hit": true,
-   "answer": "insufficient",
+   "answer": "clarification_requested",
    "expected": "clarification_requested",
-   "answer_ok": false,
+   "answer_ok": true,
    "nli_calls": 28,
    "nli_model_calls": 56,
    "nli_unverified": 3,
    "kb_checks": 0,
    "rounds": 2,
    "recovery": [
-    "UnsupportedParserFact(paid_wage)"
+    "UnsupportedParserFact(paid_wage)",
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(is_cipher_worker_paid_as_soldier)",
+    "MissingCaseInformation(is_civil_servant)",
+    "MissingCaseInformation(is_defense_worker)",
+    "MissingCaseInformation(is_military_officer)",
+    "MissingCaseInformation(is_non_professional_worker)",
+    "MissingCaseInformation(is_police_professional_nco)",
+    "MissingCaseInformation(is_police_professional_officer)",
+    "MissingCaseInformation(is_police_technical_nco)",
+    "MissingCaseInformation(is_police_technical_officer)",
+    "MissingCaseInformation(is_professional_soldier)",
+    "MissingCaseInformation(is_regular_militia)",
+    "MissingCaseInformation(is_spouse_on_mission)",
+    "MissingCaseInformation(missing_contribution_max_6_months)",
+    "MissingCaseInformation(paid_wage)",
+    "MissingCaseInformation(part_time)",
+    "MissingCaseInformation(reached_retirement_age)",
+    "MissingCaseInformation(receives_salary)",
+    "MissingCaseInformation(sent_for_study_or_work)",
+    "MissingCaseInformation(still_receives_domestic_salary)",
+    "MissingCaseInformation(wage_at_least_min_base)"
    ],
    "nli_log": [
     {
@@ -7700,16 +7904,37 @@
    "first_status": "unique",
    "candidates_first": 1,
    "hit": true,
-   "answer": "insufficient",
+   "answer": "clarification_requested",
    "expected": "clarification_requested",
-   "answer_ok": false,
+   "answer_ok": true,
    "nli_calls": 18,
    "nli_model_calls": 36,
    "nli_unverified": 0,
    "kb_checks": 0,
-   "rounds": 2,
+   "rounds": 3,
    "recovery": [
-    "UnsupportedParserFact(reached_retirement_age)"
+    "UnsupportedParserFact(reached_retirement_age)",
+    "MissingCaseInformation(age_within_10_below_retirement)",
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(heavy_hazardous_or_hardship_15_years)",
+    "MissingCaseInformation(hiv_from_occupational_accident)",
+    "MissingCaseInformation(indefinite_term_contract)",
+    "MissingCaseInformation(reached_reduced_retirement_age)",
+    "MissingCaseInformation(reached_retirement_age)",
+    "MissingCaseInformation(receives_salary)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "MissingCaseInformation(underground_coal_mining_15_years)",
+    "ParserOmission(signed_labor_contract)",
+    "MissingCaseInformation(age_within_10_below_retirement)",
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(heavy_hazardous_or_hardship_15_years)",
+    "MissingCaseInformation(hiv_from_occupational_accident)",
+    "MissingCaseInformation(indefinite_term_contract)",
+    "MissingCaseInformation(reached_reduced_retirement_age)",
+    "MissingCaseInformation(reached_retirement_age)",
+    "MissingCaseInformation(receives_salary)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "MissingCaseInformation(underground_coal_mining_15_years)"
    ],
    "nli_log": [
     {
@@ -8845,16 +9070,26 @@
    "first_status": "unique",
    "candidates_first": 1,
    "hit": false,
-   "answer": "insufficient",
+   "answer": "clarification_requested",
    "expected": "clarification_requested",
-   "answer_ok": false,
+   "answer_ok": true,
    "nli_calls": 10,
    "nli_model_calls": 20,
    "nli_unverified": 0,
    "kb_checks": 0,
    "rounds": 2,
    "recovery": [
-    "UnsupportedParserFact(probation_within_60_days)"
+    "UnsupportedParserFact(probation_within_60_days)",
+    "MissingCaseInformation(college_level_position)",
+    "MissingCaseInformation(contract_under_one_month)",
+    "MissingCaseInformation(enterprise_manager_position)",
+    "MissingCaseInformation(intermediate_level_position)",
+    "MissingCaseInformation(other_position)",
+    "MissingCaseInformation(probation_already_done_same_job)",
+    "MissingCaseInformation(probation_within_180_days)",
+    "MissingCaseInformation(probation_within_30_days)",
+    "MissingCaseInformation(probation_within_60_days)",
+    "MissingCaseInformation(probation_within_6_workdays)"
    ],
    "nli_log": [
     {
@@ -9112,16 +9347,50 @@
    "first_status": "unique",
    "candidates_first": 1,
    "hit": false,
-   "answer": "insufficient",
+   "answer": "true",
    "expected": "true",
-   "answer_ok": false,
+   "answer_ok": true,
    "nli_calls": 34,
    "nli_model_calls": 68,
    "nli_unverified": 0,
    "kb_checks": 0,
-   "rounds": 2,
+   "rounds": 3,
    "recovery": [
-    "UnsupportedParserFact(vat_public_bus)"
+    "UnsupportedParserFact(vat_public_bus)",
+    "MissingCaseInformation(vat_agri_irrigation)",
+    "MissingCaseInformation(vat_agri_tillage_dredging_harvest)",
+    "MissingCaseInformation(vat_animal_or_aquatic_feed)",
+    "MissingCaseInformation(vat_breeding_stock_or_seed)",
+    "MissingCaseInformation(vat_community_funded_public_works)",
+    "MissingCaseInformation(vat_defense_security_product)",
+    "MissingCaseInformation(vat_education_service)",
+    "MissingCaseInformation(vat_exempt_financial_service)",
+    "MissingCaseInformation(vat_exempt_import_gift_or_relief)",
+    "MissingCaseInformation(vat_exempt_publication)",
+    "MissingCaseInformation(vat_export_unprocessed_resources)",
+    "MissingCaseInformation(vat_funeral_service)",
+    "MissingCaseInformation(vat_household_revenue_le_200m)",
+    "MissingCaseInformation(vat_humanitarian_aid_goods)",
+    "MissingCaseInformation(vat_import_equipment_not_domestically_produced)",
+    "MissingCaseInformation(vat_import_raw_gold)",
+    "MissingCaseInformation(vat_import_unprocessed_agri_product)",
+    "MissingCaseInformation(vat_land_use_transfer)",
+    "MissingCaseInformation(vat_life_insurance)",
+    "MissingCaseInformation(vat_medical_service)",
+    "MissingCaseInformation(vat_non_business_asset_reserve_or_fee)",
+    "MissingCaseInformation(vat_other_exempt_insurance)",
+    "MissingCaseInformation(vat_prosthetic_or_disability_aid)",
+    "MissingCaseInformation(vat_public_bus)",
+    "MissingCaseInformation(vat_public_tram_or_inland_waterway)",
+    "MissingCaseInformation(vat_sale_raw_crops_own_production)",
+    "MissingCaseInformation(vat_sale_salt)",
+    "MissingCaseInformation(vat_software_service)",
+    "MissingCaseInformation(vat_state_funded_broadcasting)",
+    "MissingCaseInformation(vat_state_housing_sold_to_tenant)",
+    "MissingCaseInformation(vat_teaching_service)",
+    "MissingCaseInformation(vat_technology_transfer_or_ip_transfer)",
+    "MissingCaseInformation(vat_transit_or_temporary_import_export)",
+    "MissingCaseInformation(vat_veterinary_service)"
    ],
    "nli_log": [
     {
@@ -9937,17 +10206,24 @@
    "first_status": "unique",
    "candidates_first": 1,
    "hit": false,
-   "answer": "insufficient",
+   "answer": "clarification_requested",
    "expected": "clarification_requested",
-   "answer_ok": false,
-   "nli_calls": 4,
-   "nli_model_calls": 8,
+   "answer_ok": true,
+   "nli_calls": 8,
+   "nli_model_calls": 16,
    "nli_unverified": 0,
    "kb_checks": 0,
-   "rounds": 2,
+   "rounds": 3,
    "recovery": [
     "UnsupportedParserFact(paid_wage)",
-    "UnsupportedParserFact(term_at_least_1_month)"
+    "UnsupportedParserFact(term_at_least_1_month)",
+    "Clarify(contract_expired_over_30_days)",
+    "Clarify(indefinite_term_contract)",
+    "Clarify(no_new_contract)",
+    "Clarify(ongoing_employment)",
+    "Clarify(paid_wage)",
+    "Clarify(term_at_least_1_month)",
+    "Clarify(paid_wage)"
    ],
    "nli_log": [
     {
@@ -10001,6 +10277,58 @@
      "neg_label": null,
      "reject_reason": "",
      "gold": "entail"
+    },
+    {
+     "prop": "contract_expired_over_30_days",
+     "label": "neutral",
+     "raw": "neutral",
+     "scores": {
+      "entail": 7.349253983157666e-10,
+      "neutral": 0.9999978542327881,
+      "contra": 2.190781742683612e-06
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "neutral"
+    },
+    {
+     "prop": "indefinite_term_contract",
+     "label": "neutral",
+     "raw": "neutral",
+     "scores": {
+      "entail": 1.8189464379148035e-09,
+      "neutral": 0.9999916553497314,
+      "contra": 8.398072168347426e-06
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "neutral"
+    },
+    {
+     "prop": "no_new_contract",
+     "label": "neutral",
+     "raw": "neutral",
+     "scores": {
+      "entail": 8.579087307225564e-07,
+      "neutral": 0.9999818801879883,
+      "contra": 1.7231557649211027e-05
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "neutral"
+    },
+    {
+     "prop": "ongoing_employment",
+     "label": "neutral",
+     "raw": "neutral",
+     "scores": {
+      "entail": 5.8716747020071125e-09,
+      "neutral": 0.9999990463256836,
+      "contra": 9.13254780243733e-07
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "neutral"
     }
    ],
    "mode": "F4",
@@ -10078,16 +10406,22 @@
    "first_status": "unique",
    "candidates_first": 1,
    "hit": false,
-   "answer": "insufficient",
+   "answer": "clarification_requested",
    "expected": "clarification_requested",
-   "answer_ok": false,
-   "nli_calls": 2,
-   "nli_model_calls": 4,
+   "answer_ok": true,
+   "nli_calls": 7,
+   "nli_model_calls": 14,
    "nli_unverified": 1,
    "kb_checks": 0,
    "rounds": 2,
    "recovery": [
-    "UnsupportedParserFact(term_at_least_1_month)"
+    "UnsupportedParserFact(term_at_least_1_month)",
+    "Clarify(contract_expired_over_30_days)",
+    "Clarify(indefinite_term_contract)",
+    "Clarify(no_new_contract)",
+    "Clarify(ongoing_employment)",
+    "Clarify(term_at_least_1_month)",
+    "Clarify(under_management)"
    ],
    "nli_log": [
     {
@@ -10115,6 +10449,71 @@
      "neg_label": null,
      "reject_reason": "",
      "gold": "entail"
+    },
+    {
+     "prop": "contract_expired_over_30_days",
+     "label": "neutral",
+     "raw": "neutral",
+     "scores": {
+      "entail": 2.409728194763261e-09,
+      "neutral": 0.9999980926513672,
+      "contra": 1.933358362293802e-06
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "neutral"
+    },
+    {
+     "prop": "indefinite_term_contract",
+     "label": "neutral",
+     "raw": "neutral",
+     "scores": {
+      "entail": 2.8616045089080444e-09,
+      "neutral": 0.9999916553497314,
+      "contra": 8.398072168347426e-06
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "neutral"
+    },
+    {
+     "prop": "no_new_contract",
+     "label": "neutral",
+     "raw": "neutral",
+     "scores": {
+      "entail": 1.5381607454401092e-07,
+      "neutral": 0.9999916553497314,
+      "contra": 8.139690180541947e-06
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "neutral"
+    },
+    {
+     "prop": "ongoing_employment",
+     "label": "neutral",
+     "raw": "neutral",
+     "scores": {
+      "entail": 4.8677799568963565e-09,
+      "neutral": 0.9999971389770508,
+      "contra": 2.8130175451224204e-06
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "neutral"
+    },
+    {
+     "prop": "under_management",
+     "label": "neutral",
+     "raw": "neutral",
+     "scores": {
+      "entail": 2.190740360674681e-06,
+      "neutral": 0.9999788999557495,
+      "contra": 1.8925105905509554e-05
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "neutral"
     }
    ],
    "mode": "F1",
@@ -10130,28 +10529,33 @@
    "origin": "injected",
    "gold_category": "ParserOmission",
    "gold_fault": "ParserOmission(term_at_least_1_month)",
-   "pred_category": "ResolvableRuleOverlap",
+   "pred_category": "MissingCaseInformation",
    "first_diagnosis": [
-    "ResolvableRuleOverlap(LN1-R016, LN1-R008)"
-   ],
-   "first_status": "unique",
-   "candidates_first": 1,
-   "hit": false,
-   "answer": "false",
-   "expected": "false",
-   "answer_ok": true,
-   "nli_calls": 9,
-   "nli_model_calls": 18,
-   "nli_unverified": 0,
-   "kb_checks": 1,
-   "rounds": 3,
-   "recovery": [
-    "ResolvableRuleOverlap(LN1-R016, LN1-R008)",
     "MissingCaseInformation(contract_expired_over_30_days)",
     "MissingCaseInformation(indefinite_term_contract)",
     "MissingCaseInformation(no_new_contract)",
     "MissingCaseInformation(ongoing_employment)",
-    "ParserOmission(term_at_least_1_month)"
+    "ParserOmission(term_at_least_1_month)",
+    "ResolvableRuleOverlap(LN1-R016, LN1-R008)"
+   ],
+   "first_status": "unique",
+   "candidates_first": 1,
+   "hit": true,
+   "answer": "clarification_requested",
+   "expected": "false",
+   "answer_ok": false,
+   "nli_calls": 10,
+   "nli_model_calls": 20,
+   "nli_unverified": 0,
+   "kb_checks": 2,
+   "rounds": 2,
+   "recovery": [
+    "MissingCaseInformation(contract_expired_over_30_days)",
+    "MissingCaseInformation(indefinite_term_contract)",
+    "MissingCaseInformation(no_new_contract)",
+    "MissingCaseInformation(ongoing_employment)",
+    "ParserOmission(term_at_least_1_month)",
+    "MissingCaseInformation(first_month_sick_leave_14_days)"
    ],
    "nli_log": [
     {
@@ -10270,6 +10674,19 @@
      "neg_label": null,
      "reject_reason": "",
      "gold": "entail"
+    },
+    {
+     "prop": "first_month_sick_leave_14_days",
+     "label": "neutral",
+     "raw": "neutral",
+     "scores": {
+      "entail": 1.605226840339924e-09,
+      "neutral": 0.9999992847442627,
+      "contra": 7.571149467366922e-07
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "neutral"
     }
    ],
    "mode": "F2",
@@ -10277,7 +10694,7 @@
    "source": "LN-013",
    "split": "dev",
    "status": "observable",
-   "correct_action": false
+   "correct_action": true
   },
   {
    "iid": "DIAG-0088",
@@ -10718,16 +11135,50 @@
    "first_status": "unique",
    "candidates_first": 1,
    "hit": false,
-   "answer": "insufficient",
+   "answer": "true",
    "expected": "true",
-   "answer_ok": false,
+   "answer_ok": true,
    "nli_calls": 34,
    "nli_model_calls": 68,
    "nli_unverified": 0,
    "kb_checks": 0,
-   "rounds": 2,
+   "rounds": 3,
    "recovery": [
-    "UnsupportedParserFact(vat_public_bus)"
+    "UnsupportedParserFact(vat_public_bus)",
+    "MissingCaseInformation(vat_agri_irrigation)",
+    "MissingCaseInformation(vat_agri_tillage_dredging_harvest)",
+    "MissingCaseInformation(vat_animal_or_aquatic_feed)",
+    "MissingCaseInformation(vat_breeding_stock_or_seed)",
+    "MissingCaseInformation(vat_community_funded_public_works)",
+    "MissingCaseInformation(vat_defense_security_product)",
+    "MissingCaseInformation(vat_education_service)",
+    "MissingCaseInformation(vat_exempt_financial_service)",
+    "MissingCaseInformation(vat_exempt_import_gift_or_relief)",
+    "MissingCaseInformation(vat_exempt_publication)",
+    "MissingCaseInformation(vat_export_unprocessed_resources)",
+    "MissingCaseInformation(vat_funeral_service)",
+    "MissingCaseInformation(vat_household_revenue_le_200m)",
+    "MissingCaseInformation(vat_humanitarian_aid_goods)",
+    "MissingCaseInformation(vat_import_equipment_not_domestically_produced)",
+    "MissingCaseInformation(vat_import_raw_gold)",
+    "MissingCaseInformation(vat_import_unprocessed_agri_product)",
+    "MissingCaseInformation(vat_land_use_transfer)",
+    "MissingCaseInformation(vat_life_insurance)",
+    "MissingCaseInformation(vat_medical_service)",
+    "MissingCaseInformation(vat_non_business_asset_reserve_or_fee)",
+    "MissingCaseInformation(vat_other_exempt_insurance)",
+    "MissingCaseInformation(vat_prosthetic_or_disability_aid)",
+    "MissingCaseInformation(vat_public_bus)",
+    "MissingCaseInformation(vat_public_tram_or_inland_waterway)",
+    "MissingCaseInformation(vat_sale_raw_crops_own_production)",
+    "MissingCaseInformation(vat_sale_salt)",
+    "MissingCaseInformation(vat_software_service)",
+    "MissingCaseInformation(vat_state_funded_broadcasting)",
+    "MissingCaseInformation(vat_state_housing_sold_to_tenant)",
+    "MissingCaseInformation(vat_teaching_service)",
+    "MissingCaseInformation(vat_technology_transfer_or_ip_transfer)",
+    "MissingCaseInformation(vat_transit_or_temporary_import_export)",
+    "MissingCaseInformation(vat_veterinary_service)"
    ],
    "nli_log": [
     {
@@ -11569,16 +12020,22 @@
    "first_status": "unique",
    "candidates_first": 1,
    "hit": false,
-   "answer": "insufficient",
+   "answer": "false",
    "expected": "false",
-   "answer_ok": false,
-   "nli_calls": 1,
-   "nli_model_calls": 2,
+   "answer_ok": true,
+   "nli_calls": 6,
+   "nli_model_calls": 12,
    "nli_unverified": 0,
    "kb_checks": 0,
-   "rounds": 2,
+   "rounds": 3,
    "recovery": [
-    "UnsupportedParserFact(capital_asset_title_transferred)"
+    "UnsupportedParserFact(capital_asset_title_transferred)",
+    "Clarify(already_owns_private_enterprise)",
+    "Clarify(asset_handover_record_exists)",
+    "Clarify(asset_used_in_private_enterprise_business)",
+    "Clarify(capital_asset_requires_title_registration)",
+    "Clarify(capital_asset_title_transferred)",
+    "Clarify(capital_contribution_via_account)"
    ],
    "nli_log": [
     {
@@ -11593,6 +12050,71 @@
      "neg_label": null,
      "reject_reason": "",
      "gold": "contra"
+    },
+    {
+     "prop": "already_owns_private_enterprise",
+     "label": "neutral",
+     "raw": "neutral",
+     "scores": {
+      "entail": 0.00016346170741599053,
+      "neutral": 0.9998182654380798,
+      "contra": 1.833989517763257e-05
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "neutral"
+    },
+    {
+     "prop": "asset_handover_record_exists",
+     "label": "neutral",
+     "raw": "neutral",
+     "scores": {
+      "entail": 1.8919885405921377e-05,
+      "neutral": 0.9997029900550842,
+      "contra": 0.00027802569093182683
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "neutral"
+    },
+    {
+     "prop": "asset_used_in_private_enterprise_business",
+     "label": "neutral",
+     "raw": "neutral",
+     "scores": {
+      "entail": 5.367587618820835e-07,
+      "neutral": 0.9997829794883728,
+      "contra": 0.00021654393640346825
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "neutral"
+    },
+    {
+     "prop": "capital_asset_requires_title_registration",
+     "label": "entail",
+     "raw": "entail",
+     "scores": {
+      "entail": 0.9999918937683105,
+      "neutral": 7.889260814408772e-06,
+      "contra": 2.1691546692181873e-07
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "entail"
+    },
+    {
+     "prop": "capital_contribution_via_account",
+     "label": "neutral",
+     "raw": "neutral",
+     "scores": {
+      "entail": 1.0045239084988111e-09,
+      "neutral": 0.9999978542327881,
+      "contra": 2.190781742683612e-06
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "neutral"
     }
    ],
    "mode": "F2",
@@ -11649,23 +12171,24 @@
    "origin": "natural",
    "gold_category": "Normal",
    "gold_fault": "",
-   "pred_category": "ResolvableRuleOverlap",
+   "pred_category": "MissingCaseInformation",
    "first_diagnosis": [
+    "MissingCaseInformation(first_month_sick_leave_14_days)",
     "ResolvableRuleOverlap(LN1-R016, LN1-R008)"
    ],
    "first_status": "unique",
    "candidates_first": 1,
-   "hit": true,
-   "answer": "false",
+   "hit": false,
+   "answer": "clarification_requested",
    "expected": "false",
-   "answer_ok": true,
-   "nli_calls": 5,
-   "nli_model_calls": 10,
+   "answer_ok": false,
+   "nli_calls": 6,
+   "nli_model_calls": 12,
    "nli_unverified": 0,
    "kb_checks": 1,
-   "rounds": 2,
+   "rounds": 1,
    "recovery": [
-    "ResolvableRuleOverlap(LN1-R016, LN1-R008)"
+    "MissingCaseInformation(first_month_sick_leave_14_days)"
    ],
    "nli_log": [
     {
@@ -11732,6 +12255,19 @@
      "neg_label": null,
      "reject_reason": "",
      "gold": "entail"
+    },
+    {
+     "prop": "first_month_sick_leave_14_days",
+     "label": "neutral",
+     "raw": "neutral",
+     "scores": {
+      "entail": 1.605226840339924e-09,
+      "neutral": 0.9999992847442627,
+      "contra": 7.571149467366922e-07
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "neutral"
     }
    ],
    "mode": "CONTROL",
@@ -11755,9 +12291,9 @@
    "first_status": "unique",
    "candidates_first": 1,
    "hit": false,
-   "answer": "true",
+   "answer": "abstain",
    "expected": "true",
-   "answer_ok": true,
+   "answer_ok": false,
    "nli_calls": 13,
    "nli_model_calls": 26,
    "nli_unverified": 0,
@@ -11766,8 +12302,15 @@
    "recovery": [
     "ParserMisinterpretation(term_at_least_1_month)",
     "UnsupportedParserFact(unpaid_14_days)",
-    "ResolvableRuleOverlap(LN1-R016, LN1-R008)",
-    "ResolvableRuleOverlap(LN2-R037, LN2-R038)"
+    "MissingCaseInformation(appointed_manager_state_owned_llc)",
+    "MissingCaseInformation(authorized_enterprise_capital_representative)",
+    "MissingCaseInformation(authorized_state_capital_representative)",
+    "MissingCaseInformation(compulsory_detox_or_education_measure)",
+    "MissingCaseInformation(held_in_criminal_custody)",
+    "MissingCaseInformation(military_service_duty)",
+    "MissingCaseInformation(pregnancy_suspension_art138)",
+    "MissingCaseInformation(unpaid_14_days)",
+    "ResolvableRuleOverlap(LN1-R016, LN1-R008)"
    ],
    "nli_log": [
     {
@@ -11952,20 +12495,39 @@
    "origin": "natural",
    "gold_category": "MissingCaseInformation",
    "gold_fault": "MissingCaseInformation(contribution_15_years)",
-   "pred_category": "Normal",
-   "first_diagnosis": [],
-   "first_status": "none",
-   "candidates_first": 0,
+   "pred_category": "MissingCaseInformation",
+   "first_diagnosis": [
+    "MissingCaseInformation(contribution_15_years)",
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(indefinite_term_contract)",
+    "MissingCaseInformation(receives_salary)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "first_status": "unique",
+   "candidates_first": 1,
    "hit": false,
-   "answer": "insufficient",
+   "answer": "clarification_requested",
    "expected": "clarification_requested",
-   "answer_ok": false,
+   "answer_ok": true,
    "nli_calls": 10,
    "nli_model_calls": 20,
    "nli_unverified": 0,
    "kb_checks": 0,
-   "rounds": 1,
-   "recovery": [],
+   "rounds": 2,
+   "recovery": [
+    "MissingCaseInformation(contribution_15_years)",
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(indefinite_term_contract)",
+    "MissingCaseInformation(receives_salary)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "ParserOmission(signed_labor_contract)",
+    "Clarify(contribution_15_years)",
+    "Clarify(enterprise_manager)",
+    "Clarify(indefinite_term_contract)",
+    "Clarify(receives_salary)",
+    "Clarify(term_at_least_1_month)"
+   ],
    "nli_log": [
     {
      "prop": "alternative_work_agreement",
@@ -12314,17 +12876,24 @@
    "first_status": "unique",
    "candidates_first": 1,
    "hit": false,
-   "answer": "insufficient",
+   "answer": "clarification_requested",
    "expected": "clarification_requested",
-   "answer_ok": false,
-   "nli_calls": 4,
-   "nli_model_calls": 8,
+   "answer_ok": true,
+   "nli_calls": 8,
+   "nli_model_calls": 16,
    "nli_unverified": 1,
    "kb_checks": 0,
-   "rounds": 2,
+   "rounds": 3,
    "recovery": [
     "UnsupportedParserFact(term_at_least_1_month)",
-    "UnsupportedParserFact(under_management)"
+    "UnsupportedParserFact(under_management)",
+    "Clarify(contract_expired_over_30_days)",
+    "Clarify(indefinite_term_contract)",
+    "Clarify(no_new_contract)",
+    "Clarify(ongoing_employment)",
+    "Clarify(term_at_least_1_month)",
+    "Clarify(under_management)",
+    "Clarify(under_management)"
    ],
    "nli_log": [
     {
@@ -12374,6 +12943,58 @@
       "entail": 2.190740360674681e-06,
       "neutral": 0.9999788999557495,
       "contra": 1.8925105905509554e-05
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "neutral"
+    },
+    {
+     "prop": "contract_expired_over_30_days",
+     "label": "neutral",
+     "raw": "neutral",
+     "scores": {
+      "entail": 2.409728194763261e-09,
+      "neutral": 0.9999980926513672,
+      "contra": 1.933358362293802e-06
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "neutral"
+    },
+    {
+     "prop": "indefinite_term_contract",
+     "label": "neutral",
+     "raw": "neutral",
+     "scores": {
+      "entail": 2.8616045089080444e-09,
+      "neutral": 0.9999916553497314,
+      "contra": 8.398072168347426e-06
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "neutral"
+    },
+    {
+     "prop": "no_new_contract",
+     "label": "neutral",
+     "raw": "neutral",
+     "scores": {
+      "entail": 1.5381607454401092e-07,
+      "neutral": 0.9999916553497314,
+      "contra": 8.139690180541947e-06
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "neutral"
+    },
+    {
+     "prop": "ongoing_employment",
+     "label": "neutral",
+     "raw": "neutral",
+     "scores": {
+      "entail": 4.8677799568963565e-09,
+      "neutral": 0.9999971389770508,
+      "contra": 2.8130175451224204e-06
      },
      "neg_label": null,
      "reject_reason": "",
@@ -12932,20 +13553,64 @@
    "origin": "natural",
    "gold_category": "MissingCaseInformation",
    "gold_fault": "MissingCaseInformation(under_management)",
-   "pred_category": "Normal",
-   "first_diagnosis": [],
-   "first_status": "none",
-   "candidates_first": 0,
-   "hit": false,
-   "answer": "insufficient",
+   "pred_category": "MissingCaseInformation",
+   "first_diagnosis": [
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(is_cipher_worker_paid_as_soldier)",
+    "MissingCaseInformation(is_civil_servant)",
+    "MissingCaseInformation(is_defense_worker)",
+    "MissingCaseInformation(is_military_officer)",
+    "MissingCaseInformation(is_non_professional_worker)",
+    "MissingCaseInformation(is_police_professional_nco)",
+    "MissingCaseInformation(is_police_professional_officer)",
+    "MissingCaseInformation(is_police_technical_nco)",
+    "MissingCaseInformation(is_police_technical_officer)",
+    "MissingCaseInformation(is_professional_soldier)",
+    "MissingCaseInformation(is_regular_militia)",
+    "MissingCaseInformation(is_spouse_on_mission)",
+    "MissingCaseInformation(missing_contribution_max_6_months)",
+    "MissingCaseInformation(part_time)",
+    "MissingCaseInformation(reached_retirement_age)",
+    "MissingCaseInformation(receives_salary)",
+    "MissingCaseInformation(sent_for_study_or_work)",
+    "MissingCaseInformation(still_receives_domestic_salary)",
+    "MissingCaseInformation(under_management)",
+    "MissingCaseInformation(wage_at_least_min_base)"
+   ],
+   "first_status": "unique",
+   "candidates_first": 1,
+   "hit": true,
+   "answer": "clarification_requested",
    "expected": "clarification_requested",
-   "answer_ok": false,
+   "answer_ok": true,
    "nli_calls": 25,
    "nli_model_calls": 50,
    "nli_unverified": 3,
    "kb_checks": 0,
    "rounds": 1,
-   "recovery": [],
+   "recovery": [
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(is_cipher_worker_paid_as_soldier)",
+    "MissingCaseInformation(is_civil_servant)",
+    "MissingCaseInformation(is_defense_worker)",
+    "MissingCaseInformation(is_military_officer)",
+    "MissingCaseInformation(is_non_professional_worker)",
+    "MissingCaseInformation(is_police_professional_nco)",
+    "MissingCaseInformation(is_police_professional_officer)",
+    "MissingCaseInformation(is_police_technical_nco)",
+    "MissingCaseInformation(is_police_technical_officer)",
+    "MissingCaseInformation(is_professional_soldier)",
+    "MissingCaseInformation(is_regular_militia)",
+    "MissingCaseInformation(is_spouse_on_mission)",
+    "MissingCaseInformation(missing_contribution_max_6_months)",
+    "MissingCaseInformation(part_time)",
+    "MissingCaseInformation(reached_retirement_age)",
+    "MissingCaseInformation(receives_salary)",
+    "MissingCaseInformation(sent_for_study_or_work)",
+    "MissingCaseInformation(still_receives_domestic_salary)",
+    "MissingCaseInformation(under_management)",
+    "MissingCaseInformation(wage_at_least_min_base)"
+   ],
    "nli_log": [
     {
      "prop": "enterprise_manager",
@@ -13278,7 +13943,7 @@
    "source": "BHXH-017",
    "split": "dev",
    "status": "observable",
-   "correct_action": false
+   "correct_action": true
   },
   {
    "iid": "DIAG-0127",
@@ -13733,12 +14398,29 @@
    "origin": "injected",
    "gold_category": "ParserMisinterpretation",
    "gold_fault": "ParserMisinterpretation(input_used_exclusively_for_nontaxable)",
-   "pred_category": "Normal",
-   "first_diagnosis": [],
-   "first_status": "none",
-   "candidates_first": 0,
+   "pred_category": "Ambiguous",
+   "first_diagnosis": [
+    "MissingCaseInformation(cash_deposited_into_seller_account)",
+    "MissingCaseInformation(export_customs_declaration)",
+    "MissingCaseInformation(export_goods_contract)",
+    "MissingCaseInformation(export_goods_transaction)",
+    "MissingCaseInformation(export_service_contract)",
+    "MissingCaseInformation(export_service_transaction)",
+    "MissingCaseInformation(import_free_gift_or_sample)",
+    "MissingCaseInformation(installment_payment_not_yet_due)",
+    "MissingCaseInformation(paid_non_cash)",
+    "MissingCaseInformation(purchase_amount_at_least_5m)",
+    "MissingCaseInformation(purchase_has_valid_vat_invoice)",
+    "MissingCaseInformation(purchase_offset_with_reconciliation_record)",
+    "MissingCaseInformation(same_seller_same_day_total_at_least_5m)",
+    "ParserOmission(input_used_for_taxable_sales)",
+    "ParserOmission(purchase_has_valid_vat_invoice)",
+    "ParserOmission(tax_pays_under_deduction)"
+   ],
+   "first_status": "ambiguous",
+   "candidates_first": 2,
    "hit": false,
-   "answer": "insufficient",
+   "answer": "clarification_requested",
    "expected": "false",
    "answer_ok": false,
    "nli_calls": 20,
@@ -13746,7 +14428,23 @@
    "nli_unverified": 2,
    "kb_checks": 0,
    "rounds": 1,
-   "recovery": [],
+   "recovery": [
+    "Clarify(cash_deposited_into_seller_account)",
+    "Clarify(export_customs_declaration)",
+    "Clarify(export_goods_contract)",
+    "Clarify(export_goods_transaction)",
+    "Clarify(export_service_contract)",
+    "Clarify(export_service_transaction)",
+    "Clarify(import_free_gift_or_sample)",
+    "Clarify(input_used_for_taxable_sales)",
+    "Clarify(installment_payment_not_yet_due)",
+    "Clarify(paid_non_cash)",
+    "Clarify(purchase_amount_at_least_5m)",
+    "Clarify(purchase_has_valid_vat_invoice)",
+    "Clarify(purchase_offset_with_reconciliation_record)",
+    "Clarify(same_seller_same_day_total_at_least_5m)",
+    "Clarify(tax_pays_under_deduction)"
+   ],
    "nli_log": [
     {
      "prop": "cash_deposited_into_seller_account",
@@ -14970,17 +15668,28 @@
    "first_status": "unique",
    "candidates_first": 1,
    "hit": false,
-   "answer": "insufficient",
+   "answer": "clarification_requested",
    "expected": "clarification_requested",
-   "answer_ok": false,
+   "answer_ok": true,
    "nli_calls": 11,
    "nli_model_calls": 22,
    "nli_unverified": 0,
    "kb_checks": 0,
-   "rounds": 2,
+   "rounds": 3,
    "recovery": [
     "UnsupportedParserFact(college_level_position)",
-    "UnsupportedParserFact(probation_within_60_days)"
+    "UnsupportedParserFact(probation_within_60_days)",
+    "MissingCaseInformation(college_level_position)",
+    "MissingCaseInformation(contract_under_one_month)",
+    "MissingCaseInformation(enterprise_manager_position)",
+    "MissingCaseInformation(intermediate_level_position)",
+    "MissingCaseInformation(other_position)",
+    "MissingCaseInformation(probation_already_done_same_job)",
+    "MissingCaseInformation(probation_within_180_days)",
+    "MissingCaseInformation(probation_within_30_days)",
+    "MissingCaseInformation(probation_within_60_days)",
+    "MissingCaseInformation(probation_within_6_workdays)",
+    "Clarify(college_level_position)"
    ],
    "nli_log": [
     {
@@ -15751,9 +16460,9 @@
    "first_status": "unique",
    "candidates_first": 1,
    "hit": false,
-   "answer": "true",
+   "answer": "abstain",
    "expected": "true",
-   "answer_ok": true,
+   "answer_ok": false,
    "nli_calls": 13,
    "nli_model_calls": 26,
    "nli_unverified": 0,
@@ -15761,8 +16470,15 @@
    "rounds": 3,
    "recovery": [
     "UnsupportedParserFact(unpaid_14_days)",
-    "ResolvableRuleOverlap(LN1-R016, LN1-R008)",
-    "ResolvableRuleOverlap(LN2-R037, LN2-R038)"
+    "MissingCaseInformation(appointed_manager_state_owned_llc)",
+    "MissingCaseInformation(authorized_enterprise_capital_representative)",
+    "MissingCaseInformation(authorized_state_capital_representative)",
+    "MissingCaseInformation(compulsory_detox_or_education_measure)",
+    "MissingCaseInformation(held_in_criminal_custody)",
+    "MissingCaseInformation(military_service_duty)",
+    "MissingCaseInformation(pregnancy_suspension_art138)",
+    "MissingCaseInformation(unpaid_14_days)",
+    "ResolvableRuleOverlap(LN1-R016, LN1-R008)"
    ],
    "nli_log": [
     {
@@ -16014,17 +16730,23 @@
    "first_status": "unique",
    "candidates_first": 1,
    "hit": false,
-   "answer": "insufficient",
+   "answer": "false",
    "expected": "false",
-   "answer_ok": false,
-   "nli_calls": 3,
-   "nli_model_calls": 6,
-   "nli_unverified": 0,
+   "answer_ok": true,
+   "nli_calls": 8,
+   "nli_model_calls": 16,
+   "nli_unverified": 1,
    "kb_checks": 0,
-   "rounds": 2,
+   "rounds": 3,
    "recovery": [
     "UnsupportedParserFact(foreign_citizen)",
-    "UnsupportedParserFact(term_at_least_1_month)"
+    "UnsupportedParserFact(term_at_least_1_month)",
+    "Clarify(contract_expired_over_30_days)",
+    "Clarify(indefinite_term_contract)",
+    "Clarify(no_new_contract)",
+    "Clarify(ongoing_employment)",
+    "Clarify(signed_labor_contract)",
+    "Clarify(term_at_least_1_month)"
    ],
    "nli_log": [
     {
@@ -16064,6 +16786,71 @@
      },
      "neg_label": null,
      "reject_reason": "",
+     "gold": "contra"
+    },
+    {
+     "prop": "contract_expired_over_30_days",
+     "label": "neutral",
+     "raw": "neutral",
+     "scores": {
+      "entail": 2.0408182088704763e-10,
+      "neutral": 0.9999998807907104,
+      "contra": 1.2751904421293148e-07
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "neutral"
+    },
+    {
+     "prop": "indefinite_term_contract",
+     "label": "neutral",
+     "raw": "neutral",
+     "scores": {
+      "entail": 1.3730169223791222e-09,
+      "neutral": 0.9999946355819702,
+      "contra": 5.422219146566931e-06
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "neutral"
+    },
+    {
+     "prop": "no_new_contract",
+     "label": "neutral",
+     "raw": "neutral",
+     "scores": {
+      "entail": 4.0757505814781325e-08,
+      "neutral": 0.9999991655349731,
+      "contra": 8.315280410897685e-07
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "neutral"
+    },
+    {
+     "prop": "ongoing_employment",
+     "label": "neutral",
+     "raw": "neutral",
+     "scores": {
+      "entail": 3.526217373650553e-10,
+      "neutral": 0.9999998807907104,
+      "contra": 1.6373769540223293e-07
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "neutral"
+    },
+    {
+     "prop": "signed_labor_contract",
+     "label": null,
+     "raw": "neutral",
+     "scores": {
+      "entail": 2.0402301288413582e-06,
+      "neutral": 0.538982093334198,
+      "contra": 0.46101585030555725
+     },
+     "neg_label": null,
+     "reject_reason": "low_confidence",
      "gold": "contra"
     }
    ],
@@ -16475,8 +17262,9 @@
    "origin": "natural",
    "gold_category": "MissingCaseInformation",
    "gold_fault": "MissingCaseInformation(agreed_contribution)",
-   "pred_category": "ResolvableRuleOverlap",
+   "pred_category": "MissingCaseInformation",
    "first_diagnosis": [
+    "MissingCaseInformation(first_month_sick_leave_14_days)",
     "ResolvableRuleOverlap(LN1-R016, LN1-R008)"
    ],
    "first_status": "unique",
@@ -16485,14 +17273,12 @@
    "answer": "clarification_requested",
    "expected": "clarification_requested",
    "answer_ok": true,
-   "nli_calls": 6,
-   "nli_model_calls": 12,
+   "nli_calls": 5,
+   "nli_model_calls": 10,
    "nli_unverified": 0,
    "kb_checks": 1,
-   "rounds": 2,
+   "rounds": 1,
    "recovery": [
-    "ResolvableRuleOverlap(LN1-R016, LN1-R008)",
-    "MissingCaseInformation(agreed_contribution)",
     "MissingCaseInformation(first_month_sick_leave_14_days)"
    ],
    "nli_log": [
@@ -16547,19 +17333,6 @@
      "neg_label": null,
      "reject_reason": "",
      "gold": "entail"
-    },
-    {
-     "prop": "agreed_contribution",
-     "label": "neutral",
-     "raw": "neutral",
-     "scores": {
-      "entail": 0.0007321782759390771,
-      "neutral": 0.9992637038230896,
-      "contra": 4.089914455107646e-06
-     },
-     "neg_label": null,
-     "reject_reason": "",
-     "gold": "neutral"
     },
     {
      "prop": "first_month_sick_leave_14_days",
@@ -16836,20 +17609,64 @@
    "origin": "natural",
    "gold_category": "MissingCaseInformation",
    "gold_fault": "MissingCaseInformation(paid_wage)",
-   "pred_category": "Normal",
-   "first_diagnosis": [],
-   "first_status": "none",
-   "candidates_first": 0,
-   "hit": false,
-   "answer": "insufficient",
+   "pred_category": "MissingCaseInformation",
+   "first_diagnosis": [
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(is_cipher_worker_paid_as_soldier)",
+    "MissingCaseInformation(is_civil_servant)",
+    "MissingCaseInformation(is_defense_worker)",
+    "MissingCaseInformation(is_military_officer)",
+    "MissingCaseInformation(is_non_professional_worker)",
+    "MissingCaseInformation(is_police_professional_nco)",
+    "MissingCaseInformation(is_police_professional_officer)",
+    "MissingCaseInformation(is_police_technical_nco)",
+    "MissingCaseInformation(is_police_technical_officer)",
+    "MissingCaseInformation(is_professional_soldier)",
+    "MissingCaseInformation(is_regular_militia)",
+    "MissingCaseInformation(is_spouse_on_mission)",
+    "MissingCaseInformation(missing_contribution_max_6_months)",
+    "MissingCaseInformation(paid_wage)",
+    "MissingCaseInformation(part_time)",
+    "MissingCaseInformation(reached_retirement_age)",
+    "MissingCaseInformation(receives_salary)",
+    "MissingCaseInformation(sent_for_study_or_work)",
+    "MissingCaseInformation(still_receives_domestic_salary)",
+    "MissingCaseInformation(wage_at_least_min_base)"
+   ],
+   "first_status": "unique",
+   "candidates_first": 1,
+   "hit": true,
+   "answer": "clarification_requested",
    "expected": "clarification_requested",
-   "answer_ok": false,
+   "answer_ok": true,
    "nli_calls": 25,
    "nli_model_calls": 50,
    "nli_unverified": 3,
    "kb_checks": 0,
    "rounds": 1,
-   "recovery": [],
+   "recovery": [
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(is_cipher_worker_paid_as_soldier)",
+    "MissingCaseInformation(is_civil_servant)",
+    "MissingCaseInformation(is_defense_worker)",
+    "MissingCaseInformation(is_military_officer)",
+    "MissingCaseInformation(is_non_professional_worker)",
+    "MissingCaseInformation(is_police_professional_nco)",
+    "MissingCaseInformation(is_police_professional_officer)",
+    "MissingCaseInformation(is_police_technical_nco)",
+    "MissingCaseInformation(is_police_technical_officer)",
+    "MissingCaseInformation(is_professional_soldier)",
+    "MissingCaseInformation(is_regular_militia)",
+    "MissingCaseInformation(is_spouse_on_mission)",
+    "MissingCaseInformation(missing_contribution_max_6_months)",
+    "MissingCaseInformation(paid_wage)",
+    "MissingCaseInformation(part_time)",
+    "MissingCaseInformation(reached_retirement_age)",
+    "MissingCaseInformation(receives_salary)",
+    "MissingCaseInformation(sent_for_study_or_work)",
+    "MissingCaseInformation(still_receives_domestic_salary)",
+    "MissingCaseInformation(wage_at_least_min_base)"
+   ],
    "nli_log": [
     {
      "prop": "enterprise_manager",
@@ -17182,7 +17999,7 @@
    "source": "BHXH-018",
    "split": "dev",
    "status": "observable",
-   "correct_action": false
+   "correct_action": true
   },
   {
    "iid": "DIAG-0162",
@@ -17278,20 +18095,90 @@
    "origin": "injected",
    "gold_category": "ParserOmission",
    "gold_fault": "ParserOmission(vat_public_bus)",
-   "pred_category": "Normal",
-   "first_diagnosis": [],
-   "first_status": "none",
-   "candidates_first": 0,
+   "pred_category": "MissingCaseInformation",
+   "first_diagnosis": [
+    "MissingCaseInformation(vat_agri_irrigation)",
+    "MissingCaseInformation(vat_agri_tillage_dredging_harvest)",
+    "MissingCaseInformation(vat_animal_or_aquatic_feed)",
+    "MissingCaseInformation(vat_breeding_stock_or_seed)",
+    "MissingCaseInformation(vat_community_funded_public_works)",
+    "MissingCaseInformation(vat_defense_security_product)",
+    "MissingCaseInformation(vat_education_service)",
+    "MissingCaseInformation(vat_exempt_financial_service)",
+    "MissingCaseInformation(vat_exempt_import_gift_or_relief)",
+    "MissingCaseInformation(vat_exempt_publication)",
+    "MissingCaseInformation(vat_export_unprocessed_resources)",
+    "MissingCaseInformation(vat_funeral_service)",
+    "MissingCaseInformation(vat_household_revenue_le_200m)",
+    "MissingCaseInformation(vat_humanitarian_aid_goods)",
+    "MissingCaseInformation(vat_import_equipment_not_domestically_produced)",
+    "MissingCaseInformation(vat_import_raw_gold)",
+    "MissingCaseInformation(vat_import_unprocessed_agri_product)",
+    "MissingCaseInformation(vat_land_use_transfer)",
+    "MissingCaseInformation(vat_life_insurance)",
+    "MissingCaseInformation(vat_medical_service)",
+    "MissingCaseInformation(vat_non_business_asset_reserve_or_fee)",
+    "MissingCaseInformation(vat_other_exempt_insurance)",
+    "MissingCaseInformation(vat_prosthetic_or_disability_aid)",
+    "MissingCaseInformation(vat_public_bus)",
+    "MissingCaseInformation(vat_public_tram_or_inland_waterway)",
+    "MissingCaseInformation(vat_sale_raw_crops_own_production)",
+    "MissingCaseInformation(vat_sale_salt)",
+    "MissingCaseInformation(vat_software_service)",
+    "MissingCaseInformation(vat_state_funded_broadcasting)",
+    "MissingCaseInformation(vat_state_housing_sold_to_tenant)",
+    "MissingCaseInformation(vat_teaching_service)",
+    "MissingCaseInformation(vat_technology_transfer_or_ip_transfer)",
+    "MissingCaseInformation(vat_transit_or_temporary_import_export)",
+    "MissingCaseInformation(vat_veterinary_service)"
+   ],
+   "first_status": "unique",
+   "candidates_first": 1,
    "hit": false,
-   "answer": "insufficient",
+   "answer": "true",
    "expected": "true",
-   "answer_ok": false,
+   "answer_ok": true,
    "nli_calls": 34,
    "nli_model_calls": 68,
    "nli_unverified": 0,
    "kb_checks": 0,
-   "rounds": 1,
-   "recovery": [],
+   "rounds": 2,
+   "recovery": [
+    "MissingCaseInformation(vat_agri_irrigation)",
+    "MissingCaseInformation(vat_agri_tillage_dredging_harvest)",
+    "MissingCaseInformation(vat_animal_or_aquatic_feed)",
+    "MissingCaseInformation(vat_breeding_stock_or_seed)",
+    "MissingCaseInformation(vat_community_funded_public_works)",
+    "MissingCaseInformation(vat_defense_security_product)",
+    "MissingCaseInformation(vat_education_service)",
+    "MissingCaseInformation(vat_exempt_financial_service)",
+    "MissingCaseInformation(vat_exempt_import_gift_or_relief)",
+    "MissingCaseInformation(vat_exempt_publication)",
+    "MissingCaseInformation(vat_export_unprocessed_resources)",
+    "MissingCaseInformation(vat_funeral_service)",
+    "MissingCaseInformation(vat_household_revenue_le_200m)",
+    "MissingCaseInformation(vat_humanitarian_aid_goods)",
+    "MissingCaseInformation(vat_import_equipment_not_domestically_produced)",
+    "MissingCaseInformation(vat_import_raw_gold)",
+    "MissingCaseInformation(vat_import_unprocessed_agri_product)",
+    "MissingCaseInformation(vat_land_use_transfer)",
+    "MissingCaseInformation(vat_life_insurance)",
+    "MissingCaseInformation(vat_medical_service)",
+    "MissingCaseInformation(vat_non_business_asset_reserve_or_fee)",
+    "MissingCaseInformation(vat_other_exempt_insurance)",
+    "MissingCaseInformation(vat_prosthetic_or_disability_aid)",
+    "MissingCaseInformation(vat_public_bus)",
+    "MissingCaseInformation(vat_public_tram_or_inland_waterway)",
+    "MissingCaseInformation(vat_sale_raw_crops_own_production)",
+    "MissingCaseInformation(vat_sale_salt)",
+    "MissingCaseInformation(vat_software_service)",
+    "MissingCaseInformation(vat_state_funded_broadcasting)",
+    "MissingCaseInformation(vat_state_housing_sold_to_tenant)",
+    "MissingCaseInformation(vat_teaching_service)",
+    "MissingCaseInformation(vat_technology_transfer_or_ip_transfer)",
+    "MissingCaseInformation(vat_transit_or_temporary_import_export)",
+    "MissingCaseInformation(vat_veterinary_service)"
+   ],
    "nli_log": [
     {
      "prop": "vat_agri_irrigation",
@@ -17894,20 +18781,54 @@
    "origin": "natural",
    "gold_category": "MissingCaseInformation",
    "gold_fault": "MissingCaseInformation(reached_retirement_age)",
-   "pred_category": "Normal",
-   "first_diagnosis": [],
-   "first_status": "none",
-   "candidates_first": 0,
+   "pred_category": "MissingCaseInformation",
+   "first_diagnosis": [
+    "MissingCaseInformation(age_within_10_below_retirement)",
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(heavy_hazardous_or_hardship_15_years)",
+    "MissingCaseInformation(hiv_from_occupational_accident)",
+    "MissingCaseInformation(indefinite_term_contract)",
+    "MissingCaseInformation(reached_reduced_retirement_age)",
+    "MissingCaseInformation(reached_retirement_age)",
+    "MissingCaseInformation(receives_salary)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "MissingCaseInformation(underground_coal_mining_15_years)",
+    "ParserOmission(signed_labor_contract)"
+   ],
+   "first_status": "unique",
+   "candidates_first": 1,
    "hit": false,
-   "answer": "insufficient",
+   "answer": "clarification_requested",
    "expected": "clarification_requested",
-   "answer_ok": false,
+   "answer_ok": true,
    "nli_calls": 15,
    "nli_model_calls": 30,
    "nli_unverified": 0,
    "kb_checks": 0,
-   "rounds": 1,
-   "recovery": [],
+   "rounds": 2,
+   "recovery": [
+    "MissingCaseInformation(age_within_10_below_retirement)",
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(heavy_hazardous_or_hardship_15_years)",
+    "MissingCaseInformation(hiv_from_occupational_accident)",
+    "MissingCaseInformation(indefinite_term_contract)",
+    "MissingCaseInformation(reached_reduced_retirement_age)",
+    "MissingCaseInformation(reached_retirement_age)",
+    "MissingCaseInformation(receives_salary)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "MissingCaseInformation(underground_coal_mining_15_years)",
+    "ParserOmission(signed_labor_contract)",
+    "MissingCaseInformation(age_within_10_below_retirement)",
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(heavy_hazardous_or_hardship_15_years)",
+    "MissingCaseInformation(hiv_from_occupational_accident)",
+    "MissingCaseInformation(indefinite_term_contract)",
+    "MissingCaseInformation(reached_reduced_retirement_age)",
+    "MissingCaseInformation(reached_retirement_age)",
+    "MissingCaseInformation(receives_salary)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "MissingCaseInformation(underground_coal_mining_15_years)"
+   ],
    "nli_log": [
     {
      "prop": "age_within_10_below_retirement",
@@ -18246,9 +19167,9 @@
    "first_status": "unique",
    "candidates_first": 1,
    "hit": false,
-   "answer": "insufficient",
+   "answer": "clarification_requested",
    "expected": "clarification_requested",
-   "answer_ok": false,
+   "answer_ok": true,
    "nli_calls": 22,
    "nli_model_calls": 44,
    "nli_unverified": 1,
@@ -18256,7 +19177,13 @@
    "rounds": 2,
    "recovery": [
     "UnsupportedParserFact(cit_expense_at_least_5m)",
-    "UnsupportedParserFact(cit_expense_payment_proof)"
+    "UnsupportedParserFact(cit_expense_payment_proof)",
+    "Clarify(cit_business_related_expense)",
+    "Clarify(cit_employee_paid_noncash_authorized)",
+    "Clarify(cit_expense_at_least_5m)",
+    "Clarify(cit_expense_payment_proof)",
+    "Clarify(cit_expense_unpaid_at_recognition)",
+    "Clarify(cit_same_seller_same_day_total_at_least_5m)"
    ],
    "nli_log": [
     {
@@ -19032,17 +19959,23 @@
    "first_status": "unique",
    "candidates_first": 1,
    "hit": false,
-   "answer": "insufficient",
+   "answer": "true",
    "expected": "true",
-   "answer_ok": false,
-   "nli_calls": 21,
-   "nli_model_calls": 42,
+   "answer_ok": true,
+   "nli_calls": 22,
+   "nli_model_calls": 44,
    "nli_unverified": 0,
    "kb_checks": 0,
-   "rounds": 2,
+   "rounds": 3,
    "recovery": [
     "UnsupportedParserFact(paid_non_cash)",
-    "UnsupportedParserFact(purchase_amount_at_least_5m)"
+    "UnsupportedParserFact(purchase_amount_at_least_5m)",
+    "MissingCaseInformation(import_free_gift_or_sample)",
+    "MissingCaseInformation(installment_payment_not_yet_due)",
+    "MissingCaseInformation(paid_non_cash)",
+    "MissingCaseInformation(purchase_amount_at_least_5m)",
+    "MissingCaseInformation(purchase_offset_with_reconciliation_record)",
+    "ParserOmission(purchase_has_valid_vat_invoice)"
    ],
    "nli_log": [
     {
@@ -19317,6 +20250,19 @@
      "neg_label": null,
      "reject_reason": "",
      "gold": "neutral"
+    },
+    {
+     "prop": "input_used_for_taxable_sales",
+     "label": "entail",
+     "raw": "entail",
+     "scores": {
+      "entail": 1.0,
+      "neutral": 3.7110158501718615e-08,
+      "contra": 2.1144732187394766e-08
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "entail"
     }
    ],
    "mode": "F2",
@@ -20113,20 +21059,74 @@
    "origin": "natural",
    "gold_category": "MissingCaseInformation",
    "gold_fault": "MissingCaseInformation(probation_only)",
-   "pred_category": "Normal",
-   "first_diagnosis": [],
-   "first_status": "none",
-   "candidates_first": 0,
-   "hit": false,
-   "answer": "insufficient",
+   "pred_category": "MissingCaseInformation",
+   "first_diagnosis": [
+    "MissingCaseInformation(alternative_work_agreement)",
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(indefinite_term_contract)",
+    "MissingCaseInformation(is_cipher_worker_paid_as_soldier)",
+    "MissingCaseInformation(is_civil_servant)",
+    "MissingCaseInformation(is_defense_worker)",
+    "MissingCaseInformation(is_military_officer)",
+    "MissingCaseInformation(is_non_professional_worker)",
+    "MissingCaseInformation(is_police_professional_nco)",
+    "MissingCaseInformation(is_police_professional_officer)",
+    "MissingCaseInformation(is_police_technical_nco)",
+    "MissingCaseInformation(is_police_technical_officer)",
+    "MissingCaseInformation(is_professional_soldier)",
+    "MissingCaseInformation(is_regular_militia)",
+    "MissingCaseInformation(is_spouse_on_mission)",
+    "MissingCaseInformation(missing_contribution_max_6_months)",
+    "MissingCaseInformation(paid_wage)",
+    "MissingCaseInformation(part_time)",
+    "MissingCaseInformation(reached_retirement_age)",
+    "MissingCaseInformation(receives_salary)",
+    "MissingCaseInformation(sent_for_study_or_work)",
+    "MissingCaseInformation(signed_labor_contract)",
+    "MissingCaseInformation(still_receives_domestic_salary)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "MissingCaseInformation(under_management)",
+    "MissingCaseInformation(wage_at_least_min_base)"
+   ],
+   "first_status": "unique",
+   "candidates_first": 1,
+   "hit": true,
+   "answer": "clarification_requested",
    "expected": "clarification_requested",
-   "answer_ok": false,
+   "answer_ok": true,
    "nli_calls": 29,
    "nli_model_calls": 58,
    "nli_unverified": 1,
    "kb_checks": 0,
    "rounds": 1,
-   "recovery": [],
+   "recovery": [
+    "MissingCaseInformation(alternative_work_agreement)",
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(indefinite_term_contract)",
+    "MissingCaseInformation(is_cipher_worker_paid_as_soldier)",
+    "MissingCaseInformation(is_civil_servant)",
+    "MissingCaseInformation(is_defense_worker)",
+    "MissingCaseInformation(is_military_officer)",
+    "MissingCaseInformation(is_non_professional_worker)",
+    "MissingCaseInformation(is_police_professional_nco)",
+    "MissingCaseInformation(is_police_professional_officer)",
+    "MissingCaseInformation(is_police_technical_nco)",
+    "MissingCaseInformation(is_police_technical_officer)",
+    "MissingCaseInformation(is_professional_soldier)",
+    "MissingCaseInformation(is_regular_militia)",
+    "MissingCaseInformation(is_spouse_on_mission)",
+    "MissingCaseInformation(missing_contribution_max_6_months)",
+    "MissingCaseInformation(paid_wage)",
+    "MissingCaseInformation(part_time)",
+    "MissingCaseInformation(reached_retirement_age)",
+    "MissingCaseInformation(receives_salary)",
+    "MissingCaseInformation(sent_for_study_or_work)",
+    "MissingCaseInformation(signed_labor_contract)",
+    "MissingCaseInformation(still_receives_domestic_salary)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "MissingCaseInformation(under_management)",
+    "MissingCaseInformation(wage_at_least_min_base)"
+   ],
    "nli_log": [
     {
      "prop": "alternative_work_agreement",
@@ -20579,12 +21579,10 @@
    "nli_model_calls": 12,
    "nli_unverified": 0,
    "kb_checks": 2,
-   "rounds": 3,
+   "rounds": 2,
    "recovery": [
     "UnsupportedParserFact(agreed_contribution)",
-    "ResolvableRuleOverlap(LN1-R016, LN1-R008)",
-    "Clarify(agreed_contribution)",
-    "Clarify(first_month_sick_leave_14_days)"
+    "MissingCaseInformation(first_month_sick_leave_14_days)"
    ],
    "nli_log": [
     {
@@ -20685,16 +21683,42 @@
    "first_status": "unique",
    "candidates_first": 1,
    "hit": true,
-   "answer": "insufficient",
+   "answer": "clarification_requested",
    "expected": "clarification_requested",
-   "answer_ok": false,
+   "answer_ok": true,
    "nli_calls": 30,
    "nli_model_calls": 60,
    "nli_unverified": 1,
    "kb_checks": 0,
    "rounds": 2,
    "recovery": [
-    "UnsupportedParserFact(probation_only)"
+    "UnsupportedParserFact(probation_only)",
+    "MissingCaseInformation(alternative_work_agreement)",
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(indefinite_term_contract)",
+    "MissingCaseInformation(is_cipher_worker_paid_as_soldier)",
+    "MissingCaseInformation(is_civil_servant)",
+    "MissingCaseInformation(is_defense_worker)",
+    "MissingCaseInformation(is_military_officer)",
+    "MissingCaseInformation(is_non_professional_worker)",
+    "MissingCaseInformation(is_police_professional_nco)",
+    "MissingCaseInformation(is_police_professional_officer)",
+    "MissingCaseInformation(is_police_technical_nco)",
+    "MissingCaseInformation(is_police_technical_officer)",
+    "MissingCaseInformation(is_professional_soldier)",
+    "MissingCaseInformation(is_regular_militia)",
+    "MissingCaseInformation(is_spouse_on_mission)",
+    "MissingCaseInformation(missing_contribution_max_6_months)",
+    "MissingCaseInformation(paid_wage)",
+    "MissingCaseInformation(part_time)",
+    "MissingCaseInformation(reached_retirement_age)",
+    "MissingCaseInformation(receives_salary)",
+    "MissingCaseInformation(sent_for_study_or_work)",
+    "MissingCaseInformation(signed_labor_contract)",
+    "MissingCaseInformation(still_receives_domestic_salary)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "MissingCaseInformation(under_management)",
+    "MissingCaseInformation(wage_at_least_min_base)"
    ],
    "nli_log": [
     {
@@ -21108,16 +22132,22 @@
    "first_status": "unique",
    "candidates_first": 1,
    "hit": false,
-   "answer": "insufficient",
+   "answer": "clarification_requested",
    "expected": "clarification_requested",
-   "answer_ok": false,
-   "nli_calls": 3,
-   "nli_model_calls": 6,
+   "answer_ok": true,
+   "nli_calls": 8,
+   "nli_model_calls": 16,
    "nli_unverified": 0,
    "kb_checks": 0,
    "rounds": 2,
    "recovery": [
-    "UnsupportedParserFact(term_at_least_1_month)"
+    "UnsupportedParserFact(term_at_least_1_month)",
+    "Clarify(contract_expired_over_30_days)",
+    "Clarify(indefinite_term_contract)",
+    "Clarify(no_new_contract)",
+    "Clarify(ongoing_employment)",
+    "Clarify(paid_wage)",
+    "Clarify(term_at_least_1_month)"
    ],
    "nli_log": [
     {
@@ -21158,6 +22188,71 @@
      "neg_label": null,
      "reject_reason": "",
      "gold": "entail"
+    },
+    {
+     "prop": "contract_expired_over_30_days",
+     "label": "neutral",
+     "raw": "neutral",
+     "scores": {
+      "entail": 7.349253983157666e-10,
+      "neutral": 0.9999978542327881,
+      "contra": 2.190781742683612e-06
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "neutral"
+    },
+    {
+     "prop": "indefinite_term_contract",
+     "label": "neutral",
+     "raw": "neutral",
+     "scores": {
+      "entail": 1.8189464379148035e-09,
+      "neutral": 0.9999916553497314,
+      "contra": 8.398072168347426e-06
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "neutral"
+    },
+    {
+     "prop": "no_new_contract",
+     "label": "neutral",
+     "raw": "neutral",
+     "scores": {
+      "entail": 8.579087307225564e-07,
+      "neutral": 0.9999818801879883,
+      "contra": 1.7231557649211027e-05
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "neutral"
+    },
+    {
+     "prop": "ongoing_employment",
+     "label": "neutral",
+     "raw": "neutral",
+     "scores": {
+      "entail": 5.8716747020071125e-09,
+      "neutral": 0.9999990463256836,
+      "contra": 9.13254780243733e-07
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "neutral"
+    },
+    {
+     "prop": "paid_wage",
+     "label": "neutral",
+     "raw": "neutral",
+     "scores": {
+      "entail": 0.0012445981847122312,
+      "neutral": 0.9985584616661072,
+      "contra": 0.00019692402565851808
+     },
+     "neg_label": null,
+     "reject_reason": "",
+     "gold": "neutral"
     }
    ],
    "mode": "F1",
@@ -21560,16 +22655,27 @@
    "first_status": "unique",
    "candidates_first": 1,
    "hit": true,
-   "answer": "insufficient",
+   "answer": "clarification_requested",
    "expected": "clarification_requested",
-   "answer_ok": false,
+   "answer_ok": true,
    "nli_calls": 13,
    "nli_model_calls": 26,
    "nli_unverified": 0,
    "kb_checks": 0,
-   "rounds": 2,
+   "rounds": 3,
    "recovery": [
-    "UnsupportedParserFact(contribution_15_years)"
+    "UnsupportedParserFact(contribution_15_years)",
+    "MissingCaseInformation(contribution_15_years)",
+    "MissingCaseInformation(enterprise_manager)",
+    "MissingCaseInformation(indefinite_term_contract)",
+    "MissingCaseInformation(receives_salary)",
+    "MissingCaseInformation(term_at_least_1_month)",
+    "ParserOmission(signed_labor_contract)",
+    "Clarify(contribution_15_years)",
+    "Clarify(enterprise_manager)",
+    "Clarify(indefinite_term_contract)",
+    "Clarify(receives_salary)",
+    "Clarify(term_at_least_1_month)"
    ],
    "nli_log": [
     {

@@ -1,0 +1,1996 @@
+[
+ {
+  "id": "BHXH-010",
+  "domain": "bhxh",
+  "split": "dev",
+  "question": "Tôi là công dân Việt Nam. Tôi đang làm nhân viên bảo trì ở TP. Hồ Chí Minh. Công việc của tôi không phải giúp việc gia đình. Tôi ký hợp đồng lao động xác định thời hạn 12 tháng. Tôi đang nhận lương hưu hằng tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold_expected": "false",
+  "gold_missing": [],
+  "gold_legal_basis": [
+   {
+    "doc": "Luật BHXH 41/2024/QH15",
+    "article": "2",
+    "clause": "1",
+    "point": "a",
+    "quote": "Người làm việc theo hợp đồng lao động không xác định thời hạn, hợp đồng lao động xác"
+   },
+   {
+    "doc": "Luật BHXH 41/2024/QH15",
+    "article": "2",
+    "clause": "7",
+    "point": "a",
+    "quote": "Người đang hưởng lương hưu, trợ cấp bảo hiểm xã hội, trợ cấp hằng tháng. Chính phủ quy"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Liệu người lao động đang nhận lương hưu có thuộc diện tham gia bảo hiểm xã hội (BHXH) bắt buộc không?",
+    "rule": "Theo Luật Bảo hiểm xã hội Việt Nam, người lao động đang hưởng lương hưu không thuộc diện tham gia BHXH bắt buộc.",
+    "application": "Người lao động trong trường hợp này đang nhận lương hưu hàng tháng, do đó không thuộc diện tham gia BHXH bắt buộc theo quy định của pháp luật.",
+    "conclusion": "KHÔNG"
+   },
+   "symbolic": {
+    "issue": "Người lao động thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "rule": "LAB-10-D2-100 (10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 7 điểm a): NẾU Người lao động đang hưởng lương hưu. [satisfied] THÌ Người lao động không thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "application": "Người lao động đang hưởng lương hưu, do đó theo quy tắc pháp lý đã áp dụng, người lao động không thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "conclusion": "KHÔNG"
+   },
+   "heuristic": {
+    "issue": "Người lao động thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "rule": "LAB-10-D2-100 (10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 7 điểm a): NẾU Người lao động đang hưởng lương hưu. [satisfied] THÌ Người lao động không thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "application": "Người lao động đang hưởng lương hưu, do đó theo quy tắc pháp lý đã áp dụng, người lao động không thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "conclusion": "KHÔNG"
+   },
+   "ours": {
+    "issue": "Người lao động thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "rule": "LAB-10-D2-100 (10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 7 điểm a): NẾU Người lao động đang hưởng lương hưu. [satisfied] THÌ Người lao động không thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "application": "Người lao động đang hưởng lương hưu, do đó theo quy tắc pháp lý đã áp dụng, người lao động không thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "conclusion": "KHÔNG"
+   }
+  }
+ },
+ {
+  "id": "BHXH-024",
+  "domain": "bhxh",
+  "split": "dev",
+  "question": "Tôi là công dân Việt Nam. Tôi đang làm nhân viên thiết kế ở Cần Thơ. Tôi làm không trọn thời gian. Tôi ký hợp đồng lao động xác định thời hạn 6 tháng. Lương tháng của tôi cao hơn mức thấp nhất làm căn cứ đóng BHXH bắt buộc. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold_expected": "true",
+  "gold_missing": [],
+  "gold_legal_basis": [
+   {
+    "doc": "Luật BHXH 41/2024/QH15",
+    "article": "2",
+    "clause": "1",
+    "point": "l",
+    "quote": "làm việc không trọn thời gian, có tiền lương trong tháng bằng hoặc cao hơn tiền lương làm"
+   },
+   {
+    "doc": "Luật BHXH 41/2024/QH15",
+    "article": "2",
+    "clause": "1",
+    "point": "a",
+    "quote": "Người làm việc theo hợp đồng lao động không xác định thời hạn, hợp đồng lao động xác"
+   },
+   {
+    "doc": "Luật BHXH 41/2024/QH15",
+    "article": "2",
+    "clause": "7",
+    "point": "a",
+    "quote": "Người đang hưởng lương hưu, trợ cấp bảo hiểm xã hội, trợ cấp hằng tháng. Chính phủ quy"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Liệu tôi có thuộc diện tham gia BHXH bắt buộc không?",
+    "rule": "Theo Luật Bảo hiểm xã hội Việt Nam, người lao động làm việc theo hợp đồng lao động có thời hạn từ đủ 1 tháng trở lên thuộc diện tham gia bảo hiểm xã hội bắt buộc.",
+    "application": "Bạn là công dân Việt Nam, làm việc theo hợp đồng lao động xác định thời hạn 6 tháng, và lương tháng của bạn cao hơn mức thấp nhất làm căn cứ đóng BHXH bắt buộc. Bạn không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng, do đó bạn thuộc diện tham gia BHXH bắt buộc.",
+    "conclusion": "CÓ"
+   },
+   "symbolic": {
+    "issue": "Người lao động thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "rule": "Theo quy định tại Điều 2 khoản 2 và khoản 7 của Luật Bảo hiểm xã hội 2024, người lao động là công dân Việt Nam, không hưởng lương hưu, không hưởng trợ cấp BHXH hoặc trợ cấp hằng tháng, và có hợp đồng lao động từ đủ 01 tháng trở lên với mức lương bằng hoặc cao hơn mức lương thấp nhất làm căn cứ đóng bảo hiểm xã hội, thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "application": "Người lao động là công dân Việt Nam, làm việc không trọn thời gian, có hợp đồng lao động xác định thời hạn 6 tháng, và lương tháng cao hơn mức thấp nhất làm căn cứ đóng BHXH bắt buộc. Tuy nhiên, thông tin về việc người lao động đã ký hợp đồng lao động với bên sử dụng lao động chưa được xác định.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN"
+   },
+   "heuristic": {
+    "issue": "Người lao động thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "rule": "LAB-10-D2-009 (10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 1 điểm l): NẾU KHÔNG: Người lao động là công dân nước ngoài. [satisfied]; Người lao động đã ký hợp đồng lao động. [satisfied]; Hợp đồng có thời hạn từ đủ 01 tháng trở lên. [satisfied]; Người lao động làm việc không trọn thời gian. [satisfied]; Tiền lương trong tháng của người lao động bằng hoặc cao hơn mức lương thấp nhất làm căn cứ đóng bảo hiểm xã hội. [satisfied] THÌ Người lao động thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "application": "Người lao động là công dân Việt Nam, đã ký hợp đồng lao động xác định thời hạn 6 tháng, làm việc không trọn thời gian, và có mức lương tháng cao hơn mức thấp nhất làm căn cứ đóng BHXH bắt buộc. Người lao động không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Do đó, theo quy tắc pháp lý LAB-10-D2-009, người lao động thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "conclusion": "CÓ"
+   },
+   "ours": {
+    "issue": "Người lao động thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "rule": "LAB-10-D2-009 (10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 1 điểm l): NẾU KHÔNG: Người lao động là công dân nước ngoài. [satisfied]; Người lao động đã ký hợp đồng lao động. [satisfied]; Hợp đồng có thời hạn từ đủ 01 tháng trở lên. [satisfied]; Người lao động làm việc không trọn thời gian. [satisfied]; Tiền lương trong tháng của người lao động bằng hoặc cao hơn mức lương thấp nhất làm căn cứ đóng bảo hiểm xã hội. [satisfied] THÌ Người lao động thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "application": "Người lao động là công dân Việt Nam, đã ký hợp đồng lao động xác định thời hạn 6 tháng, làm việc không trọn thời gian, và có mức lương tháng cao hơn mức thấp nhất làm căn cứ đóng BHXH bắt buộc. Người lao động không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Do đó, theo quy tắc pháp lý LAB-10-D2-009, người lao động thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "conclusion": "CÓ"
+   }
+  }
+ },
+ {
+  "id": "BHXH-043",
+  "domain": "bhxh",
+  "split": "dev",
+  "question": "Tôi là công dân Việt Nam. Tôi hiện sinh sống tại Hà Nội. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Tôi chỉ ký hợp đồng thử việc riêng trong 30 ngày, chưa ký hợp đồng lao động. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold_expected": "false",
+  "gold_missing": [],
+  "gold_legal_basis": [
+   {
+    "doc": "Nghị định 158/2025/NĐ-CP",
+    "article": "3",
+    "clause": "5",
+    "point": "",
+    "quote": "người lao động làm việc theo hợp đồng thử việc theo quy định của pháp luật lao động"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Xác định xem người lao động ký hợp đồng thử việc có thuộc diện tham gia bảo hiểm xã hội bắt buộc không.",
+    "rule": "Theo Luật Bảo hiểm xã hội Việt Nam, người lao động tham gia bảo hiểm xã hội bắt buộc khi có hợp đồng lao động từ đủ 1 tháng trở lên. Hợp đồng thử việc không thuộc diện tham gia bảo hiểm xã hội bắt buộc.",
+    "application": "Người lao động chỉ ký hợp đồng thử việc trong 30 ngày và chưa ký hợp đồng lao động chính thức, do đó không thuộc diện tham gia bảo hiểm xã hội bắt buộc.",
+    "conclusion": "KHÔNG"
+   },
+   "symbolic": {
+    "issue": "Người lao động thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "rule": "P-X-PR (11_nghi_dinh_158_2025_ND-CP, Điều 3 khoản 5): NẾU Người lao động chỉ ký hợp đồng thử việc, chưa ký hợp đồng lao động. THÌ Người lao động không thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "application": "Người lao động chỉ ký hợp đồng thử việc trong 30 ngày và chưa ký hợp đồng lao động, do đó theo quy tắc pháp lý đã áp dụng, người lao động không thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "conclusion": "KHÔNG"
+   },
+   "heuristic": {
+    "issue": "Người lao động thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "rule": "P-X-PR (11_nghi_dinh_158_2025_ND-CP, Điều 3 khoản 5): NẾU Người lao động chỉ ký hợp đồng thử việc, chưa ký hợp đồng lao động. THÌ Người lao động không thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "application": "Người lao động chỉ ký hợp đồng thử việc trong 30 ngày và chưa ký hợp đồng lao động, do đó theo quy tắc pháp lý đã áp dụng, người lao động không thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "conclusion": "KHÔNG"
+   },
+   "ours": {
+    "issue": "Người lao động thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "rule": "P-X-PR (11_nghi_dinh_158_2025_ND-CP, Điều 3 khoản 5): NẾU Người lao động chỉ ký hợp đồng thử việc, chưa ký hợp đồng lao động. THÌ Người lao động không thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "application": "Người lao động chỉ ký hợp đồng thử việc trong 30 ngày và chưa ký hợp đồng lao động, do đó theo quy tắc pháp lý đã áp dụng, người lao động không thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "conclusion": "KHÔNG"
+   }
+  }
+ },
+ {
+  "id": "BHXH-046",
+  "domain": "bhxh",
+  "split": "dev",
+  "question": "Tôi là công dân Việt Nam. Tôi hiện sinh sống tại Cần Thơ. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Chúng tôi chỉ có giấy xác nhận làm thử nhưng chưa rõ đó là hợp đồng thử việc độc lập hay hợp đồng lao động. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold_expected": "insufficient",
+  "gold_missing": [
+   "probation_only",
+   "signed_labor_contract",
+   "term_at_least_1_month"
+  ],
+  "gold_legal_basis": [
+   {
+    "doc": "Nghị định 158/2025/NĐ-CP",
+    "article": "3",
+    "clause": "5",
+    "point": "",
+    "quote": "người lao động làm việc theo hợp đồng thử việc theo quy định của pháp luật lao động"
+   },
+   {
+    "doc": "Luật BHXH 41/2024/QH15",
+    "article": "2",
+    "clause": "1",
+    "point": "a",
+    "quote": "Người làm việc theo hợp đồng lao động không xác định thời hạn, hợp đồng lao động xác"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Xác định xem bạn có thuộc diện tham gia BHXH bắt buộc hay không.",
+    "rule": "Theo Luật Bảo hiểm xã hội Việt Nam, người lao động làm việc theo hợp đồng lao động có thời hạn từ đủ 1 tháng trở lên thuộc diện tham gia BHXH bắt buộc. Tuy nhiên, người lao động trong thời gian thử việc không thuộc diện tham gia BHXH bắt buộc nếu không có hợp đồng lao động chính thức.",
+    "application": "Bạn chỉ có giấy xác nhận làm thử nhưng chưa rõ đó là hợp đồng thử việc độc lập hay hợp đồng lao động. Nếu đó là hợp đồng lao động có thời hạn từ đủ 1 tháng trở lên, bạn thuộc diện tham gia BHXH bắt buộc. Nếu chỉ là hợp đồng thử việc độc lập, bạn không thuộc diện này.",
+    "conclusion": "Cần xác định rõ loại hợp đồng bạn đang có để kết luận."
+   },
+   "symbolic": {
+    "issue": "Người lao động thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "rule": "P-X-PR (11_nghi_dinh_158_2025_ND-CP, Điều 3 khoản 5): NẾU Người lao động chỉ ký hợp đồng thử việc, chưa ký hợp đồng lao động. [satisfied] THÌ Người lao động không thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "application": "Người lao động chỉ ký hợp đồng thử việc và chưa ký hợp đồng lao động, do đó theo quy tắc pháp lý đã áp dụng, người lao động không thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "conclusion": "KHÔNG"
+   },
+   "heuristic": {
+    "issue": "Người lao động thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "rule": "P-X-PR (11_nghi_dinh_158_2025_ND-CP, Điều 3 khoản 5): NẾU Người lao động chỉ ký hợp đồng thử việc, chưa ký hợp đồng lao động. [satisfied] THÌ Người lao động không thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "application": "Người lao động chỉ ký hợp đồng thử việc và chưa ký hợp đồng lao động, do đó theo quy tắc pháp lý đã áp dụng, người lao động không thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "conclusion": "KHÔNG"
+   },
+   "ours": {
+    "issue": "Người lao động thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "rule": "P-X-PR (11_nghi_dinh_158_2025_ND-CP, Điều 3 khoản 5): NẾU Người lao động chỉ ký hợp đồng thử việc, chưa ký hợp đồng lao động. [satisfied] THÌ Người lao động không thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "application": "Người lao động chỉ ký hợp đồng thử việc và chưa ký hợp đồng lao động, do đó theo quy tắc pháp lý đã áp dụng, người lao động không thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "conclusion": "KHÔNG"
+   }
+  }
+ },
+ {
+  "id": "BHXH-058",
+  "domain": "bhxh",
+  "split": "dev",
+  "question": "Tôi là công dân Việt Nam. Tôi là chủ một hộ kinh doanh và đã đăng ký kinh doanh, ngành nghề chính là tiệm may. Hiện tôi chỉ làm chủ hộ này, không có quan hệ làm việc nào khác. Tôi chưa đến tuổi nghỉ hưu theo quy định. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Hộ của tôi đang nộp thuế theo phương pháp kê khai. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold_expected": "true",
+  "gold_missing": [],
+  "gold_legal_basis": [
+   {
+    "doc": "Luật BHXH 41/2024/QH15",
+    "article": "2",
+    "clause": "1",
+    "point": "m",
+    "quote": "Chủ hộ kinh doanh của hộ kinh doanh có đăng ký kinh doanh tham gia theo quy định"
+   },
+   {
+    "doc": "Nghị định 158/2025/NĐ-CP",
+    "article": "3",
+    "clause": "2",
+    "point": "a",
+    "quote": "Chủ hộ kinh doanh của hộ kinh doanh có đăng ký kinh doanh nộp thuế theo phương pháp"
+   },
+   {
+    "doc": "Luật BHXH 41/2024/QH15",
+    "article": "2",
+    "clause": "7",
+    "point": "a",
+    "quote": "Người đang hưởng lương hưu, trợ cấp bảo hiểm xã hội, trợ cấp hằng tháng. Chính phủ quy"
+   },
+   {
+    "doc": "Luật BHXH 41/2024/QH15",
+    "article": "2",
+    "clause": "7",
+    "point": "c",
+    "quote": "đã đủ tuổi nghỉ hưu theo quy định tại khoản 2 Điều 169 của Bộ luật Lao động;"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Xác định xem chủ hộ kinh doanh có thuộc diện tham gia bảo hiểm xã hội (BHXH) bắt buộc hay không.",
+    "rule": "Theo Luật Bảo hiểm xã hội Việt Nam, các đối tượng tham gia BHXH bắt buộc bao gồm người lao động làm việc theo hợp đồng lao động, cán bộ, công chức, viên chức và một số đối tượng khác theo quy định. Chủ hộ kinh doanh không thuộc diện tham gia BHXH bắt buộc.",
+    "application": "Bạn là chủ hộ kinh doanh và không có quan hệ lao động nào khác, không thuộc các đối tượng tham gia BHXH bắt buộc theo quy định hiện hành.",
+    "conclusion": "Bạn không thuộc diện tham gia BHXH bắt buộc."
+   },
+   "symbolic": {
+    "issue": "Người lao động thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "rule": "Theo quy định tại Điều 3 khoản 2 điểm a của Nghị định 158/2025/NĐ-CP, nếu người này là chủ hộ kinh doanh, hộ kinh doanh đã đăng ký kinh doanh và hộ kinh doanh nộp thuế theo phương pháp kê khai thì người lao động thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "application": "Người lao động là công dân Việt Nam, là chủ hộ kinh doanh đã đăng ký kinh doanh và hộ kinh doanh này nộp thuế theo phương pháp kê khai. Do đó, theo quy định tại Điều 3 khoản 2 điểm a của Nghị định 158/2025/NĐ-CP, người lao động thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "conclusion": "CÓ"
+   },
+   "heuristic": {
+    "issue": "Người lao động thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "rule": "Theo quy định tại Điều 3 khoản 2 điểm a của Nghị định 158/2025/NĐ-CP, nếu người này là chủ hộ kinh doanh, hộ kinh doanh đã đăng ký kinh doanh và hộ kinh doanh nộp thuế theo phương pháp kê khai thì người lao động thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "application": "Người lao động là công dân Việt Nam, là chủ hộ kinh doanh đã đăng ký kinh doanh và hộ kinh doanh này nộp thuế theo phương pháp kê khai. Do đó, theo quy định tại Điều 3 khoản 2 điểm a của Nghị định 158/2025/NĐ-CP, người lao động thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "conclusion": "CÓ"
+   },
+   "ours": {
+    "issue": "Người lao động thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "rule": "Theo quy định tại Điều 3 khoản 2 điểm a của Nghị định 158/2025/NĐ-CP, nếu người này là chủ hộ kinh doanh, hộ kinh doanh đã đăng ký kinh doanh và hộ kinh doanh nộp thuế theo phương pháp kê khai thì người lao động thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "application": "Người lao động là công dân Việt Nam, là chủ hộ kinh doanh đã đăng ký kinh doanh và hộ kinh doanh này nộp thuế theo phương pháp kê khai. Do đó, theo quy định tại Điều 3 khoản 2 điểm a của Nghị định 158/2025/NĐ-CP, người lao động thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "conclusion": "CÓ"
+   }
+  }
+ },
+ {
+  "id": "BHXH-066",
+  "domain": "bhxh",
+  "split": "dev",
+  "question": "Tôi là công dân Việt Nam. Tôi làm việc theo hợp đồng lao động tại một công ty. Hợp đồng của tôi có thời hạn 12 tháng. Tôi không nhận tiền lương trong 15 ngày làm việc của tháng này. Hai bên không thỏa thuận tiếp tục đóng BHXH trong tháng. Vậy tháng này tôi có phải đóng BHXH bắt buộc không?",
+  "gold_expected": "false",
+  "gold_missing": [],
+  "gold_legal_basis": [
+   {
+    "doc": "Luật BHXH 41/2024/QH15",
+    "article": "33",
+    "clause": "5",
+    "point": "",
+    "quote": "không hưởng tiền lương từ 14 ngày làm việc trở lên trong tháng thì người lao động không"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Liệu người lao động có phải đóng bảo hiểm xã hội (BHXH) bắt buộc trong tháng không nhận lương?",
+    "rule": "Theo Luật Bảo hiểm xã hội Việt Nam, người lao động làm việc theo hợp đồng lao động có thời hạn từ đủ 1 tháng trở lên thuộc đối tượng tham gia BHXH bắt buộc. Việc không nhận lương trong một khoảng thời gian không ảnh hưởng đến nghĩa vụ đóng BHXH nếu hợp đồng lao động vẫn còn hiệu lực.",
+    "application": "Hợp đồng lao động của bạn có thời hạn 12 tháng, và bạn vẫn đang làm việc theo hợp đồng này. Mặc dù bạn không nhận lương trong 15 ngày làm việc của tháng, hợp đồng lao động vẫn còn hiệu lực và không có thỏa thuận nào về việc ngừng đóng BHXH. Do đó, bạn vẫn thuộc đối tượng phải đóng BHXH bắt buộc.",
+    "conclusion": "Bạn vẫn phải đóng BHXH bắt buộc trong tháng này."
+   },
+   "symbolic": {
+    "issue": "Người lao động phải đóng bảo hiểm xã hội bắt buộc trong tháng đó.",
+    "rule": "P-M2 (10_bao_hiem_xa_hoi_41_2024_QH15, Điều 33 khoản 5): NẾU Người lao động thuộc diện quy định tại điểm a khoản 1 Điều 2 Luật BHXH; Trong tháng, người lao động không hưởng tiền lương từ 14 ngày làm việc trở lên; Người lao động và công ty thỏa thuận vẫn đóng bảo hiểm xã hội trong thời gian này THÌ Người lao động phải đóng bảo hiểm xã hội bắt buộc trong tháng đó.",
+    "application": "Người lao động là công dân Việt Nam và đã ký hợp đồng lao động có thời hạn từ đủ 12 tháng trở lên. Trong tháng, người lao động không hưởng tiền lương từ 14 ngày làm việc trở lên và không có thỏa thuận với công ty về việc đóng bảo hiểm xã hội trong thời gian này. Do đó, quy tắc pháp lý không áp dụng được vì thiếu thỏa thuận giữa người lao động và công ty.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN"
+   },
+   "heuristic": {
+    "issue": "Người lao động phải đóng bảo hiểm xã hội bắt buộc trong tháng đó.",
+    "rule": "LAB-10-D33-002 (10_bao_hiem_xa_hoi_41_2024_QH15, Điều 33 khoản 5): NẾU Người lao động thuộc diện quy định tại điểm a khoản 1 Điều 2 Luật BHXH; Trong tháng, người lao động không hưởng tiền lương từ 14 ngày làm việc trở lên; KHÔNG: Người lao động và công ty thỏa thuận vẫn đóng bảo hiểm xã hội trong thời gian này THÌ Người lao động không phải đóng bảo hiểm xã hội bắt buộc trong tháng đó.",
+    "application": "Người lao động là công dân Việt Nam và đã ký hợp đồng lao động có thời hạn từ đủ 12 tháng trở lên, thuộc diện quy định tại điểm a khoản 1 Điều 2 Luật BHXH. Trong tháng, người lao động không hưởng tiền lương từ 14 ngày làm việc trở lên và không có thỏa thuận với công ty về việc đóng bảo hiểm xã hội trong thời gian này.",
+    "conclusion": "KHÔNG"
+   },
+   "ours": {
+    "issue": "Người lao động phải đóng bảo hiểm xã hội bắt buộc trong tháng đó.",
+    "rule": "LAB-10-D33-002 (10_bao_hiem_xa_hoi_41_2024_QH15, Điều 33 khoản 5): NẾU Người lao động thuộc diện quy định tại điểm a khoản 1 Điều 2 Luật BHXH; Trong tháng, người lao động không hưởng tiền lương từ 14 ngày làm việc trở lên; KHÔNG: Người lao động và công ty thỏa thuận vẫn đóng bảo hiểm xã hội trong thời gian này THÌ Người lao động không phải đóng bảo hiểm xã hội bắt buộc trong tháng đó.",
+    "application": "Người lao động là công dân Việt Nam và đã ký hợp đồng lao động có thời hạn từ đủ 12 tháng trở lên, thuộc diện quy định tại điểm a khoản 1 Điều 2 Luật BHXH. Trong tháng, người lao động không hưởng tiền lương từ 14 ngày làm việc trở lên và không có thỏa thuận với công ty về việc đóng bảo hiểm xã hội trong thời gian này.",
+    "conclusion": "KHÔNG"
+   }
+  }
+ },
+ {
+  "id": "BHXH-081",
+  "domain": "bhxh",
+  "split": "dev",
+  "question": "Tôi là công dân Việt Nam. Trước khi nghỉ việc tôi tham gia BHXH bắt buộc theo hợp đồng lao động. Tôi đã nghỉ việc. Tôi đã đủ tuổi nghỉ hưu theo quy định của Bộ luật Lao động. Tôi đã đóng BHXH bắt buộc 19 năm. Tôi có đủ điều kiện hưởng lương hưu không?",
+  "gold_expected": "true",
+  "gold_missing": [],
+  "gold_legal_basis": [
+   {
+    "doc": "Luật BHXH 41/2024/QH15",
+    "article": "64",
+    "clause": "1",
+    "point": "a",
+    "quote": "khi nghỉ việc có thời gian đóng bảo hiểm xã hội bắt buộc từ đủ 15 năm trở"
+   },
+   {
+    "doc": "Luật BHXH 41/2024/QH15",
+    "article": "64",
+    "clause": "1",
+    "point": "a",
+    "quote": "Đủ tuổi nghỉ hưu theo quy định tại khoản 2 Điều 169 của Bộ luật Lao động; b)"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Liệu người lao động đã đủ điều kiện hưởng lương hưu khi đã đủ tuổi nghỉ hưu và có 19 năm đóng BHXH bắt buộc?",
+    "rule": "Theo quy định tại Điều 54 Luật Bảo hiểm xã hội 2014, người lao động được hưởng lương hưu khi có đủ 20 năm đóng bảo hiểm xã hội trở lên và đủ tuổi nghỉ hưu theo quy định của Bộ luật Lao động.",
+    "application": "Người lao động đã đủ tuổi nghỉ hưu nhưng chỉ có 19 năm đóng BHXH bắt buộc, chưa đủ 20 năm theo quy định để hưởng lương hưu.",
+    "conclusion": "Người lao động chưa đủ điều kiện hưởng lương hưu do chưa đủ 20 năm đóng BHXH bắt buộc."
+   },
+   "symbolic": {
+    "issue": "Người lao động đủ điều kiện hưởng lương hưu.",
+    "rule": "",
+    "application": "Người lao động là công dân Việt Nam. Người lao động đã nghỉ việc. Người này từng tham gia BHXH bắt buộc theo đối tượng được quy định. Người lao động đã đủ tuổi nghỉ hưu. Người lao động chưa đóng bảo hiểm xã hội bắt buộc đủ 20 năm.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN"
+   },
+   "heuristic": {
+    "issue": "Người lao động đủ điều kiện hưởng lương hưu.",
+    "rule": "Theo Điều 64 khoản 1 điểm a của Luật Bảo hiểm xã hội 41/2024/QH15, người lao động thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc, đã nghỉ việc, đã đóng bảo hiểm xã hội bắt buộc từ đủ 15 năm trở lên và đã đủ tuổi nghỉ hưu thì đủ điều kiện hưởng lương hưu.",
+    "application": "Người lao động là công dân Việt Nam, đã nghỉ việc, từng tham gia BHXH bắt buộc theo đối tượng được quy định, đã đóng bảo hiểm xã hội bắt buộc từ đủ 15 năm trở lên và đã đủ tuổi nghỉ hưu. Do đó, người lao động này đáp ứng đầy đủ các điều kiện theo quy định để hưởng lương hưu.",
+    "conclusion": "Người lao động đủ điều kiện hưởng lương hưu."
+   },
+   "ours": {
+    "issue": "Người lao động đủ điều kiện hưởng lương hưu.",
+    "rule": "Theo Điều 64 khoản 1 điểm a của Luật Bảo hiểm xã hội 41/2024/QH15, người lao động thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc, đã nghỉ việc, đã đóng bảo hiểm xã hội bắt buộc từ đủ 15 năm trở lên và đã đủ tuổi nghỉ hưu thì đủ điều kiện hưởng lương hưu.",
+    "application": "Người lao động là công dân Việt Nam, đã nghỉ việc, từng tham gia BHXH bắt buộc theo đối tượng được quy định, đã đóng bảo hiểm xã hội bắt buộc từ đủ 15 năm trở lên và đã đủ tuổi nghỉ hưu. Do đó, người lao động này đáp ứng đầy đủ các điều kiện theo quy định để hưởng lương hưu.",
+    "conclusion": "Người lao động đủ điều kiện hưởng lương hưu."
+   }
+  }
+ },
+ {
+  "id": "BHXH-083",
+  "domain": "bhxh",
+  "split": "dev",
+  "question": "Tôi là công dân Việt Nam. Trước khi nghỉ việc tôi tham gia BHXH bắt buộc theo hợp đồng lao động. Tôi đã nghỉ việc. Tôi đã đủ tuổi nghỉ hưu theo quy định của Bộ luật Lao động. Tôi chưa cộng tổng thời gian đóng BHXH bắt buộc được bao nhiêu năm. Tôi có đủ điều kiện hưởng lương hưu không?",
+  "gold_expected": "insufficient",
+  "gold_missing": [
+   "contribution_15_years"
+  ],
+  "gold_legal_basis": [
+   {
+    "doc": "Luật BHXH 41/2024/QH15",
+    "article": "64",
+    "clause": "1",
+    "point": "a",
+    "quote": "khi nghỉ việc có thời gian đóng bảo hiểm xã hội bắt buộc từ đủ 15 năm trở"
+   },
+   {
+    "doc": "Luật BHXH 41/2024/QH15",
+    "article": "64",
+    "clause": "1",
+    "point": "a",
+    "quote": "Đủ tuổi nghỉ hưu theo quy định tại khoản 2 Điều 169 của Bộ luật Lao động; b)"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Liệu công dân có đủ điều kiện hưởng lương hưu khi đã đủ tuổi nghỉ hưu nhưng chưa rõ tổng thời gian đóng BHXH bắt buộc?",
+    "rule": "Theo Luật Bảo hiểm xã hội Việt Nam, để được hưởng lương hưu, người lao động cần đáp ứng đủ hai điều kiện: (1) Đủ tuổi nghỉ hưu theo quy định của Bộ luật Lao động; (2) Đã đóng đủ số năm bảo hiểm xã hội bắt buộc tối thiểu (20 năm).",
+    "application": "Người hỏi đã đủ tuổi nghỉ hưu theo quy định nhưng chưa rõ tổng thời gian đóng BHXH bắt buộc có đủ 20 năm hay không.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN"
+   },
+   "symbolic": {
+    "issue": "Người lao động đủ điều kiện hưởng lương hưu.",
+    "rule": "Không có quy tắc pháp lý cụ thể được áp dụng.",
+    "application": "Dựa trên các dữ kiện hiện có: Người lao động là công dân Việt Nam, từng tham gia BHXH bắt buộc, đã nghỉ việc và đủ tuổi nghỉ hưu. Tuy nhiên, thông tin về tổng thời gian đóng BHXH bắt buộc chưa được cung cấp.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN"
+   },
+   "heuristic": {
+    "issue": "Người lao động đủ điều kiện hưởng lương hưu.",
+    "rule": "Để xác định điều kiện hưởng lương hưu, cần xem xét các yếu tố như thời gian đóng BHXH bắt buộc, loại hợp đồng lao động, và chức danh công việc.",
+    "application": "Người lao động đã đủ tuổi nghỉ hưu và từng tham gia BHXH bắt buộc. Tuy nhiên, cần bổ sung thông tin về thời gian đóng BHXH, loại hợp đồng lao động, và chức danh công việc để xác định điều kiện hưởng lương hưu.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN (cần người dùng bổ sung thông tin)"
+   },
+   "ours": {
+    "issue": "Người lao động đủ điều kiện hưởng lương hưu.",
+    "rule": "Để xác định điều kiện hưởng lương hưu, cần xem xét các yếu tố như thời gian đóng BHXH bắt buộc, loại hợp đồng lao động, và chức danh công việc.",
+    "application": "Người lao động đã đủ tuổi nghỉ hưu và từng tham gia BHXH bắt buộc. Tuy nhiên, cần bổ sung thông tin về thời gian đóng BHXH, loại hợp đồng lao động, và chức danh công việc để xác định điều kiện hưởng lương hưu.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN (cần người dùng bổ sung thông tin)"
+   }
+  }
+ },
+ {
+  "id": "DN-005",
+  "domain": "doanh_nghiep",
+  "split": "test",
+  "question": "Tôi có một tình huống kinh doanh ở Đà Nẵng. Ngành nghề đăng ký của tôi không bị cấm. Tên dự kiến của công ty hợp lệ và không gây nhầm lẫn. Tôi đã chuẩn bị hồ sơ đăng ký hợp lệ. Tôi vẫn chưa nộp lệ phí đăng ký. Với những điều kiện này, tôi có đủ điều kiện được cấp Giấy chứng nhận đăng ký doanh nghiệp không?",
+  "gold_expected": "false",
+  "gold_missing": [],
+  "gold_legal_basis": [
+   {
+    "doc": "Luật Doanh nghiệp (VBHN 67/VBHN-VPQH)",
+    "article": "27",
+    "clause": "1",
+    "point": "",
+    "quote": "Doanh nghiệp được cấp Giấy chứng nhận đăng ký doanh nghiệp khi có đủ các điều kiện sau đây: a) Ngành, nghề đăng ký kinh doanh không"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Bạn có đủ điều kiện để được cấp Giấy chứng nhận đăng ký doanh nghiệp không?",
+    "rule": "Theo Luật Doanh nghiệp Việt Nam, để được cấp Giấy chứng nhận đăng ký doanh nghiệp, doanh nghiệp cần đáp ứng các điều kiện: ngành nghề kinh doanh không bị cấm, tên doanh nghiệp hợp lệ, hồ sơ đăng ký hợp lệ và đã nộp lệ phí đăng ký.",
+    "application": "Bạn đã đáp ứng các điều kiện về ngành nghề kinh doanh, tên doanh nghiệp và hồ sơ đăng ký. Tuy nhiên, bạn chưa nộp lệ phí đăng ký, đây là một trong những điều kiện cần thiết để được cấp Giấy chứng nhận đăng ký doanh nghiệp.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN"
+   },
+   "symbolic": {
+    "issue": "Doanh nghiệp đáp ứng điều kiện được cấp Giấy chứng nhận đăng ký doanh nghiệp.",
+    "rule": "DN-R05 (01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 27 khoản 1 điểm d): NẾU KHÔNG: Đã nộp đủ lệ phí đăng ký doanh nghiệp. [satisfied] THÌ Doanh nghiệp không đáp ứng điều kiện được cấp Giấy chứng nhận đăng ký doanh nghiệp.",
+    "application": "Mặc dù ngành nghề kinh doanh không bị cấm, tên dự kiến của công ty hợp lệ và hồ sơ đăng ký hợp lệ, doanh nghiệp chưa nộp đủ lệ phí đăng ký doanh nghiệp. Theo quy tắc pháp lý DN-R05, việc chưa nộp đủ lệ phí đồng nghĩa với việc doanh nghiệp không đáp ứng điều kiện để được cấp Giấy chứng nhận đăng ký doanh nghiệp.",
+    "conclusion": "KHÔNG"
+   },
+   "heuristic": {
+    "issue": "Doanh nghiệp đáp ứng điều kiện được cấp Giấy chứng nhận đăng ký doanh nghiệp.",
+    "rule": "DN-R05 (01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 27 khoản 1 điểm d): NẾU KHÔNG: Đã nộp đủ lệ phí đăng ký doanh nghiệp. [satisfied] THÌ Doanh nghiệp không đáp ứng điều kiện được cấp Giấy chứng nhận đăng ký doanh nghiệp.",
+    "application": "Mặc dù ngành nghề kinh doanh không bị cấm, tên dự kiến của công ty hợp lệ và hồ sơ đăng ký hợp lệ, doanh nghiệp chưa nộp đủ lệ phí đăng ký doanh nghiệp. Theo quy tắc pháp lý DN-R05, việc chưa nộp đủ lệ phí đồng nghĩa với việc doanh nghiệp không đáp ứng điều kiện để được cấp Giấy chứng nhận đăng ký doanh nghiệp.",
+    "conclusion": "KHÔNG"
+   },
+   "ours": {
+    "issue": "Doanh nghiệp đáp ứng điều kiện được cấp Giấy chứng nhận đăng ký doanh nghiệp.",
+    "rule": "DN-R05 (01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 27 khoản 1 điểm d): NẾU KHÔNG: Đã nộp đủ lệ phí đăng ký doanh nghiệp. [satisfied] THÌ Doanh nghiệp không đáp ứng điều kiện được cấp Giấy chứng nhận đăng ký doanh nghiệp.",
+    "application": "Mặc dù ngành nghề kinh doanh không bị cấm, tên dự kiến của công ty hợp lệ và hồ sơ đăng ký hợp lệ, doanh nghiệp chưa nộp đủ lệ phí đăng ký doanh nghiệp. Theo quy tắc pháp lý DN-R05, việc chưa nộp đủ lệ phí đồng nghĩa với việc doanh nghiệp không đáp ứng điều kiện để được cấp Giấy chứng nhận đăng ký doanh nghiệp.",
+    "conclusion": "KHÔNG"
+   }
+  }
+ },
+ {
+  "id": "DN-007",
+  "domain": "doanh_nghiep",
+  "split": "test",
+  "question": "Cho tôi hỏi về tình huống công ty tại Bình Dương. Tên tiếng Việt dự kiến giống hệt tên của một doanh nghiệp đã đăng ký. Chỉ xét các điều cấm đặt tên ở Điều 38, tôi dùng tên này có phù hợp không?",
+  "gold_expected": "false",
+  "gold_missing": [],
+  "gold_legal_basis": [
+   {
+    "doc": "Luật Doanh nghiệp (VBHN 67/VBHN-VPQH)",
+    "article": "38",
+    "clause": "1",
+    "point": "",
+    "quote": "Đặt tên trùng hoặc tên gây nhầm lẫn với tên của doanh nghiệp đã đăng ký được quy định tại Điều 41 của Luật"
+   },
+   {
+    "doc": "Luật Doanh nghiệp (VBHN 67/VBHN-VPQH)",
+    "article": "38",
+    "clause": "2",
+    "point": "",
+    "quote": "Sử dụng tên cơ quan nhà nước, đơn vị lực lượng vũ trang nhân dân"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Tên tiếng Việt của công ty dự kiến giống hệt tên của một doanh nghiệp đã đăng ký.",
+    "rule": "Theo Điều 38 Luật Doanh nghiệp Việt Nam, tên doanh nghiệp không được trùng hoặc gây nhầm lẫn với tên của doanh nghiệp đã đăng ký trước đó.",
+    "application": "Tên dự kiến của công ty tại Bình Dương giống hệt tên của một doanh nghiệp đã đăng ký, vi phạm quy định về việc không được trùng tên.",
+    "conclusion": "Tên dự kiến không phù hợp với quy định của Điều 38."
+   },
+   "symbolic": {
+    "issue": "Tên doanh nghiệp phù hợp với các điều cấm được xét.",
+    "rule": "DN-R21 (01_luat_doanh_ngiep_vbhn_67_vbhn_vpqh, Điều 38 khoản 1): NẾU Tên doanh nghiệp trùng tên doanh nghiệp đã đăng ký. [satisfied] THÌ Tên doanh nghiệp vi phạm các điều cấm được xét.",
+    "application": "Tên doanh nghiệp dự kiến giống hệt tên của một doanh nghiệp đã đăng ký, do đó vi phạm điều cấm đặt tên theo Điều 38 khoản 1.",
+    "conclusion": "KHÔNG"
+   },
+   "heuristic": {
+    "issue": "Tên doanh nghiệp phù hợp với các điều cấm được xét.",
+    "rule": "DN-R21 (01_luat_doanh_ngiep_vbhn_67_vbhn_vpqh, Điều 38 khoản 1): NẾU Tên doanh nghiệp trùng tên doanh nghiệp đã đăng ký. [satisfied] THÌ Tên doanh nghiệp vi phạm các điều cấm được xét.",
+    "application": "Tên doanh nghiệp dự kiến giống hệt tên của một doanh nghiệp đã đăng ký, do đó vi phạm điều cấm đặt tên theo Điều 38 khoản 1.",
+    "conclusion": "KHÔNG"
+   },
+   "ours": {
+    "issue": "Tên doanh nghiệp phù hợp với các điều cấm được xét.",
+    "rule": "DN-R21 (01_luat_doanh_ngiep_vbhn_67_vbhn_vpqh, Điều 38 khoản 1): NẾU Tên doanh nghiệp trùng tên doanh nghiệp đã đăng ký. [satisfied] THÌ Tên doanh nghiệp vi phạm các điều cấm được xét.",
+    "application": "Tên doanh nghiệp dự kiến giống hệt tên của một doanh nghiệp đã đăng ký, do đó vi phạm điều cấm đặt tên theo Điều 38 khoản 1.",
+    "conclusion": "KHÔNG"
+   }
+  }
+ },
+ {
+  "id": "DN-010",
+  "domain": "doanh_nghiep",
+  "split": "test",
+  "question": "Tôi có một tình huống kinh doanh ở Đà Nẵng. Tên riêng dự kiến dùng tên một cơ quan nhà nước. Chỉ xét các điều cấm đặt tên ở Điều 38, tôi dùng tên này có phù hợp không?",
+  "gold_expected": "insufficient",
+  "gold_missing": [
+   "state_body_name_consent"
+  ],
+  "gold_legal_basis": [
+   {
+    "doc": "Luật Doanh nghiệp (VBHN 67/VBHN-VPQH)",
+    "article": "38",
+    "clause": "1",
+    "point": "",
+    "quote": "Đặt tên trùng hoặc tên gây nhầm lẫn với tên của doanh nghiệp đã đăng ký được quy định tại Điều 41 của Luật"
+   },
+   {
+    "doc": "Luật Doanh nghiệp (VBHN 67/VBHN-VPQH)",
+    "article": "38",
+    "clause": "2",
+    "point": "",
+    "quote": "Sử dụng tên cơ quan nhà nước, đơn vị lực lượng vũ trang nhân dân"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Việc đặt tên doanh nghiệp trùng hoặc gây nhầm lẫn với tên của cơ quan nhà nước.",
+    "rule": "Theo Điều 38 Luật Doanh nghiệp Việt Nam, cấm đặt tên doanh nghiệp trùng hoặc gây nhầm lẫn với tên của cơ quan nhà nước, tổ chức chính trị, tổ chức chính trị - xã hội, trừ trường hợp có sự chấp thuận của cơ quan, tổ chức đó.",
+    "application": "Tên dự kiến của doanh nghiệp trùng với tên của một cơ quan nhà nước, điều này vi phạm quy định cấm tại Điều 38 Luật Doanh nghiệp.",
+    "conclusion": "KHÔNG"
+   },
+   "symbolic": {
+    "issue": "Tên doanh nghiệp phù hợp với các điều cấm được xét.",
+    "rule": "DN-R23 (01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 38 khoản 2): NẾU Tên riêng doanh nghiệp sử dụng tên cơ quan nhà nước. THÌ Tên doanh nghiệp vi phạm các điều cấm được xét.",
+    "application": "Tên riêng doanh nghiệp sử dụng tên cơ quan nhà nước.",
+    "conclusion": "KHÔNG"
+   },
+   "heuristic": {
+    "issue": "Tên doanh nghiệp phù hợp với các điều cấm được xét.",
+    "rule": "DN-R23 (01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 38 khoản 2): NẾU Tên riêng doanh nghiệp sử dụng tên cơ quan nhà nước. THÌ Tên doanh nghiệp vi phạm các điều cấm được xét.",
+    "application": "Tên riêng doanh nghiệp sử dụng tên cơ quan nhà nước.",
+    "conclusion": "KHÔNG"
+   },
+   "ours": {
+    "issue": "Tên doanh nghiệp phù hợp với các điều cấm được xét.",
+    "rule": "DN-R23 (01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 38 khoản 2): NẾU Tên riêng doanh nghiệp sử dụng tên cơ quan nhà nước. THÌ Tên doanh nghiệp vi phạm các điều cấm được xét.",
+    "application": "Tên riêng doanh nghiệp sử dụng tên cơ quan nhà nước.",
+    "conclusion": "KHÔNG"
+   }
+  }
+ },
+ {
+  "id": "DN-029",
+  "domain": "doanh_nghiep",
+  "split": "test",
+  "question": "Tôi đang cân nhắc một thủ tục doanh nghiệp tại Đồng Nai. Tôi định thay vàng đã cam kết bằng ô tô khi góp vốn. Tôi đổi sang loại tài sản góp vốn khác với cam kết như vậy có được chấp thuận không?",
+  "gold_expected": "insufficient",
+  "gold_missing": [
+   "other_members_majority_approval"
+  ],
+  "gold_legal_basis": [
+   {
+    "doc": "Luật Doanh nghiệp (VBHN 67/VBHN-VPQH)",
+    "article": "47",
+    "clause": "2",
+    "point": "",
+    "quote": "bằng loại tài sản khác với tài sản đã cam kết nếu được sự tán thành của trên 50% số thành viên còn lại. 3. Sau thời hạn quy định tại khoản"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Liệu có thể thay đổi loại tài sản góp vốn từ vàng sang ô tô không?",
+    "rule": "Theo Luật Doanh nghiệp Việt Nam, việc thay đổi loại tài sản góp vốn phải được sự đồng ý của các thành viên/cổ đông công ty và phải được ghi nhận trong điều lệ công ty hoặc biên bản họp của hội đồng thành viên/đại hội đồng cổ đông.",
+    "application": "Nếu bạn đã có sự đồng ý của các thành viên/cổ đông công ty và việc thay đổi này được ghi nhận chính thức trong các tài liệu của công ty, thì việc thay đổi loại tài sản góp vốn từ vàng sang ô tô là hợp lệ.",
+    "conclusion": "CÓ"
+   },
+   "symbolic": {
+    "issue": "Việc đổi loại tài sản góp vốn được chấp thuận theo điều kiện pháp luật.",
+    "rule": "Không có quy tắc pháp lý cụ thể được áp dụng.",
+    "application": "Thành viên góp tài sản khác loại với cam kết.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN"
+   },
+   "heuristic": {
+    "issue": "Việc đổi loại tài sản góp vốn được chấp thuận theo điều kiện pháp luật.",
+    "rule": "Không có quy tắc pháp lý cụ thể được áp dụng.",
+    "application": "Thành viên góp tài sản khác loại với cam kết.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN (cần người dùng bổ sung thông tin)"
+   },
+   "ours": {
+    "issue": "Việc đổi loại tài sản góp vốn được chấp thuận theo điều kiện pháp luật.",
+    "rule": "Không có quy tắc pháp lý cụ thể được áp dụng.",
+    "application": "Thành viên góp tài sản khác loại với cam kết.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN (cần người dùng bổ sung thông tin)"
+   }
+  }
+ },
+ {
+  "id": "DN-032",
+  "domain": "doanh_nghiep",
+  "split": "test",
+  "question": "Cho tôi hỏi về tình huống công ty tại Bình Dương. Tôi sở hữu công ty TNHH một thành viên. Đã hết thời hạn góp vốn mà tôi còn thiếu một phần vốn điều lệ. Tôi có phải đăng ký điều chỉnh vốn điều lệ do góp thiếu vốn không?",
+  "gold_expected": "true",
+  "gold_missing": [],
+  "gold_legal_basis": [
+   {
+    "doc": "Luật Doanh nghiệp (VBHN 67/VBHN-VPQH)",
+    "article": "75",
+    "clause": "2",
+    "point": "",
+    "quote": "phải góp vốn cho công ty đủ và đúng loại tài sản đã cam kết khi đăng ký thành lập doanh nghiệp trong"
+   },
+   {
+    "doc": "Luật Doanh nghiệp (VBHN 67/VBHN-VPQH)",
+    "article": "75",
+    "clause": "3",
+    "point": "",
+    "quote": "phải đăng ký thay đổi vốn điều lệ bằng giá trị số vốn đã góp trong thời hạn 30 ngày kể từ ngày"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Bạn có phải đăng ký điều chỉnh vốn điều lệ do góp thiếu vốn trong công ty TNHH một thành viên không?",
+    "rule": "Theo Luật Doanh nghiệp Việt Nam, nếu chủ sở hữu công ty TNHH một thành viên không góp đủ vốn điều lệ trong thời hạn quy định, công ty phải đăng ký điều chỉnh vốn điều lệ bằng giá trị số vốn đã góp trong thời hạn 30 ngày kể từ ngày cuối cùng phải góp đủ vốn.",
+    "application": "Bạn đã hết thời hạn góp vốn mà còn thiếu một phần vốn điều lệ, do đó bạn cần phải đăng ký điều chỉnh vốn điều lệ của công ty theo quy định.",
+    "conclusion": "CÓ"
+   },
+   "symbolic": {
+    "issue": "Chủ sở hữu công ty TNHH một thành viên có phải đăng ký điều chỉnh vốn điều lệ do không góp đủ vốn trong thời hạn quy định hay không?",
+    "rule": "Theo Điều 75 khoản 3 của Luật Doanh nghiệp, nếu công ty TNHH có đúng một chủ sở hữu và chủ sở hữu chưa góp đủ vốn sau thời hạn tính theo luật, thì chủ sở hữu phải đăng ký điều chỉnh vốn điều lệ do không góp đủ.",
+    "application": "Trong trường hợp này, công ty TNHH có đúng một chủ sở hữu và chủ sở hữu chưa góp đủ vốn sau thời hạn tính theo luật. Do đó, theo quy định tại Điều 75 khoản 3 của Luật Doanh nghiệp, chủ sở hữu phải đăng ký điều chỉnh vốn điều lệ do không góp đủ.",
+    "conclusion": "Chủ sở hữu phải đăng ký điều chỉnh vốn điều lệ do không góp đủ."
+   },
+   "heuristic": {
+    "issue": "Chủ sở hữu công ty TNHH một thành viên có phải đăng ký điều chỉnh vốn điều lệ do không góp đủ vốn trong thời hạn quy định hay không?",
+    "rule": "Theo Điều 75 khoản 3 của Luật Doanh nghiệp, nếu công ty TNHH có đúng một chủ sở hữu và chủ sở hữu chưa góp đủ vốn sau thời hạn tính theo luật, thì chủ sở hữu phải đăng ký điều chỉnh vốn điều lệ do không góp đủ.",
+    "application": "Trong trường hợp này, công ty TNHH có đúng một chủ sở hữu và chủ sở hữu chưa góp đủ vốn sau thời hạn tính theo luật. Do đó, theo quy định tại Điều 75 khoản 3 của Luật Doanh nghiệp, chủ sở hữu phải đăng ký điều chỉnh vốn điều lệ do không góp đủ.",
+    "conclusion": "Chủ sở hữu phải đăng ký điều chỉnh vốn điều lệ do không góp đủ."
+   },
+   "ours": {
+    "issue": "Chủ sở hữu công ty TNHH một thành viên có phải đăng ký điều chỉnh vốn điều lệ do không góp đủ vốn trong thời hạn quy định hay không?",
+    "rule": "Theo Điều 75 khoản 3 của Luật Doanh nghiệp, nếu công ty TNHH có đúng một chủ sở hữu và chủ sở hữu chưa góp đủ vốn sau thời hạn tính theo luật, thì chủ sở hữu phải đăng ký điều chỉnh vốn điều lệ do không góp đủ.",
+    "application": "Trong trường hợp này, công ty TNHH có đúng một chủ sở hữu và chủ sở hữu chưa góp đủ vốn sau thời hạn tính theo luật. Do đó, theo quy định tại Điều 75 khoản 3 của Luật Doanh nghiệp, chủ sở hữu phải đăng ký điều chỉnh vốn điều lệ do không góp đủ.",
+    "conclusion": "Chủ sở hữu phải đăng ký điều chỉnh vốn điều lệ do không góp đủ."
+   }
+  }
+ },
+ {
+  "id": "DN-034",
+  "domain": "doanh_nghiep",
+  "split": "test",
+  "question": "Tôi đang cân nhắc một thủ tục doanh nghiệp tại Đồng Nai. Tôi sở hữu toàn bộ công ty TNHH một thành viên. Tài sản góp vốn phải làm thủ tục sang tên 14 ngày nên mới chỉ có 86 ngày được tính vào thời hạn góp vốn. Tôi chưa góp đủ nhưng hạn 90 ngày tính theo luật chưa hết. Tôi có phải đăng ký điều chỉnh vốn điều lệ do góp thiếu vốn không?",
+  "gold_expected": "false",
+  "gold_missing": [],
+  "gold_legal_basis": [
+   {
+    "doc": "Luật Doanh nghiệp (VBHN 67/VBHN-VPQH)",
+    "article": "75",
+    "clause": "2",
+    "point": "",
+    "quote": "phải góp vốn cho công ty đủ và đúng loại tài sản đã cam kết khi đăng ký thành lập doanh nghiệp trong"
+   },
+   {
+    "doc": "Luật Doanh nghiệp (VBHN 67/VBHN-VPQH)",
+    "article": "75",
+    "clause": "3",
+    "point": "",
+    "quote": "phải đăng ký thay đổi vốn điều lệ bằng giá trị số vốn đã góp trong thời hạn 30 ngày kể từ ngày"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Bạn có phải đăng ký điều chỉnh vốn điều lệ do chưa góp đủ vốn trong thời hạn 90 ngày không?",
+    "rule": "Theo Luật Doanh nghiệp Việt Nam, chủ sở hữu công ty TNHH một thành viên phải góp đủ vốn điều lệ trong thời hạn 90 ngày kể từ ngày được cấp Giấy chứng nhận đăng ký doanh nghiệp. Nếu không góp đủ vốn trong thời hạn này, công ty phải điều chỉnh vốn điều lệ bằng giá trị số vốn đã góp trong thời hạn 30 ngày kể từ ngày cuối cùng phải góp đủ vốn điều lệ.",
+    "application": "Bạn vẫn còn 4 ngày để hoàn thành việc góp vốn theo quy định của pháp luật. Do đó, hiện tại bạn chưa cần phải đăng ký điều chỉnh vốn điều lệ.",
+    "conclusion": "Bạn không cần phải đăng ký điều chỉnh vốn điều lệ do chưa góp đủ vốn, miễn là bạn hoàn thành việc góp vốn trong thời hạn 90 ngày."
+   },
+   "symbolic": {
+    "issue": "Chủ sở hữu có phải đăng ký điều chỉnh vốn điều lệ do không góp đủ vốn trong thời hạn luật định không?",
+    "rule": "Không có quy tắc pháp lý cụ thể được áp dụng.",
+    "application": "Do chưa có đủ dữ kiện về việc chủ sở hữu chưa góp đủ vốn sau thời hạn tính theo luật, không thể xác định rõ ràng yêu cầu đăng ký điều chỉnh vốn điều lệ.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN"
+   },
+   "heuristic": {
+    "issue": "Chủ sở hữu phải đăng ký điều chỉnh vốn điều lệ do không góp đủ.",
+    "rule": "Theo Điều 75 khoản 3 của Luật Doanh nghiệp, nếu công ty TNHH có đúng một chủ sở hữu và chủ sở hữu chưa góp đủ vốn sau thời hạn tính theo luật, thì chủ sở hữu phải đăng ký điều chỉnh vốn điều lệ do không góp đủ.",
+    "application": "Trong trường hợp này, công ty TNHH có đúng một chủ sở hữu và chủ sở hữu chưa góp đủ vốn sau thời hạn tính theo luật. Mặc dù có thời gian vận chuyển, nhập khẩu hoặc thủ tục chuyển quyền sở hữu được loại khỏi thời hạn góp vốn, nhưng chủ sở hữu vẫn chưa hoàn thành việc góp vốn trong thời hạn 90 ngày theo quy định.",
+    "conclusion": "Chủ sở hữu phải đăng ký điều chỉnh vốn điều lệ do không góp đủ."
+   },
+   "ours": {
+    "issue": "Chủ sở hữu phải đăng ký điều chỉnh vốn điều lệ do không góp đủ.",
+    "rule": "Theo Điều 75 khoản 3 của Luật Doanh nghiệp, nếu công ty TNHH có đúng một chủ sở hữu và chủ sở hữu chưa góp đủ vốn sau thời hạn tính theo luật, thì chủ sở hữu phải đăng ký điều chỉnh vốn điều lệ do không góp đủ.",
+    "application": "Trong trường hợp này, công ty TNHH có đúng một chủ sở hữu và chủ sở hữu chưa góp đủ vốn sau thời hạn tính theo luật. Mặc dù có thời gian vận chuyển, nhập khẩu hoặc thủ tục chuyển quyền sở hữu được loại khỏi thời hạn góp vốn, nhưng chủ sở hữu vẫn chưa hoàn thành việc góp vốn trong thời hạn 90 ngày theo quy định.",
+    "conclusion": "Chủ sở hữu phải đăng ký điều chỉnh vốn điều lệ do không góp đủ."
+   }
+  }
+ },
+ {
+  "id": "DN-035",
+  "domain": "doanh_nghiep",
+  "split": "test",
+  "question": "Tôi có một tình huống kinh doanh ở Đà Nẵng. Tôi là chủ sở hữu công ty TNHH một thành viên. Sau thời hạn góp vốn hợp lệ, vẫn còn 20% vốn chưa góp. Tôi có phải đăng ký điều chỉnh vốn điều lệ do góp thiếu vốn không?",
+  "gold_expected": "true",
+  "gold_missing": [],
+  "gold_legal_basis": [
+   {
+    "doc": "Luật Doanh nghiệp (VBHN 67/VBHN-VPQH)",
+    "article": "75",
+    "clause": "2",
+    "point": "",
+    "quote": "phải góp vốn cho công ty đủ và đúng loại tài sản đã cam kết khi đăng ký thành lập doanh nghiệp trong"
+   },
+   {
+    "doc": "Luật Doanh nghiệp (VBHN 67/VBHN-VPQH)",
+    "article": "75",
+    "clause": "3",
+    "point": "",
+    "quote": "phải đăng ký thay đổi vốn điều lệ bằng giá trị số vốn đã góp trong thời hạn 30 ngày kể từ ngày"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Công ty TNHH một thành viên có phải đăng ký điều chỉnh vốn điều lệ khi không góp đủ vốn trong thời hạn quy định không?",
+    "rule": "Theo Luật Doanh nghiệp Việt Nam, nếu chủ sở hữu công ty TNHH một thành viên không góp đủ vốn điều lệ trong thời hạn quy định, công ty phải đăng ký điều chỉnh vốn điều lệ bằng giá trị số vốn thực góp trong thời hạn 30 ngày kể từ ngày cuối cùng phải góp đủ vốn.",
+    "application": "Bạn là chủ sở hữu công ty TNHH một thành viên và đã không góp đủ 20% vốn điều lệ trong thời hạn quy định. Theo quy định, bạn phải đăng ký điều chỉnh vốn điều lệ của công ty xuống bằng giá trị số vốn thực góp.",
+    "conclusion": "CÓ"
+   },
+   "symbolic": {
+    "issue": "Chủ sở hữu công ty TNHH một thành viên có phải đăng ký điều chỉnh vốn điều lệ do không góp đủ vốn sau thời hạn hợp lệ không?",
+    "rule": "Theo Điều 75 khoản 3 của Luật Doanh nghiệp, nếu công ty TNHH có đúng một chủ sở hữu và chủ sở hữu chưa góp đủ vốn sau thời hạn tính theo luật, thì chủ sở hữu phải đăng ký điều chỉnh vốn điều lệ do không góp đủ.",
+    "application": "Trong trường hợp này, công ty TNHH có đúng một chủ sở hữu và chủ sở hữu chưa góp đủ vốn sau thời hạn hợp lệ. Do đó, theo quy định tại Điều 75 khoản 3 của Luật Doanh nghiệp, chủ sở hữu phải đăng ký điều chỉnh vốn điều lệ do không góp đủ.",
+    "conclusion": "Chủ sở hữu phải đăng ký điều chỉnh vốn điều lệ do không góp đủ."
+   },
+   "heuristic": {
+    "issue": "Chủ sở hữu công ty TNHH một thành viên có phải đăng ký điều chỉnh vốn điều lệ do không góp đủ vốn sau thời hạn hợp lệ không?",
+    "rule": "Theo Điều 75 khoản 3 của Luật Doanh nghiệp, nếu công ty TNHH có đúng một chủ sở hữu và chủ sở hữu chưa góp đủ vốn sau thời hạn tính theo luật, thì chủ sở hữu phải đăng ký điều chỉnh vốn điều lệ do không góp đủ.",
+    "application": "Trong trường hợp này, công ty TNHH có đúng một chủ sở hữu và chủ sở hữu chưa góp đủ vốn sau thời hạn hợp lệ. Do đó, theo quy định tại Điều 75 khoản 3 của Luật Doanh nghiệp, chủ sở hữu phải đăng ký điều chỉnh vốn điều lệ do không góp đủ.",
+    "conclusion": "Chủ sở hữu phải đăng ký điều chỉnh vốn điều lệ do không góp đủ."
+   },
+   "ours": {
+    "issue": "Chủ sở hữu công ty TNHH một thành viên có phải đăng ký điều chỉnh vốn điều lệ do không góp đủ vốn sau thời hạn hợp lệ không?",
+    "rule": "Theo Điều 75 khoản 3 của Luật Doanh nghiệp, nếu công ty TNHH có đúng một chủ sở hữu và chủ sở hữu chưa góp đủ vốn sau thời hạn tính theo luật, thì chủ sở hữu phải đăng ký điều chỉnh vốn điều lệ do không góp đủ.",
+    "application": "Trong trường hợp này, công ty TNHH có đúng một chủ sở hữu và chủ sở hữu chưa góp đủ vốn sau thời hạn hợp lệ. Do đó, theo quy định tại Điều 75 khoản 3 của Luật Doanh nghiệp, chủ sở hữu phải đăng ký điều chỉnh vốn điều lệ do không góp đủ.",
+    "conclusion": "Chủ sở hữu phải đăng ký điều chỉnh vốn điều lệ do không góp đủ."
+   }
+  }
+ },
+ {
+  "id": "DN-064",
+  "domain": "doanh_nghiep",
+  "split": "test",
+  "question": "Tôi đang cân nhắc một thủ tục doanh nghiệp tại Đồng Nai. Công ty phải đăng ký thay đổi nội dung trên Giấy chứng nhận do bản án đã có hiệu lực. Tôi gửi hồ sơ đề nghị vào ngày thứ 12 kể từ khi bản án có hiệu lực. Việc đăng ký thay đổi Giấy chứng nhận đăng ký doanh nghiệp của tôi có đúng hạn không?",
+  "gold_expected": "true",
+  "gold_missing": [],
+  "gold_legal_basis": [
+   {
+    "doc": "Luật Doanh nghiệp (VBHN 67/VBHN-VPQH)",
+    "article": "30",
+    "clause": "2",
+    "point": "",
+    "quote": "trong thời hạn 10 ngày kể từ ngày có thay đổi. 3. Trong thời hạn 03 ngày làm việc"
+   },
+   {
+    "doc": "Luật Doanh nghiệp (VBHN 67/VBHN-VPQH)",
+    "article": "30",
+    "clause": "4",
+    "point": "a",
+    "quote": "trong thời hạn 15 ngày kể từ ngày bản án, quyết định của Tòa án có hiệu lực"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Công ty có thực hiện việc đăng ký thay đổi nội dung trên Giấy chứng nhận đăng ký doanh nghiệp đúng hạn không?",
+    "rule": "Theo quy định tại Điều 56 Luật Doanh nghiệp 2020, doanh nghiệp phải thực hiện thủ tục đăng ký thay đổi nội dung Giấy chứng nhận đăng ký doanh nghiệp trong thời hạn 10 ngày làm việc kể từ ngày có thay đổi.",
+    "application": "Bản án có hiệu lực là sự kiện pháp lý làm phát sinh nghĩa vụ thay đổi nội dung Giấy chứng nhận đăng ký doanh nghiệp. Ngày thứ 12 kể từ khi bản án có hiệu lực có thể nằm trong khoảng 10 ngày làm việc, tùy thuộc vào việc có ngày nghỉ lễ hoặc cuối tuần trong khoảng thời gian đó.",
+    "conclusion": "CÓ"
+   },
+   "symbolic": {
+    "issue": "Việc đăng ký thay đổi nội dung doanh nghiệp đúng hạn theo điều khoản áp dụng.",
+    "rule": "DN-R09 (01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 30 khoản 4 điểm a): NẾU Việc đăng ký thay đổi theo bản án hoặc quyết định của Tòa án đã có hiệu lực; Đã gửi yêu cầu thay đổi trong mười lăm ngày từ khi bản án có hiệu lực THÌ Việc đăng ký thay đổi nội dung doanh nghiệp đúng hạn theo điều khoản áp dụng.",
+    "application": "Doanh nghiệp đã thay đổi nội dung trên Giấy chứng nhận đăng ký doanh nghiệp theo bản án đã có hiệu lực và đã gửi yêu cầu thay đổi trong mười hai ngày từ khi bản án có hiệu lực, thỏa mãn điều kiện của quy tắc pháp lý.",
+    "conclusion": "CÓ"
+   },
+   "heuristic": {
+    "issue": "Việc đăng ký thay đổi nội dung doanh nghiệp đúng hạn theo điều khoản áp dụng.",
+    "rule": "DN-R09 (01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 30 khoản 4 điểm a): NẾU Việc đăng ký thay đổi theo bản án hoặc quyết định của Tòa án đã có hiệu lực; Đã gửi yêu cầu thay đổi trong mười lăm ngày từ khi bản án có hiệu lực THÌ Việc đăng ký thay đổi nội dung doanh nghiệp đúng hạn theo điều khoản áp dụng.",
+    "application": "Doanh nghiệp đã thay đổi nội dung trên Giấy chứng nhận đăng ký doanh nghiệp theo bản án đã có hiệu lực và đã gửi yêu cầu thay đổi trong mười hai ngày từ khi bản án có hiệu lực, thỏa mãn điều kiện của quy tắc pháp lý.",
+    "conclusion": "CÓ"
+   },
+   "ours": {
+    "issue": "Việc đăng ký thay đổi nội dung doanh nghiệp đúng hạn theo điều khoản áp dụng.",
+    "rule": "DN-R09 (01_luat_doanh_nghiep_vbhn_67_vbhn_vpqh, Điều 30 khoản 4 điểm a): NẾU Việc đăng ký thay đổi theo bản án hoặc quyết định của Tòa án đã có hiệu lực; Đã gửi yêu cầu thay đổi trong mười lăm ngày từ khi bản án có hiệu lực THÌ Việc đăng ký thay đổi nội dung doanh nghiệp đúng hạn theo điều khoản áp dụng.",
+    "application": "Doanh nghiệp đã thay đổi nội dung trên Giấy chứng nhận đăng ký doanh nghiệp theo bản án đã có hiệu lực và đã gửi yêu cầu thay đổi trong mười hai ngày từ khi bản án có hiệu lực, thỏa mãn điều kiện của quy tắc pháp lý.",
+    "conclusion": "CÓ"
+   }
+  }
+ },
+ {
+  "id": "LD-011",
+  "domain": "lao_dong",
+  "split": "test",
+  "question": "Công ty tuyển tôi làm nhân viên mới và đang dự tính thử việc 50 ngày, chưa cho biết chức danh cần trình độ chuyên môn nào. Có đủ căn cứ kết luận thời gian thử việc 50 ngày là hợp lệ không?",
+  "gold_expected": "insufficient",
+  "gold_missing": [
+   "college_level_position"
+  ],
+  "gold_legal_basis": [
+   {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "25",
+    "clause": "2",
+    "point": "",
+    "quote": "Không quá 60 ngày đối với công việc có chức danh nghề nghiệp cần trình độ chuyên môn, kỹ thuật từ cao"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Thời gian thử việc 50 ngày có hợp lệ không?",
+    "rule": "Theo Bộ luật Lao động Việt Nam, thời gian thử việc tối đa phụ thuộc vào tính chất và mức độ phức tạp của công việc. Cụ thể, không quá 60 ngày đối với công việc cần trình độ chuyên môn, kỹ thuật từ cao đẳng trở lên; không quá 30 ngày đối với công việc cần trình độ trung cấp, công nhân kỹ thuật, nhân viên nghiệp vụ; và không quá 6 ngày đối với công việc khác.",
+    "application": "Công ty chưa cho biết chức danh và trình độ chuyên môn cần thiết cho vị trí của bạn, do đó không thể xác định thời gian thử việc 50 ngày có vượt quá giới hạn pháp luật quy định hay không.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN"
+   },
+   "symbolic": {
+    "issue": "Phương án thử việc được phép theo giới hạn đang xét.",
+    "rule": "Thử việc không quá 60 ngày.",
+    "application": "Chưa có đủ dữ kiện để xác định tính hợp lệ của thời gian thử việc 50 ngày vì thiếu thông tin về việc các bên dự định áp dụng thử việc và công việc đòi hỏi trình độ chuyên môn từ cao đẳng trở lên.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN"
+   },
+   "heuristic": {
+    "issue": "Phương án thử việc được phép theo giới hạn đang xét.",
+    "rule": "LD0-R060 (08_luat_lao_dong_45_2019_QH14, Điều 25 khoản 2): NẾU Các bên dự định áp dụng thử việc. [satisfied]; Công việc đòi hỏi trình độ chuyên môn từ cao đẳng trở lên. [unknown]; KHÔNG: Thử việc không quá 60 ngày. [contradicted] THÌ Phương án thử việc không được phép theo giới hạn đang xét.",
+    "application": "Các bên dự định áp dụng thử việc, nhưng chưa rõ công việc có đòi hỏi trình độ chuyên môn từ cao đẳng trở lên hay không. Do đó, không thể xác định liệu thời gian thử việc 50 ngày có hợp lệ hay không.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN (cần người dùng bổ sung thông tin)"
+   },
+   "ours": {
+    "issue": "Phương án thử việc được phép theo giới hạn đang xét.",
+    "rule": "LD0-R060 (08_luat_lao_dong_45_2019_QH14, Điều 25 khoản 2): NẾU Các bên dự định áp dụng thử việc. [satisfied]; Công việc đòi hỏi trình độ chuyên môn từ cao đẳng trở lên. [unknown]; KHÔNG: Thử việc không quá 60 ngày. [contradicted] THÌ Phương án thử việc không được phép theo giới hạn đang xét.",
+    "application": "Các bên dự định áp dụng thử việc, nhưng chưa rõ công việc có đòi hỏi trình độ chuyên môn từ cao đẳng trở lên hay không. Do đó, không thể xác định liệu thời gian thử việc 50 ngày có hợp lệ hay không.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN (cần người dùng bổ sung thông tin)"
+   }
+  }
+ },
+ {
+  "id": "LD-013",
+  "domain": "lao_dong",
+  "split": "test",
+  "question": "Tôi có hợp đồng lao động xác định thời hạn 18 tháng, muốn đơn phương nghỉ việc và đã báo trước công ty 30 ngày. Thời hạn báo trước của tôi đã đủ theo quy định chung chưa?",
+  "gold_expected": "true",
+  "gold_missing": [],
+  "gold_legal_basis": [
+   {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "35",
+    "clause": "1",
+    "point": "b",
+    "quote": "Ít nhất 30 ngày nếu làm việc theo hợp đồng lao động xác định thời hạn có thời hạn từ"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Thời hạn báo trước khi đơn phương chấm dứt hợp đồng lao động xác định thời hạn 18 tháng có đủ theo quy định pháp luật không?",
+    "rule": "Theo Bộ luật Lao động Việt Nam, người lao động có quyền đơn phương chấm dứt hợp đồng lao động xác định thời hạn với điều kiện phải báo trước cho người sử dụng lao động ít nhất 30 ngày.",
+    "application": "Bạn có hợp đồng lao động xác định thời hạn 18 tháng và đã báo trước công ty 30 ngày về việc đơn phương nghỉ việc. Thời hạn báo trước này đáp ứng yêu cầu tối thiểu theo quy định của pháp luật.",
+    "conclusion": "CÓ"
+   },
+   "symbolic": {
+    "issue": "Thời hạn báo trước của người lao động đáp ứng quy định đang xét.",
+    "rule": "LD0-R073 và LD0-R074 từ 08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 1 điểm b.",
+    "application": "Hợp đồng lao động của bạn là hợp đồng xác định thời hạn 18 tháng, do đó bạn thuộc nhóm phải báo trước 30 ngày. Bạn đã báo trước công ty 30 ngày, đáp ứng yêu cầu về thời hạn báo trước theo quy định.",
+    "conclusion": "CÓ"
+   },
+   "heuristic": {
+    "issue": "Thời hạn báo trước của người lao động đáp ứng quy định đang xét.",
+    "rule": "LD0-R073 và LD0-R074 từ 08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 1 điểm b.",
+    "application": "Hợp đồng lao động của bạn là hợp đồng xác định thời hạn 18 tháng, do đó bạn thuộc nhóm phải báo trước 30 ngày. Bạn đã báo trước công ty 30 ngày, đáp ứng yêu cầu về thời hạn báo trước theo quy định.",
+    "conclusion": "CÓ"
+   },
+   "ours": {
+    "issue": "Thời hạn báo trước của người lao động đáp ứng quy định đang xét.",
+    "rule": "LD0-R073 và LD0-R074 từ 08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 1 điểm b.",
+    "application": "Hợp đồng lao động của bạn là hợp đồng xác định thời hạn 18 tháng, do đó bạn thuộc nhóm phải báo trước 30 ngày. Bạn đã báo trước công ty 30 ngày, đáp ứng yêu cầu về thời hạn báo trước theo quy định.",
+    "conclusion": "CÓ"
+   }
+  }
+ },
+ {
+  "id": "LD-014",
+  "domain": "lao_dong",
+  "split": "test",
+  "question": "Tôi ký hợp đồng lao động xác định thời hạn 24 tháng, định đơn phương nghỉ và báo trước đúng 20 ngày. Báo trước như vậy đã đủ thời hạn thông thường chưa?",
+  "gold_expected": "false",
+  "gold_missing": [],
+  "gold_legal_basis": [
+   {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "35",
+    "clause": "1",
+    "point": "b",
+    "quote": "Ít nhất 30 ngày nếu làm việc theo hợp đồng lao động xác định thời hạn có thời hạn từ"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Thời hạn báo trước khi đơn phương chấm dứt hợp đồng lao động xác định thời hạn 24 tháng.",
+    "rule": "Theo Bộ luật Lao động Việt Nam hiện hành, người lao động làm việc theo hợp đồng lao động xác định thời hạn từ 12 tháng đến 36 tháng phải báo trước ít nhất 30 ngày khi đơn phương chấm dứt hợp đồng.",
+    "application": "Bạn đã ký hợp đồng lao động xác định thời hạn 24 tháng và dự định báo trước 20 ngày khi đơn phương nghỉ việc. Theo quy định, bạn cần báo trước ít nhất 30 ngày.",
+    "conclusion": "KHÔNG"
+   },
+   "symbolic": {
+    "issue": "Thời hạn báo trước của người lao động đáp ứng quy định đang xét.",
+    "rule": "LD0-R073: NẾU Hợp đồng xác định thời hạn từ 12 đến 36 tháng. THÌ Người lao động thuộc nhóm phải báo trước 30 ngày. LD0-R075: NẾU Người lao động thuộc nhóm phải báo trước 30 ngày; KHÔNG: Người lao động báo trước ít nhất 30 ngày. THÌ Thời hạn báo trước của người lao động không đáp ứng quy định đang xét.",
+    "application": "Hợp đồng lao động của bạn là hợp đồng xác định thời hạn 24 tháng, do đó bạn thuộc nhóm phải báo trước 30 ngày theo quy định LD0-R073. Tuy nhiên, bạn chỉ báo trước 20 ngày, không đáp ứng yêu cầu báo trước ít nhất 30 ngày theo quy định LD0-R075.",
+    "conclusion": "KHÔNG"
+   },
+   "heuristic": {
+    "issue": "Thời hạn báo trước của người lao động đáp ứng quy định đang xét.",
+    "rule": "LD0-R073: NẾU Hợp đồng xác định thời hạn từ 12 đến 36 tháng. THÌ Người lao động thuộc nhóm phải báo trước 30 ngày. LD0-R075: NẾU Người lao động thuộc nhóm phải báo trước 30 ngày; KHÔNG: Người lao động báo trước ít nhất 30 ngày. THÌ Thời hạn báo trước của người lao động không đáp ứng quy định đang xét.",
+    "application": "Hợp đồng lao động của bạn là hợp đồng xác định thời hạn 24 tháng, do đó bạn thuộc nhóm phải báo trước 30 ngày theo quy định LD0-R073. Tuy nhiên, bạn chỉ báo trước 20 ngày, không đáp ứng yêu cầu báo trước ít nhất 30 ngày theo quy định LD0-R075.",
+    "conclusion": "KHÔNG"
+   },
+   "ours": {
+    "issue": "Thời hạn báo trước của người lao động đáp ứng quy định đang xét.",
+    "rule": "LD0-R073: NẾU Hợp đồng xác định thời hạn từ 12 đến 36 tháng. THÌ Người lao động thuộc nhóm phải báo trước 30 ngày. LD0-R075: NẾU Người lao động thuộc nhóm phải báo trước 30 ngày; KHÔNG: Người lao động báo trước ít nhất 30 ngày. THÌ Thời hạn báo trước của người lao động không đáp ứng quy định đang xét.",
+    "application": "Hợp đồng lao động của bạn là hợp đồng xác định thời hạn 24 tháng, do đó bạn thuộc nhóm phải báo trước 30 ngày theo quy định LD0-R073. Tuy nhiên, bạn chỉ báo trước 20 ngày, không đáp ứng yêu cầu báo trước ít nhất 30 ngày theo quy định LD0-R075.",
+    "conclusion": "KHÔNG"
+   }
+  }
+ },
+ {
+  "id": "LD-015",
+  "domain": "lao_dong",
+  "split": "test",
+  "question": "Tôi đang làm với hợp đồng lao động xác định thời hạn 13 tháng và dự định tự nghỉ việc, chưa quyết định ngày báo công ty. Có thể khẳng định tôi sẽ báo trước đúng luật không?",
+  "gold_expected": "insufficient",
+  "gold_missing": [
+   "notice_at_least_30_days"
+  ],
+  "gold_legal_basis": [
+   {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "35",
+    "clause": "1",
+    "point": "b",
+    "quote": "Ít nhất 30 ngày nếu làm việc theo hợp đồng lao động xác định thời hạn có thời hạn từ"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Liệu người lao động có thể báo trước đúng luật khi tự nghỉ việc với hợp đồng lao động xác định thời hạn 13 tháng?",
+    "rule": "Theo Bộ luật Lao động Việt Nam, người lao động làm việc theo hợp đồng lao động xác định thời hạn từ 12 tháng đến 36 tháng phải báo trước ít nhất 30 ngày khi đơn phương chấm dứt hợp đồng lao động.",
+    "application": "Người lao động cần báo trước ít nhất 30 ngày khi muốn đơn phương chấm dứt hợp đồng lao động xác định thời hạn 13 tháng. Tuy nhiên, câu hỏi không nêu rõ ngày dự định nghỉ việc và ngày dự định báo trước, do đó không thể xác định liệu người lao động có báo trước đúng luật hay không.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN"
+   },
+   "symbolic": {
+    "issue": "Thời hạn báo trước của người lao động đáp ứng quy định đang xét.",
+    "rule": "Không có quy tắc pháp lý đã áp dụng.",
+    "application": "Người lao động đang làm việc theo hợp đồng lao động xác định thời hạn từ 12 đến 36 tháng. Tuy nhiên, chưa có thông tin về việc người lao động báo trước ít nhất 30 ngày hay không.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN"
+   },
+   "heuristic": {
+    "issue": "Thời hạn báo trước của người lao động đáp ứng quy định đang xét.",
+    "rule": "",
+    "application": "Người lao động cần cung cấp thông tin về việc báo trước ít nhất 30 ngày.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN (cần người dùng bổ sung thông tin)"
+   },
+   "ours": {
+    "issue": "Thời hạn báo trước của người lao động đáp ứng quy định đang xét.",
+    "rule": "",
+    "application": "Người lao động cần cung cấp thông tin về việc báo trước ít nhất 30 ngày.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN (cần người dùng bổ sung thông tin)"
+   }
+  }
+ },
+ {
+  "id": "LD-016",
+  "domain": "lao_dong",
+  "split": "test",
+  "question": "Công ty đã trả thiếu tiền lương của tôi trong kỳ vừa rồi, dù tôi vẫn thực hiện công việc theo hợp đồng. Tôi có quyền đơn phương chấm dứt hợp đồng không cần báo trước theo lý do tiền lương không?",
+  "gold_expected": "true",
+  "gold_missing": [],
+  "gold_legal_basis": [
+   {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "35",
+    "clause": "2",
+    "point": "b",
+    "quote": "Không được trả đủ lương hoặc trả lương không đúng thời hạn, trừ trường hợp quy"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Người lao động có quyền đơn phương chấm dứt hợp đồng lao động không cần báo trước khi công ty trả thiếu tiền lương không?",
+    "rule": "Theo Bộ luật Lao động Việt Nam, người lao động có quyền đơn phương chấm dứt hợp đồng lao động không cần báo trước nếu người sử dụng lao động không trả đủ lương hoặc trả lương không đúng thời hạn theo quy định tại Điều 35.",
+    "application": "Trong trường hợp này, công ty đã trả thiếu tiền lương cho người lao động, mặc dù người lao động đã thực hiện công việc theo hợp đồng. Điều này vi phạm quy định về việc trả lương đầy đủ và đúng hạn, do đó người lao động có quyền đơn phương chấm dứt hợp đồng lao động không cần báo trước.",
+    "conclusion": "CÓ"
+   },
+   "symbolic": {
+    "issue": "Người lao động có quyền đơn phương chấm dứt hợp đồng không cần báo trước theo tình huống.",
+    "rule": "LD0-R084: NẾU Người lao động bị chậm hoặc trả thiếu lương ngoài trường hợp ngoại lệ đã biết. THÌ Người lao động có quyền đơn phương chấm dứt hợp đồng không cần báo trước theo tình huống. LD0-R081: NẾU THÌ Người lao động không có quyền nghỉ không báo trước theo tình huống đang xét.",
+    "application": "Người lao động bị chậm hoặc trả thiếu lương ngoài trường hợp ngoại lệ đã biết, do đó LD0-R084 áp dụng và cho phép người lao động đơn phương chấm dứt hợp đồng không cần báo trước. Tuy nhiên, LD0-R081 cũng áp dụng và không cho phép người lao động nghỉ không báo trước.",
+    "conclusion": "KHÔNG KẾT LUẬN (các quy định trong cơ sở tri thức xung đột và chưa có quan hệ ưu tiên/ngoại lệ được mã hóa)"
+   },
+   "heuristic": {
+    "issue": "Người lao động có quyền đơn phương chấm dứt hợp đồng không cần báo trước theo tình huống.",
+    "rule": "LD0-R084 (08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 2 điểm b): NẾU Người lao động bị chậm hoặc trả thiếu lương ngoài trường hợp ngoại lệ đã biết. [satisfied] THÌ Người lao động có quyền đơn phương chấm dứt hợp đồng không cần báo trước theo tình huống.",
+    "application": "Người lao động đã bị trả thiếu lương trong kỳ vừa rồi, và không có trường hợp ngoại lệ nào được biết đến.",
+    "conclusion": "CÓ"
+   },
+   "ours": {
+    "issue": "Người lao động có quyền đơn phương chấm dứt hợp đồng không cần báo trước theo tình huống.",
+    "rule": "LD0-R084 (08_luat_lao_dong_45_2019_QH14, Điều 35 khoản 2 điểm b): NẾU Người lao động bị chậm hoặc trả thiếu lương ngoài trường hợp ngoại lệ đã biết. [satisfied] THÌ Người lao động có quyền đơn phương chấm dứt hợp đồng không cần báo trước theo tình huống.",
+    "application": "Người lao động đã bị trả thiếu lương trong kỳ vừa rồi, và không có trường hợp ngoại lệ nào được biết đến.",
+    "conclusion": "CÓ"
+   }
+  }
+ },
+ {
+  "id": "LD-020",
+  "domain": "lao_dong",
+  "split": "test",
+  "question": "Tôi làm thêm ngoài giờ vào ngày Quốc khánh, đây là ngày nghỉ lễ theo quy định và tôi đang hưởng lương theo giờ. Tiền lương làm thêm hôm đó có áp dụng mức tối thiểu 300% chưa kể khoản lương ngày lễ theo luật không?",
+  "gold_expected": "true",
+  "gold_missing": [],
+  "gold_legal_basis": [
+   {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "98",
+    "clause": "1",
+    "point": "c",
+    "quote": "Vào ngày nghỉ lễ, tết, ngày nghỉ có hưởng lương, ít nhất bằng 300% chưa kể tiền lương"
+   },
+   {
+    "doc": "Nghị định 145/2020/NĐ-CP",
+    "article": "55",
+    "clause": "1",
+    "point": "b",
+    "quote": "mức ít nhất bằng 200% so với tiền lương giờ thực trả của công việc đang"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Tiền lương làm thêm giờ vào ngày Quốc khánh có áp dụng mức tối thiểu 300% chưa kể khoản lương ngày lễ không?",
+    "rule": "Theo Bộ luật Lao động Việt Nam, người lao động làm thêm giờ vào ngày nghỉ lễ, tết, ngày nghỉ có hưởng lương được trả lương ít nhất bằng 300% chưa kể tiền lương ngày lễ, tết, ngày nghỉ có hưởng lương đối với người lao động hưởng lương theo giờ.",
+    "application": "Bạn làm thêm giờ vào ngày Quốc khánh, là ngày nghỉ lễ theo quy định, và bạn hưởng lương theo giờ. Do đó, bạn được hưởng mức lương làm thêm ít nhất 300% chưa kể khoản lương ngày lễ.",
+    "conclusion": "CÓ"
+   },
+   "symbolic": {
+    "issue": "Người lao động hỏi về việc áp dụng mức lương tối thiểu 300% khi làm thêm vào ngày nghỉ lễ.",
+    "rule": "Theo Điều 98 khoản 1 của Luật Lao động 2019, không được xác định mức 300% theo trường hợp làm thêm ngày lễ.",
+    "application": "Người lao động làm thêm vào ngày nghỉ lễ và hưởng lương theo giờ, ngày hoặc tuần. Theo quy định, không áp dụng mức lương tối thiểu 300% cho trường hợp này.",
+    "conclusion": "KHÔNG"
+   },
+   "heuristic": {
+    "issue": "Người lao động hỏi về việc áp dụng mức lương tối thiểu 300% khi làm thêm vào ngày nghỉ lễ.",
+    "rule": "Theo Điều 98 khoản 1 của Luật Lao động 2019, không được xác định mức 300% theo trường hợp làm thêm ngày lễ.",
+    "application": "Người lao động làm thêm vào ngày nghỉ lễ và hưởng lương theo giờ, ngày hoặc tuần. Theo quy định, không áp dụng mức lương tối thiểu 300% cho trường hợp này.",
+    "conclusion": "KHÔNG"
+   },
+   "ours": {
+    "issue": "Người lao động hỏi về việc áp dụng mức lương tối thiểu 300% khi làm thêm vào ngày nghỉ lễ.",
+    "rule": "Theo Điều 98 khoản 1 của Luật Lao động 2019, không được xác định mức 300% theo trường hợp làm thêm ngày lễ.",
+    "application": "Người lao động làm thêm vào ngày nghỉ lễ và hưởng lương theo giờ, ngày hoặc tuần. Theo quy định, không áp dụng mức lương tối thiểu 300% cho trường hợp này.",
+    "conclusion": "KHÔNG"
+   }
+  }
+ },
+ {
+  "id": "LD-024",
+  "domain": "lao_dong",
+  "split": "test",
+  "question": "Tôi đang làm theo ca, ca trước vừa kết thúc thì 10 giờ sau phải vào ca mới. Khoảng nghỉ chuyển ca đó có đáp ứng mức tối thiểu 12 giờ không?",
+  "gold_expected": "false",
+  "gold_missing": [],
+  "gold_legal_basis": [
+   {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "110",
+    "clause": "",
+    "point": "",
+    "quote": "Người lao động làm việc theo ca được nghỉ ít nhất 12 giờ trước khi chuyển sang"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Khoảng thời gian nghỉ giữa hai ca làm việc có đáp ứng mức tối thiểu 12 giờ theo quy định pháp luật không?",
+    "rule": "Theo Bộ luật Lao động Việt Nam, người lao động phải được nghỉ ít nhất 12 giờ liên tục giữa hai ca làm việc.",
+    "application": "Trong trường hợp này, khoảng thời gian nghỉ giữa hai ca làm việc chỉ là 10 giờ, không đáp ứng mức tối thiểu 12 giờ theo quy định.",
+    "conclusion": "KHÔNG"
+   },
+   "symbolic": {
+    "issue": "Thời gian nghỉ chuyển ca đáp ứng mức tối thiểu 12 giờ.",
+    "rule": "LD0-R014 (08_luat_lao_dong_45_2019_QH14, Điều 110): NẾU KHÔNG: Khoảng cách giữa hai ca ít nhất 12 giờ. [satisfied] THÌ Thời gian nghỉ chuyển ca không đáp ứng mức tối thiểu 12 giờ.",
+    "application": "Người lao động làm việc theo ca liên tục và khoảng cách giữa hai ca dưới 12 giờ.",
+    "conclusion": "KHÔNG"
+   },
+   "heuristic": {
+    "issue": "Thời gian nghỉ chuyển ca đáp ứng mức tối thiểu 12 giờ.",
+    "rule": "",
+    "application": "Người lao động làm việc theo ca liên tục.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN (cần người dùng bổ sung thông tin)"
+   },
+   "ours": {
+    "issue": "Thời gian nghỉ chuyển ca đáp ứng mức tối thiểu 12 giờ.",
+    "rule": "",
+    "application": "Người lao động làm việc theo ca liên tục.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN (cần người dùng bổ sung thông tin)"
+   }
+  }
+ },
+ {
+  "id": "LD-029",
+  "domain": "lao_dong",
+  "split": "test",
+  "question": "Tôi là công nhân nữ và hiện đang mang thai tháng thứ bảy, quản lý yêu cầu tôi đi làm ca đêm. Công ty có được sử dụng tôi làm ca đêm trong thời điểm này không?",
+  "gold_expected": "false",
+  "gold_missing": [],
+  "gold_legal_basis": [
+   {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "137",
+    "clause": "1",
+    "point": "a",
+    "quote": "Mang thai từ tháng thứ 07 hoặc từ tháng thứ 06 nếu làm việc ở"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Công ty có được yêu cầu công nhân nữ mang thai tháng thứ bảy làm ca đêm không?",
+    "rule": "Theo Bộ luật Lao động Việt Nam, lao động nữ mang thai từ tháng thứ bảy trở đi không được sử dụng làm việc vào ban đêm, làm thêm giờ và đi công tác xa.",
+    "application": "Bạn đang mang thai tháng thứ bảy, do đó theo quy định của pháp luật, công ty không được yêu cầu bạn làm việc vào ban đêm.",
+    "conclusion": "KHÔNG"
+   },
+   "symbolic": {
+    "issue": "Công ty có được sử dụng lao động nữ mang thai từ tháng thứ bảy làm việc ban đêm không?",
+    "rule": "Theo Điều 137 khoản 1 điểm a của Luật Lao động 2019, nếu lao động nữ đang mang thai từ tháng thứ bảy thì không được sử dụng làm việc ban đêm.",
+    "application": "Người lao động là nữ và đang mang thai tháng thứ bảy, và được yêu cầu làm việc vào ban đêm. Theo quy định pháp luật, trường hợp này thuộc diện không được phép sử dụng lao động nữ làm việc ban đêm.",
+    "conclusion": "Công ty không được sử dụng lao động nữ mang thai từ tháng thứ bảy làm việc ban đêm."
+   },
+   "heuristic": {
+    "issue": "Công ty có được sử dụng lao động nữ mang thai từ tháng thứ bảy làm việc ban đêm không?",
+    "rule": "Theo Điều 137 khoản 1 điểm a của Luật Lao động 2019, nếu lao động nữ đang mang thai từ tháng thứ bảy thì không được sử dụng làm việc ban đêm.",
+    "application": "Người lao động là nữ và đang mang thai tháng thứ bảy, và được yêu cầu làm việc vào ban đêm. Theo quy định pháp luật, trường hợp này thuộc diện không được phép sử dụng lao động nữ làm việc ban đêm.",
+    "conclusion": "Công ty không được sử dụng lao động nữ mang thai từ tháng thứ bảy làm việc ban đêm."
+   },
+   "ours": {
+    "issue": "Công ty có được sử dụng lao động nữ mang thai từ tháng thứ bảy làm việc ban đêm không?",
+    "rule": "Theo Điều 137 khoản 1 điểm a của Luật Lao động 2019, nếu lao động nữ đang mang thai từ tháng thứ bảy thì không được sử dụng làm việc ban đêm.",
+    "application": "Người lao động là nữ và đang mang thai tháng thứ bảy, và được yêu cầu làm việc vào ban đêm. Theo quy định pháp luật, trường hợp này thuộc diện không được phép sử dụng lao động nữ làm việc ban đêm.",
+    "conclusion": "Công ty không được sử dụng lao động nữ mang thai từ tháng thứ bảy làm việc ban đêm."
+   }
+  }
+ },
+ {
+  "id": "LN-002",
+  "domain": "lien_nganh",
+  "split": "test",
+  "question": "Tôi là công dân Việt Nam. Tôi ký giấy gọi là cộng tác viên, được trả tiền công và làm theo lịch do trưởng nhóm giám sát, nhưng thời hạn hợp tác chưa được ghi rõ. Theo cách xác định quan hệ lao động, tôi có thuộc diện điểm a khoản 1 Điều 2 Luật BHXH không?",
+  "gold_expected": "insufficient",
+  "gold_missing": [
+   "term_at_least_1_month"
+  ],
+  "gold_legal_basis": [
+   {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "13",
+    "clause": "1",
+    "point": "",
+    "quote": "Trường hợp hai bên thỏa thuận bằng tên gọi khác nhưng có nội dung thể hiện"
+   },
+   {
+    "doc": "Luật BHXH 41/2024/QH15",
+    "article": "2",
+    "clause": "1",
+    "point": "a",
+    "quote": "Người làm việc theo hợp đồng lao động không xác định thời hạn, hợp đồng lao động xác định"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Xác định xem quan hệ giữa bạn và tổ chức có phải là quan hệ lao động thuộc diện điểm a khoản 1 Điều 2 Luật Bảo hiểm xã hội (BHXH) hay không.",
+    "rule": "Theo điểm a khoản 1 Điều 2 Luật BHXH, người lao động làm việc theo hợp đồng lao động là đối tượng tham gia BHXH bắt buộc. Quan hệ lao động được xác định khi có sự thỏa thuận về việc làm có trả công, tiền lương, sự quản lý, điều hành, giám sát của người sử dụng lao động.",
+    "application": "Bạn ký giấy gọi là cộng tác viên, được trả tiền công và làm theo lịch do trưởng nhóm giám sát. Điều này cho thấy có sự thỏa thuận về việc làm có trả công và có sự quản lý, giám sát từ phía người sử dụng lao động, phù hợp với định nghĩa về quan hệ lao động theo Luật BHXH.",
+    "conclusion": "CÓ"
+   },
+   "symbolic": {
+    "issue": "Người lao động có thuộc diện quy định tại điểm a khoản 1 Điều 2 Luật BHXH không?",
+    "rule": "Theo quy định tại Điều 2 khoản 1 điểm a Luật Bảo hiểm xã hội, người lao động thuộc diện này nếu giữa hai bên tồn tại quan hệ lao động và hợp đồng có thời hạn từ đủ 01 tháng trở lên.",
+    "application": "Trong trường hợp này, người lao động là công dân Việt Nam, được trả lương hoặc tiền công cho công việc và chịu sự quản lý, điều hành, giám sát của bên sử dụng lao động. Tuy nhiên, hợp đồng có thời hạn dưới 01 tháng, do đó không đáp ứng điều kiện về thời hạn hợp đồng từ đủ 01 tháng trở lên theo quy định.",
+    "conclusion": "Chưa đủ dữ kiện để xác định người lao động có thuộc diện quy định tại điểm a khoản 1 Điều 2 Luật BHXH hay không."
+   },
+   "heuristic": {
+    "issue": "Người lao động thuộc diện quy định tại điểm a khoản 1 Điều 2 Luật BHXH.",
+    "rule": "LN2-R005 và LN2-R007 từ Điều 2 khoản 1 điểm a Luật BHXH 41/2024/QH15.",
+    "application": "Người lao động là công dân Việt Nam, được trả lương hoặc tiền công và chịu sự quản lý, điều hành, giám sát của bên sử dụng lao động. Tuy nhiên, thông tin về thời hạn hợp đồng chưa được xác định.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN (cần người dùng bổ sung thông tin)"
+   },
+   "ours": {
+    "issue": "Người lao động thuộc diện quy định tại điểm a khoản 1 Điều 2 Luật BHXH.",
+    "rule": "LN2-R005 và LN2-R007 từ Điều 2 khoản 1 điểm a Luật BHXH 41/2024/QH15.",
+    "application": "Người lao động là công dân Việt Nam, được trả lương hoặc tiền công và chịu sự quản lý, điều hành, giám sát của bên sử dụng lao động. Tuy nhiên, thông tin về thời hạn hợp đồng chưa được xác định.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN (cần người dùng bổ sung thông tin)"
+   }
+  }
+ },
+ {
+  "id": "LN-005",
+  "domain": "lien_nganh",
+  "split": "test",
+  "question": "Tôi là công dân Việt Nam. Tôi làm cộng tác viên bán hàng 20 ngày, được trả tiền theo giờ và phải chịu giám sát trực tiếp của cửa hàng. Theo cách xác định quan hệ lao động, tôi có thuộc diện điểm a khoản 1 Điều 2 Luật BHXH không?",
+  "gold_expected": "false",
+  "gold_missing": [],
+  "gold_legal_basis": [
+   {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "13",
+    "clause": "1",
+    "point": "",
+    "quote": "Trường hợp hai bên thỏa thuận bằng tên gọi khác nhưng có nội dung thể hiện"
+   },
+   {
+    "doc": "Luật BHXH 41/2024/QH15",
+    "article": "2",
+    "clause": "1",
+    "point": "a",
+    "quote": "Người làm việc theo hợp đồng lao động không xác định thời hạn, hợp đồng lao động xác định"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Xác định xem quan hệ giữa bạn và cửa hàng có phải là quan hệ lao động thuộc diện điểm a khoản 1 Điều 2 Luật Bảo hiểm xã hội (BHXH) hay không.",
+    "rule": "Theo điểm a khoản 1 Điều 2 Luật BHXH, người lao động làm việc theo hợp đồng lao động là đối tượng tham gia BHXH bắt buộc. Quan hệ lao động thường được xác định dựa trên các yếu tố như sự thỏa thuận về công việc, tiền lương, sự giám sát và quản lý của người sử dụng lao động.",
+    "application": "Bạn làm cộng tác viên bán hàng trong 20 ngày, được trả tiền theo giờ và chịu sự giám sát trực tiếp của cửa hàng. Những yếu tố này cho thấy có sự thỏa thuận về công việc và tiền lương, cũng như sự quản lý của cửa hàng, phù hợp với định nghĩa về quan hệ lao động.",
+    "conclusion": "CÓ"
+   },
+   "symbolic": {
+    "issue": "Người lao động thuộc diện quy định tại điểm a khoản 1 Điều 2 Luật BHXH.",
+    "rule": "LN2-R005 và LN2-R007 từ Điều 2 khoản 1 điểm a Luật BHXH 2024.",
+    "application": "Người lao động là công dân Việt Nam, được trả lương hoặc tiền công và chịu sự quản lý, điều hành, giám sát của bên sử dụng lao động. Tuy nhiên, thông tin về thời hạn hợp đồng chưa được cung cấp, do đó không thể xác định rõ ràng việc thuộc diện quy định tại điểm a khoản 1 Điều 2 Luật BHXH.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN"
+   },
+   "heuristic": {
+    "issue": "Người lao động thuộc diện quy định tại điểm a khoản 1 Điều 2 Luật BHXH.",
+    "rule": "LN2-R005 và LN2-R007 từ Điều 2 khoản 1 điểm a Luật BHXH 2024.",
+    "application": "Người lao động là công dân Việt Nam, được trả lương hoặc tiền công và chịu sự quản lý, điều hành, giám sát của bên sử dụng lao động. Tuy nhiên, cần bổ sung thông tin về thời hạn hợp đồng có từ đủ 01 tháng trở lên hay không để xác định chính xác.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN (cần người dùng bổ sung thông tin)"
+   },
+   "ours": {
+    "issue": "Người lao động thuộc diện quy định tại điểm a khoản 1 Điều 2 Luật BHXH.",
+    "rule": "LN2-R005 và LN2-R007 từ Điều 2 khoản 1 điểm a Luật BHXH 2024.",
+    "application": "Người lao động là công dân Việt Nam, được trả lương hoặc tiền công và chịu sự quản lý, điều hành, giám sát của bên sử dụng lao động. Tuy nhiên, cần bổ sung thông tin về thời hạn hợp đồng có từ đủ 01 tháng trở lên hay không để xác định chính xác.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN (cần người dùng bổ sung thông tin)"
+   }
+  }
+ },
+ {
+  "id": "LN-007",
+  "domain": "lien_nganh",
+  "split": "test",
+  "question": "Tôi là công dân Việt Nam. Tôi giao hàng cho cửa hàng theo thỏa thuận 3 tuần, nhận tiền công và phải báo cáo từng ca cho trưởng cửa hàng. Theo cách xác định quan hệ lao động, tôi có thuộc diện điểm a khoản 1 Điều 2 Luật BHXH không?",
+  "gold_expected": "false",
+  "gold_missing": [],
+  "gold_legal_basis": [
+   {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "13",
+    "clause": "1",
+    "point": "",
+    "quote": "Trường hợp hai bên thỏa thuận bằng tên gọi khác nhưng có nội dung thể hiện"
+   },
+   {
+    "doc": "Luật BHXH 41/2024/QH15",
+    "article": "2",
+    "clause": "1",
+    "point": "a",
+    "quote": "Người làm việc theo hợp đồng lao động không xác định thời hạn, hợp đồng lao động xác định"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Xác định xem quan hệ giữa bạn và cửa hàng có thuộc diện điểm a khoản 1 Điều 2 Luật Bảo hiểm xã hội (BHXH) hay không.",
+    "rule": "Theo điểm a khoản 1 Điều 2 Luật BHXH, người lao động làm việc theo hợp đồng lao động là đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "application": "Bạn giao hàng cho cửa hàng theo thỏa thuận 3 tuần, nhận tiền công và phải báo cáo từng ca cho trưởng cửa hàng. Điều này cho thấy bạn có một mối quan hệ lao động với cửa hàng, có sự quản lý và trả công, phù hợp với định nghĩa của hợp đồng lao động.",
+    "conclusion": "CÓ"
+   },
+   "symbolic": {
+    "issue": "Người lao động có thuộc diện quy định tại điểm a khoản 1 Điều 2 Luật BHXH không?",
+    "rule": "Theo quy định tại Điều 2 khoản 1 điểm a Luật BHXH, người lao động thuộc diện này nếu giữa hai bên tồn tại quan hệ lao động và hợp đồng có thời hạn từ đủ 01 tháng trở lên.",
+    "application": "Trong trường hợp này, người lao động là công dân Việt Nam, được trả lương hoặc tiền công cho công việc và chịu sự quản lý, điều hành, giám sát của bên sử dụng lao động. Tuy nhiên, hợp đồng có thời hạn dưới 01 tháng, do đó không thỏa mãn điều kiện về thời hạn hợp đồng từ đủ 01 tháng trở lên theo quy định.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN để xác định người lao động thuộc diện quy định tại điểm a khoản 1 Điều 2 Luật BHXH."
+   },
+   "heuristic": {
+    "issue": "Người lao động thuộc diện quy định tại điểm a khoản 1 Điều 2 Luật BHXH.",
+    "rule": "LN2-R005 và LN2-R007 từ Điều 2 khoản 1 điểm a của Luật BHXH 41/2024/QH15.",
+    "application": "Người lao động là công dân Việt Nam, được trả lương hoặc tiền công cho công việc và chịu sự quản lý, điều hành, giám sát của bên sử dụng lao động. Tuy nhiên, cần thêm thông tin về việc hợp đồng có thời hạn từ đủ 01 tháng trở lên để xác định rõ ràng.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN (cần người dùng bổ sung thông tin)"
+   },
+   "ours": {
+    "issue": "Người lao động thuộc diện quy định tại điểm a khoản 1 Điều 2 Luật BHXH.",
+    "rule": "LN2-R005 và LN2-R007 từ Điều 2 khoản 1 điểm a của Luật BHXH 41/2024/QH15.",
+    "application": "Người lao động là công dân Việt Nam, được trả lương hoặc tiền công cho công việc và chịu sự quản lý, điều hành, giám sát của bên sử dụng lao động. Tuy nhiên, cần thêm thông tin về việc hợp đồng có thời hạn từ đủ 01 tháng trở lên để xác định rõ ràng.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN (cần người dùng bổ sung thông tin)"
+   }
+  }
+ },
+ {
+  "id": "LN-009",
+  "domain": "lien_nganh",
+  "split": "test",
+  "question": "Tôi là công dân Việt Nam. Tôi ký giấy cộng tác phát triển phần mềm 12 tháng, được trả lương hàng tháng và phải tuân theo giờ làm việc của công ty. Theo cách xác định quan hệ lao động, tôi có thuộc diện điểm a khoản 1 Điều 2 Luật BHXH không?",
+  "gold_expected": "true",
+  "gold_missing": [],
+  "gold_legal_basis": [
+   {
+    "doc": "Bộ luật Lao động 45/2019/QH14",
+    "article": "13",
+    "clause": "1",
+    "point": "",
+    "quote": "Trường hợp hai bên thỏa thuận bằng tên gọi khác nhưng có nội dung thể hiện"
+   },
+   {
+    "doc": "Luật BHXH 41/2024/QH15",
+    "article": "2",
+    "clause": "1",
+    "point": "a",
+    "quote": "Người làm việc theo hợp đồng lao động không xác định thời hạn, hợp đồng lao động xác định"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Xác định bạn có thuộc diện tham gia bảo hiểm xã hội bắt buộc theo điểm a khoản 1 Điều 2 Luật Bảo hiểm xã hội hay không.",
+    "rule": "Theo điểm a khoản 1 Điều 2 Luật Bảo hiểm xã hội, người lao động làm việc theo hợp đồng lao động có thời hạn từ đủ 1 tháng trở lên thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc.",
+    "application": "Bạn ký giấy cộng tác phát triển phần mềm 12 tháng, được trả lương hàng tháng và phải tuân theo giờ làm việc của công ty. Điều này cho thấy bạn đang làm việc theo hợp đồng lao động có thời hạn từ đủ 1 tháng trở lên, và có các yếu tố của quan hệ lao động như nhận lương và tuân theo giờ làm việc của công ty.",
+    "conclusion": "CÓ"
+   },
+   "symbolic": {
+    "issue": "Người lao động thuộc diện quy định tại điểm a khoản 1 Điều 2 Luật BHXH.",
+    "rule": "LN2-R007 (10_bao_hiem_xa_hoi_41_2024_QH15, Điều 2 khoản 1): NẾU Người lao động là công dân nước ngoài. [contradicted] THÌ Người lao động không thuộc diện quy định tại điểm a khoản 1 Điều 2 Luật BHXH.",
+    "application": "Người lao động là công dân Việt Nam, ký hợp đồng lao động xác định thời hạn 12 tháng, nhận lương từ doanh nghiệp và chịu sự quản lý của bên sử dụng lao động. Tuy nhiên, thông tin về việc người lao động được trả lương hoặc tiền công cho công việc, thời hạn hợp đồng từ đủ 01 tháng trở lên, loại hợp đồng lao động, và tình trạng làm việc sau khi hết hạn hợp đồng chưa được cung cấp đầy đủ.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN"
+   },
+   "heuristic": {
+    "issue": "Người lao động thuộc diện quy định tại điểm a khoản 1 Điều 2 Luật BHXH.",
+    "rule": "LN2-R001: NẾU Giữa hai bên tồn tại quan hệ lao động; Hợp đồng có thời hạn từ đủ 01 tháng trở lên THÌ Người lao động thuộc diện quy định tại điểm a khoản 1 Điều 2 Luật BHXH.",
+    "application": "Người lao động là công dân Việt Nam, ký hợp đồng lao động xác định thời hạn 12 tháng, nhận lương hàng tháng và chịu sự quản lý của công ty. Do đó, giữa hai bên tồn tại quan hệ lao động và hợp đồng có thời hạn từ đủ 01 tháng trở lên.",
+    "conclusion": "CÓ"
+   },
+   "ours": {
+    "issue": "Người lao động thuộc diện quy định tại điểm a khoản 1 Điều 2 Luật BHXH.",
+    "rule": "LN2-R001: NẾU Giữa hai bên tồn tại quan hệ lao động; Hợp đồng có thời hạn từ đủ 01 tháng trở lên THÌ Người lao động thuộc diện quy định tại điểm a khoản 1 Điều 2 Luật BHXH.",
+    "application": "Người lao động là công dân Việt Nam, ký hợp đồng lao động xác định thời hạn 12 tháng, nhận lương hàng tháng và chịu sự quản lý của công ty. Do đó, giữa hai bên tồn tại quan hệ lao động và hợp đồng có thời hạn từ đủ 01 tháng trở lên.",
+    "conclusion": "CÓ"
+   }
+  }
+ },
+ {
+  "id": "LN-019",
+  "domain": "lien_nganh",
+  "split": "test",
+  "question": "Tôi là công dân Việt Nam. Tôi là Giám đốc điều hành công ty cổ phần, đang nhận tiền lương hàng tháng từ công ty. Tôi có thuộc nhóm người quản lý có hưởng lương theo diện BHXH bắt buộc không?",
+  "gold_expected": "true",
+  "gold_missing": [],
+  "gold_legal_basis": [
+   {
+    "doc": "Luật Doanh nghiệp (VBHN 67/VBHN-VPQH)",
+    "article": "4",
+    "clause": "24",
+    "point": "",
+    "quote": "Người quản lý doanh nghiệp là người quản lý doanh nghiệp tư nhân và người quản lý công ty,"
+   },
+   {
+    "doc": "Luật BHXH 41/2024/QH15",
+    "article": "2",
+    "clause": "1",
+    "point": "i",
+    "quote": "Người quản lý doanh nghiệp, kiểm soát viên, người đại diện phần vốn nhà"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Liệu giám đốc điều hành công ty cổ phần có thuộc nhóm người quản lý có hưởng lương theo diện bảo hiểm xã hội (BHXH) bắt buộc không?",
+    "rule": "Theo Luật Bảo hiểm xã hội Việt Nam, người quản lý doanh nghiệp có hưởng lương thuộc đối tượng tham gia BHXH bắt buộc.",
+    "application": "Bạn là giám đốc điều hành công ty cổ phần và đang nhận tiền lương hàng tháng từ công ty, do đó bạn thuộc nhóm người quản lý có hưởng lương.",
+    "conclusion": "CÓ"
+   },
+   "symbolic": {
+    "issue": "Người quản lý có hưởng lương theo diện BHXH bắt buộc theo Điều 2 khoản 1 điểm i Luật BHXH.",
+    "rule": "Theo Điều 2 khoản 1 điểm i Luật BHXH, người quản lý doanh nghiệp nhận lương từ doanh nghiệp thuộc diện có hưởng lương theo BHXH bắt buộc.",
+    "application": "Người dùng là công dân Việt Nam, là giám đốc điều hành công ty cổ phần, và nhận tiền lương từ công ty. Do đó, người dùng thuộc nhóm người quản lý doanh nghiệp có hưởng lương theo quy định của Luật BHXH.",
+    "conclusion": "CÓ"
+   },
+   "heuristic": {
+    "issue": "Người quản lý có thuộc diện hưởng lương theo Điều 2 khoản 1 điểm i Luật BHXH không?",
+    "rule": "Theo Điều 2 khoản 1 điểm i Luật BHXH, người quản lý doanh nghiệp nhận lương từ doanh nghiệp thuộc diện hưởng lương theo BHXH bắt buộc.",
+    "application": "Người này là công dân Việt Nam, là người quản lý doanh nghiệp và nhận tiền lương từ công ty cổ phần.",
+    "conclusion": "CÓ"
+   },
+   "ours": {
+    "issue": "Người quản lý có thuộc diện hưởng lương theo Điều 2 khoản 1 điểm i Luật BHXH không?",
+    "rule": "Theo Điều 2 khoản 1 điểm i Luật BHXH, người quản lý doanh nghiệp nhận lương từ doanh nghiệp thuộc diện hưởng lương theo BHXH bắt buộc.",
+    "application": "Người này là công dân Việt Nam, là người quản lý doanh nghiệp và nhận tiền lương từ công ty cổ phần.",
+    "conclusion": "CÓ"
+   }
+  }
+ },
+ {
+  "id": "LN-024",
+  "domain": "lien_nganh",
+  "split": "test",
+  "question": "Tôi là công dân Việt Nam. Tôi là thành viên Hội đồng quản trị, công ty chuyển lương cố định cho tôi qua tài khoản mỗi tháng. Tôi có thuộc nhóm người quản lý có hưởng lương theo diện BHXH bắt buộc không?",
+  "gold_expected": "true",
+  "gold_missing": [],
+  "gold_legal_basis": [
+   {
+    "doc": "Luật Doanh nghiệp (VBHN 67/VBHN-VPQH)",
+    "article": "4",
+    "clause": "24",
+    "point": "",
+    "quote": "Người quản lý doanh nghiệp là người quản lý doanh nghiệp tư nhân và người quản lý công ty,"
+   },
+   {
+    "doc": "Luật BHXH 41/2024/QH15",
+    "article": "2",
+    "clause": "1",
+    "point": "i",
+    "quote": "Người quản lý doanh nghiệp, kiểm soát viên, người đại diện phần vốn nhà"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Xác định xem bạn có thuộc nhóm người quản lý có hưởng lương theo diện bảo hiểm xã hội (BHXH) bắt buộc hay không.",
+    "rule": "Theo Luật Bảo hiểm xã hội Việt Nam, người quản lý doanh nghiệp có hưởng lương thuộc đối tượng tham gia BHXH bắt buộc.",
+    "application": "Bạn là thành viên Hội đồng quản trị và nhận lương cố định hàng tháng qua tài khoản, điều này cho thấy bạn là người quản lý doanh nghiệp có hưởng lương.",
+    "conclusion": "CÓ"
+   },
+   "symbolic": {
+    "issue": "Người quản lý thuộc diện có hưởng lương theo Điều 2 khoản 1 điểm i Luật BHXH.",
+    "rule": "LN2-R011: NẾU Người này là người quản lý doanh nghiệp. [satisfied]; Người này nhận tiền lương từ doanh nghiệp. [satisfied] THÌ Người quản lý thuộc diện có hưởng lương theo Điều 2 khoản 1 điểm i Luật BHXH.",
+    "application": "Người lao động là công dân Việt Nam và là người quản lý doanh nghiệp, đồng thời nhận tiền lương từ doanh nghiệp.",
+    "conclusion": "CÓ"
+   },
+   "heuristic": {
+    "issue": "Người quản lý có thuộc diện hưởng lương theo Điều 2 khoản 1 điểm i Luật BHXH không?",
+    "rule": "Theo Điều 4 khoản 24 Luật Doanh nghiệp, nếu người này là người quản lý doanh nghiệp thì chức danh thuộc phạm vi người quản lý doanh nghiệp theo luật doanh nghiệp. Theo Điều 2 khoản 1 điểm i Luật BHXH, nếu chức danh thuộc phạm vi người quản lý doanh nghiệp theo luật doanh nghiệp và người này nhận tiền lương từ doanh nghiệp thì người quản lý thuộc diện có hưởng lương theo Điều 2 khoản 1 điểm i Luật BHXH.",
+    "application": "Người lao động là công dân Việt Nam và là người quản lý doanh nghiệp, đồng thời nhận tiền lương từ doanh nghiệp. Do đó, chức danh của người này thuộc phạm vi người quản lý doanh nghiệp theo luật doanh nghiệp và người này thuộc diện có hưởng lương theo Điều 2 khoản 1 điểm i Luật BHXH.",
+    "conclusion": "CÓ"
+   },
+   "ours": {
+    "issue": "Người quản lý có thuộc diện hưởng lương theo Điều 2 khoản 1 điểm i Luật BHXH không?",
+    "rule": "Theo Điều 4 khoản 24 Luật Doanh nghiệp, nếu người này là người quản lý doanh nghiệp thì chức danh thuộc phạm vi người quản lý doanh nghiệp theo luật doanh nghiệp. Theo Điều 2 khoản 1 điểm i Luật BHXH, nếu chức danh thuộc phạm vi người quản lý doanh nghiệp theo luật doanh nghiệp và người này nhận tiền lương từ doanh nghiệp thì người quản lý thuộc diện có hưởng lương theo Điều 2 khoản 1 điểm i Luật BHXH.",
+    "application": "Người lao động là công dân Việt Nam và là người quản lý doanh nghiệp, đồng thời nhận tiền lương từ doanh nghiệp. Do đó, chức danh của người này thuộc phạm vi người quản lý doanh nghiệp theo luật doanh nghiệp và người này thuộc diện có hưởng lương theo Điều 2 khoản 1 điểm i Luật BHXH.",
+    "conclusion": "CÓ"
+   }
+  }
+ },
+ {
+  "id": "LN-029",
+  "domain": "lien_nganh",
+  "split": "test",
+  "question": "Công ty cổ phần của tôi có thu nhập từ dịch vụ thiết kế sản phẩm cung cấp trong nước năm 2026. Đối với khoản thu nhập hoạt động kinh doanh đang xét, công ty có thuộc đối tượng nộp thuế TNDN không?",
+  "gold_expected": "true",
+  "gold_missing": [],
+  "gold_legal_basis": [
+   {
+    "doc": "Luật Doanh nghiệp (VBHN 67/VBHN-VPQH)",
+    "article": "111",
+    "clause": "1",
+    "point": "",
+    "quote": "Công ty cổ phần là doanh nghiệp, trong đó: a) Vốn điều lệ được"
+   },
+   {
+    "doc": "Luật TNDN 67/2025/QH15",
+    "article": "3",
+    "clause": "1",
+    "point": "",
+    "quote": "Thu nhập chịu thuế thu nhập doanh nghiệp bao gồm thu nhập từ hoạt động sản xuất, kinh doanh hàng hóa, dịch vụ"
+   },
+   {
+    "doc": "Luật TNDN 67/2025/QH15",
+    "article": "2",
+    "clause": "1",
+    "point": "a",
+    "quote": "Doanh nghiệp được thành lập theo quy định của pháp luật Việt Nam; b) Doanh nghiệp được thành lập"
+   },
+   {
+    "doc": "Luật TNDN 67/2025/QH15",
+    "article": "2",
+    "clause": "1",
+    "point": "",
+    "quote": "Người nộp thuế thu nhập doanh nghiệp là tổ chức hoạt động sản xuất, kinh doanh hàng hóa, dịch vụ"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Công ty cổ phần có thu nhập từ dịch vụ thiết kế sản phẩm cung cấp trong nước năm 2026 có thuộc đối tượng nộp thuế TNDN không?",
+    "rule": "Theo Luật Thuế Thu nhập doanh nghiệp (TNDN) hiện hành, các tổ chức kinh tế có thu nhập từ hoạt động sản xuất, kinh doanh hàng hóa, dịch vụ tại Việt Nam đều thuộc đối tượng nộp thuế TNDN.",
+    "application": "Công ty cổ phần của bạn có thu nhập từ dịch vụ thiết kế sản phẩm cung cấp trong nước, do đó thu nhập này phát sinh từ hoạt động kinh doanh tại Việt Nam và thuộc đối tượng chịu thuế TNDN theo quy định.",
+    "conclusion": "CÓ"
+   },
+   "symbolic": {
+    "issue": "Doanh nghiệp thuộc nhóm người nộp thuế TNDN đối với thu nhập đang xét.",
+    "rule": "LN0-R011: NẾU Tổ chức được xác định là doanh nghiệp thành lập theo pháp luật Việt Nam; Thu nhập hoạt động kinh doanh thuộc diện thu nhập chịu thuế TNDN. THÌ Doanh nghiệp thuộc nhóm người nộp thuế TNDN đối với thu nhập đang xét.",
+    "application": "Doanh nghiệp của bạn là công ty cổ phần, do đó được xác định là doanh nghiệp thành lập theo pháp luật Việt Nam theo LN0-R001. Đồng thời, doanh nghiệp có thu nhập từ hoạt động kinh doanh dịch vụ thiết kế sản phẩm, thuộc diện thu nhập chịu thuế TNDN theo LN0-R009.",
+    "conclusion": "CÓ"
+   },
+   "heuristic": {
+    "issue": "Doanh nghiệp thuộc nhóm người nộp thuế TNDN đối với thu nhập đang xét.",
+    "rule": "LN0-R011: NẾU Tổ chức được xác định là doanh nghiệp thành lập theo pháp luật Việt Nam; Thu nhập hoạt động kinh doanh thuộc diện thu nhập chịu thuế TNDN. THÌ Doanh nghiệp thuộc nhóm người nộp thuế TNDN đối với thu nhập đang xét.",
+    "application": "Doanh nghiệp của bạn là công ty cổ phần, do đó được xác định là doanh nghiệp thành lập theo pháp luật Việt Nam theo LN0-R001. Đồng thời, doanh nghiệp có thu nhập từ hoạt động kinh doanh dịch vụ thiết kế sản phẩm, thuộc diện thu nhập chịu thuế TNDN theo LN0-R009.",
+    "conclusion": "CÓ"
+   },
+   "ours": {
+    "issue": "Doanh nghiệp thuộc nhóm người nộp thuế TNDN đối với thu nhập đang xét.",
+    "rule": "LN0-R011: NẾU Tổ chức được xác định là doanh nghiệp thành lập theo pháp luật Việt Nam; Thu nhập hoạt động kinh doanh thuộc diện thu nhập chịu thuế TNDN. THÌ Doanh nghiệp thuộc nhóm người nộp thuế TNDN đối với thu nhập đang xét.",
+    "application": "Doanh nghiệp của bạn là công ty cổ phần, do đó được xác định là doanh nghiệp thành lập theo pháp luật Việt Nam theo LN0-R001. Đồng thời, doanh nghiệp có thu nhập từ hoạt động kinh doanh dịch vụ thiết kế sản phẩm, thuộc diện thu nhập chịu thuế TNDN theo LN0-R009.",
+    "conclusion": "CÓ"
+   }
+  }
+ },
+ {
+  "id": "LN-038",
+  "domain": "lien_nganh",
+  "split": "test",
+  "question": "Công ty lập chi nhánh kinh doanh dịch vụ trong nước và chi nhánh đang cung cấp dịch vụ cho khách, nhưng tôi chưa rõ loại dịch vụ này có thuộc đối tượng không chịu thuế GTGT hay không. Theo hoạt động bán hàng của chi nhánh này, doanh nghiệp có thuộc nhóm người nộp thuế GTGT cho giao dịch đang xét không?",
+  "gold_expected": "insufficient",
+  "gold_missing": [
+   "vat_non_exempt_goods"
+  ],
+  "gold_legal_basis": [
+   {
+    "doc": "Luật Doanh nghiệp (VBHN 67/VBHN-VPQH)",
+    "article": "44",
+    "clause": "1",
+    "point": "",
+    "quote": "Chi nhánh là đơn vị phụ thuộc của doanh nghiệp, có nhiệm vụ thực hiện toàn"
+   },
+   {
+    "doc": "Luật thuế GTGT 48/2024/QH15",
+    "article": "3",
+    "clause": "",
+    "point": "",
+    "quote": "Hàng hóa, dịch vụ sử dụng cho sản xuất, kinh doanh và tiêu dùng ở Việt Nam là đối tượng chịu thuế giá"
+   },
+   {
+    "doc": "Luật thuế GTGT 48/2024/QH15",
+    "article": "4",
+    "clause": "1",
+    "point": "",
+    "quote": "Tổ chức, hộ, cá nhân sản xuất, kinh doanh hàng hóa, dịch vụ chịu thuế giá trị"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Xác định xem dịch vụ mà chi nhánh cung cấp có thuộc đối tượng không chịu thuế GTGT hay không.",
+    "rule": "Theo Luật Thuế giá trị gia tăng hiện hành, các đối tượng không chịu thuế GTGT bao gồm một số loại dịch vụ cụ thể như dịch vụ y tế, giáo dục, tài chính, bảo hiểm, và một số dịch vụ khác được quy định rõ trong luật.",
+    "application": "Cần xác định rõ loại dịch vụ mà chi nhánh đang cung cấp để so sánh với danh sách các dịch vụ không chịu thuế GTGT theo quy định pháp luật.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN để kết luận vì cần biết rõ loại dịch vụ mà chi nhánh đang cung cấp."
+   },
+   "symbolic": {
+    "issue": "Doanh nghiệp có thuộc nhóm người nộp thuế GTGT cho giao dịch đang xét không?",
+    "rule": "LN0-R008 (04_luat_thue_GTGT_48_2024_QH15, Điều 3): NẾU KHÔNG: Hàng hóa, dịch vụ bán ra không thuộc các nhóm không chịu thuế GTGT theo luật. THÌ Doanh nghiệp không phải người nộp thuế GTGT cho hoạt động bán hàng đang xét.",
+    "application": "Chi nhánh đang trực tiếp bán hàng hoặc cung cấp dịch vụ, và hàng hóa, dịch vụ thuộc nhóm không chịu thuế GTGT.",
+    "conclusion": "KHÔNG"
+   },
+   "heuristic": {
+    "issue": "Doanh nghiệp là người nộp thuế GTGT cho hoạt động bán hàng thuộc diện chịu thuế.",
+    "rule": "(không có)",
+    "application": "Chi nhánh đang trực tiếp bán hàng hoặc cung cấp dịch vụ.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN (cần người dùng bổ sung thông tin)"
+   },
+   "ours": {
+    "issue": "Doanh nghiệp là người nộp thuế GTGT cho hoạt động bán hàng thuộc diện chịu thuế.",
+    "rule": "(không có)",
+    "application": "Chi nhánh đang trực tiếp bán hàng hoặc cung cấp dịch vụ.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN (cần người dùng bổ sung thông tin)"
+   }
+  }
+ },
+ {
+  "id": "THUE-001",
+  "domain": "thue",
+  "split": "test",
+  "question": "Tình huống phát sinh trong năm 2026. Tôi trồng rau và bán rau mới thu hoạch, chưa chế biến. Tôi mua vật tư chỉ để phục vụ hoạt động này. Thuế GTGT đầu vào của các vật tư này có được khấu trừ không?",
+  "gold_expected": "false",
+  "gold_missing": [],
+  "gold_legal_basis": [
+   {
+    "doc": "Luật Thuế giá trị gia tăng 48/2024/QH15",
+    "article": "5",
+    "clause": "1",
+    "point": "",
+    "quote": "Sản phẩm cây trồng, rừng trồng, chăn nuôi, thủy sản nuôi trồng, đánh bắt chưa chế biến thành"
+   },
+   {
+    "doc": "Luật Thuế giá trị gia tăng 48/2024/QH15",
+    "article": "5",
+    "clause": "27",
+    "point": "",
+    "quote": "Cơ sở kinh doanh hàng hóa, dịch vụ không chịu thuế giá trị gia tăng quy định tại Điều này không được khấu trừ, không được hoàn thuế giá trị"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Liệu thuế GTGT đầu vào của vật tư phục vụ hoạt động trồng và bán rau chưa chế biến có được khấu trừ không?",
+    "rule": "Theo Luật Thuế giá trị gia tăng Việt Nam, hàng hóa nông sản chưa qua chế biến thuộc đối tượng không chịu thuế GTGT. Do đó, thuế GTGT đầu vào của hàng hóa, dịch vụ phục vụ cho hoạt động sản xuất, kinh doanh hàng hóa không chịu thuế GTGT sẽ không được khấu trừ.",
+    "application": "Trong trường hợp này, hoạt động trồng và bán rau chưa chế biến thuộc đối tượng không chịu thuế GTGT. Vì vậy, thuế GTGT đầu vào của các vật tư phục vụ cho hoạt động này sẽ không được khấu trừ.",
+    "conclusion": "KHÔNG"
+   },
+   "symbolic": {
+    "issue": "Thuế GTGT đầu vào của giao dịch được khấu trừ.",
+    "rule": "Không có quy tắc pháp lý đã áp dụng.",
+    "application": "Dựa trên dữ kiện hiện có, chưa đủ thông tin để xác định liệu thuế GTGT đầu vào có được khấu trừ hay không. Cần bổ sung thông tin về phương pháp kê khai VAT, hóa đơn GTGT hợp lệ, phương thức thanh toán và các điều kiện khác liên quan đến giao dịch.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN"
+   },
+   "heuristic": {
+    "issue": "Thuế GTGT đầu vào của giao dịch được khấu trừ.",
+    "rule": "TX0-R036 (04_luat_thue_GTGT_48_2024_QH15, Điều 14 khoản 1, khoản 3): NẾU KHÔNG: Doanh nghiệp kê khai VAT theo phương pháp khấu trừ. [contradicted] THÌ Thuế GTGT đầu vào của giao dịch không được khấu trừ.",
+    "application": "Doanh nghiệp cần cung cấp thêm thông tin về việc thanh toán không dùng tiền mặt, giá trị thanh toán mua vào từ 5 triệu đồng, và các điều kiện thanh toán khác như bù trừ công nợ, trả chậm, trả góp, hoặc hàng nhập khẩu có phải quà biếu, quà tặng không.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN (cần người dùng bổ sung thông tin)"
+   },
+   "ours": {
+    "issue": "Thuế GTGT đầu vào của giao dịch được khấu trừ.",
+    "rule": "TX0-R036 (04_luat_thue_GTGT_48_2024_QH15, Điều 14 khoản 1, khoản 3): NẾU KHÔNG: Doanh nghiệp kê khai VAT theo phương pháp khấu trừ. [contradicted] THÌ Thuế GTGT đầu vào của giao dịch không được khấu trừ.",
+    "application": "Doanh nghiệp cần cung cấp thêm thông tin về việc thanh toán không dùng tiền mặt, giá trị thanh toán mua vào từ 5 triệu đồng, và các điều kiện thanh toán khác như bù trừ công nợ, trả chậm, trả góp, hoặc hàng nhập khẩu có phải quà biếu, quà tặng không.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN (cần người dùng bổ sung thông tin)"
+   }
+  }
+ },
+ {
+  "id": "THUE-005",
+  "domain": "thue",
+  "split": "test",
+  "question": "Tình huống phát sinh trong năm 2026. Phòng khám của tôi cung cấp dịch vụ khám chữa bệnh cho người. Tôi mua vật tư chỉ để phục vụ hoạt động này. Thuế GTGT đầu vào của các vật tư này có được khấu trừ không?",
+  "gold_expected": "false",
+  "gold_missing": [],
+  "gold_legal_basis": [
+   {
+    "doc": "Luật Thuế giá trị gia tăng 48/2024/QH15",
+    "article": "5",
+    "clause": "10",
+    "point": "a",
+    "quote": "Dịch vụ y tế bao gồm: dịch vụ khám bệnh, chữa bệnh, phòng bệnh cho người, dịch vụ"
+   },
+   {
+    "doc": "Luật Thuế giá trị gia tăng 48/2024/QH15",
+    "article": "5",
+    "clause": "27",
+    "point": "",
+    "quote": "Cơ sở kinh doanh hàng hóa, dịch vụ không chịu thuế giá trị gia tăng quy định tại Điều này không được khấu trừ, không được hoàn thuế giá trị"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Liệu thuế GTGT đầu vào của vật tư mua để phục vụ hoạt động khám chữa bệnh có được khấu trừ không?",
+    "rule": "Theo Luật Thuế giá trị gia tăng Việt Nam, thuế GTGT đầu vào được khấu trừ nếu hàng hóa, dịch vụ mua vào phục vụ cho hoạt động sản xuất, kinh doanh hàng hóa, dịch vụ chịu thuế GTGT.",
+    "application": "Phòng khám cung cấp dịch vụ khám chữa bệnh, là hoạt động chịu thuế GTGT. Vật tư mua vào phục vụ trực tiếp cho hoạt động này, do đó thuế GTGT đầu vào của các vật tư này đáp ứng điều kiện để được khấu trừ.",
+    "conclusion": "CÓ"
+   },
+   "symbolic": {
+    "issue": "Thuế GTGT đầu vào của giao dịch được khấu trừ.",
+    "rule": "TX0-R038 (04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 27): NẾU Đầu vào được dùng riêng cho hoạt động không chịu VAT. [satisfied] THÌ Thuế GTGT đầu vào của giao dịch không được khấu trừ.",
+    "application": "Phòng khám cung cấp dịch vụ khám chữa bệnh cho người, và vật tư được mua chỉ để phục vụ hoạt động này, là hoạt động không chịu VAT.",
+    "conclusion": "KHÔNG"
+   },
+   "heuristic": {
+    "issue": "Thuế GTGT đầu vào của giao dịch được khấu trừ.",
+    "rule": "TX0-R036 (04_luat_thue_GTGT_48_2024_QH15, Điều 14 khoản 1, khoản 3): NẾU KHÔNG: Doanh nghiệp kê khai VAT theo phương pháp khấu trừ. [contradicted] THÌ Thuế GTGT đầu vào của giao dịch không được khấu trừ.",
+    "application": "Dựa trên các dữ kiện hiện có, chưa đủ thông tin để xác định liệu thuế GTGT đầu vào có được khấu trừ hay không. Cần bổ sung thông tin về phương thức thanh toán, giá trị thanh toán, và các điều kiện khác liên quan đến giao dịch mua hàng.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN (cần người dùng bổ sung thông tin)"
+   },
+   "ours": {
+    "issue": "Thuế GTGT đầu vào của giao dịch được khấu trừ.",
+    "rule": "TX0-R036 (04_luat_thue_GTGT_48_2024_QH15, Điều 14 khoản 1, khoản 3): NẾU KHÔNG: Doanh nghiệp kê khai VAT theo phương pháp khấu trừ. [contradicted] THÌ Thuế GTGT đầu vào của giao dịch không được khấu trừ.",
+    "application": "Dựa trên các dữ kiện hiện có, chưa đủ thông tin để xác định liệu thuế GTGT đầu vào có được khấu trừ hay không. Cần bổ sung thông tin về phương thức thanh toán, giá trị thanh toán, và các điều kiện khác liên quan đến giao dịch mua hàng.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN (cần người dùng bổ sung thông tin)"
+   }
+  }
+ },
+ {
+  "id": "THUE-006",
+  "domain": "thue",
+  "split": "test",
+  "question": "Tình huống phát sinh trong năm 2026. Hợp tác xã của tôi làm dịch vụ tưới tiêu nước cho ruộng lúa. Hoạt động này có thuộc đối tượng không chịu thuế GTGT không?",
+  "gold_expected": "true",
+  "gold_missing": [],
+  "gold_legal_basis": [
+   {
+    "doc": "Luật Thuế giá trị gia tăng 48/2024/QH15",
+    "article": "5",
+    "clause": "6",
+    "point": "",
+    "quote": "Tưới, tiêu nước; cày, bừa đất; nạo vét kênh, mương nội đồng"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Dịch vụ tưới tiêu nước cho ruộng lúa có thuộc đối tượng không chịu thuế GTGT không?",
+    "rule": "Theo Luật Thuế giá trị gia tăng hiện hành, các dịch vụ phục vụ trực tiếp cho sản xuất nông nghiệp thuộc đối tượng không chịu thuế GTGT.",
+    "application": "Dịch vụ tưới tiêu nước cho ruộng lúa là một hoạt động phục vụ trực tiếp cho sản xuất nông nghiệp, do đó thuộc đối tượng không chịu thuế GTGT.",
+    "conclusion": "CÓ"
+   },
+   "symbolic": {
+    "issue": "Giao dịch thuộc đối tượng không chịu thuế GTGT.",
+    "rule": "TX0-R046 (04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 6): NẾU Cung ứng tưới tiêu phục vụ sản xuất nông nghiệp. [satisfied] THÌ Giao dịch thuộc đối tượng không chịu thuế GTGT.",
+    "application": "Chủ thể là hợp tác xã hoặc liên hiệp hợp tác xã và cung ứng tưới tiêu phục vụ sản xuất nông nghiệp.",
+    "conclusion": "CÓ"
+   },
+   "heuristic": {
+    "issue": "Giao dịch thuộc đối tượng không chịu thuế GTGT.",
+    "rule": "TX0-R046 (04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 6): NẾU Cung ứng tưới tiêu phục vụ sản xuất nông nghiệp. [satisfied] THÌ Giao dịch thuộc đối tượng không chịu thuế GTGT.",
+    "application": "Chủ thể là hợp tác xã hoặc liên hiệp hợp tác xã và cung ứng tưới tiêu phục vụ sản xuất nông nghiệp.",
+    "conclusion": "CÓ"
+   },
+   "ours": {
+    "issue": "Giao dịch thuộc đối tượng không chịu thuế GTGT.",
+    "rule": "TX0-R046 (04_luat_thue_GTGT_48_2024_QH15, Điều 5 khoản 6): NẾU Cung ứng tưới tiêu phục vụ sản xuất nông nghiệp. [satisfied] THÌ Giao dịch thuộc đối tượng không chịu thuế GTGT.",
+    "application": "Chủ thể là hợp tác xã hoặc liên hiệp hợp tác xã và cung ứng tưới tiêu phục vụ sản xuất nông nghiệp.",
+    "conclusion": "CÓ"
+   }
+  }
+ },
+ {
+  "id": "THUE-025",
+  "domain": "thue",
+  "split": "test",
+  "question": "Công ty tôi đang kê khai thuế tháng 9/2026. Công ty tôi kê khai VAT theo phương pháp khấu trừ. Lô hàng mua về dùng riêng cho hoạt động bán hàng chịu VAT. Hàng được mua với giá 35 triệu đồng. Tôi thanh toán qua tài khoản ngân hàng. Với giao dịch này, công ty có đủ điều kiện khấu trừ thuế GTGT đầu vào không?",
+  "gold_expected": "insufficient",
+  "gold_missing": [
+   "purchase_has_valid_vat_invoice"
+  ],
+  "gold_legal_basis": [
+   {
+    "doc": "Luật Thuế giá trị gia tăng 48/2024/QH15",
+    "article": "14",
+    "clause": "1",
+    "point": "a",
+    "quote": "Thuế giá trị gia tăng đầu vào của hàng hóa, dịch vụ sử dụng cho sản xuất, kinh doanh hàng hóa, dịch vụ chịu thuế giá trị gia tăng được"
+   },
+   {
+    "doc": "Luật Thuế giá trị gia tăng 48/2024/QH15",
+    "article": "14",
+    "clause": "2",
+    "point": "a",
+    "quote": "Có hóa đơn giá trị gia tăng mua hàng hóa, dịch vụ hoặc chứng từ nộp thuế giá"
+   },
+   {
+    "doc": "Luật Thuế giá trị gia tăng 48/2024/QH15",
+    "article": "14",
+    "clause": "2",
+    "point": "b",
+    "quote": "Có chứng từ thanh toán không dùng tiền mặt đối với hàng hóa, dịch vụ mua vào, trừ một số trường hợp đặc"
+   },
+   {
+    "doc": "Luật Thuế giá trị gia tăng 48/2024/QH15",
+    "article": "14",
+    "clause": "3",
+    "point": "",
+    "quote": "Cơ sở kinh doanh không đáp ứng quy định về khấu trừ thuế tại khoản 1 và khoản 2 Điều này và các hóa đơn, chứng từ"
+   },
+   {
+    "doc": "Nghị định 181/2025/NĐ-CP",
+    "article": "26",
+    "clause": "",
+    "point": "",
+    "quote": "mua vào (bao gồm cả hàng hóa nhập khẩu) từ 05 triệu đồng trở lên đã bao gồm thuế giá trị"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Công ty có đủ điều kiện khấu trừ thuế GTGT đầu vào cho lô hàng mua về dùng riêng cho hoạt động bán hàng chịu VAT không?",
+    "rule": "Theo quy định pháp luật Việt Nam, để được khấu trừ thuế GTGT đầu vào, hàng hóa, dịch vụ mua vào phải phục vụ cho hoạt động sản xuất, kinh doanh hàng hóa, dịch vụ chịu thuế GTGT; có hóa đơn GTGT hợp pháp; và thanh toán qua ngân hàng đối với hóa đơn từ 20 triệu đồng trở lên.",
+    "application": "Lô hàng được mua về dùng riêng cho hoạt động bán hàng chịu VAT, có giá trị 35 triệu đồng và đã được thanh toán qua tài khoản ngân hàng, đáp ứng các điều kiện về mục đích sử dụng, giá trị và phương thức thanh toán.",
+    "conclusion": "Công ty có đủ điều kiện khấu trừ thuế GTGT đầu vào cho giao dịch này."
+   },
+   "symbolic": {
+    "issue": "Công ty có đủ điều kiện khấu trừ thuế GTGT đầu vào cho giao dịch mua hàng không?",
+    "rule": "Không có quy tắc pháp lý nào được áp dụng do thiếu dữ kiện.",
+    "application": "Dựa trên dữ kiện hiện có, hàng mua vào phục vụ riêng hoạt động chịu VAT, giá trị thanh toán mua vào từ 5 triệu đồng và khoản mua được thanh toán không dùng tiền mặt. Tuy nhiên, cần thêm thông tin về việc doanh nghiệp kê khai VAT theo phương pháp khấu trừ và có hóa đơn GTGT mua hàng hợp lệ để xác định điều kiện khấu trừ.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN"
+   },
+   "heuristic": {
+    "issue": "Công ty có đủ điều kiện khấu trừ thuế GTGT đầu vào cho giao dịch mua hàng tháng 9/2026 không?",
+    "rule": "TX0-R019: NẾU Doanh nghiệp có hóa đơn GTGT mua hàng hợp lệ; Khoản mua được thanh toán không dùng tiền mặt THÌ Hồ sơ hóa đơn, thanh toán đáp ứng yêu cầu khấu trừ VAT. TX0-R031: NẾU Doanh nghiệp kê khai VAT theo phương pháp khấu trừ; Hàng mua vào phục vụ riêng hoạt động chịu VAT; Hồ sơ hóa đơn, thanh toán đáp ứng yêu cầu khấu trừ VAT THÌ Thuế GTGT đầu vào của giao dịch được khấu trừ.",
+    "application": "Công ty có hóa đơn GTGT mua hàng hợp lệ và khoản mua được thanh toán không dùng tiền mặt, do đó hồ sơ hóa đơn, thanh toán đáp ứng yêu cầu khấu trừ VAT theo TX0-R019. Công ty kê khai VAT theo phương pháp khấu trừ và hàng mua vào phục vụ riêng hoạt động chịu VAT, do đó thuế GTGT đầu vào của giao dịch được khấu trừ theo TX0-R031.",
+    "conclusion": "CÓ"
+   },
+   "ours": {
+    "issue": "Công ty có đủ điều kiện khấu trừ thuế GTGT đầu vào cho giao dịch mua hàng tháng 9/2026 không?",
+    "rule": "TX0-R019: NẾU Doanh nghiệp có hóa đơn GTGT mua hàng hợp lệ; Khoản mua được thanh toán không dùng tiền mặt THÌ Hồ sơ hóa đơn, thanh toán đáp ứng yêu cầu khấu trừ VAT. TX0-R031: NẾU Doanh nghiệp kê khai VAT theo phương pháp khấu trừ; Hàng mua vào phục vụ riêng hoạt động chịu VAT; Hồ sơ hóa đơn, thanh toán đáp ứng yêu cầu khấu trừ VAT THÌ Thuế GTGT đầu vào của giao dịch được khấu trừ.",
+    "application": "Công ty có hóa đơn GTGT mua hàng hợp lệ và khoản mua được thanh toán không dùng tiền mặt, do đó hồ sơ hóa đơn, thanh toán đáp ứng yêu cầu khấu trừ VAT theo TX0-R019. Công ty kê khai VAT theo phương pháp khấu trừ và hàng mua vào phục vụ riêng hoạt động chịu VAT, do đó thuế GTGT đầu vào của giao dịch được khấu trừ theo TX0-R031.",
+    "conclusion": "CÓ"
+   }
+  }
+ },
+ {
+  "id": "THUE-035",
+  "domain": "thue",
+  "split": "test",
+  "question": "Trong năm 2026, tôi thực hiện một giao dịch xuất khẩu. Công ty tôi chuyển giao công nghệ ra nước ngoài. Bên mua ở nước ngoài. Công nghệ được sử dụng ngoài Việt Nam. Giao dịch này có đủ điều kiện áp dụng thuế suất VAT 0% không?",
+  "gold_expected": "false",
+  "gold_missing": [],
+  "gold_legal_basis": [
+   {
+    "doc": "Luật Thuế giá trị gia tăng 48/2024/QH15",
+    "article": "9",
+    "clause": "1",
+    "point": "d",
+    "quote": "Các trường hợp không áp dụng thuế suất 0% bao gồm: chuyển giao công nghệ, chuyển nhượng quyền sở hữu trí"
+   },
+   {
+    "doc": "Nghị định 181/2025/NĐ-CP",
+    "article": "17",
+    "clause": "4",
+    "point": "",
+    "quote": "Các trường hợp không áp dụng thuế suất 0% quy định tại điểm b và"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Giao dịch xuất khẩu công nghệ ra nước ngoài có đủ điều kiện áp dụng thuế suất VAT 0% không?",
+    "rule": "Theo Luật Thuế giá trị gia tăng Việt Nam, thuế suất 0% áp dụng cho hàng hóa, dịch vụ xuất khẩu, bao gồm cả chuyển giao công nghệ ra nước ngoài, với điều kiện hàng hóa, dịch vụ được tiêu dùng ngoài Việt Nam và có chứng từ thanh toán qua ngân hàng.",
+    "application": "Trong trường hợp này, công ty thực hiện giao dịch chuyển giao công nghệ ra nước ngoài, bên mua ở nước ngoài và công nghệ được sử dụng ngoài Việt Nam. Nếu công ty có chứng từ thanh toán qua ngân hàng, giao dịch này đáp ứng điều kiện để áp dụng thuế suất VAT 0%.",
+    "conclusion": "CÓ"
+   },
+   "symbolic": {
+    "issue": "Giao dịch đủ điều kiện áp dụng thuế suất GTGT 0%.",
+    "rule": "NẾU Giao dịch là chuyển giao công nghệ ra nước ngoài. [satisfied] THÌ Giao dịch không đủ điều kiện áp dụng thuế suất GTGT 0%.",
+    "application": "Giao dịch của bạn là chuyển giao công nghệ ra nước ngoài, do đó theo quy tắc pháp lý đã áp dụng, giao dịch này không đủ điều kiện áp dụng thuế suất GTGT 0%.",
+    "conclusion": "KHÔNG"
+   },
+   "heuristic": {
+    "issue": "Giao dịch đủ điều kiện áp dụng thuế suất GTGT 0%.",
+    "rule": "NẾU Giao dịch là chuyển giao công nghệ ra nước ngoài. [satisfied] THÌ Giao dịch không đủ điều kiện áp dụng thuế suất GTGT 0%.",
+    "application": "Giao dịch của bạn là chuyển giao công nghệ ra nước ngoài, do đó theo quy tắc pháp lý đã áp dụng, giao dịch này không đủ điều kiện áp dụng thuế suất GTGT 0%.",
+    "conclusion": "KHÔNG"
+   },
+   "ours": {
+    "issue": "Giao dịch đủ điều kiện áp dụng thuế suất GTGT 0%.",
+    "rule": "NẾU Giao dịch là chuyển giao công nghệ ra nước ngoài. [satisfied] THÌ Giao dịch không đủ điều kiện áp dụng thuế suất GTGT 0%.",
+    "application": "Giao dịch của bạn là chuyển giao công nghệ ra nước ngoài, do đó theo quy tắc pháp lý đã áp dụng, giao dịch này không đủ điều kiện áp dụng thuế suất GTGT 0%.",
+    "conclusion": "KHÔNG"
+   }
+  }
+ },
+ {
+  "id": "THUE-040",
+  "domain": "thue",
+  "split": "test",
+  "question": "Công ty tôi quyết toán thuế TNDN năm 2026. Khoản chi trong một lần phát sinh có giá trị 15 triệu đồng. Khoản chi này phát sinh thực tế cho hoạt động kinh doanh. Bên bán đã xuất hóa đơn đúng quy định. Khoản này có thể tính vào chi phí được trừ khi xác định thu nhập chịu thuế TNDN không?",
+  "gold_expected": "insufficient",
+  "gold_missing": [
+   "cit_expense_payment_proof"
+  ],
+  "gold_legal_basis": [
+   {
+    "doc": "Luật Thuế thu nhập doanh nghiệp 67/2025/QH15",
+    "article": "9",
+    "clause": "1",
+    "point": "a",
+    "quote": "Khoản chi thực tế phát sinh liên quan đến hoạt động sản xuất, kinh doanh của doanh nghiệp, bao gồm cả"
+   },
+   {
+    "doc": "Luật Thuế thu nhập doanh nghiệp 67/2025/QH15",
+    "article": "9",
+    "clause": "1",
+    "point": "c",
+    "quote": "Các khoản chi có đủ hoá đơn, chứng từ thanh toán không dùng tiền mặt theo quy định của pháp luật,"
+   },
+   {
+    "doc": "Nghị định 320/2025/NĐ-CP",
+    "article": "9",
+    "clause": "1",
+    "point": "c",
+    "quote": "Khoản chi có chứng từ thanh toán không dùng tiền mặt đối với trường hợp mua hàng hóa, dịch vụ và các khoản thanh toán"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Khoản chi 15 triệu đồng có được tính vào chi phí được trừ khi xác định thu nhập chịu thuế TNDN không?",
+    "rule": "Theo quy định tại Luật Thuế thu nhập doanh nghiệp và các văn bản hướng dẫn, khoản chi được tính vào chi phí được trừ khi xác định thu nhập chịu thuế TNDN nếu đáp ứng các điều kiện: (1) Thực tế phát sinh liên quan đến hoạt động sản xuất, kinh doanh của doanh nghiệp; (2) Có đủ hóa đơn, chứng từ hợp pháp theo quy định của pháp luật; (3) Khoản chi không thuộc danh mục các khoản chi không được trừ.",
+    "application": "Khoản chi 15 triệu đồng đã phát sinh thực tế cho hoạt động kinh doanh và bên bán đã xuất hóa đơn đúng quy định, do đó đáp ứng điều kiện (1) và (2). Không có thông tin cho thấy khoản chi này thuộc danh mục các khoản chi không được trừ.",
+    "conclusion": "Khoản chi này có thể tính vào chi phí được trừ khi xác định thu nhập chịu thuế TNDN."
+   },
+   "symbolic": {
+    "issue": "Khoản chi có được tính vào chi phí được trừ khi xác định thu nhập chịu thuế TNDN không?",
+    "rule": "Theo Điều 9 khoản 2 điểm a của Luật Thuế TNDN 67/2025/QH15, khoản chi mua sắm mỗi lần từ 5 triệu đồng, thực tế liên quan hoạt động kinh doanh và có hóa đơn chứng từ theo quy định có thể được trừ khi tính thu nhập chịu thuế TNDN nếu đã được thanh toán.",
+    "application": "Khoản chi của công ty bạn có giá trị 15 triệu đồng, phát sinh thực tế cho hoạt động kinh doanh và có hóa đơn đúng quy định. Tuy nhiên, cần xác định xem khoản chi này đã được thanh toán hay chưa để xác định tính hợp lệ của chi phí được trừ.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN"
+   },
+   "heuristic": {
+    "issue": "Khoản chi được trừ khi tính thu nhập chịu thuế TNDN.",
+    "rule": "TX1-R52 (06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm a): NẾU KHÔNG: cit business expense qualified được xác lập. [contradicted] THÌ Khoản chi không được trừ khi tính thu nhập chịu thuế TNDN.",
+    "application": "Khoản chi có giá trị 15 triệu đồng, phát sinh thực tế cho hoạt động kinh doanh và có hóa đơn chứng từ theo quy định. Tuy nhiên, cần xác định xem doanh nghiệp đã thanh toán khoản chi này chưa để xác định tính hợp lệ của khoản chi.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN (cần người dùng bổ sung thông tin)"
+   },
+   "ours": {
+    "issue": "Khoản chi được trừ khi tính thu nhập chịu thuế TNDN.",
+    "rule": "TX1-R52 (06_luat_TNDN_67_2025_QH15, Điều 9 khoản 2 điểm a): NẾU KHÔNG: cit business expense qualified được xác lập. [contradicted] THÌ Khoản chi không được trừ khi tính thu nhập chịu thuế TNDN.",
+    "application": "Khoản chi có giá trị 15 triệu đồng, phát sinh thực tế cho hoạt động kinh doanh và có hóa đơn chứng từ theo quy định. Tuy nhiên, cần xác định xem doanh nghiệp đã thanh toán khoản chi này chưa để xác định tính hợp lệ của khoản chi.",
+    "conclusion": "CHƯA ĐỦ DỮ KIỆN (cần người dùng bổ sung thông tin)"
+   }
+  }
+ },
+ {
+  "id": "THUE-051",
+  "domain": "thue",
+  "split": "test",
+  "question": "Trong kỳ tính thuế 2026, tôi cần xác định nghĩa vụ của doanh nghiệp. Doanh nghiệp thu tiền từ dịch vụ kỹ thuật trực tiếp phục vụ canh tác nông nghiệp. Khoản thu nhập đang nói đến có thuộc diện miễn thuế TNDN không?",
+  "gold_expected": "true",
+  "gold_missing": [],
+  "gold_legal_basis": [
+   {
+    "doc": "Luật Thuế thu nhập doanh nghiệp 67/2025/QH15",
+    "article": "4",
+    "clause": "3",
+    "point": "",
+    "quote": "Thu nhập từ việc thực hiện dịch vụ kỹ thuật trực tiếp phục vụ nông nghiệp. 4. Thu nhập từ việc thực"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Khoản thu nhập từ dịch vụ kỹ thuật trực tiếp phục vụ canh tác nông nghiệp có thuộc diện miễn thuế TNDN không?",
+    "rule": "Theo Luật Thuế thu nhập doanh nghiệp Việt Nam, thu nhập từ hoạt động sản xuất, kinh doanh hàng hóa, dịch vụ thuộc lĩnh vực nông nghiệp thường được miễn thuế TNDN.",
+    "application": "Dịch vụ kỹ thuật trực tiếp phục vụ canh tác nông nghiệp là một phần của hoạt động nông nghiệp, do đó khoản thu nhập từ dịch vụ này thuộc diện miễn thuế TNDN.",
+    "conclusion": "CÓ"
+   },
+   "symbolic": {
+    "issue": "Khoản thu nhập từ dịch vụ kỹ thuật trực tiếp phục vụ canh tác nông nghiệp có thuộc diện miễn thuế TNDN không?",
+    "rule": "Theo Điều 4 khoản 3 của Luật TNDN 67/2025/QH15, thu nhập từ dịch vụ kỹ thuật trực tiếp phục vụ nông nghiệp thuộc diện miễn thuế TNDN. Tuy nhiên, theo Điều 4 của cùng luật, thu nhập được miễn thuế là danh mục liệt kê, và nếu không nằm trong danh mục này thì không được miễn thuế.",
+    "application": "Khoản thu nhập từ dịch vụ kỹ thuật trực tiếp phục vụ nông nghiệp thỏa mãn điều kiện miễn thuế theo Điều 4 khoản 3. Tuy nhiên, do quy định về danh mục liệt kê tại Điều 4, có sự xung đột trong việc xác định liệu khoản thu nhập này có thực sự được miễn thuế hay không.",
+    "conclusion": "KHÔNG KẾT LUẬN (các quy định trong cơ sở tri thức xung đột và chưa có quan hệ ưu tiên/ngoại lệ được mã hóa)"
+   },
+   "heuristic": {
+    "issue": "Khoản thu nhập từ dịch vụ kỹ thuật trực tiếp phục vụ canh tác nông nghiệp có thuộc diện miễn thuế TNDN không?",
+    "rule": "Theo Điều 4 khoản 3 của Luật Thuế Thu nhập doanh nghiệp số 67/2025/QH15, nếu thu nhập từ dịch vụ kỹ thuật trực tiếp phục vụ nông nghiệp thì khoản thu nhập đó thuộc diện miễn thuế TNDN.",
+    "application": "Doanh nghiệp có thu nhập từ dịch vụ kỹ thuật trực tiếp phục vụ canh tác nông nghiệp, do đó theo quy định tại Điều 4 khoản 3 của Luật Thuế Thu nhập doanh nghiệp số 67/2025/QH15, khoản thu nhập này thuộc diện miễn thuế TNDN.",
+    "conclusion": "Khoản thu nhập từ dịch vụ kỹ thuật trực tiếp phục vụ canh tác nông nghiệp thuộc diện miễn thuế TNDN."
+   },
+   "ours": {
+    "issue": "Khoản thu nhập từ dịch vụ kỹ thuật trực tiếp phục vụ canh tác nông nghiệp có thuộc diện miễn thuế TNDN không?",
+    "rule": "Theo Điều 4 khoản 3 của Luật Thuế Thu nhập doanh nghiệp số 67/2025/QH15, nếu thu nhập từ dịch vụ kỹ thuật trực tiếp phục vụ nông nghiệp thì khoản thu nhập đó thuộc diện miễn thuế TNDN.",
+    "application": "Doanh nghiệp có thu nhập từ dịch vụ kỹ thuật trực tiếp phục vụ canh tác nông nghiệp, do đó theo quy định tại Điều 4 khoản 3 của Luật Thuế Thu nhập doanh nghiệp số 67/2025/QH15, khoản thu nhập này thuộc diện miễn thuế TNDN.",
+    "conclusion": "Khoản thu nhập từ dịch vụ kỹ thuật trực tiếp phục vụ canh tác nông nghiệp thuộc diện miễn thuế TNDN."
+   }
+  }
+ },
+ {
+  "id": "THUE-056",
+  "domain": "thue",
+  "split": "test",
+  "question": "Trong kỳ tính thuế 2026, tôi cần xác định nghĩa vụ của doanh nghiệp. Lao động thuộc nhóm người khuyết tật chiếm 35% số lao động bình quân. Doanh nghiệp có bình quân 28 lao động trong năm. Chúng tôi sản xuất đồ gỗ, không hoạt động tài chính hay bất động sản. Khoản thu nhập đang nói đến có thuộc diện miễn thuế TNDN không?",
+  "gold_expected": "true",
+  "gold_missing": [],
+  "gold_legal_basis": [
+   {
+    "doc": "Luật Thuế thu nhập doanh nghiệp 67/2025/QH15",
+    "article": "4",
+    "clause": "5",
+    "point": "",
+    "quote": "doanh nghiệp có từ 30% số lao động bình quân trong năm trở lên là người khuyết tật, người sau"
+   }
+  ],
+  "answers": {
+   "gpt4o": {
+    "issue": "Xác định liệu thu nhập của doanh nghiệp có thuộc diện miễn thuế thu nhập doanh nghiệp (TNDN) do sử dụng lao động là người khuyết tật.",
+    "rule": "Theo Luật Thuế TNDN Việt Nam, doanh nghiệp sử dụng lao động là người khuyết tật chiếm từ 30% tổng số lao động trở lên có thể được miễn thuế TNDN đối với phần thu nhập từ hoạt động sản xuất, kinh doanh, trừ các hoạt động tài chính và bất động sản.",
+    "application": "Doanh nghiệp có 35% lao động là người khuyết tật, vượt mức 30% yêu cầu. Doanh nghiệp hoạt động trong lĩnh vực sản xuất đồ gỗ, không liên quan đến tài chính hay bất động sản.",
+    "conclusion": "Khoản thu nhập từ hoạt động sản xuất đồ gỗ của doanh nghiệp thuộc diện miễn thuế TNDN."
+   },
+   "symbolic": {
+    "issue": "Khoản thu nhập có thuộc diện miễn thuế TNDN không?",
+    "rule": "Theo Điều 4 khoản 5 của Luật TNDN 67/2025/QH15, nếu ít nhất 30% lao động bình quân thuộc các nhóm nêu ở điều luật và doanh nghiệp có từ 20 lao động bình quân trong năm, thì khoản thu nhập thuộc diện miễn thuế TNDN. Tuy nhiên, nếu doanh nghiệp không kinh doanh tài chính hoặc bất động sản, thì khoản thu nhập không thuộc diện miễn thuế TNDN.",
+    "application": "Doanh nghiệp của bạn có 35% lao động thuộc nhóm người khuyết tật và có bình quân 28 lao động trong năm, đáp ứng điều kiện để khoản thu nhập thuộc diện miễn thuế TNDN theo quy định. Tuy nhiên, do có quy định xung đột về việc doanh nghiệp không kinh doanh tài chính hoặc bất động sản, nên không thể kết luận rõ ràng về việc khoản thu nhập có thuộc diện miễn thuế TNDN hay không.",
+    "conclusion": "KHÔNG KẾT LUẬN (các quy định trong cơ sở tri thức xung đột và chưa có quan hệ ưu tiên/ngoại lệ được mã hóa)"
+   },
+   "heuristic": {
+    "issue": "Khoản thu nhập của doanh nghiệp có thuộc diện miễn thuế TNDN không?",
+    "rule": "Theo Điều 4 khoản 5 của Luật Thuế TNDN 67/2025/QH15, nếu ít nhất 30% lao động bình quân thuộc các nhóm nêu ở điều luật và doanh nghiệp có từ 20 lao động bình quân trong năm, thì khoản thu nhập thuộc diện miễn thuế TNDN.",
+    "application": "Doanh nghiệp có 35% lao động bình quân thuộc nhóm người khuyết tật, đáp ứng điều kiện ít nhất 30% lao động bình quân thuộc các nhóm nêu ở điều luật. Ngoài ra, doanh nghiệp có bình quân 28 lao động trong năm, đáp ứng điều kiện có từ 20 lao động bình quân trong năm. Doanh nghiệp không kinh doanh tài chính hoặc bất động sản, do đó không bị loại trừ khỏi diện miễn thuế.",
+    "conclusion": "Khoản thu nhập thuộc diện miễn thuế TNDN."
+   },
+   "ours": {
+    "issue": "Khoản thu nhập của doanh nghiệp có thuộc diện miễn thuế TNDN không?",
+    "rule": "Theo Điều 4 khoản 5 của Luật Thuế TNDN 67/2025/QH15, nếu ít nhất 30% lao động bình quân thuộc các nhóm nêu ở điều luật và doanh nghiệp có từ 20 lao động bình quân trong năm, thì khoản thu nhập thuộc diện miễn thuế TNDN.",
+    "application": "Doanh nghiệp có 35% lao động bình quân thuộc nhóm người khuyết tật, đáp ứng điều kiện ít nhất 30% lao động bình quân thuộc các nhóm nêu ở điều luật. Ngoài ra, doanh nghiệp có bình quân 28 lao động trong năm, đáp ứng điều kiện có từ 20 lao động bình quân trong năm. Doanh nghiệp không kinh doanh tài chính hoặc bất động sản, do đó không bị loại trừ khỏi diện miễn thuế.",
+    "conclusion": "Khoản thu nhập thuộc diện miễn thuế TNDN."
+   }
+  }
+ }
+]

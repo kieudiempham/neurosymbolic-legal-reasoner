@@ -185,7 +185,7 @@
      "low_confidence": 2
     }
    },
-   "seconds": 0.3
+   "seconds": 0.4
   },
   "no_mbd": {
    "final_answer_acc": 0.5686274509803921,
@@ -629,7 +629,7 @@
     },
     "rejected_by_reason": {}
    },
-   "seconds": 0.2
+   "seconds": 0.3
   }
  },
  "per_instance": {
