@@ -36,7 +36,7 @@ def main() -> None:
         cases = [c for c in cases if check_case(kb, c)["verdict"] in ("ok", "ok_partial_missing")]
         runs += [(dom, kb, i) for i in build_instances(kb, cases)]
     res = {}
-    for cfg in ("nesy_diag", "rule_check", "no_mbd"):
+    for cfg in ("nesy_diag", "rule_check", "no_mbd", "raw_nli"):
         for b in BUDGETS:
             rows = [run_instance(kb, nli, CONFIGS[cfg], i, budget=b) for _, kb, i in runs]
             faulty = [r for r in rows if r["gold_category"] != "Normal"]

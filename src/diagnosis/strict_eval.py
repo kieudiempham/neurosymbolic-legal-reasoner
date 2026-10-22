@@ -95,7 +95,7 @@ def main() -> None:
     out = {}
     base = ROOT / "experiments" / "diag_dataset" / "ensemble_gpt"
     for split in ("test", "dev"):
-        for cfg in ("rule_check", "nesy_diag"):
+        for cfg in ("rule_check", "nesy_diag", "raw_nli", "no_mbd"):
             rows = []
             for d in sorted(os.listdir(base)):
                 if d.endswith(split):
@@ -103,7 +103,7 @@ def main() -> None:
             out[f"single|{split}|{cfg}"] = evaluate(rows, single_gold)
     mf = json.loads((ROOT / "experiments" / "multi_fault" / "results.json").read_text(encoding="utf-8"))["rows"]
     for split in ("test", "dev"):
-        for cfg in ("rule_check", "nesy_diag"):
+        for cfg in ("rule_check", "nesy_diag", "no_mbd"):
             out[f"two_faults|{split}|{cfg}"] = evaluate(mf[f"{split}|{cfg}"], multi_gold)
     (ROOT / "experiments" / "strict_eval.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
     keys = ["fault_precision", "fault_recall", "fault_f1", "exact_isolation", "mean_diagnosis_size", "clarifications_per_query",
@@ -111,7 +111,7 @@ def main() -> None:
     L = ["| Setting | Method | n | " + " | ".join(keys) + " |", "|---|---|---|" + "---|" * len(keys)]
     for k, v in out.items():
         bench, split, cfg = k.split("|")
-        L.append(f"| {bench} {split} | {'Heuristic' if cfg == 'rule_check' else 'Ours'} | {v['n']} | " + " | ".join(str(v[x]) for x in keys) + " |")
+        L.append(f"| {bench} {split} | { {'rule_check': 'Heuristic', 'nesy_diag': 'Ours', 'raw_nli': 'Ours - acceptance test', 'no_mbd': 'Ours - MBD'}[cfg] } | {v['n']} | " + " | ".join(str(v[x]) for x in keys) + " |")
     (ROOT / "experiments" / "strict_eval.md").write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L))
 
