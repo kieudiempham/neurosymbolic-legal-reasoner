@@ -13,7 +13,7 @@ n = 451 test instances (each a question with one injected or natural fault, or n
 | Heuristic IF–THEN diagnosis | 85.1 | 85.7 | 68.5 | 67.4 | 68.5 | +81.5 | 3.71 |
 | **Ours: Cross-Layer MBD** | 85.1 | 85.7 | 66.1 | 66.8 | 68.3 | +81.5 | 1.70 |
 
-GPT-4o (pure LLM) and IRAC score: not run yet.
+GPT-4o (pure LLM) and IRAC: see Table 8 (end-to-end QA and IRAC).
 
 ## Table 2 — Diagnosis by fault type (external F1–F4 set, faults chosen without the KB, test)
 

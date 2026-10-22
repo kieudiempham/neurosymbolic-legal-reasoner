@@ -141,6 +141,72 @@ VERDICT_VI = {"true": "CÓ", "false": "KHÔNG", "insufficient": "CHƯA ĐỦ D�
 METHOD_VI = {"gpt4o": "GPT-4o thuần", "symbolic": "Symbolic QA", "heuristic": "Heuristic", "ours": "Ours (MBD)"}
 
 
+def render_md_tables(ws, sources) -> None:
+    """Parse the markdown tables of each source and write them as formatted cell tables (title, header, borders)."""
+    import re
+
+    from openpyxl.styles import Border, Side
+
+    thin = Side(style="thin", color="B4C6E7")
+    border = Border(left=thin, right=thin, top=thin, bottom=thin)
+    title_font, sec_font = Font(bold=True, size=12, color="1F3864"), Font(bold=True, size=14, color="FFFFFF")
+    hdr_fill, best_font = PatternFill("solid", fgColor="305496"), Font(bold=True)
+    zebra = PatternFill("solid", fgColor="EEF3FB")
+    num = re.compile(r"^[−+\-]?\d[\d.,]*%?( \(.*\))?( \[.*\])?$")
+    widths: dict[int, int] = {}
+    r = 1
+    for section, path in sources:
+        c = ws.cell(row=r, column=1, value=section)
+        c.font, c.fill = sec_font, PatternFill("solid", fgColor="1F3864")
+        r += 2
+        lines = path.read_text(encoding="utf-8").splitlines()
+        i, title = 0, ""
+        while i < len(lines):
+            ln = lines[i].strip()
+            if ln.startswith("**Table") or ln.startswith("## Table"):
+                title = re.sub(r"[*#]", "", ln).strip()
+            if ln.startswith("|") and i + 1 < len(lines) and re.match(r"^\|[\s\-:|]+\|$", lines[i + 1].strip()):
+                rows = []
+                while i < len(lines) and lines[i].strip().startswith("|"):
+                    if not re.match(r"^\|[\s\-:|]+\|$", lines[i].strip()):
+                        rows.append([x.strip() for x in lines[i].strip().strip("|").split("|")])
+                    i += 1
+                if title:
+                    ws.cell(row=r, column=1, value=title).font = title_font
+                    r += 1
+                for k, row in enumerate(rows):
+                    bold_row = any("**" in x for x in row)
+                    for j, val in enumerate(row, 1):
+                        clean = val.replace("**", "").replace("*", "")
+                        value = clean
+                        if k and re.fullmatch(r"[+\-]?\d+(\.\d+)?", clean):
+                            value = float(clean)  # real numbers, not text
+                        cell = ws.cell(row=r, column=j, value=value)
+                        if isinstance(value, float):
+                            cell.number_format = "0.00" if abs(value) < 10 and "." in clean and len(clean.split(".")[1]) == 2 else "0.0"
+                        cell.border = border
+                        cell.alignment = Alignment(wrap_text=True, vertical="center",
+                                                   horizontal="right" if k and num.match(clean) else "left")
+                        if k == 0:
+                            cell.font, cell.fill = HF, hdr_fill
+                            cell.alignment = Alignment(wrap_text=True, vertical="center", horizontal="center")
+                        else:
+                            if k % 2 == 0:
+                                cell.fill = zebra
+                            if bold_row or "**" in val:
+                                cell.font = best_font
+                        widths[j] = max(widths.get(j, 8), min(48, len(clean) + 2))
+                    r += 1
+                r += 2
+                title = ""
+                continue
+            i += 1
+        r += 1
+    for j, w in widths.items():
+        ws.column_dimensions[get_column_letter(j)].width = w
+    ws.sheet_view.showGridLines = False
+
+
 def add_final_sheets(wb) -> None:
     import re
 
@@ -205,14 +271,12 @@ def add_final_sheets(wb) -> None:
            "Ours: đúng đáp án", "Ours: số lần hỏi", "Heur.: chẩn đoán đầu", "Heur.: tìm đủ 2 lỗi", "Heur.: đáp án",
            "Heur.: đúng đáp án", "Heur.: số lần hỏi"], rows, [40, 8, 6, 22, 10, 45, 9, 12, 9, 7, 45, 9, 12, 9, 7])
 
-    # --- summary of the headline metrics ---
+    # --- summary: every table rendered as a real, formatted Excel table ---
     g = wb.create_sheet("Bảng tổng hợp", 1)
-    for line in (ROOT / "experiments" / "tables_aciids.md").read_text(encoding="utf-8").splitlines():
-        g.append([line])
-    g.append([])
-    for line in (ROOT / "experiments" / "strict_eval.md").read_text(encoding="utf-8").splitlines():
-        g.append([line])
-    g.column_dimensions["A"].width = 200
+    render_md_tables(g, [
+        ("BẢNG CHÍNH TRONG PAPER (Mục 5)", ROOT / "docs" / "paper_section5_draft.md"),
+        ("BẢNG PHỤ (phụ lục / gói dữ liệu)", ROOT / "experiments" / "tables_aciids.md"),
+    ])
 
 def main() -> None:
     sys.stdout.reconfigure(encoding="utf-8")

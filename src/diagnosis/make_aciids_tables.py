@@ -99,7 +99,7 @@ def main() -> None:
         gain = None if cfg == "base_nesy" else 100 * (p["ans_faulty"] - base["ans_faulty"])
         L.append(f"| {name} | {pct(p['ans'])} | {pct(p['ans_faulty'])} | {pct(p.get('diag'))} | {pct(p.get('f1'))} | "
                  f"{pct(p.get('act'))} | {'–' if gain is None else f'+{gain:.1f}'} | {p['asks']:.2f} |")
-    L += ["", "GPT-4o (pure LLM) and IRAC score: not run yet.", ""]
+    L += ["", "GPT-4o (pure LLM) and IRAC: see Table 8 (end-to-end QA and IRAC).", ""]
 
     # ---- Table 2: per fault type, external F1-F4 (KB-independent faults), test ----
     L += ["## Table 2 — Diagnosis by fault type (external F1–F4 set, faults chosen without the KB, test)", "",
