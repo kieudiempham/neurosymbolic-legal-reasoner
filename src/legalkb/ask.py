@@ -37,8 +37,8 @@ class Asker:
         self.parameters = PARAMETERS if sample else []
         self.runs = connect_runs() if record else None
 
-    def ask(self, text: str, batch: str | None = None, item_id: str | None = None,
-            gold: str | None = None) -> tuple[int | None, list[dict]]:
+    def ask(self, text: str, batch: str | None = None, item_id: str | None = None, gold: str | None = None,
+            session_id: str | None = None, turn: int | None = None) -> tuple[int | None, list[dict]]:
         """Answer one question; the run is stored even when a step fails (with the error and what was done)."""
         started = datetime.now().isoformat(timespec="seconds")
         facts, false_facts, raw, parts, error, parse_seconds = [], [], None, [], None, 0.0
@@ -60,7 +60,7 @@ class Asker:
             run = save_run(self.runs, time=started, question=text, kb_program=str(self.kb), kb_database=str(self.db),
                            parser_model=self.parser.model, parser_output=raw, facts=facts, false_facts=false_facts,
                            parameters=self.parameters, parse_seconds=parse_seconds, parts=parts, batch=batch,
-                           item_id=item_id, gold=gold, error=error)
+                           item_id=item_id, gold=gold, error=error, session_id=session_id, turn=turn)
         if run and not error:
             from .answer_gen import generate
 

@@ -4,7 +4,9 @@ reasoning, step by step, so it can be read again or compared across runs.
 Tables
   runs              one row per question asked: time, text, KB used, parser model, the parser's raw output;
                     for a dataset run (batch.py) also the batch name, the item id, its gold answer and any error;
-                    final_answer: the answer in words written from the run (answer_gen.py, step 5)
+                    final_answer: the answer in words written from the run (answer_gen.py, step 5);
+                    session_id / turn: the conversation a run belongs to (chat.py: a reply to a request for
+                    more information is a new turn of the same session)
   run_facts         case facts read from the question (fact / false_fact) and the KB parameters used (parameter)
   run_steps         the pipeline steps of the run in order: parse, then per sub-question reason (case question)
                     or lookup (law question), with a short summary and the time each took
@@ -34,7 +36,7 @@ SCHEMA = """
 CREATE TABLE IF NOT EXISTS runs (
   run_id INTEGER PRIMARY KEY AUTOINCREMENT, time TEXT, question TEXT, kb_program TEXT, kb_database TEXT,
   parser_model TEXT, parser_output TEXT, batch TEXT, item_id TEXT, gold TEXT, error TEXT, final_answer TEXT,
-  answer_model TEXT);
+  answer_model TEXT, session_id TEXT, turn INTEGER);
 CREATE TABLE IF NOT EXISTS run_facts (
   run_id INTEGER NOT NULL REFERENCES runs(run_id), kind TEXT CHECK (kind IN ('fact','false_fact','parameter')),
   fact TEXT);
@@ -65,7 +67,7 @@ def connect_runs(path: Path = RUNS_DB) -> sqlite3.Connection:
     con.execute("PRAGMA foreign_keys = ON")
     con.executescript(SCHEMA)
     have = {r[1] for r in con.execute("PRAGMA table_info(runs)")}
-    for col in ("batch", "item_id", "gold", "error", "final_answer", "answer_model"):  # older databases
+    for col in ("batch", "item_id", "gold", "error", "final_answer", "answer_model", "session_id", "turn"):
         if col not in have:
             con.execute(f"ALTER TABLE runs ADD COLUMN {col} TEXT")
     con.execute("CREATE INDEX IF NOT EXISTS ix_runs_batch ON runs(batch, item_id)")
@@ -75,12 +77,13 @@ def connect_runs(path: Path = RUNS_DB) -> sqlite3.Connection:
 def save_run(con, *, time: str, question: str, kb_program: str, kb_database: str, parser_model: str,
              parser_output: dict, facts: list[str], false_facts: list[str], parameters: list[str],
              parse_seconds: float, parts: list[dict], batch: str | None = None, item_id: str | None = None,
-             gold: str | None = None, error: str | None = None) -> int:
+             gold: str | None = None, error: str | None = None, session_id: str | None = None,
+             turn: int | None = None) -> int:
     """parts: one per sub-question, as returned by questions.answer plus 'parsed' (slots) and 'seconds'."""
     cur = con.execute("INSERT INTO runs (time, question, kb_program, kb_database, parser_model, parser_output, batch, "
-                      "item_id, gold, error) VALUES (?,?,?,?,?,?,?,?,?,?)",
+                      "item_id, gold, error, session_id, turn) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
                       (time, question, kb_program, kb_database, parser_model,
-                       json.dumps(parser_output, ensure_ascii=False), batch, item_id, gold, error))
+                       json.dumps(parser_output, ensure_ascii=False), batch, item_id, gold, error, session_id, turn))
     run = cur.lastrowid
     con.executemany("INSERT INTO run_facts VALUES (?,?,?)",
                     [(run, "fact", f) for f in facts] + [(run, "false_fact", f) for f in false_facts]
