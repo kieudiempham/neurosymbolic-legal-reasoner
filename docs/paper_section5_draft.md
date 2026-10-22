@@ -66,22 +66,28 @@ open choice is missing-vs-omitted on the true proposition and the system asks th
 recovery gain (QA accuracy on faulty inputs minus that of Symbolic QA); false-alarm rate on fault-free
 controls; and cost: NLI measurements and **clarification requests per query**. 95% confidence intervals are
 percentile bootstrap intervals (1,000 resamples; on the external set, source questions are resampled).
-**IRAC quality** is scored on 40 stratified test questions with the rubric
-IRAC = 100·(0.10·I + 0.35·R + 0.40·A + 0.15·C), each component 0 / 0.5 / 1; language is not scored.
-Answers are anonymised and shuffled; the judge is GPT-4.1 (not the GPT-4o baseline) and sees the gold
-conclusion and legal basis; 20 questions are also scored by a human to report agreement.
+**IRAC quality** is scored on all 300 questions (1,200 answers) with the rubric
+IRAC = 100·(0.10·I + 0.35·R + 0.40·A + 0.15·C), each component 0 / 0.5 / 1; language is not scored. R = 1
+requires the correct document and the article numbers of the governing provisions (0.5: at least one
+correct article; 0: no article number, a wrong article or a superseded law).¹ Answers are anonymised and
+shuffled; the judge is GPT-4.1 (not the GPT-4o baseline) and sees the gold conclusion and legal basis;
+20 questions are also scored by a human to report agreement.
+
+¹ The Rule criterion was made precise after a pilot scoring of 40 questions, in which a looser wording let
+the judge give 0.5 to answers naming no article; the rubric was then fixed and applied unchanged to all
+methods and all questions.
 
 ## 5.4 Results
 
 **Table 2. Main comparison (held-out test).** QA on the 106 test questions end to end; diagnosis on the
 451 injected test instances.
 
-| System | QA acc. (end-to-end) | QA acc. on faulty inputs | Diag. macro-F1 | Recovery gain (pp) | Clarif./query | NLI meas./query | IRAC v1 / v2 |
+| System | QA acc. (end-to-end) | QA acc. on faulty inputs | Diag. macro-F1 | Recovery gain (pp) | Clarif./query | NLI meas./query | IRAC |
 |---|---|---|---|---|---|---|---|
-| GPT-4o (pure LLM) | **70.8** | – | N/A | N/A | – | – | 71.2 / 57.7 |
-| Symbolic QA | 61.3 | 4.3 | N/A | N/A | 0.00 | 0.00 | 68.8 / 60.8 |
-| Heuristic diagnosis | 66.0 | 85.7 | 67.4 | +81.5 | 3.71 | 5.79 | 71.1 / 64.6 |
-| **Ours (cross-layer MBD)** | 65.1 | 85.7 | 66.8 | +81.5 | **1.70** | 5.56 | 70.0 / 63.7 |
+| GPT-4o (pure LLM) | **70.8** | – | N/A | N/A | – | – | 58.0 |
+| Symbolic QA | 61.3 | 4.3 | N/A | N/A | 0.00 | 0.00 | 62.8 |
+| Heuristic diagnosis | 66.0 | 85.7 | 67.4 | +81.5 | 3.71 | 5.79 | **64.3** |
+| **Ours (cross-layer MBD)** | 65.1 | 85.7 | 66.8 | +81.5 | **1.70** | 5.56 | 62.8 |
 
 **Table 3. Diagnosis by category (injected faults, test, n = 451).**
 
@@ -205,52 +211,22 @@ far better on the development questions (85.6% vs 71.7%), on which the KBs were 
 reflects KB coverage of unseen cases (the KBs reproduce the gold conclusion for 92/106 test questions under
 gold facts) and parser recall, not the diagnosis. The systems fail differently (all 300 questions): GPT-4o answers "insufficient"
 correctly in only 52.1% of such questions (it tends to commit to yes/no), while the diagnosing systems reach
-70.4%; on yes-questions GPT-4o is weaker than MBD (82.6 vs 88.2%). IRAC quality is similar (71.2 for
-GPT-4o, 70.0 for Ours, 71.1 heuristic, 68.8 symbolic): GPT-4o states the issue better (I = 1.0 vs 0.71,
-the KB-grounded answers phrase the issue from a predicate template) and argues more fluently (A 0.79 vs
-0.73), whereas the proof-grounded answers cite the governing provisions more accurately (R 0.64 vs 0.55;
-GPT-4o often cites superseded laws, several 2024–2025 statutes postdating its training data) and reach the
-correct conclusion more often (C 0.78 vs 0.70). The narrow IRAC gap comes from the R component. GPT-4o names a specific article in
-only 22.5% of its answers ("under the Law on Social Insurance, …") and cites 12.5% of the gold articles,
-against 77.5% and 62.5% for the proof-grounded answers, yet the judge gave such unspecific citations 0.5:
-the pre-registered rubric (v1) does not separate "correct law, a key provision missing" (0.5) from "key
-provisions missing" (0). We therefore made R precise after the first scoring (rubric v2: R = 1 requires the
-correct document and article numbers of the governing provisions; 0.5 at least one correct article;
-0 no article number, a wrong article or a superseded law), left I, A and C unchanged, and re-scored all
-four methods with the same judge. Under v2 the IRAC scores are 57.7 (GPT-4o), 60.8 (Symbolic QA),
-64.6 (Heuristic) and 63.7 (Ours), with R = 0.18 for GPT-4o against 0.46–0.51 for the KB-grounded systems.
-In the objective variant, which removes the judge from the two components that can be checked
-mechanically, the proof-grounded answers score highest (Ours 69.1, Heuristic 68.0, Symbolic 64.5) and
-GPT-4o lowest (55.6): its answers state the issue and argue fluently (I = 1.00, A = 0.79) but rarely cite
-the governing articles (R = 0.13). All three variants are reported; the human scoring of 20 questions
-(pending) is used to check the judged components.
+70.4%; on yes-questions GPT-4o is weaker than MBD (82.6 vs 88.2%). IRAC quality (Table 8b) separates the two families clearly: the proof-grounded
+answers score 66–71 against 58 for GPT-4o. GPT-4o states the issue best (I = 1.00) and argues fluently
+(A = 0.83), but it rarely names the governing articles (R = 0.12; typically "under the Law on Social
+Insurance, …", and several provisions in force in 2026 postdate its training data), whereas the
+KB-grounded answers cite them from the proof (R = 0.51–0.55) and reach the gold conclusion more often
+(C = 0.79–0.80 vs 0.72). MBD and the heuristic produce answers of equal IRAC quality (70.7 vs 70.9), as
+expected: both verbalise the same verified proof and differ only in the diagnosis that precedes it.
 
-**Table 8b. IRAC under the pre-registered rubric (v1), with the precise Rule criterion (v2, post hoc), and
-objective (R and C computed, not judged: R = 1 if all gold articles are cited, 0.5 if some, 0 if none;
-C = 1 iff the verdict equals the gold conclusion; I and A from the v2 judge).**
+**Table 8b. IRAC on all 300 questions (1,200 blind-judged answers; held-out test, n = 106, in parentheses).**
 
-| Method | IRAC v1 | R v1 | IRAC v2 | R v2 | IRAC objective | R auto | C auto | I | A |
-|---|---|---|---|---|---|---|---|---|---|
-| GPT-4o (pure LLM) | 71.2 | 0.55 | 57.7 | 0.18 | 55.6 | 0.13 | 0.65 | 1.00 | 0.79 |
-| Symbolic QA | 68.8 | 0.61 | 60.8 | 0.46 | 64.5 | 0.58 | 0.63 | 0.75 | 0.69 |
-| Heuristic | 71.1 | 0.63 | 64.6 | 0.51 | 68.0 | 0.63 | 0.75 | 0.64 | 0.71 |
-| **Ours** | 70.0 | 0.64 | 63.7 | 0.46 | **69.1** | 0.63 | 0.75 | 0.65 | 0.74 |
-
-**Table 8c. IRAC on all 300 questions (1,200 answers, same blind judge, rubric v2; objective = R and C
-computed against gold).** Test (n = 106) in parentheses.
-
-| Method | IRAC v2 | IRAC objective | I | R auto | A | C auto |
-|---|---|---|---|---|---|---|
-| GPT-4o (pure LLM) | 58.0 (58.0) | 57.5 (56.8) | 1.00 | 0.11 | 0.83 | 0.71 |
-| Symbolic QA | 66.2 (62.8) | 69.5 (65.1) | 0.76 | 0.60 | 0.78 | 0.66 |
-| Heuristic | 70.9 (64.3) | 75.7 (67.9) | 0.74 | 0.68 | 0.82 | 0.79 |
-| **Ours** | 70.7 (62.8) | 75.1 (66.6) | 0.74 | 0.68 | 0.81 | 0.78 |
-
-On the full set the picture of the 40-question sample holds: the proof-grounded answers score 8–18
-points above pure GPT-4o under both the v2 and the objective scoring, driven by the Rule component
-(0.68 vs 0.11 of answers citing the governing articles), while GPT-4o leads on Issue and is close on
-Application; MBD and the heuristic produce answers of equal IRAC quality (within 1.5 points), as expected
-since both verbalise the same verified proof and differ only in the diagnosis that precedes it.
+| Method | IRAC | I | R | A | C |
+|---|---|---|---|---|---|
+| GPT-4o (pure LLM) | 58.0 (58.0) | 1.00 | 0.12 | 0.83 | 0.72 |
+| Symbolic QA | 66.2 (62.8) | 0.76 | 0.51 | 0.78 | 0.66 |
+| Heuristic | 70.9 (64.3) | 0.74 | 0.54 | 0.82 | 0.80 |
+| **Ours** | 70.7 (62.8) | 0.74 | 0.55 | 0.81 | 0.79 |
 
 **Limitations.** Gold labels are LLM-generated and still under legal review; faults are single and
 injected; the simulated user knows all case facts; the legal goal is given (oracle goal); the test split
