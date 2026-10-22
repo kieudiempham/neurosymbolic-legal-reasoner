@@ -114,14 +114,20 @@ def compile_norm(con, nid: str) -> tuple[list[str], list[str]]:
     body = [f"is_a({pvar(v)}, {ty(t)})" for v, t in variables.items()]
     groups: dict[int, dict[int, list[str]]] = defaultdict(lambda: defaultdict(list))
     used = set(variables)
-    for i, (g, o, kind, pred, args, neg, attr, of, op, num, txt, unit_c, vattr, vof) in enumerate(con.execute(
-            "SELECT alt_group, alt_option, kind, pred, args, negated, attr, of_var, op, value_num, value_text, unit, "
-            "value_attr, value_of FROM norm_conditions WHERE norm_id=? ORDER BY cond_id", (nid,))):
+    for i, (cid, g, o, kind, pred, args, neg, attr, of, op, num, txt, unit_c, vattr, vof) in enumerate(con.execute(
+            "SELECT cond_id, alt_group, alt_option, kind, pred, args, negated, attr, of_var, op, value_num, value_text, "
+            "unit, value_attr, value_of FROM norm_conditions WHERE norm_id=? ORDER BY cond_id", (nid,)).fetchall()):
         if kind == "atom":
             if not pred:
                 problems.append("atom condition without predicate")
                 continue
             a = [x.strip() for x in (args or "").split(",") if x.strip()]
+            refs = [t for (t,) in con.execute("SELECT target_norm_id FROM condition_refs WHERE cond_id=?", (cid,))]
+            if refs and a:  # "đối tượng quy định tại khoản 1 Điều 2": the referenced provision applies (not defeated)
+                x = term(a[0], vs)
+                lit = "(" + " ; ".join(f"(applies({q(t)}, {x}), \\+ defeated({q(t)}, {x}))" for t in refs) + ")"
+                groups[g][o].append(f"\\+ {lit}" if neg else lit)
+                continue
             if len(a) == 1 and not neg and con.execute("SELECT 1 FROM entity_types WHERE name=?", (pred,)).fetchone():
                 groups[g][o].append(f"is_a({term(a[0], vs)}, {ty(pred)})")  # a type written as a predicate
                 continue

@@ -108,3 +108,82 @@ def document_relations(con, doc_number: str, text: str, replaces: list[str]) -> 
         con.execute("INSERT OR IGNORE INTO doc_relations VALUES (?,?,?)", (doc_number, "replaces", r))
     for law in set(_GUIDES.findall(text[:6000])):
         con.execute("INSERT OR IGNORE INTO doc_relations VALUES (?,?,?)", (doc_number, "guides", law))
+
+
+_DEONTIC = ("obligation", "right", "prohibition", "procedure")
+
+
+def repair_norms(con) -> dict:
+    """Rule-based repairs of extraction slips:
+    - a deontic norm whose behaviour was written as a conclusion: the conclusion becomes the action;
+    - a negated action name in a deontic norm (prohibition of khong_cuong_buc_lao_dong = double negation): the
+      prefix is dropped, and an obligation not to do X becomes a prohibition of X."""
+    n = {"conclusion_to_action": 0, "negated_action": 0}
+    for nid, modality, cpred, cargs in con.execute(
+            "SELECT norm_id, modality, conclusion_pred, conclusion_args FROM norms WHERE action_pred IS NULL "
+            f"AND conclusion_pred IS NOT NULL AND modality IN ({','.join('?' * len(_DEONTIC))})", _DEONTIC).fetchall():
+        con.execute("UPDATE norms SET action_pred=?, action_args=?, conclusion_pred=NULL, conclusion_args=NULL, "
+                    "conclusion_negated=NULL WHERE norm_id=?", (cpred, cargs, nid))
+        n["conclusion_to_action"] += 1
+    for nid, modality, apred in con.execute(
+            "SELECT norm_id, modality, action_pred FROM norms WHERE action_pred LIKE 'khong\\_%' ESCAPE '\\' "
+            "AND modality IN ('obligation', 'prohibition')").fetchall():
+        positive = apred[len("khong_"):]
+        row = con.execute("SELECT arity, description_vi, domain FROM predicates WHERE name=?", (apred,)).fetchone()
+        if row and not con.execute("SELECT 1 FROM predicates WHERE name=?", (positive,)).fetchone():
+            con.execute("INSERT INTO predicates VALUES (?,?,?,?,?,?)",
+                        (positive, row[0], "action", f"(hành vi khẳng định của {apred})", row[2], "extracted"))
+            for pos, role, typ in con.execute("SELECT position, role, type FROM predicate_args WHERE pred=?",
+                                              (apred,)).fetchall():
+                con.execute("INSERT OR IGNORE INTO predicate_args VALUES (?,?,?,?)", (positive, pos, role, typ))
+        con.execute("UPDATE norms SET action_pred=?, modality='prohibition' WHERE norm_id=?", (positive, nid))
+        n["negated_action"] += 1
+    return n
+
+
+# a condition predicate named after a cross-reference: co_dieu_kien_theo_khoan_1_dieu_27, thuoc_dien_diem_d_e_k_khoan_1_dieu_2
+_REF_NAME = re.compile(r"(?:diem_(?P<points>[a-zđ](?:_[a-zđ])*)_)?(?:khoan_(?P<clauses>\d+(?:_\d+)*))?_?"
+                       r"(?:dieu_(?P<articles>\d+(?:_\d+)*))?")
+
+
+def reference_predicates(con) -> int:
+    """Conditions whose predicate names a provision ("đối tượng quy định tại khoản 1 Điều 2") are linked to the norms
+    of that provision (table condition_refs); the compiler turns them into applies/2 of those norms, so the
+    condition holds exactly when the referenced provision applies."""
+    con.execute("DELETE FROM condition_refs")
+    n = 0
+    for cond_id, pred, nid, unit in con.execute(
+            "SELECT k.cond_id, k.pred, k.norm_id, n.unit_id FROM norm_conditions k JOIN norms n ON n.norm_id=k.norm_id "
+            "WHERE k.kind='atom' AND (k.pred LIKE '%khoan\\_%' ESCAPE '\\' OR k.pred LIKE '%dieu\\_%' ESCAPE '\\' "
+            "OR k.pred LIKE '%diem\\_%' ESCAPE '\\')").fetchall():
+        m = next((m for m in _REF_NAME.finditer(pred) if m.group("clauses") or m.group("articles")), None)
+        if not m:
+            continue
+        doc, rest = unit.split(":", 1)
+        tail = pred[m.end():]
+        other = re.match(r"_?(\d+)_(20\d\d)", tail)  # khoan_1_dieu_2_158_2025: another document
+        if other:
+            found = con.execute("SELECT number FROM documents WHERE number LIKE ?",
+                                (f"{other.group(1)}/{other.group(2)}/%",)).fetchone()
+            if not found:
+                continue
+            doc = found[0]
+        elif re.search(r"luat|nghi_dinh|thong_tu", tail):
+            continue  # names another document without its number
+        articles = (m.group("articles") or re.match(r"D(\d+[a-zđ]?)", rest).group(1)).split("_")
+        units = []
+        for a in articles:
+            base = f"{doc}:D{a}"
+            if not m.group("clauses"):
+                units.append(base)
+                continue
+            for k in m.group("clauses").split("_"):
+                points = m.group("points").split("_") if m.group("points") else [None]
+                units += [f"{base}.K{k}" + (f".{p}" if p else "") for p in points]
+        targets = {t for u in units for (t,) in con.execute(
+            "SELECT norm_id FROM norms WHERE (unit_id=? OR unit_id LIKE ?) AND modality IN ('definition','consequence')",
+            (u, u + ".%"))} - {nid}
+        for t in sorted(targets):
+            con.execute("INSERT OR IGNORE INTO condition_refs VALUES (?,?)", (cond_id, t))
+            n += 1
+    return n

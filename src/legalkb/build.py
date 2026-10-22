@@ -17,7 +17,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 from .compile import write_and_check
 from .db import DB_FILE, connect
-from .normalize import document_relations, link_references
+from .normalize import document_relations, link_references, reference_predicates, repair_norms
 from .structure import load_documents, read_document
 
 
@@ -141,6 +141,7 @@ def main() -> None:
     ap.add_argument("--articles", nargs="*", default=[], help="article numbers (default: all of the document)")
     ap.add_argument("--model", default=None)
     ap.add_argument("--workers", type=int, default=16, help="parallel LLM requests")
+    ap.add_argument("--canon", action="store_true", help="map names onto the vocabulary corpus-wide (after extraction)")
     args = ap.parse_args()
     con = connect()
     if args.structure or not con.execute("SELECT 1 FROM documents LIMIT 1").fetchone():
@@ -159,6 +160,12 @@ def main() -> None:
             extract_document(con, ex, d, args.articles, args.workers)
         print("linked references:", link_references(con))
         con.commit()
+    print("repairs:", repair_norms(con), "condition refs:", reference_predicates(con))
+    con.commit()
+    if args.canon:
+        from .canon import canonicalise
+
+        canonicalise(con, args.workers)
     counts = {t: con.execute(f"SELECT COUNT(*) FROM {t}").fetchone()[0] for t in
               ("documents", "doc_relations", "units", "entity_types", "predicates", "predicate_links", "attributes", "norms",
                "norm_conditions", "norm_references", "norm_formulas", "norm_deadlines", "norm_sanctions")}

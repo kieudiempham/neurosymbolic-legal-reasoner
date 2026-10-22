@@ -128,14 +128,17 @@ def _call(client, model: str, prompt: str) -> dict:
     raise RuntimeError("alignment failed")
 
 
-def align(con, client, model: str, new: dict[str, set[str]], domain: str, workers: int = 16) -> int:
-    """new: kind ('pred' / 'type' / 'attr') -> names added by the document. Returns the number of links stored."""
+def align(con, client, model: str, new: dict[str, set[str]], domain: str, workers: int = 16,
+          candidates: dict[str, list[str]] | None = None) -> int:
+    """new: kind ('pred' / 'type' / 'attr') -> names to map. candidates: name -> candidate names (default: token
+    shortlist within the domain). Returns the number of links stored."""
     jobs = []  # (kind, batch, candidates, prompt), built in this thread (database reads)
     for kind, names in new.items():
         names = sorted(n for n in names if con.execute(f"SELECT 1 FROM {_TABLE[kind]} WHERE name=?", (n,)).fetchone())
         for i in range(0, len(names), BATCH):
             batch = names[i: i + BATCH]
-            cands = sorted({c for n in batch for c in shortlist(con, kind, n, set(names), domain)})
+            cands = sorted({c for n in batch for c in (candidates.get(n, []) if candidates is not None
+                                                       else shortlist(con, kind, n, set(names), domain))})
             if not cands:
                 continue
             prompt = PROMPT.format(

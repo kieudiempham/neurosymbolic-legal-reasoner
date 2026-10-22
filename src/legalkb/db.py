@@ -19,6 +19,8 @@ Tables
   norm_sanctions    sanctions with amount range
   norm_references   norm -> unit / norm links: has_exception (target is an exception of the norm),
                     exception_of, refers_to, implements, priority_over
+  condition_refs    a condition named after a provision ("đối tượng tại khoản 1 Điều 2") -> the norms of that provision
+  embeddings        cached text embeddings of names (vocabulary mapping)
   name_links        entity types / attributes mapped onto the vocabulary: same (alias) or subtype
   predicate_links   alignment of predicates across articles: same (alias, renamed at compile time) or implies
                     (bridge rule; src_mode obligation/right/prohibition: having that deontic status implies dst)
@@ -83,6 +85,10 @@ CREATE TABLE IF NOT EXISTS predicate_links (
   src TEXT NOT NULL, src_mode TEXT NOT NULL CHECK (src_mode IN ('holds','obligation','right','prohibition')),
   rel TEXT NOT NULL CHECK (rel IN ('same','implies')), dst TEXT NOT NULL, arg_map TEXT, reason TEXT, model TEXT,
   PRIMARY KEY (src, src_mode, dst));
+CREATE TABLE IF NOT EXISTS condition_refs (
+  cond_id INTEGER NOT NULL REFERENCES norm_conditions(cond_id), target_norm_id TEXT NOT NULL,
+  PRIMARY KEY (cond_id, target_norm_id));
+CREATE TABLE IF NOT EXISTS embeddings (text_hash TEXT PRIMARY KEY, vec BLOB);
 CREATE TABLE IF NOT EXISTS name_links (
   kind TEXT NOT NULL CHECK (kind IN ('type','attr')), src TEXT NOT NULL,
   rel TEXT NOT NULL CHECK (rel IN ('same','subtype')), dst TEXT NOT NULL, reason TEXT, model TEXT,
