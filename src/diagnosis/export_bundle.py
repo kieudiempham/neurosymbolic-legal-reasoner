@@ -195,7 +195,7 @@ def render_md_tables(ws, sources) -> None:
                                 cell.fill = zebra
                             if bold_row or "**" in val:
                                 cell.font = best_font
-                        widths[j] = max(widths.get(j, 8), min(48, len(clean) + 2))
+                        widths[j] = max(widths.get(j, 12), min(34, len(clean) + 4))
                     r += 1
                 r += 2
                 title = ""
@@ -273,10 +273,7 @@ def add_final_sheets(wb) -> None:
 
     # --- summary: every table rendered as a real, formatted Excel table ---
     g = wb.create_sheet("Bảng tổng hợp", 1)
-    render_md_tables(g, [
-        ("BẢNG CHÍNH TRONG PAPER (Mục 5)", ROOT / "docs" / "paper_section5_draft.md"),
-        ("BẢNG PHỤ (phụ lục / gói dữ liệu)", ROOT / "experiments" / "tables_aciids.md"),
-    ])
+    render_md_tables(g, [("KẾT QUẢ CHÍNH (Mục 5 của paper)", ROOT / "docs" / "paper_section5_draft.md")])
 
 def main() -> None:
     sys.stdout.reconfigure(encoding="utf-8")
