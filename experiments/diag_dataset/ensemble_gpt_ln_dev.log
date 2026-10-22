@@ -1,0 +1,29 @@
+dataset: {'items': 20, 'application_cases': 20, 'skipped': 0, 'kb_covered': 17, 'not_covered': {'kb_concludes_despite_missing': 2, 'kb_cannot_derive': 1}}
+88 rules, 17 gold cases, 109 instances
+instances by category: {'MissingCaseInformation': 30, 'Normal': 9, 'ParserOmission': 26, 'ParserMisinterpretation': 28, 'UnsupportedParserFact': 8, 'ResolvableRuleOverlap': 4, 'UnresolvedKBConflict': 4}
+  [base_nesy] 25/109 (0s)
+  [base_nesy] 50/109 (0s)
+  [base_nesy] 75/109 (0s)
+  [base_nesy] 100/109 (0s)
+[base_nesy] done in 0.2s: {'final_answer_acc': 0.10091743119266056, 'nli_calls_per_query': 0.0, 'kb_checks_per_query': 0.0, 'measurements_per_query': 0.0, 'final_answer_acc_faulty': 0.02, 'final_answer_acc_ci95': (0.045871559633027525, 0.1559633027522936), 'final_answer_acc_faulty_ci95': (0.0, 0.05), 'nli_model_calls_per_query': 0.0, 'seconds': 0.2}
+  [nesy_diag] 25/109 (0s)
+  [nesy_diag] 50/109 (1s)
+  [nesy_diag] 75/109 (1s)
+  [nesy_diag] 100/109 (1s)
+[nesy_diag] done in 1.2s: {'final_answer_acc': 0.8256880733944955, 'nli_calls_per_query': 5.330275229357798, 'kb_checks_per_query': 1.1009174311926606, 'measurements_per_query': 6.431192660550459, 'final_answer_acc_faulty': 0.81, 'final_answer_acc_ci95': (0.7522935779816514, 0.8990825688073395), 'final_answer_acc_faulty_ci95': (0.73, 0.88), 'nli_model_calls_per_query': 10.660550458715596, 'diagnosis_acc': 0.5321100917431193, 'diagnosis_acc_ci95': (0.44036697247706424, 0.6238532110091743), 'correct_action_acc': 0.5321100917431193, 'correct_action_acc_ci95': (0.44036697247706424, 0.6238532110091743), 'ambiguous_rate': 0.01834862385321101, 'recovery_success_rate': 0.47, 'recovery_success_given_correct_diag': 0.9215686274509803, 'seconds': 1.2}
+  [no_mbd] 25/109 (0s)
+  [no_mbd] 50/109 (0s)
+  [no_mbd] 75/109 (0s)
+  [no_mbd] 100/109 (0s)
+[no_mbd] done in 0.3s: {'final_answer_acc': 0.46788990825688076, 'nli_calls_per_query': 0.0, 'kb_checks_per_query': 0.0, 'measurements_per_query': 0.0, 'final_answer_acc_faulty': 0.42, 'final_answer_acc_ci95': (0.3761467889908257, 0.5596330275229358), 'final_answer_acc_faulty_ci95': (0.32, 0.52), 'nli_model_calls_per_query': 0.0, 'diagnosis_acc': 0.30275229357798167, 'diagnosis_acc_ci95': (0.22018348623853212, 0.3944954128440367), 'correct_action_acc': 0.30275229357798167, 'correct_action_acc_ci95': (0.22018348623853212, 0.3944954128440367), 'ambiguous_rate': 0.0, 'recovery_success_rate': 0.22, 'recovery_success_given_correct_diag': 0.9166666666666666, 'seconds': 0.3}
+  [rule_check] 25/109 (0s)
+  [rule_check] 50/109 (0s)
+  [rule_check] 75/109 (0s)
+  [rule_check] 100/109 (0s)
+[rule_check] done in 0.6s: {'final_answer_acc': 0.8073394495412844, 'nli_calls_per_query': 5.412844036697248, 'kb_checks_per_query': 1.1009174311926606, 'measurements_per_query': 6.513761467889908, 'final_answer_acc_faulty': 0.79, 'final_answer_acc_ci95': (0.7247706422018348, 0.8807339449541285), 'final_answer_acc_faulty_ci95': (0.71, 0.87), 'nli_model_calls_per_query': 10.825688073394495, 'diagnosis_acc': 0.5412844036697247, 'diagnosis_acc_ci95': (0.44954128440366975, 0.6330275229357798), 'correct_action_acc': 0.5412844036697247, 'correct_action_acc_ci95': (0.44954128440366975, 0.6330275229357798), 'ambiguous_rate': 0.0, 'recovery_success_rate': 0.46, 'recovery_success_given_correct_diag': 0.8846153846153846, 'seconds': 0.6}
+  [raw_nli] 25/109 (0s)
+  [raw_nli] 50/109 (1s)
+  [raw_nli] 75/109 (1s)
+  [raw_nli] 100/109 (1s)
+[raw_nli] done in 1.7s: {'final_answer_acc': 0.8256880733944955, 'nli_calls_per_query': 5.330275229357798, 'kb_checks_per_query': 1.1009174311926606, 'measurements_per_query': 6.431192660550459, 'final_answer_acc_faulty': 0.81, 'final_answer_acc_ci95': (0.7522935779816514, 0.8990825688073395), 'final_answer_acc_faulty_ci95': (0.73, 0.88), 'nli_model_calls_per_query': 10.660550458715596, 'diagnosis_acc': 0.5412844036697247, 'diagnosis_acc_ci95': (0.44954128440366975, 0.6330275229357798), 'correct_action_acc': 0.5412844036697247, 'correct_action_acc_ci95': (0.44954128440366975, 0.6330275229357798), 'ambiguous_rate': 0.0, 'recovery_success_rate': 0.47, 'recovery_success_given_correct_diag': 0.9038461538461539, 'seconds': 1.7}
+wrote experiments\diag_dataset\ensemble_gpt\ln_dev\results_all.json

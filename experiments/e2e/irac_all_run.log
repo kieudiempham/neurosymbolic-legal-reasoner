@@ -1,0 +1,121 @@
+300 questions
+parsing 300 questions
+GPT-4o baseline
+verbalising 900 IRAC answers
+    50/430 (13s)
+    100/430 (21s)
+    150/430 (54097s)
+    200/430 (54105s)
+    250/430 (54110s)
+    300/430 (54119s)
+    350/430 (54126s)
+    400/430 (54134s)
+{
+ "all": {
+  "gpt4o": 0.7133,
+  "symbolic": 0.6567,
+  "heuristic": 0.79,
+  "ours": 0.7833,
+  "n": 300
+ },
+ "dev": {
+  "gpt4o": 0.7165,
+  "symbolic": 0.6804,
+  "heuristic": 0.8608,
+  "ours": 0.8557,
+  "n": 194
+ },
+ "test": {
+  "gpt4o": 0.7075,
+  "symbolic": 0.6132,
+  "heuristic": 0.6604,
+  "ours": 0.6509,
+  "n": 106
+ },
+ "by_domain_test_or_all": {
+  "bhxh": {
+   "gpt4o": 0.6889,
+   "symbolic": 0.6111,
+   "heuristic": 0.9222,
+   "ours": 0.9222,
+   "n": 90
+  },
+  "doanh_nghiep": {
+   "gpt4o": 0.7429,
+   "symbolic": 0.6857,
+   "heuristic": 0.6286,
+   "ours": 0.6286,
+   "n": 35
+  },
+  "thue": {
+   "gpt4o": 0.6389,
+   "symbolic": 0.5833,
+   "heuristic": 0.5833,
+   "ours": 0.5556,
+   "n": 36
+  },
+  "lao_dong": {
+   "gpt4o": 0.8,
+   "symbolic": 0.5333,
+   "heuristic": 0.6,
+   "ours": 0.6,
+   "n": 15
+  },
+  "lien_nganh": {
+   "gpt4o": 0.7,
+   "symbolic": 0.6,
+   "heuristic": 0.9,
+   "ours": 0.9,
+   "n": 20
+  }
+ },
+ "by_gold_label_all": {
+  "true": {
+   "gpt4o": 0.8264,
+   "symbolic": 0.5764,
+   "heuristic": 0.8958,
+   "ours": 0.8819
+  },
+  "false": {
+   "gpt4o": 0.6824,
+   "symbolic": 0.6706,
+   "heuristic": 0.6824,
+   "ours": 0.6824
+  },
+  "insufficient": {
+   "gpt4o": 0.5211,
+   "symbolic": 0.8028,
+   "heuristic": 0.7042,
+   "ours": 0.7042
+  }
+ },
+ "verdict_distribution": {
+  "gpt4o": {
+   "true": 168,
+   "false": 83,
+   "insufficient": 49
+  },
+  "symbolic": {
+   "insufficient": 130,
+   "false": 70,
+   "true": 86,
+   "abstain": 14
+  },
+  "heuristic": {
+   "insufficient": 81,
+   "true": 149,
+   "false": 69,
+   "abstain": 1
+  },
+  "ours": {
+   "insufficient": 83,
+   "true": 147,
+   "false": 69,
+   "abstain": 1
+  }
+ },
+ "parser": {
+  "precision": 0.8891,
+  "recall": 0.8473
+ }
+}

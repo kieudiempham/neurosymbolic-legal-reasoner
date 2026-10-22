@@ -1,0 +1,39 @@
+dataset: {'items': 35, 'application_cases': 35, 'skipped': 0, 'kb_covered': 35, 'not_covered': {}}
+70 rules, 35 gold cases, 163 instances
+instances by category: {'MissingCaseInformation': 49, 'Normal': 23, 'ParserOmission': 40, 'ParserMisinterpretation': 40, 'ResolvableRuleOverlap': 3, 'UnresolvedKBConflict': 3, 'UnsupportedParserFact': 5}
+  [base_nesy] 25/163 (0s)
+  [base_nesy] 50/163 (0s)
+  [base_nesy] 75/163 (0s)
+  [base_nesy] 100/163 (0s)
+  [base_nesy] 125/163 (0s)
+  [base_nesy] 150/163 (0s)
+[base_nesy] done in 0.2s: {'final_answer_acc': 0.1656441717791411, 'nli_calls_per_query': 0.0, 'kb_checks_per_query': 0.0, 'measurements_per_query': 0.0, 'final_answer_acc_faulty': 0.02857142857142857, 'final_answer_acc_ci95': (0.11042944785276074, 0.2331288343558282), 'final_answer_acc_faulty_ci95': (0.007142857142857143, 0.05714285714285714), 'nli_model_calls_per_query': 0.0, 'seconds': 0.2}
+  [nesy_diag] 25/163 (0s)
+  [nesy_diag] 50/163 (0s)
+  [nesy_diag] 75/163 (0s)
+  [nesy_diag] 100/163 (0s)
+  [nesy_diag] 125/163 (1s)
+  [nesy_diag] 150/163 (1s)
+[nesy_diag] done in 0.7s: {'final_answer_acc': 0.8466257668711656, 'nli_calls_per_query': 2.5092024539877302, 'kb_checks_per_query': 0.24539877300613497, 'measurements_per_query': 2.754601226993865, 'final_answer_acc_faulty': 0.8285714285714286, 'final_answer_acc_ci95': (0.7852760736196319, 0.901840490797546), 'final_answer_acc_faulty_ci95': (0.7642857142857142, 0.8857142857142857), 'nli_model_calls_per_query': 5.0184049079754605, 'diagnosis_acc': 0.5521472392638037, 'diagnosis_acc_ci95': (0.4785276073619632, 0.6257668711656442), 'correct_action_acc': 0.7300613496932515, 'correct_action_acc_ci95': (0.656441717791411, 0.7975460122699386), 'ambiguous_rate': 0.1901840490797546, 'recovery_success_rate': 0.5071428571428571, 'recovery_success_given_correct_diag': 0.9861111111111112, 'seconds': 0.7}
+  [no_mbd] 25/163 (0s)
+  [no_mbd] 50/163 (0s)
+  [no_mbd] 75/163 (0s)
+  [no_mbd] 100/163 (0s)
+  [no_mbd] 125/163 (0s)
+  [no_mbd] 150/163 (0s)
+[no_mbd] done in 0.3s: {'final_answer_acc': 0.6748466257668712, 'nli_calls_per_query': 0.0, 'kb_checks_per_query': 0.0, 'measurements_per_query': 0.0, 'final_answer_acc_faulty': 0.6214285714285714, 'final_answer_acc_ci95': (0.6012269938650306, 0.7423312883435583), 'final_answer_acc_faulty_ci95': (0.5428571428571428, 0.7071428571428572), 'nli_model_calls_per_query': 0.0, 'diagnosis_acc': 0.4539877300613497, 'diagnosis_acc_ci95': (0.3803680981595092, 0.5337423312883436), 'correct_action_acc': 0.4539877300613497, 'correct_action_acc_ci95': (0.3803680981595092, 0.5337423312883436), 'ambiguous_rate': 0.0, 'recovery_success_rate': 0.34285714285714286, 'recovery_success_given_correct_diag': 0.9411764705882353, 'seconds': 0.3}
+  [rule_check] 25/163 (0s)
+  [rule_check] 50/163 (0s)
+  [rule_check] 75/163 (0s)
+  [rule_check] 100/163 (0s)
+  [rule_check] 125/163 (0s)
+  [rule_check] 150/163 (0s)
+[rule_check] done in 0.4s: {'final_answer_acc': 0.8650306748466258, 'nli_calls_per_query': 2.6564417177914113, 'kb_checks_per_query': 0.26993865030674846, 'measurements_per_query': 2.9263803680981595, 'final_answer_acc_faulty': 0.85, 'final_answer_acc_ci95': (0.8098159509202454, 0.9141104294478528), 'final_answer_acc_faulty_ci95': (0.7857142857142857, 0.9071428571428571), 'nli_model_calls_per_query': 5.3128834355828225, 'diagnosis_acc': 0.6625766871165644, 'diagnosis_acc_ci95': (0.5828220858895705, 0.7361963190184049), 'correct_action_acc': 0.6625766871165644, 'correct_action_acc_ci95': (0.5828220858895705, 0.7361963190184049), 'ambiguous_rate': 0.0, 'recovery_success_rate': 0.6357142857142857, 'recovery_success_given_correct_diag': 0.9888888888888889, 'seconds': 0.4}
+  [raw_nli] 25/163 (0s)
+  [raw_nli] 50/163 (0s)
+  [raw_nli] 75/163 (0s)
+  [raw_nli] 100/163 (0s)
+  [raw_nli] 125/163 (0s)
+  [raw_nli] 150/163 (0s)
+[raw_nli] done in 0.7s: {'final_answer_acc': 0.8404907975460123, 'nli_calls_per_query': 2.496932515337423, 'kb_checks_per_query': 0.26380368098159507, 'measurements_per_query': 2.7607361963190185, 'final_answer_acc_faulty': 0.8357142857142857, 'final_answer_acc_ci95': (0.7730061349693251, 0.8957055214723927), 'final_answer_acc_faulty_ci95': (0.7785714285714286, 0.8928571428571429), 'nli_model_calls_per_query': 4.993865030674846, 'diagnosis_acc': 0.558282208588957, 'diagnosis_acc_ci95': (0.48466257668711654, 0.6380368098159509), 'correct_action_acc': 0.558282208588957, 'correct_action_acc_ci95': (0.48466257668711654, 0.6380368098159509), 'ambiguous_rate': 0.0, 'recovery_success_rate': 0.55, 'recovery_success_given_correct_diag': 0.9746835443037974, 'seconds': 0.7}
+wrote experiments\diag_dataset\ensemble\dn_dev\results_all.json

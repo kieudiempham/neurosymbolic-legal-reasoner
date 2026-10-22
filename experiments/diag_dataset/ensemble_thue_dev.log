@@ -1,0 +1,59 @@
+dataset: {'items': 34, 'application_cases': 34, 'skipped': 0, 'kb_covered': 34, 'not_covered': {}}
+200 rules, 34 gold cases, 151 instances
+instances by category: {'Normal': 22, 'MissingCaseInformation': 37, 'ParserOmission': 29, 'ParserMisinterpretation': 44, 'UnsupportedParserFact': 11, 'ResolvableRuleOverlap': 4, 'UnresolvedKBConflict': 4}
+  [base_nesy] 25/151 (0s)
+  [base_nesy] 50/151 (0s)
+  [base_nesy] 75/151 (0s)
+  [base_nesy] 100/151 (0s)
+  [base_nesy] 125/151 (0s)
+  [base_nesy] 150/151 (0s)
+[base_nesy] done in 0.4s: {'final_answer_acc': 0.17880794701986755, 'nli_calls_per_query': 0.0, 'kb_checks_per_query': 0.0, 'measurements_per_query': 0.0, 'final_answer_acc_faulty': 0.03875968992248062, 'final_answer_acc_ci95': (0.11920529801324503, 0.24503311258278146), 'final_answer_acc_faulty_ci95': (0.007751937984496124, 0.07751937984496124), 'nli_model_calls_per_query': 0.0, 'seconds': 0.4}
+  [nesy_diag] 25/151 (4s)
+  [nesy_diag] 50/151 (7s)
+  [nesy_diag] 75/151 (7s)
+  [nesy_diag] 100/151 (7s)
+  [nesy_diag] 125/151 (8s)
+  [nesy_diag] 150/151 (8s)
+[nesy_diag] done in 8.1s: {'final_answer_acc': 0.7417218543046358, 'nli_calls_per_query': 7.880794701986755, 'kb_checks_per_query': 0.2781456953642384, 'measurements_per_query': 8.158940397350994, 'final_answer_acc_faulty': 0.7054263565891473, 'final_answer_acc_ci95': (0.6688741721854304, 0.8079470198675497), 'final_answer_acc_faulty_ci95': (0.6201550387596899, 0.7829457364341085), 'nli_model_calls_per_query': 15.76158940397351, 'diagnosis_acc': 0.4768211920529801, 'diagnosis_acc_ci95': (0.3973509933774834, 0.5562913907284768), 'correct_action_acc': 0.5695364238410596, 'correct_action_acc_ci95': (0.4900662251655629, 0.6490066225165563), 'ambiguous_rate': 0.11920529801324503, 'recovery_success_rate': 0.40310077519379844, 'recovery_success_given_correct_diag': 0.9811320754716981, 'seconds': 8.1}
+  [no_mbd] 25/151 (0s)
+  [no_mbd] 50/151 (0s)
+  [no_mbd] 75/151 (0s)
+  [no_mbd] 100/151 (0s)
+  [no_mbd] 125/151 (0s)
+  [no_mbd] 150/151 (0s)
+[no_mbd] done in 0.6s: {'final_answer_acc': 0.6158940397350994, 'nli_calls_per_query': 0.0, 'kb_checks_per_query': 0.0, 'measurements_per_query': 0.0, 'final_answer_acc_faulty': 0.5503875968992248, 'final_answer_acc_ci95': (0.543046357615894, 0.6887417218543046), 'final_answer_acc_faulty_ci95': (0.46511627906976744, 0.627906976744186), 'nli_model_calls_per_query': 0.0, 'diagnosis_acc': 0.4105960264900662, 'diagnosis_acc_ci95': (0.33774834437086093, 0.4966887417218543), 'correct_action_acc': 0.4105960264900662, 'correct_action_acc_ci95': (0.33774834437086093, 0.4966887417218543), 'ambiguous_rate': 0.0, 'recovery_success_rate': 0.31007751937984496, 'recovery_success_given_correct_diag': 1.0, 'seconds': 0.6}
+  [rule_check] 25/151 (0s)
+  [rule_check] 50/151 (0s)
+  [rule_check] 75/151 (0s)
+  [rule_check] 100/151 (0s)
+  [rule_check] 125/151 (0s)
+  [rule_check] 150/151 (1s)
+[rule_check] done in 0.8s: {'final_answer_acc': 0.8609271523178808, 'nli_calls_per_query': 8.039735099337749, 'kb_checks_per_query': 0.2781456953642384, 'measurements_per_query': 8.317880794701987, 'final_answer_acc_faulty': 0.8372093023255814, 'final_answer_acc_ci95': (0.8079470198675497, 0.9139072847682119), 'final_answer_acc_faulty_ci95': (0.7751937984496124, 0.8992248062015504), 'nli_model_calls_per_query': 16.079470198675498, 'diagnosis_acc': 0.5629139072847682, 'diagnosis_acc_ci95': (0.48344370860927155, 0.6490066225165563), 'correct_action_acc': 0.5629139072847682, 'correct_action_acc_ci95': (0.48344370860927155, 0.6490066225165563), 'ambiguous_rate': 0.0, 'recovery_success_rate': 0.5038759689922481, 'recovery_success_given_correct_diag': 0.9848484848484849, 'seconds': 0.8}
+  [raw_nli] 25/151 (5s)
+  [raw_nli] 50/151 (6s)
+  [raw_nli] 75/151 (6s)
+  [raw_nli] 100/151 (7s)
+  [raw_nli] 125/151 (7s)
+  [raw_nli] 150/151 (7s)
+[raw_nli] done in 7.3s: {'final_answer_acc': 0.7218543046357616, 'nli_calls_per_query': 8.52317880794702, 'kb_checks_per_query': 0.2781456953642384, 'measurements_per_query': 8.801324503311259, 'final_answer_acc_faulty': 0.7054263565891473, 'final_answer_acc_ci95': (0.6490066225165563, 0.7880794701986755), 'final_answer_acc_faulty_ci95': (0.627906976744186, 0.7829457364341085), 'nli_model_calls_per_query': 17.04635761589404, 'diagnosis_acc': 0.2251655629139073, 'diagnosis_acc_ci95': (0.15894039735099338, 0.2913907284768212), 'correct_action_acc': 0.2251655629139073, 'correct_action_acc_ci95': (0.15894039735099338, 0.2913907284768212), 'ambiguous_rate': 0.0, 'recovery_success_rate': 0.20155038759689922, 'recovery_success_given_correct_diag': 0.9629629629629629, 'seconds': 7.3}
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\note\neurosymbolic-legal-reasoner\src\diagnosis\run_eval.py", line 319, in <module>
+    main()
+    ~~~~^^
+  File "D:\note\neurosymbolic-legal-reasoner\src\diagnosis\run_eval.py", line 311, in main
+    out = run(configs, args.subset, args.dataset, args.kb)
+  File "D:\note\neurosymbolic-legal-reasoner\src\diagnosis\run_eval.py", line 189, in run
+    "kb_stats": kb_stats(kb, cases), "dataset_report": dataset_report}
+                ~~~~~~~~^^^^^^^^^^^
+  File "D:\note\neurosymbolic-legal-reasoner\src\diagnosis\run_eval.py", line 272, in kb_stats
+    "max_chain_depth": max(d(p) for p in kb.vocab),
+                       ~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\note\neurosymbolic-legal-reasoner\src\diagnosis\run_eval.py", line 272, in <genexpr>
+    "max_chain_depth": max(d(p) for p in kb.vocab),
+                           ~^^^
+  File "D:\note\neurosymbolic-legal-reasoner\src\diagnosis\run_eval.py", line 258, in d
+    best = max(best, 1 + max(d(l.pred, stack + (pred,)) for l in r.premises))
+                         ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: max() iterable argument is empty

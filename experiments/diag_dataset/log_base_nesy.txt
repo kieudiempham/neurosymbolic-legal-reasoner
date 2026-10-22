@@ -1,0 +1,10 @@
+dataset: {'items': 90, 'application_cases': 90, 'skipped': 0, 'kb_covered': 90, 'not_covered': {}}
+149 rules, 90 gold cases, 149 instances
+instances by category: {'Normal': 61, 'UnsupportedParserFact': 12, 'MissingCaseInformation': 30, 'ParserMisinterpretation': 12, 'ResolvableRuleOverlap': 11, 'UnresolvedKBConflict': 11, 'ParserOmission': 12}
+  [base_nesy] 25/149 (0s)
+  [base_nesy] 50/149 (0s)
+  [base_nesy] 75/149 (0s)
+  [base_nesy] 100/149 (0s)
+  [base_nesy] 125/149 (1s)
+[base_nesy] done in 0.8s: {'final_answer_acc': 0.4966442953020134, 'nli_calls_per_query': 0.0, 'kb_checks_per_query': 0.0, 'measurements_per_query': 0.0, 'final_answer_acc_faulty': 0.14772727272727273, 'final_answer_acc_ci95': (0.4161073825503356, 0.5704697986577181), 'final_answer_acc_faulty_ci95': (0.07954545454545454, 0.2159090909090909), 'nli_model_calls_per_query': 0.0, 'seconds': 0.8}
+wrote D:\note\neurosymbolic-legal-reasoner\experiments\diag_dataset\results_base_nesy.json

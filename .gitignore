@@ -28,3 +28,4 @@ frontend/.next/
 .tools/
 experiments/kbx/
 release/
+__pycache__/
