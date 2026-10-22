@@ -80,14 +80,14 @@ methods and all questions.
 ## 5.4 Results
 
 **Table 2. Main comparison (held-out test).** QA on the 106 test questions end to end; diagnosis on the
-451 injected test instances.
+451 injected test instances; IRAC on all 300 questions (Table 8b).
 
 | System | QA acc. (end-to-end) | QA acc. on faulty inputs | Diag. macro-F1 | Recovery gain (pp) | Clarif./query | NLI meas./query | IRAC |
 |---|---|---|---|---|---|---|---|
 | GPT-4o (pure LLM) | **70.8** | – | N/A | N/A | – | – | 58.0 |
-| Symbolic QA | 61.3 | 4.3 | N/A | N/A | 0.00 | 0.00 | 62.8 |
-| Heuristic diagnosis | 66.0 | 85.7 | 67.4 | +81.5 | 3.71 | 5.79 | **64.3** |
-| **Ours (cross-layer MBD)** | 65.1 | 85.7 | 66.8 | +81.5 | **1.70** | 5.56 | 62.8 |
+| Symbolic QA | 61.3 | 4.3 | N/A | N/A | 0.00 | 0.00 | 66.2 |
+| Heuristic diagnosis | 66.0 | 85.7 | 67.4 | +81.5 | 3.71 | 5.79 | **70.9** |
+| **Ours (cross-layer MBD)** | 65.1 | 85.7 | 66.8 | +81.5 | **1.70** | 5.56 | 70.7 |
 
 **Table 3. Diagnosis by category (injected faults, test, n = 451).**
 
@@ -219,14 +219,14 @@ KB-grounded answers cite them from the proof (R = 0.51–0.55) and reach the gol
 (C = 0.79–0.80 vs 0.72). MBD and the heuristic produce answers of equal IRAC quality (70.7 vs 70.9), as
 expected: both verbalise the same verified proof and differ only in the diagnosis that precedes it.
 
-**Table 8b. IRAC on all 300 questions (1,200 blind-judged answers; held-out test, n = 106, in parentheses).**
+**Table 8b. IRAC on all 300 questions (1,200 blind-judged answers).**
 
 | Method | IRAC | I | R | A | C |
 |---|---|---|---|---|---|
-| GPT-4o (pure LLM) | 58.0 (58.0) | 1.00 | 0.12 | 0.83 | 0.72 |
-| Symbolic QA | 66.2 (62.8) | 0.76 | 0.51 | 0.78 | 0.66 |
-| Heuristic | 70.9 (64.3) | 0.74 | 0.54 | 0.82 | 0.80 |
-| **Ours** | 70.7 (62.8) | 0.74 | 0.55 | 0.81 | 0.79 |
+| GPT-4o (pure LLM) | 58.0 | 1.00 | 0.12 | 0.83 | 0.72 |
+| Symbolic QA | 66.2 | 0.76 | 0.51 | 0.78 | 0.66 |
+| Heuristic | 70.9 | 0.74 | 0.54 | 0.82 | 0.80 |
+| **Ours** | 70.7 | 0.74 | 0.55 | 0.81 | 0.79 |
 
 **Limitations.** Gold labels are LLM-generated and still under legal review; faults are single and
 injected; the simulated user knows all case facts; the legal goal is given (oracle goal); the test split
