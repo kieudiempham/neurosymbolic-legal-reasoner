@@ -23,7 +23,7 @@ from .normalize import canon_name, canon_unit
 from .questions import QUESTION_TYPES, Question
 
 PARSER_MODEL = os.environ.get("LEGALKB_PARSER_MODEL", "gpt-4.1-mini")
-PARSER_VERSION = "parse-v3"
+PARSER_VERSION = "parse-v4"
 SHORTLIST = {"type": 40, "pred": 80, "attr": 40}
 
 PROMPT = """Bạn chuyển câu hỏi pháp luật tiếng Việt thành dữ kiện logic cho một hệ suy luận.
@@ -44,8 +44,8 @@ YÊU CẦU:
    hệ giữa các thực thể, tình trạng của một thực thể: cách làm việc, đang hưởng chế độ gì, có hành vi gì...), đối số
    là các id. Điều câu hỏi khẳng định là KHÔNG đúng -> false_facts. Không suy đoán điều không được nói.
 3. attributes: giá trị số / danh mục được nói rõ. value_number là con số đúng như trong câu, unit là đơn vị đúng như
-   trong câu (vd 10 và "triệu đồng"; 12 và "tháng"). Thuộc tính danh mục: value_text là MỘT trong các giá trị cho
-   phép ghi sau tên thuộc tính trong từ vựng.
+   trong câu (vd 10 và "triệu đồng"; 12 và "tháng"). Thuộc tính danh mục: chọn một giá trị ghi sau tên thuộc tính
+   trong từ vựng CHỈ KHI đúng nghĩa với câu hỏi; nếu không có giá trị nào đúng nghĩa thì ghi giá trị theo câu hỏi.
 4. questions: MỖI ý được hỏi là một mục (câu hỏi gộp "có phải ... không, bao nhiêu" -> 2 mục); type (một loại ở trên); subject = id của chủ thể được hỏi; modality (obligation / right / prohibition /
    procedure) nếu hỏi phải / được / bị cấm / thủ tục; pred = vị từ của hành vi / tình trạng / khái niệm được hỏi;
    hỏi "có thuộc diện / có được hưởng / có là ... không" là status (pred là vị từ tình trạng), hỏi "có phải / được
@@ -55,6 +55,9 @@ YÊU CẦU:
 
 CÂU HỎI: {question}
 """
+
+
+ARG_TYPES: dict[str, list[str | None]] = {}  # predicate -> type of each argument (from the rules), filled by _sig
 
 
 def _sig(con, kind: str) -> dict[str, str]:
@@ -77,6 +80,7 @@ def _sig(con, kind: str) -> dict[str, str]:
             if p not in out:
                 a = [x.strip() for x in (args or "").split(",") if x.strip()]
                 out[p] = f"{p}({', '.join(var_type.get((nid, x), x) for x in a)})"
+                ARG_TYPES[p] = [var_type.get((nid, x)) for x in a]
     else:
         rows = con.execute("SELECT norm_id, attr, of_var, unit FROM norm_conditions WHERE attr IS NOT NULL "
                            "UNION ALL SELECT norm_id, value_attr, value_of, NULL FROM norm_conditions "
@@ -168,8 +172,24 @@ class Parser:
         out = self._call(prompt, self._schema(names))
         q = lambda x: x if re.fullmatch(r"[a-z][a-z0-9_]*|-?\d+(\.\d+)?", x) else "'" + x.replace("'", "\\'") + "'"  # noqa: E731
         facts = [f"instance_of({e['id']}, {e['type']})" for e in out["entities"]]
-        facts += [f"{a['pred']}({', '.join(q(x) for x in a['args'])})" for a in out["facts"]]
-        false_facts = [f"{a['pred']}({', '.join(q(x) for x in a['args'])})" for a in out["false_facts"]]
+        implicit: dict[str, str] = {}
+        ids = {e["id"] for e in out["entities"]}
+
+        def atom(a: dict) -> str:
+            """A fact; an argument the question leaves unnamed (the employer of "tôi ký hợp đồng") becomes an
+            implicit entity of the type the predicate expects there."""
+            args, types = [], ARG_TYPES.get(a["pred"]) or []
+            for i, x in enumerate(a["args"]):
+                t = types[i] if i < len(types) else None
+                # a place the rules fill with a typed entity, but the question names none ("null", "_", a type name)
+                if x not in ids and (t or x in (None, "", "null", "none", "_")):
+                    x = implicit.setdefault(t or "thuc_the", f"{t or 'thuc_the'}_an_danh")
+                args.append(q(x))
+            return f"{a['pred']}({', '.join(args)})"
+
+        facts += [atom(a) for a in out["facts"]]
+        false_facts = [atom(a) for a in out["false_facts"]]
+        facts += [f"instance_of({e}, {t})" for t, e in implicit.items() if t != "thuc_the"]
         for a in out["attributes"]:
             if a["value_number"] is not None:
                 unit, factor = canon_unit(a["unit"])

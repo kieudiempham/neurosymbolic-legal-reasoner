@@ -2,7 +2,8 @@
 reasoning, step by step, so it can be read again or compared across runs.
 
 Tables
-  runs              one row per question asked: time, text, KB used, parser model, the parser's raw output
+  runs              one row per question asked: time, text, KB used, parser model, the parser's raw output;
+                    for a dataset run (batch.py) also the batch name, the item id, its gold answer and any error
   run_facts         case facts read from the question (fact / false_fact) and the KB parameters used (parameter)
   run_steps         the pipeline steps of the run in order: parse, then per sub-question reason (case question)
                     or lookup (law question), with a short summary and the time each took
@@ -31,7 +32,7 @@ RUNS_DB = DB_FILE.with_name("runs.sqlite")
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS runs (
   run_id INTEGER PRIMARY KEY AUTOINCREMENT, time TEXT, question TEXT, kb_program TEXT, kb_database TEXT,
-  parser_model TEXT, parser_output TEXT);
+  parser_model TEXT, parser_output TEXT, batch TEXT, item_id TEXT, gold TEXT, error TEXT);
 CREATE TABLE IF NOT EXISTS run_facts (
   run_id INTEGER NOT NULL REFERENCES runs(run_id), kind TEXT CHECK (kind IN ('fact','false_fact','parameter')),
   fact TEXT);
@@ -61,23 +62,31 @@ def connect_runs(path: Path = RUNS_DB) -> sqlite3.Connection:
     con = sqlite3.connect(str(path))
     con.execute("PRAGMA foreign_keys = ON")
     con.executescript(SCHEMA)
+    have = {r[1] for r in con.execute("PRAGMA table_info(runs)")}
+    for col in ("batch", "item_id", "gold", "error"):  # databases created before these columns existed
+        if col not in have:
+            con.execute(f"ALTER TABLE runs ADD COLUMN {col} TEXT")
+    con.execute("CREATE INDEX IF NOT EXISTS ix_runs_batch ON runs(batch, item_id)")
     return con
 
 
 def save_run(con, *, time: str, question: str, kb_program: str, kb_database: str, parser_model: str,
              parser_output: dict, facts: list[str], false_facts: list[str], parameters: list[str],
-             parse_seconds: float, parts: list[dict]) -> int:
+             parse_seconds: float, parts: list[dict], batch: str | None = None, item_id: str | None = None,
+             gold: str | None = None, error: str | None = None) -> int:
     """parts: one per sub-question, as returned by questions.answer plus 'parsed' (slots) and 'seconds'."""
-    cur = con.execute("INSERT INTO runs (time, question, kb_program, kb_database, parser_model, parser_output) "
-                      "VALUES (?,?,?,?,?,?)", (time, question, kb_program, kb_database, parser_model,
-                                               json.dumps(parser_output, ensure_ascii=False)))
+    cur = con.execute("INSERT INTO runs (time, question, kb_program, kb_database, parser_model, parser_output, batch, "
+                      "item_id, gold, error) VALUES (?,?,?,?,?,?,?,?,?,?)",
+                      (time, question, kb_program, kb_database, parser_model,
+                       json.dumps(parser_output, ensure_ascii=False), batch, item_id, gold, error))
     run = cur.lastrowid
     con.executemany("INSERT INTO run_facts VALUES (?,?,?)",
                     [(run, "fact", f) for f in facts] + [(run, "false_fact", f) for f in false_facts]
                     + [(run, "parameter", p) for p in parameters])
-    con.execute("INSERT INTO run_steps VALUES (?,?,?,?,?,?)",
-                (run, 1, "parse", None, f"{len(facts)} facts, {len(false_facts)} false facts, {len(parts)} "
-                                       f"sub-questions", round(parse_seconds, 3)))
+    if parser_output is not None:
+        con.execute("INSERT INTO run_steps VALUES (?,?,?,?,?,?)",
+                    (run, 1, "parse", None, f"{len(facts)} facts, {len(false_facts)} false facts, {len(parts)} "
+                                           f"sub-questions", round(parse_seconds, 3)))
     for q_no, p in enumerate(parts, 1):
         law = p["kind"] == "law"
         con.execute("INSERT INTO run_questions VALUES (?,?,?,?,?,?,?)",
@@ -113,10 +122,15 @@ def save_run(con, *, time: str, question: str, kb_program: str, kb_database: str
 
 def show_run(con, run: int) -> str:
     """A run read back from the database, as indented text."""
-    r = con.execute("SELECT time, question, kb_program, parser_model FROM runs WHERE run_id=?", (run,)).fetchone()
+    r = con.execute("SELECT time, question, kb_program, parser_model, batch, item_id, gold, error FROM runs "
+                    "WHERE run_id=?", (run,)).fetchone()
     if not r:
         return f"no run {run}"
-    out = [f"run {run}  {r[0]}  KB {r[2]}  parser {r[3]}", f"CÂU HỎI: {r[1]}", "", "bước:"]
+    out = [f"run {run}  {r[0]}  KB {r[2]}  parser {r[3]}"
+           + (f"  batch {r[4]} câu {r[5]} (đáp án đúng: {r[6]})" if r[4] else ""), f"CÂU HỎI: {r[1]}"]
+    if r[7]:
+        out.append(f"LỖI: {r[7]}")
+    out += ["", "bước:"]
     out += [f"  {s}. {st}{'' if q is None else f' (câu hỏi con {q})'}: {sm}  [{sec}s]" for s, st, q, sm, sec in
             con.execute("SELECT step_no, stage, q_no, summary, seconds FROM run_steps WHERE run_id=? ORDER BY step_no",
                         (run,))]
@@ -152,8 +166,9 @@ def main() -> None:
     if len(sys.argv) > 1:
         print(show_run(con, int(sys.argv[1])))
         return
-    for run, time, q in con.execute("SELECT run_id, time, question FROM runs ORDER BY run_id"):
-        print(f"{run:4d}  {time}  {q}")
+    for run, time, batch, item, q in con.execute(
+            "SELECT run_id, time, batch, item_id, question FROM runs ORDER BY run_id"):
+        print(f"{run:5d}  {time}  {(batch or '-'):12s} {(item or '-'):10s}  {q[:90]}")
 
 
 if __name__ == "__main__":

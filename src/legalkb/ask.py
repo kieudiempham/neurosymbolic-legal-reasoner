@@ -37,22 +37,32 @@ class Asker:
         self.parameters = PARAMETERS if sample else []
         self.runs = connect_runs() if record else None
 
-    def ask(self, text: str) -> tuple[int | None, list[dict]]:
+    def ask(self, text: str, batch: str | None = None, item_id: str | None = None,
+            gold: str | None = None) -> tuple[int | None, list[dict]]:
+        """Answer one question; the run is stored even when a step fails (with the error and what was done)."""
         started = datetime.now().isoformat(timespec="seconds")
-        t0 = time.perf_counter()
-        facts, false_facts, questions, raw = self.parser.parse(text)
-        parse_seconds = time.perf_counter() - t0
-        parts = []
-        for q in questions:
-            t1 = time.perf_counter()
-            out = answer(q, self.parameters + facts, self.reasoner, self.con, false_facts)
-            parts.append({"question": text, "facts": facts, "false_facts": false_facts, "parsed": q.__dict__,
-                          "seconds": time.perf_counter() - t1, **out})
+        facts, false_facts, raw, parts, error, parse_seconds = [], [], None, [], None, 0.0
+        try:
+            t0 = time.perf_counter()
+            facts, false_facts, questions, raw = self.parser.parse(text)
+            parse_seconds = time.perf_counter() - t0
+            for q in questions:
+                t1 = time.perf_counter()
+                out = answer(q, self.parameters + facts, self.reasoner, self.con, false_facts)
+                parts.append({"question": text, "facts": facts, "false_facts": false_facts, "parsed": q.__dict__,
+                              "seconds": time.perf_counter() - t1, **out})
+        except Exception as e:  # noqa: BLE001
+            if "insufficient_quota" in str(e):
+                raise
+            error = f"{type(e).__name__}: {e}"[:2000]
         run = None
         if self.runs:
             run = save_run(self.runs, time=started, question=text, kb_program=str(self.kb), kb_database=str(self.db),
                            parser_model=self.parser.model, parser_output=raw, facts=facts, false_facts=false_facts,
-                           parameters=self.parameters, parse_seconds=parse_seconds, parts=parts)
+                           parameters=self.parameters, parse_seconds=parse_seconds, parts=parts, batch=batch,
+                           item_id=item_id, gold=gold, error=error)
+        if error and not batch:
+            raise RuntimeError(error)
         return run, parts
 
 
