@@ -29,6 +29,7 @@ def canon_unit(unit: str | None) -> tuple[str | None, float]:
     if not unit:
         return None, 1.0
     u = unit.strip().lower()
+    u = re.sub(r"\s*(/|\b(mỗi|một|hằng|hàng)\b).*$", "", u) or u  # "triệu đồng/tháng" -> "triệu đồng"
     if u in _UNITS:
         return _UNITS[u]
     return canon_name(u), 1.0
