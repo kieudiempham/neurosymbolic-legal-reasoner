@@ -8,6 +8,7 @@ Generated program (data/legalkb/legal_kb.pl):
   sanction(N, Subject, Kind, Min, Max, Unit)
   applies(N, Subject)                                 the norm's conditions hold for its subject
   defeated(N, Subject)                                an exception of N applies to the same subject
+  prefer(Winner, Loser, Principle), overridden(N, S)  conflicts between norms resolved by priority (norm_conflicts)
 Case facts use: instance_of(X, Type), attr(X, Name, Value), and the relation predicates of the ontology.
 """
 
@@ -26,6 +27,7 @@ from .normalize import canon_unit
 PL_FILE = ROOT / "data" / "legalkb" / "legal_kb.pl"
 SWIPL = ROOT / ".tools" / "swipl" / "bin" / "swipl.exe"
 _OPS = {"<": "<", "<=": "=<", "=": "=:=", ">=": ">=", ">": ">", "!=": "=\\="}
+_LOSERS: set[str] = set()  # norms some other norm prevails over (norm_conflicts)
 
 
 def q(atom: str | None) -> str:
@@ -129,7 +131,9 @@ def compile_norm(con, nid: str) -> tuple[list[str], list[str]]:
             refs = [t for (t,) in con.execute("SELECT target_norm_id FROM condition_refs WHERE cond_id=?", (cid,))]
             if refs and a:  # "đối tượng quy định tại khoản 1 Điều 2": the referenced provision applies (not defeated)
                 x = term(a[0], vs)
-                lit = "(" + " ; ".join(f"(applies({q(t)}, {x}), \\+ defeated({q(t)}, {x}))" for t in refs) + ")"
+                lit = "(" + " ; ".join(f"(applies({q(t)}, {x}), \\+ defeated({q(t)}, {x})"
+                                       + (f", \\+ overridden({q(t)}, {x})" if t in _LOSERS else "") + ")"
+                                       for t in refs) + ")"
                 groups[g][o].append(f"\\+ {lit}" if neg else lit)
                 continue
             if len(a) == 1 and not neg and con.execute("SELECT 1 FROM entity_types WHERE name=?", (pred,)).fetchone():
@@ -172,7 +176,7 @@ def compile_norm(con, nid: str) -> tuple[list[str], list[str]]:
         problems.append(f"subject {subj} not declared")
     cond = ", ".join(body) or "true"
     clauses = [f"applies({q(nid)}, {s}) :- {cond}."]
-    guard = f"\\+ defeated({q(nid)}, {s})"
+    guard = f"\\+ defeated({q(nid)}, {s})" + (f", \\+ overridden({q(nid)}, {s})" if nid in _LOSERS else "")
     head_vars = set()
     if modality in ("obligation", "right", "prohibition", "procedure"):
         if not apred:
@@ -334,6 +338,145 @@ def predicate_links(con) -> tuple[dict[str, str], list[str], list[str]]:
     return alias, clauses, problems
 
 
+def _signature(con, nid: str, alias: dict[str, str]) -> frozenset:
+    """The mandatory conditions of a norm by name: atoms (predicate, polarity) and compared attributes (with the
+    operator); conditions in alternative groups are left out."""
+    out = set()
+    for kind, pred, neg, attr, op in con.execute(
+            "SELECT kind, pred, negated, attr, op FROM norm_conditions WHERE norm_id=? AND COALESCE(alt_group, 0)=0",
+            (nid,)):
+        if kind == "atom" and pred:
+            out.add(("atom", alias.get(pred, pred), bool(neg)))
+        elif attr:
+            out.add(("attr", _AALIAS.get(attr, attr), op))
+    return frozenset(out)
+
+
+def _rank_rule(a, b, meta, sig, explicit):
+    (_, ra, _, _), (_, rb, _, _) = meta[a], meta[b]
+    if ra is not None and rb is not None and ra != rb:
+        return (a, f"hạng hiệu lực {ra} < {rb}") if ra < rb else (b, f"hạng hiệu lực {rb} < {ra}")
+    return None
+
+
+def _posterior_rule(a, b, meta, sig, explicit):
+    (_, _, ia, ta), (_, _, ib, tb) = meta[a], meta[b]
+    if ia and ia == ib and ta and tb and ta != tb:
+        return (a, f"cùng {ia}, ban hành {ta} sau {tb}") if ta > tb else (b, f"cùng {ia}, ban hành {tb} sau {ta}")
+    return None
+
+
+def _specialis_rule(a, b, meta, sig, explicit):
+    if meta[a][0] != meta[b][0]:
+        return None
+    if sig(b) < sig(a):
+        return a, "điều kiện bắt buộc bao trọn quy phạm kia và có thêm"
+    if sig(a) < sig(b):
+        return b, "điều kiện bắt buộc bao trọn quy phạm kia và có thêm"
+    return None
+
+
+def _explicit_rule(a, b, meta, sig, explicit):
+    if (a, b) in explicit:
+        return a, "quy phạm ghi rõ được ưu tiên áp dụng"
+    if (b, a) in explicit:
+        return b, "quy phạm ghi rõ được ưu tiên áp dụng"
+    return None
+
+
+# how each principle of the priority_principles table compares two norms (the order and the data are in the DB)
+PRINCIPLE_RULES = {"explicit": _explicit_rule, "lex_superior": _rank_rule, "lex_posterior": _posterior_rule,
+                   "lex_specialis": _specialis_rule}
+
+
+def resolve_conflicts(con, alias: dict[str, str] | None = None) -> list[tuple]:
+    """Find the pairs of norms that can conclude opposite things about the same subject, decide which prevails,
+    and store them in norm_conflicts.
+
+    Opposite heads: a consequence / definition concluding P and one concluding not P; an obligation or a right to
+    do A and a prohibition of A; heads whose constant arguments differ, or whose subjects are of types no entity
+    can have at once (neither is a subtype of the other, entity_types), are about different things. Pairs linked as exception / rule are left out (the exception already defeats the
+    rule). The principles are tried in the order of the priority_principles table; what they compare is in the
+    database too (documents.rank from legal_force, issuer, issued, norm_conditions, priority_over references).
+    A pair no principle decides is stored with no winner."""
+    alias = predicate_links(con)[0] if alias is None else alias
+    rows = con.execute(
+        "SELECT n.norm_id, n.modality, n.action_pred, n.conclusion_pred, COALESCE(n.conclusion_negated, 0), "
+        "n.action_args, n.conclusion_args, COALESCE(n.bearer_var, n.subject_var), u.doc_number, d.rank, d.issuer, "
+        "d.issued FROM norms n "
+        "JOIN units u ON u.unit_id = n.unit_id JOIN documents d ON d.number = u.doc_number").fetchall()
+    variables = defaultdict(dict)
+    for nid, v, t in con.execute("SELECT norm_id, var, type FROM norm_variables"):
+        variables[nid][v] = _TALIAS.get(t, t)
+    parent = {n: _TALIAS.get(p, p) for n, p in con.execute("SELECT name, parent FROM entity_types WHERE parent IS NOT NULL")}
+
+    def ancestors(t):
+        seen = []
+        while t and t not in seen:
+            seen.append(t)
+            t = parent.get(t)
+        return seen
+
+    def compatible(x, y):  # the same entity can be of both types: equal, or one a subtype of the other
+        return x is None or y is None or x in ancestors(y) or y in ancestors(x)
+
+    heads = defaultdict(lambda: defaultdict(list))  # head -> side (False: P / may-must do A, True: not P / must not)
+    meta, consts = {}, {}
+    holder = {}
+    for nid, mod, apred, cpred, cneg, aargs, cargs, hvar, doc, rank, issuer, issued in rows:
+        meta[nid] = (doc, rank, issuer, issued)
+        holder[nid] = variables[nid].get(hvar)
+        args = [x.strip() for x in ((aargs if apred else cargs) or "").split(",") if x.strip()]
+        consts[nid] = [None if x in variables[nid] else x for x in args]  # constants of the head; None: a variable
+        if mod in ("consequence", "definition") and cpred:
+            heads[("holds", alias.get(cpred, cpred))][bool(cneg)].append(nid)
+        elif mod in ("obligation", "right") and apred:
+            heads[("act", alias.get(apred, apred))][False].append(nid)
+        elif mod == "prohibition" and apred:
+            heads[("act", alias.get(apred, apred))][True].append(nid)
+    refs = con.execute("SELECT norm_id, ref_kind, target_norm_id FROM norm_references WHERE target_norm_id IS NOT "
+                       "NULL AND ref_kind IN ('has_exception', 'exception_of', 'priority_over')").fetchall()
+    linked = {(a, b) for a, k, b in refs if k != "priority_over"}
+    explicit = {(a, b) for a, k, b in refs if k == "priority_over"}
+    principles = [p for (p,) in con.execute("SELECT principle FROM priority_principles ORDER BY ord")]
+    cache = {}
+
+    def sig(x):
+        if x not in cache:
+            cache[x] = _signature(con, x, alias)
+        return cache[x]
+
+    out = []
+    for head, sides in sorted(heads.items()):
+        for a in sides[False]:
+            for b in sides[True]:
+                if (a, b) in linked or (b, a) in linked:
+                    continue
+                ca, cb = consts[a], consts[b]
+                if len(ca) != len(cb) or any(x and y and x != y for x, y in zip(ca, cb)):
+                    continue  # different constants in the head (5% vs 10%): not about the same thing
+                if not compatible(holder[a], holder[b]):
+                    continue  # about different kinds of subject (the worker vs the employer)
+                for pr in principles:
+                    r = PRINCIPLE_RULES[pr](a, b, meta, sig, explicit)
+                    if r:
+                        out.append((a, b, head[1], r[0], pr, r[1]))
+                        break
+                else:
+                    out.append((a, b, head[1], None, None, "không nguyên tắc nào phân định"))
+    con.execute("DELETE FROM norm_conflicts")
+    con.executemany("INSERT INTO norm_conflicts VALUES (?,?,?,?,?,?)", out)
+    con.commit()
+    return out
+
+
+def norm_conflicts(con) -> tuple[list[tuple[str, str, str]], list[tuple[str, str]]]:
+    """From the norm_conflicts table: (winner, loser, principle) and the unresolved pairs."""
+    rows = con.execute("SELECT norm_a, norm_b, winner, principle FROM norm_conflicts").fetchall()
+    resolved = sorted((w, b if w == a else a, p) for a, b, w, p in rows if w)
+    return resolved, sorted((a, b) for a, b, w, _ in rows if not w)
+
+
 def build_program(con) -> tuple[str, dict]:
     alias, bridges, link_problems = predicate_links(con)
     _ALIAS.clear()
@@ -346,7 +489,13 @@ def build_program(con) -> tuple[str, dict]:
            ":- dynamic instance_of/2, attr/3, neg/1.",
            "is_a(X, T) :- instance_of(X, T0), subtype_star(T0, T).",
            "subtype_star(T, T).", "subtype_star(A, C) :- subtype(A, B), subtype_star(B, C).",
-           "defeated(N, S) :- exception_of(E, N), applies(E, S).", ""]
+           "defeated(N, S) :- exception_of(E, N), applies(E, S).",
+           # a norm is overridden for a subject when a norm that prevails over it (norm_conflicts) applies to it
+           "overridden(N, S) :- prefer(M, N, _), applies(M, S), \\+ defeated(M, S).", ""]
+    resolve_conflicts(con, alias)
+    conflicts, unresolved = norm_conflicts(con)
+    _LOSERS.clear()
+    _LOSERS.update(l for _, l, _ in conflicts)
     _USED.clear()
     decl_at = len(out)  # every predicate an atom uses is declared (after the norms are compiled), so that a query
     out += bridges      # reaching a predicate no fact or rule defines fails instead of raising an existence error
@@ -377,11 +526,16 @@ def build_program(con) -> tuple[str, dict]:
         pairs.add((tgt, nid) if kind == "has_exception" else (nid, tgt))
     out += [f"exception_of({q(e)}, {q(n)})." for e, n in sorted(pairs)]
     out += ["exception_of(_, _) :- fail."]
+    out += [f"prefer({q(w)}, {q(l)}, {why})." for w, l, why in conflicts]
+    out += ["prefer(_, _, _) :- fail."]
+    out += [f"unresolved_conflict({q(a)}, {q(b)})." for a, b in unresolved]
+    out += ["unresolved_conflict(_, _) :- fail."]
     declared = {(n, a) for n, a in con.execute("SELECT name, arity FROM predicates") if n not in alias} | _USED
     out[decl_at:decl_at] = [f":- dynamic {q(n)}/{a}." for n, a in sorted(declared)]
     if link_problems:
         problems["predicate_links"] = link_problems
     return "\n".join(out) + "\n", {"norms_by_modality": dict(stats), "aliases": len(alias),
+                                    "conflicts_resolved": len(conflicts), "conflicts_unresolved": len(unresolved),
                                     "bridge_rules": len(bridges), "problems": problems}
 
 

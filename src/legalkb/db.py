@@ -2,6 +2,12 @@
 
 Tables
   documents         one row per legal document: number, type, issuer, hierarchy rank, dates, domain
+  legal_force       document types and their rank of legal force (1 = highest), with the pattern of the document
+                    number that identifies the type; documents.rank is read from here when a document is loaded
+  priority_principles  how a conflict between two norms is resolved, in the order they are tried (ord), with what
+                    each compares and its legal basis
+  norm_conflicts    pairs of norms with opposite heads (computed at compile time): the winner and the principle that
+                    decided, or no winner (an unresolved conflict)
   doc_relations     document -> document: replaces / amends / guides / consolidates
   units             Chương / Điều / Khoản / Điểm with full text and parent unit; an article quoted in an amending
                     document is a new version of the amended article (target_doc, valid_from; the old one gets valid_to)
@@ -93,11 +99,41 @@ CREATE TABLE IF NOT EXISTS name_links (
   kind TEXT NOT NULL CHECK (kind IN ('type','attr')), src TEXT NOT NULL,
   rel TEXT NOT NULL CHECK (rel IN ('same','subtype')), dst TEXT NOT NULL, reason TEXT,
   PRIMARY KEY (kind, src, dst));
+CREATE TABLE IF NOT EXISTS legal_force (
+  doc_type TEXT PRIMARY KEY, number_pattern TEXT NOT NULL, issuer TEXT, rank INTEGER NOT NULL, basis TEXT);
+INSERT OR IGNORE INTO legal_force VALUES
+  ('Luật', '/QH\\d+$', 'Quốc hội', 2, 'Luật Ban hành VBQPPL 2015, Điều 4'),
+  ('Văn bản hợp nhất (Luật)', 'VBHN-VPQH$', 'Văn phòng Quốc hội', 2,
+   'Pháp lệnh Hợp nhất VBQPPL 2012: văn bản hợp nhất có hiệu lực như văn bản được hợp nhất'),
+  ('Nghị định', '/NĐ-CP$', 'Chính phủ', 3, 'Luật Ban hành VBQPPL 2015, Điều 4'),
+  ('Quyết định', '/QĐ-TTg$', 'Thủ tướng Chính phủ', 4, 'Luật Ban hành VBQPPL 2015, Điều 4'),
+  ('Thông tư', '/TT-[A-ZĐ]+$', 'Bộ', 5, 'Luật Ban hành VBQPPL 2015, Điều 4');
+CREATE TABLE IF NOT EXISTS priority_principles (
+  principle TEXT PRIMARY KEY, ord INTEGER NOT NULL UNIQUE, compares TEXT, description_vi TEXT, basis TEXT);
+INSERT OR IGNORE INTO priority_principles VALUES
+  ('explicit', 1, 'norm_references.priority_over', 'văn bản tự quy định quy phạm nào được ưu tiên áp dụng',
+   'nguyên văn quy phạm'),
+  ('lex_superior', 2, 'documents.rank (legal_force)', 'áp dụng văn bản có hiệu lực pháp lý cao hơn',
+   'Luật Ban hành VBQPPL 2015, Điều 156 khoản 2'),
+  ('lex_posterior', 3, 'documents.issuer, documents.issued',
+   'cùng một cơ quan ban hành: áp dụng văn bản ban hành sau', 'Luật Ban hành VBQPPL 2015, Điều 156 khoản 3'),
+  ('lex_specialis', 4, 'norm_conditions (điều kiện bắt buộc)',
+   'trong cùng một văn bản: áp dụng quy phạm cụ thể hơn (điều kiện bắt buộc bao trọn quy phạm kia)',
+   'nguyên tắc chung về áp dụng pháp luật; Luật Ban hành VBQPPL không có điều khoản riêng');
+CREATE TABLE IF NOT EXISTS norm_conflicts (
+  norm_a TEXT NOT NULL, norm_b TEXT NOT NULL, head TEXT, winner TEXT, principle TEXT, detail TEXT,
+  PRIMARY KEY (norm_a, norm_b));
 CREATE INDEX IF NOT EXISTS ix_units_doc ON units(doc_number, article);
 CREATE INDEX IF NOT EXISTS ix_norm_unit ON norms(unit_id);
 CREATE INDEX IF NOT EXISTS ix_cond_norm ON norm_conditions(norm_id);
 CREATE INDEX IF NOT EXISTS ix_ref_norm ON norm_references(norm_id);
 """
+
+
+def legal_force(con: sqlite3.Connection | None = None) -> list[tuple[str, str, str, int]]:
+    """(number pattern, document type, issuer, rank) from the legal_force table."""
+    con = con or connect()
+    return con.execute("SELECT number_pattern, doc_type, issuer, rank FROM legal_force ORDER BY rank, doc_type").fetchall()
 
 
 def connect(path: Path = DB_FILE) -> sqlite3.Connection:

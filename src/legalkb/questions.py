@@ -11,6 +11,7 @@ unknown), attr (computed attribute), negated (status questions: "không thuộc 
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 
 from .compile import predicate_links
@@ -144,8 +145,9 @@ def answer(q: Question, facts: list[str], reasoner, con, false_facts: list[str] 
     allowed = list(retrieved) if retrieval else None
     answers = reasoner.query(facts, goal(q), list(false_facts), allowed=allowed)["answers"]
     contrary = []
-    if q.type == "status" and not any(a["status"] == "certain" for a in answers):
-        # "is X in scope?" -> also look for a proof of the opposite (an exclusion), which makes the answer "no"
+    if q.type == "status":
+        # "is X in scope?" -> also look for a proof of the opposite (an exclusion), which makes the answer "no";
+        # looked for even when the answer is proved, so a conflict no priority resolves is not missed
         flipped = Question(**{**q.__dict__, "negated": not q.negated})
         contrary = reasoner.query(facts, goal(flipped), list(false_facts), allowed=allowed)["answers"]
     explore = []
@@ -163,6 +165,7 @@ def answer(q: Question, facts: list[str], reasoner, con, false_facts: list[str] 
             stack += n.get("children", [])
         a["basis"] = [describe_norm(con, u) for u in used if con.execute(
             "SELECT 1 FROM norms WHERE norm_id=?", (u,)).fetchone()]
+    conflicts = resolved_conflicts(q, facts, reasoner, false_facts, retrieved if retrieval else None)
     if any(a["status"] == "certain" for a in answers):
         verdict = "yes"
     elif any(a["status"] == "certain" for a in contrary):
@@ -172,4 +175,28 @@ def answer(q: Question, facts: list[str], reasoner, con, false_facts: list[str] 
     else:
         verdict = "no"           # no norm leads to it
     return {"type": q.type, "kind": "case", "goal": goal(q), "verdict": verdict, "answers": answers,
-            "contrary": contrary, "explore": explore, "retrieved": retrieved}
+            "contrary": contrary, "explore": explore, "retrieved": retrieved, "conflicts": conflicts}
+
+
+_PREFER = re.compile(r"prefer\('((?:[^']|'')*)',\s*'((?:[^']|'')*)',\s*(\w+)\)")
+
+
+def resolved_conflicts(q: Question, facts, reasoner, false_facts, allowed: dict | None) -> list[dict]:
+    """Conflicts between candidate norms decided by priority for this case: the norm that prevails applies to the
+    subject (certain, or only with missing facts), so the conclusion of the other is blocked."""
+    if not q.subject:
+        return []
+    s = q.subject if q.subject[:1].isupper() else f"'{q.subject}'"
+    got = reasoner.query(facts, f"prefer(W, L, P), applies(W, {s}), \\+ defeated(W, {s})", list(false_facts),
+                         allowed=list(allowed) if allowed is not None else None)["answers"]
+    out, seen = [], set()
+    for a in got:
+        m = _PREFER.search(a["goal"])
+        if not m:
+            continue
+        w, l, pr = m.group(1).replace("''", "'"), m.group(2).replace("''", "'"), m.group(3)
+        if (allowed is not None and l not in allowed) or (w, l) in seen:
+            continue
+        seen.add((w, l))
+        out.append({"winner": w, "loser": l, "principle": pr, "status": a["status"], "missing": a["missing"]})
+    return out

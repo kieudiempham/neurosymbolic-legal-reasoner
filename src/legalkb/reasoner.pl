@@ -11,7 +11,14 @@
     Base predicates (no rule concludes them) are case facts. A missing ground base fact can be assumed unless the
     case states it is false (false_fact/1). A missing attribute value makes the comparison that uses it assumable.
     Entity types are not assumed (the parser has to give them). A goal met again inside its own proof is cut
-    (a dependency cycle cannot loop).
+    (a dependency cycle cannot loop). The result of a negation of a ground goal (an exception, an overriding
+    norm) is remembered for the rest of the query, so the same check is not proved again under every rule that
+    needs it. SWI-Prolog tabling is not used: proofs carry assumptions and proof trees, which tabling of
+    variants cannot share.
+
+    Conflicts between norms are resolved in the compiled KB (compile.py, table norm_conflicts): the conclusion
+    of a norm that loses a conflict also needs \+ overridden(N, S), so it is not derived when the norm that
+    prevails applies to the same subject.
 
     Server protocol (stdin/stdout, one request per line):
       q(Facts, FalseFacts, Goal, MaxMissing, Limit[, Allowed]).   ->  one JSON line with the answers, then END
@@ -20,12 +27,12 @@
 
 :- use_module(library(http/json)).
 :- use_module(library(solution_sequences)).
-:- dynamic case_fact/1, false_fact/1, known_entity/1, allowed/1, restricted/0.
+:- dynamic case_fact/1, false_fact/1, known_entity/1, allowed/1, restricted/0, neg_memo/2.
 
 % ---------------------------------------------------------------------------------------------------- the case
 load_case(Facts, FalseFacts) :-
     forall(retract(case_fact(F)), retract(F)),
-    retractall(false_fact(_)), retractall(known_entity(_)),
+    retractall(false_fact(_)), retractall(known_entity(_)), retractall(neg_memo(_, _)),
     forall(member(F, Facts), (assertz(F), assertz(case_fact(F)), note_entities(F))),
     forall(member(F, FalseFacts), (assertz(false_fact(F)), note_entities(F))).
 
@@ -93,7 +100,9 @@ term_has_unknown(T) :- sub_term(U, T), compound(U), U = '$unknown'(_), !.
 % \+ X: fails if X is provable from the facts; if X is provable only with assumptions, X is presumed false
 % and the atoms it would need are recorded as presumed absent.
 negation(X, P, A0, A, S) :-
-    findall(As, limit(20, prove(X, _, [], As, S)), All),
+    (   ground(X), neg_memo(X, All) -> true
+    ;   findall(As, limit(20, prove(X, _, [], As, S)), All),
+        ( ground(X) -> assertz(neg_memo(X, All)) ; true ) ),
     (   memberchk([], All) -> fail
     ;   All == [] -> P = true, A = A0
     ;   All = [First|_],
@@ -154,7 +163,7 @@ serve :-
 
 handle(q(Facts, FalseFacts, Goal, Max, Limit)) :- handle(q(Facts, FalseFacts, Goal, Max, Limit, all)).
 handle(q(Facts, FalseFacts, Goal, Max, Limit, Allowed)) :-
-    retractall(allowed(_)), retractall(restricted),
+    retractall(allowed(_)), retractall(restricted), retractall(neg_memo(_, _)),
     ( Allowed == all -> true ; assertz(restricted), forall(member(N, Allowed), assertz(allowed(N))) ),
     load_case(Facts, FalseFacts),
     solve(Goal, Max, Limit, Answers),

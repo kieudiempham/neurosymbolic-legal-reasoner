@@ -11,16 +11,10 @@ import re
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
+from .db import legal_force
+
 from diagnosis.kbx.corpus import CORPUS, DOMAINS, document_text
 
-# hierarchy of legal force (lower number = higher force)
-DOC_TYPES = [  # (pattern on the document number, type, issuing body, rank)
-    (r"/QH\d+$", "Luật", "Quốc hội", 2),
-    (r"VBHN-VPQH$", "Văn bản hợp nhất (Luật)", "Văn phòng Quốc hội", 2),
-    (r"/NĐ-CP$", "Nghị định", "Chính phủ", 3),
-    (r"/QĐ-TTg$", "Quyết định", "Thủ tướng Chính phủ", 4),
-    (r"/TT-[A-ZĐ]+$", "Thông tư", "Bộ", 5),
-]
 _NUMBER = re.compile(r"(?:Luật|Bộ luật|Nghị định|Thông tư|Văn bản hợp nhất|Quyết định)?\s*số[:\s]+([0-9]+/[0-9]{4}/[A-ZĐ0-9\-]+|[0-9]+/VBHN-[A-ZĐ]+)", re.I)
 _ISSUED = re.compile(r"ngày\s+(\d{1,2})\s+tháng\s+(\d{1,2})\s+năm\s+(\d{4})")
 _EFFECTIVE = re.compile(r"có hiệu lực(?: thi hành)?(?: kể)? từ ngày\s+(\d{1,2})\s+tháng\s+(\d{1,2})\s+năm\s+(\d{4})")
@@ -57,7 +51,7 @@ class Document:
     title: str
     doc_type: str
     issuer: str
-    rank: int
+    rank: int | None
     domain: str
     issued: str | None
     effective_from: str | None
@@ -74,8 +68,8 @@ def read_document(stem: Path, domain: str) -> tuple[Document, str]:
     head = text[:1500]
     m = _NUMBER.search(head)
     number = m.group(1).replace("ND-CP", "NĐ-CP") if m else stem.name
-    dtype, issuer, rank = "Khác", "", 9
-    for pat, t, iss, r in DOC_TYPES:
+    dtype, issuer, rank = "Khác", "", None  # a type not in the legal_force table has no rank
+    for pat, t, iss, r in legal_force():  # document types and their rank of legal force: table legal_force
         if re.search(pat, number):
             dtype, issuer, rank = t, iss, r
             break

@@ -5,6 +5,7 @@ a status, a computed attribute, a sanction), the set is closed over
   - the norms concluding a predicate some candidate's condition uses (through aliases and bridge links),
   - the norms a candidate's condition refers to ("đối tượng tại khoản 1 Điều 2", condition_refs),
   - the exceptions of the candidates (they can defeat them),
+  - the norms in conflict with a candidate (opposite head; by priority one overrides the other, compile.py),
 and norms not in force on the date of the question are dropped (the unit was replaced by an amending document,
 or the document / norm is not yet in force). Each candidate keeps the reason it was selected.
 The reasoner is then restricted to the candidates, so the selection is a component MBD can blame (verify.py).
@@ -14,7 +15,7 @@ from __future__ import annotations
 
 from datetime import date
 
-from .compile import predicate_links
+from .compile import norm_conflicts, predicate_links
 
 MODALITY = {"obligation": "obligation", "right": "right", "prohibition": "prohibition", "procedure": "procedure"}
 
@@ -75,6 +76,12 @@ def candidates(con, q, on: str | None = None) -> dict[str, str]:
     for s, d in con.execute("SELECT src, dst FROM predicate_links WHERE rel='implies'"):
         bridges.setdefault(alias.get(d, d), []).append(alias.get(s, s))
 
+    rivals: dict[str, set[str]] = {}
+    resolved, unresolved = norm_conflicts(con)  # table norm_conflicts (written at compile time)
+    for a, b in [(w, l) for w, l, _ in resolved] + unresolved:
+        rivals.setdefault(a, set()).add(b)
+        rivals.setdefault(b, set()).add(a)
+
     out, todo = dict(seeds), list(seeds)
     while todo:
         n = todo.pop()
@@ -94,6 +101,8 @@ def candidates(con, q, on: str | None = None) -> dict[str, str]:
                                 "UNION SELECT target_norm_id FROM norm_references WHERE ref_kind='has_exception' "
                                 "AND norm_id=? AND target_norm_id IS NOT NULL", (n, n)):
             found.append((e, f"ngoại lệ của {n}"))
+        for m in sorted(rivals.get(n, ())):
+            found.append((m, f"xung đột với {n} (kết luận ngược)"))
         for m, why in found:
             if m and m not in out:
                 out[m] = why

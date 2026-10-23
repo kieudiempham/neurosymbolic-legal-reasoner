@@ -17,6 +17,8 @@ Tables
   run_basis         the legal basis of each answer: the units its proof uses, with their text
   run_law_norms     norms returned by a law question (who / conditions / exceptions / definition)
   run_candidates    the candidate norms step 2 selected for each case sub-question, with the reason
+  run_conflicts     step 3: conflicts between candidate norms decided by priority for this case (the norm that
+                    prevails, the one it blocks, the principle from priority_principles, certain / conditional)
   MBD (step 4, verify.py), so the diagnosis can be followed step by step:
   run_mbd_components   each component: layer, kind (checked / required / presumed / rule), the atom or norm, its
                        Vietnamese statement, the premise it was measured against (question / unit of the norm),
@@ -73,6 +75,9 @@ CREATE TABLE IF NOT EXISTS run_proof_nodes (
   goal TEXT, kind TEXT, norm TEXT, PRIMARY KEY (answer_id, node_id));
 CREATE TABLE IF NOT EXISTS run_basis (
   answer_id INTEGER NOT NULL REFERENCES run_answers(answer_id), unit TEXT, norm TEXT, text TEXT);
+CREATE TABLE IF NOT EXISTS run_conflicts (
+  run_id INTEGER NOT NULL REFERENCES runs(run_id), q_no INTEGER, winner TEXT, loser TEXT, principle TEXT,
+  status TEXT, missing TEXT);
 CREATE TABLE IF NOT EXISTS run_candidates (
   run_id INTEGER NOT NULL REFERENCES runs(run_id), q_no INTEGER, norm TEXT, reason TEXT);
 CREATE TABLE IF NOT EXISTS run_mbd_components (
@@ -152,6 +157,9 @@ def save_run(con, *, time: str, question: str, kb_program: str, kb_database: str
                 (run, q_no, n["norm"], n["unit"], n["modality"], n["holder"], " AND ".join(n["conditions"]),
                  n["head"], ", ".join(n["exceptions"]), n["text"]) for n in p["norms"]])
             continue
+        con.executemany("INSERT INTO run_conflicts VALUES (?,?,?,?,?,?,?)", [
+            (run, q_no, c["winner"], c["loser"], c["principle"], c["status"], json.dumps(c["missing"], ensure_ascii=False))
+            for c in p.get("conflicts", [])])
         con.executemany("INSERT INTO run_candidates VALUES (?,?,?,?)",
                         [(run, q_no, n, why) for n, why in p.get("retrieved", {}).items()])
         for role, answers in (("answer", p["answers"]), ("contrary", p.get("contrary", []))):
@@ -238,6 +246,8 @@ def show_run(con, run: int) -> str:
         cands = con.execute("SELECT norm, reason FROM run_candidates WHERE run_id=? AND q_no=?", (run, q_no)).fetchall()
         if cands:
             out.append(f"  luật ứng viên (bước 2): " + "; ".join(f"{n} ({w})" for n, w in cands))
+        out += [f"  xung đột đã phân định (bước 3): {w} thắng {lo} theo {pr} ({st})" for w, lo, pr, st in con.execute(
+            "SELECT winner, loser, principle, status FROM run_conflicts WHERE run_id=? AND q_no=?", (run, q_no))]
         out.append(f"  truy vấn {goal}  ->  {verdict}")
         for aid, role, status, g, missing, presumed in con.execute(
                 "SELECT answer_id, role, status, goal, missing, presumed_absent FROM run_answers WHERE run_id=? AND "
