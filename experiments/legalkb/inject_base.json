@@ -1,0 +1,2743 @@
+[
+ {
+  "id": "BHXH-001",
+  "question": "Tôi là công dân Việt Nam. Tôi đang làm nhân viên bán hàng ở Bình Dương. Công việc của tôi không phải giúp việc gia đình. Tôi ký hợp đồng lao động xác định thời hạn 1 tháng. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd1)",
+   "attr(hd1, loai_hop_dong, khong_xac_dinh_thoi_han)",
+   "attr(hd1, thoi_han, 1)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,loai_hop_dong,khong_xac_dinh_thoi_han)",
+   "lam_viec_theo_hop_dong(toi,cong_ty,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-002",
+  "question": "Tôi là công dân Việt Nam. Tôi đang làm nhân viên kho ở Đồng Nai. Công việc của tôi không phải giúp việc gia đình. Tôi ký hợp đồng lao động xác định thời hạn 2 tháng. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, nguoi_su_dung_lao_dong_an_danh, hd1)",
+   "instance_of(nguoi_su_dung_lao_dong_an_danh, nguoi_su_dung_lao_dong)",
+   "attr(hd1, loai_hop_dong, xac_dinh_thoi_han)",
+   "attr(hd1, thoi_han, 2)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,thoi_han,2)",
+   "lam_viec_theo_hop_dong(toi,nguoi_su_dung_lao_dong_an_danh,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-003",
+  "question": "Tôi là công dân Việt Nam. Tôi đang làm nhân viên kế toán ở Hà Nội. Công việc của tôi không phải giúp việc gia đình. Tôi ký hợp đồng lao động xác định thời hạn 3 tháng. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, nguoi_su_dung_lao_dong_an_danh, hd1)",
+   "instance_of(nguoi_su_dung_lao_dong_an_danh, nguoi_su_dung_lao_dong)",
+   "attr(hd1, loai_hop_dong, xac_dinh_thoi_han)",
+   "attr(hd1, thoi_han, 3)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,thoi_han,3)",
+   "lam_viec_theo_hop_dong(toi,nguoi_su_dung_lao_dong_an_danh,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-004",
+  "question": "Tôi là công dân Việt Nam. Tôi đang làm kỹ thuật viên ở Đà Nẵng. Công việc của tôi không phải giúp việc gia đình. Tôi ký hợp đồng lao động xác định thời hạn 6 tháng. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, nguoi_su_dung_lao_dong_an_danh, hd1)",
+   "instance_of(nguoi_su_dung_lao_dong_an_danh, nguoi_su_dung_lao_dong)",
+   "attr(hd1, thoi_han, 6)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,thoi_han,6)",
+   "lam_viec_theo_hop_dong(toi,nguoi_su_dung_lao_dong_an_danh,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-005",
+  "question": "Tôi là công dân Việt Nam. Tôi đang làm nhân viên lễ tân ở Hải Phòng. Công việc của tôi không phải giúp việc gia đình. Tôi ký hợp đồng lao động xác định thời hạn 12 tháng. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd1)",
+   "attr(hd1, thoi_han, 12)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,thoi_han,12)",
+   "lam_viec_theo_hop_dong(toi,cong_ty,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-006",
+  "question": "Tôi là công dân Việt Nam. Tôi đang làm công nhân may ở Cần Thơ. Công việc của tôi không phải giúp việc gia đình. Tôi ký hợp đồng lao động xác định thời hạn 24 tháng. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, nguoi_su_dung_lao_dong_an_danh, hd1)",
+   "instance_of(nguoi_su_dung_lao_dong_an_danh, nguoi_su_dung_lao_dong)",
+   "attr(hd1, thoi_han, 24)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,thoi_han,24)",
+   "lam_viec_theo_hop_dong(toi,nguoi_su_dung_lao_dong_an_danh,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-007",
+  "question": "Tôi là công dân Việt Nam. Tôi đang làm nhân viên thiết kế ở Long An. Công việc của tôi không phải giúp việc gia đình. Tôi đã ký hợp đồng lao động có thời hạn nhưng chưa xác định thời hạn bao lâu. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "insufficient",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, nguoi_su_dung_lao_dong_an_danh, hd1)",
+   "instance_of(nguoi_su_dung_lao_dong_an_danh, nguoi_su_dung_lao_dong)",
+   "attr(hd1, loai_hop_dong, khong_xac_dinh_thoi_han)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,loai_hop_dong,khong_xac_dinh_thoi_han)",
+   "lam_viec_theo_hop_dong(toi,nguoi_su_dung_lao_dong_an_danh,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-008",
+  "question": "Tôi là công dân Việt Nam. Tôi đang làm nhân viên kiểm kê ở Bắc Ninh. Công việc của tôi không phải giúp việc gia đình. Tôi ký hợp đồng lao động xác định thời hạn 3 tháng. Tôi chưa đề cập tình trạng nhận lương hưu hoặc trợ cấp hằng tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, nguoi_su_dung_lao_dong_an_danh, hd1)",
+   "instance_of(nguoi_su_dung_lao_dong_an_danh, nguoi_su_dung_lao_dong)",
+   "attr(hd1, loai_hop_dong, xac_dinh_thoi_han)",
+   "attr(hd1, thoi_han, 3)"
+  ],
+  "false_facts": [],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,thoi_han,3)",
+   "lam_viec_theo_hop_dong(toi,nguoi_su_dung_lao_dong_an_danh,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-009",
+  "question": "Tôi là công dân Việt Nam. Tôi đang làm nhân viên hỗ trợ khách hàng ở Khánh Hòa. Công việc của tôi không phải giúp việc gia đình. Tôi làm việc theo giấy thỏa thuận và không biết văn bản này có phải hợp đồng lao động không. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "insufficient",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "instance_of(hd_thoa_thuan, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd_thoa_thuan)",
+   "attr(hd_thoa_thuan, loai_hop_dong, khong_xac_dinh_thoi_han)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd_thoa_thuan,loai_hop_dong,khong_xac_dinh_thoi_han)",
+   "lam_viec_theo_hop_dong(toi,cong_ty,hd_thoa_thuan)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-010",
+  "question": "Tôi là công dân Việt Nam. Tôi đang làm nhân viên bảo trì ở TP. Hồ Chí Minh. Công việc của tôi không phải giúp việc gia đình. Tôi ký hợp đồng lao động xác định thời hạn 12 tháng. Tôi đang nhận lương hưu hằng tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "false",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)",
+   "attr(hd1, loai_hop_dong, xac_dinh_thoi_han)",
+   "attr(hd1, thoi_han, 12)"
+  ],
+  "false_facts": [],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "false",
+  "proof_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K7.a#2"
+  ]
+ },
+ {
+  "id": "BHXH-011",
+  "question": "Tôi là công dân Việt Nam. Tôi và công ty ký một thỏa thuận cộng tác, không đặt tên là hợp đồng lao động. Công ty trả tiền công cho tôi. Tôi được cấp quản lý phân công và giám sát hằng ngày. Thỏa thuận kéo dài 3 tháng. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Công việc của tôi không phải giúp việc gia đình. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "instance_of(thoa_thuan, giay_to)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, thoa_thuan)",
+   "attr(thoa_thuan, thoi_han, 3)",
+   "attr(thoa_thuan, loai_hop_dong, khong_xac_dinh_thoi_han)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "false",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-012",
+  "question": "Tôi là công dân Việt Nam. Tôi và công ty ký một thỏa thuận khoán việc, không đặt tên là hợp đồng lao động. Công ty trả tiền công cho tôi. Tôi được cấp quản lý phân công và giám sát hằng ngày. Thỏa thuận kéo dài 4 tháng. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Công việc của tôi không phải giúp việc gia đình. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "instance_of(thoa_thuan, giay_to)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, thoa_thuan)",
+   "attr(thoa_thuan, thoi_han, 4)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "false",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-013",
+  "question": "Tôi là công dân Việt Nam. Tôi và công ty ký một giấy thỏa thuận dịch vụ, không đặt tên là hợp đồng lao động. Công ty trả tiền công cho tôi. Tôi được cấp quản lý phân công và giám sát hằng ngày. Thỏa thuận kéo dài 5 tháng. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Công việc của tôi không phải giúp việc gia đình. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "instance_of(thoa_thuan, giay_to)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, thoa_thuan)",
+   "attr(thoa_thuan, thoi_han, 5)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "false",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-014",
+  "question": "Tôi là công dân Việt Nam. Tôi và công ty ký một thỏa thuận làm theo ca, không đặt tên là hợp đồng lao động. Công ty trả tiền công cho tôi. Tôi được cấp quản lý phân công và giám sát hằng ngày. Thỏa thuận kéo dài 6 tháng. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Công việc của tôi không phải giúp việc gia đình. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "instance_of(thoa_thuan, giay_to)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, thoa_thuan)",
+   "lam_viec_khong_tron_thoi_gian(toi)",
+   "attr(thoa_thuan, thoi_han, 6)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "false",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-015",
+  "question": "Tôi là công dân Việt Nam. Tôi và công ty ký một hợp đồng cộng tác bán hàng, không đặt tên là hợp đồng lao động. Công ty trả tiền công cho tôi. Tôi được cấp quản lý phân công và giám sát hằng ngày. Thỏa thuận kéo dài 7 tháng. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Công việc của tôi không phải giúp việc gia đình. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd1)",
+   "attr(hd1, loai_hop_dong, khong_xac_dinh_thoi_han)",
+   "attr(hd1, thoi_han, 7)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,loai_hop_dong,khong_xac_dinh_thoi_han)",
+   "lam_viec_theo_hop_dong(toi,cong_ty,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-016",
+  "question": "Tôi là công dân Việt Nam. Tôi và công ty ký một thỏa thuận làm việc, không đặt tên là hợp đồng lao động. Công ty trả tiền công cho tôi. Tôi được cấp quản lý phân công và giám sát hằng ngày. Thỏa thuận kéo dài 8 tháng. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Công việc của tôi không phải giúp việc gia đình. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "instance_of(thoa_thuan, giay_to)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, thoa_thuan)",
+   "attr(thoa_thuan, thoi_han, 8)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "false",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-017",
+  "question": "Tôi là công dân Việt Nam. Tôi và công ty ký một hợp đồng hỗ trợ kỹ thuật, không đặt tên là hợp đồng lao động. Công ty trả tiền công cho tôi. Thỏa thuận kéo dài 9 tháng. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "insufficient",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd1)",
+   "attr(hd1, loai_hop_dong, khong_xac_dinh_thoi_han)",
+   "attr(hd1, thoi_han, 9)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,loai_hop_dong,khong_xac_dinh_thoi_han)",
+   "lam_viec_theo_hop_dong(toi,cong_ty,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-018",
+  "question": "Tôi là công dân Việt Nam. Tôi và công ty ký một thỏa thuận hợp tác, không đặt tên là hợp đồng lao động. Tôi được cấp quản lý phân công và giám sát hằng ngày. Thỏa thuận kéo dài 10 tháng. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "insufficient",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "instance_of(thoa_thuan, giay_to)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, thoa_thuan)",
+   "attr(thoa_thuan, thoi_han, 10)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "false",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-019",
+  "question": "Tôi là công dân Việt Nam. Tôi và công ty ký một giấy giao việc, không đặt tên là hợp đồng lao động. Công ty trả tiền công cho tôi. Tôi được cấp quản lý phân công và giám sát hằng ngày. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "insufficient",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "instance_of(giay_giao_viec, giay_to)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, giay_giao_viec)",
+   "attr(giay_giao_viec, loai_hop_dong, khong_xac_dinh_thoi_han)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "false",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-020",
+  "question": "Tôi là công dân Việt Nam. Tôi và công ty ký một thỏa thuận cộng tác trực tuyến, không đặt tên là hợp đồng lao động. Công ty trả tiền công cho tôi. Tôi được cấp quản lý phân công và giám sát hằng ngày. Thỏa thuận kéo dài 12 tháng. Hiện tôi là người đang hưởng lương hưu. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "false",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "instance_of(thoa_thuan, giay_to)",
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)",
+   "attr(thoa_thuan, thoi_han, 12)"
+  ],
+  "false_facts": [],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "false",
+  "proof_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K7.a#2"
+  ]
+ },
+ {
+  "id": "BHXH-021",
+  "question": "Tôi là công dân Việt Nam. Tôi đang làm kỹ thuật viên ở Hà Nội. Tôi làm không trọn thời gian. Tôi ký hợp đồng lao động xác định thời hạn 1 tháng. Lương tháng của tôi cao hơn mức thấp nhất làm căn cứ đóng BHXH bắt buộc. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "lam_viec_khong_tron_thoi_gian(toi)",
+   "lam_viec_theo_hop_dong(toi, nguoi_su_dung_lao_dong_an_danh, hd1)",
+   "instance_of(nguoi_su_dung_lao_dong_an_danh, nguoi_su_dung_lao_dong)",
+   "attr(hd1, loai_hop_dong, xac_dinh_thoi_han)",
+   "attr(hd1, thoi_han, 1)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,thoi_han,1)",
+   "lam_viec_theo_hop_dong(toi,nguoi_su_dung_lao_dong_an_danh,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-022",
+  "question": "Tôi là công dân Việt Nam. Tôi đang làm nhân viên lễ tân ở Đà Nẵng. Tôi làm không trọn thời gian. Tôi ký hợp đồng lao động xác định thời hạn 2 tháng. Lương tháng của tôi cao hơn mức thấp nhất làm căn cứ đóng BHXH bắt buộc. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "lam_viec_khong_tron_thoi_gian(toi)",
+   "lam_viec_theo_hop_dong(toi, nguoi_su_dung_lao_dong_an_danh, hd1)",
+   "instance_of(nguoi_su_dung_lao_dong_an_danh, nguoi_su_dung_lao_dong)",
+   "attr(hd1, loai_hop_dong, xac_dinh_thoi_han)",
+   "attr(hd1, thoi_han, 2)",
+   "attr(toi, tien_luong_can_cu_dong_thap_nhat, thap_hon_muc_thap_nhat)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,thoi_han,2)",
+   "lam_viec_theo_hop_dong(toi,nguoi_su_dung_lao_dong_an_danh,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-023",
+  "question": "Tôi là công dân Việt Nam. Tôi đang làm công nhân may ở Hải Phòng. Tôi làm không trọn thời gian. Tôi ký hợp đồng lao động xác định thời hạn 3 tháng. Lương tháng của tôi cao hơn mức thấp nhất làm căn cứ đóng BHXH bắt buộc. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "lam_viec_khong_tron_thoi_gian(toi)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd1)",
+   "attr(hd1, thoi_han, 3)",
+   "attr(hd1, loai_hop_dong, xac_dinh_thoi_han)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,thoi_han,3)",
+   "lam_viec_theo_hop_dong(toi,cong_ty,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-024",
+  "question": "Tôi là công dân Việt Nam. Tôi đang làm nhân viên thiết kế ở Cần Thơ. Tôi làm không trọn thời gian. Tôi ký hợp đồng lao động xác định thời hạn 6 tháng. Lương tháng của tôi cao hơn mức thấp nhất làm căn cứ đóng BHXH bắt buộc. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "lam_viec_khong_tron_thoi_gian(toi)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd1)",
+   "attr(hd1, loai_hop_dong, xac_dinh_thoi_han)",
+   "attr(hd1, thoi_han, 6)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,thoi_han,6)",
+   "lam_viec_theo_hop_dong(toi,cong_ty,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-025",
+  "question": "Tôi là công dân Việt Nam. Tôi đang làm nhân viên kiểm kê ở Long An. Tôi làm không trọn thời gian. Tôi ký hợp đồng lao động xác định thời hạn 12 tháng. Lương tháng của tôi cao hơn mức thấp nhất làm căn cứ đóng BHXH bắt buộc. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "lam_viec_khong_tron_thoi_gian(toi)",
+   "lam_viec_theo_hop_dong(toi, nguoi_su_dung_lao_dong_an_danh, hd1)",
+   "instance_of(nguoi_su_dung_lao_dong_an_danh, nguoi_su_dung_lao_dong)",
+   "attr(hd1, thoi_han, 12)",
+   "attr(toi, tien_luong_can_cu_dong_thap_nhat, cao_hon_muc_thap_nhat)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,thoi_han,12)",
+   "lam_viec_theo_hop_dong(toi,nguoi_su_dung_lao_dong_an_danh,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-026",
+  "question": "Tôi là công dân Việt Nam. Tôi đang làm nhân viên hỗ trợ khách hàng ở Bắc Ninh. Tôi làm không trọn thời gian. Tôi ký hợp đồng lao động xác định thời hạn 4 tháng. Mức lương hợp đồng được trả theo số giờ thực tế, tôi chưa xác định mức lương tháng so với ngưỡng đóng BHXH. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "insufficient",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "lam_viec_khong_tron_thoi_gian(toi)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd1)",
+   "attr(hd1, loai_hop_dong, 4)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "insufficient",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-027",
+  "question": "Tôi là công dân Việt Nam. Tôi đang làm nhân viên bảo trì ở Khánh Hòa. Tôi làm không trọn thời gian. Tôi ký hợp đồng lao động xác định thời hạn 8 tháng. Mức lương hợp đồng được trả theo số giờ thực tế, tôi chưa xác định mức lương tháng so với ngưỡng đóng BHXH. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "insufficient",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "lam_viec_khong_tron_thoi_gian(toi)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd1)",
+   "attr(hd1, loai_hop_dong, xac_dinh_thoi_han)",
+   "attr(hd1, thoi_han, 8)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,thoi_han,8)",
+   "lam_viec_theo_hop_dong(toi,cong_ty,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-028",
+  "question": "Tôi là công dân Việt Nam. Tôi đang làm nhân viên đóng gói ở TP. Hồ Chí Minh. Tôi làm không trọn thời gian. Tôi ký hợp đồng lao động xác định thời hạn 10 tháng. Mức lương hợp đồng được trả theo số giờ thực tế, tôi chưa xác định mức lương tháng so với ngưỡng đóng BHXH. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "insufficient",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "lam_viec_khong_tron_thoi_gian(toi)",
+   "lam_viec_theo_hop_dong(toi, nguoi_su_dung_lao_dong_an_danh, hd1)",
+   "instance_of(nguoi_su_dung_lao_dong_an_danh, nguoi_su_dung_lao_dong)",
+   "attr(hd1, thoi_han, 10)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,thoi_han,10)",
+   "lam_viec_theo_hop_dong(toi,nguoi_su_dung_lao_dong_an_danh,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-029",
+  "question": "Tôi là công dân Việt Nam. Tôi đang làm nhân viên văn phòng ở Bình Dương. Tôi làm không trọn thời gian. Tôi ký hợp đồng lao động xác định thời hạn 1 tháng. Lương tháng của tôi thấp hơn tiền lương làm căn cứ đóng BHXH bắt buộc thấp nhất. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "false",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "lam_viec_khong_tron_thoi_gian(toi)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd1)",
+   "attr(hd1, loai_hop_dong, xac_dinh_thoi_han)",
+   "attr(hd1, thoi_han, 1)",
+   "attr(toi, tien_luong, thap_hon_tien_luong_can_cu_dong_thap_nhat)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,thoi_han,1)",
+   "lam_viec_theo_hop_dong(toi,cong_ty,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-030",
+  "question": "Tôi là công dân Việt Nam. Tôi đang làm nhân viên vận hành ở Đồng Nai. Tôi làm không trọn thời gian. Tôi ký hợp đồng lao động xác định thời hạn 12 tháng. Lương tháng của tôi thấp hơn tiền lương làm căn cứ đóng BHXH bắt buộc thấp nhất. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "false",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "lam_viec_khong_tron_thoi_gian(toi)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd1)",
+   "attr(hd1, loai_hop_dong, xac_dinh_thoi_han)",
+   "attr(hd1, thoi_han, 12)",
+   "attr(toi, tien_luong, thap_hon_tien_luong_can_cu_dong_thap_nhat)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,thoi_han,12)",
+   "lam_viec_theo_hop_dong(toi,cong_ty,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-031",
+  "question": "Tôi là người lao động mang quốc tịch nước ngoài. Tôi làm việc theo hợp đồng lao động có thời hạn tại một doanh nghiệp ở Việt Nam. Thời hạn hợp đồng là 12 tháng. Đây không phải trường hợp di chuyển trong nội bộ doanh nghiệp. Khi ký hợp đồng tôi chưa đến tuổi nghỉ hưu. Trường hợp của tôi không có điều ước quốc tế quy định khác. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd1)",
+   "attr(hd1, thoi_han, 12)"
+  ],
+  "false_facts": [],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,thoi_han,12)",
+   "lam_viec_theo_hop_dong(toi,cong_ty,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-032",
+  "question": "Tôi là người lao động mang quốc tịch nước ngoài. Tôi làm việc theo hợp đồng lao động có thời hạn tại một doanh nghiệp ở Việt Nam. Thời hạn hợp đồng là 13 tháng. Đây không phải trường hợp di chuyển trong nội bộ doanh nghiệp. Khi ký hợp đồng tôi chưa đến tuổi nghỉ hưu. Trường hợp của tôi không có điều ước quốc tế quy định khác. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd1)",
+   "attr(hd1, thoi_han, 13)"
+  ],
+  "false_facts": [],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,thoi_han,13)",
+   "lam_viec_theo_hop_dong(toi,cong_ty,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-033",
+  "question": "Tôi là người lao động mang quốc tịch nước ngoài. Tôi làm việc theo hợp đồng lao động có thời hạn tại một doanh nghiệp ở Việt Nam. Thời hạn hợp đồng là 18 tháng. Đây không phải trường hợp di chuyển trong nội bộ doanh nghiệp. Khi ký hợp đồng tôi chưa đến tuổi nghỉ hưu. Trường hợp của tôi không có điều ước quốc tế quy định khác. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd1)",
+   "attr(hd1, thoi_han, 18)"
+  ],
+  "false_facts": [],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,thoi_han,18)",
+   "lam_viec_theo_hop_dong(toi,cong_ty,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-034",
+  "question": "Tôi là người lao động mang quốc tịch nước ngoài. Tôi làm việc theo hợp đồng lao động có thời hạn tại một doanh nghiệp ở Việt Nam. Thời hạn hợp đồng là 24 tháng. Đây không phải trường hợp di chuyển trong nội bộ doanh nghiệp. Khi ký hợp đồng tôi chưa đến tuổi nghỉ hưu. Trường hợp của tôi không có điều ước quốc tế quy định khác. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd1)",
+   "attr(hd1, thoi_han, 24)"
+  ],
+  "false_facts": [],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,thoi_han,24)",
+   "lam_viec_theo_hop_dong(toi,cong_ty,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-035",
+  "question": "Tôi là người lao động mang quốc tịch nước ngoài. Tôi làm việc theo hợp đồng lao động có thời hạn tại một doanh nghiệp ở Việt Nam. Thời hạn hợp đồng là 36 tháng. Đây không phải trường hợp di chuyển trong nội bộ doanh nghiệp. Khi ký hợp đồng tôi chưa đến tuổi nghỉ hưu. Trường hợp của tôi không có điều ước quốc tế quy định khác. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd1)",
+   "attr(hd1, thoi_han, 36)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,thoi_han,36)",
+   "lam_viec_theo_hop_dong(toi,cong_ty,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-036",
+  "question": "Tôi là người lao động mang quốc tịch nước ngoài. Tôi làm việc theo hợp đồng lao động có thời hạn tại một doanh nghiệp ở Việt Nam. Thời hạn hợp đồng là 15 tháng. Tôi không rõ việc chuyển công tác có thuộc diện di chuyển nội bộ doanh nghiệp hay không. Khi ký tôi chưa đến tuổi nghỉ hưu. Không có điều ước quốc tế quy định khác. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd1)",
+   "attr(hd1, thoi_han, 15)"
+  ],
+  "false_facts": [],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,thoi_han,15)",
+   "lam_viec_theo_hop_dong(toi,cong_ty,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-037",
+  "question": "Tôi là người lao động mang quốc tịch nước ngoài. Tôi làm việc theo hợp đồng lao động có thời hạn tại một doanh nghiệp ở Việt Nam. Thời hạn hợp đồng là 12 tháng. Tôi được tuyển trực tiếp, không phải chuyển nội bộ. Tôi không biết tại ngày ký đã đủ tuổi nghỉ hưu theo luật hay chưa. Không có điều ước quốc tế quy định khác. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd1)",
+   "attr(hd1, thoi_han, 12)"
+  ],
+  "false_facts": [],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,thoi_han,12)",
+   "lam_viec_theo_hop_dong(toi,cong_ty,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-038",
+  "question": "Tôi là người lao động mang quốc tịch nước ngoài. Tôi làm việc theo hợp đồng lao động có thời hạn tại một doanh nghiệp ở Việt Nam. Thời hạn hợp đồng là 18 tháng. Tôi chuyển sang đây trong diện di chuyển nội bộ doanh nghiệp. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "false",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd1)",
+   "attr(hd1, thoi_han, 18)"
+  ],
+  "false_facts": [],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,thoi_han,18)",
+   "lam_viec_theo_hop_dong(toi,cong_ty,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-039",
+  "question": "Tôi là người lao động mang quốc tịch nước ngoài. Tôi làm việc theo hợp đồng lao động có thời hạn tại một doanh nghiệp ở Việt Nam. Thời hạn hợp đồng là 12 tháng. Tại ngày ký hợp đồng tôi đã đủ tuổi nghỉ hưu theo luật. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "false",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd1)",
+   "attr(hd1, thoi_han, 12)"
+  ],
+  "false_facts": [],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,thoi_han,12)",
+   "lam_viec_theo_hop_dong(toi,cong_ty,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-040",
+  "question": "Tôi là người lao động mang quốc tịch nước ngoài. Tôi làm việc theo hợp đồng lao động có thời hạn tại một doanh nghiệp ở Việt Nam. Thời hạn hợp đồng là 24 tháng. Tôi vừa là người di chuyển nội bộ doanh nghiệp, vừa đã đủ tuổi nghỉ hưu khi ký hợp đồng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "false",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd1)",
+   "attr(hd1, thoi_han, 24)"
+  ],
+  "false_facts": [],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,thoi_han,24)",
+   "lam_viec_theo_hop_dong(toi,cong_ty,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-041",
+  "question": "Tôi là công dân Việt Nam. Tôi hiện sinh sống tại Bình Dương. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Tôi chỉ ký hợp đồng thử việc riêng trong 20 ngày, chưa ký hợp đồng lao động. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "false",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd_thu_viec, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, nguoi_su_dung_lao_dong_an_danh, hd_thu_viec)",
+   "instance_of(nguoi_su_dung_lao_dong_an_danh, nguoi_su_dung_lao_dong)",
+   "attr(hd_thu_viec, loai_hop_dong, thu_viec)",
+   "attr(hd_thu_viec, thoi_han, 20)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd_thu_viec,thoi_han,20)",
+   "lam_viec_theo_hop_dong(toi,nguoi_su_dung_lao_dong_an_danh,hd_thu_viec)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-042",
+  "question": "Tôi là công dân Việt Nam. Tôi hiện sinh sống tại Đồng Nai. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Tôi chỉ ký hợp đồng thử việc riêng trong 25 ngày, chưa ký hợp đồng lao động. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "false",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd_thu_viec, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, nguoi_su_dung_lao_dong_an_danh, hd_thu_viec)",
+   "instance_of(nguoi_su_dung_lao_dong_an_danh, nguoi_su_dung_lao_dong)",
+   "attr(hd_thu_viec, thoi_han, 25)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd_thu_viec,thoi_han,25)",
+   "lam_viec_theo_hop_dong(toi,nguoi_su_dung_lao_dong_an_danh,hd_thu_viec)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-043",
+  "question": "Tôi là công dân Việt Nam. Tôi hiện sinh sống tại Hà Nội. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Tôi chỉ ký hợp đồng thử việc riêng trong 30 ngày, chưa ký hợp đồng lao động. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "false",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd_thu_viec, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, nguoi_su_dung_lao_dong_an_danh, hd_thu_viec)",
+   "instance_of(nguoi_su_dung_lao_dong_an_danh, nguoi_su_dung_lao_dong)",
+   "attr(hd_thu_viec, thoi_han, 30)",
+   "attr(hd_thu_viec, loai_hop_dong, thu_viec_rieng_cua_toi)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd_thu_viec,thoi_han,30)",
+   "lam_viec_theo_hop_dong(toi,nguoi_su_dung_lao_dong_an_danh,hd_thu_viec)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-044",
+  "question": "Tôi là công dân Việt Nam. Tôi hiện sinh sống tại Đà Nẵng. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Tôi làm người giúp việc gia đình tại nhà riêng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "false",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(nguoi_su_dung_lao_dong_gia_dinh, nguoi_su_dung_lao_dong)",
+   "instance_of(hop_dong_gia_dinh, hop_dong_lao_dong)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "insufficient",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-045",
+  "question": "Tôi là công dân Việt Nam. Tôi hiện sinh sống tại Hải Phòng. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Tôi làm người giúp việc gia đình tại nhà riêng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "false",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "false",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-046",
+  "question": "Tôi là công dân Việt Nam. Tôi hiện sinh sống tại Cần Thơ. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Chúng tôi chỉ có giấy xác nhận làm thử nhưng chưa rõ đó là hợp đồng thử việc độc lập hay hợp đồng lao động. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "insufficient",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(giay_xac_nhan_thu_viec, giay_to)",
+   "instance_of(hop_dong_thu_viec, hop_dong_lao_dong)",
+   "instance_of(hop_dong_lao_dong_chung, hop_dong_lao_dong)",
+   "attr(hop_dong_thu_viec, loai_hop_dong, khong_xac_dinh_thoi_han)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "false",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-047",
+  "question": "Tôi là công dân Việt Nam. Tôi hiện sinh sống tại Long An. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Trước đây tôi chỉ thử việc; nay tôi đã kết thúc thử việc và ký hợp đồng lao động 12 tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "attr(hd1, thoi_han, 12)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "insufficient",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-048",
+  "question": "Tôi là công dân Việt Nam. Tôi hiện sinh sống tại Bắc Ninh. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Tôi vừa được nhận vào công ty nhưng hiện chỉ ký hợp đồng thử việc. Tôi có dự định ký hợp đồng lao động sau thử việc nhưng chưa ký. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "false",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "instance_of(hd_thu_viec, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd_thu_viec)",
+   "attr(hd_thu_viec, loai_hop_dong, thu_viec)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "insufficient",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-049",
+  "question": "Tôi là công dân Việt Nam. Tôi là người quản lý doanh nghiệp được bổ nhiệm chính thức, giữ chức Giám đốc. Tôi nhận tiền lương hằng tháng cho chức danh này. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "false",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-050",
+  "question": "Tôi là công dân Việt Nam. Tôi là người quản lý doanh nghiệp được bổ nhiệm chính thức, giữ chức Tổng Giám đốc. Tôi nhận tiền lương hằng tháng cho chức danh này. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "false",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-051",
+  "question": "Tôi là công dân Việt Nam. Tôi là người quản lý doanh nghiệp được bổ nhiệm chính thức, giữ chức thành viên Hội đồng quản trị. Tôi nhận tiền lương hằng tháng cho chức danh này. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "false",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-052",
+  "question": "Tôi là công dân Việt Nam. Tôi là người quản lý doanh nghiệp được bổ nhiệm chính thức, giữ chức kiểm soát viên. Tôi không nhận lương cho chức danh quản lý này. Tôi chưa đến tuổi nghỉ hưu theo quy định. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "false",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-053",
+  "question": "Tôi là công dân Việt Nam. Tôi là người quản lý doanh nghiệp được bổ nhiệm chính thức, giữ chức Chủ tịch công ty. Tôi không nhận lương cho chức danh quản lý này. Tôi chưa đến tuổi nghỉ hưu theo quy định. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "false",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-054",
+  "question": "Tôi là công dân Việt Nam. Tôi là người quản lý doanh nghiệp được bổ nhiệm chính thức, giữ chức thành viên Hội đồng thành viên. Tôi nhận tiền lương từ doanh nghiệp. Tôi chưa cho biết mình đang hưởng lương hưu hay nhận trợ cấp hằng tháng hay không. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(doanh_nghiep, nguoi_su_dung_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, doanh_nghiep, hop_dong_lao_dong_an_danh)",
+   "instance_of(hop_dong_lao_dong_an_danh, hop_dong_lao_dong)"
+  ],
+  "false_facts": [],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "insufficient",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-055",
+  "question": "Tôi là công dân Việt Nam. Tôi là người quản lý doanh nghiệp được bổ nhiệm chính thức, giữ chức đại diện phần vốn của doanh nghiệp. Tôi nhận tiền lương từ doanh nghiệp. Tôi chưa cho biết mình đang hưởng lương hưu hay nhận trợ cấp hằng tháng hay không. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hop_dong_lao_dong_an_danh)",
+   "instance_of(hop_dong_lao_dong_an_danh, hop_dong_lao_dong)"
+  ],
+  "false_facts": [],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "insufficient",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-056",
+  "question": "Tôi là công dân Việt Nam. Tôi là người quản lý doanh nghiệp được bổ nhiệm chính thức, giữ chức Giám đốc điều hành. Tôi vẫn đang hưởng lương hưu. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "false",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "false_facts": [],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "false",
+  "proof_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K7.a#2"
+  ]
+ },
+ {
+  "id": "BHXH-057",
+  "question": "Tôi là công dân Việt Nam. Tôi là chủ một hộ kinh doanh và đã đăng ký kinh doanh, ngành nghề chính là quán ăn. Hiện tôi chỉ làm chủ hộ này, không có quan hệ làm việc nào khác. Tôi chưa đến tuổi nghỉ hưu theo quy định. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Hộ của tôi đang nộp thuế theo phương pháp kê khai. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(ho_kinh_doanh, ca_nhan)",
+   "lam_viec_khong_tron_thoi_gian(toi)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "false",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-058",
+  "question": "Tôi là công dân Việt Nam. Tôi là chủ một hộ kinh doanh và đã đăng ký kinh doanh, ngành nghề chính là tiệm may. Hiện tôi chỉ làm chủ hộ này, không có quan hệ làm việc nào khác. Tôi chưa đến tuổi nghỉ hưu theo quy định. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Hộ của tôi đang nộp thuế theo phương pháp kê khai. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(ho_kinh_doanh, ca_nhan)",
+   "lam_viec_khong_tron_thoi_gian(toi)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "false",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-059",
+  "question": "Tôi là công dân Việt Nam. Tôi là chủ một hộ kinh doanh và đã đăng ký kinh doanh, ngành nghề chính là cửa hàng sửa xe. Hiện tôi chỉ làm chủ hộ này, không có quan hệ làm việc nào khác. Tôi chưa đến tuổi nghỉ hưu theo quy định. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Hộ của tôi đang nộp thuế theo phương pháp kê khai. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(ho_kinh_doanh, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, toi, ho_kinh_doanh)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "false",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-060",
+  "question": "Tôi là công dân Việt Nam. Tôi là chủ một hộ kinh doanh và đã đăng ký kinh doanh, ngành nghề chính là tiệm photocopy. Hiện tôi chỉ làm chủ hộ này, không có quan hệ làm việc nào khác. Tôi chưa đến tuổi nghỉ hưu theo quy định. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Hộ của tôi đang nộp thuế theo phương pháp kê khai. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(ho_kinh_doanh, giay_to)",
+   "lam_viec_theo_hop_dong(toi, nguoi_su_dung_lao_dong_an_danh, hop_dong_lao_dong_an_danh)",
+   "instance_of(nguoi_su_dung_lao_dong_an_danh, nguoi_su_dung_lao_dong)",
+   "instance_of(hop_dong_lao_dong_an_danh, hop_dong_lao_dong)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "insufficient",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-061",
+  "question": "Tôi là công dân Việt Nam. Tôi là chủ một hộ kinh doanh và đã đăng ký kinh doanh, ngành nghề chính là cửa hàng thực phẩm. Hiện tôi chỉ làm chủ hộ này, không có quan hệ làm việc nào khác. Tôi chưa đến tuổi nghỉ hưu theo quy định. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Hộ của tôi đang nộp thuế theo phương pháp kê khai. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "lam_viec_khong_tron_thoi_gian(toi)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "false",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-062",
+  "question": "Tôi là công dân Việt Nam. Tôi là chủ một hộ kinh doanh và đã đăng ký kinh doanh, ngành nghề chính là tiệm đồ điện. Hiện tôi chỉ làm chủ hộ này, không có quan hệ làm việc nào khác. Tôi chưa đến tuổi nghỉ hưu theo quy định. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Tôi chưa xác nhận hộ thuộc phương pháp kê khai thuế hay phương pháp khác. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "insufficient",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "lam_viec_khong_tron_thoi_gian(toi)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "false",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-063",
+  "question": "Tôi là công dân Việt Nam. Tôi là chủ một hộ kinh doanh và đã đăng ký kinh doanh, ngành nghề chính là tiệm bánh. Hiện tôi chỉ làm chủ hộ này, không có quan hệ làm việc nào khác. Tôi chưa đến tuổi nghỉ hưu theo quy định. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Tôi chưa xác nhận hộ thuộc phương pháp kê khai thuế hay phương pháp khác. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "insufficient",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "lam_viec_khong_tron_thoi_gian(toi)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "false",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-064",
+  "question": "Tôi là công dân Việt Nam. Tôi là chủ một hộ kinh doanh và đã đăng ký kinh doanh, ngành nghề chính là cửa hàng quần áo. Hiện tôi chỉ làm chủ hộ này, không có quan hệ làm việc nào khác. Tôi chưa đến tuổi nghỉ hưu theo quy định. Tôi không hưởng lương hưu hay trợ cấp BHXH hoặc trợ cấp hằng tháng. Hộ của tôi không nộp thuế theo phương pháp kê khai. Tôi hỏi theo quy định áp dụng trong năm 2026. Vậy tôi có thuộc diện tham gia BHXH bắt buộc không?",
+  "gold": "false",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, nguoi_su_dung_lao_dong_an_danh, hop_dong_lao_dong_an_danh)",
+   "instance_of(nguoi_su_dung_lao_dong_an_danh, nguoi_su_dung_lao_dong)",
+   "instance_of(hop_dong_lao_dong_an_danh, hop_dong_lao_dong)"
+  ],
+  "false_facts": [
+   "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "insufficient",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-065",
+  "question": "Tôi là công dân Việt Nam. Tôi làm việc theo hợp đồng lao động tại một công ty. Hợp đồng của tôi có thời hạn 12 tháng. Tôi không nhận tiền lương trong 14 ngày làm việc của tháng này. Hai bên không thỏa thuận tiếp tục đóng BHXH trong tháng. Vậy tháng này tôi có phải đóng BHXH bắt buộc không?",
+  "gold": "false",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd1)",
+   "attr(hd1, thoi_han, 12)"
+  ],
+  "false_facts": [
+   "dong_bhxh(toi, quy_huu_tri_tu_tuat)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,thoi_han,12)",
+   "lam_viec_theo_hop_dong(toi,cong_ty,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-066",
+  "question": "Tôi là công dân Việt Nam. Tôi làm việc theo hợp đồng lao động tại một công ty. Hợp đồng của tôi có thời hạn 12 tháng. Tôi không nhận tiền lương trong 15 ngày làm việc của tháng này. Hai bên không thỏa thuận tiếp tục đóng BHXH trong tháng. Vậy tháng này tôi có phải đóng BHXH bắt buộc không?",
+  "gold": "false",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd1)",
+   "attr(hd1, thoi_han, 12)"
+  ],
+  "false_facts": [
+   "dong_bhxh(toi, quy_huu_tri_tu_tuat)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,thoi_han,12)",
+   "lam_viec_theo_hop_dong(toi,cong_ty,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-067",
+  "question": "Tôi là công dân Việt Nam. Tôi làm việc theo hợp đồng lao động tại một công ty. Hợp đồng của tôi có thời hạn 12 tháng. Tôi không nhận tiền lương trong 16 ngày làm việc của tháng này. Hai bên không thỏa thuận tiếp tục đóng BHXH trong tháng. Vậy tháng này tôi có phải đóng BHXH bắt buộc không?",
+  "gold": "false",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd1)",
+   "attr(hd1, thoi_han, 12)"
+  ],
+  "false_facts": [],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,thoi_han,12)",
+   "lam_viec_theo_hop_dong(toi,cong_ty,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-068",
+  "question": "Tôi là công dân Việt Nam. Tôi làm việc theo hợp đồng lao động tại một công ty. Hợp đồng của tôi có thời hạn 12 tháng. Tôi không nhận tiền lương trong 17 ngày làm việc của tháng này. Tôi và công ty đã thỏa thuận vẫn đóng BHXH cho tháng này. Vậy tháng này tôi có phải đóng BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd1)",
+   "thuoc_dien_bhxh_bat_buoc(toi)",
+   "attr(hd1, thoi_han, 12)"
+  ],
+  "false_facts": [
+   "dong_bhxh(toi, quy_huu_tri_tu_tuat)"
+  ],
+  "q": {
+   "type": "yes_no",
+   "subject": "toi",
+   "modality": "obligation",
+   "pred": "dong_bhxh",
+   "args": [
+    "quy_huu_tri_tu_tuat"
+   ],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,thoi_han,12)",
+   "lam_viec_theo_hop_dong(toi,cong_ty,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0",
+   "41/2024/QH15:D33.K1.a#3"
+  ]
+ },
+ {
+  "id": "BHXH-069",
+  "question": "Tôi là công dân Việt Nam. Tôi làm việc theo hợp đồng lao động tại một công ty. Hợp đồng của tôi có thời hạn 12 tháng. Tôi không nhận tiền lương trong 18 ngày làm việc của tháng này. Tôi và công ty đã thỏa thuận vẫn đóng BHXH cho tháng này. Vậy tháng này tôi có phải đóng BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "instance_of(hd_toi, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd_toi)",
+   "attr(hd_toi, thoi_han, 12)"
+  ],
+  "false_facts": [
+   "dong_bhxh(toi, quy_huu_tri_tu_tuat)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd_toi,thoi_han,12)",
+   "lam_viec_theo_hop_dong(toi,cong_ty,hd_toi)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-070",
+  "question": "Tôi là công dân Việt Nam. Tôi làm việc theo hợp đồng lao động tại một công ty. Hợp đồng của tôi có thời hạn 12 tháng. Tôi không nhận tiền lương trong 19 ngày làm việc của tháng này. Tôi chưa trao đổi với công ty xem hai bên có thống nhất tiếp tục đóng BHXH hay không. Vậy tháng này tôi có phải đóng BHXH bắt buộc không?",
+  "gold": "insufficient",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "instance_of(hd_toi, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd_toi)",
+   "attr(hd_toi, thoi_han, 12)"
+  ],
+  "false_facts": [
+   "dong_bhxh(toi, quy_huu_tri_tu_tuat)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd_toi,thoi_han,12)",
+   "lam_viec_theo_hop_dong(toi,cong_ty,hd_toi)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-071",
+  "question": "Tôi là công dân Việt Nam. Tôi làm việc theo hợp đồng lao động tại một công ty. Hợp đồng của tôi có thời hạn 12 tháng. Tôi không nhận tiền lương trong 20 ngày làm việc của tháng này. Tôi chưa trao đổi với công ty xem hai bên có thống nhất tiếp tục đóng BHXH hay không. Vậy tháng này tôi có phải đóng BHXH bắt buộc không?",
+  "gold": "insufficient",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd1)",
+   "attr(hd1, thoi_han, 12)"
+  ],
+  "false_facts": [
+   "dong_bhxh(toi, quy_huu_tri_tu_tuat)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd1,thoi_han,12)",
+   "lam_viec_theo_hop_dong(toi,cong_ty,hd1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-072",
+  "question": "Tôi là công dân Việt Nam. Tôi làm việc theo hợp đồng lao động tại một công ty. Hợp đồng của tôi có thời hạn 12 tháng. Tôi không nhận tiền lương trong 21 ngày làm việc của tháng này. Hai bên có thỏa thuận tiếp tục đóng BHXH dù tháng này không trả lương. Vậy tháng này tôi có phải đóng BHXH bắt buộc không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "instance_of(hd_toi, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd_toi)",
+   "attr(hd_toi, thoi_han, 12)"
+  ],
+  "false_facts": [
+   "thuoc_dien_bhxh_bat_buoc(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "thuoc_dien_bhxh_bat_buoc",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd_toi,thoi_han,12)",
+   "lam_viec_theo_hop_dong(toi,cong_ty,hd_toi)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0"
+  ]
+ },
+ {
+  "id": "BHXH-073",
+  "question": "Tôi là công dân Việt Nam. Tôi ký hợp đồng lao động với hai công ty khác nhau. Mỗi hợp đồng có thời hạn 12 tháng. Hợp đồng thứ hai đang có hiệu lực. Hợp đồng lao động đầu tiên không bị tạm hoãn. Tôi có phải đóng BHXH theo hợp đồng lao động đầu tiên không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty_1, nguoi_su_dung_lao_dong)",
+   "instance_of(cong_ty_2, nguoi_su_dung_lao_dong)",
+   "instance_of(hd_1, hop_dong_lao_dong)",
+   "instance_of(hd_2, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty_1, hd_1)",
+   "lam_viec_theo_hop_dong(toi, cong_ty_2, hd_2)",
+   "attr(hd_1, thoi_han, 12)",
+   "attr(hd_2, thoi_han, 12)"
+  ],
+  "false_facts": [],
+  "q": {
+   "type": "yes_no",
+   "subject": "toi",
+   "modality": "obligation",
+   "pred": "dong_bhxh",
+   "args": [
+    "hd_1"
+   ],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "false",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-074",
+  "question": "Tôi là công dân Việt Nam. Tôi ký hợp đồng lao động với ba công ty khác nhau. Mỗi hợp đồng có thời hạn 12 tháng. Hợp đồng thứ hai đang có hiệu lực. Hợp đồng lao động đầu tiên không bị tạm hoãn. Tôi có phải đóng BHXH theo hợp đồng lao động đầu tiên không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty_1, nguoi_su_dung_lao_dong)",
+   "instance_of(cong_ty_2, nguoi_su_dung_lao_dong)",
+   "instance_of(cong_ty_3, nguoi_su_dung_lao_dong)",
+   "instance_of(hd_1, hop_dong_lao_dong)",
+   "instance_of(hd_2, hop_dong_lao_dong)",
+   "instance_of(hd_3, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty_1, hd_1)",
+   "lam_viec_theo_hop_dong(toi, cong_ty_2, hd_2)",
+   "lam_viec_theo_hop_dong(toi, cong_ty_3, hd_3)",
+   "attr(hd_1, thoi_han, 12)",
+   "attr(hd_2, thoi_han, 12)",
+   "attr(hd_3, thoi_han, 12)"
+  ],
+  "false_facts": [],
+  "q": {
+   "type": "yes_no",
+   "subject": "toi",
+   "modality": "obligation",
+   "pred": "dong_bhxh",
+   "args": [
+    "quy_huu_tri_tu_tuat"
+   ],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd_1,thoi_han,12)",
+   "lam_viec_theo_hop_dong(toi,cong_ty_1,hd_1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0",
+   "41/2024/QH15:D33.K1.a#3"
+  ]
+ },
+ {
+  "id": "BHXH-075",
+  "question": "Tôi là công dân Việt Nam. Tôi ký hợp đồng lao động với bốn công ty khác nhau. Mỗi hợp đồng có thời hạn 12 tháng. Hợp đồng thứ hai đang có hiệu lực. Hợp đồng lao động đầu tiên không bị tạm hoãn. Tôi có phải đóng BHXH theo hợp đồng lao động đầu tiên không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty_1, nguoi_su_dung_lao_dong)",
+   "instance_of(cong_ty_2, nguoi_su_dung_lao_dong)",
+   "instance_of(cong_ty_3, nguoi_su_dung_lao_dong)",
+   "instance_of(cong_ty_4, nguoi_su_dung_lao_dong)",
+   "instance_of(hd_1, hop_dong_lao_dong)",
+   "instance_of(hd_2, hop_dong_lao_dong)",
+   "instance_of(hd_3, hop_dong_lao_dong)",
+   "instance_of(hd_4, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty_1, hd_1)",
+   "lam_viec_theo_hop_dong(toi, cong_ty_2, hd_2)",
+   "lam_viec_theo_hop_dong(toi, cong_ty_3, hd_3)",
+   "lam_viec_theo_hop_dong(toi, cong_ty_4, hd_4)",
+   "attr(hd_1, thoi_han, 12)",
+   "attr(hd_2, thoi_han, 12)",
+   "attr(hd_3, thoi_han, 12)",
+   "attr(hd_4, thoi_han, 12)"
+  ],
+  "false_facts": [],
+  "q": {
+   "type": "yes_no",
+   "subject": "toi",
+   "modality": "obligation",
+   "pred": "dong_bhxh",
+   "args": [
+    "quy_huu_tri_tu_tuat"
+   ],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "true",
+  "proof_facts": [
+   "attr(hd_1,thoi_han,12)",
+   "lam_viec_theo_hop_dong(toi,cong_ty_1,hd_1)"
+  ],
+  "proof_norms": [
+   "41/2024/QH15:D2.K1.a#0",
+   "41/2024/QH15:D33.K1.a#3"
+  ]
+ },
+ {
+  "id": "BHXH-076",
+  "question": "Tôi là công dân Việt Nam. Tôi ký hợp đồng lao động với hai công ty khác nhau. Mỗi hợp đồng có thời hạn 12 tháng. Hợp đồng thứ hai đang có hiệu lực. Hợp đồng đầu tiên đang tạm hoãn nhưng tôi chưa rõ hai bên có thỏa thuận đóng BHXH khi tạm hoãn hay không. Tôi có phải đóng BHXH theo hợp đồng lao động đầu tiên không?",
+  "gold": "insufficient",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty_1, nguoi_su_dung_lao_dong)",
+   "instance_of(cong_ty_2, nguoi_su_dung_lao_dong)",
+   "instance_of(hd_1, hop_dong_lao_dong)",
+   "instance_of(hd_2, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty_1, hd_1)",
+   "lam_viec_theo_hop_dong(toi, cong_ty_2, hd_2)",
+   "attr(hd_1, thoi_han, 12)",
+   "attr(hd_2, thoi_han, 12)"
+  ],
+  "false_facts": [],
+  "q": {
+   "type": "yes_no",
+   "subject": "toi",
+   "modality": "obligation",
+   "pred": "dong_bhxh",
+   "args": [
+    "hd_1"
+   ],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "false",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-077",
+  "question": "Tôi là công dân Việt Nam. Tôi ký hợp đồng lao động với ba công ty khác nhau. Mỗi hợp đồng có thời hạn 12 tháng. Hợp đồng thứ hai đang có hiệu lực. Hợp đồng đầu tiên đang tạm hoãn nhưng tôi chưa rõ hai bên có thỏa thuận đóng BHXH khi tạm hoãn hay không. Tôi có phải đóng BHXH theo hợp đồng lao động đầu tiên không?",
+  "gold": "insufficient",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty_1, nguoi_su_dung_lao_dong)",
+   "instance_of(cong_ty_2, nguoi_su_dung_lao_dong)",
+   "instance_of(cong_ty_3, nguoi_su_dung_lao_dong)",
+   "instance_of(hd_1, hop_dong_lao_dong)",
+   "instance_of(hd_2, hop_dong_lao_dong)",
+   "instance_of(hd_3, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty_1, hd_1)",
+   "lam_viec_theo_hop_dong(toi, cong_ty_2, hd_2)",
+   "lam_viec_theo_hop_dong(toi, cong_ty_3, hd_3)",
+   "attr(hd_1, thoi_han, 12)",
+   "attr(hd_2, thoi_han, 12)",
+   "attr(hd_3, thoi_han, 12)"
+  ],
+  "false_facts": [],
+  "q": {
+   "type": "yes_no",
+   "subject": "toi",
+   "modality": "obligation",
+   "pred": "dong_bhxh",
+   "args": [
+    "hd_1"
+   ],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "false",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-078",
+  "question": "Tôi là công dân Việt Nam. Tôi ký hợp đồng lao động với bốn công ty khác nhau. Mỗi hợp đồng có thời hạn 12 tháng. Hợp đồng thứ hai đang có hiệu lực. Hợp đồng đầu tiên đang tạm hoãn và hai bên không thỏa thuận đóng BHXH trong thời gian tạm hoãn. Tôi có phải đóng BHXH theo hợp đồng lao động đầu tiên không?",
+  "gold": "false",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(cong_ty_1, nguoi_su_dung_lao_dong)",
+   "instance_of(cong_ty_2, nguoi_su_dung_lao_dong)",
+   "instance_of(cong_ty_3, nguoi_su_dung_lao_dong)",
+   "instance_of(cong_ty_4, nguoi_su_dung_lao_dong)",
+   "instance_of(hd_1, hop_dong_lao_dong)",
+   "instance_of(hd_2, hop_dong_lao_dong)",
+   "instance_of(hd_3, hop_dong_lao_dong)",
+   "instance_of(hd_4, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, cong_ty_1, hd_1)",
+   "lam_viec_theo_hop_dong(toi, cong_ty_2, hd_2)",
+   "lam_viec_theo_hop_dong(toi, cong_ty_3, hd_3)",
+   "lam_viec_theo_hop_dong(toi, cong_ty_4, hd_4)",
+   "attr(hd_1, thoi_han, 12)",
+   "attr(hd_2, thoi_han, 12)",
+   "attr(hd_3, thoi_han, 12)",
+   "attr(hd_4, thoi_han, 12)"
+  ],
+  "false_facts": [
+   "dong_bhxh(toi, hd_1)"
+  ],
+  "q": {
+   "type": "yes_no",
+   "subject": "toi",
+   "modality": "obligation",
+   "pred": "dong_bhxh",
+   "args": [
+    "hd_1"
+   ],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "false",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-079",
+  "question": "Tôi là công dân Việt Nam. Trước khi nghỉ việc tôi tham gia BHXH bắt buộc theo hợp đồng lao động. Tôi đã nghỉ việc. Tôi đã đủ tuổi nghỉ hưu theo quy định của Bộ luật Lao động. Tôi đã đóng BHXH bắt buộc 15 năm. Tôi có đủ điều kiện hưởng lương hưu không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "thuoc_dien_bhxh_bat_buoc(toi)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd1)",
+   "attr(toi, so_tien_dong_hang_thang, da_dong_bhxh_bat_buoc_15_nam)"
+  ],
+  "false_facts": [],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "dang_huong_luong_huu_hoac_tro_cap_hang_thang",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "insufficient",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-080",
+  "question": "Tôi là công dân Việt Nam. Trước khi nghỉ việc tôi tham gia BHXH bắt buộc theo hợp đồng lao động. Tôi đã nghỉ việc. Tôi đã đủ tuổi nghỉ hưu theo quy định của Bộ luật Lao động. Tôi đã đóng BHXH bắt buộc 16 năm. Tôi có đủ điều kiện hưởng lương hưu không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "thuoc_dien_bhxh_bat_buoc(toi)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd1)",
+   "attr(toi, so_tien_dong_hang_thang, da_dong_bhxh_bat_buoc_16_nam)"
+  ],
+  "false_facts": [],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "dang_huong_luong_huu_hoac_tro_cap_hang_thang",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "insufficient",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-081",
+  "question": "Tôi là công dân Việt Nam. Trước khi nghỉ việc tôi tham gia BHXH bắt buộc theo hợp đồng lao động. Tôi đã nghỉ việc. Tôi đã đủ tuổi nghỉ hưu theo quy định của Bộ luật Lao động. Tôi đã đóng BHXH bắt buộc 19 năm. Tôi có đủ điều kiện hưởng lương hưu không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "thuoc_dien_bhxh_bat_buoc(toi)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd1)",
+   "attr(toi, so_tien_dong_hang_thang, da_dong_bhxh_bat_buoc_19_nam)"
+  ],
+  "false_facts": [],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "dang_huong_luong_huu_hoac_tro_cap_hang_thang",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "insufficient",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-082",
+  "question": "Tôi là công dân Việt Nam. Trước khi nghỉ việc tôi tham gia BHXH bắt buộc theo hợp đồng lao động. Tôi đã nghỉ việc. Tôi đã đủ tuổi nghỉ hưu theo quy định của Bộ luật Lao động. Tôi đã đóng BHXH bắt buộc 22 năm. Tôi có đủ điều kiện hưởng lương hưu không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "thuoc_dien_bhxh_bat_buoc(toi)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd1)",
+   "attr(toi, so_tien_dong_hang_thang, dong_bhxh_bat_buoc_22_nam)"
+  ],
+  "false_facts": [],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "dang_huong_luong_huu_hoac_tro_cap_hang_thang",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "insufficient",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-083",
+  "question": "Tôi là công dân Việt Nam. Trước khi nghỉ việc tôi tham gia BHXH bắt buộc theo hợp đồng lao động. Tôi đã nghỉ việc. Tôi đã đủ tuổi nghỉ hưu theo quy định của Bộ luật Lao động. Tôi chưa cộng tổng thời gian đóng BHXH bắt buộc được bao nhiêu năm. Tôi có đủ điều kiện hưởng lương hưu không?",
+  "gold": "insufficient",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "instance_of(cong_ty, nguoi_su_dung_lao_dong)",
+   "thuoc_dien_bhxh_bat_buoc(toi)",
+   "lam_viec_theo_hop_dong(toi, cong_ty, hd1)"
+  ],
+  "false_facts": [],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "dang_huong_luong_huu_hoac_tro_cap_hang_thang",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "insufficient",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-084",
+  "question": "Tôi là công dân Việt Nam. Trước khi nghỉ việc tôi tham gia BHXH bắt buộc theo hợp đồng lao động. Tôi đã nghỉ việc. Tôi đã đóng BHXH bắt buộc đủ 16 năm. Tôi chưa biết mình đã đủ tuổi nghỉ hưu theo luật hay chưa. Tôi có đủ điều kiện hưởng lương hưu không?",
+  "gold": "insufficient",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "thuoc_dien_bhxh_bat_buoc(toi)",
+   "attr(toi, so_tien_dong_hang_thang, du_16_nam)"
+  ],
+  "false_facts": [],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "dang_huong_luong_huu_hoac_tro_cap_hang_thang",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "insufficient",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-085",
+  "question": "Tôi là công dân Việt Nam. Trước đây tôi là người tham gia BHXH bắt buộc theo hợp đồng lao động. Tôi đã chấm dứt tham gia BHXH. Hiện tôi ra nước ngoài để định cư. Tôi đã làm đơn đề nghị hưởng BHXH một lần. Tôi có được giải quyết BHXH một lần không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, nguoi_su_dung_lao_dong_an_danh, hd1)",
+   "instance_of(nguoi_su_dung_lao_dong_an_danh, nguoi_su_dung_lao_dong)"
+  ],
+  "false_facts": [
+   "thuoc_dien_bhxh_bat_buoc(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "dang_huong_luong_huu_hoac_tro_cap_hang_thang",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "insufficient",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-086",
+  "question": "Tôi là công dân Việt Nam. Trước đây tôi là người tham gia BHXH bắt buộc theo hợp đồng lao động. Tôi đã chấm dứt tham gia BHXH. Hiện tôi mắc bệnh ung thư. Tôi đã làm đơn đề nghị hưởng BHXH một lần. Tôi có được giải quyết BHXH một lần không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, nguoi_su_dung_lao_dong_an_danh, hd1)",
+   "instance_of(nguoi_su_dung_lao_dong_an_danh, nguoi_su_dung_lao_dong)"
+  ],
+  "false_facts": [
+   "thuoc_dien_bhxh_bat_buoc(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "dang_huong_luong_huu_hoac_tro_cap_hang_thang",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "insufficient",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-087",
+  "question": "Tôi là công dân Việt Nam. Trước đây tôi là người tham gia BHXH bắt buộc theo hợp đồng lao động. Tôi đã chấm dứt tham gia BHXH. Hiện tôi bị xơ gan mất bù. Tôi đã làm đơn đề nghị hưởng BHXH một lần. Tôi có được giải quyết BHXH một lần không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, nguoi_su_dung_lao_dong_an_danh, hd1)",
+   "instance_of(nguoi_su_dung_lao_dong_an_danh, nguoi_su_dung_lao_dong)"
+  ],
+  "false_facts": [
+   "thuoc_dien_bhxh_bat_buoc(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "dang_huong_luong_huu_hoac_tro_cap_hang_thang",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "insufficient",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-088",
+  "question": "Tôi là công dân Việt Nam. Trước đây tôi là người tham gia BHXH bắt buộc theo hợp đồng lao động. Tôi đã chấm dứt tham gia BHXH. Hiện tôi chuyển cùng gia đình sang nước ngoài để định cư. Tôi đã làm đơn đề nghị hưởng BHXH một lần. Tôi có được giải quyết BHXH một lần không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, nguoi_su_dung_lao_dong_an_danh, hd1)",
+   "instance_of(nguoi_su_dung_lao_dong_an_danh, nguoi_su_dung_lao_dong)"
+  ],
+  "false_facts": [
+   "thuoc_dien_bhxh_bat_buoc(toi)"
+  ],
+  "q": {
+   "type": "yes_no",
+   "subject": "toi",
+   "modality": "right",
+   "pred": null,
+   "args": [
+    "mot_lan"
+   ],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "false",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-089",
+  "question": "Tôi là công dân Việt Nam. Trước đây tôi là người tham gia BHXH bắt buộc theo hợp đồng lao động. Tôi đã chấm dứt tham gia BHXH. Hiện tôi bị lao nặng. Tôi đã làm đơn đề nghị hưởng BHXH một lần. Tôi có được giải quyết BHXH một lần không?",
+  "gold": "true",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, nguoi_su_dung_lao_dong_an_danh, hd1)",
+   "instance_of(nguoi_su_dung_lao_dong_an_danh, nguoi_su_dung_lao_dong)"
+  ],
+  "false_facts": [
+   "thuoc_dien_bhxh_bat_buoc(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "dang_huong_luong_huu_hoac_tro_cap_hang_thang",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "insufficient",
+  "proof_facts": [],
+  "proof_norms": []
+ },
+ {
+  "id": "BHXH-090",
+  "question": "Tôi là công dân Việt Nam. Trước đây tôi là người tham gia BHXH bắt buộc theo hợp đồng lao động. Tôi đã chấm dứt tham gia BHXH. Tôi sẽ ra nước ngoài định cư. Tôi chưa nói đã làm đơn đề nghị hay chưa. Tôi có được giải quyết BHXH một lần không?",
+  "gold": "insufficient",
+  "facts": [
+   "instance_of(toi, nguoi_lao_dong)",
+   "instance_of(hd1, hop_dong_lao_dong)",
+   "lam_viec_theo_hop_dong(toi, nguoi_su_dung_lao_dong_an_danh, hd1)",
+   "instance_of(nguoi_su_dung_lao_dong_an_danh, nguoi_su_dung_lao_dong)"
+  ],
+  "false_facts": [
+   "thuoc_dien_bhxh_bat_buoc(toi)"
+  ],
+  "q": {
+   "type": "status",
+   "subject": "toi",
+   "modality": null,
+   "pred": "dang_huong_luong_huu_hoac_tro_cap_hang_thang",
+   "args": [],
+   "attr": null,
+   "negated": false,
+   "document": null
+  },
+  "verdict": "insufficient",
+  "proof_facts": [],
+  "proof_norms": []
+ }
+]

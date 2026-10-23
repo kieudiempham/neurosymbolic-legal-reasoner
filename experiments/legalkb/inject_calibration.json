@@ -1,0 +1,167 @@
+{
+ "grid": [
+  {
+   "tau": 0.4,
+   "rule": "pos_neg",
+   "dev_action_accuracy": 0.773,
+   "dev_fault_f1": 0.471,
+   "dev_false_alarm": 0.143
+  },
+  {
+   "tau": 0.5,
+   "rule": "pos_neg",
+   "dev_action_accuracy": 0.773,
+   "dev_fault_f1": 0.471,
+   "dev_false_alarm": 0.143
+  },
+  {
+   "tau": 0.6,
+   "rule": "pos_neg",
+   "dev_action_accuracy": 0.645,
+   "dev_fault_f1": 0.361,
+   "dev_false_alarm": 0.143
+  },
+  {
+   "tau": 0.7,
+   "rule": "pos_neg",
+   "dev_action_accuracy": 0.645,
+   "dev_fault_f1": 0.355,
+   "dev_false_alarm": 0.143
+  },
+  {
+   "tau": 0.8,
+   "rule": "pos_neg",
+   "dev_action_accuracy": 0.617,
+   "dev_fault_f1": 0.361,
+   "dev_false_alarm": 0.071
+  },
+  {
+   "tau": 0.9,
+   "rule": "pos_neg",
+   "dev_action_accuracy": 0.482,
+   "dev_fault_f1": 0.291,
+   "dev_false_alarm": 0.071
+  },
+  {
+   "tau": 0.4,
+   "rule": "pos_only",
+   "dev_action_accuracy": 0.773,
+   "dev_fault_f1": 0.453,
+   "dev_false_alarm": 0.143
+  },
+  {
+   "tau": 0.5,
+   "rule": "pos_only",
+   "dev_action_accuracy": 0.773,
+   "dev_fault_f1": 0.461,
+   "dev_false_alarm": 0.143
+  },
+  {
+   "tau": 0.6,
+   "rule": "pos_only",
+   "dev_action_accuracy": 0.645,
+   "dev_fault_f1": 0.355,
+   "dev_false_alarm": 0.143
+  },
+  {
+   "tau": 0.7,
+   "rule": "pos_only",
+   "dev_action_accuracy": 0.645,
+   "dev_fault_f1": 0.349,
+   "dev_false_alarm": 0.143
+  },
+  {
+   "tau": 0.8,
+   "rule": "pos_only",
+   "dev_action_accuracy": 0.638,
+   "dev_fault_f1": 0.355,
+   "dev_false_alarm": 0.143
+  },
+  {
+   "tau": 0.9,
+   "rule": "pos_only",
+   "dev_action_accuracy": 0.504,
+   "dev_fault_f1": 0.286,
+   "dev_false_alarm": 0.143
+  }
+ ],
+ "chosen": {
+  "tau": 0.4,
+  "rule": "pos_neg",
+  "dev_action_accuracy": 0.773,
+  "dev_fault_f1": 0.471,
+  "dev_false_alarm": 0.143
+ },
+ "test": {
+  "mbd": {
+   "instances": 153,
+   "action_accuracy": 0.712,
+   "fault_precision": 0.408,
+   "fault_recall": 0.613,
+   "fault_f1": 0.49,
+   "exact_isolation": 0.292,
+   "false_alarm_rate": 0.0,
+   "recall_by_mode": {
+    "omission": 0.852,
+    "misinterp": 0.4,
+    "unsupported": 0.182,
+    "omitted": 0.882,
+    "misencoded": 0.926,
+    "missing": 0.333
+   }
+  },
+  "heuristic": {
+   "instances": 153,
+   "action_accuracy": 0.712,
+   "fault_precision": 0.423,
+   "fault_recall": 0.606,
+   "fault_f1": 0.498,
+   "exact_isolation": 0.292,
+   "false_alarm_rate": 0.0,
+   "recall_by_mode": {
+    "omission": 0.852,
+    "misinterp": 0.4,
+    "unsupported": 0.182,
+    "omitted": 0.882,
+    "misencoded": 0.926,
+    "missing": 0.222
+   }
+  }
+ },
+ "test_default": {
+  "mbd": {
+   "instances": 153,
+   "action_accuracy": 0.712,
+   "fault_precision": 0.408,
+   "fault_recall": 0.613,
+   "fault_f1": 0.49,
+   "exact_isolation": 0.292,
+   "false_alarm_rate": 0.0,
+   "recall_by_mode": {
+    "omission": 0.852,
+    "misinterp": 0.4,
+    "unsupported": 0.182,
+    "omitted": 0.882,
+    "misencoded": 0.926,
+    "missing": 0.333
+   }
+  },
+  "heuristic": {
+   "instances": 153,
+   "action_accuracy": 0.712,
+   "fault_precision": 0.423,
+   "fault_recall": 0.606,
+   "fault_f1": 0.498,
+   "exact_isolation": 0.292,
+   "false_alarm_rate": 0.0,
+   "recall_by_mode": {
+    "omission": 0.852,
+    "misinterp": 0.4,
+    "unsupported": 0.182,
+    "omitted": 0.882,
+    "misencoded": 0.926,
+    "missing": 0.222
+   }
+  }
+ }
+}

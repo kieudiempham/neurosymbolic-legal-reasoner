@@ -29,3 +29,6 @@ frontend/.next/
 experiments/kbx/
 release/
 __pycache__/
+
+# legal KB build outputs (SQLite database, LLM response cache, compiled Prolog)
+data/legalkb/

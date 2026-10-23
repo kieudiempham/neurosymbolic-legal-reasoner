@@ -90,6 +90,15 @@ def build_entries() -> tuple[list[dict], dict]:
     return entries, key
 
 
+def cache_key(e: dict) -> str:
+    """Score cache key: the judged content itself (question, gold, answer text), the judge and the rubric — so a
+    changed answer is always re-scored, while an identical answer reuses its score."""
+    import hashlib
+
+    blob = json.dumps([e["q"]["question"], e["q"]["gold_expected"], e["ans"]], ensure_ascii=False, sort_keys=True)
+    return f"{hashlib.sha1(blob.encode('utf-8')).hexdigest()}|{JUDGE}|{RUBRIC}"
+
+
 def judge_all(entries: list[dict]) -> dict:
     load_dotenv(ROOT / ".env")
     client = OpenAI(api_key=os.environ["LLM_API_KEY"], base_url=os.environ.get("LLM_BASE_URL") or None)
@@ -104,7 +113,7 @@ def judge_all(entries: list[dict]) -> dict:
                                    application=a.get("application", ""), conclusion=a.get("conclusion", ""))
 
     def call(e):
-        k = e["anon"] + "|" + JUDGE + ("" if RUBRIC == "v1" else "|" + RUBRIC)
+        k = cache_key(e)
         if k in cache:
             return k, cache[k]
         for attempt in range(8):
@@ -126,7 +135,7 @@ def judge_all(entries: list[dict]) -> dict:
                     cache_f.write_text(json.dumps(cache, ensure_ascii=False, indent=1), encoding="utf-8")
     finally:
         cache_f.write_text(json.dumps(cache, ensure_ascii=False, indent=1), encoding="utf-8")
-    return {e["anon"]: cache[e["anon"] + "|" + JUDGE + ("" if RUBRIC == "v1" else "|" + RUBRIC)] for e in entries}
+    return {e["anon"]: cache[cache_key(e)] for e in entries}
 
 
 def human_sheet(entries: list[dict]) -> None:

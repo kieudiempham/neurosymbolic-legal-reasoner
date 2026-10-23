@@ -236,6 +236,17 @@ class Diagnoser:
         return [frozenset(d)]
 
     def run(self, question: str, goal: str, parsed: dict[str, Fact], sim_user: SimUser) -> QueryResult:
+        from . import retrieval
+
+        full_kb = self.kb
+        if retrieval.ENABLED:  # Candidate Rule Retrieval: reason and diagnose over the goal-relevant rules only
+            self.kb = retrieval.retrieve(full_kb, goal, parsed)
+        try:
+            return self._run(question, goal, parsed, sim_user)
+        finally:
+            self.kb = full_kb
+
+    def _run(self, question: str, goal: str, parsed: dict[str, Fact], sim_user: SimUser) -> QueryResult:
         facts = dict(parsed)
         blocked: set[str] = set()
         self._measured: dict[str, str] = {}

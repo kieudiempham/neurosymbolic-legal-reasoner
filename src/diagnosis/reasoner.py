@@ -84,35 +84,53 @@ def forward_reason(
                 return e
         return None
 
-    applied: list[str] = []
-    derived_by: dict[str, list[tuple[str, bool]]] = {}
-    conflicted: set[str] = set()
-    changed = True
-    while changed:
-        changed = False
-        for rule in kb.rules.values():
-            if rule.id in blocked or rule.id in applied:
-                continue
-            st, _ = _rule_status(rule, facts)
-            if st != APPLICABLE or suspended_by(rule.id):
-                continue
-            applied.append(rule.id)
-            c = rule.conclusion
-            derived_by.setdefault(c.pred, []).append((rule.id, c.value))
-            values = {v for _, v in derived_by[c.pred]}
-            if len(values) > 1:
-                # incompatible conclusions: retract and leave the predicate unresolved
-                conflicted.add(c.pred)
-                if c.pred in facts and facts[c.pred].origin == "derived":
-                    del facts[c.pred]
-            elif c.pred not in facts and c.pred not in conflicted:
-                facts[c.pred] = Fact(c.pred, c.value, "derived", rule=rule.id)
-            changed = True
+    # Order-independent fixed point: a predicate on which applicable rules disagree is never asserted and never
+    # supports another rule. When a new conflict appears, reasoning restarts from the input facts with that
+    # predicate excluded, until the set of conflicted predicates is stable.
+    base_facts = dict(facts)
+    known_conflicts: set[str] = set()
+    held: set[str] = set()  # rules that fired before an exception of theirs became partially established
+    for iteration in range(30):
+        facts = dict(base_facts)
+        applied: list[str] = []
+        derived_by: dict[str, list[tuple[str, bool]]] = {}
+        conflicted: set[str] = set(known_conflicts)
+        changed = True
+        while changed:
+            changed = False
+            for rule in kb.rules.values():
+                if rule.id in blocked or rule.id in applied or rule.id in held:
+                    continue
+                st, _ = _rule_status(rule, facts)
+                if st != APPLICABLE or suspended_by(rule.id):
+                    continue
+                applied.append(rule.id)
+                c = rule.conclusion
+                derived_by.setdefault(c.pred, []).append((rule.id, c.value))
+                values = {v for _, v in derived_by[c.pred]}
+                if len(values) > 1:
+                    # incompatible conclusions: retract and leave the predicate unresolved
+                    conflicted.add(c.pred)
+                    if c.pred in facts and facts[c.pred].origin == "derived":
+                        del facts[c.pred]
+                elif c.pred not in facts and c.pred not in conflicted:
+                    facts[c.pred] = Fact(c.pred, c.value, "derived", rule=rule.id)
+                changed = True
+        # keep only what still holds in this pass: conflicts actually derived now, and rules that are applicable
+        # but suspended under the final facts (stale ones caused by retracted facts are dropped)
+        fresh = {p for p, vs in derived_by.items() if len({v for _, v in vs}) > 1}
+        late = {r for r in set(applied) | held
+                if _rule_status(kb.rules[r], facts)[0] == APPLICABLE and suspended_by(r)}
+        if fresh == known_conflicts and late == held:
+            break
+        if iteration >= 20:  # no convergence: fall back to the cautious union (more unknown, never a wrong value)
+            fresh, late = fresh | known_conflicts, late | held
+        known_conflicts, held = fresh, late
 
     rule_status, premise_status, suspended = {}, {}, {}
     for rule in kb.rules.values():
         st, ps = _rule_status(rule, facts)
-        if st == APPLICABLE and rule.id not in applied:
+        if st == APPLICABLE and (rule.id not in applied or rule.id in held):
             e = suspended_by(rule.id)
             if e:
                 st, suspended[rule.id] = UNDETERMINED, e
