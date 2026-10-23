@@ -10,10 +10,13 @@ Components are read off the proofs of the run (verify):
              norms that are not about it)
 When no proof exists, the exploring proofs (more missing facts allowed) give the components, and every parsed
 fact is checked, so a parser error that kills every proof is not silent.
-Each is verbalised in Vietnamese (one call, VERBALISE_MODEL) and measured by NLI with a different model
-(NLI_MODEL, prompt v4 of the paper, by default gpt-4.1): a fact against the question, a rule against the
-source text of its unit. A label below the acceptance threshold TAU is left unobserved. mbd.pl returns the
-minimal diagnoses, from which the action follows:
+Each is rendered in Vietnamese from the KB's fixed templates (templates.py: a positive and a negative sentence
+for a fact, one sentence for a rule and for the goal), so the sentences are deterministic and auditable. They are
+measured by NLI as in the paper: the mean of mDeBERTa (local) and an LLM (NLI_MODEL, by default gpt-4.1, not the
+parser's model); a fact against the question (prompt v4), a rule against the lead-ins and text of its unit (law
+prompt), a norm left out against the goal (about prompt, LLM only). A fact's label is accepted when the positive
+sentence is confident (>= TAU) and the negative one agrees (rule pos_neg); otherwise it stays unobserved and the
+reason is recorded. mbd.pl returns the minimal diagnoses, from which the action follows:
   answer   the empty diagnosis is consistent
   ask      some minimal diagnosis has only user faults (facts the question does not give): ask for them
   confirm  otherwise, some minimal diagnosis has user / parser faults only: ask the user to confirm the facts
@@ -34,37 +37,20 @@ from pathlib import Path
 from .compile import SWIPL
 from .extract import CACHE, Extractor, _obj, _s
 
-VERBALISE_MODEL = os.environ.get("LEGALKB_VERBALISE_MODEL", "gpt-4.1-mini")
+CLIENT_MODEL = "gpt-4.1-mini"
 # gpt-4.1 rather than the paper's gpt-4o-mini: on this pipeline's verbalisations gpt-4o-mini took
 # "tôi ký hợp đồng lao động" to entail "the contract has no fixed term"; it is also not the parser's model
 NLI_MODEL = os.environ.get("LEGALKB_NLI_MODEL", "gpt-4.1")
 TAU = float(os.environ.get("LEGALKB_NLI_TAU", 0.5))
+ACCEPT_RULE = os.environ.get("LEGALKB_NLI_RULE", "pos_neg")   # pos_neg | pos_only
+ENSEMBLE = os.environ.get("LEGALKB_NLI_ENSEMBLE", "1") == "1"  # mean with mDeBERTa (local) where it applies
+MDEBERTA = "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7"
 MAX_K = 6  # bound on the size of a diagnosis (the search starts at the number of symptoms needed)
 MBD_PL = Path(__file__).with_name("mbd.pl")
 LAYER = {"missing": "user", "omission": "parser", "misinterp": "parser", "unsupported": "parser",
          "misencoded": "kb", "kbconflict": "kb", "omitted": "retrieval"}
 NEAR_MISS = 3  # norms left out by step 2 that are checked against the goal of the question
 
-VERBALISE = """Diễn đạt mỗi mục dưới đây thành MỘT câu tiếng Việt tự nhiên, khẳng định, đúng nghĩa của mục,
-không thêm và không bớt điều kiện. Gọi thực thể theo cách câu hỏi gọi nó ("toi" là "người hỏi"; "công ty";
-"hợp đồng lao động của người hỏi"; thực thể có hậu tố _an_danh: theo loại, vd "người sử dụng lao động"), KHÔNG
-dùng mã như hd1, cong_ty.
-- instance_of(X, loai): nếu X là người hỏi hoặc một người / tổ chức: "X là <loại>"; nếu X là một đối tượng (hợp
-  đồng, hồ sơ, khoản tiền...): nói rằng đối tượng đó có trong tình huống, vd "Người hỏi có một hợp đồng lao động".
-- Mục loại "fact": một sự kiện của tình huống. attr(X, thuoc_tinh, gia_tri) là "thuộc tính của X là giá trị";
-  so sánh như attr(X, thoi_han) >= 1 là "thời hạn của X từ 1 trở lên" (đơn vị theo ngữ cảnh: tháng, đồng).
-- Mục loại "rule": một luật "nếu ... thì ...": viết "Nếu <các điều kiện> thì <kết luận / nghĩa vụ>".
-- Mục loại "goal": điều câu hỏi muốn biết, viết thành một câu khẳng định với chủ thể chung theo loại (vd
-  "Người lao động thuộc diện tham gia bảo hiểm xã hội bắt buộc", "Người lao động phải đóng bảo hiểm xã hội").
-
-Câu hỏi (để biết các thực thể là ai): {question}
-Loại của các thực thể: {types}
-
-Các mục:
-{items}
-"""
-
-RESPONSE = _obj({"statements": {"type": "array", "items": _obj({"id": _s, "statement": _s})}})
 
 # NLI prompt for a rule against its source text (the paper's v4 is written for a user question as premise)
 LAW_PROMPT = (
@@ -190,44 +176,60 @@ def _cached_call(name: str, payload: str, fn):
     return out
 
 
-def verbalise(client, question: str, facts: list[str], comps: dict, con) -> dict[str, str]:
-    from .questions import describe_norm
+def render(con, facts: list[str], comps: dict) -> dict[str, tuple[str, str]]:
+    """component / goal id -> (positive sentence, negative sentence), from the templates of the KB."""
+    from .templates import Renderer
 
-    items = [f"- {cid} (fact): {a['atom']}" for cid, a in comps["atoms"].items()]
+    R = Renderer(con, facts)
+    subj_type = R.entity_type.get("toi")
+    out = {cid: R.atom(a["atom"]) for cid, a in comps["atoms"].items()}
     for nid, r in comps["rules"].items():
-        d = describe_norm(con, r["norm"])
-        r.update(unit=d["unit"], text=law_premise(con, d["unit"]))
-        items.append(f"- {nid} (rule): nếu {' VÀ '.join(d['conditions']) or '(không điều kiện)'} thì {d['head']} "
-                     f"(chủ thể {d['holder']})")
+        unit = con.execute("SELECT unit_id FROM norms WHERE norm_id=?", (r["norm"],)).fetchone()[0]
+        r.update(unit=unit, text=law_premise(con, unit))
+        out[nid] = (R.rule(r["norm"]), "")
     for g in comps["goals"]:
-        q = g["question"]
-        items.append(f"- {g['id']} (goal): loại câu hỏi {q['type']}; truy vấn {g['goal']}; vị từ {q.get('pred')}; "
-                     f"thuộc tính {q.get('attr')}; phủ định {q.get('negated')}")
-    types = ", ".join(f[12:-1] for f in facts if f.startswith("instance_of("))
-    prompt = VERBALISE.format(question=question, types=types, items="\n".join(items))
+        out[g["id"]] = (R.goal(g["question"], subj_type), "")
+    return out
 
-    def call():
-        for attempt in range(6):
-            try:
-                r = client.chat.completions.create(
-                    model=VERBALISE_MODEL, temperature=0,
-                    response_format={"type": "json_schema", "json_schema": {"name": "statements", "strict": True,
-                                                                            "schema": RESPONSE}},
-                    messages=[{"role": "user", "content": prompt}])
-                return json.loads(r.choices[0].message.content)
-            except Exception as e:  # noqa: BLE001
-                if "insufficient_quota" in str(e):
-                    raise
-                time.sleep(min(60, 3 * 2 ** attempt))
-        raise RuntimeError("verbalisation failed")
 
-    out = _cached_call("verbalise", f"{VERBALISE_MODEL}|{prompt}", call) if items else {"statements": []}
-    return {s["id"]: s["statement"] for s in out["statements"]}
+_MD = {}
+
+
+def mdeberta(pairs: list[tuple[str, str]]) -> list[dict]:
+    """mDeBERTa three-way NLI on CPU (the paper's local measurement), cached per pair."""
+    out, todo = [None] * len(pairs), []
+    for k, (p, h) in enumerate(pairs):
+        f = CACHE / f"mdeberta_{hashlib.sha1(f'{p}|{h}'.encode('utf-8')).hexdigest()}.json"
+        if f.exists():
+            out[k] = json.loads(f.read_text(encoding="utf-8"))
+        else:
+            todo.append(k)
+    if todo:
+        import torch
+        from transformers import AutoModelForSequenceClassification, AutoTokenizer
+
+        if not _MD:
+            _MD["tok"] = AutoTokenizer.from_pretrained(MDEBERTA)
+            _MD["model"] = AutoModelForSequenceClassification.from_pretrained(MDEBERTA).eval()
+        tok, model = _MD["tok"], _MD["model"]
+        names = {"entailment": "entail", "neutral": "neutral", "contradiction": "contra"}
+        for i in range(0, len(todo), 16):
+            chunk = todo[i: i + 16]
+            enc = tok([pairs[k][0] for k in chunk], [pairs[k][1] for k in chunk], return_tensors="pt",
+                      truncation=True, max_length=512, padding=True)
+            with torch.inference_mode():
+                probs = torch.softmax(model(**enc).logits, dim=-1).tolist()
+            for k, row in zip(chunk, probs):
+                out[k] = {names[model.config.id2label[j].lower()]: v for j, v in enumerate(row)}
+                f = CACHE / f"mdeberta_{hashlib.sha1(f'{pairs[k][0]}|{pairs[k][1]}'.encode('utf-8')).hexdigest()}.json"
+                f.write_text(json.dumps(out[k]), encoding="utf-8")
+    return out
 
 
 def nli(client, pairs: list[tuple[str, str, str]]) -> list[dict]:
     """pairs: (premise, hypothesis, prompt): 'v4' (a fact against the question), 'law' (a rule against its source
-    text) or 'about' (does the text of a norm left out decide the goal: entail / contra = yes, neutral = no)."""
+    text) or 'about' (does the text of a norm left out decide the goal: entail / contra = yes, neutral = no).
+    Returns {"entail", "neutral", "contra", "llm": {...}, "mdeberta": {...} | None} per pair."""
     from diagnosis import nli_openai
 
     nli_openai.PROMPTS.setdefault("law", LAW_PROMPT)
@@ -239,7 +241,16 @@ def nli(client, pairs: list[tuple[str, str, str]]) -> list[dict]:
                             lambda: nli_openai.score_pair(client, NLI_MODEL, p, h, pr))
 
     with ThreadPoolExecutor(8) as pool:
-        return list(pool.map(one, pairs))
+        llm = list(pool.map(one, pairs))
+    use_md = [ENSEMBLE and pr != "about" and h for _, h, pr in pairs]
+    md_idx = [k for k, u in enumerate(use_md) if u]
+    md = dict(zip(md_idx, mdeberta([pairs[k][:2] for k in md_idx]))) if md_idx else {}
+    out = []
+    for k, sc in enumerate(llm):
+        m = md.get(k)
+        mean = {lab: (sc[lab] + m[lab]) / 2 for lab in sc} if m else dict(sc)
+        out.append({**mean, "llm": sc, "mdeberta": m})
+    return out
 
 
 def diagnose(obs: list[str], atoms: list[str], k: int = MAX_K) -> tuple[list[list[str]], list[str]]:
@@ -299,28 +310,41 @@ def verify(question: str, facts: list[str], parts: list[dict], con, client=None)
     """Diagnose a run. Returns the components with their statements and NLI labels, the minimal diagnoses
     (fault atoms over component ids) and the chosen action with the components it is about."""
     comps = components(parts, facts)
-    client = client or Extractor(VERBALISE_MODEL).client
+    client = client or Extractor(CLIENT_MODEL).client
     near_misses(con, client, question, comps)
     if not comps["atoms"] and not comps["rules"] and not comps["near"]:
         return {"components": [], "observations": [], "candidates": [], "symptoms": [], "diagnoses": [[]],
                 "action": "answer", "about": []}
-    stmt = verbalise(client, question, facts, comps, con)
+    sent = render(con, facts, comps)
+    stmt = {k: v[0] for k, v in sent.items()}
     ids = list(comps["atoms"]) + list(comps["rules"]) + list(comps["near"])
 
     def pair(i):
         if i in comps["atoms"]:
-            return question, stmt.get(i, ""), "v4"
+            return question, stmt[i], "v4"
         if i in comps["rules"]:
-            return comps["rules"][i]["text"], stmt.get(i, ""), "law"
+            return comps["rules"][i]["text"], stmt[i], "law"
         r = comps["near"][i]  # does the text of a norm left out say anything about what is asked?
-        return r["text"], stmt.get(r["goal"], ""), "about"
+        return r["text"], stmt[r["goal"]], "about"
 
     pairs = [pair(i) for i in ids]
-    scores = nli(client, pairs)
+    neg_ids = [i for i in ids if i in comps["atoms"] and ACCEPT_RULE == "pos_neg"]
+    scored = nli(client, pairs + [(question, sent[i][1], "v4") for i in neg_ids])
+    scores, neg_scores = scored[: len(ids)], dict(zip(neg_ids, scored[len(ids):]))
     obs, faults, table = [], [], []
     for i, sc in zip(ids, scores):
-        best = max(sc, key=sc.get)
-        label = best if sc[best] >= TAU else None
+        sc3 = {k: sc[k] for k in ("entail", "neutral", "contra")}
+        best = max(sc3, key=sc3.get)
+        label, reason = (best, "") if sc3[best] >= TAU else (None, "low_confidence")
+        neg_label = None
+        if label and i in neg_scores:  # the negative sentence must agree (pos_neg acceptance of the paper)
+            ns = {k: neg_scores[i][k] for k in ("entail", "neutral", "contra")}
+            neg_label = max(ns, key=ns.get)
+            expected = {"entail": "contra", "contra": "entail", "neutral": "neutral"}[label]
+            if not (neg_label == expected or (label != "neutral" and neg_label == "neutral")):
+                label, reason = None, "template_disagreement"
+        extra = {"neg_statement": sent.get(i, ("", ""))[1] if i in comps["atoms"] else "", "neg_label": neg_label,
+                 "reject_reason": reason, "p_llm": sc["llm"], "p_mdeberta": sc["mdeberta"]}
         if i in comps["atoms"]:
             a = comps["atoms"][i]
             obs.append({"required": f"required({i})", "presumed": f"presumed({i})",
@@ -335,7 +359,8 @@ def verify(question: str, facts: list[str], parts: list[dict], con, client=None)
             if label:
                 obs.append(f"q({i}, {label})")
             table.append({"id": i, "layer": "case", "kind": a["kind"], "item": a["atom"], "statement": stmt.get(i, ""),
-                          "premise": "question", "label": label, **{f"p_{k}": round(v, 4) for k, v in sc.items()}})
+                          "premise": "question", "label": label, **extra,
+                          **{f"p_{k}": round(v, 4) for k, v in sc3.items()}})
         elif i in comps["near"]:
             r = comps["near"][i]
             obs.append(f"near_miss({i})")
@@ -343,8 +368,8 @@ def verify(question: str, facts: list[str], parts: list[dict], con, client=None)
             if label:
                 obs.append(f"rettext({i}, {label})")
             table.append({"id": i, "layer": "retrieval", "kind": "near_miss", "item": r["norm"],
-                          "statement": stmt.get(r["goal"], ""), "premise": r["unit"], "label": label,
-                          **{f"p_{k}": round(v, 4) for k, v in sc.items()}})
+                          "statement": stmt[r["goal"]], "premise": r["unit"], "label": label, **extra,
+                          **{f"p_{k}": round(v, 4) for k, v in sc3.items()}})
         else:
             r = comps["rules"][i]
             obs.append(f"rule_used({i})")
@@ -352,7 +377,8 @@ def verify(question: str, facts: list[str], parts: list[dict], con, client=None)
             if label:
                 obs.append(f"kbtext({i}, {label})")
             table.append({"id": i, "layer": "kb", "kind": "rule", "item": r["norm"], "statement": stmt.get(i, ""),
-                          "premise": r["unit"], "label": label, **{f"p_{k}": round(v, 4) for k, v in sc.items()}})
+                          "premise": r["unit"], "label": label, **extra,
+                          **{f"p_{k}": round(v, 4) for k, v in sc3.items()}})
     for a, b in comps["competing"]:
         obs.append(f"competing({a}, {b})")
         faults.append(f"kbconflict({a}, {b})")

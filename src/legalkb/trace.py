@@ -21,7 +21,9 @@ Tables
   run_mbd_components   each component: layer, kind (checked / required / presumed / rule), the atom or norm, its
                        Vietnamese statement, the premise it was measured against (question / unit of the norm),
                        the NLI label (null: below the threshold, unobserved), the three probabilities, and whether
-                       it is a symptom (inconsistent with everything working normally)
+                       it is a symptom (inconsistent with everything working normally); the negative sentence and
+                       its label (pos_neg acceptance), why a label was not accepted, and the distributions of the two
+                       measurements (LLM, mDeBERTa) whose mean is p_*
   run_mbd_facts        the observations and the candidate fault atoms given to mbd.pl
   run_mbd_diagnoses    every minimal diagnosis, with each fault explained in words
   runs.action / action_about   the action chosen from the diagnoses (answer / ask / confirm / warn) and the
@@ -69,8 +71,8 @@ CREATE TABLE IF NOT EXISTS run_candidates (
   run_id INTEGER NOT NULL REFERENCES runs(run_id), q_no INTEGER, norm TEXT, reason TEXT);
 CREATE TABLE IF NOT EXISTS run_mbd_components (
   run_id INTEGER NOT NULL REFERENCES runs(run_id), comp_id TEXT, layer TEXT, kind TEXT, item TEXT, statement TEXT,
-  premise TEXT, label TEXT, p_entail REAL, p_neutral REAL, p_contra REAL, symptom INTEGER,
-  PRIMARY KEY (run_id, comp_id));
+  premise TEXT, label TEXT, p_entail REAL, p_neutral REAL, p_contra REAL, symptom INTEGER, neg_statement TEXT,
+  neg_label TEXT, reject_reason TEXT, p_llm TEXT, p_mdeberta TEXT, PRIMARY KEY (run_id, comp_id));
 CREATE TABLE IF NOT EXISTS run_mbd_facts (
   run_id INTEGER NOT NULL REFERENCES runs(run_id), kind TEXT CHECK (kind IN ('observation','candidate')), term TEXT);
 CREATE TABLE IF NOT EXISTS run_mbd_diagnoses (
@@ -96,6 +98,10 @@ def connect_runs(path: Path = RUNS_DB) -> sqlite3.Connection:
     if "'verify'" not in sql:  # older databases: allow the verify step (SQLite cannot alter a CHECK in place)
         con.executescript("ALTER TABLE run_steps RENAME TO run_steps_old;" + SCHEMA +
                           "INSERT INTO run_steps SELECT * FROM run_steps_old; DROP TABLE run_steps_old;")
+    have = {r[1] for r in con.execute("PRAGMA table_info(run_mbd_components)")}
+    for col in ("neg_statement", "neg_label", "reject_reason", "p_llm", "p_mdeberta"):
+        if col not in have:
+            con.execute(f"ALTER TABLE run_mbd_components ADD COLUMN {col} TEXT")
     con.execute("CREATE INDEX IF NOT EXISTS ix_runs_batch ON runs(batch, item_id)")
     return con
 
@@ -157,10 +163,14 @@ def save_run(con, *, time: str, question: str, kb_program: str, kb_database: str
                     (run, step, "verify", None, f"{len(mbd['components'])} components, {len(mbd['symptoms'])} "
                                                f"symptoms, {len(mbd['diagnoses'])} minimal diagnoses, action "
                                                f"{mbd['action']}", round(mbd_seconds, 3)))
-        con.executemany("INSERT INTO run_mbd_components VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", [
-            (run, c["id"], c["layer"], c["kind"], c["item"], c["statement"], c["premise"], c["label"],
-             c.get("p_entail"), c.get("p_neutral"), c.get("p_contra"), int(bool(c.get("symptom"))))
-            for c in mbd["components"]])
+        con.executemany(
+            "INSERT INTO run_mbd_components (run_id, comp_id, layer, kind, item, statement, premise, label, p_entail, "
+            "p_neutral, p_contra, symptom, neg_statement, neg_label, reject_reason, p_llm, p_mdeberta) "
+            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [
+                (run, c["id"], c["layer"], c["kind"], c["item"], c["statement"], c["premise"], c["label"],
+                 c.get("p_entail"), c.get("p_neutral"), c.get("p_contra"), int(bool(c.get("symptom"))),
+                 c.get("neg_statement"), c.get("neg_label"), c.get("reject_reason"),
+                 json.dumps(c.get("p_llm")), json.dumps(c.get("p_mdeberta"))) for c in mbd["components"]])
         con.executemany("INSERT INTO run_mbd_facts VALUES (?,?,?)",
                         [(run, "observation", o) for o in mbd["observations"]]
                         + [(run, "candidate", f) for f in mbd["candidates"]])
@@ -222,15 +232,19 @@ def show_run(con, run: int) -> str:
             out += [f"      căn cứ {u}: «{t}»" for u, t in con.execute(
                 "SELECT unit, text FROM run_basis WHERE answer_id=?", (aid,))]
     comps = con.execute("SELECT comp_id, layer, kind, item, statement, premise, label, p_entail, p_neutral, "
-                        "p_contra, symptom FROM run_mbd_components WHERE run_id=? ORDER BY rowid", (run,)).fetchall()
+                        "p_contra, symptom, neg_statement, neg_label, reject_reason FROM run_mbd_components "
+                        "WHERE run_id=? ORDER BY rowid", (run,)).fetchall()
     if comps:
         action = con.execute("SELECT action, action_about FROM runs WHERE run_id=?", (run,)).fetchone()
         out += ["", "KIỂM TRA (MBD):", "  thành phần (nhãn NLI: entail / neutral / contra; '-' = dưới ngưỡng, "
                 "không dùng làm quan sát):"]
-        for cid, layer, kind, item, st, prem, lab, pe, pn, pc, sym in comps:
+        for cid, layer, kind, item, st, prem, lab, pe, pn, pc, sym, nst, nlab, why in comps:
             out.append(f"  {cid:4s} [{layer}/{kind}] {item}")
             out.append(f"       «{st}»  so với {'câu hỏi' if prem == 'question' else prem}: {lab or '-'} "
-                       f"(e={pe:.2f} n={pn:.2f} c={pc:.2f})" + ("   <- TRIỆU CHỨNG" if sym else ""))
+                       f"(e={pe:.2f} n={pn:.2f} c={pc:.2f})" + (f" [không nhận: {why}]" if why else "")
+                       + ("   <- TRIỆU CHỨNG" if sym else ""))
+            if nst:
+                out.append(f"       phủ định «{nst}»: {nlab or '-'}")
         out.append("  quan sát đưa vào mbd.pl: " + "; ".join(t for (t,) in con.execute(
             "SELECT term FROM run_mbd_facts WHERE run_id=? AND kind='observation'", (run,))))
         out.append("  giả thuyết lỗi được xét: " + "; ".join(t for (t,) in con.execute(

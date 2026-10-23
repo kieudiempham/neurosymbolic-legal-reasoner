@@ -92,6 +92,9 @@ def build() -> dict:
     store(con, out, set(UNITS), "labor")
     link_references(con)
     con.commit()
+    from .templates import build as build_templates
+
+    build_templates(con)  # sentences for the MBD observations (cached)
     return write_and_check(con, SAMPLE_PL)
 
 
