@@ -18,7 +18,8 @@ import time
 
 import numpy as np
 
-from .extract import CACHE, Extractor, _obj, _opt, _s
+from .extract import CACHE, _obj, _opt, _s
+from .offline import extractor, require_online
 from .normalize import canon_name, canon_unit
 from .questions import QUESTION_TYPES, Question
 
@@ -124,7 +125,7 @@ def case_date(text: str | None) -> str | None:
 class Parser:
     def __init__(self, con, model: str = PARSER_MODEL):
         self.con, self.model = con, model
-        self.ex = Extractor(model)
+        self.ex = extractor(model)
         self.sig = {k: _sig(con, k) for k in ("type", "pred", "attr")}
         self.arity = {p: sig.count(",") + 1 if "()" not in sig else 0 for p, sig in self.sig["pred"].items()}
         self.actions = {p for (p,) in con.execute("SELECT DISTINCT action_pred FROM norms WHERE action_pred IS NOT NULL")}
@@ -166,6 +167,7 @@ class Parser:
         f = CACHE / f"parse_{key}.json"
         if f.exists():
             return json.loads(f.read_text(encoding="utf-8"))
+        require_online("parser response")
         for attempt in range(6):
             try:
                 r = self.ex.client.chat.completions.create(

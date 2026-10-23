@@ -174,7 +174,8 @@ def answer(q: Question, facts: list[str], reasoner, con, false_facts: list[str] 
         verdict = "unknown"      # provable only with facts the case does not give: ask
     else:
         verdict = "no"           # no norm leads to it
-    return {"type": q.type, "kind": "case", "goal": goal(q), "verdict": verdict, "answers": answers,
+    return {"type": q.type, "kind": "case", "program": str(reasoner.kb),
+            "parameters": [f for f in facts if f.replace(" ", "").startswith("attr(tham_so,")], "goal": goal(q), "verdict": verdict, "answers": answers,
             "contrary": contrary, "explore": explore, "retrieved": retrieved, "conflicts": conflicts}
 
 

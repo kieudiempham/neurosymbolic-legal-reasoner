@@ -1,0 +1,21 @@
+{
+  "cohort": "sample KB; frozen legacy BHXH parsed bases; regenerated injected cases",
+  "measurement": "gpt-4.1 NLI only (LEGALKB_NLI_ENSEMBLE=0), cached; not the old LLM+mDeBERTa ensemble",
+  "final_reconstruction": "offline, cached measurements only; no additional API after stop request",
+  "records": 539,
+  "splits": {
+    "dev": 261,
+    "test": 278
+  },
+  "double_faults": {
+    "dev": 80,
+    "test": 83
+  },
+  "records_with_competing_proofs": 0,
+  "records_with_support_edges": 0,
+  "sha256": {
+    "src/legalkb/reports/sample_injections.jsonl": "a37822b1423b27b2dc49bb5fea81246fb095b6d6681d290078b430254a48aba7",
+    "experiments/legalkb/inject_base.json": "dc80126e40ce30d586e28ccdc0bea4ecddb23139efdc134c90af6c40962b2253",
+    "src/legalkb/sample_sources.json": "dd358d55a4244e5ca4cc413b15b9d49a238f6271a26ee06921362ae704a795cb"
+  }
+}

@@ -19,7 +19,8 @@ import re
 import sys
 import time
 
-from .extract import CACHE, Extractor
+from .extract import CACHE
+from .offline import extractor, require_online
 
 ANSWER_MODEL = os.environ.get("LEGALKB_ANSWER_MODEL", "gpt-4.1-mini")
 ANSWER_VERSION = "answer-v2"
@@ -142,7 +143,7 @@ def check(text: str, premise: str) -> list[dict]:
     from .verify import _cached_call
 
     nli_openai.PROMPTS.setdefault("faith", FAITH_PROMPT)
-    client = Extractor(FAITH_MODEL).client
+    client = extractor(FAITH_MODEL).client
     sents = sentences(text)
 
     def one(s):
@@ -158,12 +159,15 @@ def check(text: str, premise: str) -> list[dict]:
 
 
 def generate(runs, run: int, model: str = ANSWER_MODEL) -> str:
+    gate = runs.execute("SELECT action,error FROM runs WHERE run_id=?", (run,)).fetchone()
+    if not gate or gate[0] not in ("answer", "ask", "confirm", "warn", "unresolved") or gate[1]:
+        raise RuntimeError("Step 4 must complete successfully before answer generation")
     question, facts, results = context(runs, run)
     premise = f"Câu hỏi: {question}\n\nDữ kiện:\n{facts}\n\nKết quả suy luận:\n{results}"
     text = write(PROMPT.format(question=question, facts=facts, results=results), model)
     checks = check(text, premise)
     runs.execute("DELETE FROM run_answer_checks WHERE run_id=?", (run,))
-    bad = [c["sentence"] for c in checks if c["label"] in ("neutral", "contra")]
+    bad = [c["sentence"] for c in checks if c["label"] in ("neutral", "contra", "uncertain")]
     attempts = [(1, text, checks)]
     if bad:  # write once more, naming the sentences that are not supported by the run
         fix = ("\n\nCÁC CÂU SAU TRONG BẢN TRƯỚC KHÔNG ĐÚNG VỚI KẾT QUẢ SUY LUẬN, KHÔNG ĐƯỢC LẶP LẠI:\n"
@@ -175,7 +179,9 @@ def generate(runs, run: int, model: str = ANSWER_MODEL) -> str:
         runs.executemany("INSERT INTO run_answer_checks VALUES (?,?,?,?,?,?,?,?)", [
             (run, attempt, k, c["sentence"], c["label"], c["entail"], c["neutral"], c["contra"])
             for k, c in enumerate(cs, 1)])
-    faithful = int(not any(c["label"] in ("neutral", "contra") for c in checks))
+    faithful = int(not any(c["label"] in ("neutral", "contra", "uncertain") for c in checks))
+    if not faithful:
+        text = "Tôi chưa thể đưa ra câu trả lời được kiểm chứng từ kết quả suy luận. Vui lòng kiểm tra lại dữ kiện và căn cứ."
     runs.execute("UPDATE runs SET final_answer=?, answer_model=?, answer_faithful=? WHERE run_id=?",
                  (text, model, faithful, run))
     runs.commit()
@@ -188,7 +194,8 @@ def write(prompt: str, model: str) -> str:
     if f.exists():
         text = f.read_text(encoding="utf-8")
     else:
-        client = Extractor(model).client
+        require_online("answer text")
+        client = extractor(model).client
         for attempt in range(6):
             try:
                 r = client.chat.completions.create(model=model, temperature=0,

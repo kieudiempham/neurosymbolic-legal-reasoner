@@ -44,15 +44,18 @@ Tables
 from __future__ import annotations
 
 import json
+import os
 import sqlite3
 import sys
 from pathlib import Path
 
 from .db import DB_FILE
 
-RUNS_DB = DB_FILE.with_name("runs.sqlite")
+RUNS_DB = Path(os.environ.get("LEGALKB_RUNS_DB", str(DB_FILE.with_name("runs.sqlite"))))
 
 SCHEMA = """
+CREATE TABLE IF NOT EXISTS run_mbd_meta (
+  run_id INTEGER PRIMARY KEY REFERENCES runs(run_id), system TEXT, budget INTEGER, payload TEXT);
 CREATE TABLE IF NOT EXISTS runs (
   run_id INTEGER PRIMARY KEY AUTOINCREMENT, time TEXT, question TEXT, kb_program TEXT, kb_database TEXT,
   parser_model TEXT, parser_output TEXT, batch TEXT, item_id TEXT, gold TEXT, error TEXT, final_answer TEXT,
@@ -178,6 +181,8 @@ def save_run(con, *, time: str, question: str, kb_program: str, kb_database: str
                 con.executemany("INSERT INTO run_basis VALUES (?,?,?,?)",
                                 [(aid, b["unit"], b["norm"], b["text"]) for b in a["basis"]])
     if mbd is not None:
+        con.execute("INSERT OR REPLACE INTO run_mbd_meta VALUES (?,?,?,?)",
+                    (run, mbd.get("system", "mbd"), mbd.get("budget"), json.dumps(mbd, ensure_ascii=False)))
         from .verify import explain
 
         step = 2 + len(parts)

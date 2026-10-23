@@ -1,0 +1,249 @@
+{
+  "document": [
+    "10_bao_hiem_xa_hoi_41_2024_QH15",
+    "41/2024/QH15",
+    "Luật Bảo Hiểm Xã Hội",
+    "Luật",
+    "Quốc hội",
+    2,
+    "labor",
+    "2024-06-29",
+    "2025-07-01",
+    null,
+    "10_bao_hiem_xa_hoi_41_2024_QH15.pdf"
+  ],
+  "units": [
+    [
+      "41/2024/QH15:D2.K1",
+      "41/2024/QH15",
+      "I",
+      "2",
+      "1",
+      null,
+      "41/2024/QH15:D2",
+      "Đối tượng tham gia bảo hiểm xã hội bắt buộc và bảo hiểm xã hội tự nguyện",
+      "Người lao động là công dân Việt Nam thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc bao \ngồm:"
+    ],
+    [
+      "41/2024/QH15:D2.K1.a",
+      "41/2024/QH15",
+      "I",
+      "2",
+      "1",
+      "a",
+      "41/2024/QH15:D2.K1",
+      "Đối tượng tham gia bảo hiểm xã hội bắt buộc và bảo hiểm xã hội tự nguyện",
+      "Người làm việc theo hợp đồng lao động không xác định thời hạn, hợp đồng lao động xác định \nthời hạn có thời hạn từ đủ 01 tháng trở lên, kể cả trường hợp người lao động và người sử dụng \nlao động thỏa thuận bằng tên gọi khác nhưng có nội dung thể hiện về việc làm có trả công, tiền \nlương và sự quản lý, điều hành, giám sát của một bên;"
+    ],
+    [
+      "41/2024/QH15:D2.K1.l",
+      "41/2024/QH15",
+      "I",
+      "2",
+      "1",
+      "l",
+      "41/2024/QH15:D2.K1",
+      "Đối tượng tham gia bảo hiểm xã hội bắt buộc và bảo hiểm xã hội tự nguyện",
+      "Đối tượng quy định tại điểm a khoản này làm việc không trọn thời gian, có tiền lương trong \ntháng bằng hoặc cao hơn tiền lương làm căn cứ đóng bảo hiểm xã hội bắt buộc thấp nhất;"
+    ],
+    [
+      "41/2024/QH15:D2.K7",
+      "41/2024/QH15",
+      "I",
+      "2",
+      "7",
+      null,
+      "41/2024/QH15:D2",
+      "Đối tượng tham gia bảo hiểm xã hội bắt buộc và bảo hiểm xã hội tự nguyện",
+      "Trường hợp không thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc bao gồm:"
+    ],
+    [
+      "41/2024/QH15:D2.K7.a",
+      "41/2024/QH15",
+      "I",
+      "2",
+      "7",
+      "a",
+      "41/2024/QH15:D2.K7",
+      "Đối tượng tham gia bảo hiểm xã hội bắt buộc và bảo hiểm xã hội tự nguyện",
+      "Người đang hưởng lương hưu, trợ cấp bảo hiểm xã hội, trợ cấp hằng tháng. \nChính phủ quy định đối tượng hưởng trợ cấp bảo hiểm xã hội, trợ cấp hằng tháng không thuộc \nđối tượng tham gia bảo hiểm xã hội bắt buộc;"
+    ],
+    [
+      "41/2024/QH15:D33.K1",
+      "41/2024/QH15",
+      "IV",
+      "33",
+      "1",
+      null,
+      "41/2024/QH15:D33",
+      "Mức đóng, phương thức và thời hạn đóng bảo hiểm xã hội bắt buộc của người lao",
+      "Mức đóng và phương thức đóng của đối tượng quy định tại các điểm a, b, c, d, i, k và l khoản \n1 và khoản 2 Điều 2 của Luật này được quy định như sau:"
+    ],
+    [
+      "41/2024/QH15:D33.K1.a",
+      "41/2024/QH15",
+      "IV",
+      "33",
+      "1",
+      "a",
+      "41/2024/QH15:D33.K1",
+      "Mức đóng, phương thức và thời hạn đóng bảo hiểm xã hội bắt buộc của người lao",
+      "Mức đóng hằng tháng bằng 8% tiền lương làm căn cứ đóng bảo hiểm xã hội bắt buộc vào quỹ \nhưu trí và tử tuất;"
+    ]
+  ],
+  "templates": [
+    [
+      "pred",
+      "lam_viec_theo_hop_dong",
+      "",
+      "",
+      "{0} làm việc cho {1} theo {2}",
+      "{0} không làm việc cho {1} theo {2}",
+      3
+    ],
+    [
+      "pred",
+      "lam_viec_khong_tron_thoi_gian",
+      "",
+      "",
+      "{0} làm việc không trọn thời gian",
+      "{0} không làm việc không trọn thời gian",
+      1
+    ],
+    [
+      "pred",
+      "dang_huong_luong_huu_hoac_tro_cap_hang_thang",
+      "",
+      "",
+      "{0} đang hưởng lương hưu hoặc trợ cấp hằng tháng",
+      "{0} không đang hưởng lương hưu hoặc trợ cấp hằng tháng",
+      1
+    ],
+    [
+      "pred",
+      "thuoc_dien_bhxh_bat_buoc",
+      "",
+      "",
+      "{0} thuộc diện tham gia BHXH bắt buộc",
+      "{0} không thuộc diện tham gia BHXH bắt buộc",
+      1
+    ],
+    [
+      "pred",
+      "dong_bhxh",
+      "",
+      "",
+      "{0} đóng BHXH vào {1}",
+      "{0} không đóng BHXH vào {1}",
+      2
+    ],
+    [
+      "attr",
+      "loai_hop_dong",
+      "loại hợp đồng",
+      "",
+      "",
+      "",
+      null
+    ],
+    [
+      "attr",
+      "so_tien_dong_hang_thang",
+      "số tiền đóng hằng tháng",
+      "đồng",
+      "",
+      "",
+      null
+    ],
+    [
+      "attr",
+      "thoi_han",
+      "thời hạn",
+      "tháng",
+      "",
+      "",
+      null
+    ],
+    [
+      "attr",
+      "tien_luong",
+      "tiền lương",
+      "đồng",
+      "",
+      "",
+      null
+    ],
+    [
+      "attr",
+      "tien_luong_can_cu_dong_thap_nhat",
+      "tiền lương căn cứ đóng thấp nhất",
+      "đồng",
+      "",
+      "",
+      null
+    ],
+    [
+      "type",
+      "ca_nhan",
+      "cá nhân",
+      "",
+      "",
+      "",
+      null
+    ],
+    [
+      "type",
+      "giay_to",
+      "giấy tờ",
+      "",
+      "",
+      "",
+      null
+    ],
+    [
+      "type",
+      "hop_dong_lao_dong",
+      "hợp đồng lao động",
+      "",
+      "",
+      "",
+      null
+    ],
+    [
+      "type",
+      "nguoi_lao_dong",
+      "người lao động",
+      "",
+      "",
+      "",
+      null
+    ],
+    [
+      "type",
+      "nguoi_su_dung_lao_dong",
+      "người sử dụng lao động",
+      "",
+      "",
+      "",
+      null
+    ],
+    [
+      "value",
+      "khong_xac_dinh_thoi_han",
+      "không xác định thời hạn",
+      "",
+      "",
+      "",
+      null
+    ],
+    [
+      "value",
+      "quy_huu_tri_tu_tuat",
+      "quỹ hưu trí và tử tuất",
+      "",
+      "",
+      "",
+      null
+    ]
+  ]
+}

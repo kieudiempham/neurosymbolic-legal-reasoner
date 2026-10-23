@@ -81,6 +81,8 @@ prove(G, P, A0, A, S) :- derived(G), !,
     ( Src == derived ; \+ restricted ; allowed(Src) ),   % only the candidate norms of the question (step 2)
     prove(Body, PB, A0, A, [G|S]),
     P = node(G, Src, PB).
+prove(deadline(N, Amount, Unit, From), fact(deadline(N, Amount, Unit, From)), A, A, _) :- !,
+    catch(call(deadline(N, Amount, Unit, From)), _, fail).
 prove(G, P, A0, A, _) :-                       % base predicate: a case fact, or an assumable missing fact
     (   \+ \+ catch(call(G), _, fail) -> call(G), P = fact(G), A = A0
     ;   ground(G), \+ false_fact(G), \+ type_goal(G) -> assume(G, A0, A), P = missing(G) ).

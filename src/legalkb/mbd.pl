@@ -25,7 +25,7 @@
 */
 
 :- dynamic required/1, presumed/1, checked/1, parsed/2, q/2, rule_used/1, kbtext/2, competing/2, near_miss/1,
-   rettext/2.
+   rettext/2, needed/1, supports/3, selection_gap/1.
 
 relevant(C) :- required(C).
 relevant(C) :- presumed(C), \+ required(C).
@@ -45,7 +45,7 @@ parser_mode(D, C, M) :-
 parser_mode(_, _, ok).
 
 % User layer: a normal user states every fact the answer needs; a missing one is not in the question.
-user_beh(ok, C, L) :- required(C), !, L \== neutral.
+user_beh(ok, C, L) :- (required(C); needed(C)), !, L \== neutral.
 user_beh(ok, _, _).
 user_beh(missing, _, neutral).
 
@@ -73,6 +73,7 @@ rule_consistent(D, N) :-
     ( memberchk(misencoded(N), D) -> L \== entail ; L == entail ), !.
 
 % Retrieval layer: a normal selection leaves out only norms that are not about the goal of the question.
+ret_label(N, entail) :- selection_gap(N), !.
 ret_label(N, L) :- rettext(N, L0), !, L = L0.
 ret_label(_, L) :- member(L, [entail, neutral, contra]).
 
@@ -83,9 +84,10 @@ retrieval_consistent(D, N) :-
 % Two competing applicable rules: consistent only if the pair is diagnosed as a conflict or one of the two
 % rules is misencoded (a normal KB has no unresolved conflict).
 pair_consistent(D, N1, N2) :-
-    ( memberchk(kbconflict(N1, N2), D) ; memberchk(misencoded(N1), D) ; memberchk(misencoded(N2), D) ), !.
+    ( memberchk(kbconflict(N1, N2), D) ; memberchk(misencoded(N1), D) ; memberchk(misencoded(N2), D)
+    ; supports(N1, N2, C), parser_mode(D, C, M), M \== ok ), !.
 
-well_formed(missing(C)) :- required(C).
+well_formed(missing(C)) :- (required(C); needed(C)).
 well_formed(omission(C)) :- ( required(C) ; presumed(C) ).
 well_formed(misinterp(C)) :- checked(C).
 well_formed(unsupported(C)) :- checked(C).
@@ -94,6 +96,7 @@ well_formed(omitted(N)) :- near_miss(N).
 well_formed(kbconflict(N1, N2)) :- competing(N1, N2).
 
 consistent(D) :-
+    one_mode_per_component(D),
     forall(member(F, D), well_formed(F)),
     forall(relevant(C), prop_consistent(D, C)),
     forall(rule_used(N), rule_consistent(D, N)),
@@ -118,8 +121,9 @@ conflict(Atoms, X, Repairs) :-
     check(X), \+ check_ok([], X),
     usable(Atoms, Us),
     findall([A], ( member(A, Us), check_ok([A], X) ), R1),
-    (   R1 \== [] -> Repairs = R1
-    ;   findall(S, ( subset_k(2, Us, S), one_mode_per_component(S), check_ok(S, X) ), Repairs) ).
+    findall(S, ( subset_k(2, Us, S), one_mode_per_component(S),
+                 \+ (member(R, R1), subset_of(R, S)), check_ok(S, X) ), R2),
+    append(R1, R2, Repairs).
 
 usable(Atoms, Us) :-
     findall(A, ( member(A, Atoms), well_formed(A),
@@ -172,7 +176,7 @@ serve :-
 
 handle(diag(Obs, Atoms, K)) :-
     forall(member(P, [required/1, presumed/1, checked/1, parsed/2, q/2, rule_used/1, kbtext/2, competing/2,
-                      near_miss/1, rettext/2]),
+                      near_miss/1, rettext/2, needed/1, supports/3, selection_gap/1]),
            ( P = F/A, functor(H, F, A), retractall(H) )),
     maplist(assertz, Obs),
     % symptoms: components whose observations contradict the assumption that everything works normally

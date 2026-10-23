@@ -1,0 +1,681 @@
+{
+  "old_dev": {
+    "split": "dev",
+    "counts": {
+      "omission": {
+        "total": 26,
+        "hit": 22,
+        "target_not_observed": 4
+      },
+      "misinterp": {
+        "total": 36,
+        "hit": 16,
+        "target_not_observed": 19,
+        "unaccepted_label": 1
+      },
+      "unsupported": {
+        "total": 16,
+        "target_not_observed": 10,
+        "different_diagnosis": 3,
+        "hit": 3
+      },
+      "omitted": {
+        "total": 14,
+        "hit": 13,
+        "different_diagnosis": 1
+      },
+      "misencoded": {
+        "total": 26,
+        "hit": 25,
+        "target_not_observed": 1
+      },
+      "missing": {
+        "total": 9,
+        "no_localized_gold_key": 8,
+        "hit": 1
+      }
+    },
+    "examples": {
+      "control_alarms": [
+        {
+          "id": "BHXH-001/control",
+          "diagnosis": [
+            [
+              "misinterp(c2)"
+            ]
+          ],
+          "symptoms": [
+            {
+              "id": "c2",
+              "layer": "case",
+              "kind": "checked",
+              "polarity": "pos",
+              "item": "attr(hd1, loai_hop_dong, khong_xac_dinh_thoi_han)",
+              "statement": "Loại hợp đồng của hợp đồng lao động là không xác định thời hạn",
+              "neg_statement": "Loại hợp đồng của hợp đồng lao động không phải là không xác định thời hạn",
+              "premise": "question",
+              "p_llm": {
+                "entail": 9.35762296883929e-14,
+                "neutral": 1.0725364903853754e-15,
+                "contra": 0.9999999999999054
+              },
+              "p_mdeberta": {
+                "entail": 0.0294189453125,
+                "neutral": 0.0087738037109375,
+                "contra": 0.9619140625
+              },
+              "p_entail": 0.0147,
+              "p_neutral": 0.0044,
+              "p_contra": 0.981,
+              "n_entail": 0.5867,
+              "n_neutral": 0.0316,
+              "n_contra": 0.3816,
+              "label": "contra",
+              "neg_label": "entail",
+              "reject_reason": "",
+              "symptom": true
+            }
+          ]
+        },
+        {
+          "id": "BHXH-015/control",
+          "diagnosis": [
+            [
+              "misinterp(c5)"
+            ]
+          ],
+          "symptoms": [
+            {
+              "id": "c5",
+              "layer": "case",
+              "kind": "checked",
+              "polarity": "pos",
+              "item": "instance_of(hd1, hop_dong_lao_dong)",
+              "statement": "Người hỏi có hợp đồng lao động",
+              "neg_statement": "Người hỏi không có hợp đồng lao động",
+              "premise": "question",
+              "p_llm": {
+                "entail": 2.3859490332755483e-10,
+                "neutral": 3.9669859140002285e-06,
+                "contra": 0.9999960327754911
+              },
+              "p_mdeberta": {
+                "entail": 0.494384765625,
+                "neutral": 0.02203369140625,
+                "contra": 0.4833984375
+              },
+              "p_entail": 0.2472,
+              "p_neutral": 0.011,
+              "p_contra": 0.7417,
+              "n_entail": 0.8775,
+              "n_neutral": 0.0025,
+              "n_contra": 0.1198,
+              "label": "contra",
+              "neg_label": "entail",
+              "reject_reason": "",
+              "symptom": true
+            }
+          ]
+        }
+      ],
+      "omission": [
+        {
+          "id": "BHXH-001/omission1",
+          "reason": "target_not_observed",
+          "diagnosis": [
+            []
+          ]
+        },
+        {
+          "id": "BHXH-015/omission1",
+          "reason": "target_not_observed",
+          "diagnosis": [
+            [
+              "misinterp(c5)"
+            ]
+          ]
+        },
+        {
+          "id": "BHXH-075/omission0",
+          "reason": "target_not_observed",
+          "diagnosis": [
+            []
+          ]
+        },
+        {
+          "id": "BHXH-075/omission1",
+          "reason": "target_not_observed",
+          "diagnosis": [
+            []
+          ]
+        }
+      ],
+      "misinterp": [
+        {
+          "id": "BHXH-001/misinterp1",
+          "reason": "target_not_observed",
+          "diagnosis": [
+            []
+          ]
+        },
+        {
+          "id": "BHXH-003/misinterp1",
+          "reason": "target_not_observed",
+          "diagnosis": [
+            [
+              "missing(c1)",
+              "missing(c2)"
+            ]
+          ]
+        },
+        {
+          "id": "BHXH-005/misinterp1",
+          "reason": "target_not_observed",
+          "diagnosis": [
+            [
+              "missing(c3)",
+              "missing(c4)",
+              "omission(c1)"
+            ]
+          ]
+        },
+        {
+          "id": "BHXH-015/misinterp0",
+          "reason": "unaccepted_label",
+          "diagnosis": [
+            [
+              "misinterp(c3)"
+            ]
+          ]
+        },
+        {
+          "id": "BHXH-015/misinterp1",
+          "reason": "target_not_observed",
+          "diagnosis": [
+            [
+              "misinterp(c5)"
+            ]
+          ]
+        }
+      ],
+      "unsupported": [
+        {
+          "id": "BHXH-001/unsupported1",
+          "reason": "target_not_observed",
+          "diagnosis": [
+            [
+              "misinterp(c2)"
+            ]
+          ]
+        },
+        {
+          "id": "BHXH-003/unsupported1",
+          "reason": "target_not_observed",
+          "diagnosis": [
+            []
+          ]
+        },
+        {
+          "id": "BHXH-005/unsupported1",
+          "reason": "target_not_observed",
+          "diagnosis": [
+            []
+          ]
+        },
+        {
+          "id": "BHXH-015/unsupported1",
+          "reason": "target_not_observed",
+          "diagnosis": [
+            [
+              "misinterp(c5)"
+            ]
+          ]
+        },
+        {
+          "id": "BHXH-031/unsupported0",
+          "reason": "different_diagnosis",
+          "diagnosis": [
+            [
+              "misinterp(c1)"
+            ]
+          ]
+        }
+      ],
+      "missing": [
+        {
+          "id": "BHXH-007/missing",
+          "reason": "no_localized_gold_key",
+          "diagnosis": [
+            []
+          ]
+        },
+        {
+          "id": "BHXH-009/missing",
+          "reason": "no_localized_gold_key",
+          "diagnosis": [
+            [
+              "unsupported(c1)",
+              "unsupported(c2)",
+              "unsupported(c5)"
+            ]
+          ]
+        },
+        {
+          "id": "BHXH-017/missing",
+          "reason": "no_localized_gold_key",
+          "diagnosis": [
+            [
+              "misinterp(c5)"
+            ]
+          ]
+        },
+        {
+          "id": "BHXH-019/missing",
+          "reason": "no_localized_gold_key",
+          "diagnosis": [
+            [
+              "unsupported(c5)"
+            ]
+          ]
+        },
+        {
+          "id": "BHXH-027/missing",
+          "reason": "no_localized_gold_key",
+          "diagnosis": [
+            []
+          ]
+        }
+      ],
+      "omitted": [
+        {
+          "id": "BHXH-075/omitted0",
+          "reason": "different_diagnosis",
+          "diagnosis": [
+            [
+              "missing(c1)",
+              "missing(c2)"
+            ]
+          ]
+        }
+      ],
+      "misencoded": [
+        {
+          "id": "BHXH-075/misencoded0_negate",
+          "reason": "target_not_observed",
+          "diagnosis": [
+            [
+              "missing(c1)",
+              "missing(c2)"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  "new_dev": {
+    "split": "dev",
+    "counts": {
+      "omission": {
+        "total": 78,
+        "hit": 52,
+        "target_not_observed": 26
+      },
+      "misinterp": {
+        "total": 89,
+        "hit": 79,
+        "different_diagnosis": 6,
+        "unaccepted_label": 4
+      },
+      "unsupported": {
+        "total": 111,
+        "hit": 90,
+        "different_diagnosis": 21
+      },
+      "omitted": {
+        "total": 14,
+        "hit": 14
+      },
+      "misencoded": {
+        "total": 26,
+        "hit": 25,
+        "target_not_observed": 1
+      },
+      "missing": {
+        "total": 9,
+        "hit": 3,
+        "no_localized_gold_key": 6
+      }
+    },
+    "examples": {
+      "control_alarms": [
+        {
+          "id": "BHXH-001/control",
+          "diagnosis": [
+            [
+              "misinterp(c5)"
+            ]
+          ],
+          "symptoms": [
+            {
+              "id": "c5",
+              "layer": "case",
+              "kind": "checked",
+              "polarity": "pos",
+              "item": "attr(hd1, loai_hop_dong, khong_xac_dinh_thoi_han)",
+              "needed": false,
+              "statement": "Loại hợp đồng của hợp đồng lao động là không xác định thời hạn",
+              "neg_statement": "Loại hợp đồng của hợp đồng lao động không phải là không xác định thời hạn",
+              "premise": "question",
+              "p_llm": {
+                "entail": 9.35762296883929e-14,
+                "neutral": 1.0725364903853754e-15,
+                "contra": 0.9999999999999054
+              },
+              "p_mdeberta": null,
+              "p_entail": 0.0,
+              "p_neutral": 0.0,
+              "p_contra": 1.0,
+              "n_entail": 1.0,
+              "n_neutral": 0.0,
+              "n_contra": 0.0,
+              "label": "contra",
+              "neg_label": null,
+              "reject_reason": "",
+              "symptom": true
+            }
+          ]
+        },
+        {
+          "id": "BHXH-015/control",
+          "diagnosis": [
+            [
+              "misinterp(c3)",
+              "misinterp(c4)",
+              "unsupported(c5)"
+            ]
+          ],
+          "symptoms": [
+            {
+              "id": "c3",
+              "layer": "case",
+              "kind": "checked",
+              "polarity": "pos",
+              "item": "instance_of(hd1, hop_dong_lao_dong)",
+              "needed": false,
+              "statement": "Người hỏi có hợp đồng lao động",
+              "neg_statement": "Người hỏi không có hợp đồng lao động",
+              "premise": "question",
+              "p_llm": {
+                "entail": 2.3859490332755483e-10,
+                "neutral": 3.9669859140002285e-06,
+                "contra": 0.9999960327754911
+              },
+              "p_mdeberta": null,
+              "p_entail": 0.0,
+              "p_neutral": 0.0,
+              "p_contra": 1.0,
+              "n_entail": 0.8869,
+              "n_neutral": 0.0004,
+              "n_contra": 0.1128,
+              "label": "contra",
+              "neg_label": null,
+              "reject_reason": "",
+              "symptom": true
+            },
+            {
+              "id": "c4",
+              "layer": "case",
+              "kind": "checked",
+              "polarity": "pos",
+              "item": "lam_viec_theo_hop_dong(toi, cong_ty, hd1)",
+              "needed": true,
+              "statement": "Người hỏi làm việc cho người sử dụng lao động theo hợp đồng lao động",
+              "neg_statement": "Người hỏi không làm việc cho người sử dụng lao động theo hợp đồng lao động",
+              "premise": "question",
+              "p_llm": {
+                "entail": 3.9113169434659535e-09,
+                "neutral": 1.6701421782770628e-05,
+                "contra": 0.9999832946669003
+              },
+              "p_mdeberta": null,
+              "p_entail": 0.0,
+              "p_neutral": 0.0,
+              "p_contra": 1.0,
+              "n_entail": 0.0,
+              "n_neutral": 0.0,
+              "n_contra": 1.0,
+              "label": "contra",
+              "neg_label": null,
+              "reject_reason": "",
+              "symptom": true
+            },
+            {
+              "id": "c5",
+              "layer": "case",
+              "kind": "checked",
+              "polarity": "pos",
+              "item": "attr(hd1, loai_hop_dong, khong_xac_dinh_thoi_han)",
+              "needed": false,
+              "statement": "Loại hợp đồng của hợp đồng lao động là không xác định thời hạn",
+              "neg_statement": "Loại hợp đồng của hợp đồng lao động không phải là không xác định thời hạn",
+              "premise": "question",
+              "p_llm": {
+                "entail": 9.357632377537895e-14,
+                "neutral": 0.9871787857333134,
+                "contra": 0.012821214266593044
+              },
+              "p_mdeberta": null,
+              "p_entail": 0.0,
+              "p_neutral": 0.9872,
+              "p_contra": 0.0128,
+              "n_entail": 1.0,
+              "n_neutral": 0.0,
+              "n_contra": 0.0,
+              "label": "neutral",
+              "neg_label": null,
+              "reject_reason": "",
+              "symptom": true
+            }
+          ]
+        }
+      ],
+      "omission": [
+        {
+          "id": "BHXH-001/omission1",
+          "reason": "target_not_observed",
+          "diagnosis": [
+            []
+          ]
+        },
+        {
+          "id": "BHXH-001/double_1",
+          "reason": "target_not_observed",
+          "diagnosis": [
+            [
+              "omission(c6)"
+            ]
+          ]
+        },
+        {
+          "id": "BHXH-015/omission1",
+          "reason": "target_not_observed",
+          "diagnosis": [
+            [
+              "misinterp(c3)",
+              "misinterp(c4)"
+            ]
+          ]
+        },
+        {
+          "id": "BHXH-015/double_1",
+          "reason": "target_not_observed",
+          "diagnosis": [
+            [
+              "misinterp(c3)",
+              "omission(c6)"
+            ]
+          ]
+        },
+        {
+          "id": "BHXH-031/double_1",
+          "reason": "target_not_observed",
+          "diagnosis": [
+            [
+              "omission(c4)"
+            ]
+          ]
+        }
+      ],
+      "misinterp": [
+        {
+          "id": "BHXH-001/misinterp1",
+          "reason": "different_diagnosis",
+          "diagnosis": [
+            []
+          ]
+        },
+        {
+          "id": "BHXH-001/double_2",
+          "reason": "different_diagnosis",
+          "diagnosis": [
+            [
+              "omission(c7)"
+            ]
+          ]
+        },
+        {
+          "id": "BHXH-001/double_4",
+          "reason": "different_diagnosis",
+          "diagnosis": [
+            [
+              "misinterp(c7)"
+            ]
+          ]
+        },
+        {
+          "id": "BHXH-015/misinterp0",
+          "reason": "different_diagnosis",
+          "diagnosis": [
+            [
+              "misinterp(c3)",
+              "unsupported(c4)"
+            ]
+          ]
+        },
+        {
+          "id": "BHXH-015/misinterp1",
+          "reason": "unaccepted_label",
+          "diagnosis": [
+            [
+              "misinterp(c3)",
+              "misinterp(c4)"
+            ]
+          ]
+        }
+      ],
+      "unsupported": [
+        {
+          "id": "BHXH-001/unsupported3",
+          "reason": "different_diagnosis",
+          "diagnosis": [
+            [
+              "misinterp(c5)"
+            ]
+          ]
+        },
+        {
+          "id": "BHXH-003/unsupported3",
+          "reason": "different_diagnosis",
+          "diagnosis": [
+            []
+          ]
+        },
+        {
+          "id": "BHXH-005/unsupported3",
+          "reason": "different_diagnosis",
+          "diagnosis": [
+            []
+          ]
+        },
+        {
+          "id": "BHXH-015/unsupported3",
+          "reason": "different_diagnosis",
+          "diagnosis": [
+            [
+              "misinterp(c3)",
+              "misinterp(c4)",
+              "unsupported(c5)"
+            ]
+          ]
+        },
+        {
+          "id": "BHXH-021/unsupported2",
+          "reason": "different_diagnosis",
+          "diagnosis": [
+            []
+          ]
+        }
+      ],
+      "missing": [
+        {
+          "id": "BHXH-017/missing",
+          "reason": "no_localized_gold_key",
+          "diagnosis": [
+            [
+              "misinterp(c3)",
+              "misinterp(c4)",
+              "unsupported(c5)"
+            ]
+          ]
+        },
+        {
+          "id": "BHXH-019/missing",
+          "reason": "no_localized_gold_key",
+          "diagnosis": [
+            [
+              "unsupported(c5)"
+            ]
+          ]
+        },
+        {
+          "id": "BHXH-027/missing",
+          "reason": "no_localized_gold_key",
+          "diagnosis": [
+            []
+          ]
+        },
+        {
+          "id": "BHXH-063/missing",
+          "reason": "no_localized_gold_key",
+          "diagnosis": [
+            [
+              "misinterp(c1)",
+              "unsupported(c2)"
+            ]
+          ]
+        },
+        {
+          "id": "BHXH-071/missing",
+          "reason": "no_localized_gold_key",
+          "diagnosis": [
+            [
+              "unsupported(c6)"
+            ]
+          ]
+        }
+      ],
+      "misencoded": [
+        {
+          "id": "BHXH-075/misencoded0_negate",
+          "reason": "target_not_observed",
+          "diagnosis": [
+            [
+              "missing(c18)",
+              "missing(c19)"
+            ]
+          ]
+        }
+      ]
+    }
+  }
+}

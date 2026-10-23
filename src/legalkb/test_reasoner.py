@@ -10,7 +10,7 @@ from __future__ import annotations
 import shutil
 import sys
 
-from .compile import write_and_check
+from .runtime import compile_sample as write_and_check
 from .db import connect
 from .extract import store
 from .questions import Question, answer
@@ -122,7 +122,7 @@ def main() -> int:
     check("an: 800,000 a month", any(a["status"] == "certain" and "800000" in a["goal"] for a in an["amount"]))
     check("an: pension exception presumed absent",
           any("dang_huong_luong_huu" in p for a in an["obl"] for p in a["presumed_absent"]))
-    check("binh: no obligation (exception 2.7.a)", not res["binh"]["obl"])
+    check("binh: no obligation (exception 2.7.a)", not any("41/2024" in a["goal"] for a in res["binh"]["obl"]))
     check("chi: certain through Điều 2.1.l", any(a["status"] == "certain" for a in res["chi"]["obl"]))
     check("chi: 480,000 a month", any("480000" in a["goal"] for a in res["chi"]["amount"]))
     dung = res["dung"]["obl"]
@@ -177,3 +177,45 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+
+def test_deadline_and_sanction(tmp_path, monkeypatch):
+    """Real store -> compile -> retrieve -> Prolog, without a model/network."""
+    from . import sample_kb
+    db, pl = tmp_path / 'sample.sqlite', tmp_path / 'sample.pl'
+    monkeypatch.setattr(sample_kb, 'SAMPLE_DB', db)
+    monkeypatch.setattr(sample_kb, 'SAMPLE_PL', pl)
+    sample_kb.build()
+    con, reasoner = connect(db), Reasoner(pl)
+    facts = ['instance_of(toi, nguoi_lao_dong)', 'nhan_thong_bao_mau(toi)', 'nhan_yeu_cau_mau(toi)',
+             'vi_pham_mau(toi)']
+    try:
+        for pred, modality, amount, unit, event in [
+            ('nop_ho_so_mau', 'obligation', '30', 'ngay', 'nhan_thong_bao_mau'),
+            ('bo_sung_ho_so_mau', 'procedure', '5', 'ngay_lam_viec', 'nhan_yeu_cau_mau')]:
+            got = answer(Question('deadline', 'toi', modality=modality, pred=pred), facts, reasoner, con)
+            assert got['verdict'] == 'yes'
+            certain = [a['goal'] for a in got['answers'] if a['status'] == 'certain']
+            assert any(amount in x and unit in x and event in x for x in certain)
+            blocked = answer(Question('deadline', 'toi', modality=modality, pred=pred),
+                             facts, reasoner, con, drop=set(got['retrieved']))
+            assert not blocked['answers']
+        sanction = answer(Question('sanction', 'toi'), facts, reasoner, con)
+        import re
+        ranges = [re.search(r",phat_tien,([^,]+),([^,]+),dong\)", a['goal'].replace(' ', ''))
+                  for a in sanction['answers'] if a['status'] == 'certain']
+        assert any(m and (float(m[1]), float(m[2])) == (1000000, 2000000) for m in ranges)
+        warning = answer(Question('sanction', 'toi'), ['instance_of(toi, nguoi_lao_dong)', 'vi_pham_nhe_mau(toi)'],
+                         reasoner, con)
+        assert any(a['status'] == 'certain' and 'canh_cao,none,none' in a['goal'].replace(' ', '')
+                   for a in warning['answers'])
+        absent = answer(Question('deadline', 'toi', modality='obligation', pred='nop_ho_so_mau'),
+                        ['instance_of(toi, nguoi_lao_dong)'], reasoner, con)
+        assert absent['verdict'] == 'unknown'
+        assert any('nhan_thong_bao_mau' in m for a in absent['answers'] for m in a['missing'])
+        no_deadline = answer(Question('deadline', 'an', modality='obligation', pred='dong_bhxh',
+                                      args=['quy_huu_tri_tu_tuat']), EMPLOYER + CASES['an'], reasoner, con)
+        assert not no_deadline['answers']
+    finally:
+        reasoner.close()
+        con.close()

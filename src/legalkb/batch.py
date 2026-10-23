@@ -20,7 +20,10 @@ import time
 from collections import Counter, defaultdict
 
 from diagnosis.dataset import load_items
-from diagnosis.external_diag import DOMAINS
+from .splits import DOMAIN_PATHS, split_of
+from .policy import SYSTEMS, budget_arg, policy
+
+DOMAINS = DOMAIN_PATHS
 
 from .compile import ROOT
 from .trace import connect_runs
@@ -30,14 +33,15 @@ GOLD = {"yes": "true", "no": "false", "unknown": "insufficient"}
 
 def load_benchmark(domain: str | None = None, split: str | None = None) -> list[dict]:
     items = []
-    for dom, (_, paths) in DOMAINS.items():
+    for dom, paths in DOMAIN_PATHS.items():
         if domain and dom != domain:
             continue
         for p in paths:
-            sp = "test" if p.endswith("_test.jsonl") else "dev"
-            if split and sp != split:
-                continue
-            items += [{**it, "split": sp} for it in load_items([str(ROOT / "data" / "dataset" / p)])]
+            fallback = "test" if p.endswith("_test.jsonl") else "dev"
+            for it in load_items([str(ROOT / "data" / "dataset" / p)]):
+                sp = split_of(it["id"], dom, fallback=fallback)
+                if split is None or sp == split:
+                    items.append({**it, "split": sp, "domain": dom})
     return items
 
 
@@ -45,6 +49,40 @@ def item_verdict(runs, run: int) -> str | None:
     row = runs.execute("SELECT verdict FROM run_questions WHERE run_id=? AND kind='case' ORDER BY q_no LIMIT 1",
                        (run,)).fetchone()
     return GOLD.get(row[0]) if row else None
+
+
+def score_actions(records: list[dict]) -> dict:
+    """Score 300 (or a subset of) benchmark questions by action AND conclusion.
+
+    Confirm/warn on clean true/false cases are separately reported as thiếu tự tin.
+    Errors and missing MBD actions count as failures, never removed from denominator.
+    """
+    totals = Counter()
+    by_domain = defaultdict(Counter)
+    for row in records:
+        gold, action = row["gold"], row.get("action")
+        pred = GOLD.get(row.get("verdict"), row.get("verdict"))
+        ok = not row.get("error") and (action == "ask" if gold == "insufficient" else
+                                      action == "answer" and pred == gold)
+        timid = not row.get("error") and row.get("clean", gold in ("true", "false")) and action in ("confirm", "warn")
+        for c in (totals, by_domain[row.get("domain", row.get("id", "").split("-")[0])]):
+            c["n"] += 1
+            c["correct"] += bool(ok)
+            c["lack_of_confidence"] += bool(timid)
+            c["errors"] += bool(row.get("error"))
+            c["unanswered"] += action in (None, "unresolved")
+    return {**totals, "action_accuracy": totals["correct"] / totals["n"] if totals["n"] else 0,
+            "by_domain": dict(by_domain)}
+
+
+def action_summary(runs, batch: str) -> dict:
+    rows = runs.execute(
+        "SELECT r.run_id,r.item_id,r.gold,r.action,r.error FROM runs r JOIN "
+        "(SELECT item_id,MAX(run_id) last FROM runs WHERE batch=? GROUP BY item_id) l "
+        "ON r.run_id=l.last", (batch,)).fetchall()
+    return score_actions([{"id": item, "gold": gold, "action": action,
+                           "verdict": item_verdict(runs, run), "error": error}
+                          for run, item, gold, action, error in rows])
 
 
 def summary(runs, batch: str) -> str:
@@ -81,15 +119,24 @@ def main() -> None:
     sys.stdout.reconfigure(encoding="utf-8")
     ap = argparse.ArgumentParser()
     ap.add_argument("--name", required=True, help="batch name (runs of the batch are grouped by it)")
+    ap.add_argument("--offline", action="store_true", help="no API calls; record cache misses as errors")
     ap.add_argument("--sample", action="store_true", help="hand-encoded sample KB instead of the main KB")
     ap.add_argument("--domain", choices=list(DOMAINS))
     ap.add_argument("--split", choices=["dev", "test"])
     ap.add_argument("--limit", type=int)
+    ap.add_argument("--system", choices=SYSTEMS, default="mbd")
+    ap.add_argument("--budget", type=budget_arg, default=None, help="0 / 1 / 2 / unlimited clarification rounds")
     ap.add_argument("--retry-errors", action="store_true")
     ap.add_argument("--summary", action="store_true", help="only print the summary of the batch")
     args = ap.parse_args()
+    if args.offline:
+        __import__("os").environ["LEGALKB_OFFLINE"] = "1"
     runs = connect_runs()
     if not args.summary:
+        configs = runs.execute("SELECT DISTINCT m.system,m.budget FROM run_mbd_meta m "
+                               "JOIN runs r ON r.run_id=m.run_id WHERE r.batch=?", (args.name,)).fetchall()
+        if configs and configs != [(args.system, args.budget)]:
+            raise ValueError("Batch name already has a different system/budget; use another --name")
         from .ask import Asker
 
         items = load_benchmark(args.domain, args.split)[: args.limit]
@@ -101,13 +148,15 @@ def main() -> None:
         asker = Asker(args.sample)
         t0 = time.perf_counter()
         for k, it in enumerate(todo, 1):
-            run, _ = asker.ask(it["question"], batch=args.name, item_id=it["id"], gold=it["expected"])
+            with policy(args.system, args.budget):
+                run, _ = asker.ask(it["question"], batch=args.name, item_id=it["id"], gold=it["expected"])
             err = runs.execute("SELECT error FROM runs WHERE run_id=?", (run,)).fetchone()[0]
             pred = None if err else item_verdict(runs, run)
             mark = "LỖI" if err else ("đúng" if pred == it["expected"] else "sai")
             print(f"[{k}/{len(todo)}] {it['id']}: {pred or '-'} (đúng: {it['expected']}) {mark}  run {run}  "
                   f"{time.perf_counter() - t0:.0f}s" + (f"  {err[:120]}" if err else ""), flush=True)
     print(summary(runs, args.name))
+    print("Hành động MBD / thiếu tự tin:", action_summary(runs, args.name))
 
 
 if __name__ == "__main__":
