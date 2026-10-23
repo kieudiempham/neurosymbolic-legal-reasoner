@@ -49,11 +49,11 @@ Ba tầng có thể gây lỗi: **người dùng** (câu hỏi thiếu thông ti
 ## 1. Tri thức pháp luật (Mục 3.1–3.3)
 
 ### 1.1 KB
-- 5 KB theo lĩnh vực: BHXH 149 rule, Doanh nghiệp 70, Thuế 200, Lao động 129, Liên ngành 88 (**636 rule**);
+- 5 KB theo lĩnh vực: 
   **422 quan hệ ngoại lệ** `exception_of`; **không có quan hệ ưu tiên** (P = ∅).
 - Mỗi rule có nguồn (văn bản, điều, khoản, điểm). Không mã hóa phạm vi áp dụng hay hiệu lực thời gian.
-- Nguồn gốc: 18 văn bản → 7.906 rule nháp (GPT-4o-mini, mỗi điều một lần gọi) → chọn theo điều luật mà bộ câu hỏi
-  trích dẫn, viết lại trên bộ vị từ chung, rà soát → 636 rule. Bản vá chỉ lấy từ lỗi trên dev.
+- Nguồn gốc: 18 văn bản → 7.906 rules→ chọn theo điều luật mà bộ câu hỏi
+  trích dẫn, viết lại trên bộ vị từ chung, rà soát.
 - Một số rule có thân rỗng: rule mặc định chung (ví dụ "thu nhập không được miễn thuế"), và mỗi trường hợp miễn trừ
   được mã hóa là ngoại lệ của rule đó (`defeated_by_all`).
 
