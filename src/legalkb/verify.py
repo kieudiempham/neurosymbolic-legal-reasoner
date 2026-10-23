@@ -41,6 +41,9 @@ CLIENT_MODEL = "gpt-4.1-mini"
 # gpt-4.1 rather than the paper's gpt-4o-mini: on this pipeline's verbalisations gpt-4o-mini took
 # "tôi ký hợp đồng lao động" to entail "the contract has no fixed term"; it is also not the parser's model
 NLI_MODEL = os.environ.get("LEGALKB_NLI_MODEL", "gpt-4.1")
+# calibrated on the dev split of the fault-injection benchmark (experiments/legalkb/inject_calibration.json):
+# tau 0.4 and 0.5 give the same results, higher thresholds lose observations (action accuracy 0.77 -> 0.48);
+# pos_neg is slightly better than pos_only (fault F1 0.471 vs 0.461)
 TAU = float(os.environ.get("LEGALKB_NLI_TAU", 0.5))
 ACCEPT_RULE = os.environ.get("LEGALKB_NLI_RULE", "pos_neg")   # pos_neg | pos_only
 ENSEMBLE = os.environ.get("LEGALKB_NLI_ENSEMBLE", "1") == "1"  # mean with mDeBERTa (local) where it applies
@@ -131,6 +134,8 @@ def components(parts: list[dict], facts: list[str]) -> dict:
         if not (p.get("answers") or p.get("contrary") or p.get("explore")):
             for f in facts:  # nothing was proved, even with assumptions: every parsed fact is suspect
                 atom_id(f, "checked")
+            for f in p.get("false_facts", []):
+                atoms[atom_id(f, "checked")]["polarity"] = "neg"
         if any(a["status"] == "certain" for a in p.get("answers", [])) and \
                 any(a["status"] == "certain" for a in p.get("contrary", [])):
             rid = {r["norm"]: k for k, r in rules.items()}
@@ -328,67 +333,88 @@ def verify(question: str, facts: list[str], parts: list[dict], con, client=None)
         return r["text"], stmt[r["goal"]], "about"
 
     pairs = [pair(i) for i in ids]
-    neg_ids = [i for i in ids if i in comps["atoms"] and ACCEPT_RULE == "pos_neg"]
+    neg_ids = [i for i in ids if i in comps["atoms"]]
     scored = nli(client, pairs + [(question, sent[i][1], "v4") for i in neg_ids])
     scores, neg_scores = scored[: len(ids)], dict(zip(neg_ids, scored[len(ids):]))
-    obs, faults, table = [], [], []
+    table = []
     for i, sc in zip(ids, scores):
-        sc3 = {k: sc[k] for k in ("entail", "neutral", "contra")}
-        best = max(sc3, key=sc3.get)
-        label, reason = (best, "") if sc3[best] >= TAU else (None, "low_confidence")
-        neg_label = None
-        if label and i in neg_scores:  # the negative sentence must agree (pos_neg acceptance of the paper)
-            ns = {k: neg_scores[i][k] for k in ("entail", "neutral", "contra")}
-            neg_label = max(ns, key=ns.get)
-            expected = {"entail": "contra", "contra": "entail", "neutral": "neutral"}[label]
-            if not (neg_label == expected or (label != "neutral" and neg_label == "neutral")):
-                label, reason = None, "template_disagreement"
-        extra = {"neg_statement": sent.get(i, ("", ""))[1] if i in comps["atoms"] else "", "neg_label": neg_label,
-                 "reject_reason": reason, "p_llm": sc["llm"], "p_mdeberta": sc["mdeberta"]}
+        raw = {"p_llm": sc["llm"], "p_mdeberta": sc["mdeberta"],
+               **{f"p_{k}": round(sc[k], 4) for k in ("entail", "neutral", "contra")}}
         if i in comps["atoms"]:
             a = comps["atoms"][i]
-            obs.append({"required": f"required({i})", "presumed": f"presumed({i})",
-                        "checked": f"checked({i})"}[a["kind"]])
-            if a["kind"] == "checked":
-                obs.append(f"parsed({i}, pos)")
+            ns = neg_scores[i]
+            table.append({"id": i, "layer": "case", "kind": a["kind"], "polarity": a.get("polarity", "pos"),
+                          "item": a["atom"], "statement": stmt[i], "neg_statement": sent[i][1], "premise": "question",
+                          **raw, **{f"n_{k}": round(ns[k], 4) for k in ("entail", "neutral", "contra")}})
+        elif i in comps["near"]:
+            r = comps["near"][i]
+            table.append({"id": i, "layer": "retrieval", "kind": "near_miss", "item": r["norm"],
+                          "statement": stmt[r["goal"]], "neg_statement": "", "premise": r["unit"], **raw})
+        else:
+            r = comps["rules"][i]
+            table.append({"id": i, "layer": "kb", "kind": "rule", "item": r["norm"], "statement": stmt[i],
+                          "neg_statement": "", "premise": r["unit"], **raw})
+    return decide(table, comps["competing"])
+
+
+def label_of(row: dict, tau: float, rule: str) -> tuple[str | None, str | None, str]:
+    """(accepted label, label of the negative sentence, reason it was not accepted) for a component's scores."""
+    sc = {k: row[f"p_{k}"] for k in ("entail", "neutral", "contra")}
+    best = max(sc, key=sc.get)
+    if sc[best] < tau:
+        return None, None, "low_confidence"
+    if rule == "pos_neg" and "n_entail" in row:
+        ns = {k: row[f"n_{k}"] for k in ("entail", "neutral", "contra")}
+        neg = max(ns, key=ns.get)
+        expected = {"entail": "contra", "contra": "entail", "neutral": "neutral"}[best]
+        if not (neg == expected or (best != "neutral" and neg == "neutral")):
+            return None, neg, "template_disagreement"
+        return best, neg, ""
+    return best, None, ""
+
+
+def decide(table: list[dict], competing: list, tau: float | None = None, rule: str | None = None) -> dict:
+    """Observations from the measured components (acceptance threshold tau, rule pos_neg / pos_only), minimal
+    diagnoses, symptoms and the action. Separate from the measurements so tau can be calibrated on stored
+    scores without measuring again."""
+    tau = TAU if tau is None else tau
+    rule = ACCEPT_RULE if rule is None else rule
+    obs, faults = [], []
+    for row in table:
+        i = row["id"]
+        label, neg_label, reason = label_of(row, tau, rule)
+        row.update(label=label, neg_label=neg_label, reject_reason=reason)
+        if row["layer"] == "case":
+            obs.append(f"{row['kind']}({i})")
+            if row["kind"] == "checked":
+                obs.append(f"parsed({i}, {row.get('polarity', 'pos')})")
                 faults += [f"misinterp({i})", f"unsupported({i})"]
-            elif a["kind"] == "required":
+            elif row["kind"] == "required":
                 faults += [f"missing({i})", f"omission({i})"]
             else:
                 faults.append(f"omission({i})")
             if label:
                 obs.append(f"q({i}, {label})")
-            table.append({"id": i, "layer": "case", "kind": a["kind"], "item": a["atom"], "statement": stmt.get(i, ""),
-                          "premise": "question", "label": label, **extra,
-                          **{f"p_{k}": round(v, 4) for k, v in sc3.items()}})
-        elif i in comps["near"]:
-            r = comps["near"][i]
+        elif row["layer"] == "retrieval":
             obs.append(f"near_miss({i})")
             faults.append(f"omitted({i})")
             if label:
                 obs.append(f"rettext({i}, {label})")
-            table.append({"id": i, "layer": "retrieval", "kind": "near_miss", "item": r["norm"],
-                          "statement": stmt[r["goal"]], "premise": r["unit"], "label": label, **extra,
-                          **{f"p_{k}": round(v, 4) for k, v in sc3.items()}})
         else:
-            r = comps["rules"][i]
             obs.append(f"rule_used({i})")
             faults.append(f"misencoded({i})")
             if label:
                 obs.append(f"kbtext({i}, {label})")
-            table.append({"id": i, "layer": "kb", "kind": "rule", "item": r["norm"], "statement": stmt.get(i, ""),
-                          "premise": r["unit"], "label": label, **extra,
-                          **{f"p_{k}": round(v, 4) for k, v in sc3.items()}})
-    for a, b in comps["competing"]:
+    for a, b in competing:
         obs.append(f"competing({a}, {b})")
         faults.append(f"kbconflict({a}, {b})")
-    diagnoses, symptoms = diagnose(obs, faults, min(MAX_K, len(faults)))
+    diagnoses, symptoms = diagnose(obs, faults, min(MAX_K, len(faults))) if faults else ([[]], [])
     for row in table:
         row["symptom"] = row["id"] in symptoms or any(row["id"] in s.split("-") for s in symptoms)
     action, about = choose(diagnoses, symptoms)
-    return {"components": table, "observations": obs, "candidates": faults, "symptoms": symptoms,
-            "diagnoses": diagnoses, "explanations": [[explain(f, table) for f in d] for d in diagnoses],
-            "action": action, "about": about}
+    return {"components": table, "competing": competing, "observations": obs, "candidates": faults,
+            "symptoms": symptoms, "diagnoses": diagnoses,
+            "explanations": [[explain(f, table) for f in d] for d in diagnoses], "action": action, "about": about}
 
 
 FAULT_VI = {"missing": "câu hỏi không nêu", "omission": "bộ đọc câu hỏi bỏ sót (câu hỏi có nêu)",
