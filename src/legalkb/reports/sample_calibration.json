@@ -1,0 +1,96 @@
+{
+  "grid": [
+    {
+      "tau": 0.4,
+      "rule": "pos_neg",
+      "dev_action_accuracy": 0.897,
+      "dev_fault_f1": 0.719,
+      "dev_false_alarm": 0.143
+    },
+    {
+      "tau": 0.5,
+      "rule": "pos_neg",
+      "dev_action_accuracy": 0.897,
+      "dev_fault_f1": 0.719,
+      "dev_false_alarm": 0.143
+    },
+    {
+      "tau": 0.6,
+      "rule": "pos_neg",
+      "dev_action_accuracy": 0.897,
+      "dev_fault_f1": 0.719,
+      "dev_false_alarm": 0.143
+    },
+    {
+      "tau": 0.7,
+      "rule": "pos_neg",
+      "dev_action_accuracy": 0.897,
+      "dev_fault_f1": 0.722,
+      "dev_false_alarm": 0.143
+    },
+    {
+      "tau": 0.8,
+      "rule": "pos_neg",
+      "dev_action_accuracy": 0.897,
+      "dev_fault_f1": 0.722,
+      "dev_false_alarm": 0.143
+    },
+    {
+      "tau": 0.9,
+      "rule": "pos_neg",
+      "dev_action_accuracy": 0.897,
+      "dev_fault_f1": 0.722,
+      "dev_false_alarm": 0.143
+    },
+    {
+      "tau": 0.4,
+      "rule": "pos_only",
+      "dev_action_accuracy": 0.912,
+      "dev_fault_f1": 0.68,
+      "dev_false_alarm": 0.214
+    },
+    {
+      "tau": 0.5,
+      "rule": "pos_only",
+      "dev_action_accuracy": 0.912,
+      "dev_fault_f1": 0.68,
+      "dev_false_alarm": 0.214
+    },
+    {
+      "tau": 0.6,
+      "rule": "pos_only",
+      "dev_action_accuracy": 0.912,
+      "dev_fault_f1": 0.68,
+      "dev_false_alarm": 0.214
+    },
+    {
+      "tau": 0.7,
+      "rule": "pos_only",
+      "dev_action_accuracy": 0.912,
+      "dev_fault_f1": 0.683,
+      "dev_false_alarm": 0.214
+    },
+    {
+      "tau": 0.8,
+      "rule": "pos_only",
+      "dev_action_accuracy": 0.912,
+      "dev_fault_f1": 0.7,
+      "dev_false_alarm": 0.143
+    },
+    {
+      "tau": 0.9,
+      "rule": "pos_only",
+      "dev_action_accuracy": 0.912,
+      "dev_fault_f1": 0.7,
+      "dev_false_alarm": 0.143
+    }
+  ],
+  "chosen": {
+    "tau": 0.8,
+    "rule": "pos_only",
+    "dev_action_accuracy": 0.912,
+    "dev_fault_f1": 0.7,
+    "dev_false_alarm": 0.143
+  },
+  "selection_split": "dev"
+}

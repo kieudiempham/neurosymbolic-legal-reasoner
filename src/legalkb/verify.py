@@ -34,8 +34,9 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from .compile import SWIPL
-from .extract import CACHE, Extractor, _obj, _s
+from .runtime import swipl
+from .extract import CACHE
+from .offline import extractor, require_online
 
 CLIENT_MODEL = "gpt-4.1-mini"
 # gpt-4.1 rather than the paper's gpt-4o-mini: on this pipeline's verbalisations gpt-4o-mini took
@@ -52,7 +53,6 @@ MAX_K = 6  # bound on the size of a diagnosis (the search starts at the number o
 MBD_PL = Path(__file__).with_name("mbd.pl")
 LAYER = {"missing": "user", "omission": "parser", "misinterp": "parser", "unsupported": "parser",
          "misencoded": "kb", "kbconflict": "kb", "omitted": "retrieval"}
-NEAR_MISS = 3  # norms left out by step 2 that are checked against the goal of the question
 
 
 # NLI prompt for a rule against its source text (the paper's v4 is written for a user question as premise)
@@ -97,85 +97,103 @@ def _leaves(node: dict):
 
 
 def components(parts: list[dict], facts: list[str]) -> dict:
-    """Components of a run, keyed c1.. (atoms) and n1.. (norms)."""
-    key = lambda s: s.replace(" ", "")  # noqa: E731  proof goals are printed without spaces
-    fact_text = {key(f): f for f in facts}
-    atoms, rules, competing = {}, {}, []
+    """Keep parser output, proof dependencies and alternative paths as separate evidence.
 
-    def atom_id(text: str, kind: str) -> str:
-        for cid, a in atoms.items():
-            if key(a["atom"]) == key(text):
+    Checking only surviving proof leaves hides wrong values/polarities that killed a
+    branch. Conversely, missing leaves on unused alternatives must not force an ask.
+    """
+    key = lambda s: s.replace(" ", "")
+    atoms, rules, competing, goals, supports = {}, {}, [], [], []
+
+    def atom_id(text, kind, polarity="pos"):
+        for cid, row in atoms.items():
+            if key(row["atom"]) == key(text):
+                if kind == "checked":
+                    row.update(kind=kind, polarity=polarity)
                 return cid
         cid = f"c{len(atoms) + 1}"
-        atoms[cid] = {"atom": text, "kind": kind}
+        atoms[cid] = {"atom": text, "kind": kind, "polarity": polarity}
         return cid
 
-    goals = []
-    for p in parts:
-        if p["kind"] != "case":
-            continue
+    def rule_id(norm):
+        for rid, row in rules.items():
+            if row["norm"] == norm:
+                return rid
+        rid = f"n{len(rules) + 1}"
+        rules[rid] = {"norm": norm}
+        return rid
+
+    case_parts = [p for p in parts if p["kind"] == "case"]
+    if case_parts:
+        for f in facts:
+            if not f.startswith("attr(tham_so"):
+                atom_id(f, "checked")
+        for p in case_parts:
+            for f in p.get("false_facts", []):
+                atom_id(f, "checked", "neg")
+    for p in case_parts:
         goals.append({"id": f"g{len(goals) + 1}", "question": p["parsed"], "goal": p["goal"],
                       "retrieved": p.get("retrieved", {})})
-        heads = {"answer": set(), "contrary": set()}
-        for role in ("answers", "contrary", "explore"):
-            for a in p.get(role, []):
-                for m in a["missing"]:
-                    atom_id(m, "required")
-                for m in a["presumed_absent"]:
-                    atom_id(m, "presumed")
-                for n in _leaves(a["proof"]):
-                    if n.get("kind") == "fact" and not n["goal"].startswith("attr(tham_so"):
-                        atom_id(fact_text.get(key(n["goal"]), n["goal"]), "checked")
-                    if role != "explore" and a["status"] == "certain" and n.get("kind") == "rule" \
-                            and n.get("norm") not in (None, "derived"):
-                        if n["norm"] not in {r["norm"] for r in rules.values()}:
-                            rules[f"n{len(rules) + 1}"] = {"norm": n["norm"]}
-                        heads["answer" if role == "answers" else "contrary"].add(n["norm"])
-        if not (p.get("answers") or p.get("contrary") or p.get("explore")):
-            for f in facts:  # nothing was proved, even with assumptions: every parsed fact is suspect
-                atom_id(f, "checked")
-            for f in p.get("false_facts", []):
-                atoms[atom_id(f, "checked")]["polarity"] = "neg"
-        if any(a["status"] == "certain" for a in p.get("answers", [])) and \
-                any(a["status"] == "certain" for a in p.get("contrary", [])):
-            rid = {r["norm"]: k for k, r in rules.items()}
-            competing += [(rid[x], rid[y]) for x in sorted(heads["answer"]) for y in sorted(heads["contrary"])]
-    # the types of the entities the checked facts are about are facts the parser read too
-    for f in facts:
-        if f.startswith("instance_of(") and any(f[12:].split(",")[0] in a["atom"] for a in list(atoms.values())
-                                                if a["kind"] != "presumed"):
-            atom_id(f, "checked")
-    return {"atoms": atoms, "rules": rules, "competing": competing, "goals": goals, "near": {}}
+        certain = [a for role in ("answers", "contrary") for a in p.get(role, []) if a["status"] == "certain"]
+        paths = certain or [a for role in ("answers", "contrary", "explore") for a in p.get(role, [])]
+        # Only the shortest conditional paths are needed; keep all equal alternatives.
+        if paths and not certain:
+            cost = min(len(a["missing"]) for a in paths)
+            paths = [a for a in paths if len(a["missing"]) == cost]
+        needed_paths, heads = [], {"answers": [], "contrary": []}
+        for a in paths:
+            used = set()
+            for m in a["missing"]:
+                used.add(atom_id(m, "required"))
+            for m in a["presumed_absent"]:
+                atom_id(m, "presumed")
+            rids = set()
+            for n in _leaves(a["proof"]):
+                if n.get("kind") == "fact" and not n["goal"].startswith("attr(tham_so"):
+                    used.add(atom_id(n["goal"], "checked"))
+                if n.get("kind") == "rule" and n.get("norm") not in (None, "derived"):
+                    rids.add(rule_id(n["norm"]))
+            needed_paths.append(used)
+            if a["status"] == "certain":
+                role = "answers" if a in p.get("answers", []) else "contrary"
+                heads[role].append((rids, used))
+        # A fact common to every proof is needed even if the parser invented it.
+        for cid in set.intersection(*needed_paths) if needed_paths else set():
+            atoms[cid]["needed"] = True
+        # Explain a conflicting proof pair through its case AND rule dependencies.
+        for left, lc in heads["answers"]:
+            for right, rc in heads["contrary"]:
+                for x in sorted(left):
+                    for y in sorted(right):
+                        if x != y:
+                            competing.append((x, y))
+                            supports.extend((x, y, c) for c in sorted(lc | rc))
+    return {"atoms": atoms, "rules": rules, "competing": sorted(set(competing)),
+            "supports": sorted(set(supports)), "goals": goals, "near": {}}
 
 
 def near_misses(con, client, question: str, comps: dict) -> None:
-    """For each goal, the NEAR_MISS norms in force but not selected whose text is closest to the question."""
-    import numpy as np
+    """Audit candidate closure for each goal, including dependencies and exceptions.
 
-    from .canon import embed
-    from .retrieve import in_force
-
-    if not comps["goals"]:
-        return
-    on = __import__("datetime").date.today().isoformat()
-    norms = [(n, u) for n, u in con.execute("SELECT norm_id, unit_id FROM norms")]
-    texts = {u: law_premise(con, u) for _, u in norms}
-    qv = embed(con, client, [question])[0]
-    unit_ids = sorted(texts)
-    sims = dict(zip(unit_ids, (embed(con, client, [texts[u][:1500] for u in unit_ids]) @ qv).tolist())) \
-        if unit_ids else {}
+    Semantic similarity alone is not evidence that a norm should have been selected.
+    The independent closure audit supplies that structural evidence, without an API.
+    """
+    from .questions import Question
+    from .retrieve import candidates
     for g in comps["goals"]:
-        left = [(sims[u], n, u) for n, u in norms if n not in g["retrieved"] and in_force(con, n, on)]
-        for _, n, u in sorted(left, reverse=True)[:NEAR_MISS]:
-            if n not in {r["norm"] for r in comps["near"].values()}:
-                comps["near"][f"r{len(comps['near']) + 1}"] = {"norm": n, "unit": u, "text": texts[u],
-                                                               "goal": g["id"]}
+        expected = candidates(con, Question(**g["question"]))
+        for n in sorted(set(expected) - set(g["retrieved"])):
+            unit = con.execute("SELECT unit_id FROM norms WHERE norm_id=?", (n,)).fetchone()[0]
+            comps["near"][f"r{len(comps['near']) + 1}"] = {
+                "norm": n, "unit": unit, "text": law_premise(con, unit), "goal": g["id"],
+                "expected": True, "selection_reason": expected[n]}
 
 
 def _cached_call(name: str, payload: str, fn):
     f = CACHE / f"{name}_{hashlib.sha1(payload.encode('utf-8')).hexdigest()}.json"
     if f.exists():
         return json.loads(f.read_text(encoding="utf-8"))
+    require_online(name)
     out = fn()
     f.write_text(json.dumps(out, ensure_ascii=False), encoding="utf-8")
     return out
@@ -210,6 +228,7 @@ def mdeberta(pairs: list[tuple[str, str]]) -> list[dict]:
         else:
             todo.append(k)
     if todo:
+        require_online("uncached local NLI model/measurement")
         import torch
         from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
@@ -262,9 +281,13 @@ def diagnose(obs: list[str], atoms: list[str], k: int = MAX_K) -> tuple[list[lis
     """Subset-minimal diagnoses (fault atoms over component ids) and the symptoms (components inconsistent with
     everything working normally)."""
     req = f"diag([{', '.join(obs)}], [{', '.join(atoms)}], {k}).\n"
-    r = subprocess.run([str(SWIPL), "-q", "-f", "none", "-g", "serve", "-t", "halt", str(MBD_PL)], input=req,
+    r = subprocess.run([str(swipl()), "-q", "-f", "none", "-g", "serve", "-t", "halt", str(MBD_PL)], input=req,
                        capture_output=True, text=True, encoding="utf-8", timeout=120)
+    if r.returncode or "ERROR" in r.stderr:
+        raise RuntimeError(f"MBD failed: {r.stderr}")
     lines = r.stdout.splitlines()
+    if "END" not in lines:
+        raise RuntimeError("MBD returned an incomplete response")
     if any(ln.startswith("ERROR") for ln in lines):
         raise RuntimeError(next(ln for ln in lines if ln.startswith("ERROR")))
     out, symptoms = [], []
@@ -413,7 +436,9 @@ def update(diagnoses: list[list[str]], post: list[float], table: list[dict], cid
 
 def _kind(d: list[str]) -> str:
     layers = {LAYER[f.split("(")[0]] for f in d}
-    return "ask" if layers == {"user"} else "confirm" if not layers & {"kb", "retrieval"} else "warn"
+    invented_missing = any(f.startswith("unsupported(") and f.replace("unsupported(", "missing(") in d for f in d)
+    only_inventions = all(f.split("(")[0] in ("missing", "unsupported") for f in d)
+    return "ask" if layers == {"user"} or (invented_missing and only_inventions) else "confirm" if not layers & {"kb", "retrieval"} else "warn"
 
 
 def choose(diagnoses: list[list[str]], symptoms: list[str], post: list[float] | None = None,
@@ -446,8 +471,12 @@ def choose(diagnoses: list[list[str]], symptoms: list[str], post: list[float] | 
 def verify(question: str, facts: list[str], parts: list[dict], con, client=None) -> dict:
     """Diagnose a run. Returns the components with their statements and NLI labels, the minimal diagnoses
     (fault atoms over component ids) and the chosen action with the components it is about."""
+    from .policy import OPTIONS
+    options = OPTIONS.get()
+    if options.get("system") in ("symbolic", "no_mbd"):
+        return decide([], [], **options)
     comps = components(parts, facts)
-    client = client or Extractor(CLIENT_MODEL).client
+    client = client or extractor(CLIENT_MODEL).client
     near_misses(con, client, question, comps)
     if not comps["atoms"] and not comps["rules"] and not comps["near"]:
         return {"components": [], "observations": [], "candidates": [], "symptoms": [], "diagnoses": [[]],
@@ -476,17 +505,42 @@ def verify(question: str, facts: list[str], parts: list[dict], con, client=None)
             a = comps["atoms"][i]
             ns = neg_scores[i]
             table.append({"id": i, "layer": "case", "kind": a["kind"], "polarity": a.get("polarity", "pos"),
-                          "item": a["atom"], "statement": stmt[i], "neg_statement": sent[i][1], "premise": "question",
+                          "item": a["atom"], "needed": a.get("needed", False), "statement": stmt[i], "neg_statement": sent[i][1], "premise": "question",
                           **raw, **{f"n_{k}": round(ns[k], 4) for k in ("entail", "neutral", "contra")}})
         elif i in comps["near"]:
             r = comps["near"][i]
             table.append({"id": i, "layer": "retrieval", "kind": "near_miss", "item": r["norm"],
-                          "statement": stmt[r["goal"]], "neg_statement": "", "premise": r["unit"], **raw})
+                          "statement": stmt[r["goal"]], "neg_statement": "", "premise": r["unit"],
+                          "expected": r["expected"], **raw})
         else:
             r = comps["rules"][i]
             table.append({"id": i, "layer": "kb", "kind": "rule", "item": r["norm"], "statement": stmt[i],
                           "neg_statement": "", "premise": r["unit"], **raw})
-    return decide(table, comps["competing"])
+    # A parser invention implies missing user information only when removing it
+    # actually destroys all certain conclusions. An unsupported exception may
+    # instead hide a perfectly supported answer and needs confirmation/repair.
+    necessary = [r for r in table if r.get("needed") and r["kind"] == "checked"]
+    for row in necessary:
+        row["needed"] = False
+        from .reason import Reasoner
+        from .questions import Question, answer
+        programs = {p.get("program") for p in parts if p["kind"] == "case"}
+        if None in programs:
+            continue
+        for program in programs:
+            rr = Reasoner(Path(program))
+            try:
+                reduced = [f for f in facts if f.replace(" ", "") != row["item"].replace(" ", "")]
+                for p in parts:
+                    if p["kind"] != "case" or p.get("program") != program:
+                        continue
+                    ff = [f for f in p.get("false_facts", []) if f.replace(" ", "") != row["item"].replace(" ", "")]
+                    after = answer(Question(**p["parsed"]), p.get("parameters", []) + reduced, rr, con, ff)
+                    if after["verdict"] == "unknown":
+                        row["needed"] = True
+            finally:
+                rr.close()
+    return decide(table, comps["competing"], supports=comps["supports"], **options)
 
 
 def label_of(row: dict, tau: float, rule: str) -> tuple[str | None, str | None, str]:
@@ -505,12 +559,15 @@ def label_of(row: dict, tau: float, rule: str) -> tuple[str | None, str | None, 
     return best, None, ""
 
 
-def decide(table: list[dict], competing: list, tau: float | None = None, rule: str | None = None) -> dict:
+def decide(table: list[dict], competing: list, tau: float | None = None, rule: str | None = None,
+           supports: list = (), system: str = "mbd", budget: int | None = None) -> dict:
     """Observations from the measured components (acceptance threshold tau, rule pos_neg / pos_only), minimal
     diagnoses, symptoms and the action. Separate from the measurements so tau can be calibrated on stored
     scores without measuring again."""
     tau = TAU if tau is None else tau
     rule = ACCEPT_RULE if rule is None else rule
+    if system == "no_acceptance":
+        tau, rule = 0.0, "pos_only"
     obs, faults = [], []
     for row in table:
         i = row["id"]
@@ -521,6 +578,9 @@ def decide(table: list[dict], competing: list, tau: float | None = None, rule: s
             if row["kind"] == "checked":
                 obs.append(f"parsed({i}, {row.get('polarity', 'pos')})")
                 faults += [f"misinterp({i})", f"unsupported({i})"]
+                if row.get("needed"):
+                    obs.append(f"needed({i})")
+                    faults.append(f"missing({i})")
             elif row["kind"] == "required":
                 faults += [f"missing({i})", f"omission({i})"]
             else:
@@ -530,7 +590,9 @@ def decide(table: list[dict], competing: list, tau: float | None = None, rule: s
         elif row["layer"] == "retrieval":
             obs.append(f"near_miss({i})")
             faults.append(f"omitted({i})")
-            if label:
+            if row.get("expected"):
+                obs.append(f"selection_gap({i})")
+            elif label:
                 obs.append(f"rettext({i}, {label})")
         else:
             obs.append(f"rule_used({i})")
@@ -540,7 +602,19 @@ def decide(table: list[dict], competing: list, tau: float | None = None, rule: s
     for a, b in competing:
         obs.append(f"competing({a}, {b})")
         faults.append(f"kbconflict({a}, {b})")
-    diagnoses, symptoms = diagnose(obs, faults, min(MAX_K, len(faults))) if faults else ([[]], [])
+    for a, b, c in supports:
+        obs.append(f"supports({a}, {b}, {c})")
+    from .policy import SYSTEMS, local_faults, limit_questions
+    if system not in SYSTEMS:
+        raise ValueError(f"Unknown system: {system}")
+    if system in ("symbolic", "no_mbd"):
+        diagnoses, symptoms = [[]], []
+    elif system in ("heuristic", "direct", "no_diagnosis_repair"):
+        local = local_faults(table, direct=system == "direct")
+        diagnoses = [local]
+        symptoms = sorted({c for f in local for c in _cid(f)})
+    else:
+        diagnoses, symptoms = diagnose(obs, faults, min(MAX_K, len(faults))) if faults else ([[]], [])
     for row in table:
         row["symptom"] = row["id"] in symptoms or any(row["id"] in s.split("-") for s in symptoms)
     post = rank(diagnoses, table)
@@ -548,9 +622,13 @@ def decide(table: list[dict], competing: list, tau: float | None = None, rule: s
     diagnoses, post = [diagnoses[i] for i in order], [round(post[i], 4) for i in order]
     questions = next_questions(diagnoses, post, table) if [] not in diagnoses else []
     action, about = choose(diagnoses, symptoms, post, questions)
-    return {"components": table, "competing": competing, "observations": obs, "candidates": faults,
+    if system == "no_diagnosis_repair" and symptoms:
+        # Detect anomalies, but neither isolate their causes nor repair retrieval.
+        action, about, diagnoses, post, questions = "warn", [], [], [], []
+    result = {"system": system, "tau": tau, "accept_rule": rule, "components": table, "competing": competing, "supports": list(supports), "observations": obs, "candidates": faults,
             "symptoms": symptoms, "diagnoses": diagnoses, "posterior": post, "questions": questions,
             "explanations": [[explain(f, table) for f in d] for d in diagnoses], "action": action, "about": about}
+    return limit_questions(result, budget)
 
 
 FAULT_VI = {"missing": "câu hỏi không nêu", "omission": "bộ đọc câu hỏi bỏ sót (câu hỏi có nêu)",

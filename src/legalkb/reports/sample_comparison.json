@@ -1,0 +1,1241 @@
+{
+  "calibration": {
+    "grid": [
+      {
+        "tau": 0.4,
+        "rule": "pos_neg",
+        "dev_action_accuracy": 0.897,
+        "dev_fault_f1": 0.719,
+        "dev_false_alarm": 0.143
+      },
+      {
+        "tau": 0.5,
+        "rule": "pos_neg",
+        "dev_action_accuracy": 0.897,
+        "dev_fault_f1": 0.719,
+        "dev_false_alarm": 0.143
+      },
+      {
+        "tau": 0.6,
+        "rule": "pos_neg",
+        "dev_action_accuracy": 0.897,
+        "dev_fault_f1": 0.719,
+        "dev_false_alarm": 0.143
+      },
+      {
+        "tau": 0.7,
+        "rule": "pos_neg",
+        "dev_action_accuracy": 0.897,
+        "dev_fault_f1": 0.722,
+        "dev_false_alarm": 0.143
+      },
+      {
+        "tau": 0.8,
+        "rule": "pos_neg",
+        "dev_action_accuracy": 0.897,
+        "dev_fault_f1": 0.722,
+        "dev_false_alarm": 0.143
+      },
+      {
+        "tau": 0.9,
+        "rule": "pos_neg",
+        "dev_action_accuracy": 0.897,
+        "dev_fault_f1": 0.722,
+        "dev_false_alarm": 0.143
+      },
+      {
+        "tau": 0.4,
+        "rule": "pos_only",
+        "dev_action_accuracy": 0.912,
+        "dev_fault_f1": 0.68,
+        "dev_false_alarm": 0.214
+      },
+      {
+        "tau": 0.5,
+        "rule": "pos_only",
+        "dev_action_accuracy": 0.912,
+        "dev_fault_f1": 0.68,
+        "dev_false_alarm": 0.214
+      },
+      {
+        "tau": 0.6,
+        "rule": "pos_only",
+        "dev_action_accuracy": 0.912,
+        "dev_fault_f1": 0.68,
+        "dev_false_alarm": 0.214
+      },
+      {
+        "tau": 0.7,
+        "rule": "pos_only",
+        "dev_action_accuracy": 0.912,
+        "dev_fault_f1": 0.683,
+        "dev_false_alarm": 0.214
+      },
+      {
+        "tau": 0.8,
+        "rule": "pos_only",
+        "dev_action_accuracy": 0.912,
+        "dev_fault_f1": 0.7,
+        "dev_false_alarm": 0.143
+      },
+      {
+        "tau": 0.9,
+        "rule": "pos_only",
+        "dev_action_accuracy": 0.912,
+        "dev_fault_f1": 0.7,
+        "dev_false_alarm": 0.143
+      }
+    ],
+    "chosen": {
+      "tau": 0.8,
+      "rule": "pos_only",
+      "dev_action_accuracy": 0.912,
+      "dev_fault_f1": 0.7,
+      "dev_false_alarm": 0.143
+    },
+    "selection_split": "dev"
+  },
+  "scores": {
+    "dev": {
+      "0": {
+        "mbd": {
+          "instances": 261,
+          "action_accuracy": 0.195,
+          "fault_precision": 0.62,
+          "fault_recall": 0.804,
+          "fault_f1": 0.7,
+          "exact_isolation": 0.498,
+          "false_alarm_rate": 0.143,
+          "lack_of_confidence": 0,
+          "double_instances": 80,
+          "double_exact": 0.388,
+          "recall_by_mode": {
+            "misencoded": 0.962,
+            "misinterp": 0.888,
+            "missing": 0.333,
+            "omission": 0.667,
+            "omitted": 1.0,
+            "unsupported": 0.811
+          }
+        },
+        "symbolic": {
+          "instances": 261,
+          "action_accuracy": 0.054,
+          "fault_precision": 0,
+          "fault_recall": 0.0,
+          "fault_f1": 0,
+          "exact_isolation": 0.054,
+          "false_alarm_rate": 0.0,
+          "lack_of_confidence": 0,
+          "double_instances": 80,
+          "double_exact": 0.0,
+          "recall_by_mode": {
+            "misencoded": 0.0,
+            "misinterp": 0.0,
+            "missing": 0.0,
+            "omission": 0.0,
+            "omitted": 0.0,
+            "unsupported": 0.0
+          }
+        },
+        "heuristic": {
+          "instances": 261,
+          "action_accuracy": 0.192,
+          "fault_precision": 0.625,
+          "fault_recall": 0.795,
+          "fault_f1": 0.7,
+          "exact_isolation": 0.502,
+          "false_alarm_rate": 0.143,
+          "lack_of_confidence": 0,
+          "double_instances": 80,
+          "double_exact": 0.4,
+          "recall_by_mode": {
+            "misencoded": 0.962,
+            "misinterp": 0.888,
+            "missing": 0.111,
+            "omission": 0.667,
+            "omitted": 0.929,
+            "unsupported": 0.811
+          }
+        },
+        "direct": {
+          "instances": 261,
+          "action_accuracy": 0.192,
+          "fault_precision": 0.284,
+          "fault_recall": 0.361,
+          "fault_f1": 0.318,
+          "exact_isolation": 0.218,
+          "false_alarm_rate": 0.143,
+          "lack_of_confidence": 0,
+          "double_instances": 80,
+          "double_exact": 0.087,
+          "recall_by_mode": {
+            "misencoded": 0.962,
+            "misinterp": 0.888,
+            "missing": 0.111,
+            "omission": 0.0,
+            "omitted": 0.929,
+            "unsupported": 0.0
+          }
+        },
+        "no_acceptance": {
+          "instances": 261,
+          "action_accuracy": 0.192,
+          "fault_precision": 0.59,
+          "fault_recall": 0.804,
+          "fault_f1": 0.68,
+          "exact_isolation": 0.471,
+          "false_alarm_rate": 0.214,
+          "lack_of_confidence": 0,
+          "double_instances": 80,
+          "double_exact": 0.388,
+          "recall_by_mode": {
+            "misencoded": 0.962,
+            "misinterp": 0.888,
+            "missing": 0.333,
+            "omission": 0.667,
+            "omitted": 1.0,
+            "unsupported": 0.811
+          }
+        },
+        "no_mbd": {
+          "instances": 261,
+          "action_accuracy": 0.054,
+          "fault_precision": 0,
+          "fault_recall": 0.0,
+          "fault_f1": 0,
+          "exact_isolation": 0.054,
+          "false_alarm_rate": 0.0,
+          "lack_of_confidence": 0,
+          "double_instances": 80,
+          "double_exact": 0.0,
+          "recall_by_mode": {
+            "misencoded": 0.0,
+            "misinterp": 0.0,
+            "missing": 0.0,
+            "omission": 0.0,
+            "omitted": 0.0,
+            "unsupported": 0.0
+          }
+        },
+        "no_diagnosis_repair": {
+          "instances": 261,
+          "action_accuracy": 0.199,
+          "fault_precision": 0,
+          "fault_recall": 0.0,
+          "fault_f1": 0,
+          "exact_isolation": 0.054,
+          "false_alarm_rate": 0.143,
+          "lack_of_confidence": 2,
+          "double_instances": 80,
+          "double_exact": 0.0,
+          "recall_by_mode": {
+            "misencoded": 0.0,
+            "misinterp": 0.0,
+            "missing": 0.0,
+            "omission": 0.0,
+            "omitted": 0.0,
+            "unsupported": 0.0
+          }
+        }
+      },
+      "1": {
+        "mbd": {
+          "instances": 261,
+          "action_accuracy": 0.912,
+          "fault_precision": 0.62,
+          "fault_recall": 0.804,
+          "fault_f1": 0.7,
+          "exact_isolation": 0.498,
+          "false_alarm_rate": 0.143,
+          "lack_of_confidence": 2,
+          "double_instances": 80,
+          "double_exact": 0.388,
+          "recall_by_mode": {
+            "misencoded": 0.962,
+            "misinterp": 0.888,
+            "missing": 0.333,
+            "omission": 0.667,
+            "omitted": 1.0,
+            "unsupported": 0.811
+          }
+        },
+        "symbolic": {
+          "instances": 261,
+          "action_accuracy": 0.054,
+          "fault_precision": 0,
+          "fault_recall": 0.0,
+          "fault_f1": 0,
+          "exact_isolation": 0.054,
+          "false_alarm_rate": 0.0,
+          "lack_of_confidence": 0,
+          "double_instances": 80,
+          "double_exact": 0.0,
+          "recall_by_mode": {
+            "misencoded": 0.0,
+            "misinterp": 0.0,
+            "missing": 0.0,
+            "omission": 0.0,
+            "omitted": 0.0,
+            "unsupported": 0.0
+          }
+        },
+        "heuristic": {
+          "instances": 261,
+          "action_accuracy": 0.904,
+          "fault_precision": 0.625,
+          "fault_recall": 0.795,
+          "fault_f1": 0.7,
+          "exact_isolation": 0.502,
+          "false_alarm_rate": 0.143,
+          "lack_of_confidence": 2,
+          "double_instances": 80,
+          "double_exact": 0.4,
+          "recall_by_mode": {
+            "misencoded": 0.962,
+            "misinterp": 0.888,
+            "missing": 0.111,
+            "omission": 0.667,
+            "omitted": 0.929,
+            "unsupported": 0.811
+          }
+        },
+        "direct": {
+          "instances": 261,
+          "action_accuracy": 0.785,
+          "fault_precision": 0.284,
+          "fault_recall": 0.361,
+          "fault_f1": 0.318,
+          "exact_isolation": 0.218,
+          "false_alarm_rate": 0.143,
+          "lack_of_confidence": 2,
+          "double_instances": 80,
+          "double_exact": 0.087,
+          "recall_by_mode": {
+            "misencoded": 0.962,
+            "misinterp": 0.888,
+            "missing": 0.111,
+            "omission": 0.0,
+            "omitted": 0.929,
+            "unsupported": 0.0
+          }
+        },
+        "no_acceptance": {
+          "instances": 261,
+          "action_accuracy": 0.912,
+          "fault_precision": 0.59,
+          "fault_recall": 0.804,
+          "fault_f1": 0.68,
+          "exact_isolation": 0.471,
+          "false_alarm_rate": 0.214,
+          "lack_of_confidence": 3,
+          "double_instances": 80,
+          "double_exact": 0.388,
+          "recall_by_mode": {
+            "misencoded": 0.962,
+            "misinterp": 0.888,
+            "missing": 0.333,
+            "omission": 0.667,
+            "omitted": 1.0,
+            "unsupported": 0.811
+          }
+        },
+        "no_mbd": {
+          "instances": 261,
+          "action_accuracy": 0.054,
+          "fault_precision": 0,
+          "fault_recall": 0.0,
+          "fault_f1": 0,
+          "exact_isolation": 0.054,
+          "false_alarm_rate": 0.0,
+          "lack_of_confidence": 0,
+          "double_instances": 80,
+          "double_exact": 0.0,
+          "recall_by_mode": {
+            "misencoded": 0.0,
+            "misinterp": 0.0,
+            "missing": 0.0,
+            "omission": 0.0,
+            "omitted": 0.0,
+            "unsupported": 0.0
+          }
+        },
+        "no_diagnosis_repair": {
+          "instances": 261,
+          "action_accuracy": 0.199,
+          "fault_precision": 0,
+          "fault_recall": 0.0,
+          "fault_f1": 0,
+          "exact_isolation": 0.054,
+          "false_alarm_rate": 0.143,
+          "lack_of_confidence": 2,
+          "double_instances": 80,
+          "double_exact": 0.0,
+          "recall_by_mode": {
+            "misencoded": 0.0,
+            "misinterp": 0.0,
+            "missing": 0.0,
+            "omission": 0.0,
+            "omitted": 0.0,
+            "unsupported": 0.0
+          }
+        }
+      },
+      "2": {
+        "mbd": {
+          "instances": 261,
+          "action_accuracy": 0.912,
+          "fault_precision": 0.62,
+          "fault_recall": 0.804,
+          "fault_f1": 0.7,
+          "exact_isolation": 0.498,
+          "false_alarm_rate": 0.143,
+          "lack_of_confidence": 2,
+          "double_instances": 80,
+          "double_exact": 0.388,
+          "recall_by_mode": {
+            "misencoded": 0.962,
+            "misinterp": 0.888,
+            "missing": 0.333,
+            "omission": 0.667,
+            "omitted": 1.0,
+            "unsupported": 0.811
+          }
+        },
+        "symbolic": {
+          "instances": 261,
+          "action_accuracy": 0.054,
+          "fault_precision": 0,
+          "fault_recall": 0.0,
+          "fault_f1": 0,
+          "exact_isolation": 0.054,
+          "false_alarm_rate": 0.0,
+          "lack_of_confidence": 0,
+          "double_instances": 80,
+          "double_exact": 0.0,
+          "recall_by_mode": {
+            "misencoded": 0.0,
+            "misinterp": 0.0,
+            "missing": 0.0,
+            "omission": 0.0,
+            "omitted": 0.0,
+            "unsupported": 0.0
+          }
+        },
+        "heuristic": {
+          "instances": 261,
+          "action_accuracy": 0.904,
+          "fault_precision": 0.625,
+          "fault_recall": 0.795,
+          "fault_f1": 0.7,
+          "exact_isolation": 0.502,
+          "false_alarm_rate": 0.143,
+          "lack_of_confidence": 2,
+          "double_instances": 80,
+          "double_exact": 0.4,
+          "recall_by_mode": {
+            "misencoded": 0.962,
+            "misinterp": 0.888,
+            "missing": 0.111,
+            "omission": 0.667,
+            "omitted": 0.929,
+            "unsupported": 0.811
+          }
+        },
+        "direct": {
+          "instances": 261,
+          "action_accuracy": 0.785,
+          "fault_precision": 0.284,
+          "fault_recall": 0.361,
+          "fault_f1": 0.318,
+          "exact_isolation": 0.218,
+          "false_alarm_rate": 0.143,
+          "lack_of_confidence": 2,
+          "double_instances": 80,
+          "double_exact": 0.087,
+          "recall_by_mode": {
+            "misencoded": 0.962,
+            "misinterp": 0.888,
+            "missing": 0.111,
+            "omission": 0.0,
+            "omitted": 0.929,
+            "unsupported": 0.0
+          }
+        },
+        "no_acceptance": {
+          "instances": 261,
+          "action_accuracy": 0.912,
+          "fault_precision": 0.59,
+          "fault_recall": 0.804,
+          "fault_f1": 0.68,
+          "exact_isolation": 0.471,
+          "false_alarm_rate": 0.214,
+          "lack_of_confidence": 3,
+          "double_instances": 80,
+          "double_exact": 0.388,
+          "recall_by_mode": {
+            "misencoded": 0.962,
+            "misinterp": 0.888,
+            "missing": 0.333,
+            "omission": 0.667,
+            "omitted": 1.0,
+            "unsupported": 0.811
+          }
+        },
+        "no_mbd": {
+          "instances": 261,
+          "action_accuracy": 0.054,
+          "fault_precision": 0,
+          "fault_recall": 0.0,
+          "fault_f1": 0,
+          "exact_isolation": 0.054,
+          "false_alarm_rate": 0.0,
+          "lack_of_confidence": 0,
+          "double_instances": 80,
+          "double_exact": 0.0,
+          "recall_by_mode": {
+            "misencoded": 0.0,
+            "misinterp": 0.0,
+            "missing": 0.0,
+            "omission": 0.0,
+            "omitted": 0.0,
+            "unsupported": 0.0
+          }
+        },
+        "no_diagnosis_repair": {
+          "instances": 261,
+          "action_accuracy": 0.199,
+          "fault_precision": 0,
+          "fault_recall": 0.0,
+          "fault_f1": 0,
+          "exact_isolation": 0.054,
+          "false_alarm_rate": 0.143,
+          "lack_of_confidence": 2,
+          "double_instances": 80,
+          "double_exact": 0.0,
+          "recall_by_mode": {
+            "misencoded": 0.0,
+            "misinterp": 0.0,
+            "missing": 0.0,
+            "omission": 0.0,
+            "omitted": 0.0,
+            "unsupported": 0.0
+          }
+        }
+      },
+      "unlimited": {
+        "mbd": {
+          "instances": 261,
+          "action_accuracy": 0.912,
+          "fault_precision": 0.62,
+          "fault_recall": 0.804,
+          "fault_f1": 0.7,
+          "exact_isolation": 0.498,
+          "false_alarm_rate": 0.143,
+          "lack_of_confidence": 2,
+          "double_instances": 80,
+          "double_exact": 0.388,
+          "recall_by_mode": {
+            "misencoded": 0.962,
+            "misinterp": 0.888,
+            "missing": 0.333,
+            "omission": 0.667,
+            "omitted": 1.0,
+            "unsupported": 0.811
+          }
+        },
+        "symbolic": {
+          "instances": 261,
+          "action_accuracy": 0.054,
+          "fault_precision": 0,
+          "fault_recall": 0.0,
+          "fault_f1": 0,
+          "exact_isolation": 0.054,
+          "false_alarm_rate": 0.0,
+          "lack_of_confidence": 0,
+          "double_instances": 80,
+          "double_exact": 0.0,
+          "recall_by_mode": {
+            "misencoded": 0.0,
+            "misinterp": 0.0,
+            "missing": 0.0,
+            "omission": 0.0,
+            "omitted": 0.0,
+            "unsupported": 0.0
+          }
+        },
+        "heuristic": {
+          "instances": 261,
+          "action_accuracy": 0.904,
+          "fault_precision": 0.625,
+          "fault_recall": 0.795,
+          "fault_f1": 0.7,
+          "exact_isolation": 0.502,
+          "false_alarm_rate": 0.143,
+          "lack_of_confidence": 2,
+          "double_instances": 80,
+          "double_exact": 0.4,
+          "recall_by_mode": {
+            "misencoded": 0.962,
+            "misinterp": 0.888,
+            "missing": 0.111,
+            "omission": 0.667,
+            "omitted": 0.929,
+            "unsupported": 0.811
+          }
+        },
+        "direct": {
+          "instances": 261,
+          "action_accuracy": 0.785,
+          "fault_precision": 0.284,
+          "fault_recall": 0.361,
+          "fault_f1": 0.318,
+          "exact_isolation": 0.218,
+          "false_alarm_rate": 0.143,
+          "lack_of_confidence": 2,
+          "double_instances": 80,
+          "double_exact": 0.087,
+          "recall_by_mode": {
+            "misencoded": 0.962,
+            "misinterp": 0.888,
+            "missing": 0.111,
+            "omission": 0.0,
+            "omitted": 0.929,
+            "unsupported": 0.0
+          }
+        },
+        "no_acceptance": {
+          "instances": 261,
+          "action_accuracy": 0.912,
+          "fault_precision": 0.59,
+          "fault_recall": 0.804,
+          "fault_f1": 0.68,
+          "exact_isolation": 0.471,
+          "false_alarm_rate": 0.214,
+          "lack_of_confidence": 3,
+          "double_instances": 80,
+          "double_exact": 0.388,
+          "recall_by_mode": {
+            "misencoded": 0.962,
+            "misinterp": 0.888,
+            "missing": 0.333,
+            "omission": 0.667,
+            "omitted": 1.0,
+            "unsupported": 0.811
+          }
+        },
+        "no_mbd": {
+          "instances": 261,
+          "action_accuracy": 0.054,
+          "fault_precision": 0,
+          "fault_recall": 0.0,
+          "fault_f1": 0,
+          "exact_isolation": 0.054,
+          "false_alarm_rate": 0.0,
+          "lack_of_confidence": 0,
+          "double_instances": 80,
+          "double_exact": 0.0,
+          "recall_by_mode": {
+            "misencoded": 0.0,
+            "misinterp": 0.0,
+            "missing": 0.0,
+            "omission": 0.0,
+            "omitted": 0.0,
+            "unsupported": 0.0
+          }
+        },
+        "no_diagnosis_repair": {
+          "instances": 261,
+          "action_accuracy": 0.199,
+          "fault_precision": 0,
+          "fault_recall": 0.0,
+          "fault_f1": 0,
+          "exact_isolation": 0.054,
+          "false_alarm_rate": 0.143,
+          "lack_of_confidence": 2,
+          "double_instances": 80,
+          "double_exact": 0.0,
+          "recall_by_mode": {
+            "misencoded": 0.0,
+            "misinterp": 0.0,
+            "missing": 0.0,
+            "omission": 0.0,
+            "omitted": 0.0,
+            "unsupported": 0.0
+          }
+        }
+      }
+    },
+    "test": {
+      "0": {
+        "mbd": {
+          "instances": 278,
+          "action_accuracy": 0.194,
+          "fault_precision": 0.626,
+          "fault_recall": 0.809,
+          "fault_f1": 0.705,
+          "exact_isolation": 0.464,
+          "false_alarm_rate": 0.25,
+          "lack_of_confidence": 0,
+          "double_instances": 83,
+          "double_exact": 0.361,
+          "recall_by_mode": {
+            "misencoded": 0.926,
+            "misinterp": 0.977,
+            "missing": 0.333,
+            "omission": 0.59,
+            "omitted": 1.0,
+            "unsupported": 0.811
+          }
+        },
+        "symbolic": {
+          "instances": 278,
+          "action_accuracy": 0.058,
+          "fault_precision": 0,
+          "fault_recall": 0.0,
+          "fault_f1": 0,
+          "exact_isolation": 0.058,
+          "false_alarm_rate": 0.0,
+          "lack_of_confidence": 0,
+          "double_instances": 83,
+          "double_exact": 0.0,
+          "recall_by_mode": {
+            "misencoded": 0.0,
+            "misinterp": 0.0,
+            "missing": 0.0,
+            "omission": 0.0,
+            "omitted": 0.0,
+            "unsupported": 0.0
+          }
+        },
+        "heuristic": {
+          "instances": 278,
+          "action_accuracy": 0.187,
+          "fault_precision": 0.63,
+          "fault_recall": 0.803,
+          "fault_f1": 0.706,
+          "exact_isolation": 0.471,
+          "false_alarm_rate": 0.25,
+          "lack_of_confidence": 0,
+          "double_instances": 83,
+          "double_exact": 0.386,
+          "recall_by_mode": {
+            "misencoded": 0.926,
+            "misinterp": 0.977,
+            "missing": 0.333,
+            "omission": 0.59,
+            "omitted": 0.882,
+            "unsupported": 0.811
+          }
+        },
+        "direct": {
+          "instances": 278,
+          "action_accuracy": 0.187,
+          "fault_precision": 0.293,
+          "fault_recall": 0.374,
+          "fault_f1": 0.329,
+          "exact_isolation": 0.191,
+          "false_alarm_rate": 0.25,
+          "lack_of_confidence": 0,
+          "double_instances": 83,
+          "double_exact": 0.06,
+          "recall_by_mode": {
+            "misencoded": 0.926,
+            "misinterp": 0.989,
+            "missing": 0.333,
+            "omission": 0.0,
+            "omitted": 0.882,
+            "unsupported": 0.0
+          }
+        },
+        "no_acceptance": {
+          "instances": 278,
+          "action_accuracy": 0.194,
+          "fault_precision": 0.624,
+          "fault_recall": 0.809,
+          "fault_f1": 0.705,
+          "exact_isolation": 0.464,
+          "false_alarm_rate": 0.25,
+          "lack_of_confidence": 0,
+          "double_instances": 83,
+          "double_exact": 0.361,
+          "recall_by_mode": {
+            "misencoded": 0.926,
+            "misinterp": 0.977,
+            "missing": 0.333,
+            "omission": 0.59,
+            "omitted": 1.0,
+            "unsupported": 0.811
+          }
+        },
+        "no_mbd": {
+          "instances": 278,
+          "action_accuracy": 0.058,
+          "fault_precision": 0,
+          "fault_recall": 0.0,
+          "fault_f1": 0,
+          "exact_isolation": 0.058,
+          "false_alarm_rate": 0.0,
+          "lack_of_confidence": 0,
+          "double_instances": 83,
+          "double_exact": 0.0,
+          "recall_by_mode": {
+            "misencoded": 0.0,
+            "misinterp": 0.0,
+            "missing": 0.0,
+            "omission": 0.0,
+            "omitted": 0.0,
+            "unsupported": 0.0
+          }
+        },
+        "no_diagnosis_repair": {
+          "instances": 278,
+          "action_accuracy": 0.201,
+          "fault_precision": 0,
+          "fault_recall": 0.0,
+          "fault_f1": 0,
+          "exact_isolation": 0.058,
+          "false_alarm_rate": 0.25,
+          "lack_of_confidence": 4,
+          "double_instances": 83,
+          "double_exact": 0.0,
+          "recall_by_mode": {
+            "misencoded": 0.0,
+            "misinterp": 0.0,
+            "missing": 0.0,
+            "omission": 0.0,
+            "omitted": 0.0,
+            "unsupported": 0.0
+          }
+        }
+      },
+      "1": {
+        "mbd": {
+          "instances": 278,
+          "action_accuracy": 0.896,
+          "fault_precision": 0.626,
+          "fault_recall": 0.809,
+          "fault_f1": 0.705,
+          "exact_isolation": 0.464,
+          "false_alarm_rate": 0.25,
+          "lack_of_confidence": 4,
+          "double_instances": 83,
+          "double_exact": 0.361,
+          "recall_by_mode": {
+            "misencoded": 0.926,
+            "misinterp": 0.977,
+            "missing": 0.333,
+            "omission": 0.59,
+            "omitted": 1.0,
+            "unsupported": 0.811
+          }
+        },
+        "symbolic": {
+          "instances": 278,
+          "action_accuracy": 0.058,
+          "fault_precision": 0,
+          "fault_recall": 0.0,
+          "fault_f1": 0,
+          "exact_isolation": 0.058,
+          "false_alarm_rate": 0.0,
+          "lack_of_confidence": 0,
+          "double_instances": 83,
+          "double_exact": 0.0,
+          "recall_by_mode": {
+            "misencoded": 0.0,
+            "misinterp": 0.0,
+            "missing": 0.0,
+            "omission": 0.0,
+            "omitted": 0.0,
+            "unsupported": 0.0
+          }
+        },
+        "heuristic": {
+          "instances": 278,
+          "action_accuracy": 0.896,
+          "fault_precision": 0.63,
+          "fault_recall": 0.803,
+          "fault_f1": 0.706,
+          "exact_isolation": 0.471,
+          "false_alarm_rate": 0.25,
+          "lack_of_confidence": 4,
+          "double_instances": 83,
+          "double_exact": 0.386,
+          "recall_by_mode": {
+            "misencoded": 0.926,
+            "misinterp": 0.977,
+            "missing": 0.333,
+            "omission": 0.59,
+            "omitted": 0.882,
+            "unsupported": 0.811
+          }
+        },
+        "direct": {
+          "instances": 278,
+          "action_accuracy": 0.809,
+          "fault_precision": 0.293,
+          "fault_recall": 0.374,
+          "fault_f1": 0.329,
+          "exact_isolation": 0.191,
+          "false_alarm_rate": 0.25,
+          "lack_of_confidence": 4,
+          "double_instances": 83,
+          "double_exact": 0.06,
+          "recall_by_mode": {
+            "misencoded": 0.926,
+            "misinterp": 0.989,
+            "missing": 0.333,
+            "omission": 0.0,
+            "omitted": 0.882,
+            "unsupported": 0.0
+          }
+        },
+        "no_acceptance": {
+          "instances": 278,
+          "action_accuracy": 0.896,
+          "fault_precision": 0.624,
+          "fault_recall": 0.809,
+          "fault_f1": 0.705,
+          "exact_isolation": 0.464,
+          "false_alarm_rate": 0.25,
+          "lack_of_confidence": 4,
+          "double_instances": 83,
+          "double_exact": 0.361,
+          "recall_by_mode": {
+            "misencoded": 0.926,
+            "misinterp": 0.977,
+            "missing": 0.333,
+            "omission": 0.59,
+            "omitted": 1.0,
+            "unsupported": 0.811
+          }
+        },
+        "no_mbd": {
+          "instances": 278,
+          "action_accuracy": 0.058,
+          "fault_precision": 0,
+          "fault_recall": 0.0,
+          "fault_f1": 0,
+          "exact_isolation": 0.058,
+          "false_alarm_rate": 0.0,
+          "lack_of_confidence": 0,
+          "double_instances": 83,
+          "double_exact": 0.0,
+          "recall_by_mode": {
+            "misencoded": 0.0,
+            "misinterp": 0.0,
+            "missing": 0.0,
+            "omission": 0.0,
+            "omitted": 0.0,
+            "unsupported": 0.0
+          }
+        },
+        "no_diagnosis_repair": {
+          "instances": 278,
+          "action_accuracy": 0.201,
+          "fault_precision": 0,
+          "fault_recall": 0.0,
+          "fault_f1": 0,
+          "exact_isolation": 0.058,
+          "false_alarm_rate": 0.25,
+          "lack_of_confidence": 4,
+          "double_instances": 83,
+          "double_exact": 0.0,
+          "recall_by_mode": {
+            "misencoded": 0.0,
+            "misinterp": 0.0,
+            "missing": 0.0,
+            "omission": 0.0,
+            "omitted": 0.0,
+            "unsupported": 0.0
+          }
+        }
+      },
+      "2": {
+        "mbd": {
+          "instances": 278,
+          "action_accuracy": 0.896,
+          "fault_precision": 0.626,
+          "fault_recall": 0.809,
+          "fault_f1": 0.705,
+          "exact_isolation": 0.464,
+          "false_alarm_rate": 0.25,
+          "lack_of_confidence": 4,
+          "double_instances": 83,
+          "double_exact": 0.361,
+          "recall_by_mode": {
+            "misencoded": 0.926,
+            "misinterp": 0.977,
+            "missing": 0.333,
+            "omission": 0.59,
+            "omitted": 1.0,
+            "unsupported": 0.811
+          }
+        },
+        "symbolic": {
+          "instances": 278,
+          "action_accuracy": 0.058,
+          "fault_precision": 0,
+          "fault_recall": 0.0,
+          "fault_f1": 0,
+          "exact_isolation": 0.058,
+          "false_alarm_rate": 0.0,
+          "lack_of_confidence": 0,
+          "double_instances": 83,
+          "double_exact": 0.0,
+          "recall_by_mode": {
+            "misencoded": 0.0,
+            "misinterp": 0.0,
+            "missing": 0.0,
+            "omission": 0.0,
+            "omitted": 0.0,
+            "unsupported": 0.0
+          }
+        },
+        "heuristic": {
+          "instances": 278,
+          "action_accuracy": 0.896,
+          "fault_precision": 0.63,
+          "fault_recall": 0.803,
+          "fault_f1": 0.706,
+          "exact_isolation": 0.471,
+          "false_alarm_rate": 0.25,
+          "lack_of_confidence": 4,
+          "double_instances": 83,
+          "double_exact": 0.386,
+          "recall_by_mode": {
+            "misencoded": 0.926,
+            "misinterp": 0.977,
+            "missing": 0.333,
+            "omission": 0.59,
+            "omitted": 0.882,
+            "unsupported": 0.811
+          }
+        },
+        "direct": {
+          "instances": 278,
+          "action_accuracy": 0.809,
+          "fault_precision": 0.293,
+          "fault_recall": 0.374,
+          "fault_f1": 0.329,
+          "exact_isolation": 0.191,
+          "false_alarm_rate": 0.25,
+          "lack_of_confidence": 4,
+          "double_instances": 83,
+          "double_exact": 0.06,
+          "recall_by_mode": {
+            "misencoded": 0.926,
+            "misinterp": 0.989,
+            "missing": 0.333,
+            "omission": 0.0,
+            "omitted": 0.882,
+            "unsupported": 0.0
+          }
+        },
+        "no_acceptance": {
+          "instances": 278,
+          "action_accuracy": 0.896,
+          "fault_precision": 0.624,
+          "fault_recall": 0.809,
+          "fault_f1": 0.705,
+          "exact_isolation": 0.464,
+          "false_alarm_rate": 0.25,
+          "lack_of_confidence": 4,
+          "double_instances": 83,
+          "double_exact": 0.361,
+          "recall_by_mode": {
+            "misencoded": 0.926,
+            "misinterp": 0.977,
+            "missing": 0.333,
+            "omission": 0.59,
+            "omitted": 1.0,
+            "unsupported": 0.811
+          }
+        },
+        "no_mbd": {
+          "instances": 278,
+          "action_accuracy": 0.058,
+          "fault_precision": 0,
+          "fault_recall": 0.0,
+          "fault_f1": 0,
+          "exact_isolation": 0.058,
+          "false_alarm_rate": 0.0,
+          "lack_of_confidence": 0,
+          "double_instances": 83,
+          "double_exact": 0.0,
+          "recall_by_mode": {
+            "misencoded": 0.0,
+            "misinterp": 0.0,
+            "missing": 0.0,
+            "omission": 0.0,
+            "omitted": 0.0,
+            "unsupported": 0.0
+          }
+        },
+        "no_diagnosis_repair": {
+          "instances": 278,
+          "action_accuracy": 0.201,
+          "fault_precision": 0,
+          "fault_recall": 0.0,
+          "fault_f1": 0,
+          "exact_isolation": 0.058,
+          "false_alarm_rate": 0.25,
+          "lack_of_confidence": 4,
+          "double_instances": 83,
+          "double_exact": 0.0,
+          "recall_by_mode": {
+            "misencoded": 0.0,
+            "misinterp": 0.0,
+            "missing": 0.0,
+            "omission": 0.0,
+            "omitted": 0.0,
+            "unsupported": 0.0
+          }
+        }
+      },
+      "unlimited": {
+        "mbd": {
+          "instances": 278,
+          "action_accuracy": 0.896,
+          "fault_precision": 0.626,
+          "fault_recall": 0.809,
+          "fault_f1": 0.705,
+          "exact_isolation": 0.464,
+          "false_alarm_rate": 0.25,
+          "lack_of_confidence": 4,
+          "double_instances": 83,
+          "double_exact": 0.361,
+          "recall_by_mode": {
+            "misencoded": 0.926,
+            "misinterp": 0.977,
+            "missing": 0.333,
+            "omission": 0.59,
+            "omitted": 1.0,
+            "unsupported": 0.811
+          }
+        },
+        "symbolic": {
+          "instances": 278,
+          "action_accuracy": 0.058,
+          "fault_precision": 0,
+          "fault_recall": 0.0,
+          "fault_f1": 0,
+          "exact_isolation": 0.058,
+          "false_alarm_rate": 0.0,
+          "lack_of_confidence": 0,
+          "double_instances": 83,
+          "double_exact": 0.0,
+          "recall_by_mode": {
+            "misencoded": 0.0,
+            "misinterp": 0.0,
+            "missing": 0.0,
+            "omission": 0.0,
+            "omitted": 0.0,
+            "unsupported": 0.0
+          }
+        },
+        "heuristic": {
+          "instances": 278,
+          "action_accuracy": 0.896,
+          "fault_precision": 0.63,
+          "fault_recall": 0.803,
+          "fault_f1": 0.706,
+          "exact_isolation": 0.471,
+          "false_alarm_rate": 0.25,
+          "lack_of_confidence": 4,
+          "double_instances": 83,
+          "double_exact": 0.386,
+          "recall_by_mode": {
+            "misencoded": 0.926,
+            "misinterp": 0.977,
+            "missing": 0.333,
+            "omission": 0.59,
+            "omitted": 0.882,
+            "unsupported": 0.811
+          }
+        },
+        "direct": {
+          "instances": 278,
+          "action_accuracy": 0.809,
+          "fault_precision": 0.293,
+          "fault_recall": 0.374,
+          "fault_f1": 0.329,
+          "exact_isolation": 0.191,
+          "false_alarm_rate": 0.25,
+          "lack_of_confidence": 4,
+          "double_instances": 83,
+          "double_exact": 0.06,
+          "recall_by_mode": {
+            "misencoded": 0.926,
+            "misinterp": 0.989,
+            "missing": 0.333,
+            "omission": 0.0,
+            "omitted": 0.882,
+            "unsupported": 0.0
+          }
+        },
+        "no_acceptance": {
+          "instances": 278,
+          "action_accuracy": 0.896,
+          "fault_precision": 0.624,
+          "fault_recall": 0.809,
+          "fault_f1": 0.705,
+          "exact_isolation": 0.464,
+          "false_alarm_rate": 0.25,
+          "lack_of_confidence": 4,
+          "double_instances": 83,
+          "double_exact": 0.361,
+          "recall_by_mode": {
+            "misencoded": 0.926,
+            "misinterp": 0.977,
+            "missing": 0.333,
+            "omission": 0.59,
+            "omitted": 1.0,
+            "unsupported": 0.811
+          }
+        },
+        "no_mbd": {
+          "instances": 278,
+          "action_accuracy": 0.058,
+          "fault_precision": 0,
+          "fault_recall": 0.0,
+          "fault_f1": 0,
+          "exact_isolation": 0.058,
+          "false_alarm_rate": 0.0,
+          "lack_of_confidence": 0,
+          "double_instances": 83,
+          "double_exact": 0.0,
+          "recall_by_mode": {
+            "misencoded": 0.0,
+            "misinterp": 0.0,
+            "missing": 0.0,
+            "omission": 0.0,
+            "omitted": 0.0,
+            "unsupported": 0.0
+          }
+        },
+        "no_diagnosis_repair": {
+          "instances": 278,
+          "action_accuracy": 0.201,
+          "fault_precision": 0,
+          "fault_recall": 0.0,
+          "fault_f1": 0,
+          "exact_isolation": 0.058,
+          "false_alarm_rate": 0.25,
+          "lack_of_confidence": 4,
+          "double_instances": 83,
+          "double_exact": 0.0,
+          "recall_by_mode": {
+            "misencoded": 0.0,
+            "misinterp": 0.0,
+            "missing": 0.0,
+            "omission": 0.0,
+            "omitted": 0.0,
+            "unsupported": 0.0
+          }
+        }
+      }
+    }
+  },
+  "budget_protocol": "First action before user replies; B>0 permits one question. Use policy.evaluate_dialogue with supplied replies for multi-turn outcomes."
+}

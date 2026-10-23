@@ -1,0 +1,579 @@
+{
+  "measurement": "deterministic fixture observations; actual sample Prolog; explicit user replies",
+  "scores": {
+    "mbd": {
+      "0": [
+        {
+          "missing": 0,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": true
+        },
+        {
+          "missing": 1,
+          "action": "unresolved",
+          "clarifications": 0,
+          "correct": false
+        },
+        {
+          "missing": 2,
+          "action": "unresolved",
+          "clarifications": 0,
+          "correct": false
+        }
+      ],
+      "1": [
+        {
+          "missing": 0,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": true
+        },
+        {
+          "missing": 1,
+          "action": "answer",
+          "clarifications": 1,
+          "correct": true
+        },
+        {
+          "missing": 2,
+          "action": "unresolved",
+          "clarifications": 1,
+          "correct": false
+        }
+      ],
+      "2": [
+        {
+          "missing": 0,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": true
+        },
+        {
+          "missing": 1,
+          "action": "answer",
+          "clarifications": 1,
+          "correct": true
+        },
+        {
+          "missing": 2,
+          "action": "answer",
+          "clarifications": 2,
+          "correct": true
+        }
+      ],
+      "unlimited": [
+        {
+          "missing": 0,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": true
+        },
+        {
+          "missing": 1,
+          "action": "answer",
+          "clarifications": 1,
+          "correct": true
+        },
+        {
+          "missing": 2,
+          "action": "answer",
+          "clarifications": 2,
+          "correct": true
+        }
+      ]
+    },
+    "symbolic": {
+      "0": [
+        {
+          "missing": 0,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": true
+        },
+        {
+          "missing": 1,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": false
+        },
+        {
+          "missing": 2,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": false
+        }
+      ],
+      "1": [
+        {
+          "missing": 0,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": true
+        },
+        {
+          "missing": 1,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": false
+        },
+        {
+          "missing": 2,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": false
+        }
+      ],
+      "2": [
+        {
+          "missing": 0,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": true
+        },
+        {
+          "missing": 1,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": false
+        },
+        {
+          "missing": 2,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": false
+        }
+      ],
+      "unlimited": [
+        {
+          "missing": 0,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": true
+        },
+        {
+          "missing": 1,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": false
+        },
+        {
+          "missing": 2,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": false
+        }
+      ]
+    },
+    "heuristic": {
+      "0": [
+        {
+          "missing": 0,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": true
+        },
+        {
+          "missing": 1,
+          "action": "unresolved",
+          "clarifications": 0,
+          "correct": false
+        },
+        {
+          "missing": 2,
+          "action": "unresolved",
+          "clarifications": 0,
+          "correct": false
+        }
+      ],
+      "1": [
+        {
+          "missing": 0,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": true
+        },
+        {
+          "missing": 1,
+          "action": "answer",
+          "clarifications": 1,
+          "correct": true
+        },
+        {
+          "missing": 2,
+          "action": "unresolved",
+          "clarifications": 1,
+          "correct": false
+        }
+      ],
+      "2": [
+        {
+          "missing": 0,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": true
+        },
+        {
+          "missing": 1,
+          "action": "answer",
+          "clarifications": 1,
+          "correct": true
+        },
+        {
+          "missing": 2,
+          "action": "answer",
+          "clarifications": 2,
+          "correct": true
+        }
+      ],
+      "unlimited": [
+        {
+          "missing": 0,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": true
+        },
+        {
+          "missing": 1,
+          "action": "answer",
+          "clarifications": 1,
+          "correct": true
+        },
+        {
+          "missing": 2,
+          "action": "answer",
+          "clarifications": 2,
+          "correct": true
+        }
+      ]
+    },
+    "direct": {
+      "0": [
+        {
+          "missing": 0,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": true
+        },
+        {
+          "missing": 1,
+          "action": "unresolved",
+          "clarifications": 0,
+          "correct": false
+        },
+        {
+          "missing": 2,
+          "action": "unresolved",
+          "clarifications": 0,
+          "correct": false
+        }
+      ],
+      "1": [
+        {
+          "missing": 0,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": true
+        },
+        {
+          "missing": 1,
+          "action": "answer",
+          "clarifications": 1,
+          "correct": true
+        },
+        {
+          "missing": 2,
+          "action": "unresolved",
+          "clarifications": 1,
+          "correct": false
+        }
+      ],
+      "2": [
+        {
+          "missing": 0,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": true
+        },
+        {
+          "missing": 1,
+          "action": "answer",
+          "clarifications": 1,
+          "correct": true
+        },
+        {
+          "missing": 2,
+          "action": "answer",
+          "clarifications": 2,
+          "correct": true
+        }
+      ],
+      "unlimited": [
+        {
+          "missing": 0,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": true
+        },
+        {
+          "missing": 1,
+          "action": "answer",
+          "clarifications": 1,
+          "correct": true
+        },
+        {
+          "missing": 2,
+          "action": "answer",
+          "clarifications": 2,
+          "correct": true
+        }
+      ]
+    },
+    "no_acceptance": {
+      "0": [
+        {
+          "missing": 0,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": true
+        },
+        {
+          "missing": 1,
+          "action": "unresolved",
+          "clarifications": 0,
+          "correct": false
+        },
+        {
+          "missing": 2,
+          "action": "unresolved",
+          "clarifications": 0,
+          "correct": false
+        }
+      ],
+      "1": [
+        {
+          "missing": 0,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": true
+        },
+        {
+          "missing": 1,
+          "action": "answer",
+          "clarifications": 1,
+          "correct": true
+        },
+        {
+          "missing": 2,
+          "action": "unresolved",
+          "clarifications": 1,
+          "correct": false
+        }
+      ],
+      "2": [
+        {
+          "missing": 0,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": true
+        },
+        {
+          "missing": 1,
+          "action": "answer",
+          "clarifications": 1,
+          "correct": true
+        },
+        {
+          "missing": 2,
+          "action": "answer",
+          "clarifications": 2,
+          "correct": true
+        }
+      ],
+      "unlimited": [
+        {
+          "missing": 0,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": true
+        },
+        {
+          "missing": 1,
+          "action": "answer",
+          "clarifications": 1,
+          "correct": true
+        },
+        {
+          "missing": 2,
+          "action": "answer",
+          "clarifications": 2,
+          "correct": true
+        }
+      ]
+    },
+    "no_mbd": {
+      "0": [
+        {
+          "missing": 0,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": true
+        },
+        {
+          "missing": 1,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": false
+        },
+        {
+          "missing": 2,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": false
+        }
+      ],
+      "1": [
+        {
+          "missing": 0,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": true
+        },
+        {
+          "missing": 1,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": false
+        },
+        {
+          "missing": 2,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": false
+        }
+      ],
+      "2": [
+        {
+          "missing": 0,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": true
+        },
+        {
+          "missing": 1,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": false
+        },
+        {
+          "missing": 2,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": false
+        }
+      ],
+      "unlimited": [
+        {
+          "missing": 0,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": true
+        },
+        {
+          "missing": 1,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": false
+        },
+        {
+          "missing": 2,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": false
+        }
+      ]
+    },
+    "no_diagnosis_repair": {
+      "0": [
+        {
+          "missing": 0,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": true
+        },
+        {
+          "missing": 1,
+          "action": "warn",
+          "clarifications": 0,
+          "correct": false
+        },
+        {
+          "missing": 2,
+          "action": "warn",
+          "clarifications": 0,
+          "correct": false
+        }
+      ],
+      "1": [
+        {
+          "missing": 0,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": true
+        },
+        {
+          "missing": 1,
+          "action": "warn",
+          "clarifications": 0,
+          "correct": false
+        },
+        {
+          "missing": 2,
+          "action": "warn",
+          "clarifications": 0,
+          "correct": false
+        }
+      ],
+      "2": [
+        {
+          "missing": 0,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": true
+        },
+        {
+          "missing": 1,
+          "action": "warn",
+          "clarifications": 0,
+          "correct": false
+        },
+        {
+          "missing": 2,
+          "action": "warn",
+          "clarifications": 0,
+          "correct": false
+        }
+      ],
+      "unlimited": [
+        {
+          "missing": 0,
+          "action": "answer",
+          "clarifications": 0,
+          "correct": true
+        },
+        {
+          "missing": 1,
+          "action": "warn",
+          "clarifications": 0,
+          "correct": false
+        },
+        {
+          "missing": 2,
+          "action": "warn",
+          "clarifications": 0,
+          "correct": false
+        }
+      ]
+    }
+  }
+}

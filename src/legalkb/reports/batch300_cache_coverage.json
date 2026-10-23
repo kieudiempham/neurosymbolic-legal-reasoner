@@ -1,0 +1,48 @@
+{
+  "n": 300,
+  "correct": 11,
+  "lack_of_confidence": 11,
+  "errors": 271,
+  "unanswered": 271,
+  "action_accuracy": 0.03666666666666667,
+  "by_domain": {
+    "BHXH": {
+      "n": 90,
+      "correct": 11,
+      "lack_of_confidence": 11,
+      "errors": 61,
+      "unanswered": 61
+    },
+    "DN": {
+      "n": 70,
+      "correct": 0,
+      "lack_of_confidence": 0,
+      "errors": 70,
+      "unanswered": 70
+    },
+    "LD": {
+      "n": 30,
+      "correct": 0,
+      "lack_of_confidence": 0,
+      "errors": 30,
+      "unanswered": 30
+    },
+    "LN": {
+      "n": 40,
+      "correct": 0,
+      "lack_of_confidence": 0,
+      "errors": 40,
+      "unanswered": 40
+    },
+    "THUE": {
+      "n": 70,
+      "correct": 0,
+      "lack_of_confidence": 0,
+      "errors": 70,
+      "unanswered": 70
+    }
+  },
+  "measured_questions": 29,
+  "cache_misses": 271,
+  "protocol": "29 completed before API stop; 271 offline cache misses. Not a completed 300-question quality estimate."
+}

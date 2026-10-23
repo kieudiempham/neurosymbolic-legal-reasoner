@@ -1,19 +1,24 @@
 """A small hand-encoded KB (Luật BHXH 41/2024: Điều 2.1.a, 2.1.l, 2.7.a, 33.1.a) for testing the reasoner and the
 parser independently of extraction quality. The norms are written in the extraction answer format and go through
-the same store / link / compile path as the extracted KB; unit texts are copied from the main database.
+the same store / link / compile path as the extracted KB; source texts/templates are frozen in sample_sources.json.
+Artificial SAMPLE/TEST norms cover deadlines and sanctions without requiring the main KB or model calls.
 
     PYTHONPATH=src .venv_diag/Scripts/python -m legalkb.sample_kb      # builds data/legalkb/sample_bhxh.{sqlite,pl}
 """
 
 from __future__ import annotations
 
-from .compile import write_and_check
+import json
+import os
+from pathlib import Path
+
+from .runtime import compile_sample as write_and_check
 from .db import DB_FILE, connect
 from .extract import store
 from .normalize import link_references
 
-SAMPLE_DB = DB_FILE.with_name("sample_bhxh.sqlite")
-SAMPLE_PL = DB_FILE.with_name("sample_bhxh.pl")
+SAMPLE_DB = Path(os.environ.get("LEGALKB_SAMPLE_DIR", str(DB_FILE.parent))) / "sample_bhxh.sqlite"
+SAMPLE_PL = SAMPLE_DB.with_suffix(".pl")
 LAW = "41/2024/QH15"
 UNITS = [f"{LAW}:D2.K1", f"{LAW}:D2.K1.a", f"{LAW}:D2.K1.l", f"{LAW}:D2.K7", f"{LAW}:D2.K7.a", f"{LAW}:D33.K1",
          f"{LAW}:D33.K1.a"]
@@ -27,11 +32,11 @@ def _c(kind, pred=None, args=(), negated=False, attr=None, of=None, op=None, num
 
 
 def _norm(unit, modality, variables, subject, conditions, action=None, conclusion=None, formulas=(), other_refs=(),
-          quote=""):
+          quote="", deadline=None, sanction=None):
     return {"unit_id": unit, "modality": modality, "variables": [{"name": v, "type": t} for v, t in variables],
             "subject": subject, "bearer": None, "beneficiary": None, "conditions": conditions,
-            "action": action, "conclusion": conclusion, "formulas": list(formulas), "deadline": None,
-            "sanction": None, "exception_refs": [], "other_refs": list(other_refs), "valid_from": None,
+            "action": action, "conclusion": conclusion, "formulas": list(formulas), "deadline": deadline,
+            "sanction": sanction, "exception_refs": [], "other_refs": list(other_refs), "valid_from": None,
             "valid_to": None, "validity_note": "", "quote": quote}
 
 
@@ -75,27 +80,65 @@ TYPES = [("nguoi_lao_dong", "ca_nhan"), ("nguoi_su_dung_lao_dong", None), ("hop_
          ("ca_nhan", None), ("giay_to", None)]
 
 
+# Artificial norms exercise schema and inference, not statements of current law.
+FIXTURE_LAW = "SAMPLE/TEST"
+NORMS += [
+    _norm(f"{FIXTURE_LAW}:D1", "obligation", [("P", "nguoi_lao_dong")], "P",
+          [_c("atom", "nhan_thong_bao_mau", ["P"])],
+          action={"pred": "nop_ho_so_mau", "args": ["P"]},
+          deadline={"amount": 30, "unit": "ngày", "from_event": "nhan_thong_bao_mau"},
+          quote="Quy phạm giả lập: nộp hồ sơ mẫu trong 30 ngày từ khi nhận thông báo mẫu."),
+    _norm(f"{FIXTURE_LAW}:D2", "procedure", [("P", "nguoi_lao_dong")], "P",
+          [_c("atom", "nhan_yeu_cau_mau", ["P"])],
+          action={"pred": "bo_sung_ho_so_mau", "args": ["P"]},
+          deadline={"amount": 5, "unit": "ngày làm việc", "from_event": "nhan_yeu_cau_mau"},
+          quote="Quy phạm giả lập: bổ sung hồ sơ mẫu trong 5 ngày làm việc từ khi nhận yêu cầu mẫu."),
+    _norm(f"{FIXTURE_LAW}:D3", "sanction", [("P", "nguoi_lao_dong")], "P",
+          [_c("atom", "vi_pham_mau", ["P"])],
+          sanction={"kind": "phat_tien", "min_amount": 1, "max_amount": 2,
+                    "unit": "triệu đồng", "text": "Mức phạt giả lập 1–2 triệu đồng."},
+          quote="Quy phạm giả lập: người có vi phạm mẫu bị phạt từ 1 đến 2 triệu đồng."),
+    _norm(f"{FIXTURE_LAW}:D4", "sanction", [("P", "nguoi_lao_dong")], "P",
+          [_c("atom", "vi_pham_nhe_mau", ["P"])],
+          sanction={"kind": "canh_cao", "min_amount": None, "max_amount": None,
+                    "unit": None, "text": "Cảnh cáo giả lập."},
+          quote="Quy phạm giả lập: vi phạm nhẹ mẫu bị cảnh cáo."),
+]
+
+
 def build() -> dict:
-    src = connect()
+    from .templates import SCHEMA as TEMPLATE_SCHEMA
+    source = json.loads(Path(__file__).with_name("sample_sources.json").read_text())
+    SAMPLE_DB.parent.mkdir(parents=True, exist_ok=True)
     SAMPLE_DB.unlink(missing_ok=True)
     con = connect(SAMPLE_DB)
-    cols = "doc_id, number, title, doc_type, issuer, rank, domain, issued, effective_from, effective_to, source_file"
-    con.execute(f"INSERT INTO documents ({cols}) VALUES ({','.join('?' * 11)})",
-                src.execute(f"SELECT {cols} FROM documents WHERE number=?", (LAW,)).fetchone())
-    ucols = "unit_id, doc_number, chapter, article, clause, point, parent_id, title, text"
-    for u in UNITS:
-        con.execute(f"INSERT INTO units ({ucols}) VALUES ({','.join('?' * 9)})",
-                    src.execute(f"SELECT {ucols} FROM units WHERE unit_id=?", (u,)).fetchone())
-    for name, parent in TYPES:
-        con.execute("INSERT INTO entity_types VALUES (?,?,?,?,?)", (name, parent, "", "labor", "vocab"))
-    out = {"entity_types": [], "predicates": [], "attributes": [], "norms": NORMS}
-    store(con, out, set(UNITS), "labor")
-    link_references(con)
-    con.commit()
-    from .templates import build as build_templates
-
-    build_templates(con)  # sentences for the MBD observations (cached)
-    return write_and_check(con, SAMPLE_PL)
+    try:
+        cols = "doc_id, number, title, doc_type, issuer, rank, domain, issued, effective_from, effective_to, source_file"
+        con.execute(f"INSERT INTO documents ({cols}) VALUES ({','.join('?' * 11)})", source["document"])
+        ucols = "unit_id, doc_number, chapter, article, clause, point, parent_id, title, text"
+        con.executemany(f"INSERT INTO units ({ucols}) VALUES ({','.join('?' * 9)})", source["units"])
+        con.execute("INSERT INTO documents (doc_id,number,title,rank,effective_from) VALUES (?,?,?,?,?)",
+                    (FIXTURE_LAW, FIXTURE_LAW, "Quy phạm giả lập để kiểm thử", 2, "2020-01-01"))
+        for n in NORMS[4:]:
+            con.execute("INSERT INTO units (unit_id,doc_number,text) VALUES (?,?,?)",
+                        (n["unit_id"], FIXTURE_LAW, n["quote"]))
+        for name, parent in TYPES:
+            con.execute("INSERT INTO entity_types VALUES (?,?,?,?,?)", (name, parent, "", "labor", "vocab"))
+        out = {"entity_types": [], "predicates": [], "attributes": [], "norms": NORMS}
+        store(con, out, {n["unit_id"] for n in NORMS}, "labor")
+        link_references(con)
+        con.executescript(TEMPLATE_SCHEMA)
+        con.executemany("INSERT OR REPLACE INTO templates VALUES (?,?,?,?,?,?,?)", source["templates"])
+        for name, label in [("nhan_thong_bao_mau", "nhận thông báo mẫu"),
+                            ("nhan_yeu_cau_mau", "nhận yêu cầu mẫu"), ("nop_ho_so_mau", "nộp hồ sơ mẫu"),
+                            ("bo_sung_ho_so_mau", "bổ sung hồ sơ mẫu"), ("vi_pham_mau", "có vi phạm mẫu"),
+                            ("vi_pham_nhe_mau", "có vi phạm nhẹ mẫu")]:
+            con.execute("INSERT OR REPLACE INTO templates VALUES (?,?,?,?,?,?,?)",
+                        ("pred", name, "", "", "{0} " + label, "{0} không " + label, 1))
+        con.commit()
+        return write_and_check(con, SAMPLE_PL)
+    finally:
+        con.close()
 
 
 if __name__ == "__main__":

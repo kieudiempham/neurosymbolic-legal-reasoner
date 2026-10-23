@@ -16,7 +16,8 @@ import subprocess
 import threading
 from pathlib import Path
 
-from .compile import PL_FILE, SWIPL
+from .compile import PL_FILE
+from .runtime import swipl
 
 REASONER_PL = Path(__file__).with_name("reasoner.pl")
 
@@ -27,8 +28,9 @@ class ReasonerError(RuntimeError):
 
 class Reasoner:
     def __init__(self, kb: Path = PL_FILE) -> None:
+        self.kb = Path(kb)
         self.proc = subprocess.Popen(
-            [str(SWIPL), "-q", "-f", "none", "-g", f"consult('{Path(kb).as_posix()}')", "-g", "serve", "-t", "halt",
+            [str(swipl()), "-q", "-f", "none", "-g", f"consult('{Path(kb).as_posix()}')", "-g", "serve", "-t", "halt",
              str(REASONER_PL)],
             stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
             text=True, encoding="utf-8", bufsize=1)

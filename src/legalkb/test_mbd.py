@@ -10,7 +10,7 @@ from __future__ import annotations
 import shutil
 import sys
 
-from .compile import write_and_check
+from .runtime import compile_sample as write_and_check
 from .db import connect
 from .questions import Question, answer
 from .reason import Reasoner
@@ -73,7 +73,7 @@ def variant_half_month():
     return con, pl
 
 
-def main() -> int:
+def live_main() -> int:
     sys.stdout.reconfigure(encoding="utf-8")
     build()
     kbs = {"ok": (connect(SAMPLE_DB), SAMPLE_PL), "half_month": variant_half_month()}
@@ -103,6 +103,35 @@ def main() -> int:
         r.close()
     print("\nall passed" if ok else "\nSOME CHECKS FAILED")
     return 0 if ok else 1
+
+
+def test_saved_sample_observations():
+    """Replay real stored LLM NLI scores; this test makes no model or network calls."""
+    import json
+    from pathlib import Path
+    from .verify import decide
+    rows = json.loads(Path(__file__).with_name("sample_mbd_measurements.json").read_text())
+    wants = {c[0]: (c[5], c[6]) for c in CASES}
+    assert set(wants) == {r["name"] for r in rows}
+    for row in rows:
+        result = decide(row["components"], [], tau=.5, rule="pos_neg")
+        action, modes = wants[row["name"]]
+        modes = (modes,) if isinstance(modes, str) else modes or ()
+        top = {f.split("(")[0] for f in result["diagnoses"][0]}
+        assert result["action"] == action, row["name"]
+        assert set(modes) <= top, row["name"]
+
+
+def main():
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--live", action="store_true", help="explicitly allow uncached API measurements")
+    args = ap.parse_args()
+    if args.live:
+        return live_main()
+    test_saved_sample_observations()
+    print("all 9 saved sample MBD cases passed (offline)")
+    return 0
 
 
 if __name__ == "__main__":
