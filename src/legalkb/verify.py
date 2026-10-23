@@ -290,11 +290,9 @@ def _split_terms(s: str) -> list[str]:
     return parts + ([cur] if cur else [])
 
 
-# Prior probability that a component is in each fault mode (per run). Estimates, not fitted: users often leave
-# facts out; the parser, the extracted KB and step 2 fail less often; an unresolved conflict is rare.
-PRIOR = {"missing": 0.2, "omission": 0.05, "misinterp": 0.05, "unsupported": 0.05, "misencoded": 0.05,
-         "omitted": 0.05, "kbconflict": 0.02}
-EPS = 1e-3  # floor of a likelihood, so one measurement never rules a diagnosis out on its own
+# No prior over fault modes: every minimal diagnosis starts equally likely and is ranked only by the measured
+# NLI scores (maximum likelihood). EPS is a numerical floor, so a score of 0 never rules a diagnosis out alone.
+EPS = 1e-3
 CASE_MODES = ("missing", "omission", "misinterp", "unsupported")
 
 
@@ -340,28 +338,29 @@ def likelihood(row: dict, mode: str) -> float:
 
 
 def rank(diagnoses: list[list[str]], table: list[dict]) -> list[float]:
-    """Posterior of each diagnosis: P(D | measurements) proportional to the product, over the components any
-    diagnosis blames, of prior(mode) * P(scores | mode), with prior(ok) = 1 - the priors of that component's
-    fault modes; an unresolved conflict has no measurement, only its prior."""
+    """Probability of each diagnosis given the measurements, with all diagnoses equally likely beforehand:
+    proportional to the product, over the components any diagnosis blames, of P(scores | mode of the component
+    in that diagnosis). An unresolved conflict has no measurement of its own; it is weighed through the rules of
+    the pair (normal in that diagnosis, misencoded in the other)."""
     if not diagnoses:
         return []
     rows = {r["id"]: r for r in table}
     blamed = {c for d in diagnoses for f in d if not f.startswith("kbconflict") for c in _cid(f)}
     weights = []
     for d in diagnoses:
-        w = PRIOR["kbconflict"] ** sum(f.startswith("kbconflict") for f in d)
+        w = 1.0
         for cid in blamed:
             row = rows[cid]
-            modes = _modes(row)
-            m = _mode_of(d, cid, modes)
-            w *= (PRIOR[m] if m != "ok" else 1 - sum(PRIOR[x] for x in modes)) * likelihood(row, m)
+            w *= likelihood(row, _mode_of(d, cid, _modes(row)))
         weights.append(w)
     z = sum(weights) or 1.0
     return [w / z for w in weights]
 
 
 def answer_dist(row: dict, mode: str) -> dict[str, float]:
-    """What the user would answer to "is <component> true in your case?" if the component is in this mode."""
+    """What the user would answer to "is <component> true in your case?" if the component is in this mode.
+    Taken from the NLI scores of the component against the question; where the question says nothing about it
+    (missing, unsupported) the answer is unknown: yes and no equally likely."""
     e, c = row["p_entail"], row["p_contra"]
     stated = {"yes": e / (e + c), "no": c / (e + c)} if e + c > 0 else {"yes": 0.5, "no": 0.5}
     unknown = {"yes": 0.5, "no": 0.5}
@@ -370,7 +369,10 @@ def answer_dist(row: dict, mode: str) -> dict[str, float]:
         return {"ok": {said: 1.0, other: 0.0}, "misinterp": {said: 0.0, other: 1.0}}.get(mode, unknown)
     if row["kind"] == "required":  # stated in the question and dropped, or not stated at all
         return stated if mode == "omission" else unknown
-    return {"yes": 1.0, "no": 0.0} if mode == "omission" else {"yes": 0.1, "no": 0.9}  # presumed absent
+    if mode == "omission":  # presumed absent, but the question states the exception
+        return {"yes": 1.0, "no": 0.0}
+    n = row["p_neutral"]  # normal: the question denies the exception (contra) or says nothing (neutral)
+    return {"yes": 0.5 * n / (n + c), "no": (c + 0.5 * n) / (n + c)} if n + c > 0 else unknown
 
 
 def _entropy(ps) -> float:
@@ -419,7 +421,7 @@ def choose(diagnoses: list[list[str]], symptoms: list[str], post: list[float] | 
     """Action and the components it is about, from the posterior mass of three kinds of diagnosis: only facts the
     question does not state (ask), faults of the reading of the case (confirm), faults of the KB or of step 2
     (warn). confirm asks about the single most informative component (sequential diagnosis: the next turn
-    diagnoses again with the answer); ask names the facts the likely diagnoses miss, which the answer needs.
+    diagnoses again with the answer); ask names the facts those diagnoses miss, which the answer needs.
     No diagnosis within the bound: the symptoms stay unexplained, which is never a reason to answer."""
     if [] in diagnoses:
         return "answer", []
@@ -432,8 +434,7 @@ def choose(diagnoses: list[list[str]], symptoms: list[str], post: list[float] | 
     action = max(mass, key=mass.get)
     mine = [(d, p) for d, p in zip(diagnoses, post) if _kind(d) == action]
     if action == "ask":
-        best = max(p for _, p in mine)
-        return "ask", sorted({c for d, p in mine if p >= best / 2 for f in d for c in _cid(f)})
+        return "ask", sorted({c for d, _ in mine for f in d for c in _cid(f)})
     if action == "confirm":
         parser = {c for d, _ in mine for f in d if LAYER[f.split("(")[0]] == "parser" for c in _cid(f)}
         asked = [q["id"] for q in questions or [] if q["id"] in parser]

@@ -26,7 +26,7 @@ Tables
                        measurements (LLM, mDeBERTa) whose mean is p_*
   run_mbd_facts        the observations and the candidate fault atoms given to mbd.pl
   run_mbd_diagnoses    every subset-minimal diagnosis (hitting sets of the conflicts), likeliest first, with its
-                       posterior probability (fault priors x NLI scores) and each fault explained in words
+                       probability given the NLI scores (no prior: all diagnoses equally likely beforehand) and each fault explained in words
   run_mbd_questions    sequential diagnosis: the facts the user can be asked about, ranked by the expected
                        information gain of the answer over the diagnoses; confirm asks the first one
   runs.action / action_about   the action chosen from the diagnoses (answer / ask / confirm / warn) and the
@@ -268,7 +268,7 @@ def show_run(con, run: int) -> str:
             "SELECT term FROM run_mbd_facts WHERE run_id=? AND kind='observation'", (run,))))
         out.append("  giả thuyết lỗi được xét: " + "; ".join(t for (t,) in con.execute(
             "SELECT term FROM run_mbd_facts WHERE run_id=? AND kind='candidate'", (run,))))
-        out.append("  chẩn đoán tối thiểu (khả dĩ nhất trước, P = xác suất hậu nghiệm):")
+        out.append("  chẩn đoán tối thiểu (khả dĩ nhất trước, P = xác suất theo điểm NLI, không gán trước):")
         out += [f"    {n}. P={p if p is None else round(p, 3)}  {f}  ->  {e}" for n, f, e, p in con.execute(
             "SELECT diag_no, faults, explanation, posterior FROM run_mbd_diagnoses WHERE run_id=? ORDER BY diag_no",
             (run,))]
