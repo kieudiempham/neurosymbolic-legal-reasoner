@@ -1,6 +1,11 @@
 """Step 5: the final answer in words, written from a stored run (verdicts, proofs, legal basis), never from the
 model's own knowledge. Stored in runs.final_answer.
 
+Faithfulness check: every sentence of the answer (except requests to the user) is measured against the run itself
+(facts, results, legal basis, diagnosis) with FAITH_MODEL: supported / not grounded / contradicted. If a sentence
+is not supported, the answer is written once more with those sentences named, and checked again. The checks are
+stored in run_answer_checks and runs.answer_faithful (1: every checked sentence supported).
+
     PYTHONPATH=src .venv_diag/Scripts/python -m legalkb.answer_gen            # write the answers runs are missing
     PYTHONPATH=src .venv_diag/Scripts/python -m legalkb.answer_gen 24         # (re)write the answer of run 24
 """
@@ -19,6 +24,17 @@ from .extract import CACHE, Extractor
 ANSWER_MODEL = os.environ.get("LEGALKB_ANSWER_MODEL", "gpt-4.1-mini")
 ANSWER_VERSION = "answer-v2"
 VERDICT = {"yes": "CÓ", "no": "KHÔNG", "unknown": "CHƯA ĐỦ THÔNG TIN"}
+FAITH_MODEL = os.environ.get("LEGALKB_FAITH_MODEL", "gpt-4.1")
+FAITH_TAU = 0.5
+FAITH_PROMPT = (
+    "Đoạn văn là kết quả suy luận của một hệ thống hỏi đáp pháp luật (dữ kiện, kết luận, căn cứ kèm nguyên văn, "
+    "kết quả kiểm tra). Câu là một câu trong câu trả lời gửi người hỏi.\n\nĐoạn văn:\n{premise}\n\n"
+    "Câu:\n{hypothesis}\n\nCâu này có đúng với đoạn văn không? Được diễn đạt lại, tóm tắt, trích dẫn.\n"
+    "A. Có căn cứ — đoạn văn nêu hoặc suy ra trực tiếp điều câu nói\n"
+    "B. Thêm thắt — câu nêu điều (sự kiện, điều kiện, con số, căn cứ) mà đoạn văn không có\n"
+    "C. Sai — câu nói ngược với đoạn văn (kết luận, con số, căn cứ khác)\n"
+    "Trả lời A, B hoặc C.")
+REQUEST = ("cho biết", "vui lòng", "xin cho", "bạn có thể", "hãy cung cấp", "xác nhận")
 
 PROMPT = """Bạn viết câu trả lời cuối cùng cho người hỏi về pháp luật Việt Nam, bằng tiếng Việt, dễ hiểu.
 CHỈ dùng kết quả suy luận dưới đây (kết luận, căn cứ kèm nguyên văn, điều còn thiếu, ngoại lệ đang giả định không
@@ -111,9 +127,62 @@ def context(runs, run: int) -> tuple[str, str, str]:
     return question, facts or "(không có)", "\n".join(res) or "(không có kết quả)"
 
 
+def sentences(text: str) -> list[str]:
+    import re
+
+    return [x.strip() for x in re.split(r"(?<=[.!?])\s+|\n+", text) if len(x.strip()) > 8]
+
+
+def check(text: str, premise: str) -> list[dict]:
+    """Label every sentence of an answer against the run (requests to the user are not checked)."""
+    from concurrent.futures import ThreadPoolExecutor
+
+    from diagnosis import nli_openai
+
+    from .verify import _cached_call
+
+    nli_openai.PROMPTS.setdefault("faith", FAITH_PROMPT)
+    client = Extractor(FAITH_MODEL).client
+    sents = sentences(text)
+
+    def one(s):
+        if s.endswith("?") or any(w in s.lower() for w in REQUEST):
+            return {"sentence": s, "label": "request", "entail": None, "neutral": None, "contra": None}
+        sc = _cached_call("faith", f"{FAITH_MODEL}|{premise}|{s}",
+                          lambda: nli_openai.score_pair(client, FAITH_MODEL, premise, s, "faith"))
+        best = max(sc, key=sc.get)
+        return {"sentence": s, "label": best if sc[best] >= FAITH_TAU else "uncertain", **sc}
+
+    with ThreadPoolExecutor(8) as pool:
+        return list(pool.map(one, sents))
+
+
 def generate(runs, run: int, model: str = ANSWER_MODEL) -> str:
     question, facts, results = context(runs, run)
-    prompt = PROMPT.format(question=question, facts=facts, results=results)
+    premise = f"Câu hỏi: {question}\n\nDữ kiện:\n{facts}\n\nKết quả suy luận:\n{results}"
+    text = write(PROMPT.format(question=question, facts=facts, results=results), model)
+    checks = check(text, premise)
+    runs.execute("DELETE FROM run_answer_checks WHERE run_id=?", (run,))
+    bad = [c["sentence"] for c in checks if c["label"] in ("neutral", "contra")]
+    attempts = [(1, text, checks)]
+    if bad:  # write once more, naming the sentences that are not supported by the run
+        fix = ("\n\nCÁC CÂU SAU TRONG BẢN TRƯỚC KHÔNG ĐÚNG VỚI KẾT QUẢ SUY LUẬN, KHÔNG ĐƯỢC LẶP LẠI:\n"
+               + "\n".join(f"- {b}" for b in bad))
+        text = write(PROMPT.format(question=question, facts=facts, results=results) + fix, model)
+        checks = check(text, premise)
+        attempts.append((2, text, checks))
+    for attempt, _, cs in attempts:
+        runs.executemany("INSERT INTO run_answer_checks VALUES (?,?,?,?,?,?,?,?)", [
+            (run, attempt, k, c["sentence"], c["label"], c["entail"], c["neutral"], c["contra"])
+            for k, c in enumerate(cs, 1)])
+    faithful = int(not any(c["label"] in ("neutral", "contra") for c in checks))
+    runs.execute("UPDATE runs SET final_answer=?, answer_model=?, answer_faithful=? WHERE run_id=?",
+                 (text, model, faithful, run))
+    runs.commit()
+    return text
+
+
+def write(prompt: str, model: str) -> str:
     key = hashlib.sha1(f"{ANSWER_VERSION}|{model}|{prompt}".encode("utf-8")).hexdigest()
     f = CACHE / f"answer_{key}.txt"
     if f.exists():
@@ -133,8 +202,6 @@ def generate(runs, run: int, model: str = ANSWER_MODEL) -> str:
                 time.sleep(min(60, 3 * 2 ** attempt))
         else:
             raise RuntimeError("answer generation failed")
-    runs.execute("UPDATE runs SET final_answer=?, answer_model=? WHERE run_id=?", (text, model, run))
-    runs.commit()
     return text
 
 

@@ -23,7 +23,7 @@ from .normalize import canon_name, canon_unit
 from .questions import QUESTION_TYPES, Question
 
 PARSER_MODEL = os.environ.get("LEGALKB_PARSER_MODEL", "gpt-4.1-mini")
-PARSER_VERSION = "parse-v4"
+PARSER_VERSION = "parse-v5"
 SHORTLIST = {"type": 40, "pred": 80, "attr": 40}
 
 PROMPT = """Bạn chuyển câu hỏi pháp luật tiếng Việt thành dữ kiện logic cho một hệ suy luận.
@@ -46,7 +46,9 @@ YÊU CẦU:
 3. attributes: giá trị số / danh mục được nói rõ. value_number là con số đúng như trong câu, unit là đơn vị đúng như
    trong câu (vd 10 và "triệu đồng"; 12 và "tháng"). Thuộc tính danh mục: chọn một giá trị ghi sau tên thuộc tính
    trong từ vựng CHỈ KHI đúng nghĩa với câu hỏi; nếu không có giá trị nào đúng nghĩa thì ghi giá trị theo câu hỏi.
-4. questions: MỖI ý được hỏi là một mục (câu hỏi gộp "có phải ... không, bao nhiêu" -> 2 mục); type (một loại ở trên); subject = id của chủ thể được hỏi; modality (obligation / right / prohibition /
+4. case_date: thời điểm của tình huống nếu câu hỏi nêu (vd "năm 2026" -> "2026", "tháng 3/2025" -> "2025-03",
+   "ngày 1/7/2025" -> "2025-07-01"); null nếu không nêu.
+5. questions: MỖI ý được hỏi là một mục (câu hỏi gộp "có phải ... không, bao nhiêu" -> 2 mục); type (một loại ở trên); subject = id của chủ thể được hỏi; modality (obligation / right / prohibition /
    procedure) nếu hỏi phải / được / bị cấm / thủ tục; pred = vị từ của hành vi / tình trạng / khái niệm được hỏi;
    hỏi "có thuộc diện / có được hưởng / có là ... không" là status (pred là vị từ tình trạng), hỏi "có phải / được
    / bị cấm LÀM ... không" là yes_no (pred là vị từ hành vi);
@@ -102,6 +104,23 @@ def _sig(con, kind: str) -> dict[str, str]:
     return out
 
 
+def case_date(text: str | None) -> str | None:
+    """'2026' -> 2026-12-31 (a year: the law in force at its end), '2025-03' -> 2025-03-31, '2025-07-01' as is."""
+    import calendar
+
+    if not text:
+        return None
+    m = re.fullmatch(r"\s*(\d{4})(?:-(\d{1,2}))?(?:-(\d{1,2}))?\s*", text)
+    if not m:
+        return None
+    y, mo, d = int(m.group(1)), m.group(2), m.group(3)
+    if not mo:
+        return f"{y:04d}-12-31"
+    mo = int(mo)
+    d = int(d) if d else calendar.monthrange(y, mo)[1]
+    return f"{y:04d}-{mo:02d}-{d:02d}"
+
+
 class Parser:
     def __init__(self, con, model: str = PARSER_MODEL):
         self.con, self.model = con, model
@@ -132,6 +151,7 @@ class Parser:
             "entities": {"type": "array", "items": _obj({"id": ident, "type": enum(names["type"]), "mention": _s})},
             "facts": {"type": "array", "items": atom},
             "false_facts": {"type": "array", "items": atom},
+            "case_date": _opt(_s),
             "attributes": {"type": "array", "items": _obj({
                 "entity": ident, "attr": enum(names["attr"]), "value_number": _opt({"type": "number"}),
                 "value_text": _opt(_s), "unit": _opt(_s)})},
@@ -198,9 +218,10 @@ class Parser:
                 facts.append(f"attr({a['entity']}, {a['attr']}, {int(v) if float(v).is_integer() else v})")
             elif a["value_text"]:
                 facts.append(f"attr({a['entity']}, {a['attr']}, {q(canon_name(a['value_text']))})")
+        on = case_date(out.get("case_date"))
         questions = [self._normalise(Question(
             type=qq["type"], subject=qq["subject"], modality=qq["modality"], pred=qq["pred"], args=list(qq["args"]),
-            attr=qq["attr"], negated=qq["negated"], document=qq["document"])) for qq in out["questions"]]
+            attr=qq["attr"], negated=qq["negated"], document=qq["document"], on=on)) for qq in out["questions"]]
         return facts, false_facts, questions, out
 
     def _normalise(self, q: Question) -> Question:

@@ -28,6 +28,9 @@ Tables
   run_mbd_diagnoses    every minimal diagnosis, with each fault explained in words
   runs.action / action_about   the action chosen from the diagnoses (answer / ask / confirm / warn) and the
                        components it is about
+  run_answer_checks    step 5: every sentence of the answer (each attempt) labelled against the run: entail
+                       (supported), neutral (not grounded), contra (contradicted), request (asks the user)
+  runs.answer_faithful 1 when every checked sentence of the final answer is supported
 
     PYTHONPATH=src .venv_diag/Scripts/python -m legalkb.trace            # list the runs
     PYTHONPATH=src .venv_diag/Scripts/python -m legalkb.trace 12         # print run 12
@@ -48,7 +51,7 @@ SCHEMA = """
 CREATE TABLE IF NOT EXISTS runs (
   run_id INTEGER PRIMARY KEY AUTOINCREMENT, time TEXT, question TEXT, kb_program TEXT, kb_database TEXT,
   parser_model TEXT, parser_output TEXT, batch TEXT, item_id TEXT, gold TEXT, error TEXT, final_answer TEXT,
-  answer_model TEXT, session_id TEXT, turn INTEGER, action TEXT, action_about TEXT);
+  answer_model TEXT, session_id TEXT, turn INTEGER, action TEXT, action_about TEXT, answer_faithful INTEGER);
 CREATE TABLE IF NOT EXISTS run_facts (
   run_id INTEGER NOT NULL REFERENCES runs(run_id), kind TEXT CHECK (kind IN ('fact','false_fact','parameter')),
   fact TEXT);
@@ -78,6 +81,9 @@ CREATE TABLE IF NOT EXISTS run_mbd_facts (
 CREATE TABLE IF NOT EXISTS run_mbd_diagnoses (
   run_id INTEGER NOT NULL REFERENCES runs(run_id), diag_no INTEGER, size INTEGER, faults TEXT, explanation TEXT,
   PRIMARY KEY (run_id, diag_no));
+CREATE TABLE IF NOT EXISTS run_answer_checks (
+  run_id INTEGER NOT NULL REFERENCES runs(run_id), attempt INTEGER, sent_no INTEGER, sentence TEXT, label TEXT,
+  p_entail REAL, p_neutral REAL, p_contra REAL);
 CREATE TABLE IF NOT EXISTS run_law_norms (
   run_id INTEGER NOT NULL REFERENCES runs(run_id), q_no INTEGER, norm TEXT, unit TEXT, modality TEXT, holder TEXT,
   conditions TEXT, head TEXT, exceptions TEXT, text TEXT);
@@ -91,7 +97,7 @@ def connect_runs(path: Path = RUNS_DB) -> sqlite3.Connection:
     con.executescript(SCHEMA)
     have = {r[1] for r in con.execute("PRAGMA table_info(runs)")}
     for col in ("batch", "item_id", "gold", "error", "final_answer", "answer_model", "session_id", "turn",
-                "action", "action_about"):
+                "action", "action_about", "answer_faithful"):
         if col not in have:
             con.execute(f"ALTER TABLE runs ADD COLUMN {col} TEXT")
     sql = con.execute("SELECT sql FROM sqlite_master WHERE name='run_steps'").fetchone()[0]
@@ -253,6 +259,11 @@ def show_run(con, run: int) -> str:
         out += [f"    {n}. {f}  ->  {e}" for n, f, e in con.execute(
             "SELECT diag_no, faults, explanation FROM run_mbd_diagnoses WHERE run_id=? ORDER BY diag_no", (run,))]
         out.append(f"  HÀNH ĐỘNG: {action[0]}  (về: {action[1]})")
+    checks = con.execute("SELECT attempt, sent_no, sentence, label FROM run_answer_checks WHERE run_id=? "
+                         "ORDER BY attempt, sent_no", (run,)).fetchall()
+    if checks:
+        out += ["", "KIỂM TRA CÂU TRẢ LỜI (bước 5):"]
+        out += [f"  lần {a}, câu {k}: [{lab}] {s}" for a, k, s, lab in checks]
     return "\n".join(out)
 
 

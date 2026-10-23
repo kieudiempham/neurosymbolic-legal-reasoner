@@ -44,6 +44,7 @@ class Question:
     attr: str | None = None
     negated: bool = False
     document: str | None = None          # validity
+    on: str | None = None                # the date the case is about (YYYY-MM-DD); None: today
 
 
 def _term(x: str | None, var: str) -> str:
@@ -138,7 +139,7 @@ def answer(q: Question, facts: list[str], reasoner, con, false_facts: list[str] 
 
     if q.type in ("who", "conditions", "exceptions", "definition", "validity"):
         return {"type": q.type, "kind": "law", "norms": law_answer(con, q)}
-    retrieved = {n: w for n, w in candidates(con, q, on).items() if n not in drop} if retrieval else {}
+    retrieved = {n: w for n, w in candidates(con, q, on or q.on).items() if n not in drop} if retrieval else {}
     retrieved.update({n: "thêm lại sau chẩn đoán (bước chọn luật đã bỏ sót)" for n in add})
     allowed = list(retrieved) if retrieval else None
     answers = reasoner.query(facts, goal(q), list(false_facts), allowed=allowed)["answers"]
