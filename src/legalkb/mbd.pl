@@ -100,16 +100,49 @@ consistent(D) :-
     forall(near_miss(N), retrieval_consistent(D, N)),
     forall(competing(N1, N2), pair_consistent(D, N1, N2)).
 
-% Minimum-cardinality diagnoses: sizes 0, 1, ... up to MaxK, stopping at the first size that has any.
-minimal_diagnoses(Atoms, MaxK, Minimal) :-
-    numlist(0, MaxK, Ks),
-    foldl(level(Atoms), Ks, [], Minimal).
+% Checks: one per relevant atom, used rule, norm left out and competing pair; each involves only the fault atoms of
+% its own components.
+check(prop(C)) :- relevant(C).
+check(rule(N)) :- rule_used(N).
+check(ret(N)) :- near_miss(N).
+check(pair(N1, N2)) :- competing(N1, N2).
 
-level(_, _, Found, Found) :- Found \== [], !.
-level(Atoms, K, Found, Found1) :-
-    findall(S, ( subset_k(K, Atoms, S), one_mode_per_component(S),
-                 \+ ( member(F, Found), subset_of(F, S) ), consistent(S) ), New),
-    append(Found, New, Found1).
+check_ok(D, prop(C)) :- prop_consistent(D, C).
+check_ok(D, rule(N)) :- rule_consistent(D, N).
+check_ok(D, ret(N)) :- retrieval_consistent(D, N).
+check_ok(D, pair(N1, N2)) :- pair_consistent(D, N1, N2).
+
+% Conflicts (Reiter): a failing check cannot hold with all its components normal, so every diagnosis contains one
+% of its repairs: the smallest sets of fault atoms that make that check hold without breaking a check that held.
+conflict(Atoms, X, Repairs) :-
+    check(X), \+ check_ok([], X),
+    usable(Atoms, Us),
+    findall([A], ( member(A, Us), check_ok([A], X) ), R1),
+    (   R1 \== [] -> Repairs = R1
+    ;   findall(S, ( subset_k(2, Us, S), one_mode_per_component(S), check_ok(S, X) ), Repairs) ).
+
+usable(Atoms, Us) :-
+    findall(A, ( member(A, Atoms), well_formed(A),
+                 \+ ( check(Y), check_ok([], Y), \+ check_ok([A], Y) ) ), Us).
+
+% Minimal diagnoses: the minimal hitting sets of the conflicts (each takes one repair of every conflict it does not
+% already satisfy), at most MaxK fault atoms, kept when the whole model is consistent with them, then reduced to
+% the subset-minimal ones. Unlike a search by size, a larger diagnosis is kept when no smaller one is contained in
+% it, so the ranking (verify.py) sees every alternative.
+minimal_diagnoses(Atoms, MaxK, Minimal) :-
+    findall(X-R, conflict(Atoms, X, R), Cs),
+    foldl(extend(MaxK), Cs, [[]], Hs),
+    include(consistent, Hs, Ds),
+    exclude(non_minimal(Ds), Ds, Minimal).
+
+extend(MaxK, X-Repairs, Hs, Hs1) :-
+    findall(S, ( member(H, Hs),
+                 (   check_ok(H, X) -> S = H
+                 ;   member(R, Repairs), append(R, H, S0), sort(S0, S), length(S, L), L =< MaxK,
+                     one_mode_per_component(S) ) ), L0),
+    sort(L0, Hs1).
+
+non_minimal(Ds, D) :- member(E, Ds), E \== D, subset_of(E, D).
 
 subset_k(0, _, []) :- !.
 subset_k(K, [X|Xs], [X|S]) :- K1 is K - 1, subset_k(K1, Xs, S).

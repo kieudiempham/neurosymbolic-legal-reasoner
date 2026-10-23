@@ -25,7 +25,10 @@ Tables
                        its label (pos_neg acceptance), why a label was not accepted, and the distributions of the two
                        measurements (LLM, mDeBERTa) whose mean is p_*
   run_mbd_facts        the observations and the candidate fault atoms given to mbd.pl
-  run_mbd_diagnoses    every minimal diagnosis, with each fault explained in words
+  run_mbd_diagnoses    every subset-minimal diagnosis (hitting sets of the conflicts), likeliest first, with its
+                       posterior probability (fault priors x NLI scores) and each fault explained in words
+  run_mbd_questions    sequential diagnosis: the facts the user can be asked about, ranked by the expected
+                       information gain of the answer over the diagnoses; confirm asks the first one
   runs.action / action_about   the action chosen from the diagnoses (answer / ask / confirm / warn) and the
                        components it is about
   run_answer_checks    step 5: every sentence of the answer (each attempt) labelled against the run: entail
@@ -80,7 +83,10 @@ CREATE TABLE IF NOT EXISTS run_mbd_facts (
   run_id INTEGER NOT NULL REFERENCES runs(run_id), kind TEXT CHECK (kind IN ('observation','candidate')), term TEXT);
 CREATE TABLE IF NOT EXISTS run_mbd_diagnoses (
   run_id INTEGER NOT NULL REFERENCES runs(run_id), diag_no INTEGER, size INTEGER, faults TEXT, explanation TEXT,
-  PRIMARY KEY (run_id, diag_no));
+  posterior REAL, PRIMARY KEY (run_id, diag_no));
+CREATE TABLE IF NOT EXISTS run_mbd_questions (
+  run_id INTEGER NOT NULL REFERENCES runs(run_id), rank INTEGER, comp_id TEXT, statement TEXT, gain REAL,
+  fault_mass REAL, PRIMARY KEY (run_id, rank));
 CREATE TABLE IF NOT EXISTS run_answer_checks (
   run_id INTEGER NOT NULL REFERENCES runs(run_id), attempt INTEGER, sent_no INTEGER, sentence TEXT, label TEXT,
   p_entail REAL, p_neutral REAL, p_contra REAL);
@@ -108,6 +114,8 @@ def connect_runs(path: Path = RUNS_DB) -> sqlite3.Connection:
     for col in ("neg_statement", "neg_label", "reject_reason", "p_llm", "p_mdeberta"):
         if col not in have:
             con.execute(f"ALTER TABLE run_mbd_components ADD COLUMN {col} TEXT")
+    if "posterior" not in {r[1] for r in con.execute("PRAGMA table_info(run_mbd_diagnoses)")}:
+        con.execute("ALTER TABLE run_mbd_diagnoses ADD COLUMN posterior REAL")
     con.execute("CREATE INDEX IF NOT EXISTS ix_runs_batch ON runs(batch, item_id)")
     return con
 
@@ -180,10 +188,15 @@ def save_run(con, *, time: str, question: str, kb_program: str, kb_database: str
         con.executemany("INSERT INTO run_mbd_facts VALUES (?,?,?)",
                         [(run, "observation", o) for o in mbd["observations"]]
                         + [(run, "candidate", f) for f in mbd["candidates"]])
-        con.executemany("INSERT INTO run_mbd_diagnoses VALUES (?,?,?,?,?)", [
+        post = mbd.get("posterior") or [None] * len(mbd["diagnoses"])
+        con.executemany("INSERT INTO run_mbd_diagnoses (run_id, diag_no, size, faults, explanation, posterior) "
+                        "VALUES (?,?,?,?,?,?)", [
             (run, i, len(d), "[" + ", ".join(d) + "]",
-             "; ".join(explain(f, mbd["components"]) for f in d) or "không có lỗi (mọi thành phần bình thường)")
-            for i, d in enumerate(mbd["diagnoses"], 1)])
+             "; ".join(explain(f, mbd["components"]) for f in d) or "không có lỗi (mọi thành phần bình thường)", p)
+            for i, (d, p) in enumerate(zip(mbd["diagnoses"], post), 1)])
+        con.executemany("INSERT INTO run_mbd_questions VALUES (?,?,?,?,?,?)", [
+            (run, i, q["id"], q["statement"], q["gain"], q["fault_mass"])
+            for i, q in enumerate(mbd.get("questions", []), 1)])
         if mbd.get("repaired_from"):
             r = mbd["repaired_from"]
             con.execute("INSERT INTO run_steps VALUES (?,?,?,?,?,?)",
@@ -255,9 +268,15 @@ def show_run(con, run: int) -> str:
             "SELECT term FROM run_mbd_facts WHERE run_id=? AND kind='observation'", (run,))))
         out.append("  giả thuyết lỗi được xét: " + "; ".join(t for (t,) in con.execute(
             "SELECT term FROM run_mbd_facts WHERE run_id=? AND kind='candidate'", (run,))))
-        out.append("  chẩn đoán tối thiểu:")
-        out += [f"    {n}. {f}  ->  {e}" for n, f, e in con.execute(
-            "SELECT diag_no, faults, explanation FROM run_mbd_diagnoses WHERE run_id=? ORDER BY diag_no", (run,))]
+        out.append("  chẩn đoán tối thiểu (khả dĩ nhất trước, P = xác suất hậu nghiệm):")
+        out += [f"    {n}. P={p if p is None else round(p, 3)}  {f}  ->  {e}" for n, f, e, p in con.execute(
+            "SELECT diag_no, faults, explanation, posterior FROM run_mbd_diagnoses WHERE run_id=? ORDER BY diag_no",
+            (run,))]
+        qs = con.execute("SELECT rank, comp_id, statement, gain, fault_mass FROM run_mbd_questions WHERE run_id=? "
+                         "ORDER BY rank", (run,)).fetchall()
+        if qs:
+            out.append("  câu hỏi lại để phân biệt chẩn đoán (lượng thông tin kỳ vọng, bit):")
+            out += [f"    {k}. {c} «{st}»: {g:.3f} bit, xác suất bị lỗi {m:.2f}" for k, c, st, g, m in qs]
         out.append(f"  HÀNH ĐỘNG: {action[0]}  (về: {action[1]})")
     checks = con.execute("SELECT attempt, sent_no, sentence, label FROM run_answer_checks WHERE run_id=? "
                          "ORDER BY attempt, sent_no", (run,)).fetchall()

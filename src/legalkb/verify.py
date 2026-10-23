@@ -259,7 +259,7 @@ def nli(client, pairs: list[tuple[str, str, str]]) -> list[dict]:
 
 
 def diagnose(obs: list[str], atoms: list[str], k: int = MAX_K) -> tuple[list[list[str]], list[str]]:
-    """Minimal diagnoses (fault atoms over component ids) and the symptoms (components inconsistent with
+    """Subset-minimal diagnoses (fault atoms over component ids) and the symptoms (components inconsistent with
     everything working normally)."""
     req = f"diag([{', '.join(obs)}], [{', '.join(atoms)}], {k}).\n"
     r = subprocess.run([str(SWIPL), "-q", "-f", "none", "-g", "serve", "-t", "halt", str(MBD_PL)], input=req,
@@ -290,25 +290,156 @@ def _split_terms(s: str) -> list[str]:
     return parts + ([cur] if cur else [])
 
 
-def choose(diagnoses: list[list[str]], symptoms: list[str]) -> tuple[str, list[str]]:
-    """Action and the components it is about. No diagnosis within the bound: the symptoms stay unexplained,
-    which is never a reason to answer."""
+# Prior probability that a component is in each fault mode (per run). Estimates, not fitted: users often leave
+# facts out; the parser, the extracted KB and step 2 fail less often; an unresolved conflict is rare.
+PRIOR = {"missing": 0.2, "omission": 0.05, "misinterp": 0.05, "unsupported": 0.05, "misencoded": 0.05,
+         "omitted": 0.05, "kbconflict": 0.02}
+EPS = 1e-3  # floor of a likelihood, so one measurement never rules a diagnosis out on its own
+CASE_MODES = ("missing", "omission", "misinterp", "unsupported")
+
+
+def _cid(f: str) -> list[str]:
+    return [c.strip() for c in f[f.index("(") + 1:-1].split(",")]
+
+
+def _mode_of(d: list[str], comp: str, modes: tuple) -> str:
+    for f in d:
+        m = f.split("(")[0]
+        if m in modes and comp in _cid(f):
+            return m
+    return "ok"
+
+
+def _modes(row: dict) -> tuple:
+    """The fault modes a component can be in."""
+    if row["layer"] == "kb":
+        return ("misencoded",)
+    if row["layer"] == "retrieval":
+        return ("omitted",)
+    return {"checked": ("misinterp", "unsupported"), "required": ("missing", "omission"),
+            "presumed": ("omission",)}[row["kind"]]
+
+
+def likelihood(row: dict, mode: str) -> float:
+    """P(the NLI scores of a component | its mode), from the raw scores, including those below the acceptance
+    threshold: a measurement too weak to be an observation still tells which diagnosis is likelier."""
+    e, n, c = row["p_entail"], row["p_neutral"], row["p_contra"]
+    if row["layer"] == "case":
+        kind, pos = row["kind"], row.get("polarity", "pos") == "pos"
+        if kind == "checked":
+            v = {"ok": e if pos else c, "misinterp": c if pos else e, "unsupported": n}.get(mode, EPS)
+        elif kind == "required":
+            v = {"missing": n, "omission": e + c}.get(mode, EPS)
+        else:  # presumed absent
+            v = {"ok": n + c, "omission": e}.get(mode, EPS)
+    elif row["layer"] == "kb":
+        v = e if mode == "ok" else 1 - e
+    else:
+        v = n if mode == "ok" else 1 - n
+    return max(v, EPS)
+
+
+def rank(diagnoses: list[list[str]], table: list[dict]) -> list[float]:
+    """Posterior of each diagnosis: P(D | measurements) proportional to the product, over the components any
+    diagnosis blames, of prior(mode) * P(scores | mode), with prior(ok) = 1 - the priors of that component's
+    fault modes; an unresolved conflict has no measurement, only its prior."""
+    if not diagnoses:
+        return []
+    rows = {r["id"]: r for r in table}
+    blamed = {c for d in diagnoses for f in d if not f.startswith("kbconflict") for c in _cid(f)}
+    weights = []
+    for d in diagnoses:
+        w = PRIOR["kbconflict"] ** sum(f.startswith("kbconflict") for f in d)
+        for cid in blamed:
+            row = rows[cid]
+            modes = _modes(row)
+            m = _mode_of(d, cid, modes)
+            w *= (PRIOR[m] if m != "ok" else 1 - sum(PRIOR[x] for x in modes)) * likelihood(row, m)
+        weights.append(w)
+    z = sum(weights) or 1.0
+    return [w / z for w in weights]
+
+
+def answer_dist(row: dict, mode: str) -> dict[str, float]:
+    """What the user would answer to "is <component> true in your case?" if the component is in this mode."""
+    e, c = row["p_entail"], row["p_contra"]
+    stated = {"yes": e / (e + c), "no": c / (e + c)} if e + c > 0 else {"yes": 0.5, "no": 0.5}
+    unknown = {"yes": 0.5, "no": 0.5}
+    if row["kind"] == "checked":
+        said, other = ("yes", "no") if row.get("polarity", "pos") == "pos" else ("no", "yes")
+        return {"ok": {said: 1.0, other: 0.0}, "misinterp": {said: 0.0, other: 1.0}}.get(mode, unknown)
+    if row["kind"] == "required":  # stated in the question and dropped, or not stated at all
+        return stated if mode == "omission" else unknown
+    return {"yes": 1.0, "no": 0.0} if mode == "omission" else {"yes": 0.1, "no": 0.9}  # presumed absent
+
+
+def _entropy(ps) -> float:
+    import math
+
+    return -sum(p * math.log2(p) for p in ps if p > 0)
+
+
+def next_questions(diagnoses: list[list[str]], post: list[float], table: list[dict]) -> list[dict]:
+    """Sequential diagnosis: the case components the user can be asked about ("is this true in your case?"),
+    ranked by the expected information gain of the answer over the diagnoses (entropy of the posterior before,
+    minus its expected entropy after the answer), then by the posterior mass that blames them."""
+    rows = {r["id"]: r for r in table}
+    cands = sorted({c for d in diagnoses for f in d if f.split("(")[0] in CASE_MODES for c in _cid(f)})
+    h0, out = _entropy(post), []
+    for cid in cands:
+        row = rows[cid]
+        dists = [answer_dist(row, _mode_of(d, cid, CASE_MODES)) for d in diagnoses]
+        gain = h0
+        for a in ("yes", "no"):
+            joint = [p * dd[a] for p, dd in zip(post, dists)]
+            pa = sum(joint)
+            if pa > 0:
+                gain -= pa * _entropy([j / pa for j in joint])
+        fault_mass = sum(p for d, p in zip(diagnoses, post) if _mode_of(d, cid, CASE_MODES) != "ok")
+        out.append({"id": cid, "statement": row["statement"], "gain": round(gain, 4),
+                    "fault_mass": round(fault_mass, 4)})
+    return sorted(out, key=lambda q: (-q["gain"], -q["fault_mass"]))
+
+
+def update(diagnoses: list[list[str]], post: list[float], table: list[dict], cid: str, ans: str) -> list[float]:
+    """Posterior after the user answers ans (yes / no) about component cid (Bayes rule with answer_dist)."""
+    row = {r["id"]: r for r in table}[cid]
+    w = [p * max(answer_dist(row, _mode_of(d, cid, CASE_MODES))[ans], EPS) for d, p in zip(diagnoses, post)]
+    z = sum(w) or 1.0
+    return [x / z for x in w]
+
+
+def _kind(d: list[str]) -> str:
+    layers = {LAYER[f.split("(")[0]] for f in d}
+    return "ask" if layers == {"user"} else "confirm" if not layers & {"kb", "retrieval"} else "warn"
+
+
+def choose(diagnoses: list[list[str]], symptoms: list[str], post: list[float] | None = None,
+           questions: list[dict] | None = None) -> tuple[str, list[str]]:
+    """Action and the components it is about, from the posterior mass of three kinds of diagnosis: only facts the
+    question does not state (ask), faults of the reading of the case (confirm), faults of the KB or of step 2
+    (warn). confirm asks about the single most informative component (sequential diagnosis: the next turn
+    diagnoses again with the answer); ask names the facts the likely diagnoses miss, which the answer needs.
+    No diagnosis within the bound: the symptoms stay unexplained, which is never a reason to answer."""
     if [] in diagnoses:
         return "answer", []
     if not diagnoses:
         return "unresolved", symptoms
-    m = min(len(d) for d in diagnoses)
-    mins = [d for d in diagnoses if len(d) == m]
-    layers = lambda d: {LAYER[f.split("(")[0]] for f in d}  # noqa: E731
-    comp = lambda f: f[f.index("(") + 1:-1]  # noqa: E731
-    user_only = [d for d in mins if layers(d) == {"user"}]
-    if user_only:
-        return "ask", sorted({comp(f) for d in user_only for f in d})
-    case_only = [d for d in mins if not layers(d) & {"kb", "retrieval"}]
-    if case_only:
-        return "confirm", sorted({comp(f) for d in case_only for f in d if LAYER[f.split("(")[0]] == "parser"})
-    return "warn", sorted({c.strip() for d in mins for f in d if LAYER[f.split("(")[0]] in ("kb", "retrieval")
-                           for c in comp(f).split(",")})
+    post = post or [1 / len(diagnoses)] * len(diagnoses)
+    mass = {}
+    for d, p in zip(diagnoses, post):
+        mass[_kind(d)] = mass.get(_kind(d), 0.0) + p
+    action = max(mass, key=mass.get)
+    mine = [(d, p) for d, p in zip(diagnoses, post) if _kind(d) == action]
+    if action == "ask":
+        best = max(p for _, p in mine)
+        return "ask", sorted({c for d, p in mine if p >= best / 2 for f in d for c in _cid(f)})
+    if action == "confirm":
+        parser = {c for d, _ in mine for f in d if LAYER[f.split("(")[0]] == "parser" for c in _cid(f)}
+        asked = [q["id"] for q in questions or [] if q["id"] in parser]
+        return "confirm", asked[:1] or sorted(parser)
+    return "warn", sorted({c for d, _ in mine for f in d if LAYER[f.split("(")[0]] in ("kb", "retrieval")
+                           for c in _cid(f)})
 
 
 def verify(question: str, facts: list[str], parts: list[dict], con, client=None) -> dict:
@@ -411,9 +542,13 @@ def decide(table: list[dict], competing: list, tau: float | None = None, rule: s
     diagnoses, symptoms = diagnose(obs, faults, min(MAX_K, len(faults))) if faults else ([[]], [])
     for row in table:
         row["symptom"] = row["id"] in symptoms or any(row["id"] in s.split("-") for s in symptoms)
-    action, about = choose(diagnoses, symptoms)
+    post = rank(diagnoses, table)
+    order = sorted(range(len(diagnoses)), key=lambda i: -post[i])  # likeliest diagnosis first
+    diagnoses, post = [diagnoses[i] for i in order], [round(post[i], 4) for i in order]
+    questions = next_questions(diagnoses, post, table) if [] not in diagnoses else []
+    action, about = choose(diagnoses, symptoms, post, questions)
     return {"components": table, "competing": competing, "observations": obs, "candidates": faults,
-            "symptoms": symptoms, "diagnoses": diagnoses,
+            "symptoms": symptoms, "diagnoses": diagnoses, "posterior": post, "questions": questions,
             "explanations": [[explain(f, table) for f in d] for d in diagnoses], "action": action, "about": about}
 
 

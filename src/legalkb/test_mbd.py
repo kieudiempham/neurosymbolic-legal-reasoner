@@ -24,7 +24,8 @@ BASE = ["instance_of(toi, nguoi_lao_dong)", "instance_of(cong_ty, nguoi_su_dung_
 INDEFINITE = "attr(hd1, loai_hop_dong, khong_xac_dinh_thoi_han)"
 PENSION = "dang_huong_luong_huu_hoac_tro_cap_hang_thang(toi)"
 
-# name, question, facts, false facts, KB variant, expected action, expected fault mode[, norms dropped by step 2]
+# name, question, facts, false facts, KB variant, expected action, expected fault mode(s) in the likeliest
+# diagnosis[, norms dropped by step 2]
 CASES = [
     ("normal", "Tôi làm việc cho công ty theo hợp đồng lao động không xác định thời hạn và không hưởng lương hưu. "
                "Tôi có thuộc diện bảo hiểm xã hội bắt buộc không?",
@@ -50,6 +51,11 @@ CASES = [
                  "Tôi có thuộc diện bảo hiểm xã hội bắt buộc không?",
      ["instance_of(toi, nguoi_su_dung_lao_dong)"] + BASE[1:] + [INDEFINITE], [PENSION], "ok", "confirm",
      "misinterp"),
+    # two faults at once: the contract is read as indefinite (the question says 12 months) and the pension the
+    # question states is dropped; a search by size alone would keep only one of the two
+    ("double", "Tôi đang hưởng lương hưu và ký hợp đồng lao động xác định thời hạn 12 tháng với công ty. "
+               "Tôi có thuộc diện bảo hiểm xã hội bắt buộc không?",
+     BASE + [INDEFINITE], [], "ok", "confirm", ("misinterp", "omission")),
 ]
 
 
@@ -82,11 +88,17 @@ def main() -> int:
         run = save_run(runs, time="test", question=question, kb_program=str(pl), kb_database="", parser_model="(hand)",
                        parser_output=None, facts=facts, false_facts=false_facts, parameters=PARAMETERS,
                        parse_seconds=0, parts=[part], batch="test_mbd", item_id=name, gold=want_action, mbd=mbd)
-        modes = {f.split("(")[0] for d in mbd["diagnoses"] for f in d}
-        good = mbd["action"] == want_action and (want_mode is None or want_mode in modes)
+        top = {f.split("(")[0] for f in (mbd["diagnoses"][0] if mbd["diagnoses"] else [])}
+        want = (want_mode,) if isinstance(want_mode, str) else want_mode or ()
+        good = mbd["action"] == want_action and all(m in top for m in want)
         ok &= good
         print(f"{'PASS' if good else 'FAIL'} {name:12s} verdict {part['verdict']:8s} action {mbd['action']:10s} "
-              f"(want {want_action}) diagnoses {mbd['diagnoses']}  run {run}")
+              f"(want {want_action}) run {run}")
+        for d, p in list(zip(mbd["diagnoses"], mbd.get("posterior", [])))[:3]:
+            print(f"      P={p:.3f} {d}")
+        if mbd.get("questions"):
+            q = mbd["questions"][0]
+            print(f"      next question: {q['id']} «{q['statement']}» gain {q['gain']:.3f} bit")
     for r in reasoners.values():
         r.close()
     print("\nall passed" if ok else "\nSOME CHECKS FAILED")
