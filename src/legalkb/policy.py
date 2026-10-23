@@ -82,12 +82,17 @@ def evaluate_dialogue(initial, respond, rerun, budget=None):
     the updated case and return a fresh result. No gold label is passed to either.
     Unlimited runs stop when a state/question repeats or the oracle cannot respond.
     """
+    if budget is not None and budget < 0:
+        raise ValueError('Budget must be nonnegative')
     current, history, seen = initial, [], set()
     while current['action'] in ('ask', 'confirm'):
         if budget is not None and len(history) >= budget:
             current = limit_questions(dict(current), 0)
             break
-        query = current.get('questions', [])[:1] or current.get('about', [])[:1]
+        about = current.get('about', [])
+        # Information-gain ranking spans all diagnoses; the chosen action can
+        # target only a subset (e.g. parser confirmation, not a missing fact).
+        query = [q for q in current.get('questions', []) if q['id'] in about][:1] or about[:1]
         signature = repr((query, current.get('diagnoses'), current.get('facts')))
         if not query or signature in seen:
             break

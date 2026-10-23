@@ -40,7 +40,7 @@ Thí nghiệm hội thoại offline dùng hai câu deadline của KB mẫu, Prol
 
 ## Kiểm chứng và phần chờ
 
-- 29 kiểm tra reasoner gốc pass; 9 ca MBD đã lưu pass offline; 19 test pytest pass, bao gồm deadline/sanction, liên tầng, hai lỗi, 5 domain, split, ngân sách, chấm hành động, HTTP handler và kiểm tra trung thành.
+- 29 kiểm tra reasoner gốc pass; 9 ca MBD đã lưu pass offline; 22 test pytest pass, bao gồm deadline/sanction, liên tầng, hai lỗi, 5 domain, split, ngân sách, chấm hành động, HTTP handler và kiểm tra trung thành.
 - Không sửa chat.py/server.py; kiểm tra đường đi thực qua các lớp này bằng model fixtures không mạng.
 - Hàm chấm đã duyệt đủ 300 ID: 29 câu có kết quả hoàn chỉnh, 271 câu thiếu cache. 11/29 hành động đúng, 11 trường hợp thiếu tự tin trong phần đã chạy. Không gọi đây là độ chính xác trên 300 câu.
 - API đã dừng theo yêu cầu. Lệnh tiếp tục và ước lượng khoảng 5.900 lời gọi chưa cache, 3–9 triệu input token, 0,12–0,35 triệu output token nằm trong ../PIPELINE_FULL.md; chỉ chạy sau khi được cho phép.

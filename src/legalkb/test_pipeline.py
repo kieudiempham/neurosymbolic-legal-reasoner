@@ -267,3 +267,30 @@ def test_sample_budget_protocol_reasons_after_each_reply():
     assert not got['1'][2]['correct'] and got['1'][2]['clarifications']==1
     assert got['2'][2]['correct'] and got['2'][2]['clarifications']==2
     assert got['unlimited'][2]['correct']
+
+
+@pytest.mark.parametrize('action', ['ask', 'confirm'])
+def test_dialogue_queries_only_the_selected_action_target(action):
+    from .policy import evaluate_dialogue
+    asked = []
+    initial = {'action': action, 'about': ['c1'], 'questions': [
+        {'id': 'c2', 'statement': 'Unselected candidate', 'gain': 1},
+        {'id': 'c1', 'statement': 'Selected candidate', 'gain': .1}],
+        'diagnoses': [['misinterp(c1)'], ['missing(c2)']]}
+
+    def respond(question):
+        asked.append(question['id'])
+        return 'yes'
+
+    outcome = evaluate_dialogue(initial, respond, lambda current, reply: {'action': 'answer'}, budget=1)
+    assert asked == ['c1']
+    assert outcome['clarifications'] == 1 and outcome['final']['action'] == 'answer'
+    assert outcome['history'][0]['query']['id'] == 'c1'
+
+
+def test_negative_dialogue_budget_is_rejected_before_requesting_input():
+    from .policy import evaluate_dialogue
+    with pytest.raises(ValueError, match='nonnegative'):
+        evaluate_dialogue({'action': 'ask', 'about': ['c1']},
+                          lambda q: pytest.fail('Invalid budget must not ask a question'),
+                          lambda current, reply: current, budget=-1)
